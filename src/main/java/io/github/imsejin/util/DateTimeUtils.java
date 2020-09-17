@@ -14,11 +14,12 @@ import static java.time.format.DateTimeFormatter.ofPattern;
  */
 public final class DateTimeUtils {
 
-    private DateTimeUtils() {}
+    private DateTimeUtils() {
+    }
 
     /**
      * Checks if it's leap year.
-     * 
+     *
      * <pre>{@code
      *     isLeapYear(2019); // false
      *     isLeapYear(2020); // true
@@ -33,7 +34,7 @@ public final class DateTimeUtils {
 
     /**
      * Gets today's date formatted as 'yyyyMMdd'.
-     * 
+     *
      * <pre>{@code
      *     today(); // 20191231
      * }</pre>
@@ -46,7 +47,7 @@ public final class DateTimeUtils {
 
     /**
      * Gets today's date formatted with pattern.
-     * 
+     *
      * <pre>{@code
      *     today();                 // 20191231
      *
@@ -82,7 +83,7 @@ public final class DateTimeUtils {
 
     /**
      * Gets the corresponding element of yesterday's date formatted as 'yyyyMMdd'.
-     * 
+     *
      * <pre>{@code
      *     yesterday();                 // 20191230
      *
@@ -100,7 +101,7 @@ public final class DateTimeUtils {
 
     /**
      * Gets the current datetime formatted as 'yyyyMMddHHmmss'.
-     * 
+     *
      * <pre>{@code
      *     now(); // 20191231175959
      * }</pre>
@@ -115,7 +116,7 @@ public final class DateTimeUtils {
      * Check if the date is actual.
      * <br>
      * (Support date formats for "yyyy-MMdd", "yyyy-MM-dd")
-     * 
+     *
      * <pre>{@code
      *     validate("2019-02-28");  // true
      *     validate("20190229");    // false
@@ -131,17 +132,17 @@ public final class DateTimeUtils {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DateType.DATE.value());
             dateFormat.setLenient(false);
             dateFormat.parse(date.replace("-", ""));
+            return true;
         } catch (ParseException ex) {
             return false;
         }
-        return true;
     }
 
     /**
      * Check if the date and day of the week are actual.
      * <br>
      * (Support date formats for "yyyy-MMdd", "yyyy-MM-dd")
-     * 
+     *
      * <pre>{@code
      *     validate("20190228", DayOfWeek.THURSDAY);    // true
      *     validate("2019-02-28", DayOfWeek.THURSDAY);  // true
@@ -167,7 +168,7 @@ public final class DateTimeUtils {
 
     /**
      * Gets the last date of the year and month.
-     * 
+     *
      * <pre>{@code
      *     withMonthlyLastDate(2019, 2); // 20190228
      *     withMonthlyLastDate(2020, 2); // 20200229
@@ -201,7 +202,7 @@ public final class DateTimeUtils {
 
     /**
      * Gets the last date of the year and month.
-     * 
+     *
      * <pre>{@code
      *     withMonthlyLastDate("2019", "2"); // 20190228
      *     withMonthlyLastDate("2020", "2"); // 20200229

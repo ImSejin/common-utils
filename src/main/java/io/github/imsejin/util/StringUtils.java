@@ -1,6 +1,7 @@
 package io.github.imsejin.util;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
@@ -12,12 +13,13 @@ import java.util.stream.Stream;
  */
 public final class StringUtils {
 
-    private StringUtils() {}
-
     /**
      * Whitespace character.
      */
     private static final char WHITE_SPACE = '\u0020';
+
+    private StringUtils() {
+    }
 
     /**
      * Checks whether the string is null or empty.
@@ -171,7 +173,7 @@ public final class StringUtils {
     public static boolean allNullOrBlank(String... strs) {
         if (strs == null || strs.length == 0) return true;
 
-        return Stream.of(strs).allMatch(StringUtils::isNullOrBlank);
+        return Arrays.stream(strs).allMatch(StringUtils::isNullOrBlank);
     }
 
     /**
@@ -187,7 +189,7 @@ public final class StringUtils {
      * }</pre>
      *
      * @param criterion criterion string
-     * @param strs strings
+     * @param strs      strings
      * @return whether any strings are equal to criterion string
      */
     public static boolean anyEquals(String criterion, String... strs) {
@@ -202,34 +204,22 @@ public final class StringUtils {
 
     public static String padStart(int len, String origin) {
         if (origin.length() >= len) return origin;
-
-        return new StringBuilder().append(repeat(WHITE_SPACE, len))
-                .append(origin)
-                .toString();
+        return repeat(WHITE_SPACE, len) + origin;
     }
 
     public static String padStart(int len, String origin, String appendix) {
         if (origin.length() >= len) return origin;
-
-        return new StringBuilder().append(repeat(appendix, len))
-                .append(origin)
-                .toString();
+        return repeat(appendix, len) + origin;
     }
 
     public static String padEnd(int len, String origin) {
         if (origin.length() >= len) return origin;
-
-        return new StringBuilder().append(origin)
-                .append(repeat(WHITE_SPACE, len))
-                .toString();
+        return origin + repeat(WHITE_SPACE, len);
     }
 
     public static String padEnd(int len, String origin, String appendix) {
         if (origin.length() >= len) return origin;
-
-        return new StringBuilder().append(origin)
-                .append(repeat(appendix, len))
-                .toString();
+        return origin + repeat(appendix, len);
     }
 
     /**
@@ -253,9 +243,9 @@ public final class StringUtils {
     /**
      * Reverses all the characters in a string.
      *
-     * @see StringBuffer#reverse
      * @param str string to be reversed
      * @return reversed string
+     * @see StringBuffer#reverse
      */
     public static String reverse(String str) {
         if (str == null) return null;

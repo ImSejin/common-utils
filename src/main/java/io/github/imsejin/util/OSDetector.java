@@ -7,9 +7,10 @@ import io.github.imsejin.constant.OperatingSystem;
  */
 public final class OSDetector {
 
-    private OSDetector() {}
-
     private static final String CURRENT_OS = System.getProperty("os.name").toLowerCase();
+
+    private OSDetector() {
+    }
 
     public static OperatingSystem getOS() {
         for (OperatingSystem os : OperatingSystem.values()) {

@@ -15,7 +15,6 @@ public final class ObjectUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> T cloneDeep(Object obj, Class<T> type) {
-        Object clone;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try {
@@ -25,12 +24,12 @@ public final class ObjectUtils {
             byte[] bytes = baos.toByteArray();
             ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
             ObjectInputStream ois = new ObjectInputStream(bais);
-            clone = ois.readObject();
+            Object clone = ois.readObject();
+
+            return (T) clone;
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-        return (T) clone;
     }
 
 }

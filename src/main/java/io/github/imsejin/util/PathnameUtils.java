@@ -6,6 +6,7 @@ import io.github.imsejin.constant.OperatingSystem;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,21 +17,21 @@ import static io.github.imsejin.util.DateTimeUtils.today;
  */
 public final class PathnameUtils {
 
-    private PathnameUtils() {}
-
     /**
      * Path separator of Microsoft Windows.
      */
     private static final String WINDOWS_SEPARATOR = "\\\\";
-
     /**
      * Path separator of Unix.
      */
     private static final String UNIX_SEPARATOR = "/";
-    
+
+    private PathnameUtils() {
+    }
+
     /**
      * Gets the current path where the application is.
-     * 
+     *
      * <pre>{@code
      *     getCurrentPathname(); // /usr/local/repositories/common-utils
      * }</pre>
@@ -49,7 +50,7 @@ public final class PathnameUtils {
 
     /**
      * Removes all the path separators.
-     * 
+     *
      * <pre>{@code
      *     removeSeparators("C:\\Program Files\\Java"); // C:Program FilesJava
      *     removeSeparators("/usr/data/java"); // usrsdatajava
@@ -65,7 +66,7 @@ public final class PathnameUtils {
     /**
      * 부적절한 경로명을 올바른 경로명으로 정정한다.<br>
      * OS가 Windows인 경우, 절대경로로 지정해도 앞에 구분자가 들어가지 않는다.
-     * 
+     *
      * <pre>{@code
      *     String pathname1 = "\\/ / C:\\ Program Files / \\/\\ \\ Java\\jdk8 /\\/ \\ ";
      *     correct(false, pathname1);   // C:\\Program Files\\Java\\jdk8
@@ -82,7 +83,7 @@ public final class PathnameUtils {
      * @return correct pathname
      */
     public static String correct(boolean absolute, String pathname) {
-        String trimmed = Stream.of(pathname.split(WINDOWS_SEPARATOR)) // split with Windows separators.
+        String trimmed = Arrays.stream(pathname.split(WINDOWS_SEPARATOR)) // split with Windows separators.
                 .map(p -> String.join("", p.split(UNIX_SEPARATOR))) // split with Unix separators.
                 .filter(p -> !StringUtils.isNullOrBlank(p))
                 .map(String::trim)
@@ -95,7 +96,7 @@ public final class PathnameUtils {
 
     /**
      * Concatenates pathnames.
-     * 
+     *
      * <pre>{@code
      *     concat(false, "C:\\", "Program Files", "Java");  // C:\\Program Files\\Java
      *     concat(true, "/usr/", "/data/", "java");         // /usr/data/java
@@ -113,7 +114,7 @@ public final class PathnameUtils {
     /**
      * 경로 끝에 현재의 연/월(yyyy/MM) 경로를 추가한다.<br>
      * Adds the current year/month (yyyy/MM) pathname to the end of the pathname.
-     * 
+     *
      * <pre>{@code
      *     DateTimeUtils.today();                   // 20191231
      *     appendYearMonth("C:\\Program Files");    // C:\\Program Files\\2019\\12
@@ -129,7 +130,7 @@ public final class PathnameUtils {
     /**
      * 경로 끝에 현재의 연/월/일(yyyy/MM/dd) 경로를 추가한다.<br>
      * Adds the current year/month/day (yyyy/MM/dd) pathname to the end of the pathname.
-     * 
+     *
      * <pre>{@code
      *     DateTimeUtils.today();           // 20191231
      *     appendDate("C:\\Program Files"); // C:\\Program Files\\2019\\12\\31

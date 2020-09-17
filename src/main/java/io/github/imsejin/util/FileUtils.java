@@ -7,14 +7,14 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 /**
  * File uilities
  */
 public final class FileUtils {
 
-    private FileUtils() {}
+    private FileUtils() {
+    }
 
     /**
      * Gets creation time of the file.

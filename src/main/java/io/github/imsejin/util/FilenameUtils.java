@@ -7,22 +7,23 @@ import java.io.File;
  */
 public final class FilenameUtils {
 
-    private FilenameUtils() {}
-
     /**
      * Separator of file extension.
      */
     private static final char EXTENSION_SEPARATOR = '.';
 
+    private FilenameUtils() {
+    }
+
     /**
      * Gets position of the extension.
      * <br>
      * If cannot find it, returns -1.
-     * 
+     *
      * <pre>{@code
      *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
      *     indexOfExtension(file);          // 6
-     * 
+     *
      *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/.gitignore");
      *     indexOfExtension(anotherFile);   // -1
      * }</pre>
@@ -45,7 +46,7 @@ public final class FilenameUtils {
      * <pre>{@code
      *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
      *     baseName(file);          // README
-     * 
+     *
      *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/LICENSE");
      *     baseName(anotherFile);   // LICENSE
      * }</pre>
@@ -81,10 +82,10 @@ public final class FilenameUtils {
         int index = indexOfExtension(filename);
         return index == -1 ? "" : filename.substring(index + 1);
     }
-    
+
     /**
      * Replaces characters that cannot be used in a filename with allowable characters.
-     * 
+     *
      * <pre>{@code
      *     \ --> ＼
      *     / --> ／
