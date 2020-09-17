@@ -92,10 +92,10 @@ public enum DateType implements KeyValue {
      */
     F_DATE_TIME(F_DATE.value() + " " + F_TIME.value()),
 
-    F_ALL(F_DATE.value() + F_HOUR_2_MILSEC.value());
     /**
      * Formatted year, month, day, hour, minute, second and millisecond (yyyy-MM-dd HH:mm:ss.SSS)
      */
+    F_ALL(F_DATE.value() + " " + F_HOUR_2_MILSEC.value());
 
     private final String pattern;
 
