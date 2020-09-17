@@ -97,19 +97,18 @@ public enum DateType implements KeyValue {
      */
     F_ALL(F_DATE.value() + " " + F_HOUR_2_MILSEC.value());
 
+    /**
+     * Pattern to format.
+     */
     private final String pattern;
 
     DateType(String pattern) {
         this.pattern = pattern;
     }
 
-    /**
-     * @param value
-     * @return
-     */
-    public static boolean contains(String value) {
+    public static boolean contains(String pattern) {
         for (DateType dateType : DateType.values()) {
-            if (dateType.pattern.equals(value)) return true;
+            if (dateType.pattern.equals(pattern)) return true;
         }
 
         return false;

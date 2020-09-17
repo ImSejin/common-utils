@@ -2,6 +2,7 @@ package io.github.imsejin.util;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -54,6 +55,25 @@ public final class StringUtils {
     }
 
     /**
+     * If the string is null or empty, this returns default string.
+     * <br/>
+     * If not, this returns original string.
+     *
+     * <pre>{@code
+     *     ifNullOrEmpty(null, () -> "(empty)");    // (empty)
+     *     ifNullOrEmpty("", () -> "(empty)");      // (empty)
+     *     ifNullOrEmpty(" ", () -> "(empty)");     // \u0020
+     * }</pre>
+     *
+     * @param str      original string
+     * @param supplier supplier that returns default string
+     * @return original string or default string
+     */
+    public static String ifNullOrEmpty(String str, Supplier<String> supplier) {
+        return isNullOrEmpty(str) ? supplier.get() : str;
+    }
+
+    /**
      * Checks whether the string is null or blank.
      *
      * <pre>{@code
@@ -85,6 +105,26 @@ public final class StringUtils {
      */
     public static String ifNullOrBlank(String str, String defaultValue) {
         return isNullOrBlank(str) ? defaultValue : str;
+    }
+
+    /**
+     * If the string is null or blank, this returns default string.
+     * <br/>
+     * If not, this returns original string.
+     *
+     * <pre>{@code
+     *     ifNullOrBlank(null, () -> "(empty)");    // (empty)
+     *     ifNullOrBlank("", () -> "(empty)");      // (empty)
+     *     ifNullOrBlank(" ", () -> "(empty)");     // (empty)
+     *     ifNullOrBlank(" ABC", () -> "(empty)");  //  ABC
+     * }</pre>
+     *
+     * @param str      original string
+     * @param supplier supplier that returns default string
+     * @return original string or default string
+     */
+    public static String ifNullOrBlank(String str, Supplier<String> supplier) {
+        return isNullOrBlank(str) ? supplier.get() : str;
     }
 
     /**
@@ -137,11 +177,11 @@ public final class StringUtils {
      *     anyEquals("ABC", "abc", "ABC");  // true
      * }</pre>
      */
-    public static boolean anyEquals(String s1, String... strs) {
-        if (s1 == null || strs == null || strs.length == 0) return false;
+    public static boolean anyEquals(String criterion, String... strs) {
+        if (criterion == null || strs == null || strs.length == 0) return false;
 
         for (String str : strs) {
-            if (s1.equals(str)) return true;
+            if (criterion.equals(str)) return true;
         }
 
         return false;
