@@ -121,7 +121,7 @@ public enum DateType implements KeyValue {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public String key() {
@@ -129,7 +129,7 @@ public enum DateType implements KeyValue {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public String value() {

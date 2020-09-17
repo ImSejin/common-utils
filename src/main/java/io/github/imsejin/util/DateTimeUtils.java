@@ -122,6 +122,9 @@ public final class DateTimeUtils {
      *     validate("20200229");    // true
      *     validate("2020-02-29");  // true
      * }</pre>
+     *
+     * @param date date
+     * @return whether the date is valid
      */
     public static boolean validate(String date) {
         try {
@@ -146,6 +149,10 @@ public final class DateTimeUtils {
      *     validate("20200229", DayOfWeek.SATURDAY);    // true
      *     validate("2020-02-29", DayOfWeek.SATURDAY);  // true
      * }</pre>
+     *
+     * @param date      date
+     * @param dayOfWeek day of week
+     * @return whether the date is valid
      */
     public static boolean validate(String date, DayOfWeek dayOfWeek) {
         // 유효한 날짜인지 확인한다
@@ -165,6 +172,10 @@ public final class DateTimeUtils {
      *     withMonthlyLastDate(2019, 2); // 20190228
      *     withMonthlyLastDate(2020, 2); // 20200229
      * }</pre>
+     *
+     * @param year  year
+     * @param month month
+     * @return last date of the year and month
      */
     public static String getLastDateOfMonth(int year, int month) {
         LocalDate lastDate = YearMonth.of(year, month).atEndOfMonth();
@@ -178,6 +189,10 @@ public final class DateTimeUtils {
      *     withMonthlyLastDate(2019, Month.FEBRUARY); // 20190228
      *     withMonthlyLastDate(2020, Month.FEBRUARY); // 20200229
      * }</pre>
+     *
+     * @param year  year
+     * @param month month
+     * @return last date of the year and month
      */
     public static String getLastDateOfMonth(int year, Month month) {
         LocalDate lastDate = YearMonth.of(year, month).atEndOfMonth();
@@ -191,6 +206,10 @@ public final class DateTimeUtils {
      *     withMonthlyLastDate("2019", "2"); // 20190228
      *     withMonthlyLastDate("2020", "2"); // 20200229
      * }</pre>
+     *
+     * @param year  year
+     * @param month month
+     * @return last date of the year and month
      */
     public static String getLastDateOfMonth(String year, String month) {
         LocalDate lastDate = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month)).atEndOfMonth();
@@ -204,6 +223,10 @@ public final class DateTimeUtils {
      *     withMonthlyLastDate("2019", Month.FEBRUARY); // 20190228
      *     withMonthlyLastDate("2020", Month.FEBRUARY); // 20200229
      * }</pre>
+     *
+     * @param year  year
+     * @param month month
+     * @return last date of the year and month
      */
     public static String getLastDateOfMonth(String year, Month month) {
         LocalDate lastDate = YearMonth.of(Integer.parseInt(year), month).atEndOfMonth();

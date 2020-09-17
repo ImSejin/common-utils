@@ -50,7 +50,7 @@ public enum OperatingSystem implements KeyValue {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public String key() {
@@ -58,7 +58,7 @@ public enum OperatingSystem implements KeyValue {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public String value() {

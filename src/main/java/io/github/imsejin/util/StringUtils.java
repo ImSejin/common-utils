@@ -28,7 +28,7 @@ public final class StringUtils {
      *     isNullOrEmpty("abc");    // false
      * }</pre>
      *
-     * @param str original string
+     * @param str string
      * @return whether the string is null or empty
      */
     public static boolean isNullOrEmpty(String str) {
@@ -37,7 +37,7 @@ public final class StringUtils {
 
     /**
      * If the string is null or empty, this returns default string.
-     * <br/>
+     * <br>
      * If not, this returns original string.
      *
      * <pre>{@code
@@ -56,7 +56,7 @@ public final class StringUtils {
 
     /**
      * If the string is null or empty, this returns default string.
-     * <br/>
+     * <br>
      * If not, this returns original string.
      *
      * <pre>{@code
@@ -82,6 +82,9 @@ public final class StringUtils {
      *     isNullOrBlank(" ");      // true
      *     isNullOrBlank(" ABC");   // false
      * }</pre>
+     *
+     * @param str string
+     * @return whether the string is null or blank
      */
     public static boolean isNullOrBlank(String str) {
         return str == null || str.trim().isEmpty();
@@ -89,7 +92,7 @@ public final class StringUtils {
 
     /**
      * If the string is null or blank, this returns default string.
-     * <br/>
+     * <br>
      * If not, this returns original string.
      *
      * <pre>{@code
@@ -109,7 +112,7 @@ public final class StringUtils {
 
     /**
      * If the string is null or blank, this returns default string.
-     * <br/>
+     * <br>
      * If not, this returns original string.
      *
      * <pre>{@code
@@ -137,6 +140,9 @@ public final class StringUtils {
      *     anyNullOrBlank(" ", "ABC");      // true
      *     anyNullOrBlank(" ABC", "ABC");   // false
      * }</pre>
+     *
+     * @param strs strings
+     * @return whether any strings are null or blank
      */
     public static boolean anyNullOrBlank(String... strs) {
         if (strs == null || strs.length == 0) return true;
@@ -158,6 +164,9 @@ public final class StringUtils {
      *     allNullOrBlank(" ", "ABC");      // false
      *     allNullOrBlank(" ABC", "ABC");   // false
      * }</pre>
+     *
+     * @param strs strings
+     * @return whether all strings are null or blank
      */
     public static boolean allNullOrBlank(String... strs) {
         if (strs == null || strs.length == 0) return true;
@@ -176,6 +185,10 @@ public final class StringUtils {
      *     anyEquals("ABC", "abc");         // false
      *     anyEquals("ABC", "abc", "ABC");  // true
      * }</pre>
+     *
+     * @param criterion criterion string
+     * @param strs strings
+     * @return whether any strings are equal to criterion string
      */
     public static boolean anyEquals(String criterion, String... strs) {
         if (criterion == null || strs == null || strs.length == 0) return false;
@@ -222,7 +235,7 @@ public final class StringUtils {
     /**
      * Count of.
      *
-     * @param str the str
+     * @param str        the str
      * @param charToFind the char to find
      * @return the int
      */
@@ -267,6 +280,11 @@ public final class StringUtils {
      *     replaceLast("ABC%DEF%GHI", "%", "-");    // ABC%DEF-GHI
      *     replaceLast("ABC%DEF%GHI", "%", "\\$");  // ABC%DEF$GHI
      * }</pre>
+     *
+     * @param text        text
+     * @param regex       regular expression
+     * @param replacement replacement string
+     * @return string replaced with replacement by last replacer
      */
     public static String replaceLast(String text, String regex, String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
@@ -280,6 +298,9 @@ public final class StringUtils {
      *     formatComma("-100");     // -100
      *     formatComma("100000");   // 100,000
      * }</pre>
+     *
+     * @param amount amount number
+     * @return formatted number with comma
      */
     public static String formatComma(String amount) {
         return new DecimalFormat("###,###,###,###,###,###,###").format(amount);
@@ -293,6 +314,9 @@ public final class StringUtils {
      *     formatComma(-100);   // -100
      *     formatComma(100000); // 100,000
      * }</pre>
+     *
+     * @param amount amount number
+     * @return formatted number with comma
      */
     public static String formatComma(long amount) {
         return new DecimalFormat("###,###,###,###,###,###,###").format(amount);
@@ -306,11 +330,27 @@ public final class StringUtils {
      *     repeat("", 5);       // \u0000
      *     repeat("abc", 3);    // abcabcabc
      * }</pre>
+     *
+     * @param str string to be repeated
+     * @param cnt repetition count
+     * @return repeated string
      */
     public static String repeat(String str, int cnt) {
         return String.join("", Collections.nCopies(cnt, str));
     }
 
+    /**
+     * `해당 문자열`을 원하는 만큼 반복하여 복제한다.
+     *
+     * <pre>{@code
+     *     repeat(' ', 3);    // \u0020
+     *     repeat('a', 3);    // aaa
+     * }</pre>
+     *
+     * @param c   character to be repeated
+     * @param cnt repetition count
+     * @return repeated string
+     */
     public static String repeat(char c, int cnt) {
         return String.join("", Collections.nCopies(cnt, String.valueOf(c)));
     }

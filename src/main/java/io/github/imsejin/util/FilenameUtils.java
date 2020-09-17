@@ -16,7 +16,7 @@ public final class FilenameUtils {
 
     /**
      * Gets position of the extension.
-     * <br/>
+     * <br>
      * If cannot find it, returns -1.
      * 
      * <pre>{@code
@@ -39,7 +39,7 @@ public final class FilenameUtils {
 
     /**
      * Gets the filename excluding the extension.
-     * <br/>
+     * <br>
      * if file is null, returns empty string.
      *
      * <pre>{@code
@@ -63,7 +63,7 @@ public final class FilenameUtils {
 
     /**
      * Gets the file's extension.
-     * <br/>
+     * <br>
      * if file is null, returns empty string.
      *
      * <pre>{@code
@@ -85,7 +85,7 @@ public final class FilenameUtils {
     /**
      * Replaces characters that cannot be used in a filename with allowable characters.
      * 
-     * <pre>
+     * <pre>{@code
      *     \ --> ＼
      *     / --> ／
      *     : --> ：
@@ -95,7 +95,7 @@ public final class FilenameUtils {
      *     < --> ＜
      *     > --> ＞
      *     | --> ｜
-     * </pre>
+     * }</pre>
      *
      * <pre>{@code
      *     String unallowables = "** <happy/\\new year> **:\"john\" -> |\"jeremy\"|";

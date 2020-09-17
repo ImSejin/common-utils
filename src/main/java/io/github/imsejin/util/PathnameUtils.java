@@ -5,7 +5,6 @@ import io.github.imsejin.constant.OperatingSystem;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,21 +18,27 @@ public final class PathnameUtils {
 
     private PathnameUtils() {}
 
+    /**
+     * Path separator of Microsoft Windows.
+     */
     private static final String WINDOWS_SEPARATOR = "\\\\";
 
+    /**
+     * Path separator of Unix.
+     */
     private static final String UNIX_SEPARATOR = "/";
     
     /**
-     * 애플리케이션이 있는 현재 경로를 반환한다.<br>
-     * Returns the current path where the application is.
+     * Gets the current path where the application is.
      * 
-     * <pre>
-     * PathnameUtils.currentPathname(): "E:\\repositories\\lezhin-comics-downloader"
-     * </pre>
+     * <pre>{@code
+     *     getCurrentPathname(); // /usr/local/repositories/common-utils
+     * }</pre>
+     *
+     * @return current path where the application is
      */
-    public static String currentPathname() {
+    public static String getCurrentPathname() {
         try {
-            // 이 코드는 `System.getProperty("user.dir")`으로 대체할 수 있다.
             // This code can be replaced with `System.getProperty("user.dir")`.
             return Paths.get(".").toRealPath().toString();
         } catch (IOException ex) {
@@ -42,22 +47,16 @@ public final class PathnameUtils {
         }
     }
 
-    public static String chromeDriverPathname() {
-        final String currentPathname = currentPathname();
-
-        String filename = "chromedriver.exe";                                                 // for Windows
-        if (Files.notExists(Paths.get(currentPathname, filename))) filename = "chromedriver"; // for Linux and Mac
-
-        return Paths.get(currentPathname, filename).toString();
-    }
-
     /**
-     * 모든 파일 구분자를 제거한다.
+     * Removes all the path separators.
      * 
-     * <pre>
-     * PathnameUtils.removeSeparators("C:\\Program Files\\Java"): "C:Program FilesJava"
-     * PathnameUtils.removeSeparators("/users/data/java"): "usersdatajava"
-     * </pre>
+     * <pre>{@code
+     *     removeSeparators("C:\\Program Files\\Java"); // C:Program FilesJava
+     *     removeSeparators("/usr/data/java"); // usrsdatajava
+     * }</pre>
+     *
+     * @param pathname pathname
+     * @return pathname removed all the path separators
      */
     public static String removeSeparators(String pathname) {
         return pathname.replaceAll(WINDOWS_SEPARATOR, "").replaceAll(UNIX_SEPARATOR, "");
@@ -67,16 +66,20 @@ public final class PathnameUtils {
      * 부적절한 경로명을 올바른 경로명으로 정정한다.<br>
      * OS가 Windows인 경우, 절대경로로 지정해도 앞에 구분자가 들어가지 않는다.
      * 
-     * <pre>
-     * String pathname1 = "\\/ / C:\\ Program Files / \\/\\ \\ Java\\jdk8 /\\/ \\ ";
-     * PathnameUtils.trim(false, pathname1): "C:\\Program Files\\Java\\jdk8"
-     * 
-     * String pathname2 = "/ / \\ users / data /java/jdk8 / ";
-     * PathnameUtils.trim(true, pathname2): "/users/data/java/jdk8"
-     * 
-     * String pathname3 = "/ / \\ users / data /java/jdk8 / ";
-     * PathnameUtils.trim(false, pathname3): "users/data/java/jdk8"
-     * </pre>
+     * <pre>{@code
+     *     String pathname1 = "\\/ / C:\\ Program Files / \\/\\ \\ Java\\jdk8 /\\/ \\ ";
+     *     correct(false, pathname1);   // C:\\Program Files\\Java\\jdk8
+     *
+     *     String pathname2 = "/ / \\ usr / data /java/jdk8 / ";
+     *     correct(true, pathname2);    // /usr/data/java/jdk8
+     *
+     *     String pathname3 = "/ / \\ usr / data /java/jdk8 / ";
+     *     correct(false, pathname3);   // usr/data/java/jdk8
+     * }</pre>
+     *
+     * @param absolute whether path is absolute
+     * @param pathname pathname
+     * @return correct pathname
      */
     public static String correct(boolean absolute, String pathname) {
         String trimmed = Stream.of(pathname.split(WINDOWS_SEPARATOR)) // split with Windows separators.
@@ -91,13 +94,17 @@ public final class PathnameUtils {
     }
 
     /**
-     * 경로명을 연결한다.
+     * Concatenates pathnames.
      * 
-     * <pre>
-     * PathnameUtils.concat(false, "C:\\", "Program Files", "Java"): "C:\\Program Files\\Java"
-     * PathnameUtils.concat(true, "/users/", "/data/", "java"): "/users/data/java"
-     * PathnameUtils.concat(false, "/users/", "/data/", "java"): "users/data/java"
-     * </pre>
+     * <pre>{@code
+     *     concat(false, "C:\\", "Program Files", "Java");  // C:\\Program Files\\Java
+     *     concat(true, "/usr/", "/data/", "java");         // /usr/data/java
+     *     concat(false, "/usr/", "/data/", "java");        // usr/data/java
+     * }</pre>
+     *
+     * @param absolute  whether paths are absolute
+     * @param pathnames pathnames
+     * @return concatenated pathname
      */
     public static String concat(boolean absolute, String... pathnames) {
         return correct(absolute, String.join(File.separator, pathnames));
@@ -107,11 +114,13 @@ public final class PathnameUtils {
      * 경로 끝에 현재의 연/월(yyyy/MM) 경로를 추가한다.<br>
      * Adds the current year/month (yyyy/MM) pathname to the end of the pathname.
      * 
-     * <pre>
-     * DateUtils.today(): "20191231"
-     * 
-     * PathnameUtils.appendYearMonth("C:\\Program Files"): "C:\\Program Files\\2019\\12"
-     * </pre>
+     * <pre>{@code
+     *     DateTimeUtils.today();                   // 20191231
+     *     appendYearMonth("C:\\Program Files");    // C:\\Program Files\\2019\\12
+     * }</pre>
+     *
+     * @param pathname pathname
+     * @return pathname appended the current year and month
      */
     public static String appendYearMonth(String pathname) {
         return concat(false, pathname, today(DateType.YEAR), today(DateType.MONTH));
@@ -121,13 +130,15 @@ public final class PathnameUtils {
      * 경로 끝에 현재의 연/월/일(yyyy/MM/dd) 경로를 추가한다.<br>
      * Adds the current year/month/day (yyyy/MM/dd) pathname to the end of the pathname.
      * 
-     * <pre>
-     * DateUtils.today(): "20191231"
-     * 
-     * PathnameUtils.appendYearMonthDay("C:\\Program Files"): "C:\\Program Files\\2019\\12\\31"
-     * </pre>
+     * <pre>{@code
+     *     DateTimeUtils.today();           // 20191231
+     *     appendDate("C:\\Program Files"); // C:\\Program Files\\2019\\12\\31
+     * }</pre>
+     *
+     * @param pathname pathname
+     * @return pathname appended the current year, month and day
      */
-    public static String appendYearMonthDay(String pathname) {
+    public static String appendDate(String pathname) {
         return concat(false, pathname, today(DateType.YEAR), today(DateType.MONTH), today(DateType.DAY));
     }
 
