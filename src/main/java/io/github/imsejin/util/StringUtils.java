@@ -251,22 +251,11 @@ public final class StringUtils {
     }
 
     /**
-     * <p>
-     * Reverses a String as per.
+     * Reverses all the characters in a string.
      *
-     * @param str the String to reverse, may be null
-     * @return the reversed String, <code>null</code> if null String input
-     *         {@link StringBuffer#reverse()}.
-     *         </p>
-     *         <p>
-     *         <A code>null</code> String returns <code>null</code>.
-     *         </p>
-     *
-     *         <pre>
-     * reverse(null)  		   = null
-     * reverse(&quot;&quot;)    = &quot;&quot;
-     * reverse(&quot;bat&quot;) = &quot;tab&quot;
-     *         </pre>
+     * @see StringBuffer#reverse
+     * @param str string to be reversed
+     * @return reversed string
      */
     public static String reverse(String str) {
         if (str == null) return null;
