@@ -72,20 +72,30 @@ public enum DateType implements KeyValue {
      */
     ALL(DATE.value() + HOUR_2_MILSEC.value()),
 
-    // yyyy-MM-dd
+    /**
+     * Formatted year, month and day (yyyy-MM-dd)
+     */
     F_DATE(YEAR.value() + "-" + MONTH.value() + "-" + DAY.value()),
 
-    // HH:mm:ss
+    /**
+     * Formatted hour, minute and second (HH:mm:ss)
+     */
     F_TIME(HOUR.value() + ":" + MINUTE.value() + ":" + SECOND.value()),
 
-    // HH:mm:ss.SSS
+    /**
+     * Formatted hour, minute, second and millisecond (HH:mm:ss.SSS)
+     */
     F_HOUR_2_MILSEC(F_TIME.value() + "." + MILLISECOND.value()),
 
-    // yyyy-MM-dd HH:mm:ss
+    /**
+     * Formatted year, month, day, hour, minute and second (yyyy-MM-dd HH:mm:ss)
+     */
     F_DATE_TIME(F_DATE.value() + " " + F_TIME.value()),
 
-    // yyyy-MM-dd HH:mm:ss.SSS
     F_ALL(F_DATE.value() + F_HOUR_2_MILSEC.value());
+    /**
+     * Formatted year, month, day, hour, minute, second and millisecond (yyyy-MM-dd HH:mm:ss.SSS)
+     */
 
     private final String pattern;
 

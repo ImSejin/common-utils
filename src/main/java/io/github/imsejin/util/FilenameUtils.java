@@ -21,10 +21,10 @@ public final class FilenameUtils {
      * 
      * <pre>{@code
      *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
-     *     indexOfExtension(file); // 6
+     *     indexOfExtension(file);          // 6
      * 
      *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/.gitignore");
-     *     indexOfExtension(anotherFile); // -1
+     *     indexOfExtension(anotherFile);   // -1
      * }</pre>
      *
      * @param filename filename
@@ -44,10 +44,10 @@ public final class FilenameUtils {
      *
      * <pre>{@code
      *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
-     *     baseName(file); // README
+     *     baseName(file);          // README
      * 
      *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/LICENSE");
-     *     baseName(anotherFile); // LICENSE
+     *     baseName(anotherFile);   // LICENSE
      * }</pre>
      *
      * @param file file
@@ -99,9 +99,9 @@ public final class FilenameUtils {
      *
      * <pre>{@code
      *     String unallowables = "** <happy/\\new year> **:\"john\" -> |\"jeremy\"|";
-     *     toSafeName(unallowables); // ＊＊ ＜happy／＼new year＞ ＊＊：˝john˝ -＞ ｜˝jeremy˝｜
-     * 
-     *     toSafeName("where he is gone.."); // where he is gone…
+     *
+     *     toSafeName(unallowables);                // ＊＊ ＜happy／＼new year＞ ＊＊：˝john˝ -＞ ｜˝jeremy˝｜
+     *     toSafeName("where he is gone..");        // where he is gone…
      *     toSafeName("I feel happy when coding."); // I feel happy when coding．
      * }</pre>
      *

@@ -15,14 +15,17 @@ import java.time.format.DateTimeFormatter;
 public final class FileUtils {
 
     private FileUtils() {}
-    
+
     /**
-     * 파일의 생성시간을 반환한다.
-     * 
+     * Gets creation time of the file.
+     *
      * <pre>{@code
      *     File file = new File("C:\\Program Files\\Java\\jdk1.8.0_202\\README.html");
      *     getCreationTime(file); // 2020-02-29 23:06:34
      * }</pre>
+     *
+     * @param file file
+     * @return file's creation time
      */
     public static LocalDateTime getCreationTime(File file) {
         BasicFileAttributes attributes;
@@ -35,15 +38,17 @@ public final class FileUtils {
         FileTime time = attributes.creationTime();
         return LocalDateTime.ofInstant(time.toInstant(), ZoneId.systemDefault());
     }
-    
+
     /**
-     * 같은 경로에 해당 파일명과 같은 이름의 폴더를 생성한다.
-     * 
-     * <pre>
-     * File file = new File("C:\\Program Files\\list_20191231.xlsx");
-     * 
-     * FileUtils.mkdirAsOwnName(file): new File("C:\\Program Files\\list_20191231")
-     * </pre>
+     * Creates a directory whose name is the same name as the filename in the same path.
+     *
+     * <pre>{@code
+     *     File file = new File("/usr/local/docs", "list_20191231.csv");
+     *     mkdirAsOwnName(file); // new File("/usr/local/docs", "list_20191231")
+     * }</pre>
+     *
+     * @param file file
+     * @return directory whose name is the same name as the filename in the same path
      */
     public static File mkdirAsOwnName(File file) {
         String dirName = FilenameUtils.baseName(file);

@@ -48,15 +48,15 @@ public final class DateTimeUtils {
      * Gets today's date formatted with pattern.
      * 
      * <pre>{@code
-     *     today(); // 20191231
+     *     today();                 // 20191231
      *
-     *     today(DateType.YEAR); // 2019
-     *     today(DateType.MONTH); // 12
-     *     today(DateType.DAY); // 31
-     *     today(DateType.HOUR); // 17
-     *     today(DateType.MINUTE); // 59
-     *     today(DateType.SECOND); // 59
-     *     today(DateType.F_ALL); // 2019-12-31 17:59:59.723
+     *     today(DateType.YEAR);    // 2019
+     *     today(DateType.MONTH);   // 12
+     *     today(DateType.DAY);     // 31
+     *     today(DateType.HOUR);    // 17
+     *     today(DateType.MINUTE);  // 59
+     *     today(DateType.SECOND);  // 59
+     *     today(DateType.F_ALL);   // 2019-12-31 17:59:59.723
      * }</pre>
      *
      * @param type type of the date
@@ -70,7 +70,7 @@ public final class DateTimeUtils {
      * Gets yesterday's date formatted as 'yyyyMMdd'.
      *
      * <pre>{@code
-     *     today(); // 20191231
+     *     today();     // 20191231
      *     yesterday(); // 20191230
      * }</pre>
      *
@@ -84,11 +84,11 @@ public final class DateTimeUtils {
      * Gets the corresponding element of yesterday's date formatted as 'yyyyMMdd'.
      * 
      * <pre>{@code
-     *     yesterday(); // 20191230
-     * 
-     *     yesterday(DateType.YEAR); // 2019
-     *     yesterday(DateType.MONTH); // 12
-     *     yesterday(DateType.DAY); // 30
+     *     yesterday();                 // 20191230
+     *
+     *     yesterday(DateType.YEAR);    // 2019
+     *     yesterday(DateType.MONTH);   // 12
+     *     yesterday(DateType.DAY);     // 30
      * }</pre>
      *
      * @param type type of the date
@@ -117,10 +117,10 @@ public final class DateTimeUtils {
      * (Support date formats for "yyyy-MMdd", "yyyy-MM-dd")
      * 
      * <pre>{@code
-     *     validate("2019-02-28"); // true
-     *     validate("20190229"); // false
-     *     validate("20200229"); // true
-     *     validate("2020-02-29"); // true
+     *     validate("2019-02-28");  // true
+     *     validate("20190229");    // false
+     *     validate("20200229");    // true
+     *     validate("2020-02-29");  // true
      * }</pre>
      */
     public static boolean validate(String date) {
@@ -140,11 +140,11 @@ public final class DateTimeUtils {
      * (Support date formats for "yyyy-MMdd", "yyyy-MM-dd")
      * 
      * <pre>{@code
-     *     validate("20190228", DayOfWeek.THURSDAY); // true
-     *     validate("2019-02-28", DayOfWeek.THURSDAY); // true
-     *     validate("20190229", DayOfWeek.FRIDAY); // false
-     *     validate("20200229", DayOfWeek.SATURDAY); // true
-     *     validate("2020-02-29", DayOfWeek.SATURDAY); // true
+     *     validate("20190228", DayOfWeek.THURSDAY);    // true
+     *     validate("2019-02-28", DayOfWeek.THURSDAY);  // true
+     *     validate("20190229", DayOfWeek.FRIDAY);      // false
+     *     validate("20200229", DayOfWeek.SATURDAY);    // true
+     *     validate("2020-02-29", DayOfWeek.SATURDAY);  // true
      * }</pre>
      */
     public static boolean validate(String date, DayOfWeek dayOfWeek) {
