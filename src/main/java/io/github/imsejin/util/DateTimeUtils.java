@@ -1,6 +1,5 @@
 package io.github.imsejin.util;
 
-
 import io.github.imsejin.constant.DateType;
 
 import java.text.ParseException;
