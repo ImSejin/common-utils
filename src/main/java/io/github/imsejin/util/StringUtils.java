@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * String utilities
@@ -203,23 +202,31 @@ public final class StringUtils {
     }
 
     public static String padStart(int len, String origin) {
-        if (origin.length() >= len) return origin;
-        return repeat(WHITE_SPACE, len) + origin;
+        int originLen = origin.length();
+
+        if (originLen >= len) return origin;
+        return repeat(WHITE_SPACE, len - originLen) + origin;
     }
 
     public static String padStart(int len, String origin, String appendix) {
-        if (origin.length() >= len) return origin;
-        return repeat(appendix, len) + origin;
+        int originLen = origin.length();
+
+        if (originLen >= len) return origin;
+        return repeat(appendix, len - originLen) + origin;
     }
 
     public static String padEnd(int len, String origin) {
-        if (origin.length() >= len) return origin;
-        return origin + repeat(WHITE_SPACE, len);
+        int originLen = origin.length();
+
+        if (originLen >= len) return origin;
+        return origin + repeat(WHITE_SPACE, len - originLen);
     }
 
     public static String padEnd(int len, String origin, String appendix) {
-        if (origin.length() >= len) return origin;
-        return origin + repeat(appendix, len);
+        int originLen = origin.length();
+
+        if (originLen >= len) return origin;
+        return origin + repeat(appendix, len - originLen);
     }
 
     /**
