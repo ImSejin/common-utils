@@ -234,6 +234,7 @@ public final class StringUtils {
      * @param origin   string that needs to be padded
      * @param appendix string to be appended to origin string
      * @return padded string
+     * @see #repeat(String, int)
      */
     public static String padStart(int len, String origin, String appendix) {
         int originLen = origin.length();
@@ -255,6 +256,7 @@ public final class StringUtils {
      *               this returns it as it is.
      * @param origin string that needs to be padded
      * @return padded string
+     * @see #repeat(String, int)
      */
     public static String padEnd(int len, String origin) {
         return padEnd(len, origin, String.valueOf(WHITE_SPACE));
@@ -274,6 +276,7 @@ public final class StringUtils {
      * @param origin   string that needs to be padded
      * @param appendix string to be appended to origin string
      * @return padded string
+     * @see #repeat(String, int)
      */
     public static String padEnd(int len, String origin, String appendix) {
         int originLen = origin.length();
@@ -283,17 +286,17 @@ public final class StringUtils {
     }
 
     /**
-     * Count of.
+     * Gets the number of strings to be found at origin string.
      *
-     * @param str        the str
-     * @param charToFind the char to find
-     * @return the int
+     * @param origin  origin string
+     * @param keyword string to be found
+     * @return count of inclusions
      */
-    public static int countOf(String str, String charToFind) {
-        int findLength = charToFind.length();
+    public static int countOf(String origin, String keyword) {
+        int keywordLen = keyword.length();
         int count = 0;
 
-        for (int idx = str.indexOf(charToFind); idx >= 0; idx = str.indexOf(charToFind, idx + findLength)) {
+        for (int i = origin.indexOf(keyword); i >= 0; i = origin.indexOf(keyword, i + keywordLen)) {
             count++;
         }
 
