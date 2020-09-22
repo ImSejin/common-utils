@@ -214,12 +214,10 @@ public final class StringUtils {
      *               this returns it as it is.
      * @param origin string that needs to be padded
      * @return padded string
+     * @see #repeat(String, int)
      */
     public static String padStart(int len, String origin) {
-        int originLen = origin.length();
-
-        if (originLen >= len) return origin;
-        return repeat(WHITE_SPACE, len - originLen) + origin;
+        return padStart(len, origin, String.valueOf(WHITE_SPACE));
     }
 
     /**
@@ -259,10 +257,7 @@ public final class StringUtils {
      * @return padded string
      */
     public static String padEnd(int len, String origin) {
-        int originLen = origin.length();
-
-        if (originLen >= len) return origin;
-        return origin + repeat(WHITE_SPACE, len - originLen);
+        return padEnd(len, origin, String.valueOf(WHITE_SPACE));
     }
 
     /**
