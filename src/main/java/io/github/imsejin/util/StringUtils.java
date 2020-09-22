@@ -201,6 +201,20 @@ public final class StringUtils {
         return false;
     }
 
+    /**
+     * Fills the start of string with whitespace.
+     *
+     * <pre>{@code
+     *     padStart(8, "0304"); // "    0304"
+     *     padStart(4, "0304"); // "0304"
+     * }</pre>
+     *
+     * @param len    targeted string length;
+     *               If it is less than the length of origin string,
+     *               this returns it as it is.
+     * @param origin string that needs to be padded
+     * @return padded string
+     */
     public static String padStart(int len, String origin) {
         int originLen = origin.length();
 
@@ -208,6 +222,21 @@ public final class StringUtils {
         return repeat(WHITE_SPACE, len - originLen) + origin;
     }
 
+    /**
+     * Fills the start of string with another string.
+     *
+     * <pre>{@code
+     *     padStart(8, "0304", "0"); // "00000304"
+     *     padStart(4, "0304", "0"); // "0304"
+     * }</pre>
+     *
+     * @param len      targeted string length;
+     *                 If it is less than the length of origin string,
+     *                 this returns it as it is.
+     * @param origin   string that needs to be padded
+     * @param appendix string to be appended to origin string
+     * @return padded string
+     */
     public static String padStart(int len, String origin, String appendix) {
         int originLen = origin.length();
 
@@ -215,6 +244,20 @@ public final class StringUtils {
         return repeat(appendix, len - originLen) + origin;
     }
 
+    /**
+     * Fills the end of string with whitespace.
+     *
+     * <pre>{@code
+     *     padEnd(8, "0304"); // "0304    "
+     *     padEnd(4, "0304"); // "0304"
+     * }</pre>
+     *
+     * @param len    targeted string length;
+     *               If it is less than the length of origin string,
+     *               this returns it as it is.
+     * @param origin string that needs to be padded
+     * @return padded string
+     */
     public static String padEnd(int len, String origin) {
         int originLen = origin.length();
 
@@ -222,6 +265,21 @@ public final class StringUtils {
         return origin + repeat(WHITE_SPACE, len - originLen);
     }
 
+    /**
+     * Fills the end of string with another string.
+     *
+     * <pre>{@code
+     *     padEnd(8, "0304", "0"); // "03040000"
+     *     padEnd(4, "0304", "0"); // "0304"
+     * }</pre>
+     *
+     * @param len      targeted string length;
+     *                 If it is less than the length of origin string,
+     *                 this returns it as it is.
+     * @param origin   string that needs to be padded
+     * @param appendix string to be appended to origin string
+     * @return padded string
+     */
     public static String padEnd(int len, String origin, String appendix) {
         int originLen = origin.length();
 
@@ -309,13 +367,44 @@ public final class StringUtils {
     }
 
     /**
-     * `해당 문자열`을 원하는 만큼 반복하여 복제한다.
+     * Replicates a string as many times as you want.
      *
      * <pre>{@code
      *     repeat(null, 2);     // nullnull
      *     repeat("", 5);       // \u0000
      *     repeat("abc", 3);    // abcabcabc
      * }</pre>
+     *
+     * <table>
+     *     <caption>{@code <String concatenation comparison>}</caption>
+     *     <colgroup>
+     *         <col span="1">
+     *     </colgroup>
+     *     <tr>
+     *         <td></td>
+     *         <td>{@link String#join(CharSequence, Iterable)} + {@link Collections#nCopies(int, Object)}</td>
+     *         <td>{@link StringBuilder#append(String)} + {@link StringBuilder#toString()}</td>
+     *         <td>{@link StringBuffer#append(String)} + {@link StringBuffer#toString()}</td>
+     *     </tr>
+     *     <tr>
+     *         <td>1 million</td>
+     *         <td>1359.5863 ms</td>
+     *         <td>775.0314 ms</td>
+     *         <td>888.8059 ms</td>
+     *     </tr>
+     *     <tr>
+     *         <td>10 million</td>
+     *         <td>4232.0463 ms</td>
+     *         <td>5798.3983 ms</td>
+     *         <td>6404.1909 ms</td>
+     *     </tr>
+     *     <tr>
+     *         <td>1 billion</td>
+     *         <td>31917.2627 ms</td>
+     *         <td>60978.4536 ms</td>
+     *         <td>68058.4082 ms</td>
+     *     </tr>
+     * </table>
      *
      * @param str string to be repeated
      * @param cnt repetition count
@@ -326,12 +415,43 @@ public final class StringUtils {
     }
 
     /**
-     * `해당 문자열`을 원하는 만큼 반복하여 복제한다.
+     * Replicates a character as many times as you want.
      *
      * <pre>{@code
      *     repeat(' ', 3);    // \u0020
      *     repeat('a', 3);    // aaa
      * }</pre>
+     *
+     * <table>
+     *     <caption>{@code <String concatenation comparison>}</caption>
+     *     <colgroup>
+     *         <col span="1">
+     *     </colgroup>
+     *     <tr>
+     *         <td></td>
+     *         <td>{@link String#join(CharSequence, Iterable)} + {@link Collections#nCopies(int, Object)}</td>
+     *         <td>{@link StringBuilder#append(char)} + {@link StringBuilder#toString()}</td>
+     *         <td>{@link StringBuffer#append(char)} + {@link StringBuffer#toString()}</td>
+     *     </tr>
+     *     <tr>
+     *         <td>1 million</td>
+     *         <td>1359.5863 ms</td>
+     *         <td>775.0314 ms</td>
+     *         <td>888.8059 ms</td>
+     *     </tr>
+     *     <tr>
+     *         <td>10 million</td>
+     *         <td>4232.0463 ms</td>
+     *         <td>5798.3983 ms</td>
+     *         <td>6404.1909 ms</td>
+     *     </tr>
+     *     <tr>
+     *         <td>1 billion</td>
+     *         <td>31917.2627 ms</td>
+     *         <td>60978.4536 ms</td>
+     *         <td>68058.4082 ms</td>
+     *     </tr>
+     * </table>
      *
      * @param c   character to be repeated
      * @param cnt repetition count
