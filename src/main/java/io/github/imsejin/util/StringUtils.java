@@ -308,11 +308,11 @@ public final class StringUtils {
      *
      * @param str string to be reversed
      * @return reversed string
-     * @see StringBuffer#reverse
+     * @see StringBuilder#reverse
      */
     public static String reverse(String str) {
         if (str == null) return null;
-        return new StringBuffer(str).reverse().toString();
+        return new StringBuilder(str).reverse().toString();
     }
 
     /**
