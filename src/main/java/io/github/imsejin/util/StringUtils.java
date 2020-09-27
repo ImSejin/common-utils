@@ -375,9 +375,6 @@ public final class StringUtils {
      *
      * <table>
      *     <caption>{@code <String concatenation comparison>}</caption>
-     *     <colgroup>
-     *         <col span="1">
-     *     </colgroup>
      *     <tr>
      *         <td></td>
      *         <td>{@link String#join(CharSequence, Iterable)} + {@link Collections#nCopies(int, Object)}</td>
@@ -422,9 +419,6 @@ public final class StringUtils {
      *
      * <table>
      *     <caption>{@code <String concatenation comparison>}</caption>
-     *     <colgroup>
-     *         <col span="1">
-     *     </colgroup>
      *     <tr>
      *         <td></td>
      *         <td>{@link String#join(CharSequence, Iterable)} + {@link Collections#nCopies(int, Object)}</td>
