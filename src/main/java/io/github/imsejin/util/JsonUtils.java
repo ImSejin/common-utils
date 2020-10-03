@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
  */
 public final class JsonUtils {
 
+    private static final Gson gson = new Gson();
+
     private JsonUtils() {
     }
 
@@ -76,7 +78,7 @@ public final class JsonUtils {
      * @return type casted instance
      */
     public static <T> T toObject(String jsonText, Class<T> clazz) {
-        return new Gson().fromJson(jsonText, clazz);
+        return gson.fromJson(jsonText, clazz);
     }
 
     /**
@@ -96,8 +98,6 @@ public final class JsonUtils {
      * @return list that has type casted instances
      */
     public static <T> List<T> toList(JsonArray jsonArray, Class<T> clazz) {
-        Gson gson = new Gson();
-
         return StreamUtils.toStream(jsonArray.iterator())
                 .map(jsonElement -> gson.fromJson(jsonElement, clazz))
                 .collect(Collectors.toList());
