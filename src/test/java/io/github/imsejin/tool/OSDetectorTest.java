@@ -1,6 +1,7 @@
-package io.github.imsejin.util;
+package io.github.imsejin.tool;
 
 import io.github.imsejin.constant.OperatingSystem;
+import io.github.imsejin.tool.OSDetector;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

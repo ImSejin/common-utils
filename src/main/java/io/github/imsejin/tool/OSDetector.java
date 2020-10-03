@@ -1,4 +1,4 @@
-package io.github.imsejin.util;
+package io.github.imsejin.tool;
 
 import io.github.imsejin.constant.OperatingSystem;
 

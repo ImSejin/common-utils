@@ -1,5 +1,7 @@
-package io.github.imsejin.util;
+package io.github.imsejin.tool;
 
+import io.github.imsejin.tool.Stopwatch;
+import io.github.imsejin.util.NumberUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 

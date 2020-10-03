@@ -1,4 +1,7 @@
-package io.github.imsejin.util;
+package io.github.imsejin.tool;
+
+import io.github.imsejin.util.NumberUtils;
+import io.github.imsejin.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;

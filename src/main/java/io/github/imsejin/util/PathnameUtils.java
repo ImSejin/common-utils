@@ -2,13 +2,13 @@ package io.github.imsejin.util;
 
 import io.github.imsejin.constant.DateType;
 import io.github.imsejin.constant.OperatingSystem;
+import io.github.imsejin.tool.OSDetector;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static io.github.imsejin.util.DateTimeUtils.today;
 
