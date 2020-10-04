@@ -1,5 +1,6 @@
 package io.github.imsejin.common.util;
 
+import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -70,7 +71,7 @@ public final class StringUtils {
      * @param supplier supplier that returns default string
      * @return original string or default string
      */
-    public static String ifNullOrEmpty(String str, Supplier<String> supplier) {
+    public static String ifNullOrEmpty(String str, @Nonnull Supplier<String> supplier) {
         return isNullOrEmpty(str) ? supplier.get() : str;
     }
 
@@ -127,7 +128,7 @@ public final class StringUtils {
      * @param supplier supplier that returns default string
      * @return original string or default string
      */
-    public static String ifNullOrBlank(String str, Supplier<String> supplier) {
+    public static String ifNullOrBlank(String str, @Nonnull Supplier<String> supplier) {
         return isNullOrBlank(str) ? supplier.get() : str;
     }
 
@@ -205,7 +206,7 @@ public final class StringUtils {
      * @return padded string
      * @see #repeat(String, int)
      */
-    public static String padStart(int len, String origin) {
+    public static String padStart(int len, @Nonnull String origin) {
         return padStart(len, origin, String.valueOf(WHITE_SPACE));
     }
 
@@ -225,7 +226,7 @@ public final class StringUtils {
      * @return padded string
      * @see #repeat(String, int)
      */
-    public static String padStart(int len, String origin, String appendix) {
+    public static String padStart(int len, @Nonnull String origin, String appendix) {
         int originLen = origin.length();
 
         if (originLen >= len) return origin;
@@ -247,7 +248,7 @@ public final class StringUtils {
      * @return padded string
      * @see #repeat(String, int)
      */
-    public static String padEnd(int len, String origin) {
+    public static String padEnd(int len, @Nonnull String origin) {
         return padEnd(len, origin, String.valueOf(WHITE_SPACE));
     }
 
@@ -267,7 +268,7 @@ public final class StringUtils {
      * @return padded string
      * @see #repeat(String, int)
      */
-    public static String padEnd(int len, String origin, String appendix) {
+    public static String padEnd(int len, @Nonnull String origin, String appendix) {
         int originLen = origin.length();
 
         if (originLen >= len) return origin;
@@ -281,7 +282,7 @@ public final class StringUtils {
      * @param keyword string to be found
      * @return count of inclusions
      */
-    public static int countOf(String origin, String keyword) {
+    public static int countOf(@Nonnull String origin, @Nonnull String keyword) {
         int keywordLen = keyword.length();
         int count = 0;
 
@@ -300,7 +301,6 @@ public final class StringUtils {
      * @see StringBuilder#reverse
      */
     public static String reverse(String str) {
-        if (str == null) return null;
         return new StringBuilder(str).reverse().toString();
     }
 
@@ -317,7 +317,7 @@ public final class StringUtils {
      * @param replacement replacement string
      * @return string replaced with replacement by last replacer
      */
-    public static String replaceLast(String text, String regex, String replacement) {
+    public static String replaceLast(@Nonnull String text, String regex, String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
     }
 
@@ -442,11 +442,11 @@ public final class StringUtils {
         return String.join("", Collections.nCopies(cnt, String.valueOf(c)));
     }
 
-    public static String match(String regex, String src) {
+    public static String match(@Nonnull String regex, @Nonnull String src) {
         return match(regex, src, 0);
     }
 
-    public static String match(String regex, String src, int groupNo) {
+    public static String match(@Nonnull String regex, @Nonnull String src, int groupNo) {
         Matcher matcher = Pattern.compile(regex, Pattern.MULTILINE).matcher(src);
 
         String matched = null;
@@ -464,7 +464,7 @@ public final class StringUtils {
      * @param containees list of strings to compare
      * @return whether criterial string contains other strings
      */
-    public static boolean anyContains(String container, Collection<String> containees) {
+    public static boolean anyContains(@Nonnull String container, @Nonnull Collection<String> containees) {
         return containees.stream().anyMatch(container::contains);
     }
 

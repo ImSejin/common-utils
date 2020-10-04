@@ -1,8 +1,10 @@
 package io.github.imsejin.common.util;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Collection utilities
@@ -24,8 +26,16 @@ public final class CollectionUtils {
      * @param collection collection
      * @return whether the collection is null or empty
      */
-    public static boolean isNullOrEmpty(Collection<?> collection) {
+    public static <T> boolean isNullOrEmpty(Collection<T> collection) {
         return collection == null || collection.isEmpty();
+    }
+
+    public static <T> Collection<T> ifNullOrEmpty(Collection<T> collection, Collection<T> defaultCollection) {
+        return isNullOrEmpty(collection) ? defaultCollection : collection;
+    }
+
+    public static <T> Collection<T> ifNullOrEmpty(Collection<T> collection, @Nonnull Supplier<Collection<T>> supplier) {
+        return isNullOrEmpty(collection) ? supplier.get() : collection;
     }
 
     /**
@@ -56,7 +66,7 @@ public final class CollectionUtils {
      * @param <T>        type of element
      * @return map with index as key and element
      */
-    public static <T> Map<Integer, T> toMap(Collection<T> collection) {
+    public static <T> Map<Integer, T> toMap(@Nonnull Collection<T> collection) {
         return collection.stream().collect(HashMap<Integer, T>::new,
                 (map, streamValue) -> map.put(map.size(), streamValue),
                 (map, map2) -> {

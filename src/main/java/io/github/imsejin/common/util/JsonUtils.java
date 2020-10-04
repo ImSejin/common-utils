@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,7 +40,7 @@ public final class JsonUtils {
      * @param url URL
      * @return JSON object
      */
-    public static JsonObject readJsonFromUrl(URL url) {
+    public static JsonObject readJsonFromUrl(@Nonnull URL url) {
         BufferedReader reader;
         String jsonText;
 
@@ -60,7 +61,7 @@ public final class JsonUtils {
      * @param reader reader
      * @return JSON string
      */
-    private static String readAllJson(BufferedReader reader) {
+    private static String readAllJson(@Nonnull BufferedReader reader) {
         return reader.lines().collect(Collectors.joining(System.lineSeparator()));
     }
 
@@ -97,7 +98,7 @@ public final class JsonUtils {
      * @param <T>       type parameter
      * @return list that has type casted instances
      */
-    public static <T> List<T> toList(JsonArray jsonArray, Class<T> clazz) {
+    public static <T> List<T> toList(@Nonnull JsonArray jsonArray, Class<T> clazz) {
         return StreamUtils.toStream(jsonArray.iterator())
                 .map(jsonElement -> gson.fromJson(jsonElement, clazz))
                 .collect(Collectors.toList());

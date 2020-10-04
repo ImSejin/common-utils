@@ -1,5 +1,6 @@
 package io.github.imsejin.common.util;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,7 +28,7 @@ public final class FileUtils {
      * @param file file
      * @return file's creation time
      */
-    public static LocalDateTime getCreationTime(File file) {
+    public static LocalDateTime getCreationTime(@Nonnull File file) {
         BasicFileAttributes attributes;
         try {
             attributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
@@ -50,7 +51,7 @@ public final class FileUtils {
      * @param file file
      * @return directory whose name is the same name as the filename in the same path
      */
-    public static File mkdirAsOwnName(File file) {
+    public static File mkdirAsOwnName(@Nonnull File file) {
         String dirName = FilenameUtils.baseName(file);
 
         File dir = new File(file.getParentFile(), dirName);
