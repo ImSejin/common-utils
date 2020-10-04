@@ -66,6 +66,13 @@
             <version>0.5.4</version>
         </dependency>
 
+        <!-- JSR-305 -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
         <!-- Junit 5 -->
         <dependency>
             <groupId>org.junit.platform</groupId>
