@@ -99,4 +99,17 @@ class StringUtilsTest {
         // then
         System.out.println(count);
     }
+
+    @Test
+    void reverse() {
+        // given
+        String str = "io.github.imsejin.common.util.StringUtils#reverse(String)";
+
+        // when
+        String reversed = StringUtils.reverse(str);
+
+        // then
+        assertEquals(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi", reversed);
+    }
+
 }
