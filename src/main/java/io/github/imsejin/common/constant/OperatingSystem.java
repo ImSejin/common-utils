@@ -1,6 +1,7 @@
 package io.github.imsejin.common.constant;
 
 import io.github.imsejin.common.constant.interfaces.KeyValue;
+import io.github.imsejin.common.util.StringUtils;
 
 import java.util.*;
 
@@ -8,21 +9,37 @@ public enum OperatingSystem implements KeyValue {
 
     /**
      * Microsoft Windows.
+     *
+     * <pre>{@code
+     *     ["win"]
+     * }</pre>
      */
     WINDOWS(Collections.singleton("win")),
 
     /**
      * Apple macOS.
+     *
+     * <pre>{@code
+     *     ["mac"]
+     * }</pre>
      */
     MAC(Collections.singleton("mac")),
 
     /**
      * Unix including Linux and IBM AIX.
+     *
+     * <pre>{@code
+     *     ["nix", "nux", "aix"]
+     * }</pre>
      */
     UNIX(new HashSet<>(Arrays.asList("nix", "nux", "aix"))),
 
     /**
      * Oracle Solaris.
+     *
+     * <pre>{@code
+     *     ["sunos"]
+     * }</pre>
      */
     SOLARIS(Collections.singleton("sunos"));
 
@@ -43,9 +60,9 @@ public enum OperatingSystem implements KeyValue {
         return false;
     }
 
-    public static Optional<OperatingSystem> of(String keyword) {
+    public static Optional<OperatingSystem> of(String osName) {
         return Arrays.stream(OperatingSystem.values())
-                .filter(os -> os.keywords.contains(keyword))
+                .filter(os -> StringUtils.anyContains(osName, os.keywords))
                 .findFirst();
     }
 

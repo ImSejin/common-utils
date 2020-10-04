@@ -1,2 +1,3 @@
-# common-utils
-Common utilities
+# Common Utils
+Common utilities for java programming.
+

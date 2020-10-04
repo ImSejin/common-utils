@@ -4,22 +4,23 @@ import io.github.imsejin.common.constant.OperatingSystem;
 
 /**
  * Operating system detector
+ *
+ * @see OperatingSystem
  */
 public final class OSDetector {
 
-    private static final String CURRENT_OS = System.getProperty("os.name").toLowerCase();
+    private static final String CURRENT_OS_NAME = System.getProperty("os.name").toLowerCase();
 
     private OSDetector() {
     }
 
+    /**
+     * Returns current OS.
+     *
+     * @return current OS
+     */
     public static OperatingSystem getOS() {
-        for (OperatingSystem os : OperatingSystem.values()) {
-            for (String keyword : os.getKeywords()) {
-                if (CURRENT_OS.contains(keyword)) return os;
-            }
-        }
-
-        return null;
+        return OperatingSystem.of(CURRENT_OS_NAME).orElse(null);
     }
 
 }

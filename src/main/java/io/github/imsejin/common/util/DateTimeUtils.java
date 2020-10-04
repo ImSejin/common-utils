@@ -10,6 +10,8 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 
 /**
  * Datetime utilities
+ *
+ * @see DateType
  */
 public final class DateTimeUtils {
 
@@ -32,7 +34,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets today's date formatted as 'yyyyMMdd'.
+     * Returns today's date formatted as 'yyyyMMdd'.
      *
      * <pre>{@code
      *     today(); // 20191231
@@ -45,7 +47,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets today's date formatted with pattern.
+     * Returns today's date formatted with pattern.
      *
      * <pre>{@code
      *     today();                 // 20191231
@@ -67,7 +69,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets yesterday's date formatted as 'yyyyMMdd'.
+     * Returns yesterday's date formatted as 'yyyyMMdd'.
      *
      * <pre>{@code
      *     today();     // 20191231
@@ -81,7 +83,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets the corresponding element of yesterday's date formatted as 'yyyyMMdd'.
+     * Returns the corresponding element of yesterday's date formatted as 'yyyyMMdd'.
      *
      * <pre>{@code
      *     yesterday();                 // 20191230
@@ -99,7 +101,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets the current datetime formatted as 'yyyyMMddHHmmss'.
+     * Returns the current datetime formatted as 'yyyyMMddHHmmss'.
      *
      * <pre>{@code
      *     now(); // 20191231175959
@@ -113,8 +115,8 @@ public final class DateTimeUtils {
 
     /**
      * Check if the date is actual.
-     * <br>
-     * (Support date formats for "yyyy-MMdd", "yyyy-MM-dd")
+     *
+     * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
      *
      * <pre>{@code
      *     validate("2019-02-28");  // true
@@ -139,8 +141,8 @@ public final class DateTimeUtils {
 
     /**
      * Check if the date and day of the week are actual.
-     * <br>
-     * (Support date formats for "yyyy-MMdd", "yyyy-MM-dd")
+     *
+     * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
      *
      * <pre>{@code
      *     validate("20190228", DayOfWeek.THURSDAY);    // true
@@ -166,7 +168,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets the last date of the year and month.
+     * Returns the last date of the year and month.
      *
      * <pre>{@code
      *     withMonthlyLastDate(2019, 2); // 20190228
@@ -183,7 +185,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets the last date of the year and month.
+     * Returns the last date of the year and month.
      *
      * <pre>{@code
      *     withMonthlyLastDate(2019, Month.FEBRUARY); // 20190228
@@ -200,7 +202,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets the last date of the year and month.
+     * Returns the last date of the year and month.
      *
      * <pre>{@code
      *     withMonthlyLastDate("2019", "2"); // 20190228
@@ -217,7 +219,7 @@ public final class DateTimeUtils {
     }
 
     /**
-     * Gets the last date of the year and month.
+     * Returns the last date of the year and month.
      *
      * <pre>{@code
      *     withMonthlyLastDate("2019", Month.FEBRUARY); // 20190228

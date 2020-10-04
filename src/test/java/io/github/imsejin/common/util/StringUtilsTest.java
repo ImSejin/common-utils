@@ -1,14 +1,21 @@
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.tool.Stopwatch;
 import org.junit.jupiter.api.*;
+
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class StringUtilsTest {
 
     @Test
+    @DisplayName("padStart --- Collections#nCopies(int, Object)")
     void padStart1() {
         // given
-        long startTime = System.nanoTime();
         String result = "";
+        Stopwatch stopwatch = new Stopwatch(TimeUnit.MILLISECONDS);
+        stopwatch.start();
 
         // when
         for (int i = 0; i < 100_000_000; i++) {
@@ -16,16 +23,17 @@ class StringUtilsTest {
         }
 
         // then
-        long endTime = System.nanoTime();
-        double elapsedTime = (endTime - startTime) / 1_000_000D;
-        System.out.println(elapsedTime + " ms");
+        stopwatch.stop();
+        System.out.println(stopwatch.getStatistics());
     }
 
     @Test
+    @DisplayName("padStart --- StringBuilder#append(char)")
     void padStart2() {
         // given
-        long startTime = System.nanoTime();
         String result = "";
+        Stopwatch stopwatch = new Stopwatch(TimeUnit.MILLISECONDS);
+        stopwatch.start();
 
         // when
         for (int i = 0; i < 100_000_000; i++) {
@@ -39,16 +47,17 @@ class StringUtilsTest {
         }
 
         // then
-        long endTime = System.nanoTime();
-        double elapsedTime = (endTime - startTime) / 1_000_000D;
-        System.out.println(elapsedTime + " ms");
+        stopwatch.stop();
+        System.out.println(stopwatch.getStatistics());
     }
 
     @Test
+    @DisplayName("padStart --- StringBuffer#append(char)")
     void padStart3() {
         // given
-        long startTime = System.nanoTime();
         String result = "";
+        Stopwatch stopwatch = new Stopwatch(TimeUnit.MILLISECONDS);
+        stopwatch.start();
 
         // when
         for (int i = 0; i < 100_000_000; i++) {
@@ -62,9 +71,8 @@ class StringUtilsTest {
         }
 
         // then
-        long endTime = System.nanoTime();
-        double elapsedTime = (endTime - startTime) / 1_000_000D;
-        System.out.println(elapsedTime + " ms");
+        stopwatch.stop();
+        System.out.println(stopwatch.getStatistics());
     }
 
     @Test
@@ -99,4 +107,17 @@ class StringUtilsTest {
         // then
         System.out.println(count);
     }
+
+    @Test
+    void reverse() {
+        // given
+        String str = "io.github.imsejin.common.util.StringUtils#reverse(String)";
+
+        // when
+        String reversed = StringUtils.reverse(str);
+
+        // then
+        assertEquals(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi", reversed);
+    }
+
 }

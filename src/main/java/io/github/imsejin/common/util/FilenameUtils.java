@@ -16,7 +16,7 @@ public final class FilenameUtils {
     }
 
     /**
-     * Gets position of the extension.
+     * Returns position of the extension.
      * <br>
      * If cannot find it, returns -1.
      *
@@ -39,7 +39,7 @@ public final class FilenameUtils {
     }
 
     /**
-     * Gets the filename excluding the extension.
+     * Returns the filename excluding the extension.
      * <br>
      * if file is null, returns empty string.
      *
@@ -63,7 +63,7 @@ public final class FilenameUtils {
     }
 
     /**
-     * Gets the file's extension.
+     * Returns the file's extension.
      * <br>
      * if file is null, returns empty string.
      *
