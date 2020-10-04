@@ -52,12 +52,9 @@ public enum OperatingSystem implements KeyValue {
         this.keywords = Collections.unmodifiableSet(keywords);
     }
 
-    public static boolean contains(String keyword) {
-        for (OperatingSystem os : OperatingSystem.values()) {
-            if (os.keywords.contains(keyword)) return true;
-        }
-
-        return false;
+    public static boolean contains(@Nonnull String osName) {
+        return Arrays.stream(OperatingSystem.values())
+                .anyMatch(os -> StringUtils.anyContains(osName, os.keywords));
     }
 
     public static Optional<OperatingSystem> of(String osName) {
