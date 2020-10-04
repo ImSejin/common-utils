@@ -7,8 +7,8 @@ public interface KeyValue {
 
     /**
      * Gets name of the enum.
-     * <br>
-     * It replaces {@link Enum#name()} with itself.
+     *
+     * <p> It replaces {@link Enum#name()} with itself.
      *
      * @return enum's name
      */
@@ -16,8 +16,8 @@ public interface KeyValue {
 
     /**
      * Gets value of the enum.
-     * <br>
-     * This should be implemented to return the first parameter
+     *
+     * <p> This should be implemented to return the first parameter
      * of enum's constructor.
      *
      * @return the first parameter of enum's constructor

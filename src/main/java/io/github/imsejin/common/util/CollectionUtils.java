@@ -9,7 +9,8 @@ import java.util.Map;
  */
 public final class CollectionUtils {
 
-    private CollectionUtils() {}
+    private CollectionUtils() {
+    }
 
     /**
      * Converts collection into map whose key is index and value is list's.
@@ -19,8 +20,8 @@ public final class CollectionUtils {
      *     toMap(list); // {0: "A", 1: "B", 2: "C"}
      * }</pre>
      *
-     * @param c collection
-     * @param <T>  type of element
+     * @param c   collection
+     * @param <T> type of element
      * @return map with index as key and element
      */
     public static <T> Map<Integer, T> toMap(Collection<T> c) {

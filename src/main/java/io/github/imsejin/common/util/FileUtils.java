@@ -17,7 +17,7 @@ public final class FileUtils {
     }
 
     /**
-     * Gets creation time of the file.
+     * Returns creation time of the file.
      *
      * <pre>{@code
      *     File file = new File("C:\\Program Files\\Java\\jdk1.8.0_202\\README.html");

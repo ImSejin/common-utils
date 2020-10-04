@@ -4,6 +4,8 @@ import io.github.imsejin.common.constant.OperatingSystem;
 
 /**
  * Operating system detector
+ *
+ * @see OperatingSystem
  */
 public final class OSDetector {
 
@@ -12,6 +14,11 @@ public final class OSDetector {
     private OSDetector() {
     }
 
+    /**
+     * Returns current OS.
+     *
+     * @return current OS
+     */
     public static OperatingSystem getOS() {
         return OperatingSystem.of(CURRENT_OS_NAME).orElse(null);
     }

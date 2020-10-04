@@ -8,6 +8,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Stopwatch that supports various {@link TimeUnit}.
+ *
+ * @see TimeUnit
+ */
 public final class Stopwatch {
 
     private final List<Task> tasks = new ArrayList<>();
@@ -16,9 +21,19 @@ public final class Stopwatch {
     private String currentTaskName;
     private TimeUnit timeUnit = TimeUnit.NANOSECONDS;
 
+    /**
+     * Returns {@link Stopwatch} that is set with default {@link TimeUnit}.
+     *
+     * <p> Default timeUnit is {@link TimeUnit#NANOSECONDS}.
+     */
     public Stopwatch() {
     }
 
+    /**
+     * Returns {@link Stopwatch} that is set with custom {@link TimeUnit}.
+     *
+     * @param timeUnit time unit
+     */
     public Stopwatch(TimeUnit timeUnit) {
         if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
         this.timeUnit = timeUnit;
@@ -51,15 +66,32 @@ public final class Stopwatch {
         }
     }
 
+    /**
+     * Sets up the {@link TimeUnit}.
+     *
+     * @param timeUnit time unit
+     */
     public void setTimeUnit(TimeUnit timeUnit) {
         if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
         this.timeUnit = timeUnit;
     }
 
+    /**
+     * Starts to run {@link Stopwatch}.
+     *
+     * <p> Sets up task name of current task with empty string.
+     */
     public void start() {
         start("");
     }
 
+    /**
+     * Starts to run {@link Stopwatch}.
+     *
+     * <p> Sets up task name of current task.
+     *
+     * @param taskName current task name
+     */
     public void start(String taskName) {
         if (taskName == null) throw new IllegalArgumentException("Task name cannot be null");
         if (isRunning()) throw new RuntimeException("Stopwatch is already running");
@@ -68,6 +100,11 @@ public final class Stopwatch {
         this.startNanoTime = System.nanoTime();
     }
 
+    /**
+     * Stops the {@link Stopwatch} running.
+     *
+     * <p> Current task will be saved and closed.
+     */
     public void stop() {
         if (!isRunning()) throw new RuntimeException("Stopwatch is not running");
 
@@ -77,20 +114,49 @@ public final class Stopwatch {
         this.currentTaskName = null;
     }
 
+    /**
+     * Checks if {@link Stopwatch} is running now.
+     *
+     * @return whether {@link Stopwatch} is running.
+     */
     public boolean isRunning() {
         return this.currentTaskName != null;
     }
 
+    /**
+     * Returns the sum of the elapsed time of all saved tasks.
+     *
+     * <p> This total time will be converted with {@link Stopwatch}'s {@link TimeUnit}
+     * and shown up to the millionths(sixth after decimal point).
+     *
+     * @return the sum of task times
+     * @see NumberUtils#floor(double, int)
+     */
     public double getTotalTime() {
         double totalTime = convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
         return NumberUtils.floor(totalTime, 6);
     }
 
+    /**
+     * Returns {@link #getTotalTime()} and abbreviation of {@link Stopwatch}'s {@link TimeUnit}.
+     *
+     * @return {@link Stopwatch}'s summary
+     * @see #getTotalTime()
+     */
     public String getSummary() {
         String format = this.timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%.6f";
         return "Stopwatch: RUNNING_TIME = " + String.format(format, this.getTotalTime()) + " " + getTimeUnitAbbreviation(this.timeUnit);
     }
 
+    /**
+     * Returns statistical data for each task.
+     *
+     * <p> This shows the percentage of how long each task took
+     * and how much time it took up in total time.
+     *
+     * @return {@link Stopwatch}'s statistics
+     * @see #getSummary()
+     */
     public String getStatistics() {
         double totalTime = getTotalTime();
 

@@ -5,95 +5,170 @@ import io.github.imsejin.common.constant.interfaces.KeyValue;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Datetime patterns for {@link java.time.format.DateTimeFormatter#ofPattern(String)}.
+ */
 public enum DateType implements KeyValue {
 
     /**
-     * Year (yyyy)
+     * Year
+     *
+     * <pre>{@code
+     *     yyyy
+     * }</pre>
      */
     YEAR("yyyy"),
 
     /**
-     * Month (MM)
+     * Month
+     *
+     * <pre>{@code
+     *     MM
+     * }</pre>
      */
     MONTH("MM"),
 
     /**
-     * Day (dd)
+     * Day
+     *
+     * <pre>{@code
+     *     dd
+     * }</pre>
      */
     DAY("dd"),
 
     /**
-     * Hour (HH)
+     * Hour
+     *
+     * <pre>{@code
+     *     HH
+     * }</pre>
      */
     HOUR("HH"),
 
     /**
-     * Minute (mm)
+     * Minute
+     *
+     * <pre>{@code
+     *     mm
+     * }</pre>
      */
     MINUTE("mm"),
 
     /**
-     * Second (ss)
+     * Second
+     *
+     * <pre>{@code
+     *     ss
+     * }</pre>
      */
     SECOND("ss"),
 
     /**
-     * Millisecond (SSS)
+     * Millisecond
+     *
+     * <pre>{@code
+     *     SSS
+     * }</pre>
      */
     MILLISECOND("SSS"),
 
     /**
-     * Year and month (yyyyMM)
+     * Year and month
+     *
+     * <pre>{@code
+     *     yyyyMM
+     * }</pre>
      */
     YEAR_MONTH(YEAR.value() + MONTH.value()),
 
     /**
-     * Year, month and day (yyyyMMdd)
+     * Year, month and day
+     *
+     * <pre>{@code
+     *     yyyyMMdd
+     * }</pre>
      */
     DATE(YEAR.value() + MONTH.value() + DAY.value()),
 
     /**
-     * Hour, minute and second (HHmmss)
+     * Hour, minute and second
+     *
+     * <pre>{@code
+     *     HHmmss
+     * }</pre>
      */
     TIME(HOUR.value() + MINUTE.value() + SECOND.value()),
 
     /**
-     * Hour, minute, second and millisecond (HHmmssSSS)
+     * Hour, minute, second and millisecond
+     *
+     * <pre>{@code
+     *     HHmmssSSS
+     * }</pre>
      */
     HOUR_2_MILSEC(TIME.value() + MILLISECOND.value()),
 
     /**
-     * Year, month, day, hour, minute and second (yyyyMMddHHmmss)
+     * Year, month, day, hour, minute and second
+     *
+     * <pre>{@code
+     *     yyyyMMddHHmmss
+     * }</pre>
      */
     DATE_TIME(DATE.value() + TIME.value()),
 
     /**
-     * Year, month, day, hour, minute, second and millisecond (yyyyMMddHHmmssSSS)
+     * Year, month, day, hour, minute, second and millisecond
+     *
+     * <pre>{@code
+     *     yyyyMMddHHmmssSSS
+     * }</pre>
      */
     ALL(DATE.value() + HOUR_2_MILSEC.value()),
 
     /**
-     * Formatted year, month and day (yyyy-MM-dd)
+     * Formatted year, month and day
+     *
+     * <pre>{@code
+     *     yyyy-MM-dd
+     * }</pre>
      */
     F_DATE(YEAR.value() + "-" + MONTH.value() + "-" + DAY.value()),
 
     /**
-     * Formatted hour, minute and second (HH:mm:ss)
+     * Formatted hour, minute and second
+     *
+     * <pre>{@code
+     *     HH:mm:ss
+     * }</pre>
      */
     F_TIME(HOUR.value() + ":" + MINUTE.value() + ":" + SECOND.value()),
 
     /**
-     * Formatted hour, minute, second and millisecond (HH:mm:ss.SSS)
+     * Formatted hour, minute, second and millisecond
+     *
+     * <pre>{@code
+     *     HH:mm:ss.SSS
+     * }</pre>
      */
     F_HOUR_2_MILSEC(F_TIME.value() + "." + MILLISECOND.value()),
 
     /**
-     * Formatted year, month, day, hour, minute and second (yyyy-MM-dd HH:mm:ss)
+     * Formatted year, month, day, hour, minute and second
+     *
+     * <pre>{@code
+     *     yyyy-MM-dd HH:mm:ss
+     * }</pre>
      */
     F_DATE_TIME(F_DATE.value() + " " + F_TIME.value()),
 
     /**
-     * Formatted year, month, day, hour, minute, second and millisecond (yyyy-MM-dd HH:mm:ss.SSS)
+     * Formatted year, month, day, hour, minute, second and millisecond
+     *
+     * <pre>{@code
+     *     yyyy-MM-dd HH:mm:ss.SSS
+     * }</pre>
      */
     F_ALL(F_DATE.value() + " " + F_HOUR_2_MILSEC.value());
 
