@@ -52,14 +52,15 @@ public final class CollectionUtils {
      *     toMap(list); // {0: "A", 1: "B", 2: "C"}
      * }</pre>
      *
-     * @param c   collection
-     * @param <T> type of element
+     * @param collection collection
+     * @param <T>        type of element
      * @return map with index as key and element
      */
-    public static <T> Map<Integer, T> toMap(Collection<T> c) {
-        return c.stream().collect(HashMap<Integer, T>::new,
+    public static <T> Map<Integer, T> toMap(Collection<T> collection) {
+        return collection.stream().collect(HashMap<Integer, T>::new,
                 (map, streamValue) -> map.put(map.size(), streamValue),
-                (map, map2) -> {});
+                (map, map2) -> {
+                });
     }
 
 }

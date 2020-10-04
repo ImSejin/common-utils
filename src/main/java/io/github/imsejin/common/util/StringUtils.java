@@ -275,7 +275,7 @@ public final class StringUtils {
     }
 
     /**
-     * Gets the number of strings to be found at origin string.
+     * Returns the number of strings to be found at origin string.
      *
      * @param origin  origin string
      * @param keyword string to be found
@@ -402,7 +402,7 @@ public final class StringUtils {
      * Replicates a character as many times as you want.
      *
      * <pre>{@code
-     *     repeat(' ', 3);    // \u0020
+     *     repeat(' ', 3);    // "   "
      *     repeat('a', 3);    // aaa
      * }</pre>
      *
