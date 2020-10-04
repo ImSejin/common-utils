@@ -43,9 +43,9 @@ public enum OperatingSystem implements KeyValue {
         return false;
     }
 
-    public static Optional<OperatingSystem> of(String keyword) {
+    public static Optional<OperatingSystem> of(String osName) {
         return Arrays.stream(OperatingSystem.values())
-                .filter(os -> os.keywords.contains(keyword))
+                .filter(os -> StringUtils.anyContains(osName, os.keywords))
                 .findFirst();
     }
 
