@@ -2,6 +2,7 @@ package io.github.imsejin.common.util;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
@@ -466,6 +467,17 @@ public final class StringUtils {
         }
 
         return matched;
+    }
+
+    /**
+     * Checks if criterial string contains other strings.
+     *
+     * @param container  criterial string
+     * @param containees list of strings to compare
+     * @return whether criterial string contains other strings
+     */
+    public static boolean anyContains(String container, Collection<String> containees) {
+        return containees.stream().anyMatch(container::contains);
     }
 
 }
