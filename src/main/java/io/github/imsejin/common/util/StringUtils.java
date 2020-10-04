@@ -1,7 +1,6 @@
 package io.github.imsejin.common.util;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Supplier;
@@ -136,70 +135,59 @@ public final class StringUtils {
      * 공백 문자열이 하나라도 있는지 확인한다.
      *
      * <pre>{@code
-     *     anyNullOrBlank(null, " ");       // true
-     *     anyNullOrBlank(null, "ABC");     // true
-     *     anyNullOrBlank("ABC", "");       // true
-     *     anyNullOrBlank(" ", "ABC");      // true
-     *     anyNullOrBlank(" ABC", "ABC");   // false
+     *     anyNullOrBlank([null, " "]);       // true
+     *     anyNullOrBlank([null, "ABC"]);     // true
+     *     anyNullOrBlank(["ABC", ""]);       // true
+     *     anyNullOrBlank([" ", "ABC"]);      // true
+     *     anyNullOrBlank([" ABC", "ABC"]);   // false
      * }</pre>
      *
      * @param strs strings
      * @return whether any strings are null or blank
      */
-    public static boolean anyNullOrBlank(String... strs) {
-        if (strs == null || strs.length == 0) return true;
-
-        for (String str : strs) {
-            if (isNullOrBlank(str)) return true;
-        }
-
-        return false;
+    public static boolean anyNullOrBlank(Collection<String> strs) {
+        if (CollectionUtils.isNullOrEmpty(strs)) return true;
+        return strs.stream().anyMatch(StringUtils::isNullOrBlank);
     }
 
     /**
      * 모두 공백 문자열인지 확인한다.
      *
      * <pre>{@code
-     *     allNullOrBlank(null, " ");       // true
-     *     allNullOrBlank(null, "ABC");     // false
-     *     allNullOrBlank("ABC", "");       // false
-     *     allNullOrBlank(" ", "ABC");      // false
-     *     allNullOrBlank(" ABC", "ABC");   // false
+     *     allNullOrBlank([null, " "]);       // true
+     *     allNullOrBlank([null, "ABC"]);     // false
+     *     allNullOrBlank(["ABC", ""]);       // false
+     *     allNullOrBlank([" ", "ABC"]);      // false
+     *     allNullOrBlank([" ABC", "ABC"]);   // false
      * }</pre>
      *
      * @param strs strings
      * @return whether all strings are null or blank
      */
-    public static boolean allNullOrBlank(String... strs) {
-        if (strs == null || strs.length == 0) return true;
-
-        return Arrays.stream(strs).allMatch(StringUtils::isNullOrBlank);
+    public static boolean allNullOrBlank(Collection<String> strs) {
+        if (CollectionUtils.isNullOrEmpty(strs)) return true;
+        return strs.stream().allMatch(StringUtils::isNullOrBlank);
     }
 
     /**
      * `기준 문자열`과 일치하는 문자열이 하나라도 있는지 확인한다.
      *
      * <pre>{@code
-     *     anyEquals (null, null);          // false
-     *     anyEquals("", null);             // false
-     *     anyEquals(null, "");             // false
-     *     anyEquals("", null, "");         // true
-     *     anyEquals("ABC", "abc");         // false
-     *     anyEquals("ABC", "abc", "ABC");  // true
+     *     anyEquals(null, [null]);           // false
+     *     anyEquals("", [null]);             // false
+     *     anyEquals(null, [""]);             // false
+     *     anyEquals("", [null, ""]);         // true
+     *     anyEquals("ABC", ["abc"]);         // false
+     *     anyEquals("ABC", ["abc", "ABC"]);  // true
      * }</pre>
      *
      * @param criterion criterion string
      * @param strs      strings
      * @return whether any strings are equal to criterion string
      */
-    public static boolean anyEquals(String criterion, String... strs) {
-        if (criterion == null || strs == null || strs.length == 0) return false;
-
-        for (String str : strs) {
-            if (criterion.equals(str)) return true;
-        }
-
-        return false;
+    public static boolean anyEquals(String criterion, Collection<String> strs) {
+        if (criterion == null || CollectionUtils.isNullOrEmpty(strs)) return false;
+        return strs.stream().anyMatch(criterion::equals);
     }
 
     /**
