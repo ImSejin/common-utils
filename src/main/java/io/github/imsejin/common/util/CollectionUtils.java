@@ -13,6 +13,38 @@ public final class CollectionUtils {
     }
 
     /**
+     * Checks whether the collection is null or empty.
+     *
+     * <pre>{@code
+     *     isNullOrEmpty(null)      // true
+     *     isNullOrEmpty([])        // true
+     *     isNullOrEmpty([5, 6])    // false
+     * }</pre>
+     *
+     * @param collection collection
+     * @return whether the collection is null or empty
+     */
+    public static boolean isNullOrEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
+    }
+
+    /**
+     * Checks whether the collection exists or not.
+     *
+     * <pre>{@code
+     *     exists(null)      // false
+     *     exists([])        // false
+     *     exists([5, 6])    // true
+     * }</pre>
+     *
+     * @param collection collection
+     * @return whether the collection exists or not
+     */
+    public static boolean exists(Collection<?> collection) {
+        return !isNullOrEmpty(collection);
+    }
+
+    /**
      * Converts collection into map whose key is index and value is list's.
      *
      * <pre>{@code
