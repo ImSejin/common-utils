@@ -14,8 +14,4 @@ public final class NumberUtils {
         return formatter.format(decimal);
     }
 
-    public static double floor(double amount, int len) {
-        return Double.parseDouble(String.format("%." + len + "f", amount));
-    }
-
 }
