@@ -54,8 +54,19 @@ public final class MathUtils {
         return true;
     }
 
-    public static double floor(double amount, int len) {
-        return Double.parseDouble(String.format("%." + len + "f", amount));
+    public static double ceil(double amount, int decimalPlace) {
+        double compensator = Math.pow(10, decimalPlace);
+        return Math.ceil(amount * compensator) / compensator;
+    }
+
+    public static double round(double amount, int decimalPlace) {
+        double compensator = Math.pow(10, decimalPlace);
+        return Math.round(amount * compensator) / compensator;
+    }
+
+    public static double floor(double amount, int decimalPlace) {
+        double compensator = Math.pow(10, decimalPlace);
+        return Math.floor(amount * compensator) / compensator;
     }
 
 }

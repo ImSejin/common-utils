@@ -62,4 +62,32 @@ class MathUtilsTest {
 
     }
 
+    @ParameterizedTest
+    @ValueSource(doubles = {1.248458248, 0.1575153545, 854.0912738218, 97234.10398570893174})
+    void ceil(double amount) {
+        // when
+        int len = 1;
+        double result = MathUtils.ceil(amount, len);
+
+        // then
+        String expected = String.valueOf(amount);
+        expected = expected.substring(0, expected.indexOf('.') + len + 1);
+        String[] strings = expected.split("\\.");
+        expected = strings[0] + '.' + (Integer.parseInt(strings[1]) + 1);
+        assertEquals(expected, String.valueOf(result));
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {1.248458248, 0.1575153545, 854.0912738218, 97234.10398570893174})
+    void floor(double amount) {
+        // when
+        int len = 6;
+        double result = MathUtils.floor(amount, len);
+
+        // then
+        String expected = String.valueOf(amount);
+        expected = expected.substring(0, expected.indexOf('.') + len + 1);
+        assertEquals(expected, String.valueOf(result));
+    }
+
 }
