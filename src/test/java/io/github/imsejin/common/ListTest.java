@@ -1,10 +1,12 @@
 package io.github.imsejin.common;
 
+import io.github.imsejin.common.tool.Stopwatch;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ListTest {
 
@@ -12,7 +14,8 @@ public class ListTest {
     public void appendToArrayList() {
         // given
         List<Integer> list = new ArrayList<>();
-        long startTime = System.nanoTime();
+        Stopwatch stopwatch = new Stopwatch(TimeUnit.SECONDS);
+        stopwatch.start();
 
         // when
         for (int i = 0; i < 10_000_000; i++) {
@@ -20,15 +23,16 @@ public class ListTest {
         }
 
         // then
-        long elapsedTime = System.nanoTime() - startTime;
-        System.out.println((elapsedTime / 1_000_000.0) + " ms");
+        stopwatch.stop();
+        System.out.println(stopwatch.getStatistics());
     }
 
     @Test
     public void appendToLinkedList() {
         // given
         List<Integer> list = new LinkedList<>();
-        long startTime = System.nanoTime();
+        Stopwatch stopwatch = new Stopwatch(TimeUnit.SECONDS);
+        stopwatch.start();
 
         // when
         for (int i = 0; i < 10_000_000; i++) {
@@ -36,8 +40,8 @@ public class ListTest {
         }
 
         // then
-        long elapsedTime = System.nanoTime() - startTime;
-        System.out.println((elapsedTime / 1_000_000.0) + " ms");
+        stopwatch.stop();
+        System.out.println(stopwatch.getStatistics());
     }
 
 }
