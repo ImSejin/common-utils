@@ -1,6 +1,6 @@
 package io.github.imsejin.common.tool;
 
-import io.github.imsejin.common.util.NumberUtils;
+import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
 
 import java.util.ArrayList;
@@ -130,11 +130,11 @@ public final class Stopwatch {
      * and shown up to the millionths(sixth after decimal point).
      *
      * @return the sum of task times
-     * @see NumberUtils#floor(double, int)
+     * @see MathUtils#floor(double, int)
      */
     public double getTotalTime() {
         double totalTime = convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
-        return NumberUtils.floor(totalTime, 6);
+        return MathUtils.floor(totalTime, 6);
     }
 
     /**
