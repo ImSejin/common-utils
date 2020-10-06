@@ -11,5 +11,22 @@
 </p>
 Common utilities for java programming.
 
+<br><br>
 
+## Getting started
+
+```xml
+<!-- Maven -->
+<dependency>
+  <groupId>io.github.imsejin</groupId>
+  <artifactId>common-utils</artifactId>
+  <version>${common.utils.version}</version>
+</dependency>
+```
+<br>
+
+```groovy
+// Gradle
+implementation 'io.github.imsejin:common-utils:$common_utils_version'
+```
 
