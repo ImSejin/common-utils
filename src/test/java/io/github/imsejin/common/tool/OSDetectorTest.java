@@ -1,10 +1,9 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.constant.OperatingSystem;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.*;
 
 public class OSDetectorTest {
 
@@ -14,7 +13,7 @@ public class OSDetectorTest {
         OperatingSystem os = OSDetector.getOS();
 
         // then
-        assertThat(os, is(OperatingSystem.WINDOWS));
+        assertThat(os).isEqualTo(OperatingSystem.WINDOWS);
     }
 
 }

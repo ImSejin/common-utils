@@ -5,7 +5,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 class StringUtilsTest {
 
@@ -117,7 +117,7 @@ class StringUtilsTest {
         String reversed = StringUtils.reverse(str);
 
         // then
-        assertEquals(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi", reversed);
+        assertThat(reversed).isEqualTo(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi");
     }
 
 }

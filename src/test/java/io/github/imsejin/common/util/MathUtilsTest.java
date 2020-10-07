@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 class MathUtilsTest {
 
@@ -21,7 +21,7 @@ class MathUtilsTest {
             BigInteger result = MathUtils.fibonacci(input[i]);
 
             // then
-            assertEquals(result.toString(), expected[i]);
+            assertThat(result.toString()).isEqualTo(expected[i]);
         }
     }
 
@@ -36,7 +36,7 @@ class MathUtilsTest {
             BigInteger result = MathUtils.factorial(input[i]);
 
             // then
-            assertEquals(result.toString(), expected[i]);
+            assertThat(result.toString()).isEqualTo(expected[i]);
         }
     }
 
@@ -74,7 +74,7 @@ class MathUtilsTest {
         expected = expected.substring(0, expected.indexOf('.') + len + 1);
         String[] strings = expected.split("\\.");
         expected = strings[0] + '.' + (Integer.parseInt(strings[1]) + 1);
-        assertEquals(expected, String.valueOf(result));
+        assertThat(expected).isEqualTo(String.valueOf(result));
     }
 
     @ParameterizedTest
@@ -87,7 +87,7 @@ class MathUtilsTest {
         // then
         String expected = String.valueOf(amount);
         expected = expected.substring(0, expected.indexOf('.') + len + 1);
-        assertEquals(expected, String.valueOf(result));
+        assertThat(expected).isEqualTo(String.valueOf(result));
     }
 
 }

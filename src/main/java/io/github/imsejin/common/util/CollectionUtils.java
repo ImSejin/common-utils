@@ -71,6 +71,10 @@ public final class CollectionUtils {
                 });
     }
 
+    public static long findMax(@Nonnull Collection<Long> collection) {
+        return collection.stream().reduce(Long.MIN_VALUE, Math::max);
+    }
+
     /**
      * Returns a list that contains consecutive {@link List#subList(int, int)}s.
      * Inner lists have the same size, but last is smaller.

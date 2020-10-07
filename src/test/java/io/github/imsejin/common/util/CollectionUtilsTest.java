@@ -1,6 +1,6 @@
 package io.github.imsejin.common.util;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -8,9 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.*;
 
 public class CollectionUtilsTest {
 
@@ -21,7 +19,9 @@ public class CollectionUtilsTest {
         // when
         Map<Integer, String> map1 = CollectionUtils.toMap(list);
         // then
-        map1.forEach((k, v) -> assertThat(v, is(list.get(k))));
+        map1.forEach((k, v) -> assertThat(v)
+                .as("Are origin list's element and converted map's value the same?")
+                .isEqualTo(list.get(k)));
 
         // given
         Set<String> set = new HashSet<>(Arrays.asList("A", "B", "C"));
@@ -37,26 +37,38 @@ public class CollectionUtilsTest {
         // given
         int range = 12_345_678;
         List<Integer> integers = IntStream.range(0, range).boxed().collect(Collectors.toList());
+        int originSize = integers.size();
 
         // when
-        List<List<Integer>> partition = CollectionUtils.partitionBySize(integers, chunkSize);
+        List<List<Integer>> outer = CollectionUtils.partitionBySize(integers, chunkSize);
 
         // then
-        int partitionSize = partition.size();
-        int integerSize = integers.size();
-        boolean modExists = Math.floorMod(integerSize, chunkSize) > 0;
+        int outerSize = outer.size();
+        boolean modExists = Math.floorMod(originSize, chunkSize) > 0;
 
-        for (int i = 0; i < partitionSize; i++) {
-            List<Integer> list = partition.get(i);
+        for (int i = 0; i < outerSize; i++) {
+            List<Integer> inner = outer.get(i);
 
-            if (modExists && i == partitionSize - 1) {
-                assertEquals(list.size(), integerSize % chunkSize);
+            if (modExists && i == outerSize - 1) {
+                assertThat(inner.size()).isEqualTo(Math.floorMod(originSize, chunkSize));
             } else {
-                assertEquals(list.size(), chunkSize);
+                assertThat(inner.size()).isEqualTo(chunkSize);
             }
         }
 
-        System.out.println("partitionBySize(" + range + ", " + chunkSize + ").size() == " + partitionSize);
+        List<List<Integer>> maybeExceptLast = Math.floorMod(originSize, chunkSize) > 0 && Math.floorDiv(originSize, chunkSize) > 0
+                ? outer.subList(0, outerSize - 2)
+                : outer;
+        assertThat(maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::max))
+                .as("#2 Are all sizes of inner lists except last the same?")
+                .isEqualTo(maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::min));
+        assertThat(outer.stream().mapToInt(List::size).sum())
+                .as("#3 Are sum of outer list' size and origin list's size the same?")
+                .isEqualTo(range);
+
+        System.out.println("partitionBySize(" + range + ", " + chunkSize + ").size(): " + outerSize);
+        System.out.println("lastInnerList.size(): " + outer.get(outer.size() - 1).size());
+        System.out.println("others.size(): " + outer.get(0).size());
     }
 
     @ParameterizedTest
@@ -71,14 +83,20 @@ public class CollectionUtilsTest {
         List<List<Integer>> outer = CollectionUtils.partitionByCount(integers, count);
 
         // then
-        assertEquals(outer.size(), count);
+        assertThat(outer.size())
+                .as("#1 Are outer list's size and parameter 'count' the same?")
+                .isEqualTo(count);
         List<List<Integer>> maybeExceptLast = Math.floorMod(originSize, count) > 0
                 ? outer.subList(0, count - 2)
                 : outer;
-        assertEquals(maybeExceptLast.stream().mapToInt(List::size).max().getAsInt(),
-                maybeExceptLast.stream().mapToInt(List::size).min().getAsInt());
+        assertThat(maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::max))
+                .as("#2 Are all sizes of inner lists except last the same?")
+                .isEqualTo(maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::min));
+        assertThat(outer.stream().mapToInt(List::size).sum())
+                .as("#3 Are sum of outer list' size and origin list's size the same?")
+                .isEqualTo(range);
 
-        System.out.println("partitionByCount(" + range + ", " + count + ").size() == " + count);
+        System.out.println("partitionByCount(" + range + ", " + count + ").size(): " + count);
         System.out.println("lastInnerList.size(): " + outer.get(outer.size() - 1).size());
         System.out.println("others.size(): " + outer.get(0).size());
     }

@@ -3,8 +3,8 @@ package io.github.imsejin.common.constant;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DateTypeTest {
 
@@ -29,7 +29,7 @@ class DateTypeTest {
         DateType dateType = DateType.of(pattren).orElse(null);
 
         // then
-        assertEquals(dateType.value(), pattren);
+        assertThat(pattren).isEqualTo(dateType.value());
     }
 
 }
