@@ -5,6 +5,7 @@ import io.github.imsejin.common.model.Human;
 import io.github.imsejin.common.model.Sex;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 
@@ -21,9 +22,9 @@ class ObjectUtilsTest {
         // then
         System.out.println("human: " + human + " / " + human.hashCode());
         System.out.println("clone: " + clone1 + " / " + clone1.hashCode());
-        assertNotSame(human, clone1);
-        assertNotEquals(human.getSex(), clone1.getSex());
-        assertNotEquals(human.getHometown(), clone1.getHometown());
+        assertThat(human).isNotSameAs(clone1);
+        assertThat(human.getSex()).isNotEqualTo(clone1.getSex());
+        assertThat(human.getHometown()).isNotEqualTo(clone1.getHometown());
 
         // given
         Creature creature = new Creature("imsejin", Sex.MALE, 123.12, 99.32) {};
@@ -33,8 +34,8 @@ class ObjectUtilsTest {
         // then
         System.out.println("creature: " + creature + " / " + creature.hashCode());
         System.out.println("clone: " + clone2 + " / " + clone2.hashCode());
-        assertNotSame(creature, clone2);
-        assertNotEquals(creature.getSex(), clone2.getSex());
+        assertThat(creature).isNotSameAs(clone2);
+        assertThat(creature.getSex()).isNotEqualTo(clone2.getSex());
     }
 
 }

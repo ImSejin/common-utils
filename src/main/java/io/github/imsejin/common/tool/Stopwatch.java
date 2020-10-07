@@ -1,8 +1,9 @@
 package io.github.imsejin.common.tool;
 
-import io.github.imsejin.common.util.NumberUtils;
+import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -130,11 +131,10 @@ public final class Stopwatch {
      * and shown up to the millionths(sixth after decimal point).
      *
      * @return the sum of task times
-     * @see NumberUtils#floor(double, int)
+     * @see MathUtils#floor(double, int)
      */
     public double getTotalTime() {
-        double totalTime = convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
-        return NumberUtils.floor(totalTime, 6);
+        return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
     }
 
     /**
@@ -144,8 +144,11 @@ public final class Stopwatch {
      * @see #getTotalTime()
      */
     public String getSummary() {
-        String format = this.timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%.6f";
-        return "Stopwatch: RUNNING_TIME = " + String.format(format, this.getTotalTime()) + " " + getTimeUnitAbbreviation(this.timeUnit);
+        int decimalPlace = this.timeUnit == TimeUnit.NANOSECONDS ? 0 : 6;
+        return "Stopwatch: RUNNING_TIME = " +
+                BigDecimal.valueOf(MathUtils.floor(this.getTotalTime(), decimalPlace)).stripTrailingZeros().toPlainString() +
+                ' ' +
+                getTimeUnitAbbreviation(this.timeUnit);
     }
 
     /**

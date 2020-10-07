@@ -3,7 +3,7 @@ package io.github.imsejin.common.constant;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class OperatingSystemTest {
 
@@ -14,7 +14,7 @@ public class OperatingSystemTest {
         boolean contains = OperatingSystem.contains(keyword);
 
         // then
-        assertTrue(contains);
+        assertThat(contains).isTrue();
     }
 
     @ParameterizedTest
@@ -24,7 +24,7 @@ public class OperatingSystemTest {
         OperatingSystem os = OperatingSystem.of(keyword).orElse(null);
 
         // then
-        assertNotNull(os);
+        assertThat(os).isNotNull();
     }
 
 }

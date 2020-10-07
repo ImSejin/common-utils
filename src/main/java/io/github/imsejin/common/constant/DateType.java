@@ -182,11 +182,8 @@ public enum DateType implements KeyValue {
     }
 
     public static boolean contains(String pattern) {
-        for (DateType dateType : DateType.values()) {
-            if (dateType.pattern.equals(pattern)) return true;
-        }
-
-        return false;
+        return Arrays.stream(DateType.values())
+                .anyMatch(dateType -> dateType.pattern.equals(pattern));
     }
 
     public static Optional<DateType> of(String pattern) {

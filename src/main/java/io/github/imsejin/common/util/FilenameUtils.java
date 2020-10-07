@@ -1,5 +1,6 @@
 package io.github.imsejin.common.util;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 
 /**
@@ -31,9 +32,7 @@ public final class FilenameUtils {
      * @param filename filename
      * @return index of extension separator
      */
-    public static int indexOfExtension(String filename) {
-        if (filename == null) return -1;
-
+    public static int indexOfExtension(@Nonnull String filename) {
         int index = filename.lastIndexOf(EXTENSION_SEPARATOR);
         return index == 0 ? -1 : index;
     }
@@ -54,9 +53,7 @@ public final class FilenameUtils {
      * @param file file
      * @return filename without extension
      */
-    public static String baseName(File file) {
-        if (file == null) return "";
-
+    public static String baseName(@Nonnull File file) {
         String filename = file.getName();
         int index = indexOfExtension(filename);
         return index == -1 ? filename : filename.substring(0, index);
@@ -75,9 +72,7 @@ public final class FilenameUtils {
      * @param file file
      * @return extension name
      */
-    public static String extension(File file) {
-        if (file == null) return "";
-
+    public static String extension(@Nonnull File file) {
         String filename = file.getName();
         int index = indexOfExtension(filename);
         return index == -1 ? "" : filename.substring(index + 1);
@@ -109,7 +104,7 @@ public final class FilenameUtils {
      * @param filename filename that has unallowable characters
      * @return filename in which unallowable characters are replaced with allowable characters
      */
-    public static String replaceUnallowables(String filename) {
+    public static String replaceUnallowables(@Nonnull String filename) {
         return filename.replaceAll("\\\\", "＼")
                 .replaceAll("/", "／")
                 .replaceAll(":", "：")

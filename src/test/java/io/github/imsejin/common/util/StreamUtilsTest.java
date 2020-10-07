@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 class StreamUtilsTest {
 
@@ -21,7 +21,7 @@ class StreamUtilsTest {
         // then
         characters.forEach(c -> System.out.printf("%c, ", c));
         stream = stream.peek(c -> System.out.printf("%c, ", c));
-        assertArrayEquals(stream.toArray(), characters.toArray());
+        assertThat(characters.toArray()).isEqualTo(stream.toArray());
     }
 
 }

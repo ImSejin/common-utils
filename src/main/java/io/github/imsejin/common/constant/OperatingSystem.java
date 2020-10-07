@@ -3,6 +3,7 @@ package io.github.imsejin.common.constant;
 import io.github.imsejin.common.constant.interfaces.KeyValue;
 import io.github.imsejin.common.util.StringUtils;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public enum OperatingSystem implements KeyValue {
@@ -48,19 +49,16 @@ public enum OperatingSystem implements KeyValue {
      */
     private final Set<String> keywords;
 
-    OperatingSystem(Set<String> keywords) {
+    OperatingSystem(@Nonnull Set<String> keywords) {
         this.keywords = Collections.unmodifiableSet(keywords);
     }
 
-    public static boolean contains(String keyword) {
-        for (OperatingSystem os : OperatingSystem.values()) {
-            if (os.keywords.contains(keyword)) return true;
-        }
-
-        return false;
+    public static boolean contains(@Nonnull String osName) {
+        return Arrays.stream(OperatingSystem.values())
+                .anyMatch(os -> StringUtils.anyContains(osName, os.keywords));
     }
 
-    public static Optional<OperatingSystem> of(String osName) {
+    public static Optional<OperatingSystem> of(@Nonnull String osName) {
         return Arrays.stream(OperatingSystem.values())
                 .filter(os -> StringUtils.anyContains(osName, os.keywords))
                 .findFirst();
