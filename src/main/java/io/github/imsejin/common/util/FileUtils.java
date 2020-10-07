@@ -29,14 +29,7 @@ public final class FileUtils {
      * @return file's creation time
      */
     public static LocalDateTime getCreationTime(@Nonnull File file) {
-        BasicFileAttributes attributes;
-        try {
-            attributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        FileTime time = attributes.creationTime();
+        FileTime time = getFileAttributes(file).creationTime();
         return LocalDateTime.ofInstant(time.toInstant(), ZoneId.systemDefault());
     }
 
@@ -58,6 +51,20 @@ public final class FileUtils {
         dir.mkdir();
 
         return dir;
+    }
+
+    /**
+     * Returns attributes of file.
+     *
+     * @param file file
+     * @return file's attributes
+     */
+    public static BasicFileAttributes getFileAttributes(@Nonnull File file) {
+        try {
+            return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
