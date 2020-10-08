@@ -278,11 +278,17 @@ public final class StringUtils {
     /**
      * Returns the number of strings to be found at origin string.
      *
+     * <p> If you input empty string as keyword,
+     * this returns length of the origin string.
+     *
      * @param origin  origin string
      * @param keyword string to be found
      * @return count of inclusions
      */
     public static int countOf(@Nonnull String origin, @Nonnull String keyword) {
+        // If don't, will go into infinite loop.
+        if (keyword.isEmpty()) return origin.length();
+
         int keywordLen = keyword.length();
         int count = 0;
 
