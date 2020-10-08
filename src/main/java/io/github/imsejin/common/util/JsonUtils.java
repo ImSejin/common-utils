@@ -54,7 +54,7 @@ public final class JsonUtils {
     }
 
     /**
-     * Converts all characters read by {@link java.io.Reader} to string.
+     * Converts all characters read by {@link java.io.BufferedReader} to string.
      *
      * @param reader reader
      * @return JSON string
@@ -73,7 +73,7 @@ public final class JsonUtils {
      *
      * @param jsonText JSON string
      * @param clazz    type
-     * @param <T>      type parameter
+     * @param <T>      any type
      * @return type casted instance
      */
     public static <T> T toObject(String jsonText, Class<T> clazz) {
@@ -93,7 +93,7 @@ public final class JsonUtils {
      *
      * @param jsonArray JSON array
      * @param clazz     type
-     * @param <T>       type parameter
+     * @param <T>       any type
      * @return list that has type casted instances
      */
     public static <T> List<T> toList(@Nonnull JsonArray jsonArray, Class<T> clazz) {
