@@ -117,7 +117,9 @@ class StringUtilsTest {
         String reversed = StringUtils.reverse(str);
 
         // then
-        assertThat(reversed).isEqualTo(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi");
+        assertThat(reversed)
+                .isEqualTo(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi");
+    }
 
     @ParameterizedTest
     @ValueSource(strings = {"lorem", "ipsum", "is", "simply", "dummy", "text",

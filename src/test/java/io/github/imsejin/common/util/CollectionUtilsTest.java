@@ -66,9 +66,9 @@ public class CollectionUtilsTest {
                 .as("#3 Are sum of outer list' size and origin list's size the same?")
                 .isEqualTo(range);
 
-        System.out.println("partitionBySize(" + range + ", " + chunkSize + ").size(): " + outerSize);
-        System.out.println("lastInnerList.size(): " + outer.get(outer.size() - 1).size());
-        System.out.println("others.size(): " + outer.get(0).size());
+        System.out.printf("partitionBySize(%d, %d).size(): %d\n", range, chunkSize, chunkSize);
+        System.out.printf("lastInnerList.size(): %d\n", outer.get(outer.size() - 1).size());
+        System.out.printf("others.size(): %d\n", outer.get(0).size());
     }
 
     @ParameterizedTest
@@ -96,9 +96,9 @@ public class CollectionUtilsTest {
                 .as("#3 Are sum of outer list' size and origin list's size the same?")
                 .isEqualTo(range);
 
-        System.out.println("partitionByCount(" + range + ", " + count + ").size(): " + count);
-        System.out.println("lastInnerList.size(): " + outer.get(outer.size() - 1).size());
-        System.out.println("others.size(): " + outer.get(0).size());
+        System.out.printf("partitionByCount(%d, %d).size(): %d\n", range, count, count);
+        System.out.printf("lastInnerList.size(): %d\n", outer.get(outer.size() - 1).size());
+        System.out.printf("others.size(): %d\n", outer.get(0).size());
     }
 
 }

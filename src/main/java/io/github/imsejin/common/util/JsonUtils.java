@@ -41,13 +41,11 @@ public final class JsonUtils {
      * @return JSON object
      */
     public static JsonObject readJsonFromUrl(@Nonnull URL url) {
-        BufferedReader reader;
         String jsonText;
 
-        try {
-            reader = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                url.openStream(), StandardCharsets.UTF_8))) {
             jsonText = readAllJson(reader);
-            reader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -29,49 +29,49 @@ public class StopwatchTest {
 
         // then
         assertThat(totalTime)
-                .as("total time with nanoseconds unit")
+                .as("#1 Total time with nanoseconds unit")
                 .isEqualTo(stopwatch.getTotalTime());
         System.out.println(BigDecimal.valueOf(stopwatch.getTotalTime()).stripTrailingZeros().toPlainString() + " ns");
 
         stopwatch.setTimeUnit(TimeUnit.MICROSECONDS);
         double us = MathUtils.floor(totalTime / 1_000, 6);
         assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("total time with microseconds unit")
+                .as("#2 Total time with microseconds unit")
                 .isEqualTo(us);
         System.out.println(BigDecimal.valueOf(us).stripTrailingZeros().toPlainString() + " μs");
 
         stopwatch.setTimeUnit(TimeUnit.MILLISECONDS);
         double ms = MathUtils.floor(totalTime / 1_000_000, 6);
         assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("total time with milliseconds unit")
+                .as("#3 Total time with milliseconds unit")
                 .isEqualTo(ms);
         System.out.println(BigDecimal.valueOf(ms).stripTrailingZeros().toPlainString() + " ms");
 
         stopwatch.setTimeUnit(TimeUnit.SECONDS);
         double sec = MathUtils.floor(totalTime / 1_000_000_000, 6);
         assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("total time with seconds unit")
+                .as("#4 Total time with seconds unit")
                 .isEqualTo(sec);
         System.out.println(BigDecimal.valueOf(sec).stripTrailingZeros().toPlainString() + " sec");
 
         stopwatch.setTimeUnit(TimeUnit.MINUTES);
         double min = MathUtils.floor(totalTime / 1_000_000_000 / 60, 6);
         assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("total time with minutes unit")
+                .as("#5 Total time with minutes unit")
                 .isEqualTo(min);
         System.out.println(BigDecimal.valueOf(min).stripTrailingZeros().toPlainString() + " min");
 
         stopwatch.setTimeUnit(TimeUnit.HOURS);
         double hrs = MathUtils.floor(totalTime / 1_000_000_000 / 60 / 60, 6);
         assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("total time with hours unit")
+                .as("#6 Total time with hours unit")
                 .isEqualTo(hrs);
         System.out.println(BigDecimal.valueOf(hrs).stripTrailingZeros().toPlainString() + " hrs");
 
         stopwatch.setTimeUnit(TimeUnit.DAYS);
         double days = MathUtils.floor(totalTime / 1_000_000_000 / 60 / 60 / 24, 6);
         assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("total time with days unit")
+                .as("#7 Total time with days unit")
                 .isEqualTo(days);
         System.out.println(BigDecimal.valueOf(days).stripTrailingZeros().toPlainString() + " days");
     }
