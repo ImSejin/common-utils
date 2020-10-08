@@ -468,4 +468,14 @@ public final class StringUtils {
         return containees.stream().anyMatch(container::contains);
     }
 
+    /**
+     * Removes last characters in the string.
+     *
+     * @param str string
+     * @return chopped string
+     */
+    public static String chop(@Nonnull String str) {
+        return str.isEmpty() ? str : str.substring(0, str.length() - 2);
+    }
+
 }

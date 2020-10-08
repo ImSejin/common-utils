@@ -118,6 +118,19 @@ class StringUtilsTest {
 
         // then
         assertThat(reversed).isEqualTo(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi");
+
+    @ParameterizedTest
+    @ValueSource(strings = {"lorem", "ipsum", "is", "simply", "dummy", "text",
+            "of", "the", "printing", "and", "typesetting", "industry", ""})
+    void chop(String str) {
+        // when
+        String actual = StringUtils.chop(str);
+
+        // then
+        assertThat(actual)
+                .as("Removes last character")
+                .isEqualTo(StringUtils.isNullOrEmpty(str) ? "" : str.substring(0, str.length() - 2));
+        System.out.printf("chop(\"%s\"): \"%s\"\n", str, actual);
     }
 
 }
