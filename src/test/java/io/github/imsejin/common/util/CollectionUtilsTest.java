@@ -1,10 +1,10 @@
 package io.github.imsejin.common.util;
 
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -12,23 +12,22 @@ import static org.assertj.core.api.Assertions.*;
 
 public class CollectionUtilsTest {
 
-    @Test
-    public void toMap() {
+    @ParameterizedTest
+    @ValueSource(strings = {"lorem", "ipsum", "is", "simply", "dummy", "text",
+            "of", "the", "printing", "and", "typesetting", "industry"})
+    public void toMap(String word) {
         // given
-        List<String> list = Arrays.asList("A", "B", "C");
-        // when
-        Map<Integer, String> map1 = CollectionUtils.toMap(list);
-        // then
-        map1.forEach((k, v) -> assertThat(v)
-                .as("Are origin list's element and converted map's value the same?")
-                .isEqualTo(list.get(k)));
+        List<Character> list = word.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
 
-        // given
-        Set<String> set = new HashSet<>(Arrays.asList("A", "B", "C"));
         // when
-        Map<Integer, String> map2 = CollectionUtils.toMap(set);
+        Map<Integer, Character> map = CollectionUtils.toMap(list);
+
         // then
-        map2.forEach((k, v) -> System.out.println(k + ":" + v));
+        map.entrySet().stream()
+                .peek(it -> System.out.printf("%d: %s\n", it.getKey(), it.getValue()))
+                .forEach(it -> assertThat(it.getValue())
+                        .as("Are origin list's element and converted map's value the same?")
+                        .isEqualTo(list.get(it.getKey())));
     }
 
     @ParameterizedTest
