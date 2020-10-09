@@ -21,7 +21,9 @@ class MathUtilsTest {
             BigInteger result = MathUtils.fibonacci(input[i]);
 
             // then
-            assertThat(result.toString()).isEqualTo(expected[i]);
+            assertThat(result.toString())
+                    .as("Gets fibonacci's number")
+                    .isEqualTo(expected[i]);
         }
     }
 
@@ -36,7 +38,9 @@ class MathUtilsTest {
             BigInteger result = MathUtils.factorial(input[i]);
 
             // then
-            assertThat(result.toString()).isEqualTo(expected[i]);
+            assertThat(result.toString())
+                    .as("Gets factorial")
+                    .isEqualTo(expected[i]);
         }
     }
 
@@ -63,31 +67,57 @@ class MathUtilsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {1.248458248, 0.1575153545, 854.0912738218, 97234.10398570893174})
+    @ValueSource(doubles = {0.1575153545, 1.248458248, 854.0812738218, 97234.10398570893174})
     void ceil(double amount) {
         // when
         int len = 1;
-        double result = MathUtils.ceil(amount, len);
+        double actual = MathUtils.ceil(amount, len);
 
         // then
         String expected = String.valueOf(amount);
         expected = expected.substring(0, expected.indexOf('.') + len + 1);
         String[] strings = expected.split("\\.");
         expected = strings[0] + '.' + (Integer.parseInt(strings[1]) + 1);
-        assertThat(expected).isEqualTo(String.valueOf(result));
+        assertThat(String.valueOf(actual))
+                .as("Ceil decimal")
+                .isEqualTo(expected);
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {1.248458248, 0.1575153545, 854.0912738218, 97234.10398570893174})
+    @ValueSource(doubles = {0.1575153545, 1.248458248, 854.0812738218, 97234.10398570893174})
+    void round(double amount) {
+        // when
+        int len = 2;
+        double actual = MathUtils.round(amount, len);
+
+        // then
+        String[] split = String.valueOf(amount).split("\\.");
+        String integerPart = split[0];
+        String decimalPart = StringUtils.match("^\\d{" + (len + 1) + "}", split[1]);
+        int lastDigit = Integer.parseInt(StringUtils.getLastString(decimalPart));
+        decimalPart = StringUtils.chop(decimalPart);
+        if (lastDigit > 4) {
+            decimalPart = StringUtils.chop(decimalPart) + (Integer.parseInt(StringUtils.getLastString(decimalPart)) + 1);
+        }
+        String expected = (integerPart + '.' + decimalPart).replaceAll("0+$", "");
+        assertThat(String.valueOf(actual))
+                .as("Selectively ceil or floor decimal")
+                .isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {0.1575153545, 1.248458248, 854.0812738218, 97234.10398570893174})
     void floor(double amount) {
         // when
         int len = 6;
-        double result = MathUtils.floor(amount, len);
+        double actual = MathUtils.floor(amount, len);
 
         // then
         String expected = String.valueOf(amount);
         expected = expected.substring(0, expected.indexOf('.') + len + 1);
-        assertThat(expected).isEqualTo(String.valueOf(result));
+        assertThat(String.valueOf(actual))
+                .as("Floor decimal")
+                .isEqualTo(expected);
     }
 
 }
