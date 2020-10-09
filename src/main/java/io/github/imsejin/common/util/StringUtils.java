@@ -484,4 +484,8 @@ public final class StringUtils {
         return str.isEmpty() ? str : str.substring(0, str.length() - 1);
     }
 
+    public static String getLastString(@Nonnull String str) {
+        return str.isEmpty() ? str : String.valueOf(str.charAt(str.length() - 1));
+    }
+
 }
