@@ -125,7 +125,7 @@ class StringUtilsTest {
         // then
         assertThat(actual)
                 .as("Removes last character")
-                .isEqualTo(StringUtils.isNullOrEmpty(str) ? "" : str.substring(0, str.length() - 2));
+                .isEqualTo(StringUtils.isNullOrEmpty(str) ? "" : str.substring(0, str.length() - 1));
         System.out.printf("chop(\"%s\"): \"%s\"\n", str, actual);
     }
 

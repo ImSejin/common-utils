@@ -481,7 +481,7 @@ public final class StringUtils {
      * @return chopped string
      */
     public static String chop(@Nonnull String str) {
-        return str.isEmpty() ? str : str.substring(0, str.length() - 2);
+        return str.isEmpty() ? str : str.substring(0, str.length() - 1);
     }
 
 }
