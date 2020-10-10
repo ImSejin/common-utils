@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static org.assertj.core.api.Assertions.*;
@@ -74,13 +75,10 @@ class MathUtilsTest {
         double actual = MathUtils.ceil(amount, len);
 
         // then
-        String expected = String.valueOf(amount);
-        expected = expected.substring(0, expected.indexOf('.') + len + 1);
-        String[] strings = expected.split("\\.");
-        expected = strings[0] + '.' + (Integer.parseInt(strings[1]) + 1);
+        BigDecimal decimal = BigDecimal.valueOf(amount).setScale(len, BigDecimal.ROUND_UP);
         assertThat(String.valueOf(actual))
                 .as("Ceil decimal")
-                .isEqualTo(expected);
+                .isEqualTo(decimal.stripTrailingZeros().toPlainString());
     }
 
     @ParameterizedTest
@@ -91,18 +89,10 @@ class MathUtilsTest {
         double actual = MathUtils.round(amount, len);
 
         // then
-        String[] split = String.valueOf(amount).split("\\.");
-        String integerPart = split[0];
-        String decimalPart = StringUtils.match("^\\d{" + (len + 1) + "}", split[1]);
-        int lastDigit = Integer.parseInt(StringUtils.getLastString(decimalPart));
-        decimalPart = StringUtils.chop(decimalPart);
-        if (lastDigit > 4) {
-            decimalPart = StringUtils.chop(decimalPart) + (Integer.parseInt(StringUtils.getLastString(decimalPart)) + 1);
-        }
-        String expected = (integerPart + '.' + decimalPart).replaceAll("0+$", "");
+        BigDecimal decimal = BigDecimal.valueOf(amount).setScale(len, BigDecimal.ROUND_HALF_UP);
         assertThat(String.valueOf(actual))
                 .as("Selectively ceil or floor decimal")
-                .isEqualTo(expected);
+                .isEqualTo(decimal.stripTrailingZeros().toPlainString());
     }
 
     @ParameterizedTest
@@ -113,11 +103,10 @@ class MathUtilsTest {
         double actual = MathUtils.floor(amount, len);
 
         // then
-        String expected = String.valueOf(amount);
-        expected = expected.substring(0, expected.indexOf('.') + len + 1);
+        BigDecimal decimal = BigDecimal.valueOf(amount).setScale(len, BigDecimal.ROUND_DOWN);
         assertThat(String.valueOf(actual))
                 .as("Floor decimal")
-                .isEqualTo(expected);
+                .isEqualTo(decimal.stripTrailingZeros().toPlainString());
     }
 
 }
