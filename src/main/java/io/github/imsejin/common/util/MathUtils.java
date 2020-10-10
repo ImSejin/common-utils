@@ -37,7 +37,7 @@ public final class MathUtils {
      */
     public static int gcd(int a, int b) {
         if (b == 0) return a;
-        return gcd(b, a % b);
+        return gcd(b, Math.floorMod(a, b));
     }
 
     public static boolean isPrime(int number) {

@@ -278,11 +278,17 @@ public final class StringUtils {
     /**
      * Returns the number of strings to be found at origin string.
      *
+     * <p> If you input empty string as keyword,
+     * this returns length of the origin string.
+     *
      * @param origin  origin string
      * @param keyword string to be found
      * @return count of inclusions
      */
     public static int countOf(@Nonnull String origin, @Nonnull String keyword) {
+        // If don't, will go into infinite loop.
+        if (keyword.isEmpty()) return origin.length();
+
         int keywordLen = keyword.length();
         int count = 0;
 
@@ -466,6 +472,20 @@ public final class StringUtils {
      */
     public static boolean anyContains(@Nonnull String container, @Nonnull Collection<String> containees) {
         return containees.stream().anyMatch(container::contains);
+    }
+
+    /**
+     * Removes last characters in the string.
+     *
+     * @param str string
+     * @return chopped string
+     */
+    public static String chop(@Nonnull String str) {
+        return str.isEmpty() ? str : str.substring(0, str.length() - 1);
+    }
+
+    public static String getLastString(@Nonnull String str) {
+        return str.isEmpty() ? str : String.valueOf(str.charAt(str.length() - 1));
     }
 
 }
