@@ -5,7 +5,9 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -113,6 +115,41 @@ class StringUtilsTest {
         // then
         assertThat(reversed)
                 .isEqualTo(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi");
+    }
+
+    @Test
+    void find() {
+        // given
+        String textContent = "alpha";
+        String src = String.format("<div>%s</div>", textContent);
+        String regex = ">(.*)<\\/";
+
+        // when
+        String actual = StringUtils.find(src, regex, 1);
+
+        // then
+        assertThat(actual).isEqualTo(textContent);
+    }
+
+    @Test
+    void findWithGroups() {
+        // given
+        String src = "ST_총수 - 최종편 - 정기영, 백승훈 [完]";
+        String regex = "^(.+)_(.+) - ([^-]+).{4}?$";
+
+        // when
+        Map<Integer, String> match = StringUtils.find(src, regex, Pattern.MULTILINE, 1, 2, 3);
+
+        // then
+        assertThat(match.get(1))
+                .as("#1 group")
+                .isEqualTo("ST");
+        assertThat(match.get(2))
+                .as("#2 group")
+                .isEqualTo("총수 - 최종편");
+        assertThat(match.get(3))
+                .as("#3 group")
+                .isEqualTo("정기영, 백승훈");
     }
 
     @ParameterizedTest

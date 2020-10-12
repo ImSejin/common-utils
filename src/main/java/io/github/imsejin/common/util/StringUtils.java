@@ -4,6 +4,8 @@ import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -448,19 +450,53 @@ public final class StringUtils {
         return String.join("", Collections.nCopies(cnt, String.valueOf(c)));
     }
 
-    public static String match(@Nonnull String regex, @Nonnull String src) {
-        return match(regex, src, 0);
-    }
-
-    public static String match(@Nonnull String regex, @Nonnull String src, int groupNo) {
+    /**
+     * Finds the captured string with regular expression.
+     *
+     * <pre>{@code
+     *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // div
+     * }</pre>
+     *
+     * @param src   source string
+     * @param regex regular expression
+     * @param group group number you want to get value of
+     * @return captured string
+     */
+    public static String find(@Nonnull String src, @Nonnull String regex, int group) {
         Matcher matcher = Pattern.compile(regex, Pattern.MULTILINE).matcher(src);
 
-        String matched = null;
+        String result = null;
         while (matcher.find()) {
-            matched = matcher.group(groupNo);
+            result = matcher.group(group);
         }
 
-        return matched;
+        return result;
+    }
+
+    /**
+     * Finds the captured strings with regular expression.
+     *
+     * <pre>{@code
+     *     find("<div>A</div>", "<.+>(.*)<\/(.+)>", Pattern.MULTILINE, 1, 2); // {1: "A", 2: "div"}
+     * }</pre>
+     *
+     * @param src    source string
+     * @param regex  regular expression
+     * @param flags  regular flags
+     * @param groups group numbers you want to get value of
+     * @return map whose key is group number and whose value is a captured string.
+     */
+    public static Map<Integer, String> find(@Nonnull String src, @Nonnull String regex, int flags, int... groups) {
+        Matcher matcher = Pattern.compile(regex, flags).matcher(src);
+
+        Map<Integer, String> result = new HashMap<>();
+        while (matcher.find()) {
+            for (int group : groups) {
+                result.put(group, matcher.group(group));
+            }
+        }
+
+        return result;
     }
 
     /**
