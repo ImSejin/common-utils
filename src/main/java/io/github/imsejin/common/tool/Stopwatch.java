@@ -102,6 +102,22 @@ public final class Stopwatch {
     }
 
     /**
+     * Starts to run {@link Stopwatch}.
+     *
+     * <p> Sets up task name of current task.
+     *
+     * @param format format string as current task name
+     * @param args   arguments
+     */
+    public void start(@Nonnull String format, Object... args) {
+        if (format == null) throw new IllegalArgumentException("Task name cannot be null");
+        if (isRunning()) throw new RuntimeException("Stopwatch is already running");
+
+        this.currentTaskName = String.format(format, args);
+        this.startNanoTime = System.nanoTime();
+    }
+
+    /**
      * Stops the {@link Stopwatch} running.
      *
      * <p> Current task will be saved and closed.
