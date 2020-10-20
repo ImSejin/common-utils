@@ -17,10 +17,33 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Stopwatch {
 
+    /**
+     * Recorded tasks.
+     *
+     * <p> These are only added, not removed and sorted.
+     */
     private final List<Task> tasks = new ArrayList<>();
+
+    /**
+     * Start nano time for a task.
+     */
     private long startNanoTime;
+
+    /**
+     * Total nano time for all tasks.
+     */
     private long totalNanoTime;
+
+    /**
+     * Name of currently running task.
+     */
     private String currentTaskName;
+
+    /**
+     * Time unit for task time to be printed or returned.
+     *
+     * <p> Default is {@link TimeUnit#NANOSECONDS}.
+     */
     private TimeUnit timeUnit = TimeUnit.NANOSECONDS;
 
     /**
