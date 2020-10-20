@@ -1,11 +1,12 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.tool.Stopwatch;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -164,6 +165,48 @@ class StringUtilsTest {
                 .as("Removes last character")
                 .isEqualTo(StringUtils.isNullOrEmpty(str) ? "" : str.substring(0, str.length() - 1));
         System.out.printf("chop(\"%s\"): \"%s\"\n", str, actual);
+    }
+
+    @Test
+    void test() {
+        Stopwatch stopwatch = new Stopwatch(TimeUnit.MILLISECONDS);
+
+        // given
+        final List<String> strings = Arrays.asList(LOREM_IPSUM.split(""));
+
+        // when #1
+        stopwatch.start("ArrayList: %,d", strings.size());
+        List<String> arrayList = new ArrayList<>(strings);
+        arrayList.removeAll(strings);
+        stopwatch.stop();
+        assertThat(arrayList)
+                .as("#1 ArrayList.removeAll(Collection)")
+                .isNotNull()
+                .isEmpty();
+
+        // when #2
+        stopwatch.start("LinkedList: %,d", strings.size());
+        List<String> linkedList = new LinkedList<>(strings);
+        linkedList.removeAll(strings);
+        stopwatch.stop();
+        assertThat(linkedList)
+                .as("#2 LinkedList.removeAll(Collection)")
+                .isNotNull()
+                .isEmpty();
+
+        // when #3
+        Set<String> set = new HashSet<>(strings);
+        stopwatch.start("HashSet: %,d", set.size());
+        HashSet<String> hashSet = new HashSet<>(strings);
+        hashSet.removeAll(strings);
+        stopwatch.stop();
+        assertThat(hashSet)
+                .as("#3 HashSet.removeAll(Collection)")
+                .isNotNull()
+                .isEmpty();
+
+        // then
+        System.out.println(stopwatch.getStatistics());
     }
 
 }
