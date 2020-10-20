@@ -16,9 +16,9 @@ public final class CollectionUtils {
      * Checks whether the collection is null or empty.
      *
      * <pre>{@code
-     *     isNullOrEmpty(null)      // true
-     *     isNullOrEmpty([])        // true
-     *     isNullOrEmpty([5, 6])    // false
+     *     isNullOrEmpty(null);     // true
+     *     isNullOrEmpty([]);       // true
+     *     isNullOrEmpty([5, 6]);   // false
      * }</pre>
      *
      * @param collection collection
@@ -40,9 +40,9 @@ public final class CollectionUtils {
      * Checks whether the collection exists or not.
      *
      * <pre>{@code
-     *     exists(null)      // false
-     *     exists([])        // false
-     *     exists([5, 6])    // true
+     *     exists(null);    // false
+     *     exists([]);      // false
+     *     exists([5, 6]);  // true
      * }</pre>
      *
      * @param collection collection

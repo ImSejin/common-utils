@@ -26,7 +26,7 @@ public final class Stopwatch {
     /**
      * Returns {@link Stopwatch} that is set with default {@link TimeUnit}.
      *
-     * <p> Default timeUnit is {@link TimeUnit#NANOSECONDS}.
+     * <p> Default time unit is {@link TimeUnit#NANOSECONDS}.
      */
     public Stopwatch() {
     }
@@ -180,7 +180,7 @@ public final class Stopwatch {
     public String getStatistics() {
         double totalTime = getTotalTime();
 
-        // Sets up task time and percentage to each tasks.
+        // Sets up task time and percentage to each task.
         for (Task task : this.tasks) {
             double taskTime = convertTimeUnit(task.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
             task.setTaskTime(taskTime);
