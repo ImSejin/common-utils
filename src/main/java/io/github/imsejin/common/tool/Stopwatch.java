@@ -3,6 +3,7 @@ package io.github.imsejin.common.tool;
 import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
 
+import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,7 +36,7 @@ public final class Stopwatch {
      *
      * @param timeUnit time unit
      */
-    public Stopwatch(TimeUnit timeUnit) {
+    public Stopwatch(@Nonnull TimeUnit timeUnit) {
         if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
         this.timeUnit = timeUnit;
     }
@@ -72,7 +73,7 @@ public final class Stopwatch {
      *
      * @param timeUnit time unit
      */
-    public void setTimeUnit(TimeUnit timeUnit) {
+    public void setTimeUnit(@Nonnull TimeUnit timeUnit) {
         if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
         this.timeUnit = timeUnit;
     }
@@ -93,7 +94,7 @@ public final class Stopwatch {
      *
      * @param taskName current task name
      */
-    public void start(String taskName) {
+    public void start(@Nonnull String taskName) {
         if (taskName == null) throw new IllegalArgumentException("Task name cannot be null");
         if (isRunning()) throw new RuntimeException("Stopwatch is already running");
 
