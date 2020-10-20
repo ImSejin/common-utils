@@ -190,11 +190,9 @@ public final class Stopwatch {
             task.setPercentage(percentage);
         }
 
-        int timeUnitIndex = this.tasks.stream()
-                .map(task -> task.totalTime)
-                .max(Comparator.comparingInt(String::length))
-                .orElse("")
-                .length();
+        final int timeUnitIndex = this.tasks.stream()
+                .map(task -> task.totalTime.length())
+                .reduce(0, Math::max);
         String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", getTimeUnitAbbreviation(this.timeUnit));
 
         for (Task task : this.tasks) {
