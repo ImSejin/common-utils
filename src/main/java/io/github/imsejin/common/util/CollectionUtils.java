@@ -3,6 +3,9 @@ package io.github.imsejin.common.util;
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Collection utilities
@@ -24,16 +27,48 @@ public final class CollectionUtils {
      * @param collection collection
      * @return whether the collection is null or empty
      */
-    public static <T> boolean isNullOrEmpty(Collection<T> collection) {
+    public static boolean isNullOrEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
 
-    public static <T> Collection<T> ifNullOrEmpty(Collection<T> collection, Collection<T> defaultCollection) {
-        return isNullOrEmpty(collection) ? defaultCollection : collection;
+    /**
+     * Checks whether the map is null or empty.
+     *
+     * <pre>{@code
+     *     isNullOrEmpty(null);     // true
+     *     isNullOrEmpty({});       // true
+     *     isNullOrEmpty({a: 5});   // false
+     * }</pre>
+     *
+     * @param map map
+     * @return whether the map is null or empty
+     */
+    public static boolean isNullOrEmpty(Map<?, ?> map) {
+        return map == null || map.isEmpty();
     }
 
-    public static <T> Collection<T> ifNullOrEmpty(Collection<T> collection, @Nonnull Supplier<Collection<T>> supplier) {
-        return isNullOrEmpty(collection) ? supplier.get() : collection;
+    public static <E> List<E> ifNullOrEmpty(List<E> list, List<E> defaultList) {
+        return isNullOrEmpty(list) ? defaultList : list;
+    }
+
+    public static <E> Set<E> ifNullOrEmpty(Set<E> set, Set<E> defaultSet) {
+        return isNullOrEmpty(set) ? defaultSet : set;
+    }
+
+    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, Map<K, V> defaultMap) {
+        return isNullOrEmpty(map) ? defaultMap : map;
+    }
+
+    public static <E> List<E> ifNullOrEmpty(List<E> list, @Nonnull Supplier<List<E>> supplier) {
+        return isNullOrEmpty(list) ? supplier.get() : list;
+    }
+
+    public static <E> Set<E> ifNullOrEmpty(Set<E> set, @Nonnull Supplier<Set<E>> supplier) {
+        return isNullOrEmpty(set) ? supplier.get() : set;
+    }
+
+    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, @Nonnull Supplier<Map<K, V>> supplier) {
+        return isNullOrEmpty(map) ? supplier.get() : map;
     }
 
     /**
