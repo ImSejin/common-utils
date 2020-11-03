@@ -180,9 +180,11 @@ public final class Stopwatch {
      * and shown up to the millionths(sixth after decimal point).
      *
      * @return the sum of task times
+     * @throws RuntimeException if stopwatch has never been stopped
      * @see MathUtils#floor(double, int)
      */
     public double getTotalTime() {
+        if (hasNeverBeenStopped()) throw new RuntimeException("Stopwatch has never been stopped");
         return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
     }
 
