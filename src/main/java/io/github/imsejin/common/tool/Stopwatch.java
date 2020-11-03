@@ -165,6 +165,15 @@ public final class Stopwatch {
     }
 
     /**
+     * Checks if {@link Stopwatch} has never been stopped.
+     *
+     * @return whether {@link Stopwatch} has never been stopped.
+     */
+    public boolean hasNeverBeenStopped() {
+        return this.tasks.isEmpty();
+    }
+
+    /**
      * Returns the sum of the elapsed time of all saved tasks.
      *
      * <p> This total time will be converted with {@link Stopwatch}'s {@link TimeUnit}
