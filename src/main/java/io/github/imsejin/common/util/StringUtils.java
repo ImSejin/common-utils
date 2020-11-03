@@ -1,11 +1,9 @@
 package io.github.imsejin.common.util;
 
 import javax.annotation.Nonnull;
-import java.text.DecimalFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.text.NumberFormat;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -333,22 +331,6 @@ public final class StringUtils {
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
      * <pre>{@code
-     *     formatComma("");         // 0
-     *     formatComma("-100");     // -100
-     *     formatComma("100000");   // 100,000
-     * }</pre>
-     *
-     * @param amount amount number
-     * @return formatted number with comma
-     */
-    public static String formatComma(String amount) {
-        return new DecimalFormat("###,###,###,###,###,###,###").format(amount);
-    }
-
-    /**
-     * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
-     *
-     * <pre>{@code
      *     formatComma(0);      // 0
      *     formatComma(-100);   // -100
      *     formatComma(100000); // 100,000
@@ -358,7 +340,23 @@ public final class StringUtils {
      * @return formatted number with comma
      */
     public static String formatComma(long amount) {
-        return new DecimalFormat("###,###,###,###,###,###,###").format(amount);
+        return NumberFormat.getInstance(Locale.US).format(amount);
+    }
+
+    /**
+     * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
+     *
+     * <pre>{@code
+     *     formatComma("");       // 0
+     *     formatComma("-100");   // -100
+     *     formatComma("100000"); // 100,000
+     * }</pre>
+     *
+     * @param amount amount number
+     * @return formatted number with comma
+     */
+    public static String formatComma(String amount) {
+        return NumberFormat.getInstance(Locale.US).format(Long.parseLong(amount));
     }
 
     /**

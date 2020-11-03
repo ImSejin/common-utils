@@ -1,11 +1,11 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.tool.Stopwatch;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -207,6 +207,30 @@ class StringUtilsTest {
 
         // then
         System.out.println(stopwatch.getStatistics());
+    }
+
+    @ParameterizedTest
+    @ValueSource(longs = {Long.MIN_VALUE, 0L, Long.MAX_VALUE})
+    void formatComma1(long amount) {
+        // when
+        String actual = StringUtils.formatComma(amount);
+
+        // then
+        assertThat(actual.replace(",", ""))
+                .as("Format comma with long value")
+                .isEqualTo(String.valueOf(amount));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {Long.MIN_VALUE + "", "0", Long.MAX_VALUE + ""})
+    void formatComma2(String amount) {
+        // when
+        String actual = StringUtils.formatComma(amount);
+
+        // then
+        assertThat(actual.replace(",", ""))
+                .as("Format comma with numeric string")
+                .isEqualTo(amount);
     }
 
 }
