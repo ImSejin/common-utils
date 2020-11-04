@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -111,11 +110,18 @@ class StringUtilsTest {
         String str = "io.github.imsejin.common.util.StringUtils#reverse(String)";
 
         // when
-        String reversed = StringUtils.reverse(str);
+        String actual = StringUtils.reverse(str);
 
         // then
-        assertThat(reversed)
-                .isEqualTo(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi");
+        char[] chars = str.toCharArray();
+        char[] expected = new char[chars.length];
+        for (int i = 0; i < chars.length; i++) {
+            expected[i] = chars[chars.length - (i + 1)];
+        }
+
+        assertThat(actual)
+                .as("Reverses each character's position")
+                .isEqualTo(new String(expected));
     }
 
     @Test
@@ -217,7 +223,7 @@ class StringUtilsTest {
 
         // then
         assertThat(actual.replace(",", ""))
-                .as("Format comma with long value")
+                .as("Formats comma with long value")
                 .isEqualTo(String.valueOf(amount));
     }
 
@@ -229,7 +235,7 @@ class StringUtilsTest {
 
         // then
         assertThat(actual.replace(",", ""))
-                .as("Format comma with numeric string")
+                .as("Formats comma with numeric string")
                 .isEqualTo(amount);
     }
 
