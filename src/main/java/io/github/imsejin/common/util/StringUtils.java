@@ -460,6 +460,7 @@ public final class StringUtils {
      * @param group group number you want to get value of
      * @return captured string
      */
+    @Nullable
     public static String find(@Nonnull String src, @Nonnull String regex, int group) {
         Matcher matcher = Pattern.compile(regex, Pattern.MULTILINE).matcher(src);
 

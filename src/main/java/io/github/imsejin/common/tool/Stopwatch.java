@@ -6,7 +6,6 @@ import io.github.imsejin.common.util.StringUtils;
 import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -256,7 +255,7 @@ public final class Stopwatch {
         private String totalTime;
         private String percentage;
 
-        public Task(long totalNanoTime, String name) {
+        private Task(long totalNanoTime, String name) {
             this.totalNanoTime = totalNanoTime;
             this.name = name;
         }
