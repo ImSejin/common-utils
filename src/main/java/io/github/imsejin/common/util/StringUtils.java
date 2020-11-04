@@ -331,8 +331,8 @@ public final class StringUtils {
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
      * <pre>{@code
-     *     formatComma(0);      // 0
      *     formatComma(-100);   // -100
+     *     formatComma(0);      // 0
      *     formatComma(100000); // 100,000
      * }</pre>
      *
@@ -347,8 +347,8 @@ public final class StringUtils {
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
      * <pre>{@code
-     *     formatComma("");       // 0
      *     formatComma("-100");   // -100
+     *     formatComma("0");      // 0
      *     formatComma("100000"); // 100,000
      * }</pre>
      *

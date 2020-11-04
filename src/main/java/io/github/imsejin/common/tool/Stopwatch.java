@@ -132,6 +132,8 @@ public final class Stopwatch {
      *
      * @param format format string as current task name
      * @param args   arguments
+     * @throws IllegalArgumentException if format is null
+     * @throws RuntimeException         if stopwatch is running
      */
     public void start(@Nonnull String format, Object... args) {
         if (format == null) throw new IllegalArgumentException("Task name cannot be null");
@@ -145,6 +147,8 @@ public final class Stopwatch {
      * Stops the {@link Stopwatch} running.
      *
      * <p> Current task will be saved and closed.
+     *
+     * @throws RuntimeException if stopwatch is not running
      */
     public void stop() {
         if (!isRunning()) throw new RuntimeException("Stopwatch is not running");
