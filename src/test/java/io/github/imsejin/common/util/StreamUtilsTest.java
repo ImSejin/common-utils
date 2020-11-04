@@ -1,6 +1,6 @@
 package io.github.imsejin.common.util;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;

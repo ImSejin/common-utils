@@ -6,8 +6,6 @@ import io.github.imsejin.common.model.Sex;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 class ObjectUtilsTest {
 

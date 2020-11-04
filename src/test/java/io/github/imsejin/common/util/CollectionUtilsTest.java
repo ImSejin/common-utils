@@ -1,14 +1,15 @@
 package io.github.imsejin.common.util;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.*;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CollectionUtilsTest {
 
@@ -17,7 +18,7 @@ public class CollectionUtilsTest {
             "of", "the", "printing", "and", "typesetting", "industry"})
     public void toMap(String word) {
         // given
-        List<Character> list = word.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
+        List<Character> list = word.chars().mapToObj(c -> (char) c).collect(toList());
 
         // when
         Map<Integer, Character> map = CollectionUtils.toMap(list);
@@ -35,7 +36,7 @@ public class CollectionUtilsTest {
     public void partitionBySize(int chunkSize) {
         // given
         int range = 12_345_678;
-        List<Integer> integers = IntStream.range(0, range).boxed().collect(Collectors.toList());
+        List<Integer> integers = IntStream.range(0, range).boxed().collect(toList());
         int originSize = integers.size();
 
         // when
@@ -49,9 +50,13 @@ public class CollectionUtilsTest {
             List<Integer> inner = outer.get(i);
 
             if (modExists && i == outerSize - 1) {
-                assertThat(inner.size()).isEqualTo(Math.floorMod(originSize, chunkSize));
+                assertThat(inner.size())
+                        .as("#1 If remainder exists, last sub list's size is equal to it")
+                        .isEqualTo(Math.floorMod(originSize, chunkSize));
             } else {
-                assertThat(inner.size()).isEqualTo(chunkSize);
+                assertThat(inner.size())
+                        .as("#1 All sub lists except the last are equal to chuck's size")
+                        .isEqualTo(chunkSize);
             }
         }
 
@@ -75,7 +80,7 @@ public class CollectionUtilsTest {
     public void partitionByCount(int count) {
         // given
         int range = 12_345_678;
-        List<Integer> integers = IntStream.range(0, range).boxed().collect(Collectors.toList());
+        List<Integer> integers = IntStream.range(0, range).boxed().collect(toList());
         int originSize = integers.size();
 
         // when
@@ -98,6 +103,21 @@ public class CollectionUtilsTest {
         System.out.printf("partitionByCount(%d, %d).size(): %d\n", range, count, count);
         System.out.printf("lastInnerList.size(): %d\n", outer.get(outer.size() - 1).size());
         System.out.printf("others.size(): %d\n", outer.get(0).size());
+    }
+
+    @Test
+    public void median() {
+        // given
+        long[] longs = {Long.MAX_VALUE, Long.MIN_VALUE, 0, 2, 33, 369, 5120, 17_726,
+                Integer.MIN_VALUE, Integer.MAX_VALUE, 8_702_145, 12_345_678};
+
+        // when
+        double actual = CollectionUtils.median(longs);
+
+        // then
+        assertThat(actual)
+                .as("Gets median value in array")
+                .isEqualTo(2744.5);
     }
 
 }

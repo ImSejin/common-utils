@@ -5,7 +5,9 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -108,11 +110,53 @@ class StringUtilsTest {
         String str = "io.github.imsejin.common.util.StringUtils#reverse(String)";
 
         // when
-        String reversed = StringUtils.reverse(str);
+        String actual = StringUtils.reverse(str);
 
         // then
-        assertThat(reversed)
-                .isEqualTo(")gnirtS(esrever#slitUgnirtS.litu.nommoc.nijesmi.buhtig.oi");
+        char[] chars = str.toCharArray();
+        char[] expected = new char[chars.length];
+        for (int i = 0; i < chars.length; i++) {
+            expected[i] = chars[chars.length - (i + 1)];
+        }
+
+        assertThat(actual)
+                .as("Reverses each character's position")
+                .isEqualTo(new String(expected));
+    }
+
+    @Test
+    void find() {
+        // given
+        String textContent = "alpha";
+        String src = String.format("<div>%s</div>", textContent);
+        String regex = ">(.*)<\\/";
+
+        // when
+        String actual = StringUtils.find(src, regex, 1);
+
+        // then
+        assertThat(actual).isEqualTo(textContent);
+    }
+
+    @Test
+    void findWithGroups() {
+        // given
+        String src = "ST_총수 - 최종편 - 정기영, 백승훈 [完]";
+        String regex = "^(.+)_(.+) - ([^-]+).{4}?$";
+
+        // when
+        Map<Integer, String> match = StringUtils.find(src, regex, Pattern.MULTILINE, 1, 2, 3);
+
+        // then
+        assertThat(match.get(1))
+                .as("#1 group")
+                .isEqualTo("ST");
+        assertThat(match.get(2))
+                .as("#2 group")
+                .isEqualTo("총수 - 최종편");
+        assertThat(match.get(3))
+                .as("#3 group")
+                .isEqualTo("정기영, 백승훈");
     }
 
     @ParameterizedTest
@@ -127,6 +171,72 @@ class StringUtilsTest {
                 .as("Removes last character")
                 .isEqualTo(StringUtils.isNullOrEmpty(str) ? "" : str.substring(0, str.length() - 1));
         System.out.printf("chop(\"%s\"): \"%s\"\n", str, actual);
+    }
+
+    @Test
+    void test() {
+        Stopwatch stopwatch = new Stopwatch(TimeUnit.MILLISECONDS);
+
+        // given
+        final List<String> strings = Arrays.asList(LOREM_IPSUM.split(""));
+
+        // when #1
+        stopwatch.start("ArrayList: %,d", strings.size());
+        List<String> arrayList = new ArrayList<>(strings);
+        arrayList.removeAll(strings);
+        stopwatch.stop();
+        assertThat(arrayList)
+                .as("#1 ArrayList.removeAll(Collection)")
+                .isNotNull()
+                .isEmpty();
+
+        // when #2
+        stopwatch.start("LinkedList: %,d", strings.size());
+        List<String> linkedList = new LinkedList<>(strings);
+        linkedList.removeAll(strings);
+        stopwatch.stop();
+        assertThat(linkedList)
+                .as("#2 LinkedList.removeAll(Collection)")
+                .isNotNull()
+                .isEmpty();
+
+        // when #3
+        Set<String> set = new HashSet<>(strings);
+        stopwatch.start("HashSet: %,d", set.size());
+        HashSet<String> hashSet = new HashSet<>(strings);
+        hashSet.removeAll(strings);
+        stopwatch.stop();
+        assertThat(hashSet)
+                .as("#3 HashSet.removeAll(Collection)")
+                .isNotNull()
+                .isEmpty();
+
+        // then
+        System.out.println(stopwatch.getStatistics());
+    }
+
+    @ParameterizedTest
+    @ValueSource(longs = {Long.MIN_VALUE, 0L, Long.MAX_VALUE})
+    void formatComma1(long amount) {
+        // when
+        String actual = StringUtils.formatComma(amount);
+
+        // then
+        assertThat(actual.replace(",", ""))
+                .as("Formats comma with long value")
+                .isEqualTo(String.valueOf(amount));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {Long.MIN_VALUE + "", "0", Long.MAX_VALUE + ""})
+    void formatComma2(String amount) {
+        // when
+        String actual = StringUtils.formatComma(amount);
+
+        // then
+        assertThat(actual.replace(",", ""))
+                .as("Formats comma with numeric string")
+                .isEqualTo(amount);
     }
 
 }

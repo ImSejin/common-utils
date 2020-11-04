@@ -69,4 +69,14 @@ public final class MathUtils {
         return Math.floor(amount * compensator) / compensator;
     }
 
+    /**
+     * Checks if number is odd.
+     *
+     * @param number number
+     * @return whether number is odd or not
+     */
+    public static boolean isOdd(long number) {
+        return (number & 1) == 1;
+    }
+
 }

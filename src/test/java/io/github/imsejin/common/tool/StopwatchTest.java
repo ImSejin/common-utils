@@ -77,6 +77,19 @@ public class StopwatchTest {
     }
 
     @Test
+    @DisplayName("getTotalTime() + hasNeverBeenStopped()")
+    public void getTotalTimeWithException() {
+        // given
+        Stopwatch stopwatch = new Stopwatch();
+
+        // when & then
+        assertThatThrownBy(stopwatch::getTotalTime)
+                .as("Get total time without any stopping")
+                .hasMessage("Stopwatch has never been stopped")
+                .isExactlyInstanceOf(RuntimeException.class);
+    }
+
+    @Test
     @SneakyThrows
     public void getSummary() {
         // given

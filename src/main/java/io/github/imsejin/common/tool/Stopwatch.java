@@ -3,9 +3,9 @@ package io.github.imsejin.common.tool;
 import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
 
+import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,16 +16,39 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Stopwatch {
 
+    /**
+     * Recorded tasks.
+     *
+     * <p> These are only added, not removed and sorted.
+     */
     private final List<Task> tasks = new ArrayList<>();
+
+    /**
+     * Start nano time for a task.
+     */
     private long startNanoTime;
+
+    /**
+     * Total nano time for all tasks.
+     */
     private long totalNanoTime;
+
+    /**
+     * Name of currently running task.
+     */
     private String currentTaskName;
+
+    /**
+     * Time unit for task time to be printed or returned.
+     *
+     * <p> Default is {@link TimeUnit#NANOSECONDS}.
+     */
     private TimeUnit timeUnit = TimeUnit.NANOSECONDS;
 
     /**
      * Returns {@link Stopwatch} that is set with default {@link TimeUnit}.
      *
-     * <p> Default timeUnit is {@link TimeUnit#NANOSECONDS}.
+     * <p> Default time unit is {@link TimeUnit#NANOSECONDS}.
      */
     public Stopwatch() {
     }
@@ -35,7 +58,7 @@ public final class Stopwatch {
      *
      * @param timeUnit time unit
      */
-    public Stopwatch(TimeUnit timeUnit) {
+    public Stopwatch(@Nonnull TimeUnit timeUnit) {
         if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
         this.timeUnit = timeUnit;
     }
@@ -72,7 +95,7 @@ public final class Stopwatch {
      *
      * @param timeUnit time unit
      */
-    public void setTimeUnit(TimeUnit timeUnit) {
+    public void setTimeUnit(@Nonnull TimeUnit timeUnit) {
         if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
         this.timeUnit = timeUnit;
     }
@@ -93,7 +116,7 @@ public final class Stopwatch {
      *
      * @param taskName current task name
      */
-    public void start(String taskName) {
+    public void start(@Nonnull String taskName) {
         if (taskName == null) throw new IllegalArgumentException("Task name cannot be null");
         if (isRunning()) throw new RuntimeException("Stopwatch is already running");
 
@@ -102,9 +125,29 @@ public final class Stopwatch {
     }
 
     /**
+     * Starts to run {@link Stopwatch}.
+     *
+     * <p> Sets up task name of current task.
+     *
+     * @param format format string as current task name
+     * @param args   arguments
+     * @throws IllegalArgumentException if format is null
+     * @throws RuntimeException         if stopwatch is running
+     */
+    public void start(@Nonnull String format, Object... args) {
+        if (format == null) throw new IllegalArgumentException("Task name cannot be null");
+        if (isRunning()) throw new RuntimeException("Stopwatch is already running");
+
+        this.currentTaskName = String.format(format, args);
+        this.startNanoTime = System.nanoTime();
+    }
+
+    /**
      * Stops the {@link Stopwatch} running.
      *
      * <p> Current task will be saved and closed.
+     *
+     * @throws RuntimeException if stopwatch is not running
      */
     public void stop() {
         if (!isRunning()) throw new RuntimeException("Stopwatch is not running");
@@ -125,15 +168,26 @@ public final class Stopwatch {
     }
 
     /**
+     * Checks if {@link Stopwatch} has never been stopped.
+     *
+     * @return whether {@link Stopwatch} has never been stopped.
+     */
+    public boolean hasNeverBeenStopped() {
+        return this.tasks.isEmpty();
+    }
+
+    /**
      * Returns the sum of the elapsed time of all saved tasks.
      *
      * <p> This total time will be converted with {@link Stopwatch}'s {@link TimeUnit}
      * and shown up to the millionths(sixth after decimal point).
      *
      * @return the sum of task times
+     * @throws RuntimeException if stopwatch has never been stopped
      * @see MathUtils#floor(double, int)
      */
     public double getTotalTime() {
+        if (hasNeverBeenStopped()) throw new RuntimeException("Stopwatch has never been stopped");
         return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
     }
 
@@ -163,7 +217,7 @@ public final class Stopwatch {
     public String getStatistics() {
         double totalTime = getTotalTime();
 
-        // Sets up task time and percentage to each tasks.
+        // Sets up task time and percentage to each task.
         for (Task task : this.tasks) {
             double taskTime = convertTimeUnit(task.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
             task.setTaskTime(taskTime);
@@ -173,11 +227,9 @@ public final class Stopwatch {
             task.setPercentage(percentage);
         }
 
-        int timeUnitIndex = this.tasks.stream()
-                .map(task -> task.totalTime)
-                .max(Comparator.comparingInt(String::length))
-                .orElse("")
-                .length();
+        final int timeUnitIndex = this.tasks.stream()
+                .map(task -> task.totalTime.length())
+                .reduce(0, Math::max);
         String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", getTimeUnitAbbreviation(this.timeUnit));
 
         for (Task task : this.tasks) {
@@ -203,7 +255,7 @@ public final class Stopwatch {
         private String totalTime;
         private String percentage;
 
-        public Task(long totalNanoTime, String name) {
+        private Task(long totalNanoTime, String name) {
             this.totalNanoTime = totalNanoTime;
             this.name = name;
         }

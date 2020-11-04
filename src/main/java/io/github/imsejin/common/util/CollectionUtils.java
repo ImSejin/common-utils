@@ -2,6 +2,7 @@ package io.github.imsejin.common.util;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -16,33 +17,65 @@ public final class CollectionUtils {
      * Checks whether the collection is null or empty.
      *
      * <pre>{@code
-     *     isNullOrEmpty(null)      // true
-     *     isNullOrEmpty([])        // true
-     *     isNullOrEmpty([5, 6])    // false
+     *     isNullOrEmpty(null);     // true
+     *     isNullOrEmpty([]);       // true
+     *     isNullOrEmpty([5, 6]);   // false
      * }</pre>
      *
      * @param collection collection
      * @return whether the collection is null or empty
      */
-    public static <T> boolean isNullOrEmpty(Collection<T> collection) {
+    public static boolean isNullOrEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
 
-    public static <T> Collection<T> ifNullOrEmpty(Collection<T> collection, Collection<T> defaultCollection) {
-        return isNullOrEmpty(collection) ? defaultCollection : collection;
+    /**
+     * Checks whether the map is null or empty.
+     *
+     * <pre>{@code
+     *     isNullOrEmpty(null);     // true
+     *     isNullOrEmpty({});       // true
+     *     isNullOrEmpty({a: 5});   // false
+     * }</pre>
+     *
+     * @param map map
+     * @return whether the map is null or empty
+     */
+    public static boolean isNullOrEmpty(Map<?, ?> map) {
+        return map == null || map.isEmpty();
     }
 
-    public static <T> Collection<T> ifNullOrEmpty(Collection<T> collection, @Nonnull Supplier<Collection<T>> supplier) {
-        return isNullOrEmpty(collection) ? supplier.get() : collection;
+    public static <E> List<E> ifNullOrEmpty(List<E> list, List<E> defaultList) {
+        return isNullOrEmpty(list) ? defaultList : list;
+    }
+
+    public static <E> Set<E> ifNullOrEmpty(Set<E> set, Set<E> defaultSet) {
+        return isNullOrEmpty(set) ? defaultSet : set;
+    }
+
+    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, Map<K, V> defaultMap) {
+        return isNullOrEmpty(map) ? defaultMap : map;
+    }
+
+    public static <E> List<E> ifNullOrEmpty(List<E> list, @Nonnull Supplier<List<E>> supplier) {
+        return isNullOrEmpty(list) ? supplier.get() : list;
+    }
+
+    public static <E> Set<E> ifNullOrEmpty(Set<E> set, @Nonnull Supplier<Set<E>> supplier) {
+        return isNullOrEmpty(set) ? supplier.get() : set;
+    }
+
+    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, @Nonnull Supplier<Map<K, V>> supplier) {
+        return isNullOrEmpty(map) ? supplier.get() : map;
     }
 
     /**
      * Checks whether the collection exists or not.
      *
      * <pre>{@code
-     *     exists(null)      // false
-     *     exists([])        // false
-     *     exists([5, 6])    // true
+     *     exists(null);    // false
+     *     exists([]);      // false
+     *     exists([5, 6]);  // true
      * }</pre>
      *
      * @param collection collection
@@ -53,19 +86,19 @@ public final class CollectionUtils {
     }
 
     /**
-     * Converts collection into map whose key is index and value is list's.
+     * Converts collection into map whose key is index and value is collection's.
      *
      * <pre>{@code
-     *     List<String> list = Arrays.asList("A", "B", "C");
-     *     toMap(list); // {0: "A", 1: "B", 2: "C"}
+     *     List<String> collection = Arrays.asList("A", "B", "C");
+     *     toMap(collection); // {0: "A", 1: "B", 2: "C"}
      * }</pre>
      *
      * @param collection collection
-     * @param <T>        type of element
+     * @param <E>        type of element
      * @return map with index as key and element
      */
-    public static <T> Map<Integer, T> toMap(@Nonnull Collection<T> collection) {
-        return collection.stream().collect(HashMap<Integer, T>::new,
+    public static <E> Map<Integer, E> toMap(@Nonnull Collection<E> collection) {
+        return collection.stream().collect(HashMap<Integer, E>::new,
                 (map, streamValue) -> map.put(map.size(), streamValue),
                 (map, map2) -> {
                 });
@@ -73,6 +106,10 @@ public final class CollectionUtils {
 
     public static long findMax(@Nonnull Collection<Long> collection) {
         return collection.stream().reduce(Long.MIN_VALUE, Math::max);
+    }
+
+    public static <E> Optional<E> findElement(@Nonnull Collection<E> collection, @Nonnull Predicate<E> predicate) {
+        return collection.stream().filter(predicate).findFirst();
     }
 
     /**
@@ -87,11 +124,11 @@ public final class CollectionUtils {
      *
      * @param list      origin list
      * @param chunkSize size of inner list
-     * @param <T>       any type
+     * @param <E>       any type
      * @return lists partitioned by size
      * @throws IllegalArgumentException if size is non-positive
      */
-    public static <T> List<List<T>> partitionBySize(@Nonnull List<T> list, int chunkSize) {
+    public static <E> List<List<E>> partitionBySize(@Nonnull List<E> list, int chunkSize) {
         if (chunkSize < 1) throw new IllegalArgumentException("Size of each list must be greater than or equal to 1");
 
         /*
@@ -105,7 +142,7 @@ public final class CollectionUtils {
         int originSize = list.size();
         int quotient = Math.floorDiv(originSize, chunkSize);
 
-        List<List<T>> superList = new ArrayList<>();
+        List<List<E>> superList = new ArrayList<>();
         for (int i = 0; i < quotient; i++) {
             superList.add(list.subList(i * chunkSize, (i + 1) * chunkSize));
         }
@@ -129,11 +166,11 @@ public final class CollectionUtils {
      *
      * @param list  origin list
      * @param count size of outer list
-     * @param <T>   any type
+     * @param <E>   any type
      * @return lists partitioned by count
      * @throws IllegalArgumentException if count is non-positive or list's size is less than count
      */
-    public static <T> List<List<T>> partitionByCount(@Nonnull List<T> list, int count) {
+    public static <E> List<List<E>> partitionByCount(@Nonnull List<E> list, int count) {
         if (count < 1) throw new IllegalArgumentException("The number of lists must be greater than or equal to 1");
         if (list.size() < count) throw new IllegalArgumentException("Count must be less than list's size");
 
@@ -142,7 +179,7 @@ public final class CollectionUtils {
         int remainder = Math.floorMod(originSize, count);
         int loopCount = remainder > 0 ? count - 1 : count;
 
-        List<List<T>> outer = new ArrayList<>();
+        List<List<E>> outer = new ArrayList<>();
         for (int i = 0; i < loopCount; i++) {
             outer.add(list.subList(i * quotient, (i + 1) * quotient));
         }
@@ -150,6 +187,48 @@ public final class CollectionUtils {
         if (remainder > 0) outer.add(list.subList(quotient * loopCount, originSize));
 
         return outer;
+    }
+
+    /**
+     * Finds median value in long array.
+     *
+     * @param numbers long array
+     * @return median value
+     * @throws ArrayIndexOutOfBoundsException if array is empty
+     */
+    public static double median(@Nonnull long[] numbers) {
+        long[] longs = Arrays.copyOf(numbers, numbers.length);
+        Arrays.sort(longs);
+
+        double median;
+        if (MathUtils.isOdd(longs.length)) {
+            median = longs[longs.length / 2];
+        } else {
+            median = (longs[longs.length / 2] + longs[longs.length / 2 - 1]) / 2.0;
+        }
+
+        return median;
+    }
+
+    /**
+     * Finds median value in int array.
+     *
+     * @param numbers int array
+     * @return median value
+     * @throws ArrayIndexOutOfBoundsException if array is empty
+     */
+    public static double median(@Nonnull int[] numbers) {
+        int[] ints = Arrays.copyOf(numbers, numbers.length);
+        Arrays.sort(ints);
+
+        double median;
+        if (MathUtils.isOdd(ints.length)) {
+            median = ints[ints.length / 2];
+        } else {
+            median = (ints[ints.length / 2] + ints[ints.length / 2 - 1]) / 2.0;
+        }
+
+        return median;
     }
 
 }

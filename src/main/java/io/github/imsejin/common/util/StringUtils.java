@@ -1,9 +1,9 @@
 package io.github.imsejin.common.util;
 
 import javax.annotation.Nonnull;
-import java.text.DecimalFormat;
-import java.util.Collection;
-import java.util.Collections;
+import javax.annotation.Nullable;
+import java.text.NumberFormat;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -331,24 +331,8 @@ public final class StringUtils {
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
      * <pre>{@code
-     *     formatComma("");         // 0
-     *     formatComma("-100");     // -100
-     *     formatComma("100000");   // 100,000
-     * }</pre>
-     *
-     * @param amount amount number
-     * @return formatted number with comma
-     */
-    public static String formatComma(String amount) {
-        return new DecimalFormat("###,###,###,###,###,###,###").format(amount);
-    }
-
-    /**
-     * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
-     *
-     * <pre>{@code
-     *     formatComma(0);      // 0
      *     formatComma(-100);   // -100
+     *     formatComma(0);      // 0
      *     formatComma(100000); // 100,000
      * }</pre>
      *
@@ -356,7 +340,23 @@ public final class StringUtils {
      * @return formatted number with comma
      */
     public static String formatComma(long amount) {
-        return new DecimalFormat("###,###,###,###,###,###,###").format(amount);
+        return NumberFormat.getInstance(Locale.US).format(amount);
+    }
+
+    /**
+     * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
+     *
+     * <pre>{@code
+     *     formatComma("-100");   // -100
+     *     formatComma("0");      // 0
+     *     formatComma("100000"); // 100,000
+     * }</pre>
+     *
+     * @param amount amount number
+     * @return formatted number with comma
+     */
+    public static String formatComma(String amount) {
+        return NumberFormat.getInstance(Locale.US).format(Long.parseLong(amount));
     }
 
     /**
@@ -448,19 +448,54 @@ public final class StringUtils {
         return String.join("", Collections.nCopies(cnt, String.valueOf(c)));
     }
 
-    public static String match(@Nonnull String regex, @Nonnull String src) {
-        return match(regex, src, 0);
-    }
-
-    public static String match(@Nonnull String regex, @Nonnull String src, int groupNo) {
+    /**
+     * Finds the captured string with regular expression.
+     *
+     * <pre>{@code
+     *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // div
+     * }</pre>
+     *
+     * @param src   source string
+     * @param regex regular expression
+     * @param group group number you want to get value of
+     * @return captured string
+     */
+    @Nullable
+    public static String find(@Nonnull String src, @Nonnull String regex, int group) {
         Matcher matcher = Pattern.compile(regex, Pattern.MULTILINE).matcher(src);
 
-        String matched = null;
+        String result = null;
         while (matcher.find()) {
-            matched = matcher.group(groupNo);
+            result = matcher.group(group);
         }
 
-        return matched;
+        return result;
+    }
+
+    /**
+     * Finds the captured strings with regular expression.
+     *
+     * <pre>{@code
+     *     find("<div>A</div>", "<.+>(.*)<\/(.+)>", Pattern.MULTILINE, 1, 2); // {1: "A", 2: "div"}
+     * }</pre>
+     *
+     * @param src    source string
+     * @param regex  regular expression
+     * @param flags  regular flags
+     * @param groups group numbers you want to get value of
+     * @return map whose key is group number and whose value is a captured string.
+     */
+    public static Map<Integer, String> find(@Nonnull String src, @Nonnull String regex, int flags, int... groups) {
+        Matcher matcher = Pattern.compile(regex, flags).matcher(src);
+
+        Map<Integer, String> result = new HashMap<>();
+        while (matcher.find()) {
+            for (int group : groups) {
+                result.put(group, matcher.group(group));
+            }
+        }
+
+        return result;
     }
 
     /**

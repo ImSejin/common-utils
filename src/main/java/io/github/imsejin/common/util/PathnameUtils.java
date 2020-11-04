@@ -5,7 +5,6 @@ import io.github.imsejin.common.constant.OperatingSystem;
 import io.github.imsejin.common.tool.OSDetector;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
