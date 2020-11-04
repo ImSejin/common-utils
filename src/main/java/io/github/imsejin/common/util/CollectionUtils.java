@@ -187,4 +187,46 @@ public final class CollectionUtils {
         return outer;
     }
 
+    /**
+     * Finds median value in long array.
+     *
+     * @param numbers long array
+     * @return median value
+     * @throws ArrayIndexOutOfBoundsException if array is empty
+     */
+    public static double median(@Nonnull long[] numbers) {
+        long[] longs = Arrays.copyOf(numbers, numbers.length);
+        Arrays.sort(longs);
+
+        double median;
+        if (MathUtils.isOdd(longs.length)) {
+            median = longs[longs.length / 2];
+        } else {
+            median = (longs[longs.length / 2] + longs[longs.length / 2 - 1]) / 2.0;
+        }
+
+        return median;
+    }
+
+    /**
+     * Finds median value in int array.
+     *
+     * @param numbers int array
+     * @return median value
+     * @throws ArrayIndexOutOfBoundsException if array is empty
+     */
+    public static double median(@Nonnull int[] numbers) {
+        int[] ints = Arrays.copyOf(numbers, numbers.length);
+        Arrays.sort(ints);
+
+        double median;
+        if (MathUtils.isOdd(ints.length)) {
+            median = ints[ints.length / 2];
+        } else {
+            median = (ints[ints.length / 2] + ints[ints.length / 2 - 1]) / 2.0;
+        }
+
+        return median;
+    }
+
 }

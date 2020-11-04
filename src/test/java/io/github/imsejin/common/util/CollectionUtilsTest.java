@@ -1,5 +1,6 @@
 package io.github.imsejin.common.util;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CollectionUtilsTest {
 
@@ -98,6 +99,21 @@ public class CollectionUtilsTest {
         System.out.printf("partitionByCount(%d, %d).size(): %d\n", range, count, count);
         System.out.printf("lastInnerList.size(): %d\n", outer.get(outer.size() - 1).size());
         System.out.printf("others.size(): %d\n", outer.get(0).size());
+    }
+
+    @Test
+    public void median() {
+        // given
+        long[] longs = {Long.MAX_VALUE, Long.MIN_VALUE, 0, 2, 33, 369, 5120, 17_726,
+                Integer.MIN_VALUE, Integer.MAX_VALUE, 8_702_145, 12_345_678};
+
+        // when
+        double actual = CollectionUtils.median(longs);
+
+        // then
+        assertThat(actual)
+                .as("Gets median value in array")
+                .isEqualTo(2744.5);
     }
 
 }
