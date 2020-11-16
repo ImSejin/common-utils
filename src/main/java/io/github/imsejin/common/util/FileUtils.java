@@ -2,7 +2,11 @@ package io.github.imsejin.common.util;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -64,6 +68,26 @@ public final class FileUtils {
             return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Downloads file.
+     *
+     * @param in   input stream
+     * @param file file
+     * @return whether success to download file or not
+     */
+    public static boolean download(InputStream in, File file) {
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            ReadableByteChannel readChannel = Channels.newChannel(in);
+            out.getChannel().transferFrom(readChannel, 0, Long.MAX_VALUE);
+
+            // Success
+            return true;
+        } catch (IOException e) {
+            // Fail
+            return false;
         }
     }
 
