@@ -79,8 +79,8 @@ public final class FileUtils {
      * @return whether success to download file or not
      */
     public static boolean download(InputStream in, File file) {
-        try (FileOutputStream out = new FileOutputStream(file)) {
-            ReadableByteChannel readChannel = Channels.newChannel(in);
+        try (FileOutputStream out = new FileOutputStream(file);
+             ReadableByteChannel readChannel = Channels.newChannel(in)) {
             out.getChannel().transferFrom(readChannel, 0, Long.MAX_VALUE);
 
             // Success

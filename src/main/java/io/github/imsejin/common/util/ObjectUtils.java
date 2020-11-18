@@ -17,8 +17,7 @@ public final class ObjectUtils {
     public static <T> T cloneDeep(Object obj, Class<T> type) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
+        try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
             oos.writeObject(obj);
 
             byte[] bytes = baos.toByteArray();
