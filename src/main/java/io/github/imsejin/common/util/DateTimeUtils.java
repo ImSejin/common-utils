@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.util.Locale;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 
@@ -131,7 +132,7 @@ public final class DateTimeUtils {
      */
     public static boolean validate(@Nonnull String date) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DateType.DATE.value());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DateType.DATE.value(), Locale.getDefault());
             dateFormat.setLenient(false);
             dateFormat.parse(date.replace("-", ""));
             return true;
