@@ -196,7 +196,7 @@ public final class CollectionUtils {
      * @return median value
      * @throws ArrayIndexOutOfBoundsException if array is empty
      */
-    public static double median(@Nonnull long[] numbers) {
+    public static double median(@Nonnull long... numbers) {
         long[] longs = Arrays.copyOf(numbers, numbers.length);
         Arrays.sort(longs);
 
@@ -217,7 +217,7 @@ public final class CollectionUtils {
      * @return median value
      * @throws ArrayIndexOutOfBoundsException if array is empty
      */
-    public static double median(@Nonnull int[] numbers) {
+    public static double median(@Nonnull int... numbers) {
         int[] ints = Arrays.copyOf(numbers, numbers.length);
         Arrays.sort(ints);
 
