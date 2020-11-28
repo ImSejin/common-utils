@@ -72,14 +72,14 @@ public final class FileUtils {
     }
 
     /**
-     * Downloads file.
+     * Downloads a file.
      *
      * @param in   input stream
-     * @param file file
+     * @param dest file for destination
      * @return whether success to download file or not
      */
-    public static boolean download(InputStream in, File file) {
-        try (FileOutputStream out = new FileOutputStream(file);
+    public static boolean download(InputStream in, File dest) {
+        try (FileOutputStream out = new FileOutputStream(dest);
              ReadableByteChannel readChannel = Channels.newChannel(in)) {
             out.getChannel().transferFrom(readChannel, 0, Long.MAX_VALUE);
 
