@@ -1,14 +1,15 @@
 package io.github.imsejin.common.constant;
 
-import io.github.imsejin.common.constant.interfaces.KeyValue;
-
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Optional;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 /**
  * Datetime patterns for {@link java.time.format.DateTimeFormatter#ofPattern(String)}.
  */
-public enum DateType implements KeyValue {
+public enum DateType {
 
     /**
      * Year
@@ -17,7 +18,7 @@ public enum DateType implements KeyValue {
      *     yyyy
      * }</pre>
      */
-    YEAR("yyyy"),
+    YEAR("yyyy", ofPattern("yyyy")),
 
     /**
      * Month
@@ -26,7 +27,7 @@ public enum DateType implements KeyValue {
      *     MM
      * }</pre>
      */
-    MONTH("MM"),
+    MONTH("MM", ofPattern("MM")),
 
     /**
      * Day
@@ -35,7 +36,7 @@ public enum DateType implements KeyValue {
      *     dd
      * }</pre>
      */
-    DAY("dd"),
+    DAY("dd", ofPattern("dd")),
 
     /**
      * Hour
@@ -44,7 +45,7 @@ public enum DateType implements KeyValue {
      *     HH
      * }</pre>
      */
-    HOUR("HH"),
+    HOUR("HH", ofPattern("HH")),
 
     /**
      * Minute
@@ -53,7 +54,7 @@ public enum DateType implements KeyValue {
      *     mm
      * }</pre>
      */
-    MINUTE("mm"),
+    MINUTE("mm", ofPattern("mm")),
 
     /**
      * Second
@@ -62,7 +63,7 @@ public enum DateType implements KeyValue {
      *     ss
      * }</pre>
      */
-    SECOND("ss"),
+    SECOND("ss", ofPattern("ss")),
 
     /**
      * Millisecond
@@ -71,7 +72,7 @@ public enum DateType implements KeyValue {
      *     SSS
      * }</pre>
      */
-    MILLISECOND("SSS"),
+    MILLISECOND("SSS", ofPattern("SSS")),
 
     /**
      * Year and month
@@ -80,7 +81,8 @@ public enum DateType implements KeyValue {
      *     yyyyMM
      * }</pre>
      */
-    YEAR_MONTH(YEAR.value() + MONTH.value()),
+    YEAR_MONTH(YEAR.pattern + MONTH.pattern,
+            ofPattern(YEAR.pattern + MONTH.pattern)),
 
     /**
      * Year, month and day
@@ -89,7 +91,8 @@ public enum DateType implements KeyValue {
      *     yyyyMMdd
      * }</pre>
      */
-    DATE(YEAR.value() + MONTH.value() + DAY.value()),
+    DATE(YEAR.pattern + MONTH.pattern + DAY.pattern,
+            ofPattern(YEAR.pattern + MONTH.pattern + DAY.pattern)),
 
     /**
      * Hour, minute and second
@@ -98,7 +101,8 @@ public enum DateType implements KeyValue {
      *     HHmmss
      * }</pre>
      */
-    TIME(HOUR.value() + MINUTE.value() + SECOND.value()),
+    TIME(HOUR.pattern + MINUTE.pattern + SECOND.pattern,
+            ofPattern(HOUR.pattern + MINUTE.pattern + SECOND.pattern)),
 
     /**
      * Hour, minute, second and millisecond
@@ -107,7 +111,8 @@ public enum DateType implements KeyValue {
      *     HHmmssSSS
      * }</pre>
      */
-    HOUR_2_MILSEC(TIME.value() + MILLISECOND.value()),
+    HOUR_2_MILSEC(TIME.pattern + MILLISECOND.pattern,
+            ofPattern(TIME.pattern + MILLISECOND.pattern)),
 
     /**
      * Year, month, day, hour, minute and second
@@ -116,7 +121,8 @@ public enum DateType implements KeyValue {
      *     yyyyMMddHHmmss
      * }</pre>
      */
-    DATE_TIME(DATE.value() + TIME.value()),
+    DATE_TIME(DATE.pattern + TIME.pattern,
+            ofPattern(DATE.pattern + TIME.pattern)),
 
     /**
      * Year, month, day, hour, minute, second and millisecond
@@ -125,7 +131,8 @@ public enum DateType implements KeyValue {
      *     yyyyMMddHHmmssSSS
      * }</pre>
      */
-    ALL(DATE.value() + HOUR_2_MILSEC.value()),
+    ALL(DATE.pattern + HOUR_2_MILSEC.pattern,
+            ofPattern(DATE.pattern + HOUR_2_MILSEC.pattern)),
 
     /**
      * Formatted year, month and day
@@ -134,7 +141,8 @@ public enum DateType implements KeyValue {
      *     yyyy-MM-dd
      * }</pre>
      */
-    F_DATE(YEAR.value() + "-" + MONTH.value() + "-" + DAY.value()),
+    F_DATE(YEAR.pattern + "-" + MONTH.pattern + "-" + DAY.pattern,
+            ofPattern(YEAR.pattern + "-" + MONTH.pattern + "-" + DAY.pattern)),
 
     /**
      * Formatted hour, minute and second
@@ -143,7 +151,8 @@ public enum DateType implements KeyValue {
      *     HH:mm:ss
      * }</pre>
      */
-    F_TIME(HOUR.value() + ":" + MINUTE.value() + ":" + SECOND.value()),
+    F_TIME(HOUR.pattern + ":" + MINUTE.pattern + ":" + SECOND.pattern,
+            ofPattern(HOUR.pattern + ":" + MINUTE.pattern + ":" + SECOND.pattern)),
 
     /**
      * Formatted hour, minute, second and millisecond
@@ -152,7 +161,8 @@ public enum DateType implements KeyValue {
      *     HH:mm:ss.SSS
      * }</pre>
      */
-    F_HOUR_2_MILSEC(F_TIME.value() + "." + MILLISECOND.value()),
+    F_HOUR_2_MILSEC(F_TIME.pattern + "." + MILLISECOND.pattern,
+            ofPattern(F_TIME.pattern + "." + MILLISECOND.pattern)),
 
     /**
      * Formatted year, month, day, hour, minute and second
@@ -161,7 +171,8 @@ public enum DateType implements KeyValue {
      *     yyyy-MM-dd HH:mm:ss
      * }</pre>
      */
-    F_DATE_TIME(F_DATE.value() + " " + F_TIME.value()),
+    F_DATE_TIME(F_DATE.pattern + " " + F_TIME.pattern,
+            ofPattern(F_DATE.pattern + " " + F_TIME.pattern)),
 
     /**
      * Formatted year, month, day, hour, minute, second and millisecond
@@ -170,42 +181,51 @@ public enum DateType implements KeyValue {
      *     yyyy-MM-dd HH:mm:ss.SSS
      * }</pre>
      */
-    F_ALL(F_DATE.value() + " " + F_HOUR_2_MILSEC.value());
+    F_ALL(F_DATE.pattern + " " + F_HOUR_2_MILSEC.pattern,
+            ofPattern(F_DATE.pattern + " " + F_HOUR_2_MILSEC.pattern));
 
     /**
      * Pattern to format.
      */
     private final String pattern;
 
-    DateType(String pattern) {
+    /**
+     * Formatter.
+     */
+    private final DateTimeFormatter formatter;
+
+    DateType(String pattern, DateTimeFormatter formatter) {
         this.pattern = pattern;
+        this.formatter = formatter;
     }
 
     public static boolean contains(String pattern) {
-        return Arrays.stream(DateType.values())
+        return Arrays.stream(values())
                 .anyMatch(dateType -> dateType.pattern.equals(pattern));
     }
 
     public static Optional<DateType> of(String pattern) {
-        return Arrays.stream(DateType.values())
+        return Arrays.stream(values())
                 .filter(type -> type.pattern.equals(pattern))
                 .findFirst();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns a pattern.
+     *
+     * @return pattern
      */
-    @Override
-    public String key() {
-        return this.name();
+    public String getPattern() {
+        return this.pattern;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns a formatter.
+     *
+     * @return formatter
      */
-    @Override
-    public String value() {
-        return this.pattern;
+    public DateTimeFormatter getFormatter() {
+        return this.formatter;
     }
 
 }

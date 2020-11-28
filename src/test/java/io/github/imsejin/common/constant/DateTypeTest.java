@@ -29,7 +29,7 @@ class DateTypeTest {
 
         // then
         assertThat(dateType).isNotNull();
-        assertThat(pattern).isEqualTo(dateType.value());
+        assertThat(pattern).isEqualTo(dateType.getPattern());
     }
 
 }

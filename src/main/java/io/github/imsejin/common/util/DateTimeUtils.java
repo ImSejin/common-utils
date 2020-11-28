@@ -45,7 +45,7 @@ public final class DateTimeUtils {
      * @return today's date
      */
     public static String today() {
-        return LocalDate.now().format(ofPattern(DateType.DATE.value()));
+        return LocalDate.now().format(ofPattern(DateType.DATE.getPattern()));
     }
 
     /**
@@ -67,7 +67,7 @@ public final class DateTimeUtils {
      * @return today's datetime formatted with pattern
      */
     public static String today(@Nonnull DateType type) {
-        return LocalDateTime.now().format(ofPattern(type.value()));
+        return LocalDateTime.now().format(type.getFormatter());
     }
 
     /**
@@ -81,7 +81,7 @@ public final class DateTimeUtils {
      * @return yesterday's date
      */
     public static String yesterday() {
-        return LocalDate.now().minusDays(1).format(ofPattern(DateType.DATE.value()));
+        return LocalDate.now().minusDays(1).format(DateType.DATE.getFormatter());
     }
 
     /**
@@ -99,7 +99,7 @@ public final class DateTimeUtils {
      * @return yesterday's datetime formatted with pattern
      */
     public static String yesterday(@Nonnull DateType type) {
-        return LocalDateTime.now().minusDays(1).format(ofPattern(type.value()));
+        return LocalDateTime.now().minusDays(1).format(type.getFormatter());
     }
 
     /**
@@ -112,7 +112,7 @@ public final class DateTimeUtils {
      * @return corresponding element of yesterday's datetime
      */
     public static String now() {
-        return LocalDateTime.now().format(ofPattern(DateType.DATE_TIME.value()));
+        return LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
     }
 
     /**
@@ -132,7 +132,7 @@ public final class DateTimeUtils {
      */
     public static boolean validate(@Nonnull String date) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DateType.DATE.value(), Locale.getDefault());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DateType.DATE.getPattern(), Locale.getDefault());
             dateFormat.setLenient(false);
             dateFormat.parse(date.replace("-", ""));
             return true;
@@ -163,7 +163,7 @@ public final class DateTimeUtils {
         if (!validate(date)) return false;
 
         date = date.replace("-", "");
-        LocalDate localDate = LocalDate.parse(date, ofPattern(DateType.DATE.value()));
+        LocalDate localDate = LocalDate.parse(date, DateType.DATE.getFormatter());
 
         // 유효한 요일인지 확인한다
         return localDate.getDayOfWeek().equals(dayOfWeek);
@@ -183,7 +183,7 @@ public final class DateTimeUtils {
      */
     public static String getLastDateOfMonth(int year, int month) {
         LocalDate lastDate = YearMonth.of(year, month).atEndOfMonth();
-        return lastDate.format(ofPattern(DateType.DATE.value()));
+        return lastDate.format(DateType.DATE.getFormatter());
     }
 
     /**
@@ -200,7 +200,7 @@ public final class DateTimeUtils {
      */
     public static String getLastDateOfMonth(int year, @Nonnull Month month) {
         LocalDate lastDate = YearMonth.of(year, month).atEndOfMonth();
-        return lastDate.format(ofPattern(DateType.DATE.value()));
+        return lastDate.format(DateType.DATE.getFormatter());
     }
 
     /**
@@ -217,7 +217,7 @@ public final class DateTimeUtils {
      */
     public static String getLastDateOfMonth(@Nonnull String year, @Nonnull String month) {
         LocalDate lastDate = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month)).atEndOfMonth();
-        return lastDate.format(ofPattern(DateType.DATE.value()));
+        return lastDate.format(DateType.DATE.getFormatter());
     }
 
     /**
@@ -234,7 +234,7 @@ public final class DateTimeUtils {
      */
     public static String getLastDateOfMonth(@Nonnull String year, @Nonnull Month month) {
         LocalDate lastDate = YearMonth.of(Integer.parseInt(year), month).atEndOfMonth();
-        return lastDate.format(ofPattern(DateType.DATE.value()));
+        return lastDate.format(DateType.DATE.getFormatter());
     }
 
 }
