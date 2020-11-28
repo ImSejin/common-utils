@@ -12,6 +12,9 @@ public final class NumberUtils {
         formatter.setGroupingUsed(false);
     }
 
+    private NumberUtils() {
+    }
+
     public static String format(double decimal) {
         return formatter.format(decimal);
     }
