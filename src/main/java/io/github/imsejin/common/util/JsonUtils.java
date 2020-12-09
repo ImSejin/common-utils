@@ -30,12 +30,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.joining;
+
 /**
  * JSON utilities
  *
- * <p>
- * Utilities that process the JSON.
- * </p>
+ * <p> Utilities for handling JSON.
  */
 public final class JsonUtils {
 
@@ -76,7 +76,7 @@ public final class JsonUtils {
      * @return JSON string
      */
     private static String readAllJson(@Nonnull BufferedReader reader) {
-        return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        return reader.lines().collect(joining(System.lineSeparator()));
     }
 
     /**

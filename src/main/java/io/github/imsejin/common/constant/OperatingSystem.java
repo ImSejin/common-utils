@@ -70,12 +70,12 @@ public enum OperatingSystem implements KeyValue {
     }
 
     public static boolean contains(@Nonnull String osName) {
-        return Arrays.stream(OperatingSystem.values())
+        return Arrays.stream(values())
                 .anyMatch(os -> StringUtils.anyContains(osName, os.keywords));
     }
 
     public static Optional<OperatingSystem> of(@Nonnull String osName) {
-        return Arrays.stream(OperatingSystem.values())
+        return Arrays.stream(values())
                 .filter(os -> StringUtils.anyContains(osName, os.keywords))
                 .findFirst();
     }
