@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.util;
+package io.github.imsejin.common.util
 
-import javax.annotation.Nonnull;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import spock.lang.Specification
 
-/**
- * Stream utilities
- */
-public final class StreamUtils {
+import java.time.LocalDateTime
+import java.time.Month
 
-    private StreamUtils() {}
+class DateTimeUtilsSpec extends Specification {
 
-    public static <T> Stream<T> toStream(@Nonnull Iterator<T> iter) {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
-                iter, Spliterator.ORDERED), false);
+    def "Random"() {
+        given:
+        def startTime = LocalDateTime.of(
+                2019, Month.JANUARY, 1, 9, 0, 0)
+        def endTime = LocalDateTime.now()
+
+        when:
+        def randomTime = DateTimeUtils.random(startTime, endTime)
+
+        then:
+        randomTime.isAfter(startTime)
+        randomTime.isBefore(endTime)
+
+        where:
+        i << (1..10_000)
     }
 
 }

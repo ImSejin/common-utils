@@ -1,4 +1,4 @@
-# Common Utils
+# 🧰 Common Utils
 <p align="center">
     <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/imsejin/common-utils">
     <a href="https://lgtm.com/projects/g/ImSejin/common-utils/context:java"><img alt="Language grade: Java" src="https://img.shields.io/lgtm/grade/java/g/ImSejin/common-utils.svg?logo=lgtm&logoWidth=18"/></a>

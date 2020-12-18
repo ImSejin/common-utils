@@ -90,6 +90,7 @@ public class StopwatchTest {
     }
 
     @Test
+    @Disabled
     @SneakyThrows
     public void getSummary() {
         // given
@@ -117,6 +118,7 @@ public class StopwatchTest {
     }
 
     @Test
+    @Disabled
     @SneakyThrows
     public void getStatistics() {
         // given
@@ -163,6 +165,7 @@ public class StopwatchTest {
     }
 
     @Test
+    @Disabled
     public void convertTimeUnit1() {
         // given
         long amount = 2000;
@@ -177,6 +180,7 @@ public class StopwatchTest {
     }
 
     @Test
+    @Disabled
     public void convertTimeUnit2() {
         // given
         long amount = 2;
