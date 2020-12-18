@@ -22,9 +22,11 @@ import javax.annotation.Nonnull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.zone.ZoneRules;
 import java.util.Locale;
-
-import static java.time.format.DateTimeFormatter.ofPattern;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Datetime utilities
@@ -32,6 +34,8 @@ import static java.time.format.DateTimeFormatter.ofPattern;
  * @see DateType
  */
 public final class DateTimeUtils {
+
+    private static final Randoms randoms = new Randoms(ThreadLocalRandom.current());
 
     private DateTimeUtils() {
     }
@@ -61,7 +65,7 @@ public final class DateTimeUtils {
      * @return today's date
      */
     public static String today() {
-        return LocalDate.now().format(ofPattern(DateType.DATE.getPattern()));
+        return LocalDate.now().format(DateType.DATE.getFormatter());
     }
 
     /**
@@ -251,6 +255,47 @@ public final class DateTimeUtils {
     public static String getLastDateOfMonth(@Nonnull String year, @Nonnull Month month) {
         LocalDate lastDate = YearMonth.of(Integer.parseInt(year), month).atEndOfMonth();
         return lastDate.format(DateType.DATE.getFormatter());
+    }
+
+    public static ZoneOffset getSystemDefaultZoneOffset() {
+        ZoneId zone = ZoneId.systemDefault();
+        ZoneRules rules = zone.getRules();
+        return rules.getOffset(LocalDateTime.now(zone));
+    }
+
+    public static LocalDateTime random(ChronoLocalDateTime<? extends ChronoLocalDate> start,
+                                       ChronoLocalDateTime<? extends ChronoLocalDate> end) {
+        return randoms.nextDateTime(start, end);
+    }
+
+    public static LocalDateTime random(ChronoLocalDateTime<? extends ChronoLocalDate> start,
+                                       ChronoLocalDateTime<? extends ChronoLocalDate> end,
+                                       ZoneOffset offset) {
+        return randoms.nextDateTime(start, end, offset);
+    }
+
+    private static class Randoms {
+
+        private final ThreadLocalRandom random;
+
+        private Randoms(ThreadLocalRandom random) {
+            this.random = random;
+        }
+
+        public LocalDateTime nextDateTime(ChronoLocalDateTime<? extends ChronoLocalDate> start,
+                                          ChronoLocalDateTime<? extends ChronoLocalDate> end) {
+            ZoneOffset offset = getSystemDefaultZoneOffset();
+            long randomSeconds = this.random.nextLong(start.toEpochSecond(offset), end.toEpochSecond(offset));
+            return LocalDateTime.ofInstant(Instant.ofEpochSecond(randomSeconds), ZoneId.systemDefault());
+        }
+
+        public LocalDateTime nextDateTime(ChronoLocalDateTime<? extends ChronoLocalDate> start,
+                                          ChronoLocalDateTime<? extends ChronoLocalDate> end,
+                                          ZoneOffset offset) {
+            long randomSeconds = this.random.nextLong(start.toEpochSecond(offset), end.toEpochSecond(offset));
+            return LocalDateTime.ofInstant(Instant.ofEpochSecond(randomSeconds), ZoneId.systemDefault());
+        }
+
     }
 
 }
