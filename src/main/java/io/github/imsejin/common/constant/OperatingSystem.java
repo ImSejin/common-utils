@@ -16,13 +16,18 @@
 
 package io.github.imsejin.common.constant;
 
-import io.github.imsejin.common.constant.interfaces.KeyValue;
 import io.github.imsejin.common.util.StringUtils;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
-public enum OperatingSystem implements KeyValue {
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableSet;
+
+public enum OperatingSystem {
 
     /**
      * Microsoft Windows.
@@ -31,7 +36,7 @@ public enum OperatingSystem implements KeyValue {
      *     ["win"]
      * }</pre>
      */
-    WINDOWS(Collections.singleton("win")),
+    WINDOWS(singleton("win")),
 
     /**
      * Apple macOS.
@@ -40,7 +45,7 @@ public enum OperatingSystem implements KeyValue {
      *     ["mac"]
      * }</pre>
      */
-    MAC(Collections.singleton("mac")),
+    MAC(singleton("mac")),
 
     /**
      * Unix including Linux and IBM AIX.
@@ -58,7 +63,7 @@ public enum OperatingSystem implements KeyValue {
      *     ["sunos"]
      * }</pre>
      */
-    SOLARIS(Collections.singleton("sunos"));
+    SOLARIS(singleton("sunos"));
 
     /**
      * Keywords that distinguish operating systems.
@@ -66,7 +71,7 @@ public enum OperatingSystem implements KeyValue {
     private final Set<String> keywords;
 
     OperatingSystem(@Nonnull Set<String> keywords) {
-        this.keywords = Collections.unmodifiableSet(keywords);
+        this.keywords = unmodifiableSet(keywords);
     }
 
     public static boolean contains(@Nonnull String osName) {
@@ -80,24 +85,8 @@ public enum OperatingSystem implements KeyValue {
                 .findFirst();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String key() {
-        return name();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String value() {
-        return new ArrayList<>(this.keywords).get(0);
-    }
-
     public Set<String> getKeywords() {
-        return keywords;
+        return this.keywords;
     }
 
 }
