@@ -28,7 +28,8 @@ import java.util.stream.StreamSupport;
  */
 public final class StreamUtils {
 
-    private StreamUtils() {}
+    private StreamUtils() {
+    }
 
     public static <T> Stream<T> toStream(@Nonnull Iterator<T> iter) {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
