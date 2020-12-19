@@ -17,17 +17,36 @@
 package io.github.imsejin.common.util
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
+import java.time.YearMonth
 
 class DateTimeUtilsSpec extends Specification {
 
+    @Unroll("DateTimeUtils.isLeapYear(#year)")
+    def "IsLeapYear"() {
+        given:
+        def yearMonth = YearMonth.of(year, Month.FEBRUARY)
+        def numOfDays = yearMonth.lengthOfMonth()
+
+        when:
+        def leapYear = DateTimeUtils.isLeapYear(year)
+
+        then:
+        leapYear ? numOfDays == 29 : numOfDays == 28
+
+        where:
+        year << (0..2400)
+    }
+
     def "Random"() {
         given:
-        def startTime = LocalDateTime.of(
-                2019, Month.JANUARY, 1, 9, 0, 0)
-        def endTime = LocalDateTime.now()
+        def now = LocalDateTime.now()
+        def startTime = LocalDateTime.of(now.getYear() - 10, Month.JANUARY, 1, 0, 0, 0)
+        def endTime = now
 
         when:
         def randomTime = DateTimeUtils.random(startTime, endTime)
