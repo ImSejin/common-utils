@@ -60,8 +60,7 @@ public final class PathnameUtils {
             // This code can be replaced with `System.getProperty("user.dir")`.
             return Paths.get(".").toRealPath().toString();
         } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 
