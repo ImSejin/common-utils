@@ -131,4 +131,41 @@ class StringUtilsSpec extends Specification {
         "typesetting" | "typesettin"
         "industry"    | "industr"
     }
+
+    def "Add padding before the string"() {
+        when:
+        def actual = StringUtils.padStart(len, origin, appendix)
+
+        then:
+        actual == expected
+
+        where:
+        origin          | len                 | appendix | expected
+        "12"            | 3                   | "0"      | "012"
+        "9781911223139" | origin.length()     | "-"      | origin
+        "111"           | origin.length() + 1 | "10-"    | "10-111"
+        "111"           | origin.length() + 2 | "10-"    | "10-10-111"
+        "111"           | origin.length() + 3 | "10-"    | "10-10-10-111"
+        "20210101"      | 0                   | ""       | origin
+        "19991231"      | -1                  | null     | origin
+    }
+
+    def "Add padding after the string"() {
+        when:
+        def actual = StringUtils.padEnd(len, origin, appendix)
+
+        then:
+        actual == expected
+
+        where:
+        origin          | len                 | appendix | expected
+        "0304"          | 8                   | "0"      | "03040000"
+        "9781911223139" | origin.length()     | "-"      | origin
+        "111"           | origin.length() + 1 | "-10"    | "111-10"
+        "111"           | origin.length() + 2 | "-10"    | "111-10-10"
+        "111"           | origin.length() + 3 | "-10"    | "111-10-10-10"
+        "20210101"      | 0                   | ""       | origin
+        "19991231"      | -1                  | null     | origin
+    }
+
 }
