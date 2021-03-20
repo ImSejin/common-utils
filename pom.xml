@@ -30,25 +30,28 @@
     </developers>
 
     <scm>
-        <connection>scm:git:${scm.url}</connection>
-        <developerConnection>${scm.connection}</developerConnection>
-        <url>${url}.git</url>
-        <tag>${version}</tag>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>${project.scm.connection}</developerConnection>
+        <url>${project.url}.git</url>
+        <tag>${project.version}</tag>
     </scm>
 
     <distributionManagement>
         <repository>
-            <id>${artifactId}</id>
+            <id>${project.artifactId}</id>
             <url>https://api.bintray.com/maven/${bintray.repo}/${artifactId}/;publish=1</url>
         </repository>
     </distributionManagement>
 
     <properties>
+        <!-- General properties -->
         <java.version>1.8</java.version>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Deployment properties -->
         <bintray.repo>imsejin/CommonUtils</bintray.repo>
-        <bintray.package>${artifactId}</bintray.package>
+        <bintray.package>${project.artifactId}</bintray.package>
     </properties>
 
     <dependencies>
@@ -99,7 +102,7 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>2.0-M4-groovy-3.0</version> <!-- Support maven-surefire since 2.0 -->
+            <version>2.0-M4-groovy-3.0</version> <!-- Spock supports 'maven-surefire' since 2.0 -->
             <scope>test</scope>
         </dependency>
 
@@ -113,7 +116,7 @@
     </dependencies>
 
     <build>
-        <finalName>${artifactId}-${version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -136,7 +139,7 @@
                             By default only files ending in 'Test' will be included,
                             so also include support for Spock style naming convention.
 
-                            Oddly enough for Groovy files, '*Spec.groovy' does not work, but '*Spec.java' does.
+                            Oddly enough for Groovy files, '*Spec.groovy' does not work, but '*Spec.java'.
                         -->
                         <include>**/*Test.java</include>
                         <include>**/*Spec.java</include>
@@ -163,6 +166,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
                 <executions>
                     <execution>
                         <id>copy</id>
@@ -182,8 +186,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
 
