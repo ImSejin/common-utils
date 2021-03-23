@@ -32,15 +32,20 @@
     <scm>
         <connection>scm:git:${project.scm.url}</connection>
         <developerConnection>${project.scm.connection}</developerConnection>
-        <url>${project.url}.git</url>
+        <url>https://github.com/imsejin/common-utils.git</url>
         <tag>${project.version}</tag>
     </scm>
 
     <distributionManagement>
         <repository>
-            <id>${project.artifactId}</id>
-            <url>https://api.bintray.com/maven/${bintray.repo}/${artifactId}/;publish=1</url>
+            <id>ossrh</id>
+            <!--  https://oss.sonatype.org/service/local/staging/deploy/maven2/io/github/imsejin/common-utils/ -->
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>
@@ -48,10 +53,6 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!-- Deployment properties -->
-        <bintray.repo>imsejin/CommonUtils</bintray.repo>
-        <bintray.package>${project.artifactId}</bintray.package>
     </properties>
 
     <dependencies>
@@ -212,6 +213,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
+                <configuration>
+                    <!-- https://bugs.openjdk.java.net/browse/JDK-8212233 -->
+                    <source>${java.version}</source>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
