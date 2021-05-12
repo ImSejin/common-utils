@@ -12,7 +12,8 @@
     <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.imsejin/common-utils">
     <img alt="jdk8" src="https://img.shields.io/badge/jdk-8-orange">
 </p>
-## Getting started
+
+# Getting started
 
 ```xml
 <!-- Maven -->
