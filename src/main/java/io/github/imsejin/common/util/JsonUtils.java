@@ -47,11 +47,11 @@ public final class JsonUtils {
     /**
      * Reads the JSON format string returned by the URL and converts it to {@link JsonObject}.
      *
-     * <pre>{@code
+     * <pre><code>
      *     String uriText = "http://cdn.lezhin.com/episodes/snail/1.json?access_token=5be30a25-a044-410c-88b0-19a1da968a64";
      *     URL url = URI.create(uriText).toURL();
      *     JsonObject json = JsonUtils.readJsonFromUrl(url);
-     * }</pre>
+     * </code></pre>
      *
      * @param url URL
      * @return JSON object
@@ -82,10 +82,10 @@ public final class JsonUtils {
     /**
      * Converts the JSON format string to the specified object.
      *
-     * <pre>{@code
+     * <pre><code>
      *     String jsonText = "{\"id\":1011,\"list\":[{\"id\":10,\"name\":\"foo\"},{\"id\":11,\"name\":\"bar\"}]}";
      *     T t = JsonUtils.toObject(jsonText, T.class);
-     * }</pre>
+     * </code></pre>
      *
      * @param jsonText JSON string
      * @param clazz    type
@@ -99,13 +99,13 @@ public final class JsonUtils {
     /**
      * Converts {@link JsonArray} to a list of the specified objects.
      *
-     * <pre>{@code
+     * <pre><code>
      *     String jsonText = "{\"id\":1011,\"list\":[{\"id\":10,\"name\":\"foo\"},{\"id\":11,\"name\":\"bar\"}]}";
      *     JsonObject jsonObject = JsonParser.parseString(jsonText).getAsJsonObject();
      *     JsonArray jsonArray = jsonObject.get("list").getAsJsonArray();
      *
      *     List<T> list = JsonUtils.toList(jsonArray, T.class);
-     * }</pre>
+     * </code></pre>
      *
      * @param jsonArray JSON array
      * @param clazz     type

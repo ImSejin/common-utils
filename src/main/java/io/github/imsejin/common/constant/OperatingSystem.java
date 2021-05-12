@@ -32,36 +32,36 @@ public enum OperatingSystem {
     /**
      * Microsoft Windows.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["win"]
-     * }</pre>
+     * </code></pre>
      */
     WINDOWS(singleton("win")),
 
     /**
      * Apple macOS.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["mac"]
-     * }</pre>
+     * </code></pre>
      */
     MAC(singleton("mac")),
 
     /**
      * Unix including Linux and IBM AIX.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["nix", "nux", "aix"]
-     * }</pre>
+     * </code></pre>
      */
     UNIX(new HashSet<>(Arrays.asList("nix", "nux", "aix"))),
 
     /**
      * Oracle Solaris.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["sunos"]
-     * }</pre>
+     * </code></pre>
      */
     SOLARIS(singleton("sunos"));
 

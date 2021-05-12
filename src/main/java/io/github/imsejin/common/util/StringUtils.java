@@ -40,11 +40,11 @@ public final class StringUtils {
     /**
      * Checks whether the string is null or empty.
      *
-     * <pre>{@code
+     * <pre><code>
      *     isNullOrEmpty(null);     // true
      *     isNullOrEmpty("");       // true
      *     isNullOrEmpty("abc");    // false
-     * }</pre>
+     * </code></pre>
      *
      * @param str string
      * @return whether the string is null or empty
@@ -58,11 +58,11 @@ public final class StringUtils {
      * <br>
      * If not, this returns original string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ifNullOrEmpty(null, "(empty)");      // (empty)
      *     ifNullOrEmpty("", "(empty)");        // (empty)
      *     ifNullOrEmpty(" ", "(empty)");       // \u0020
-     * }</pre>
+     * </code></pre>
      *
      * @param str          original string
      * @param defaultValue default string
@@ -77,11 +77,11 @@ public final class StringUtils {
      * <br>
      * If not, this returns original string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ifNullOrEmpty(null, () -> "(empty)");    // (empty)
      *     ifNullOrEmpty("", () -> "(empty)");      // (empty)
      *     ifNullOrEmpty(" ", () -> "(empty)");     // \u0020
-     * }</pre>
+     * </code></pre>
      *
      * @param str      original string
      * @param supplier supplier that returns default string
@@ -94,12 +94,12 @@ public final class StringUtils {
     /**
      * Checks whether the string is null or blank.
      *
-     * <pre>{@code
+     * <pre><code>
      *     isNullOrBlank(null);     // true
      *     isNullOrBlank("");       // true
      *     isNullOrBlank(" ");      // true
      *     isNullOrBlank(" ABC");   // false
-     * }</pre>
+     * </code></pre>
      *
      * @param str string
      * @return whether the string is null or blank
@@ -113,12 +113,12 @@ public final class StringUtils {
      * <br>
      * If not, this returns original string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ifNullOrBlank(null, "(empty)");      // (empty)
      *     ifNullOrBlank("", "(empty)");        // (empty)
      *     ifNullOrBlank(" ", "(empty)");       // (empty)
      *     ifNullOrBlank(" ABC", "(empty)");    //  ABC
-     * }</pre>
+     * </code></pre>
      *
      * @param str          original string
      * @param defaultValue default string
@@ -133,12 +133,12 @@ public final class StringUtils {
      * <br>
      * If not, this returns original string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ifNullOrBlank(null, () -> "(empty)");    // (empty)
      *     ifNullOrBlank("", () -> "(empty)");      // (empty)
      *     ifNullOrBlank(" ", () -> "(empty)");     // (empty)
      *     ifNullOrBlank(" ABC", () -> "(empty)");  //  ABC
-     * }</pre>
+     * </code></pre>
      *
      * @param str      original string
      * @param supplier supplier that returns default string
@@ -151,13 +151,13 @@ public final class StringUtils {
     /**
      * 공백 문자열이 하나라도 있는지 확인한다.
      *
-     * <pre>{@code
+     * <pre><code>
      *     anyNullOrBlank([null, " "]);       // true
      *     anyNullOrBlank([null, "ABC"]);     // true
      *     anyNullOrBlank(["ABC", ""]);       // true
      *     anyNullOrBlank([" ", "ABC"]);      // true
      *     anyNullOrBlank([" ABC", "ABC"]);   // false
-     * }</pre>
+     * </code></pre>
      *
      * @param strs strings
      * @return whether any strings are null or blank
@@ -170,13 +170,13 @@ public final class StringUtils {
     /**
      * 모두 공백 문자열인지 확인한다.
      *
-     * <pre>{@code
+     * <pre><code>
      *     allNullOrBlank([null, " "]);       // true
      *     allNullOrBlank([null, "ABC"]);     // false
      *     allNullOrBlank(["ABC", ""]);       // false
      *     allNullOrBlank([" ", "ABC"]);      // false
      *     allNullOrBlank([" ABC", "ABC"]);   // false
-     * }</pre>
+     * </code></pre>
      *
      * @param strs strings
      * @return whether all strings are null or blank
@@ -189,14 +189,14 @@ public final class StringUtils {
     /**
      * `기준 문자열`과 일치하는 문자열이 하나라도 있는지 확인한다.
      *
-     * <pre>{@code
+     * <pre><code>
      *     anyEquals(null, [null]);           // false
      *     anyEquals("", [null]);             // false
      *     anyEquals(null, [""]);             // false
      *     anyEquals("", [null, ""]);         // true
      *     anyEquals("ABC", ["abc"]);         // false
      *     anyEquals("ABC", ["abc", "ABC"]);  // true
-     * }</pre>
+     * </code></pre>
      *
      * @param criterion criterion string
      * @param strs      strings
@@ -210,10 +210,10 @@ public final class StringUtils {
     /**
      * Fills the start of string with whitespace.
      *
-     * <pre>{@code
+     * <pre><code>
      *     padStart(8, "0304"); // "    0304"
      *     padStart(4, "0304"); // "0304"
-     * }</pre>
+     * </code></pre>
      *
      * @param len    targeted string length;
      *               If it is less than the length of origin string,
@@ -229,10 +229,10 @@ public final class StringUtils {
     /**
      * Fills the start of string with another string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     padStart(8, "0304", "0"); // "00000304"
      *     padStart(4, "0304", "0"); // "0304"
-     * }</pre>
+     * </code></pre>
      *
      * @param len      targeted string length;
      *                 If it is less than the length of origin string,
@@ -252,10 +252,10 @@ public final class StringUtils {
     /**
      * Fills the end of string with whitespace.
      *
-     * <pre>{@code
+     * <pre><code>
      *     padEnd(8, "0304"); // "0304    "
      *     padEnd(4, "0304"); // "0304"
-     * }</pre>
+     * </code></pre>
      *
      * @param len    targeted string length;
      *               If it is less than the length of origin string,
@@ -271,10 +271,10 @@ public final class StringUtils {
     /**
      * Fills the end of string with another string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     padEnd(8, "0304", "0"); // "03040000"
      *     padEnd(4, "0304", "0"); // "0304"
-     * }</pre>
+     * </code></pre>
      *
      * @param len      targeted string length;
      *                 If it is less than the length of origin string,
@@ -329,10 +329,10 @@ public final class StringUtils {
     /**
      * 가장 마지막에 일치하는 문구를 원하는 문구로 대체한다.
      *
-     * <pre>{@code
+     * <pre><code>
      *     replaceLast("ABC%DEF%GHI", "%", "-");    // ABC%DEF-GHI
      *     replaceLast("ABC%DEF%GHI", "%", "\\$");  // ABC%DEF$GHI
-     * }</pre>
+     * </code></pre>
      *
      * @param text        text
      * @param regex       regular expression
@@ -346,11 +346,11 @@ public final class StringUtils {
     /**
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
-     * <pre>{@code
+     * <pre><code>
      *     formatComma(-100);   // -100
      *     formatComma(0);      // 0
      *     formatComma(100000); // 100,000
-     * }</pre>
+     * </code></pre>
      *
      * @param amount amount number
      * @return formatted number with comma
@@ -362,11 +362,11 @@ public final class StringUtils {
     /**
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
-     * <pre>{@code
+     * <pre><code>
      *     formatComma("-100");   // -100
      *     formatComma("0");      // 0
      *     formatComma("100000"); // 100,000
-     * }</pre>
+     * </code></pre>
      *
      * @param amount amount number
      * @return formatted number with comma
@@ -378,11 +378,11 @@ public final class StringUtils {
     /**
      * Replicates a string as many times as you want.
      *
-     * <pre>{@code
+     * <pre><code>
      *     repeat(null, 2);     // nullnull
      *     repeat("", 5);       // \u0000
      *     repeat("abc", 3);    // abcabcabc
-     * }</pre>
+     * </code></pre>
      *
      * <table>
      *     <caption>{@code <String concatenation comparison>}</caption>
@@ -423,10 +423,10 @@ public final class StringUtils {
     /**
      * Replicates a character as many times as you want.
      *
-     * <pre>{@code
+     * <pre><code>
      *     repeat(' ', 3);    // "   "
      *     repeat('a', 3);    // aaa
-     * }</pre>
+     * </code></pre>
      *
      * <table>
      *     <caption>{@code <String concatenation comparison>}</caption>
@@ -467,10 +467,10 @@ public final class StringUtils {
     /**
      * Finds the captured string with regular expression.
      *
-     * <pre>{@code
+     * <pre><code>
      *    Pattern pattern = Pattern.compile("<.+>(.*)<\/(.+)>");
      *    find("<div>A</div>", pattern, 1); // div
-     * }</pre>
+     * </code></pre>
      *
      * @param src     source string
      * @param pattern pattern of regular expression
@@ -492,9 +492,9 @@ public final class StringUtils {
     /**
      * Finds the captured string with regular expression.
      *
-     * <pre>{@code
+     * <pre><code>
      *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // div
-     * }</pre>
+     * </code></pre>
      *
      * @param src   source string
      * @param regex regular expression
@@ -516,10 +516,10 @@ public final class StringUtils {
     /**
      * Finds the captured strings with regular expression.
      *
-     * <pre>{@code
+     * <pre><code>
      *     Pattern pattern = Pattern.compile("<.+>(.*)<\/(.+)>", Pattern.MULTILINE);
      *     find("<div>A</div>", pattern, 1, 2); // {1: "A", 2: "div"}
-     * }</pre>
+     * </code></pre>
      *
      * @param src     source string
      * @param pattern pattern of regular expression
@@ -542,9 +542,9 @@ public final class StringUtils {
     /**
      * Finds the captured strings with regular expression.
      *
-     * <pre>{@code
+     * <pre><code>
      *     find("<div>A</div>", "<.+>(.*)<\/(.+)>", Pattern.MULTILINE, 1, 2); // {1: "A", 2: "div"}
-     * }</pre>
+     * </code></pre>
      *
      * @param src    source string
      * @param regex  regular expression

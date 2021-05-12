@@ -38,11 +38,11 @@ public final class NumberUtils {
     /**
      * Returns the number of places.
      *
-     * <pre>{@code
+     * <pre><code>
      *     getNumOfPlaces(-100); // 3
      *     getNumOfPlaces(0);    // 1
      *     getNumOfPlaces(1024); // 4
-     * }</pre>
+     * </code></pre>
      *
      * @param number number
      * @return the number of places
@@ -55,11 +55,11 @@ public final class NumberUtils {
     /**
      * Returns the number of places.
      *
-     * <pre>{@code
+     * <pre><code>
      *     getNumOfPlaces(new BigInteger("-100")); // 3
      *     getNumOfPlaces(new BigInteger("0"));    // 1
      *     getNumOfPlaces(new BigInteger("1024")); // 4
-     * }</pre>
+     * </code></pre>
      *
      * @param bigInt number
      * @return the number of places

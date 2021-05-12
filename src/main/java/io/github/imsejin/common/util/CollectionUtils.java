@@ -32,11 +32,11 @@ public final class CollectionUtils {
     /**
      * Checks whether the collection is null or empty.
      *
-     * <pre>{@code
+     * <pre><code>
      *     isNullOrEmpty(null);     // true
      *     isNullOrEmpty([]);       // true
      *     isNullOrEmpty([5, 6]);   // false
-     * }</pre>
+     * </code></pre>
      *
      * @param collection collection
      * @return whether the collection is null or empty
@@ -48,11 +48,11 @@ public final class CollectionUtils {
     /**
      * Checks whether the map is null or empty.
      *
-     * <pre>{@code
+     * <pre><code>
      *     isNullOrEmpty(null);     // true
      *     isNullOrEmpty({});       // true
      *     isNullOrEmpty({a: 5});   // false
-     * }</pre>
+     * </code></pre>
      *
      * @param map map
      * @return whether the map is null or empty
@@ -88,11 +88,11 @@ public final class CollectionUtils {
     /**
      * Checks whether the collection exists or not.
      *
-     * <pre>{@code
+     * <pre><code>
      *     exists(null);    // false
      *     exists([]);      // false
      *     exists([5, 6]);  // true
-     * }</pre>
+     * </code></pre>
      *
      * @param collection collection
      * @return whether the collection exists or not
@@ -104,10 +104,10 @@ public final class CollectionUtils {
     /**
      * Converts collection into map whose key is index and value is collection's.
      *
-     * <pre>{@code
+     * <pre><code>
      *     List<String> collection = Arrays.asList("A", "B", "C");
      *     toMap(collection); // {0: "A", 1: "B", 2: "C"}
-     * }</pre>
+     * </code></pre>
      *
      * @param collection collection
      * @param <E>        type of element
@@ -132,11 +132,11 @@ public final class CollectionUtils {
      * Returns a list that contains consecutive {@link List#subList(int, int)}s.
      * Inner lists have the same size, but last is smaller.
      *
-     * <pre>{@code
+     * <pre><code>
      *     partitionBySize([1, 2, 3, 4, 5], 1); // [[1], [2], [3], [4], [5]]
      *     partitionBySize([1, 2, 3, 4, 5], 3); // [[1, 2, 3], [4, 5]]
      *     partitionBySize([1, 2, 3, 4, 5], 6); // [[1, 2, 3, 4, 5]]
-     * }</pre>
+     * </code></pre>
      *
      * @param list      origin list
      * @param chunkSize size of inner list
@@ -174,11 +174,11 @@ public final class CollectionUtils {
      * Inner lists have the same size, but last is smaller or biggest.
      * Outer list has inner lists as many as value of the parameter {@code count}.
      *
-     * <pre>{@code
+     * <pre><code>
      *     partitionByCount([1, 2, 3, 4, 5], 1); // [[1, 2, 3, 4, 5]]
      *     partitionByCount([1, 2, 3, 4, 5], 3); // [[1, 2], [3, 4], [5]]
      *     partitionByCount([1, 2, 3, 4, 5], 5); // [[1], [2], [3], [4], [5]]
-     * }</pre>
+     * </code></pre>
      *
      * @param list  origin list
      * @param count size of outer list

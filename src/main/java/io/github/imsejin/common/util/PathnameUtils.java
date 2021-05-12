@@ -49,9 +49,9 @@ public final class PathnameUtils {
     /**
      * Gets the current path where the application is.
      *
-     * <pre>{@code
+     * <pre><code>
      *     getCurrentPathname(); // /usr/local/repositories/common-utils
-     * }</pre>
+     * </code></pre>
      *
      * @return current path where the application is
      */
@@ -67,10 +67,10 @@ public final class PathnameUtils {
     /**
      * Removes all the path separators.
      *
-     * <pre>{@code
+     * <pre><code>
      *     removeSeparators("C:\\Program Files\\Java"); // C:Program FilesJava
      *     removeSeparators("/usr/data/java"); // usrsdatajava
-     * }</pre>
+     * </code></pre>
      *
      * @param pathname pathname
      * @return pathname removed all the path separators
@@ -83,7 +83,7 @@ public final class PathnameUtils {
      * 부적절한 경로명을 올바른 경로명으로 정정한다.<br>
      * OS가 Windows인 경우, 절대경로로 지정해도 앞에 구분자가 들어가지 않는다.
      *
-     * <pre>{@code
+     * <pre><code>
      *     String pathname1 = "\\/ / C:\\ Program Files / \\/\\ \\ Java\\jdk8 /\\/ \\ ";
      *     correct(false, pathname1);   // C:\\Program Files\\Java\\jdk8
      *
@@ -92,7 +92,7 @@ public final class PathnameUtils {
      *
      *     String pathname3 = "/ / \\ usr / data /java/jdk8 / ";
      *     correct(false, pathname3);   // usr/data/java/jdk8
-     * }</pre>
+     * </code></pre>
      *
      * @param absolute whether path is absolute
      * @param pathname pathname
@@ -113,11 +113,11 @@ public final class PathnameUtils {
     /**
      * Concatenates pathnames.
      *
-     * <pre>{@code
+     * <pre><code>
      *     concat(false, "C:\\", "Program Files", "Java");  // C:\\Program Files\\Java
      *     concat(true, "/usr/", "/data/", "java");         // /usr/data/java
      *     concat(false, "/usr/", "/data/", "java");        // usr/data/java
-     * }</pre>
+     * </code></pre>
      *
      * @param absolute  whether paths are absolute
      * @param pathnames pathnames
@@ -131,10 +131,10 @@ public final class PathnameUtils {
      * 경로 끝에 현재의 연/월(yyyy/MM) 경로를 추가한다.<br>
      * Adds the current year/month (yyyy/MM) pathname to the end of the pathname.
      *
-     * <pre>{@code
+     * <pre><code>
      *     DateTimeUtils.today();                   // 20191231
      *     appendYearMonth("C:\\Program Files");    // C:\\Program Files\\2019\\12
-     * }</pre>
+     * </code></pre>
      *
      * @param pathname pathname
      * @return pathname appended the current year and month
@@ -147,10 +147,10 @@ public final class PathnameUtils {
      * 경로 끝에 현재의 연/월/일(yyyy/MM/dd) 경로를 추가한다.<br>
      * Adds the current year/month/day (yyyy/MM/dd) pathname to the end of the pathname.
      *
-     * <pre>{@code
+     * <pre><code>
      *     DateTimeUtils.today();           // 20191231
      *     appendDate("C:\\Program Files"); // C:\\Program Files\\2019\\12\\31
-     * }</pre>
+     * </code></pre>
      *
      * @param pathname pathname
      * @return pathname appended the current year, month and day
