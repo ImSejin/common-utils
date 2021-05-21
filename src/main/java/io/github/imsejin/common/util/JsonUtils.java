@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -75,8 +76,15 @@ public final class JsonUtils {
      * @param reader reader
      * @return JSON string
      */
-    private static String readAllJson(@Nonnull BufferedReader reader) {
-        return reader.lines().collect(joining(System.lineSeparator()));
+    private static String readAllJson(@Nonnull Reader reader) {
+        BufferedReader bufferedReader;
+        if (reader instanceof BufferedReader) {
+            bufferedReader = (BufferedReader) reader;
+        } else {
+            bufferedReader = new BufferedReader(reader);
+        }
+
+        return bufferedReader.lines().collect(joining(System.lineSeparator()));
     }
 
     /**
