@@ -18,9 +18,12 @@ package io.github.imsejin.common.constant;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.Collections;
+import java.util.Map;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Datetime patterns for {@link java.time.format.DateTimeFormatter#ofPattern(String)}.
@@ -210,20 +213,27 @@ public enum DateType {
      */
     private final DateTimeFormatter formatter;
 
+    private static final Map<String, DateType> $CODE_LOOKUP = Arrays.stream(values())
+            .collect(collectingAndThen(toMap(it -> it.pattern, it -> it), Collections::unmodifiableMap));
+
     DateType(String pattern, DateTimeFormatter formatter) {
         this.pattern = pattern;
         this.formatter = formatter;
     }
 
     public static boolean contains(String pattern) {
-        return Arrays.stream(values())
-                .anyMatch(dateType -> dateType.pattern.equals(pattern));
+        return $CODE_LOOKUP.containsKey(pattern);
     }
 
-    public static Optional<DateType> of(String pattern) {
-        return Arrays.stream(values())
-                .filter(type -> type.pattern.equals(pattern))
-                .findFirst();
+    /**
+     * Returns a constant of {@link DateType} matched given pattern.
+     *
+     * @param pattern pattern
+     * @return constant of {@link DateType} matched given pattern
+     */
+    public static DateType from(String pattern) {
+        if (contains(pattern)) return $CODE_LOOKUP.get(pattern);
+        throw new IllegalArgumentException("Enumeration 'DateType' has no pattern: '" + pattern + "'");
     }
 
     /**

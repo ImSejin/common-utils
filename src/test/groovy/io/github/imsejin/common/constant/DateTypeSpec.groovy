@@ -32,7 +32,7 @@ class DateTypeSpec extends Specification {
 
     def "Of"() {
         when:
-        def dateType = DateType.of(pattern).orElse(null)
+        def dateType = DateType.from(pattern).orElse(null)
 
         then:
         dateType != null
