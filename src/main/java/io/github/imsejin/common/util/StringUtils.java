@@ -77,11 +77,11 @@ public final class StringUtils {
      * <br>
      * If not, this returns original string.
      *
-     * <pre><code>
+     * <pre>{@code
      *     ifNullOrEmpty(null, () -> "(empty)");    // (empty)
      *     ifNullOrEmpty("", () -> "(empty)");      // (empty)
      *     ifNullOrEmpty(" ", () -> "(empty)");     // \u0020
-     * </code></pre>
+     * }</pre>
      *
      * @param str      original string
      * @param supplier supplier that returns default string
@@ -133,12 +133,12 @@ public final class StringUtils {
      * <br>
      * If not, this returns original string.
      *
-     * <pre><code>
+     * <pre>{@code
      *     ifNullOrBlank(null, () -> "(empty)");    // (empty)
      *     ifNullOrBlank("", () -> "(empty)");      // (empty)
      *     ifNullOrBlank(" ", () -> "(empty)");     // (empty)
      *     ifNullOrBlank(" ABC", () -> "(empty)");  //  ABC
-     * </code></pre>
+     * }</pre>
      *
      * @param str      original string
      * @param supplier supplier that returns default string
@@ -467,10 +467,10 @@ public final class StringUtils {
     /**
      * Finds the captured string with regular expression.
      *
-     * <pre><code>
+     * <pre>{@code
      *    Pattern pattern = Pattern.compile("<.+>(.*)<\/(.+)>");
      *    find("<div>A</div>", pattern, 1); // div
-     * </code></pre>
+     * }</pre>
      *
      * @param src     source string
      * @param pattern pattern of regular expression
@@ -492,9 +492,9 @@ public final class StringUtils {
     /**
      * Finds the captured string with regular expression.
      *
-     * <pre><code>
+     * <pre>{@code
      *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // div
-     * </code></pre>
+     * }</pre>
      *
      * @param src   source string
      * @param regex regular expression
@@ -516,10 +516,10 @@ public final class StringUtils {
     /**
      * Finds the captured strings with regular expression.
      *
-     * <pre><code>
+     * <pre>{@code
      *     Pattern pattern = Pattern.compile("<.+>(.*)<\/(.+)>", Pattern.MULTILINE);
      *     find("<div>A</div>", pattern, 1, 2); // {1: "A", 2: "div"}
-     * </code></pre>
+     * }</pre>
      *
      * @param src     source string
      * @param pattern pattern of regular expression
@@ -542,9 +542,9 @@ public final class StringUtils {
     /**
      * Finds the captured strings with regular expression.
      *
-     * <pre><code>
+     * <pre>{@code
      *     find("<div>A</div>", "<.+>(.*)<\/(.+)>", Pattern.MULTILINE, 1, 2); // {1: "A", 2: "div"}
-     * </code></pre>
+     * }</pre>
      *
      * @param src    source string
      * @param regex  regular expression

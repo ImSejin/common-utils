@@ -104,10 +104,10 @@ public final class CollectionUtils {
     /**
      * Converts collection into map whose key is index and value is collection's.
      *
-     * <pre><code>
+     * <pre>{@code
      *     List<String> collection = Arrays.asList("A", "B", "C");
      *     toMap(collection); // {0: "A", 1: "B", 2: "C"}
-     * </code></pre>
+     * }</pre>
      *
      * @param collection collection
      * @param <E>        type of element

@@ -107,13 +107,13 @@ public final class JsonUtils {
     /**
      * Converts {@link JsonArray} to a list of the specified objects.
      *
-     * <pre><code>
+     * <pre>{@code
      *     String jsonText = "{\"id\":1011,\"list\":[{\"id\":10,\"name\":\"foo\"},{\"id\":11,\"name\":\"bar\"}]}";
      *     JsonObject jsonObject = JsonParser.parseString(jsonText).getAsJsonObject();
      *     JsonArray jsonArray = jsonObject.get("list").getAsJsonArray();
      *
      *     List<T> list = JsonUtils.toList(jsonArray, T.class);
-     * </code></pre>
+     * }</pre>
      *
      * @param jsonArray JSON array
      * @param clazz     type

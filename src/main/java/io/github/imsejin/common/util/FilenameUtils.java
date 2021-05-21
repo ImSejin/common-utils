@@ -97,7 +97,7 @@ public final class FilenameUtils {
     /**
      * Replaces characters that cannot be used in a filename with allowable characters.
      *
-     * <pre><code>
+     * <pre>{@code
      *     \ --> ＼
      *     / --> ／
      *     : --> ：
@@ -107,15 +107,15 @@ public final class FilenameUtils {
      *     < --> ＜
      *     > --> ＞
      *     | --> ｜
-     * </code></pre>
+     * }</pre>
      *
-     * <pre><code>
+     * <pre>{@code
      *     String unallowables = "** <happy/\\new year> **:\"john\" -> |\"jeremy\"|";
      *
      *     toSafeName(unallowables);                // ＊＊ ＜happy／＼new year＞ ＊＊：˝john˝ -＞ ｜˝jeremy˝｜
      *     toSafeName("where he is gone..");        // where he is gone…
      *     toSafeName("I feel happy when coding."); // I feel happy when coding．
-     * </code></pre>
+     * }</pre>
      *
      * @param filename filename that has unallowable characters
      * @return filename in which unallowable characters are replaced with allowable characters
