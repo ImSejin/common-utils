@@ -25,14 +25,14 @@
         <developer>
             <name>imsejin</name>
             <email>hackeres123@gmail.com</email>
-            <timezone>GMT+0900</timezone>
+            <timezone>UTC+0900</timezone>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:${project.scm.url}</connection>
-        <developerConnection>${project.scm.connection}</developerConnection>
         <url>https://github.com/imsejin/common-utils.git</url>
+        <connection>scm:git:https://github.com/imsejin/common-utils.git</connection>
+        <developerConnection>scm:git:https://github.com/imsejin/common-utils.git</developerConnection>
         <tag>${project.version}</tag>
     </scm>
 
