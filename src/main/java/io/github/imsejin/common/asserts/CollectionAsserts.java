@@ -28,16 +28,16 @@ public class CollectionAsserts<T> extends ObjectAsserts {
         this.target = target;
     }
 
-    public CollectionAsserts<T> hasElement(Collection<?> c, String message) {
+    public CollectionAsserts<T> hasElement(String message) {
         isNotNull(message);
-        if (c.isEmpty()) throw new IllegalArgumentException(message);
+        if (this.target.isEmpty()) throw new IllegalArgumentException(message);
 
         return this;
     }
 
-    public CollectionAsserts<T> hasElement(Collection<?> c, Supplier<? extends RuntimeException> supplier) {
+    public CollectionAsserts<T> hasElement(Supplier<? extends RuntimeException> supplier) {
         isNotNull(supplier);
-        if (c.isEmpty()) throw supplier.get();
+        if (this.target.isEmpty()) throw supplier.get();
 
         return this;
     }
