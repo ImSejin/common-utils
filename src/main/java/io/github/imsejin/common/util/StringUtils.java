@@ -569,11 +569,11 @@ public final class StringUtils {
      * Checks if criterial string contains other strings.
      *
      * @param container  criterial string
-     * @param containees list of strings to compare
+     * @param containments list of strings to compare
      * @return whether criterial string contains other strings
      */
-    public static boolean anyContains(@Nonnull String container, @Nonnull Collection<String> containees) {
-        return containees.stream().anyMatch(container::contains);
+    public static boolean anyContains(@Nonnull String container, @Nonnull Collection<String> containments) {
+        return containments.stream().anyMatch(container::contains);
     }
 
     /**

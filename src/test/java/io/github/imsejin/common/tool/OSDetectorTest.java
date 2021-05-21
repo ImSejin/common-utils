@@ -1,14 +1,14 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.constant.OperatingSystem;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class OSDetectorTest {
+class OSDetectorTest {
 
     @Test
-    public void getOS() {
+    void getOS() {
         // when
         OperatingSystem os = OSDetector.getOS();
 

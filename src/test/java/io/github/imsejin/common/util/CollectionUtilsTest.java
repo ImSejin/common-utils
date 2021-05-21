@@ -11,12 +11,12 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CollectionUtilsTest {
+class CollectionUtilsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"lorem", "ipsum", "is", "simply", "dummy", "text",
             "of", "the", "printing", "and", "typesetting", "industry"})
-    public void toMap(String word) {
+    void toMap(String word) {
         // given
         List<Character> list = word.chars().mapToObj(c -> (char) c).collect(toList());
 
@@ -33,7 +33,7 @@ public class CollectionUtilsTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 10, 33, 369, 5120, 17_726, 655_362, 8_702_145, 12_345_679})
-    public void partitionBySize(int chunkSize) {
+    void partitionBySize(int chunkSize) {
         // given
         int range = 12_345_678;
         List<Integer> integers = IntStream.range(0, range).boxed().collect(toList());
@@ -77,7 +77,7 @@ public class CollectionUtilsTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 10, 33, 369, 5120, 17_726, 655_362, 8_702_145, 12_345_678})
-    public void partitionByCount(int count) {
+    void partitionByCount(int count) {
         // given
         int range = 12_345_678;
         List<Integer> integers = IntStream.range(0, range).boxed().collect(toList());
@@ -106,7 +106,7 @@ public class CollectionUtilsTest {
     }
 
     @Test
-    public void median() {
+    void median() {
         // given
         long[] longs = {Long.MAX_VALUE, Long.MIN_VALUE, 0, 2, 33, 369, 5120, 17_726,
                 Integer.MIN_VALUE, Integer.MAX_VALUE, 8_702_145, 12_345_678};

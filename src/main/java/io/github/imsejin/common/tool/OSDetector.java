@@ -31,9 +31,9 @@ public final class OSDetector {
     }
 
     /**
-     * Returns current OS.
+     * Returns current operating system.
      *
-     * @return current OS
+     * @return current operating system.
      */
     public static OperatingSystem getOS() {
         return OperatingSystem.of(CURRENT_OS_NAME).orElse(null);
