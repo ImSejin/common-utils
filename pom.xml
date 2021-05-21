@@ -6,7 +6,7 @@
 
     <groupId>io.github.imsejin</groupId>
     <artifactId>common-utils</artifactId>
-    <version>0.3.4</version>
+    <version>0.4.0</version>
     <packaging>jar</packaging>
 
     <name>Common Utils</name>
@@ -25,30 +25,33 @@
         <developer>
             <name>imsejin</name>
             <email>hackeres123@gmail.com</email>
-            <timezone>GMT+0900</timezone>
+            <timezone>UTC+0900</timezone>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:${scm.url}</connection>
-        <developerConnection>${scm.connection}</developerConnection>
-        <url>${url}.git</url>
-        <tag>${version}</tag>
+        <url>https://github.com/imsejin/common-utils.git</url>
+        <connection>scm:git:https://github.com/imsejin/common-utils.git</connection>
+        <developerConnection>scm:git:https://github.com/imsejin/common-utils.git</developerConnection>
+        <tag>${project.version}</tag>
     </scm>
 
     <distributionManagement>
         <repository>
-            <id>${artifactId}</id>
-            <url>https://api.bintray.com/maven/${bintray.repo}/${artifactId}/;publish=1</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>
+        <!-- General properties -->
         <java.version>1.8</java.version>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <bintray.repo>imsejin/CommonUtils</bintray.repo>
-        <bintray.package>${artifactId}</bintray.package>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -77,29 +80,38 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.0</version>
+            <version>5.7.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.7.0</version>
+            <version>5.7.1</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- AssertJ -->
+        <!--
+           AssertJ
+
+           Dependencies for using fluent assertions.
+       -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.17.2</version>
+            <version>3.19.0</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- Spock -->
+        <!--
+           Spock Framework
+
+           Mandatory dependencies for using Spock.
+           This starts to support 'maven-surefire' since 2.0.
+       -->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>2.0-M4-groovy-3.0</version> <!-- Support maven-surefire since 2.0 -->
+            <version>2.0-M5-groovy-3.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -107,13 +119,87 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.14</version>
+            <version>1.18.20</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!--
+            When only executes "mvn deploy -DperformRelease=true",
+            release your libraries.
+            It is prevent maven from executing goal "maven-gpg-plugin"
+            to use this profile for release.
+        -->
+        <profile>
+            <id>ossrh</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Attaches java source files for view -->
+                    <!-- Plugin for attach java source files for view when 'maven package' -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Generates javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <!-- https://bugs.openjdk.java.net/browse/JDK-8212233 -->
+                            <source>${java.version}</source>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Plugin for signing with GPG key -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
-        <finalName>${artifactId}-${version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -124,27 +210,35 @@
                 </configuration>
             </plugin>
 
-            <!-- Junit auto tester -->
+            <!-- Plugin for run test cases -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <includes>
-                        <!--
-                            By default only files ending in 'Test' will be included,
-                            so also include support for Spock style naming convention.
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <!--
+                        Only required if names of test classes don't match default Surefire patterns('*Test').
+                        By default only files ending in 'Test' will be included,
+                        so also include support for Spock style naming convention.
 
-                            Oddly enough for Groovy files, '*Spec.groovy' does not work, but '*Spec.java' does.
-                        -->
+                        Oddly enough for Groovy files, '*Spec.groovy' does not work, but '*Spec.java'.
+                    -->
+                    <includes>
                         <include>**/*Test.java</include>
                         <include>**/*Spec.java</include>
                     </includes>
                 </configuration>
             </plugin>
 
-            <!-- Spock auto tester -->
+            <!--
+                Mandatory plugin for using Spock.
+                It enables you to check test cases using Spock automatically.
+
+                The gmavenplus plugin is used to compile Groovy code.
+                To learn more about this plugin,
+                visit https://github.com/groovy/GMavenPlus/wiki
+            -->
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
@@ -163,6 +257,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
                 <executions>
                     <execution>
                         <id>copy</id>
@@ -182,57 +277,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
-            </plugin>
-
-            <!-- Attaches java source files for view -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Generates javadoc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Signs with GPG key -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

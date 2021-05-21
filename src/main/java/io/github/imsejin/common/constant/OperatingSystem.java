@@ -19,10 +19,7 @@ package io.github.imsejin.common.constant;
 import io.github.imsejin.common.util.StringUtils;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Collections.singleton;
 import static java.util.Collections.unmodifiableSet;
@@ -32,36 +29,36 @@ public enum OperatingSystem {
     /**
      * Microsoft Windows.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["win"]
-     * }</pre>
+     * </code></pre>
      */
     WINDOWS(singleton("win")),
 
     /**
      * Apple macOS.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["mac"]
-     * }</pre>
+     * </code></pre>
      */
     MAC(singleton("mac")),
 
     /**
      * Unix including Linux and IBM AIX.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["nix", "nux", "aix"]
-     * }</pre>
+     * </code></pre>
      */
     UNIX(new HashSet<>(Arrays.asList("nix", "nux", "aix"))),
 
     /**
      * Oracle Solaris.
      *
-     * <pre>{@code
+     * <pre><code>
      *     ["sunos"]
-     * }</pre>
+     * </code></pre>
      */
     SOLARIS(singleton("sunos"));
 
@@ -74,14 +71,45 @@ public enum OperatingSystem {
         this.keywords = unmodifiableSet(keywords);
     }
 
+    /**
+     * Returns whether the given name is the one of the name of operating system.
+     *
+     * <pre><code>
+     *     contains("Windows 10");  // true
+     *     contains("Mac OS");      // true
+     *     contains("Linux");       // true
+     *     contains("Unix");        // true
+     *     contains("Sun OS");      // true
+     * </code></pre>
+     *
+     * @param osName name of operating system
+     * @return whether the name is the one of the name of operating system.
+     */
     public static boolean contains(@Nonnull String osName) {
+        String name = osName.toLowerCase().replaceAll("\\s", "");
         return Arrays.stream(values())
-                .anyMatch(os -> StringUtils.anyContains(osName, os.keywords));
+                .anyMatch(os -> StringUtils.anyContains(name, os.keywords));
     }
 
+    /**
+     * Returns {@link OperatingSystem} that matches the given name of operating system.
+     *
+     * <pre><code>
+     *     of("Win10").get();         // OperatingSystem.WINDOWS
+     *     of("WINDOWS").get();       // OperatingSystem.WINDOWS
+     *     of("MacOSX").get();        // OperatingSystem.MAC
+     *     of("RedHat Linux").get();  // OperatingSystem.UNIX
+     *     of("Unix").get();          // OperatingSystem.UNIX
+     *     of("SunOS").get();         // OperatingSystem.SOLARIS
+     * </code></pre>
+     *
+     * @param osName name of operating system
+     * @return {@link OperatingSystem}
+     */
     public static Optional<OperatingSystem> of(@Nonnull String osName) {
+        String name = osName.toLowerCase().replaceAll("\\s", "");
         return Arrays.stream(values())
-                .filter(os -> StringUtils.anyContains(osName, os.keywords))
+                .filter(os -> StringUtils.anyContains(name, os.keywords))
                 .findFirst();
     }
 

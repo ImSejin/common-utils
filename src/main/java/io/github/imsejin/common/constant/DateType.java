@@ -18,9 +18,12 @@ package io.github.imsejin.common.constant;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.Collections;
+import java.util.Map;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Datetime patterns for {@link java.time.format.DateTimeFormatter#ofPattern(String)}.
@@ -30,72 +33,72 @@ public enum DateType {
     /**
      * Year
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyy
-     * }</pre>
+     * </code></pre>
      */
     YEAR("yyyy", ofPattern("yyyy")),
 
     /**
      * Month
      *
-     * <pre>{@code
+     * <pre><code>
      *     MM
-     * }</pre>
+     * </code></pre>
      */
     MONTH("MM", ofPattern("MM")),
 
     /**
      * Day
      *
-     * <pre>{@code
+     * <pre><code>
      *     dd
-     * }</pre>
+     * </code></pre>
      */
     DAY("dd", ofPattern("dd")),
 
     /**
      * Hour
      *
-     * <pre>{@code
+     * <pre><code>
      *     HH
-     * }</pre>
+     * </code></pre>
      */
     HOUR("HH", ofPattern("HH")),
 
     /**
      * Minute
      *
-     * <pre>{@code
+     * <pre><code>
      *     mm
-     * }</pre>
+     * </code></pre>
      */
     MINUTE("mm", ofPattern("mm")),
 
     /**
      * Second
      *
-     * <pre>{@code
+     * <pre><code>
      *     ss
-     * }</pre>
+     * </code></pre>
      */
     SECOND("ss", ofPattern("ss")),
 
     /**
      * Millisecond
      *
-     * <pre>{@code
+     * <pre><code>
      *     SSS
-     * }</pre>
+     * </code></pre>
      */
     MILLISECOND("SSS", ofPattern("SSS")),
 
     /**
      * Year and month
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyyMM
-     * }</pre>
+     * </code></pre>
      */
     YEAR_MONTH(YEAR.pattern + MONTH.pattern,
             ofPattern(YEAR.pattern + MONTH.pattern)),
@@ -103,9 +106,9 @@ public enum DateType {
     /**
      * Year, month and day
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyyMMdd
-     * }</pre>
+     * </code></pre>
      */
     DATE(YEAR.pattern + MONTH.pattern + DAY.pattern,
             ofPattern(YEAR.pattern + MONTH.pattern + DAY.pattern)),
@@ -113,9 +116,9 @@ public enum DateType {
     /**
      * Hour, minute and second
      *
-     * <pre>{@code
+     * <pre><code>
      *     HHmmss
-     * }</pre>
+     * </code></pre>
      */
     TIME(HOUR.pattern + MINUTE.pattern + SECOND.pattern,
             ofPattern(HOUR.pattern + MINUTE.pattern + SECOND.pattern)),
@@ -123,9 +126,9 @@ public enum DateType {
     /**
      * Hour, minute, second and millisecond
      *
-     * <pre>{@code
+     * <pre><code>
      *     HHmmssSSS
-     * }</pre>
+     * </code></pre>
      */
     HOUR_2_MILSEC(TIME.pattern + MILLISECOND.pattern,
             ofPattern(TIME.pattern + MILLISECOND.pattern)),
@@ -133,9 +136,9 @@ public enum DateType {
     /**
      * Year, month, day, hour, minute and second
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyyMMddHHmmss
-     * }</pre>
+     * </code></pre>
      */
     DATE_TIME(DATE.pattern + TIME.pattern,
             ofPattern(DATE.pattern + TIME.pattern)),
@@ -143,9 +146,9 @@ public enum DateType {
     /**
      * Year, month, day, hour, minute, second and millisecond
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyyMMddHHmmssSSS
-     * }</pre>
+     * </code></pre>
      */
     ALL(DATE.pattern + HOUR_2_MILSEC.pattern,
             ofPattern(DATE.pattern + HOUR_2_MILSEC.pattern)),
@@ -153,9 +156,9 @@ public enum DateType {
     /**
      * Formatted year, month and day
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyy-MM-dd
-     * }</pre>
+     * </code></pre>
      */
     F_DATE(YEAR.pattern + "-" + MONTH.pattern + "-" + DAY.pattern,
             ofPattern(YEAR.pattern + "-" + MONTH.pattern + "-" + DAY.pattern)),
@@ -163,9 +166,9 @@ public enum DateType {
     /**
      * Formatted hour, minute and second
      *
-     * <pre>{@code
+     * <pre><code>
      *     HH:mm:ss
-     * }</pre>
+     * </code></pre>
      */
     F_TIME(HOUR.pattern + ":" + MINUTE.pattern + ":" + SECOND.pattern,
             ofPattern(HOUR.pattern + ":" + MINUTE.pattern + ":" + SECOND.pattern)),
@@ -173,9 +176,9 @@ public enum DateType {
     /**
      * Formatted hour, minute, second and millisecond
      *
-     * <pre>{@code
+     * <pre><code>
      *     HH:mm:ss.SSS
-     * }</pre>
+     * </code></pre>
      */
     F_HOUR_2_MILSEC(F_TIME.pattern + "." + MILLISECOND.pattern,
             ofPattern(F_TIME.pattern + "." + MILLISECOND.pattern)),
@@ -183,9 +186,9 @@ public enum DateType {
     /**
      * Formatted year, month, day, hour, minute and second
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyy-MM-dd HH:mm:ss
-     * }</pre>
+     * </code></pre>
      */
     F_DATE_TIME(F_DATE.pattern + " " + F_TIME.pattern,
             ofPattern(F_DATE.pattern + " " + F_TIME.pattern)),
@@ -193,9 +196,9 @@ public enum DateType {
     /**
      * Formatted year, month, day, hour, minute, second and millisecond
      *
-     * <pre>{@code
+     * <pre><code>
      *     yyyy-MM-dd HH:mm:ss.SSS
-     * }</pre>
+     * </code></pre>
      */
     F_ALL(F_DATE.pattern + " " + F_HOUR_2_MILSEC.pattern,
             ofPattern(F_DATE.pattern + " " + F_HOUR_2_MILSEC.pattern));
@@ -210,20 +213,27 @@ public enum DateType {
      */
     private final DateTimeFormatter formatter;
 
+    private static final Map<String, DateType> $CODE_LOOKUP = Arrays.stream(values())
+            .collect(collectingAndThen(toMap(it -> it.pattern, it -> it), Collections::unmodifiableMap));
+
     DateType(String pattern, DateTimeFormatter formatter) {
         this.pattern = pattern;
         this.formatter = formatter;
     }
 
     public static boolean contains(String pattern) {
-        return Arrays.stream(values())
-                .anyMatch(dateType -> dateType.pattern.equals(pattern));
+        return $CODE_LOOKUP.containsKey(pattern);
     }
 
-    public static Optional<DateType> of(String pattern) {
-        return Arrays.stream(values())
-                .filter(type -> type.pattern.equals(pattern))
-                .findFirst();
+    /**
+     * Returns a constant of {@link DateType} matched given pattern.
+     *
+     * @param pattern pattern
+     * @return constant of {@link DateType} matched given pattern
+     */
+    public static DateType from(String pattern) {
+        if (contains(pattern)) return $CODE_LOOKUP.get(pattern);
+        throw new IllegalArgumentException("Enumeration 'DateType' has no pattern: '" + pattern + "'");
     }
 
     /**

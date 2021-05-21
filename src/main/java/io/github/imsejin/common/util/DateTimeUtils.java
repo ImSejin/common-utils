@@ -43,10 +43,10 @@ public final class DateTimeUtils {
     /**
      * Checks if it's leap year.
      *
-     * <pre>{@code
+     * <pre><code>
      *     isLeapYear(2019); // false
      *     isLeapYear(2020); // true
-     * }</pre>
+     * </code></pre>
      *
      * @param year year you want to check
      * @return the year is leap year or not
@@ -58,9 +58,9 @@ public final class DateTimeUtils {
     /**
      * Returns today's date formatted as 'yyyyMMdd'.
      *
-     * <pre>{@code
+     * <pre><code>
      *     today(); // 20191231
-     * }</pre>
+     * </code></pre>
      *
      * @return today's date
      */
@@ -71,7 +71,7 @@ public final class DateTimeUtils {
     /**
      * Returns today's date formatted with pattern.
      *
-     * <pre>{@code
+     * <pre><code>
      *     today();                 // 20191231
      *
      *     today(DateType.YEAR);    // 2019
@@ -81,7 +81,7 @@ public final class DateTimeUtils {
      *     today(DateType.MINUTE);  // 59
      *     today(DateType.SECOND);  // 59
      *     today(DateType.F_ALL);   // 2019-12-31 17:59:59.723
-     * }</pre>
+     * </code></pre>
      *
      * @param type type of the date
      * @return today's datetime formatted with pattern
@@ -93,10 +93,10 @@ public final class DateTimeUtils {
     /**
      * Returns yesterday's date formatted as 'yyyyMMdd'.
      *
-     * <pre>{@code
+     * <pre><code>
      *     today();     // 20191231
      *     yesterday(); // 20191230
-     * }</pre>
+     * </code></pre>
      *
      * @return yesterday's date
      */
@@ -107,13 +107,13 @@ public final class DateTimeUtils {
     /**
      * Returns the corresponding element of yesterday's date formatted as 'yyyyMMdd'.
      *
-     * <pre>{@code
+     * <pre><code>
      *     yesterday();                 // 20191230
      *
      *     yesterday(DateType.YEAR);    // 2019
      *     yesterday(DateType.MONTH);   // 12
      *     yesterday(DateType.DAY);     // 30
-     * }</pre>
+     * </code></pre>
      *
      * @param type type of the date
      * @return yesterday's datetime formatted with pattern
@@ -125,9 +125,9 @@ public final class DateTimeUtils {
     /**
      * Returns the current datetime formatted as 'yyyyMMddHHmmss'.
      *
-     * <pre>{@code
+     * <pre><code>
      *     now(); // 20191231175959
-     * }</pre>
+     * </code></pre>
      *
      * @return corresponding element of yesterday's datetime
      */
@@ -140,12 +140,12 @@ public final class DateTimeUtils {
      *
      * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
      *
-     * <pre>{@code
+     * <pre><code>
      *     validate("2019-02-28");  // true
      *     validate("20190229");    // false
      *     validate("20200229");    // true
      *     validate("2020-02-29");  // true
-     * }</pre>
+     * </code></pre>
      *
      * @param date date
      * @return whether the date is valid
@@ -166,13 +166,13 @@ public final class DateTimeUtils {
      *
      * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
      *
-     * <pre>{@code
+     * <pre><code>
      *     validate("20190228", DayOfWeek.THURSDAY);    // true
      *     validate("2019-02-28", DayOfWeek.THURSDAY);  // true
      *     validate("20190229", DayOfWeek.FRIDAY);      // false
      *     validate("20200229", DayOfWeek.SATURDAY);    // true
      *     validate("2020-02-29", DayOfWeek.SATURDAY);  // true
-     * }</pre>
+     * </code></pre>
      *
      * @param date      date
      * @param dayOfWeek day of week
@@ -192,10 +192,10 @@ public final class DateTimeUtils {
     /**
      * Returns the last date of the year and month.
      *
-     * <pre>{@code
+     * <pre><code>
      *     withMonthlyLastDate(2019, 2); // 20190228
      *     withMonthlyLastDate(2020, 2); // 20200229
-     * }</pre>
+     * </code></pre>
      *
      * @param year  year
      * @param month month
@@ -209,10 +209,10 @@ public final class DateTimeUtils {
     /**
      * Returns the last date of the year and month.
      *
-     * <pre>{@code
+     * <pre><code>
      *     withMonthlyLastDate(2019, Month.FEBRUARY); // 20190228
      *     withMonthlyLastDate(2020, Month.FEBRUARY); // 20200229
-     * }</pre>
+     * </code></pre>
      *
      * @param year  year
      * @param month month
@@ -226,10 +226,10 @@ public final class DateTimeUtils {
     /**
      * Returns the last date of the year and month.
      *
-     * <pre>{@code
+     * <pre><code>
      *     withMonthlyLastDate("2019", "2"); // 20190228
      *     withMonthlyLastDate("2020", "2"); // 20200229
-     * }</pre>
+     * </code></pre>
      *
      * @param year  year
      * @param month month
@@ -243,10 +243,10 @@ public final class DateTimeUtils {
     /**
      * Returns the last date of the year and month.
      *
-     * <pre>{@code
+     * <pre><code>
      *     withMonthlyLastDate("2019", Month.FEBRUARY); // 20190228
      *     withMonthlyLastDate("2020", Month.FEBRUARY); // 20200229
-     * }</pre>
+     * </code></pre>
      *
      * @param year  year
      * @param month month

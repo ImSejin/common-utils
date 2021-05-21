@@ -95,4 +95,8 @@ public final class MathUtils {
         return (number & 1) == 1;
     }
 
+    public static boolean hasDecimalPart(double number) {
+        return number % 1 == 0;
+    }
+
 }

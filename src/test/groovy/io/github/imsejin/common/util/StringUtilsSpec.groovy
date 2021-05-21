@@ -60,10 +60,10 @@ class StringUtilsSpec extends Specification {
     @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
     def "Find with groups"() {
         given:
-        def regex = '^(.+)_(.+) - ([^-]+?)( \\[完])?$'
+        def pattern = Pattern.compile('^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$')
 
         when:
-        def result = StringUtils.find(src, regex, Pattern.MULTILINE, 1, 2, 3)
+        def result = StringUtils.find(src, pattern, 1, 2, 3)
 
         then:
         result.get(1) == first
@@ -71,11 +71,11 @@ class StringUtilsSpec extends Specification {
         result.get(3) == third
 
         where:
-        src                               | first | second                   | third
-        "CO_롭플롭(Loplop) - CTK [完]"        | "CO"  | "롭플롭(Loplop)"            | "CTK"
-        "L_What Does the Fox Say？ - 팀 가지" | "L"   | "What Does the Fox Say？" | "팀 가지"
-        "ST_총수 - 최종편 - 정기영, 백승훈 [完]"      | "ST"  | "총수 - 최종편"               | "정기영, 백승훈"
-        "L_바버샵 콰르테 - JIM, 넥스큐브, 볼레로 [完]"  | "L"   | "바버샵 콰르테"                | "JIM, 넥스큐브, 볼레로"
+        src                                                          | first | second                   | third
+        "CO_Felix Nelly(Loplop) - CTK [COMPLETE]"                    | "CO"  | "Felix Nelly(Loplop)"    | "CTK"
+        "L_What Does the Fox Say? - Team_Gaji"                       | "L"   | "What Does the Fox Say?" | "Team_Gaji"
+        "ST_Chief - Final - Jung Kiyoung, Baek Seunghoon [COMPLETE]" | "ST"  | "Chief - Final"          | "Jung Kiyoung, Baek Seunghoon"
+        "L_Barber Shop Quartet - JIM, Nexcube, Bolero [COMPLETE]"    | "L"   | "Barber Shop Quartet"    | "JIM, Nexcube, Bolero"
     }
 
     def "How many times the keyword is in the text?"() {
@@ -131,4 +131,41 @@ class StringUtilsSpec extends Specification {
         "typesetting" | "typesettin"
         "industry"    | "industr"
     }
+
+    def "Add padding before the string"() {
+        when:
+        def actual = StringUtils.padStart(len, origin, appendix)
+
+        then:
+        actual == expected
+
+        where:
+        origin          | len                 | appendix | expected
+        "12"            | 3                   | "0"      | "012"
+        "9781911223139" | origin.length()     | "-"      | origin
+        "111"           | origin.length() + 1 | "10-"    | "10-111"
+        "111"           | origin.length() + 2 | "10-"    | "10-10-111"
+        "111"           | origin.length() + 3 | "10-"    | "10-10-10-111"
+        "20210101"      | 0                   | ""       | origin
+        "19991231"      | -1                  | null     | origin
+    }
+
+    def "Add padding after the string"() {
+        when:
+        def actual = StringUtils.padEnd(len, origin, appendix)
+
+        then:
+        actual == expected
+
+        where:
+        origin          | len                 | appendix | expected
+        "0304"          | 8                   | "0"      | "03040000"
+        "9781911223139" | origin.length()     | "-"      | origin
+        "111"           | origin.length() + 1 | "-10"    | "111-10"
+        "111"           | origin.length() + 2 | "-10"    | "111-10-10"
+        "111"           | origin.length() + 3 | "-10"    | "111-10-10-10"
+        "20210101"      | 0                   | ""       | origin
+        "19991231"      | -1                  | null     | origin
+    }
+
 }

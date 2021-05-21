@@ -9,11 +9,11 @@ import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class StopwatchTest {
+class StopwatchTest {
 
     @Test
     @SneakyThrows
-    public void getTotalTime() {
+    void getTotalTime() {
         // given
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start("the first");
@@ -78,7 +78,7 @@ public class StopwatchTest {
 
     @Test
     @DisplayName("getTotalTime() + hasNeverBeenStopped()")
-    public void getTotalTimeWithException() {
+    void getTotalTimeWithException() {
         // given
         Stopwatch stopwatch = new Stopwatch();
 
@@ -92,7 +92,7 @@ public class StopwatchTest {
     @Test
     @Disabled
     @SneakyThrows
-    public void getSummary() {
+    void getSummary() {
         // given
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
@@ -120,7 +120,7 @@ public class StopwatchTest {
     @Test
     @Disabled
     @SneakyThrows
-    public void getStatistics() {
+    void getStatistics() {
         // given
         Stopwatch stopwatch = new Stopwatch();
 
@@ -166,7 +166,7 @@ public class StopwatchTest {
 
     @Test
     @Disabled
-    public void convertTimeUnit1() {
+    void convertTimeUnit1() {
         // given
         long amount = 2000;
 
@@ -181,7 +181,7 @@ public class StopwatchTest {
 
     @Test
     @Disabled
-    public void convertTimeUnit2() {
+    void convertTimeUnit2() {
         // given
         long amount = 2;
 

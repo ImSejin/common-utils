@@ -40,10 +40,10 @@ public final class FileUtils {
     /**
      * Returns creation time of the file.
      *
-     * <pre>{@code
+     * <pre><code>
      *     File file = new File("C:\\Program Files\\Java\\jdk1.8.0_202\\README.html");
      *     getCreationTime(file); // 2020-02-29 23:06:34
-     * }</pre>
+     * </code></pre>
      *
      * @param file file
      * @return file's creation time
@@ -56,10 +56,10 @@ public final class FileUtils {
     /**
      * Creates a directory whose name is the same name as the filename in the same path.
      *
-     * <pre>{@code
+     * <pre><code>
      *     File file = new File("/usr/local/docs", "list_20191231.csv");
      *     mkdirAsOwnName(file); // new File("/usr/local/docs", "list_20191231")
-     * }</pre>
+     * </code></pre>
      *
      * @param file file
      * @return directory whose name is the same name as the filename in the same path

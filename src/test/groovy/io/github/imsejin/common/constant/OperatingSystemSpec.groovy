@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.tool;
+package io.github.imsejin.common.constant
 
-import io.github.imsejin.common.constant.OperatingSystem;
+import spock.lang.Specification
 
-/**
- * Operating system detector
- *
- * @see OperatingSystem
- */
-public final class OSDetector {
+class OperatingSystemSpec extends Specification {
 
-    private static final String CURRENT_OS_NAME = System.getProperty("os.name").toLowerCase();
+    def "Contains"() {
+        expect:
+        OperatingSystem.contains(keyword)
 
-    private OSDetector() {
+        where:
+        keyword << ['win', 'mac', 'nix', 'nux', 'aix', 'sunos']
     }
 
-    /**
-     * Returns current operating system.
-     *
-     * @return current operating system.
-     */
-    public static OperatingSystem getOS() {
-        return OperatingSystem.of(CURRENT_OS_NAME).orElse(null);
+    def "Of"() {
+        when:
+        def os = OperatingSystem.of(keyword).orElse(null)
+
+        then:
+        os != null
+        os.getKeywords().contains(keyword)
+
+        where:
+        keyword << ['win', 'mac', 'nix', 'nux', 'aix', 'sunos']
     }
 
 }

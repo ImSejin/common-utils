@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -47,11 +48,11 @@ public final class JsonUtils {
     /**
      * Reads the JSON format string returned by the URL and converts it to {@link JsonObject}.
      *
-     * <pre>{@code
+     * <pre><code>
      *     String uriText = "http://cdn.lezhin.com/episodes/snail/1.json?access_token=5be30a25-a044-410c-88b0-19a1da968a64";
      *     URL url = URI.create(uriText).toURL();
      *     JsonObject json = JsonUtils.readJsonFromUrl(url);
-     * }</pre>
+     * </code></pre>
      *
      * @param url URL
      * @return JSON object
@@ -75,17 +76,24 @@ public final class JsonUtils {
      * @param reader reader
      * @return JSON string
      */
-    private static String readAllJson(@Nonnull BufferedReader reader) {
-        return reader.lines().collect(joining(System.lineSeparator()));
+    private static String readAllJson(@Nonnull Reader reader) {
+        BufferedReader bufferedReader;
+        if (reader instanceof BufferedReader) {
+            bufferedReader = (BufferedReader) reader;
+        } else {
+            bufferedReader = new BufferedReader(reader);
+        }
+
+        return bufferedReader.lines().collect(joining(System.lineSeparator()));
     }
 
     /**
      * Converts the JSON format string to the specified object.
      *
-     * <pre>{@code
+     * <pre><code>
      *     String jsonText = "{\"id\":1011,\"list\":[{\"id\":10,\"name\":\"foo\"},{\"id\":11,\"name\":\"bar\"}]}";
      *     T t = JsonUtils.toObject(jsonText, T.class);
-     * }</pre>
+     * </code></pre>
      *
      * @param jsonText JSON string
      * @param clazz    type

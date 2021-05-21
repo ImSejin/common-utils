@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.tool;
+package io.github.imsejin.common.util
 
-import io.github.imsejin.common.constant.OperatingSystem;
+import spock.lang.Specification
 
-/**
- * Operating system detector
- *
- * @see OperatingSystem
- */
-public final class OSDetector {
+class StreamUtilsSpec extends Specification {
 
-    private static final String CURRENT_OS_NAME = System.getProperty("os.name").toLowerCase();
+    def "ToStream"() {
+        given:
+        def list = ['q', 'w', 'e', 'r', 't', 'y']
 
-    private OSDetector() {
-    }
+        when:
+        def stream = StreamUtils.toStream(list.iterator())
 
-    /**
-     * Returns current operating system.
-     *
-     * @return current operating system.
-     */
-    public static OperatingSystem getOS() {
-        return OperatingSystem.of(CURRENT_OS_NAME).orElse(null);
+        then:
+        stream.toArray() == list.toArray()
     }
 
 }

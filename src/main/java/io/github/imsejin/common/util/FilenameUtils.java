@@ -37,13 +37,13 @@ public final class FilenameUtils {
      * <br>
      * If cannot find it, returns -1.
      *
-     * <pre>{@code
+     * <pre><code>
      *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
      *     indexOfExtension(file);          // 6
      *
      *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/.gitignore");
      *     indexOfExtension(anotherFile);   // -1
-     * }</pre>
+     * </code></pre>
      *
      * @param filename filename
      * @return index of extension separator
@@ -58,13 +58,13 @@ public final class FilenameUtils {
      * <br>
      * if file is null, returns empty string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
      *     baseName(file);          // README
      *
      *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/LICENSE");
      *     baseName(anotherFile);   // LICENSE
-     * }</pre>
+     * </code></pre>
      *
      * @param file file
      * @return filename without extension
@@ -80,10 +80,10 @@ public final class FilenameUtils {
      * <br>
      * if file is null, returns empty string.
      *
-     * <pre>{@code
+     * <pre><code>
      *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
      *     extension(file); // html
-     * }</pre>
+     * </code></pre>
      *
      * @param file file
      * @return extension name

@@ -192,6 +192,18 @@ public final class Stopwatch {
         return this.tasks.isEmpty();
     }
 
+    public void clear() {
+        if (isRunning()) throw new RuntimeException("Stopwatch is running; To clear, stop it first");
+        forceClear();
+    }
+
+    public void forceClear() {
+        this.tasks.clear();
+        this.startNanoTime = 0;
+        this.totalNanoTime = 0;
+        this.currentTaskName = null;
+    }
+
     /**
      * Returns the sum of the elapsed time of all saved tasks.
      *
