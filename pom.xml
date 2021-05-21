@@ -91,7 +91,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- AssertJ -->
+        <!--
+           AssertJ
+
+           Dependencies for using fluent assertions.
+       -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -99,7 +103,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Spock -->
+        <!--
+           Spock Framework
+
+           Mandatory dependencies for using Spock.
+           This starts to support 'maven-surefire' since 2.0.
+       -->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
@@ -128,27 +137,35 @@
                 </configuration>
             </plugin>
 
-            <!-- Junit auto tester -->
+            <!-- Plugin for run test cases -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <includes>
-                        <!--
-                            By default only files ending in 'Test' will be included,
-                            so also include support for Spock style naming convention.
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <!--
+                        Only required if names of test classes don't match default Surefire patterns('*Test').
+                        By default only files ending in 'Test' will be included,
+                        so also include support for Spock style naming convention.
 
-                            Oddly enough for Groovy files, '*Spec.groovy' does not work, but '*Spec.java'.
-                        -->
+                        Oddly enough for Groovy files, '*Spec.groovy' does not work, but '*Spec.java'.
+                    -->
+                    <includes>
                         <include>**/*Test.java</include>
                         <include>**/*Spec.java</include>
                     </includes>
                 </configuration>
             </plugin>
 
-            <!-- Spock auto tester -->
+            <!--
+                Mandatory plugin for using Spock.
+                It enables you to check test cases using Spock automatically.
+
+                The gmavenplus plugin is used to compile Groovy code.
+                To learn more about this plugin,
+                visit https://github.com/groovy/GMavenPlus/wiki
+            -->
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
