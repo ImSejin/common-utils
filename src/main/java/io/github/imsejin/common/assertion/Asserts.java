@@ -37,11 +37,11 @@ public abstract class Asserts {
     }
 
     public static LongAsserts<?> that(long number) {
-        return new LongAsserts(number);
+        return new LongAsserts<>(number);
     }
 
     public static DoubleAsserts<?> that(double number) {
-        return new DoubleAsserts(number);
+        return new DoubleAsserts<>(number);
     }
 
     public static CharSequenceAsserts<?> that(CharSequence charSequence) {
