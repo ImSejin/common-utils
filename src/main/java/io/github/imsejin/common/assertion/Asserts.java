@@ -32,6 +32,10 @@ public abstract class Asserts {
         return new ClassAsserts<>(type);
     }
 
+    public static CharacterAsserts<?> that(char character) {
+        return new CharacterAsserts<>(character);
+    }
+
     public static LongAsserts<?> that(long number) {
         return new LongAsserts(number);
     }
