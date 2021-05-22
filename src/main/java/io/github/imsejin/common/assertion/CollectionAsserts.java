@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
-public class CollectionAsserts<T> extends ObjectAsserts {
+@SuppressWarnings("unchecked")
+public class CollectionAsserts<SELF extends CollectionAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
 
     private final Collection<T> target;
 
@@ -28,60 +28,24 @@ public class CollectionAsserts<T> extends ObjectAsserts {
         this.target = target;
     }
 
-    public CollectionAsserts<T> hasElement(String message) {
-        isNotNull(message);
-        if (this.target.isEmpty()) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF hasElement() {
+        if (this.target.isEmpty()) throw getException();
+        return (SELF) this;
     }
 
-    public CollectionAsserts<T> hasElement(Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (this.target.isEmpty()) throw supplier.get();
-
-        return this;
+    public SELF isSameSize(Collection<?> c) {
+        if (c == null || this.target.size() != c.size()) throw getException();
+        return (SELF) this;
     }
 
-    public CollectionAsserts<T> isSameSize(Collection<?> c, String message) {
-        isNotNull(message);
-        if (c == null || this.target.size() != c.size()) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF contains(T element) {
+        if (!this.target.contains(element)) throw getException();
+        return (SELF) this;
     }
 
-    public CollectionAsserts<T> isSameSize(Collection<?> c, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (c == null || this.target.size() != c.size()) throw supplier.get();
-
-        return this;
-    }
-
-    public CollectionAsserts<T> contains(T element, String message) {
-        isNotNull(message);
-        if (!this.target.contains(element)) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public CollectionAsserts<T> contains(T element, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.contains(element)) throw supplier.get();
-
-        return this;
-    }
-
-    public CollectionAsserts<T> containsAll(Collection<T> c, String message) {
-        isNotNull(message);
-        if (c == null || !this.target.containsAll(c)) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public CollectionAsserts<T> containsAll(Collection<T> c, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (c == null || !this.target.containsAll(c)) throw supplier.get();
-
-        return this;
+    public SELF containsAll(Collection<T> c) {
+        if (c == null || !this.target.containsAll(c)) throw getException();
+        return (SELF) this;
     }
 
 }

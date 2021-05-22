@@ -14,45 +14,45 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
 import java.util.Collection;
 
 public abstract class Asserts {
 
-    public static ObjectAsserts that(Object object) {
-        return new ObjectAsserts(object);
+    public static ObjectAsserts<?> that(Object object) {
+        return new ObjectAsserts<>(object);
     }
 
-    public static BooleanAsserts that(boolean bool) {
-        return new BooleanAsserts(bool);
+    public static BooleanAsserts<?> that(boolean bool) {
+        return new BooleanAsserts<>(bool);
     }
 
-    public static <T> ClassAsserts<T> that(Class<T> type) {
+    public static <T> ClassAsserts<?, T> that(Class<T> type) {
         return new ClassAsserts<>(type);
     }
 
-    public static LongAsserts that(long number) {
+    public static LongAsserts<?> that(long number) {
         return new LongAsserts(number);
     }
 
-    public static DoubleAsserts that(double number) {
+    public static DoubleAsserts<?> that(double number) {
         return new DoubleAsserts(number);
     }
 
-    public static CharSequenceAsserts that(CharSequence charSequence) {
-        return new CharSequenceAsserts(charSequence);
+    public static CharSequenceAsserts<?> that(CharSequence charSequence) {
+        return new CharSequenceAsserts<>(charSequence);
     }
 
-    public static StringAsserts that(String string) {
-        return new StringAsserts(string);
+    public static StringAsserts<?> that(String string) {
+        return new StringAsserts<>(string);
     }
 
-    public static <T> ArrayAsserts<T> that(T[] array) {
+    public static <T> ArrayAsserts<?, T> that(T[] array) {
         return new ArrayAsserts<>(array);
     }
 
-    public static <T> CollectionAsserts<T> that(Collection<T> collection) {
+    public static <T> CollectionAsserts<?, T> that(Collection<T> collection) {
         return new CollectionAsserts<>(collection);
     }
 

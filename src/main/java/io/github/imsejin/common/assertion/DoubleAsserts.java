@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
 import io.github.imsejin.common.util.MathUtils;
 
-import java.util.function.Supplier;
-
-public class DoubleAsserts extends LongAsserts {
+@SuppressWarnings("unchecked")
+public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends LongAsserts<SELF> {
 
     private final double target;
 
@@ -29,16 +28,9 @@ public class DoubleAsserts extends LongAsserts {
         this.target = target;
     }
 
-    public DoubleAsserts hasDeciamlPart(String message) {
-        if (!MathUtils.hasDecimalPart(this.target)) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public DoubleAsserts hasDeciamlPart(Supplier<? extends RuntimeException> supplier) {
-        if (!MathUtils.hasDecimalPart(this.target)) throw supplier.get();
-
-        return this;
+    public SELF hasDeciamlPart() {
+        if (!MathUtils.hasDecimalPart(this.target)) throw getException();
+        return (SELF) this;
     }
 
 }

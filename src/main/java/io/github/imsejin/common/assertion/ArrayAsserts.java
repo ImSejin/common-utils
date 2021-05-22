@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
 
 import java.util.Arrays;
-import java.util.function.Supplier;
 
-public class ArrayAsserts<T> extends ObjectAsserts {
+@SuppressWarnings("unchecked")
+public class ArrayAsserts<SELF extends ArrayAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
 
     private final T[] target;
 
@@ -29,62 +29,27 @@ public class ArrayAsserts<T> extends ObjectAsserts {
         this.target = target;
     }
 
-    public ArrayAsserts hasElement(T[] arr, String message) {
-        isNotNull(message);
-        if (arr.length == 0) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF hasElement(T[] arr) {
+        if (arr.length == 0) throw getException();
+        return (SELF) this;
     }
 
-    public ArrayAsserts hasElement(T[] arr, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (arr.length == 0) throw supplier.get();
-
-        return this;
+    public SELF isSameSize(T[] arr) {
+        if (arr == null || this.target.length != arr.length) throw getException();
+        return (SELF) this;
     }
 
-    public ArrayAsserts isSameSize(T[] arr, String message) {
-        isNotNull(message);
-        if (arr == null || this.target.length != arr.length) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF contains(T element) {
+        if (!Arrays.asList(this.target).contains(element)) throw getException();
+        return (SELF) this;
     }
 
-    public ArrayAsserts isSameSize(T[] arr, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (arr == null || this.target.length != arr.length) throw supplier.get();
-
-        return this;
-    }
-
-    public ArrayAsserts contains(T element, String message) {
-        isNotNull(message);
-        if (!Arrays.asList(this.target).contains(element)) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ArrayAsserts contains(T element, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!Arrays.asList(this.target).contains(element)) throw supplier.get();
-
-        return this;
-    }
-
-    public ArrayAsserts containsAll(T[] arr, String message) {
-        isNotNull(message);
+    public SELF containsAll(T[] arr) {
         if (arr == null || !Arrays.asList(this.target).containsAll(Arrays.asList(arr))) {
-            throw new IllegalArgumentException(message);
+            throw getException();
         }
 
-        return this;
-    }
-
-    public ArrayAsserts containsAll(T[] arr, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (arr == null || !Arrays.asList(this.target).containsAll(Arrays.asList(arr))) throw supplier.get();
-
-        return this;
+        return (SELF) this;
     }
 
 }

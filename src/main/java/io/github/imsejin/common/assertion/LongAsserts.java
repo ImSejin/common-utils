@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
-import java.util.function.Supplier;
-
-public class LongAsserts {
+@SuppressWarnings("unchecked")
+public class LongAsserts<SELF extends LongAsserts<SELF>> extends Descriptor<SELF> {
 
     private final long target;
 
@@ -26,52 +25,24 @@ public class LongAsserts {
         this.target = target;
     }
 
-    public LongAsserts isPositive(String message) {
-        if (this.target < 1) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isPositive() {
+        if (this.target < 1) throw getException();
+        return (SELF) this;
     }
 
-    public LongAsserts isPositive(Supplier<? extends RuntimeException> supplier) {
-        if (this.target < 1) throw supplier.get();
-
-        return this;
+    public SELF isZeroOrPositive() {
+        if (this.target < 0) throw getException();
+        return (SELF) this;
     }
 
-    public LongAsserts isZeroOrPositive(String message) {
-        if (this.target < 0) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isNegative() {
+        if (this.target > -1) throw getException();
+        return (SELF) this;
     }
 
-    public LongAsserts isZeroOrPositive(Supplier<? extends RuntimeException> supplier) {
-        if (this.target < 0) throw supplier.get();
-
-        return this;
-    }
-
-    public LongAsserts isNegative(String message) {
-        if (this.target > -1) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public LongAsserts isNegative(Supplier<? extends RuntimeException> supplier) {
-        if (this.target > -1) throw supplier.get();
-
-        return this;
-    }
-
-    public LongAsserts isZeroOrNegative(String message) {
-        if (this.target > 0) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public LongAsserts isZeroOrNegative(Supplier<? extends RuntimeException> supplier) {
-        if (this.target > 0) throw supplier.get();
-
-        return this;
+    public SELF isZeroOrNegative() {
+        if (this.target > 0) throw getException();
+        return (SELF) this;
     }
 
 }

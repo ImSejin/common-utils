@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
-import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-public class StringAsserts extends CharSequenceAsserts {
+@SuppressWarnings("unchecked")
+public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenceAsserts<SELF> {
 
     private final String target;
 
@@ -28,86 +28,38 @@ public class StringAsserts extends CharSequenceAsserts {
         this.target = target;
     }
 
-    public StringAsserts isNumeric(String message) {
-        hasText(message);
+    public SELF isNumeric() {
         for (char c : this.target.toCharArray()) {
-            if (!Character.isDigit(c)) throw new IllegalArgumentException(message);
+            if (!Character.isDigit(c)) throw getException();
         }
 
-        return this;
+        return (SELF) this;
     }
 
-    public StringAsserts isNumeric(Supplier<? extends RuntimeException> supplier) {
-        hasText(supplier);
+    public SELF isUpperCase() {
         for (char c : this.target.toCharArray()) {
-            if (!Character.isDigit(c)) throw supplier.get();
+            if (!Character.isUpperCase(c)) throw getException();
         }
 
-        return this;
+        return (SELF) this;
     }
 
-    public StringAsserts isUpperCase(String message) {
-        hasText(message);
+    public SELF isLowerCase() {
         for (char c : this.target.toCharArray()) {
-            if (!Character.isUpperCase(c)) throw new IllegalArgumentException(message);
+            if (!Character.isLowerCase(c)) throw getException();
         }
 
-        return this;
+        return (SELF) this;
     }
 
-    public StringAsserts isUpperCase(Supplier<? extends RuntimeException> supplier) {
-        hasText(supplier);
-        for (char c : this.target.toCharArray()) {
-            if (!Character.isUpperCase(c)) throw supplier.get();
-        }
-
-        return this;
+    public SELF matches(String regex) {
+        if (!this.target.matches(regex)) throw getException();
+        return (SELF) this;
     }
 
-    public StringAsserts isLowerCase(String message) {
-        hasText(message);
-        for (char c : this.target.toCharArray()) {
-            if (!Character.isLowerCase(c)) throw new IllegalArgumentException(message);
-        }
-
-        return this;
-    }
-
-    public StringAsserts isLowerCase(Supplier<? extends RuntimeException> supplier) {
-        hasText(supplier);
-        for (char c : this.target.toCharArray()) {
-            if (!Character.isLowerCase(c)) throw supplier.get();
-        }
-
-        return this;
-    }
-
-    public StringAsserts matches(String regex, String message) {
-        isNotNull(message);
-        if (!this.target.matches(regex)) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public StringAsserts matches(String regex, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.matches(regex)) throw supplier.get();
-
-        return this;
-    }
-
-    public StringAsserts matches(Pattern pattern, String message) {
-        isNotNull(message);
-        if (!pattern.matcher(this.target).matches()) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public StringAsserts matches(Pattern pattern, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!pattern.matcher(this.target).matches()) throw supplier.get();
-
-        return this;
+    public SELF matches(Pattern pattern) {
+        if (!pattern.matcher(this.target).matches()) throw getException();
+        return (SELF) this;
     }
 
 }

@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
-import java.util.function.Supplier;
-
-public class CharSequenceAsserts extends ObjectAsserts {
+@SuppressWarnings("unchecked")
+public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends ObjectAsserts<SELF> {
 
     private final CharSequence target;
 
@@ -27,30 +26,14 @@ public class CharSequenceAsserts extends ObjectAsserts {
         this.target = target;
     }
 
-    public CharSequenceAsserts hasText(String message) {
-        isNotNull(message);
-        if (this.target.length() <= 0) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF hasText() {
+        if (this.target.length() <= 0) throw getException();
+        return (SELF) this;
     }
 
-    public CharSequenceAsserts hasText(Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (this.target.length() <= 0) throw supplier.get();
-
-        return this;
-    }
-
-    public CharSequenceAsserts isEmpty(String message) {
-        if (this.target != null && this.target.length() > 0) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public CharSequenceAsserts isEmpty(Supplier<? extends RuntimeException> supplier) {
-        if (this.target != null && this.target.length() > 0) throw supplier.get();
-
-        return this;
+    public SELF isEmpty() {
+        if (this.target.length() > 0) throw getException();
+        return (SELF) this;
     }
 
 }

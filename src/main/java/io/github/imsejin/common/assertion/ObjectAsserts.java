@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
-import java.util.function.Supplier;
-
-public class ObjectAsserts {
+@SuppressWarnings("unchecked")
+public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<SELF> {
 
     private final Object target;
 
@@ -26,76 +25,34 @@ public class ObjectAsserts {
         this.target = target;
     }
 
-    public ObjectAsserts isNull(String message) {
-        if (this.target != null) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isNull() {
+        if (this.target != null) throw getException();
+        return (SELF) this;
     }
 
-    public ObjectAsserts isNull(Supplier<? extends RuntimeException> supplier) {
-        if (this.target != null) throw supplier.get();
-
-        return this;
+    public SELF isNotNull() {
+        if (this.target == null) throw getException();
+        return (SELF) this;
     }
 
-    public ObjectAsserts isNotNull(String message) {
-        if (this.target == null) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isSameAs(Object other) {
+        if (this.target != other) throw getException();
+        return (SELF) this;
     }
 
-    public ObjectAsserts isNotNull(Supplier<? extends RuntimeException> supplier) {
-        if (this.target == null) throw supplier.get();
-
-        return this;
+    public SELF isNotSameAs(Object other) {
+        if (this.target == other) throw getException();
+        return (SELF) this;
     }
 
-    public ObjectAsserts isSame(Object other, String message) {
-        if (this.target != other) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isEqualTo(Object other) {
+        if (!this.target.equals(other)) throw getException();
+        return (SELF) this;
     }
 
-    public ObjectAsserts isSame(Object other, Supplier<? extends RuntimeException> supplier) {
-        if (this.target != other) throw supplier.get();
-
-        return this;
-    }
-
-    public ObjectAsserts isNotSame(Object other, String message) {
-        if (this.target == other) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ObjectAsserts isNotSame(Object other, Supplier<? extends RuntimeException> supplier) {
-        if (this.target == other) throw supplier.get();
-
-        return this;
-    }
-
-    public ObjectAsserts isEqualTo(Object other, String message) {
-        if (!this.target.equals(other)) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ObjectAsserts isEqualTo(Object other, Supplier<? extends RuntimeException> supplier) {
-        if (!this.target.equals(other)) throw supplier.get();
-
-        return this;
-    }
-
-    public ObjectAsserts isNotEqualTo(Object other, String message) {
-        if (this.target.equals(other)) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ObjectAsserts isNotEqualTo(Object other, Supplier<? extends RuntimeException> supplier) {
-        if (this.target.equals(other)) throw supplier.get();
-
-        return this;
+    public SELF isNotEqualTo(Object other) {
+        if (this.target.equals(other)) throw getException();
+        return (SELF) this;
     }
 
 }

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
 import java.lang.reflect.Modifier;
-import java.util.function.Supplier;
 
-public class ClassAsserts<T> extends ObjectAsserts {
+@SuppressWarnings("unchecked")
+public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
 
     private final Class<T> target;
 
@@ -28,102 +28,39 @@ public class ClassAsserts<T> extends ObjectAsserts {
         this.target = target;
     }
 
-    public ClassAsserts<T> isInstanceOf(Object instance, String message) {
-        isNotNull(message);
-        if (!this.target.isInstance(instance)) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isInstanceOf(Object instance) {
+        if (!this.target.isInstance(instance)) throw getException();
+        return (SELF) this;
     }
 
-    public ClassAsserts<T> isInstanceOf(Object instance, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.isInstance(instance)) throw supplier.get();
-
-        return this;
+    public SELF isAssignableFrom(Class<?> subType) {
+        if (!this.target.isAssignableFrom(subType)) throw getException();
+        return (SELF) this;
     }
 
-    public ClassAsserts<T> isAssignableFrom(Class<?> subType, String message) {
-        isNotNull(message);
-        if (!this.target.isAssignableFrom(subType)) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isPrimitive() {
+        if (!this.target.isPrimitive()) throw getException();
+        return (SELF) this;
     }
 
-    public ClassAsserts<T> isAssignableFrom(Class<?> subType, Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.isAssignableFrom(subType)) throw supplier.get();
-
-        return this;
+    public SELF isInterface() {
+        if (!this.target.isInterface()) throw getException();
+        return (SELF) this;
     }
 
-    public ClassAsserts<T> isPrimitive(String message) {
-        isNotNull(message);
-        if (!this.target.isPrimitive()) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF isAbstractClass() {
+        if (!Modifier.isAbstract(this.target.getModifiers())) throw getException();
+        return (SELF) this;
     }
 
-    public ClassAsserts<T> isPrimitive(Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.isPrimitive()) throw supplier.get();
-
-        return this;
+    public SELF isAnonymousClass() {
+        if (!this.target.isAnonymousClass()) throw getException();
+        return (SELF) this;
     }
 
-    public ClassAsserts<T> isInterface(String message) {
-        isNotNull(message);
-        if (!this.target.isInterface()) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ClassAsserts<T> isInterface(Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.isInterface()) throw supplier.get();
-
-        return this;
-    }
-
-    public ClassAsserts<T> isAbstractClass(String message) {
-        isNotNull(message);
-        if (!Modifier.isAbstract(this.target.getModifiers())) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ClassAsserts<T> isAbstractClass(Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!Modifier.isAbstract(this.target.getModifiers())) throw supplier.get();
-
-        return this;
-    }
-
-    public ClassAsserts<T> isAnonymousClass(String message) {
-        isNotNull(message);
-        if (!this.target.isAnonymousClass()) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ClassAsserts<T> isAnonymousClass(Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.isAnonymousClass()) throw supplier.get();
-
-        return this;
-    }
-
-    public ClassAsserts<T> isAnnotation(String message) {
-        isNotNull(message);
-        if (!this.target.isAnnotation()) throw new IllegalArgumentException(message);
-
-        return this;
-    }
-
-    public ClassAsserts<T> isAnnotation(Supplier<? extends RuntimeException> supplier) {
-        isNotNull(supplier);
-        if (!this.target.isAnnotation()) throw supplier.get();
-
-        return this;
+    public SELF isAnnotation() {
+        if (!this.target.isAnnotation()) throw getException();
+        return (SELF) this;
     }
 
 }
