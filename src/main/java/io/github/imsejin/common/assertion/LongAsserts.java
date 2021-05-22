@@ -25,6 +25,31 @@ public class LongAsserts<SELF extends LongAsserts<SELF>> extends Descriptor<SELF
         this.target = target;
     }
 
+    public SELF isEqualTo(double number) {
+        if (this.target != number) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isGreaterThan(double number) {
+        if (this.target <= number) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isGreaterThanOrEqualTo(double number) {
+        if (this.target < number) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isLessThan(double number) {
+        if (this.target >= number) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isLessThanOrEqualTo(double number) {
+        if (this.target > number) throw getException();
+        return (SELF) this;
+    }
+
     public SELF isPositive() {
         if (this.target < 1) throw getException();
         return (SELF) this;
