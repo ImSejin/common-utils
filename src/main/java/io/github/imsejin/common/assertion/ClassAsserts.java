@@ -38,6 +38,16 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
         return (SELF) this;
     }
 
+    public SELF isSuperclass(Class<?> subType) {
+        if (this.target != subType.getSuperclass()) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isSubclass(Class<?> superType) {
+        if (this.target.getSuperclass() != superType) throw getException();
+        return (SELF) this;
+    }
+
     public SELF isPrimitive() {
         if (!this.target.isPrimitive()) throw getException();
         return (SELF) this;
