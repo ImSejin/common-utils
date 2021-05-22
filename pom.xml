@@ -6,7 +6,7 @@
 
     <groupId>io.github.imsejin</groupId>
     <artifactId>common-utils</artifactId>
-    <version>0.4.2</version>
+    <version>0.4.3</version>
     <packaging>jar</packaging>
 
     <name>Common Utils</name>
@@ -280,6 +280,31 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
+            </plugin>
+
+            <!--
+                Jacoco
+
+                Plugin for analyzing code coverage of test cases.
+            -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

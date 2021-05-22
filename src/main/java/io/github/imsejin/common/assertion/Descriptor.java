@@ -33,19 +33,20 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     public SELF as(String description, Object... args) {
         this.messagePattern = StringUtils.ifNullOrEmpty(description, "");
         this.arguments = args;
-
         return (SELF) this;
     }
 
     public SELF exception(Function<String, ? extends RuntimeException> function) {
         this.function = function;
-
         return (SELF) this;
     }
 
     protected final String getMessage() {
-        MessageFormat messageFormat = new MessageFormat(this.messagePattern);
-        return messageFormat.format(this.arguments, new StringBuffer(), null).toString();
+        // Escapes single quotation marks.
+        String pattern = this.messagePattern.replace("'", "''");
+        MessageFormat messageFormat = new MessageFormat(pattern);
+
+        return messageFormat.format(this.arguments);
     }
 
     protected final RuntimeException getException() {

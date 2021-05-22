@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion;
 
-
 import java.util.Arrays;
 
 @SuppressWarnings("unchecked")
@@ -29,8 +28,8 @@ public class ArrayAsserts<SELF extends ArrayAsserts<SELF, T>, T> extends ObjectA
         this.target = target;
     }
 
-    public SELF hasElement(T[] arr) {
-        if (arr.length == 0) throw getException();
+    public SELF hasElement() {
+        if (this.target.length == 0) throw getException();
         return (SELF) this;
     }
 
