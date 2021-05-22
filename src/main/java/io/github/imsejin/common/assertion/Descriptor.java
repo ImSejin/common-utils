@@ -16,21 +16,29 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.util.StringUtils;
+
 import java.text.MessageFormat;
 import java.util.function.Function;
 
+@SuppressWarnings("unchecked")
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
-    private String messagePattern = "";
+    private String messagePattern;
 
     private Object[] arguments;
 
     private Function<String, ? extends RuntimeException> function = IllegalArgumentException::new;
 
-    @SuppressWarnings("unchecked")
     public SELF as(String description, Object... args) {
-        this.messagePattern = description;
+        this.messagePattern = StringUtils.ifNullOrEmpty(description, "");
         this.arguments = args;
+
+        return (SELF) this;
+    }
+
+    public SELF exception(Function<String, ? extends RuntimeException> function) {
+        this.function = function;
 
         return (SELF) this;
     }
