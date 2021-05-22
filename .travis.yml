@@ -1,4 +1,35 @@
 language: java
 
-jdk:
-  - openjdk8
+matrix:
+  include:
+    - os: linux
+      jdk: openjdk8
+    - os: linux
+      jdk: openjdk11
+    - os: linux
+      jdk: openjdk15
+
+branches:
+  only:
+    - master
+    - release
+
+# Home directory in Travis CI server.
+cache:
+  directories:
+    - "$HOME/.m2/repository" # Maven
+    - "$HOME/.gradle" # Gradle
+
+before_install:
+  - "chmod +x ./mvnw"
+
+install:
+  - "./mvnw clean install -Dgpg.skip"
+
+script: "./mvnw test -B"
+
+# Notification when Travis CI is done.
+notifications:
+  email:
+    recipients:
+      - hackeres123@gmail.com

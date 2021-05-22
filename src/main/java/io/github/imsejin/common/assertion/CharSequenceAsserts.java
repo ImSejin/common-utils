@@ -14,31 +14,26 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.util.MathUtils;
+@SuppressWarnings("unchecked")
+public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends ObjectAsserts<SELF> {
 
-import java.util.function.Supplier;
+    private final CharSequence target;
 
-public class DoubleAsserts extends LongAsserts {
-
-    private final double target;
-
-    DoubleAsserts(double target) {
-        super((long) target);
+    CharSequenceAsserts(CharSequence target) {
+        super(target);
         this.target = target;
     }
 
-    public DoubleAsserts hasDeciamlPart(String message) {
-        if (!MathUtils.hasDecimalPart(this.target)) throw new IllegalArgumentException(message);
-
-        return this;
+    public SELF hasText() {
+        if (this.target.length() <= 0) throw getException();
+        return (SELF) this;
     }
 
-    public DoubleAsserts hasDeciamlPart(Supplier<? extends RuntimeException> supplier) {
-        if (!MathUtils.hasDecimalPart(this.target)) throw supplier.get();
-
-        return this;
+    public SELF isEmpty() {
+        if (this.target.length() > 0) throw getException();
+        return (SELF) this;
     }
 
 }

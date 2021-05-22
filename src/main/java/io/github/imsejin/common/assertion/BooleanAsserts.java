@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.asserts;
+package io.github.imsejin.common.assertion;
 
-import java.util.function.Supplier;
-
-public class BooleanAsserts {
+@SuppressWarnings("unchecked")
+public class BooleanAsserts<SELF extends BooleanAsserts<SELF>> extends Descriptor<SELF> {
 
     private final boolean target;
 
@@ -26,24 +25,14 @@ public class BooleanAsserts {
         this.target = target;
     }
 
-    public BooleanAsserts isTrue(String message) {
-        if (!this.target) throw new IllegalArgumentException(message);
-        return this;
+    public SELF isTrue() {
+        if (!this.target) throw getException();
+        return (SELF) this;
     }
 
-    public BooleanAsserts isTrue(Supplier<? extends RuntimeException> supplier) {
-        if (!this.target) throw supplier.get();
-        return this;
-    }
-
-    public BooleanAsserts isFalse(String message) {
-        if (this.target) throw new IllegalArgumentException(message);
-        return this;
-    }
-
-    public BooleanAsserts isFalse(Supplier<? extends RuntimeException> supplier) {
-        if (this.target) throw supplier.get();
-        return this;
+    public SELF isFalse() {
+        if (this.target) throw getException();
+        return (SELF) this;
     }
 
 }
