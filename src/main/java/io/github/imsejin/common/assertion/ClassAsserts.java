@@ -28,7 +28,7 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
         this.target = target;
     }
 
-    public SELF isInstanceOf(Object instance) {
+    public SELF isActualTypeOf(Object instance) {
         if (!this.target.isInstance(instance)) throw getException();
         return (SELF) this;
     }
