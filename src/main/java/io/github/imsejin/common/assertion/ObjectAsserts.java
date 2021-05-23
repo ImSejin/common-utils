@@ -55,4 +55,9 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
         return (SELF) this;
     }
 
+    public SELF isInstanceOf(Class<?> type) {
+        if (!type.isInstance(this.target)) throw getException();
+        return (SELF) this;
+    }
+
 }
