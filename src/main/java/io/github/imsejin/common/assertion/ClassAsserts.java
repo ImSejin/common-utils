@@ -33,6 +33,11 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
         return (SELF) this;
     }
 
+    public SELF isNotActualTypeOf(Object instance) {
+        if (this.target.isInstance(instance)) throw getException();
+        return (SELF) this;
+    }
+
     public SELF isAssignableFrom(Class<?> subType) {
         if (!this.target.isAssignableFrom(subType)) throw getException();
         return (SELF) this;
@@ -58,6 +63,11 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
         return (SELF) this;
     }
 
+    public SELF isAnnotation() {
+        if (!this.target.isAnnotation()) throw getException();
+        return (SELF) this;
+    }
+
     public SELF isAbstractClass() {
         if (!Modifier.isAbstract(this.target.getModifiers())) throw getException();
         return (SELF) this;
@@ -68,8 +78,23 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
         return (SELF) this;
     }
 
-    public SELF isAnnotation() {
-        if (!this.target.isAnnotation()) throw getException();
+    public SELF isEnum() {
+        if (!this.target.isEnum()) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isArray() {
+        if (!this.target.isArray()) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isMemberClass() {
+        if (!this.target.isMemberClass()) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isLocalClass() {
+        if (!this.target.isLocalClass()) throw getException();
         return (SELF) this;
     }
 
