@@ -32,6 +32,10 @@ public abstract class Asserts {
         return new ClassAsserts<>(type);
     }
 
+    public static PackageAsserts<?> that(Package pack) {
+        return new PackageAsserts<>(pack);
+    }
+
     public static CharacterAsserts<?> that(char character) {
         return new CharacterAsserts<>(character);
     }

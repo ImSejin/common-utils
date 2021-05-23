@@ -52,6 +52,21 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
         return (SELF) this;
     }
 
+    public SELF startsWith(String prefix) {
+        if (!this.target.startsWith(prefix)) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF endsWith(String suffix) {
+        if (!this.target.endsWith(suffix)) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF contains(CharSequence charSequence) {
+        if (!this.target.contains(charSequence)) throw getException();
+        return (SELF) this;
+    }
+
     public SELF matches(String regex) {
         if (!this.target.matches(regex)) throw getException();
         return (SELF) this;
