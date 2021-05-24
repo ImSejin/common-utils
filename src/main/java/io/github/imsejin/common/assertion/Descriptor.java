@@ -24,7 +24,7 @@ import java.util.function.Function;
 @SuppressWarnings("unchecked")
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
-    private String messagePattern;
+    private String messagePattern = "";
 
     private Object[] arguments;
 
