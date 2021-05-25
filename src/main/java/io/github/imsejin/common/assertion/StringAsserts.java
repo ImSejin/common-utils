@@ -36,6 +36,22 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
         return (SELF) this;
     }
 
+    public SELF isLetter() {
+        for (char c : this.target.toCharArray()) {
+            if (!Character.isLetter(c)) throw getException();
+        }
+
+        return (SELF) this;
+    }
+
+    public SELF isLetterOrDigit() {
+        for (char c : this.target.toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) throw getException();
+        }
+
+        return (SELF) this;
+    }
+
     public SELF isUpperCase() {
         for (char c : this.target.toCharArray()) {
             if (!Character.isUpperCase(c)) throw getException();
@@ -47,6 +63,14 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     public SELF isLowerCase() {
         for (char c : this.target.toCharArray()) {
             if (!Character.isLowerCase(c)) throw getException();
+        }
+
+        return (SELF) this;
+    }
+
+    public SELF isAlphabetic() {
+        for (char c : this.target.toCharArray()) {
+            if (!Character.isAlphabetic(c)) throw getException();
         }
 
         return (SELF) this;
