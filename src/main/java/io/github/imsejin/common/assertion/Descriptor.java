@@ -30,20 +30,24 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     private Function<String, ? extends RuntimeException> function = IllegalArgumentException::new;
 
-    public SELF as(String description, Object... args) {
-        this.messagePattern = StringUtils.ifNullOrEmpty(description, "");
+    protected Descriptor() {
+    }
+
+    public final SELF as(String description, Object... args) {
+        this.messagePattern = description;
         this.arguments = args;
         return (SELF) this;
     }
 
-    public SELF exception(Function<String, ? extends RuntimeException> function) {
+    public final SELF exception(Function<String, ? extends RuntimeException> function) {
         this.function = function;
         return (SELF) this;
     }
 
     protected final String getMessage() {
-        // Escapes single quotation marks.
-        String pattern = this.messagePattern.replace("'", "''");
+        // Prevent NPE and escapes single quotation marks.
+        String pattern = StringUtils.ifNullOrEmpty(this.messagePattern, "")
+                .replace("'", "''");
         MessageFormat messageFormat = new MessageFormat(pattern);
 
         return messageFormat.format(this.arguments);

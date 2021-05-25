@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.tool;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
 
@@ -75,7 +76,10 @@ public final class Stopwatch {
      * @param timeUnit time unit
      */
     public Stopwatch(@Nonnull TimeUnit timeUnit) {
-        if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
+        Asserts.that(timeUnit)
+                .as("Time unit cannot be null")
+                .isNotNull();
+
         this.timeUnit = timeUnit;
     }
 
@@ -112,7 +116,10 @@ public final class Stopwatch {
      * @param timeUnit time unit
      */
     public void setTimeUnit(@Nonnull TimeUnit timeUnit) {
-        if (timeUnit == null) throw new IllegalArgumentException("Time unit cannot be null");
+        Asserts.that(timeUnit)
+                .as("Time unit cannot be null")
+                .isNotNull();
+
         this.timeUnit = timeUnit;
     }
 
@@ -133,8 +140,13 @@ public final class Stopwatch {
      * @param taskName current task name
      */
     public void start(@Nonnull String taskName) {
-        if (taskName == null) throw new IllegalArgumentException("Task name cannot be null");
-        if (isRunning()) throw new RuntimeException("Stopwatch is already running");
+        Asserts.that(taskName)
+                .as("Task name cannot be null")
+                .isNotNull();
+        Asserts.that(isRunning())
+                .as("Stopwatch is already running")
+                .exception(RuntimeException::new)
+                .isFalse();
 
         this.currentTaskName = taskName;
         this.startNanoTime = System.nanoTime();
@@ -151,8 +163,13 @@ public final class Stopwatch {
      * @throws RuntimeException         if stopwatch is running
      */
     public void start(@Nonnull String format, Object... args) {
-        if (format == null) throw new IllegalArgumentException("Task name cannot be null");
-        if (isRunning()) throw new RuntimeException("Stopwatch is already running");
+        Asserts.that(format)
+                .as("Task name cannot be null")
+                .isNotNull();
+        Asserts.that(isRunning())
+                .as("Stopwatch is already running")
+                .exception(RuntimeException::new)
+                .isFalse();
 
         this.currentTaskName = String.format(format, args);
         this.startNanoTime = System.nanoTime();
@@ -166,7 +183,10 @@ public final class Stopwatch {
      * @throws RuntimeException if stopwatch is not running
      */
     public void stop() {
-        if (!isRunning()) throw new RuntimeException("Stopwatch is not running");
+        Asserts.that(isRunning())
+                .as("Stopwatch is not running")
+                .exception(RuntimeException::new)
+                .isTrue();
 
         long elapsedNanoTime = System.nanoTime() - this.startNanoTime;
         this.totalNanoTime += elapsedNanoTime;
@@ -193,7 +213,11 @@ public final class Stopwatch {
     }
 
     public void clear() {
-        if (isRunning()) throw new RuntimeException("Stopwatch is running; To clear, stop it first");
+        Asserts.that(isRunning())
+                .as("Stopwatch is running; To clear, stop it first")
+                .exception(RuntimeException::new)
+                .isFalse();
+
         forceClear();
     }
 
@@ -215,7 +239,11 @@ public final class Stopwatch {
      * @see MathUtils#floor(double, int)
      */
     public double getTotalTime() {
-        if (hasNeverBeenStopped()) throw new RuntimeException("Stopwatch has never been stopped");
+        Asserts.that(hasNeverBeenStopped())
+                .as("Stopwatch has never been stopped")
+                .exception(RuntimeException::new)
+                .isFalse();
+
         return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
     }
 
