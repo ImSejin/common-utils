@@ -19,56 +19,62 @@ package io.github.imsejin.common.constant;
 import io.github.imsejin.common.util.StringUtils;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
 
-import static java.util.Collections.singleton;
-import static java.util.Collections.unmodifiableSet;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toSet;
 
 public enum OperatingSystem {
 
     /**
      * Microsoft Windows.
      *
-     * <pre><code>
-     *     ["win"]
-     * </code></pre>
+     * <ul>
+     *     <li>win</li>
+     * </ul>
      */
-    WINDOWS(singleton("win")),
+    WINDOWS("win"),
 
     /**
      * Apple macOS.
      *
-     * <pre><code>
-     *     ["mac"]
-     * </code></pre>
+     * <ul>
+     *     <li>mac</li>
+     * </ul>
      */
-    MAC(singleton("mac")),
+    MAC("mac"),
 
     /**
      * Unix including Linux and IBM AIX.
      *
-     * <pre><code>
-     *     ["nix", "nux", "aix"]
-     * </code></pre>
+     * <ul>
+     *     <li>nix</li>
+     *     <li>nux</li>
+     *     <li>aix</li>
+     * </ul>
      */
-    UNIX(new HashSet<>(Arrays.asList("nix", "nux", "aix"))),
+    UNIX("nix", "nux", "aix"),
 
     /**
      * Oracle Solaris.
      *
-     * <pre><code>
-     *     ["sunos"]
-     * </code></pre>
+     * <ul>
+     *     <li>sunos</li>
+     * </ul>
      */
-    SOLARIS(singleton("sunos"));
+    SOLARIS("sunos");
 
     /**
      * Keywords that distinguish operating systems.
      */
     private final Set<String> keywords;
 
-    OperatingSystem(@Nonnull Set<String> keywords) {
-        this.keywords = unmodifiableSet(keywords);
+    OperatingSystem(String... keywords) {
+        this.keywords = Arrays.stream(keywords).collect(collectingAndThen(toSet(),
+                Collections::unmodifiableSet));
     }
 
     /**
@@ -87,8 +93,12 @@ public enum OperatingSystem {
      */
     public static boolean contains(@Nonnull String osName) {
         String name = osName.toLowerCase().replaceAll("\\s", "");
-        return Arrays.stream(values())
-                .anyMatch(os -> StringUtils.anyContains(name, os.keywords));
+
+        for (OperatingSystem os : values()) {
+            if (StringUtils.anyContains(name, os.keywords)) return true;
+        }
+
+        return false;
     }
 
     /**
