@@ -30,6 +30,9 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     private Function<String, ? extends RuntimeException> function = IllegalArgumentException::new;
 
+    protected Descriptor() {
+    }
+
     public SELF as(String description, Object... args) {
         this.messagePattern = StringUtils.ifNullOrEmpty(description, "");
         this.arguments = args;
