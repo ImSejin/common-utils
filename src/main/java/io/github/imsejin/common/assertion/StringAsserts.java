@@ -28,6 +28,14 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
         this.target = target;
     }
 
+    public SELF hasText() {
+        for (char c : this.target.toCharArray()) {
+            if (!Character.isWhitespace(c)) return (SELF) this;
+        }
+
+        throw getException();
+    }
+
     public SELF isNumeric() {
         for (char c : this.target.toCharArray()) {
             if (!Character.isDigit(c)) throw getException();
