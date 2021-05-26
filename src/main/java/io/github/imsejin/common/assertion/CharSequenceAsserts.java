@@ -37,7 +37,7 @@ public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends
     }
 
     public SELF hasLengthOf(int length) {
-        if (this.target.length() == length) throw getException();
+        if (this.target.length() != length) throw getException();
         return (SELF) this;
     }
 
