@@ -45,9 +45,11 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     }
 
     protected final String getMessage() {
-        // Prevent NPE and escapes single quotation marks.
-        String pattern = StringUtils.ifNullOrEmpty(this.messagePattern, "")
-                .replace("'", "''");
+        // Prevent NPE.
+        if (StringUtils.isNullOrEmpty(this.messagePattern)) return "";
+
+        // Escapes single quotation marks.
+        String pattern = this.messagePattern.replace("'", "''");
         MessageFormat messageFormat = new MessageFormat(pattern);
 
         return messageFormat.format(this.arguments);
