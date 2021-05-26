@@ -208,6 +208,31 @@ public final class StringUtils {
     }
 
     /**
+     * Checks whether the string is numeric.
+     *
+     * <pre><code>
+     *     isNumeric(null);     // false
+     *     isNumeric("");       // false
+     *     isNumeric(" ");      // false
+     *     isNumeric(" ABC");   // false
+     *     isNumeric(" 01");    // false
+     *     isNumeric("011");    // true
+     * </code></pre>
+     *
+     * @param str string
+     * @return whether the string is numeric
+     */
+    public static boolean isNumeric(String str) {
+        if (isNullOrEmpty(str)) return false;
+
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Fills the start of string with whitespace.
      *
      * <pre><code>
