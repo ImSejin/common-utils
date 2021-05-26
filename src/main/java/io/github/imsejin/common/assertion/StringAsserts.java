@@ -37,6 +37,8 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     }
 
     public SELF isNumeric() {
+        if (this.target.isEmpty()) throw getException();
+
         for (char c : this.target.toCharArray()) {
             if (!Character.isDigit(c)) throw getException();
         }

@@ -105,7 +105,13 @@ public final class StringUtils {
      * @return whether the string is null or blank
      */
     public static boolean isNullOrBlank(String str) {
-        return str == null || str.trim().isEmpty();
+        if (isNullOrEmpty(str)) return true;
+
+        for (char c : str.toCharArray()) {
+            if (!Character.isWhitespace(c)) return true;
+        }
+
+        return false;
     }
 
     /**
@@ -159,12 +165,12 @@ public final class StringUtils {
      *     anyNullOrBlank([" ABC", "ABC"]);   // false
      * </code></pre>
      *
-     * @param strs strings
+     * @param strings strings
      * @return whether any strings are null or blank
      */
-    public static boolean anyNullOrBlank(Collection<String> strs) {
-        if (CollectionUtils.isNullOrEmpty(strs)) return true;
-        return strs.stream().anyMatch(StringUtils::isNullOrBlank);
+    public static boolean anyNullOrBlank(Collection<String> strings) {
+        if (CollectionUtils.isNullOrEmpty(strings)) return true;
+        return strings.stream().anyMatch(StringUtils::isNullOrBlank);
     }
 
     /**
@@ -178,12 +184,12 @@ public final class StringUtils {
      *     allNullOrBlank([" ABC", "ABC"]);   // false
      * </code></pre>
      *
-     * @param strs strings
+     * @param strings strings
      * @return whether all strings are null or blank
      */
-    public static boolean allNullOrBlank(Collection<String> strs) {
-        if (CollectionUtils.isNullOrEmpty(strs)) return true;
-        return strs.stream().allMatch(StringUtils::isNullOrBlank);
+    public static boolean allNullOrBlank(Collection<String> strings) {
+        if (CollectionUtils.isNullOrEmpty(strings)) return true;
+        return strings.stream().allMatch(StringUtils::isNullOrBlank);
     }
 
     /**
@@ -199,12 +205,12 @@ public final class StringUtils {
      * </code></pre>
      *
      * @param criterion criterion string
-     * @param strs      strings
+     * @param strings   strings
      * @return whether any strings are equal to criterion string
      */
-    public static boolean anyEquals(String criterion, Collection<String> strs) {
-        if (criterion == null || CollectionUtils.isNullOrEmpty(strs)) return false;
-        return strs.stream().anyMatch(criterion::equals);
+    public static boolean anyEquals(String criterion, Collection<String> strings) {
+        if (criterion == null || CollectionUtils.isNullOrEmpty(strings)) return false;
+        return strings.stream().anyMatch(criterion::equals);
     }
 
     /**
@@ -593,7 +599,7 @@ public final class StringUtils {
     /**
      * Checks if criterial string contains other strings.
      *
-     * @param container  criterial string
+     * @param container    criterial string
      * @param containments list of strings to compare
      * @return whether criterial string contains other strings
      */
