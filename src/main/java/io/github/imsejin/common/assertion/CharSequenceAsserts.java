@@ -26,13 +26,13 @@ public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends
         this.target = target;
     }
 
-    public SELF hasText() {
-        if (this.target.length() <= 0) throw getException();
+    public SELF isEmpty() {
+        if (this.target.length() > 0) throw getException();
         return (SELF) this;
     }
 
-    public SELF isEmpty() {
-        if (this.target.length() > 0) throw getException();
+    public SELF isNotEmpty() {
+        if (this.target.length() <= 0) throw getException();
         return (SELF) this;
     }
 
