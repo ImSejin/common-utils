@@ -108,10 +108,10 @@ public final class StringUtils {
         if (isNullOrEmpty(str)) return true;
 
         for (char c : str.toCharArray()) {
-            if (!Character.isWhitespace(c)) return true;
+            if (!Character.isWhitespace(c)) return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
