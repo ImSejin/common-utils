@@ -41,4 +41,14 @@ public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends
         return (SELF) this;
     }
 
+    public SELF isSameLength(CharSequence expected) {
+        if (expected == null || this.actual.length() != expected.length()) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isNotSameLength(CharSequence expected) {
+        if (expected != null && this.actual.length() == expected.length()) throw getException();
+        return (SELF) this;
+    }
+
 }
