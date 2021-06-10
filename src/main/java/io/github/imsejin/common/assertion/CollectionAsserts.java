@@ -28,13 +28,28 @@ public class CollectionAsserts<SELF extends CollectionAsserts<SELF, T>, T> exten
         this.target = target;
     }
 
+    public SELF isEmpty() {
+        if (!this.target.isEmpty()) throw getException();
+        return (SELF) this;
+    }
+
     public SELF hasElement() {
         if (this.target.isEmpty()) throw getException();
         return (SELF) this;
     }
 
+    public SELF hasSizeOf(int size) {
+        if (this.target.size() != size) throw getException();
+        return (SELF) this;
+    }
+
     public SELF isSameSize(Collection<?> c) {
         if (c == null || this.target.size() != c.size()) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isNotSameSize(Collection<?> c) {
+        if (c != null && this.target.size() == c.size()) throw getException();
         return (SELF) this;
     }
 
