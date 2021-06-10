@@ -28,13 +28,28 @@ public class ArrayAsserts<SELF extends ArrayAsserts<SELF, T>, T> extends ObjectA
         this.target = target;
     }
 
+    public SELF isEmpty() {
+        if (this.target.length > 0) throw getException();
+        return (SELF) this;
+    }
+
     public SELF hasElement() {
         if (this.target.length == 0) throw getException();
         return (SELF) this;
     }
 
+    public SELF hasLengthOf(int length) {
+        if (this.target.length != length) throw getException();
+        return (SELF) this;
+    }
+
     public SELF isSameLength(T[] arr) {
         if (arr == null || this.target.length != arr.length) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isNotSameLength(T[] arr) {
+        if (arr != null && this.target.length == arr.length) throw getException();
         return (SELF) this;
     }
 
