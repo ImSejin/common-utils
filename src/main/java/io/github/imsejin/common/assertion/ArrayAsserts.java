@@ -33,7 +33,7 @@ public class ArrayAsserts<SELF extends ArrayAsserts<SELF, T>, T> extends ObjectA
         return (SELF) this;
     }
 
-    public SELF isSameSize(T[] arr) {
+    public SELF isSameLength(T[] arr) {
         if (arr == null || this.target.length != arr.length) throw getException();
         return (SELF) this;
     }
