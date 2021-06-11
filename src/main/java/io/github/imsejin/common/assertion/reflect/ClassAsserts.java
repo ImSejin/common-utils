@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion.reflect;
 
-import io.github.imsejin.common.assertion.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAsserts;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 import java.lang.reflect.Modifier;

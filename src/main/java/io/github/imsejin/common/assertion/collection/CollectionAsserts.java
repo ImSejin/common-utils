@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion.collection;
 
-import io.github.imsejin.common.assertion.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
 import java.util.Collection;
 

@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.array;
+
+import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
 import java.util.Arrays;
 

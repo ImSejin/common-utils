@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion.reflect;
 
-import io.github.imsejin.common.assertion.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
 @SuppressWarnings("unchecked")
 public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAsserts<SELF> {

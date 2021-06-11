@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion.chars;
 
-import io.github.imsejin.common.assertion.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
 @SuppressWarnings("unchecked")
 public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends ObjectAsserts<SELF> {

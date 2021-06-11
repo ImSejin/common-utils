@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion.io;
 
-import io.github.imsejin.common.assertion.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAsserts;
 import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;

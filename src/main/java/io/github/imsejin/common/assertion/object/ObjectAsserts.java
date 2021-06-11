@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.object;
 
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.reflect.ClassAsserts;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 @SuppressWarnings("unchecked")
@@ -70,6 +72,10 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
     public SELF isInstanceOf(Class<?> type) {
         if (!TypeClassifier.toWrapper(type).isInstance(this.target)) throw getException();
         return (SELF) this;
+    }
+
+    public ClassAsserts<?, ?> asClass() {
+        return new ClassAsserts<>(this.target.getClass());
     }
 
 }

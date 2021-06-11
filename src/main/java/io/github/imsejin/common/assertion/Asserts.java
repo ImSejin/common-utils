@@ -16,9 +16,11 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.assertion.array.ArrayAsserts;
 import io.github.imsejin.common.assertion.chars.CharSequenceAsserts;
 import io.github.imsejin.common.assertion.chars.StringAsserts;
 import io.github.imsejin.common.assertion.collection.CollectionAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAsserts;
 import io.github.imsejin.common.assertion.primitive.BooleanAsserts;
 import io.github.imsejin.common.assertion.primitive.CharacterAsserts;
 import io.github.imsejin.common.assertion.primitive.DoubleAsserts;
