@@ -36,32 +36,8 @@ import java.util.Map;
 
 public abstract class Asserts {
 
-    public static ObjectAsserts<?> that(Object object) {
-        return new ObjectAsserts<>(object);
-    }
-
-    public static BooleanAsserts<?> that(boolean bool) {
-        return new BooleanAsserts<>(bool);
-    }
-
-    public static <T> ClassAsserts<?, T> that(Class<T> type) {
-        return new ClassAsserts<>(type);
-    }
-
-    public static PackageAsserts<?> that(Package pack) {
-        return new PackageAsserts<>(pack);
-    }
-
-    public static CharacterAsserts<?> that(char character) {
-        return new CharacterAsserts<>(character);
-    }
-
-    public static LongAsserts<?> that(long number) {
-        return new LongAsserts<>(number);
-    }
-
-    public static DoubleAsserts<?> that(double number) {
-        return new DoubleAsserts<>(number);
+    public static <T> ArrayAsserts<?, T> that(T[] array) {
+        return new ArrayAsserts<>(array);
     }
 
     public static CharSequenceAsserts<?> that(CharSequence charSequence) {
@@ -72,20 +48,44 @@ public abstract class Asserts {
         return new StringAsserts<>(string);
     }
 
-    public static <T> ArrayAsserts<?, T> that(T[] array) {
-        return new ArrayAsserts<>(array);
-    }
-
     public static <T> CollectionAsserts<?, T> that(Collection<T> collection) {
         return new CollectionAsserts<>(collection);
+    }
+
+    public static FileAsserts<?> that(File file) {
+        return new FileAsserts<>(file);
     }
 
     public static <K, V> MapAsserts<?, K, V> that(Map<K, V> map) {
         return new MapAsserts<>(map);
     }
 
-    public static FileAsserts<?> that(File file) {
-        return new FileAsserts<>(file);
+    public static ObjectAsserts<?> that(Object object) {
+        return new ObjectAsserts<>(object);
+    }
+
+    public static BooleanAsserts<?> that(boolean bool) {
+        return new BooleanAsserts<>(bool);
+    }
+
+    public static CharacterAsserts<?> that(char character) {
+        return new CharacterAsserts<>(character);
+    }
+
+    public static DoubleAsserts<?> that(double number) {
+        return new DoubleAsserts<>(number);
+    }
+
+    public static LongAsserts<?> that(long number) {
+        return new LongAsserts<>(number);
+    }
+
+    public static <T> ClassAsserts<?, T> that(Class<T> type) {
+        return new ClassAsserts<>(type);
+    }
+
+    public static PackageAsserts<?> that(Package pack) {
+        return new PackageAsserts<>(pack);
     }
 
 }
