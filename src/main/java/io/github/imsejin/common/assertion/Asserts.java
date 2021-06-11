@@ -20,6 +20,8 @@ import io.github.imsejin.common.assertion.array.ArrayAsserts;
 import io.github.imsejin.common.assertion.chars.CharSequenceAsserts;
 import io.github.imsejin.common.assertion.chars.StringAsserts;
 import io.github.imsejin.common.assertion.collection.CollectionAsserts;
+import io.github.imsejin.common.assertion.io.FileAsserts;
+import io.github.imsejin.common.assertion.map.MapAsserts;
 import io.github.imsejin.common.assertion.object.ObjectAsserts;
 import io.github.imsejin.common.assertion.primitive.BooleanAsserts;
 import io.github.imsejin.common.assertion.primitive.CharacterAsserts;
@@ -28,7 +30,9 @@ import io.github.imsejin.common.assertion.primitive.LongAsserts;
 import io.github.imsejin.common.assertion.reflect.ClassAsserts;
 import io.github.imsejin.common.assertion.reflect.PackageAsserts;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Map;
 
 public abstract class Asserts {
 
@@ -74,6 +78,14 @@ public abstract class Asserts {
 
     public static <T> CollectionAsserts<?, T> that(Collection<T> collection) {
         return new CollectionAsserts<>(collection);
+    }
+
+    public static <K, V> MapAsserts<?, K, V> that(Map<K, V> map) {
+        return new MapAsserts<>(map);
+    }
+
+    public static FileAsserts<?> that(File file) {
+        return new FileAsserts<>(file);
     }
 
 }
