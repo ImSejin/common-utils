@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.chars;
 
 import java.util.regex.Pattern;
 
@@ -23,7 +23,7 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
 
     private final String actual;
 
-    StringAsserts(String actual) {
+    public StringAsserts(String actual) {
         super(actual);
         this.actual = actual;
     }

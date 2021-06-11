@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.primitive;
+
+import io.github.imsejin.common.assertion.Descriptor;
 
 @SuppressWarnings("unchecked")
 public class BooleanAsserts<SELF extends BooleanAsserts<SELF>> extends Descriptor<SELF> {

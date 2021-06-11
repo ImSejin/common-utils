@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.reflect;
 
+import io.github.imsejin.common.assertion.Asserts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.io;
 
+import io.github.imsejin.common.assertion.ObjectAsserts;
 import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
@@ -25,7 +26,7 @@ public class FileAsserts<SELF extends FileAsserts<SELF>> extends ObjectAsserts<S
 
     private final File acutal;
 
-    FileAsserts(File acutal) {
+    public FileAsserts(File acutal) {
         super(acutal);
         this.acutal = acutal;
     }

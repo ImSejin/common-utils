@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.collection;
+
+import io.github.imsejin.common.assertion.ObjectAsserts;
 
 import java.util.Collection;
 
@@ -23,7 +25,7 @@ public class CollectionAsserts<SELF extends CollectionAsserts<SELF, T>, T> exten
 
     private final Collection<T> target;
 
-    CollectionAsserts(Collection<T> target) {
+    public CollectionAsserts(Collection<T> target) {
         super(target);
         this.target = target;
     }

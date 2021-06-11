@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.chars;
+
+import io.github.imsejin.common.assertion.ObjectAsserts;
 
 @SuppressWarnings("unchecked")
 public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends ObjectAsserts<SELF> {
 
     private final CharSequence actual;
 
-    CharSequenceAsserts(CharSequence actual) {
+    public CharSequenceAsserts(CharSequence actual) {
         super(actual);
         this.actual = actual;
     }

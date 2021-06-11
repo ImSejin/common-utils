@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.reflect;
+
+import io.github.imsejin.common.assertion.ObjectAsserts;
 
 @SuppressWarnings("unchecked")
 public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAsserts<SELF> {
 
     private final Package actual;
 
-    PackageAsserts(Package actual) {
+    public PackageAsserts(Package actual) {
         super(actual);
         this.actual = actual;
     }

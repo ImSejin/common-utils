@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.reflect;
 
+import io.github.imsejin.common.assertion.ObjectAsserts;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 import java.lang.reflect.Modifier;
@@ -25,7 +26,7 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
 
     private final Class<T> target;
 
-    ClassAsserts(Class<T> target) {
+    public ClassAsserts(Class<T> target) {
         super(target);
         this.target = target;
     }
