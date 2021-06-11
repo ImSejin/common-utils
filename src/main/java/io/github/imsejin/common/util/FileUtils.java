@@ -30,11 +30,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 /**
- * File uilities
+ * File utilities
  */
 public final class FileUtils {
 
     private FileUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

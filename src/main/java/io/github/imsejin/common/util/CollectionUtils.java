@@ -27,6 +27,7 @@ import java.util.function.Supplier;
 public final class CollectionUtils {
 
     private CollectionUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

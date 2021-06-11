@@ -29,6 +29,7 @@ public final class NumberUtils {
     }
 
     private NumberUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

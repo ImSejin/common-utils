@@ -30,6 +30,7 @@ public final class FilenameUtils {
     private static final char EXTENSION_SEPARATOR = '.';
 
     private FilenameUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

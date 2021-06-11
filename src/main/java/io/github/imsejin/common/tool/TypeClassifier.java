@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toSet;
 public final class TypeClassifier {
 
     private TypeClassifier() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

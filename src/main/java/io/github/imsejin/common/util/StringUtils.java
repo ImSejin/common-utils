@@ -35,6 +35,7 @@ public final class StringUtils {
     private static final char WHITE_SPACE = '\u0020';
 
     private StringUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

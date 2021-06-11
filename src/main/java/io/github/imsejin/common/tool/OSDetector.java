@@ -28,6 +28,7 @@ public final class OSDetector {
     private static final String CURRENT_OS_NAME = System.getProperty("os.name").toLowerCase();
 
     private OSDetector() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

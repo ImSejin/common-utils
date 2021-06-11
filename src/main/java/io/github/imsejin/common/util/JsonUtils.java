@@ -43,6 +43,7 @@ public final class JsonUtils {
     private static final Gson gson = new Gson();
 
     private JsonUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

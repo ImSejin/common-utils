@@ -38,6 +38,7 @@ public final class DateTimeUtils {
     private static final Randoms randoms = new Randoms(ThreadLocalRandom.current());
 
     private DateTimeUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

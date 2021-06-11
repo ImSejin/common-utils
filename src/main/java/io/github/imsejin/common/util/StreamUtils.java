@@ -29,6 +29,7 @@ import java.util.stream.StreamSupport;
 public final class StreamUtils {
 
     private StreamUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     public static <T> Stream<T> toStream(@Nonnull Iterator<T> iter) {

@@ -44,6 +44,7 @@ public final class PathnameUtils {
     private static final String UNIX_SEPARATOR = "/";
 
     private PathnameUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

@@ -33,6 +33,7 @@ import static java.util.stream.Collectors.toMap;
 public final class IniUtils {
 
     private IniUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     private static void configure(Ini ini) {

@@ -21,6 +21,7 @@ import java.math.BigInteger;
 public final class MathUtils {
 
     private MathUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     public static BigInteger fibonacci(long number) {
