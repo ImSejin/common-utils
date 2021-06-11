@@ -23,39 +23,42 @@ import io.github.imsejin.common.tool.TypeClassifier;
 @SuppressWarnings("unchecked")
 public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<SELF> {
 
-    private final Object target;
+    private final Object actual;
 
-    public ObjectAsserts(Object target) {
-        this.target = target;
+    public ObjectAsserts(Object actual) {
+        this.actual = actual;
     }
 
     public SELF isNull() {
-        if (this.target != null) throw getException();
+        if (this.actual != null) {
+            as("");
+            throw getException();
+        }
         return (SELF) this;
     }
 
     public SELF isNotNull() {
-        if (this.target == null) throw getException();
+        if (this.actual == null) throw getException();
         return (SELF) this;
     }
 
     public SELF isSameAs(Object other) {
-        if (this.target != other) throw getException();
+        if (this.actual != other) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotSameAs(Object other) {
-        if (this.target == other) throw getException();
+        if (this.actual == other) throw getException();
         return (SELF) this;
     }
 
     public SELF isEqualTo(Object other) {
-        if (!this.target.equals(other)) throw getException();
+        if (!this.actual.equals(other)) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotEqualTo(Object other) {
-        if (this.target.equals(other)) throw getException();
+        if (this.actual.equals(other)) throw getException();
         return (SELF) this;
     }
 
@@ -70,12 +73,12 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
      * @return whether this is instance of the type
      */
     public SELF isInstanceOf(Class<?> type) {
-        if (!TypeClassifier.toWrapper(type).isInstance(this.target)) throw getException();
+        if (!TypeClassifier.toWrapper(type).isInstance(this.actual)) throw getException();
         return (SELF) this;
     }
 
     public ClassAsserts<?, ?> asClass() {
-        return new ClassAsserts<>(this.target.getClass());
+        return new ClassAsserts<>(this.actual.getClass());
     }
 
 }

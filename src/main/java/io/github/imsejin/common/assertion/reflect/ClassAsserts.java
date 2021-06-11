@@ -24,11 +24,11 @@ import java.lang.reflect.Modifier;
 @SuppressWarnings("unchecked")
 public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
 
-    private final Class<T> target;
+    private final Class<T> actual;
 
-    public ClassAsserts(Class<T> target) {
-        super(target);
-        this.target = target;
+    public ClassAsserts(Class<T> actual) {
+        super(actual);
+        this.actual = actual;
     }
 
     /**
@@ -38,11 +38,11 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
      * Primitive type cannot instantiate, so return value of
      * {@link Class#isInstance(Object)} is always {@code false}.
      *
-     * @param instance instance of this type
+     * @param expected instance of this type
      * @return whether this is actual type of the instance
      */
-    public SELF isActualTypeOf(Object instance) {
-        if (!TypeClassifier.toWrapper(target).isInstance(instance)) throw getException();
+    public SELF isActualTypeOf(Object expected) {
+        if (!TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
         return (SELF) this;
     }
 
@@ -53,71 +53,83 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
      * Primitive type cannot instantiate, so return value of
      * {@link Class#isInstance(Object)} is always {@code false}.
      *
-     * @param instance instance of non-matched this type
+     * @param expected instance of non-matched this type
      * @return whether this is not actual type of the instance
      */
-    public SELF isNotActualTypeOf(Object instance) {
-        if (TypeClassifier.toWrapper(target).isInstance(instance)) throw getException();
+    public SELF isNotActualTypeOf(Object expected) {
+        if (TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
         return (SELF) this;
     }
 
-    public SELF isAssignableFrom(Class<?> subType) {
-        if (!this.target.isAssignableFrom(subType)) throw getException();
+    /**
+     * @param expected sub type
+     * @return whether this is assignable from given type
+     */
+    public SELF isAssignableFrom(Class<?> expected) {
+        if (!this.actual.isAssignableFrom(expected)) throw getException();
         return (SELF) this;
     }
 
-    public SELF isSuperclass(Class<?> subType) {
-        if (this.target != subType.getSuperclass()) throw getException();
+    /**
+     * @param expected sub type
+     * @return whether this is super class of given type
+     */
+    public SELF isSuperclassOf(Class<?> expected) {
+        if (this.actual != expected.getSuperclass()) throw getException();
         return (SELF) this;
     }
 
-    public SELF isSubclass(Class<?> superType) {
-        if (this.target.getSuperclass() != superType) throw getException();
+    /**
+     * @param expected super type
+     * @return whether this is sub class of given type
+     */
+    public SELF isSubclassOf(Class<?> expected) {
+        if (this.actual.getSuperclass() != expected) throw getException();
         return (SELF) this;
     }
 
     public SELF isPrimitive() {
-        if (!this.target.isPrimitive()) throw getException();
+        if (!this.actual.isPrimitive()) throw getException();
         return (SELF) this;
     }
 
     public SELF isInterface() {
-        if (!this.target.isInterface()) throw getException();
+        if (!this.actual.isInterface()) throw getException();
         return (SELF) this;
     }
 
     public SELF isAnnotation() {
-        if (!this.target.isAnnotation()) throw getException();
+        if (!this.actual.isAnnotation()) throw getException();
         return (SELF) this;
     }
 
     public SELF isAbstractClass() {
-        if (!Modifier.isAbstract(this.target.getModifiers())) throw getException();
+        if (!Modifier.isAbstract(this.actual.getModifiers())) throw getException();
         return (SELF) this;
     }
 
     public SELF isAnonymousClass() {
-        if (!this.target.isAnonymousClass()) throw getException();
+        if (!this.actual.isAnonymousClass()) throw getException();
         return (SELF) this;
     }
 
     public SELF isEnum() {
-        if (!this.target.isEnum()) throw getException();
+        if (!this.actual.isEnum()) throw getException();
         return (SELF) this;
     }
 
     public SELF isArray() {
-        if (!this.target.isArray()) throw getException();
+        if (!this.actual.isArray()) throw getException();
         return (SELF) this;
     }
 
     public SELF isMemberClass() {
-        if (!this.target.isMemberClass()) throw getException();
+        if (!this.actual.isMemberClass()) throw getException();
         return (SELF) this;
     }
 
     public SELF isLocalClass() {
-        if (!this.target.isLocalClass()) throw getException();
+        if (!this.actual.isLocalClass()) throw getException();
         return (SELF) this;
     }
 

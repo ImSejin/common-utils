@@ -23,45 +23,45 @@ import java.util.Collection;
 @SuppressWarnings("unchecked")
 public class CollectionAsserts<SELF extends CollectionAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
 
-    private final Collection<T> target;
+    private final Collection<T> actual;
 
     public CollectionAsserts(Collection<T> target) {
         super(target);
-        this.target = target;
+        this.actual = target;
     }
 
     public SELF isEmpty() {
-        if (!this.target.isEmpty()) throw getException();
+        if (!this.actual.isEmpty()) throw getException();
         return (SELF) this;
     }
 
     public SELF hasElement() {
-        if (this.target.isEmpty()) throw getException();
+        if (this.actual.isEmpty()) throw getException();
         return (SELF) this;
     }
 
     public SELF hasSizeOf(int size) {
-        if (this.target.size() != size) throw getException();
+        if (this.actual.size() != size) throw getException();
         return (SELF) this;
     }
 
     public SELF isSameSize(Collection<?> c) {
-        if (c == null || this.target.size() != c.size()) throw getException();
+        if (c == null || this.actual.size() != c.size()) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotSameSize(Collection<?> c) {
-        if (c != null && this.target.size() == c.size()) throw getException();
+        if (c != null && this.actual.size() == c.size()) throw getException();
         return (SELF) this;
     }
 
     public SELF contains(T element) {
-        if (!this.target.contains(element)) throw getException();
+        if (!this.actual.contains(element)) throw getException();
         return (SELF) this;
     }
 
     public SELF containsAll(Collection<T> c) {
-        if (c == null || !this.target.containsAll(c)) throw getException();
+        if (c == null || !this.actual.containsAll(c)) throw getException();
         return (SELF) this;
     }
 
