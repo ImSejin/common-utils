@@ -21,15 +21,15 @@ import java.util.regex.Pattern;
 @SuppressWarnings("unchecked")
 public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenceAsserts<SELF> {
 
-    private final String target;
+    private final String actual;
 
-    StringAsserts(String target) {
-        super(target);
-        this.target = target;
+    StringAsserts(String actual) {
+        super(actual);
+        this.actual = actual;
     }
 
     public SELF hasText() {
-        for (char c : this.target.toCharArray()) {
+        for (char c : this.actual.toCharArray()) {
             if (!Character.isWhitespace(c)) return (SELF) this;
         }
 
@@ -37,9 +37,9 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     }
 
     public SELF isNumeric() {
-        if (this.target.isEmpty()) throw getException();
+        if (this.actual.isEmpty()) throw getException();
 
-        for (char c : this.target.toCharArray()) {
+        for (char c : this.actual.toCharArray()) {
             if (!Character.isDigit(c)) throw getException();
         }
 
@@ -47,7 +47,7 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     }
 
     public SELF isLetter() {
-        for (char c : this.target.toCharArray()) {
+        for (char c : this.actual.toCharArray()) {
             if (!Character.isLetter(c)) throw getException();
         }
 
@@ -55,7 +55,7 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     }
 
     public SELF isLetterOrDigit() {
-        for (char c : this.target.toCharArray()) {
+        for (char c : this.actual.toCharArray()) {
             if (!Character.isLetterOrDigit(c)) throw getException();
         }
 
@@ -63,7 +63,7 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     }
 
     public SELF isUpperCase() {
-        for (char c : this.target.toCharArray()) {
+        for (char c : this.actual.toCharArray()) {
             if (!Character.isUpperCase(c)) throw getException();
         }
 
@@ -71,7 +71,7 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     }
 
     public SELF isLowerCase() {
-        for (char c : this.target.toCharArray()) {
+        for (char c : this.actual.toCharArray()) {
             if (!Character.isLowerCase(c)) throw getException();
         }
 
@@ -79,35 +79,35 @@ public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenc
     }
 
     public SELF isAlphabetic() {
-        for (char c : this.target.toCharArray()) {
+        for (char c : this.actual.toCharArray()) {
             if (!Character.isAlphabetic(c)) throw getException();
         }
 
         return (SELF) this;
     }
 
-    public SELF startsWith(String prefix) {
-        if (!this.target.startsWith(prefix)) throw getException();
+    public SELF startsWith(String expected) {
+        if (!this.actual.startsWith(expected)) throw getException();
         return (SELF) this;
     }
 
-    public SELF endsWith(String suffix) {
-        if (!this.target.endsWith(suffix)) throw getException();
+    public SELF endsWith(String expected) {
+        if (!this.actual.endsWith(expected)) throw getException();
         return (SELF) this;
     }
 
-    public SELF contains(CharSequence charSequence) {
-        if (!this.target.contains(charSequence)) throw getException();
+    public SELF contains(CharSequence expected) {
+        if (!this.actual.contains(expected)) throw getException();
         return (SELF) this;
     }
 
-    public SELF matches(String regex) {
-        if (!this.target.matches(regex)) throw getException();
+    public SELF matches(String expected) {
+        if (!this.actual.matches(expected)) throw getException();
         return (SELF) this;
     }
 
-    public SELF matches(Pattern pattern) {
-        if (!pattern.matcher(this.target).matches()) throw getException();
+    public SELF matches(Pattern expected) {
+        if (!expected.matcher(this.actual).matches()) throw getException();
         return (SELF) this;
     }
 

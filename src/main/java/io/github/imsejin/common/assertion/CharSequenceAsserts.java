@@ -19,25 +19,25 @@ package io.github.imsejin.common.assertion;
 @SuppressWarnings("unchecked")
 public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends ObjectAsserts<SELF> {
 
-    private final CharSequence target;
+    private final CharSequence actual;
 
-    CharSequenceAsserts(CharSequence target) {
-        super(target);
-        this.target = target;
+    CharSequenceAsserts(CharSequence actual) {
+        super(actual);
+        this.actual = actual;
     }
 
     public SELF isEmpty() {
-        if (this.target.length() > 0) throw getException();
+        if (this.actual.length() > 0) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotEmpty() {
-        if (this.target.length() <= 0) throw getException();
+        if (this.actual.length() <= 0) throw getException();
         return (SELF) this;
     }
 
-    public SELF hasLengthOf(int length) {
-        if (this.target.length() != length) throw getException();
+    public SELF hasLengthOf(int expected) {
+        if (this.actual.length() != expected) throw getException();
         return (SELF) this;
     }
 

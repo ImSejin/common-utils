@@ -19,19 +19,19 @@ package io.github.imsejin.common.assertion;
 @SuppressWarnings("unchecked")
 public class BooleanAsserts<SELF extends BooleanAsserts<SELF>> extends Descriptor<SELF> {
 
-    private final boolean target;
+    private final boolean actual;
 
-    BooleanAsserts(boolean target) {
-        this.target = target;
+    BooleanAsserts(boolean actual) {
+        this.actual = actual;
     }
 
     public SELF isTrue() {
-        if (!this.target) throw getException();
+        if (!this.actual) throw getException();
         return (SELF) this;
     }
 
     public SELF isFalse() {
-        if (this.target) throw getException();
+        if (this.actual) throw getException();
         return (SELF) this;
     }
 

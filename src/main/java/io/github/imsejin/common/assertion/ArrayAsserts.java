@@ -21,45 +21,45 @@ import java.util.Arrays;
 @SuppressWarnings("unchecked")
 public class ArrayAsserts<SELF extends ArrayAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
 
-    private final T[] target;
+    private final T[] actual;
 
-    ArrayAsserts(T[] target) {
-        super(target);
-        this.target = target;
+    ArrayAsserts(T[] actual) {
+        super(actual);
+        this.actual = actual;
     }
 
     public SELF isEmpty() {
-        if (this.target.length > 0) throw getException();
+        if (this.actual.length > 0) throw getException();
         return (SELF) this;
     }
 
     public SELF hasElement() {
-        if (this.target.length == 0) throw getException();
+        if (this.actual.length == 0) throw getException();
         return (SELF) this;
     }
 
-    public SELF hasLengthOf(int length) {
-        if (this.target.length != length) throw getException();
+    public SELF hasLengthOf(int expected) {
+        if (this.actual.length != expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isSameLength(T[] arr) {
-        if (arr == null || this.target.length != arr.length) throw getException();
+    public SELF isSameLength(T[] expected) {
+        if (expected == null || this.actual.length != expected.length) throw getException();
         return (SELF) this;
     }
 
-    public SELF isNotSameLength(T[] arr) {
-        if (arr != null && this.target.length == arr.length) throw getException();
+    public SELF isNotSameLength(T[] expected) {
+        if (expected != null && this.actual.length == expected.length) throw getException();
         return (SELF) this;
     }
 
-    public SELF contains(T element) {
-        if (!Arrays.asList(this.target).contains(element)) throw getException();
+    public SELF contains(T expected) {
+        if (!Arrays.asList(this.actual).contains(expected)) throw getException();
         return (SELF) this;
     }
 
-    public SELF containsAll(T[] arr) {
-        if (arr == null || !Arrays.asList(this.target).containsAll(Arrays.asList(arr))) {
+    public SELF containsAll(T[] expected) {
+        if (expected == null || !Arrays.asList(this.actual).containsAll(Arrays.asList(expected))) {
             throw getException();
         }
 

@@ -19,23 +19,23 @@ package io.github.imsejin.common.assertion;
 @SuppressWarnings("unchecked")
 public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAsserts<SELF> {
 
-    private final Package target;
+    private final Package actual;
 
-    PackageAsserts(Package target) {
-        super(target);
-        this.target = target;
+    PackageAsserts(Package actual) {
+        super(actual);
+        this.actual = actual;
     }
 
-    public SELF isSuperPackageOf(Package pack) {
-        if (this.target.equals(pack) || !pack.getName().startsWith(this.target.getName())) {
+    public SELF isSuperPackageOf(Package expected) {
+        if (this.actual.equals(expected) || !(expected.getName() + '.').startsWith(this.actual.getName())) {
             throw getException();
         }
 
         return (SELF) this;
     }
 
-    public SELF isSubPackageOf(Package pack) {
-        if (this.target.equals(pack) || !this.target.getName().startsWith(pack.getName())) {
+    public SELF isSubPackageOf(Package expected) {
+        if (this.actual.equals(expected) || !(this.actual.getName() + '.').startsWith(expected.getName())) {
             throw getException();
         }
 

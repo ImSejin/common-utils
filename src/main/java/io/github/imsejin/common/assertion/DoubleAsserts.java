@@ -21,15 +21,15 @@ import io.github.imsejin.common.util.MathUtils;
 @SuppressWarnings("unchecked")
 public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends LongAsserts<SELF> {
 
-    private final double target;
+    private final double actual;
 
-    DoubleAsserts(double target) {
-        super((long) target);
-        this.target = target;
+    DoubleAsserts(double actual) {
+        super((long) actual);
+        this.actual = actual;
     }
 
     public SELF hasDeciamlPart() {
-        if (!MathUtils.hasDecimalPart(this.target)) throw getException();
+        if (!MathUtils.hasDecimalPart(this.actual)) throw getException();
         return (SELF) this;
     }
 

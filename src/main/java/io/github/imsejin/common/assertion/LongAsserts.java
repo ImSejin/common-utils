@@ -19,54 +19,54 @@ package io.github.imsejin.common.assertion;
 @SuppressWarnings("unchecked")
 public class LongAsserts<SELF extends LongAsserts<SELF>> extends Descriptor<SELF> {
 
-    private final long target;
+    private final long actual;
 
-    LongAsserts(long target) {
-        this.target = target;
+    LongAsserts(long actual) {
+        this.actual = actual;
     }
 
-    public SELF isEqualTo(double number) {
-        if (this.target != number) throw getException();
+    public SELF isEqualTo(double expected) {
+        if (this.actual != expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isGreaterThan(double number) {
-        if (this.target <= number) throw getException();
+    public SELF isGreaterThan(double expected) {
+        if (this.actual <= expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isGreaterThanOrEqualTo(double number) {
-        if (this.target < number) throw getException();
+    public SELF isGreaterThanOrEqualTo(double expected) {
+        if (this.actual < expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isLessThan(double number) {
-        if (this.target >= number) throw getException();
+    public SELF isLessThan(double expected) {
+        if (this.actual >= expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isLessThanOrEqualTo(double number) {
-        if (this.target > number) throw getException();
+    public SELF isLessThanOrEqualTo(double expected) {
+        if (this.actual > expected) throw getException();
         return (SELF) this;
     }
 
     public SELF isPositive() {
-        if (this.target < 1) throw getException();
+        if (this.actual < 1) throw getException();
         return (SELF) this;
     }
 
     public SELF isZeroOrPositive() {
-        if (this.target < 0) throw getException();
+        if (this.actual < 0) throw getException();
         return (SELF) this;
     }
 
     public SELF isNegative() {
-        if (this.target > -1) throw getException();
+        if (this.actual > -1) throw getException();
         return (SELF) this;
     }
 
     public SELF isZeroOrNegative() {
-        if (this.target > 0) throw getException();
+        if (this.actual > 0) throw getException();
         return (SELF) this;
     }
 
