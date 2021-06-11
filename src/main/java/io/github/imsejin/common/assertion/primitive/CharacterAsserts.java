@@ -23,7 +23,7 @@ public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descr
 
     private final char actual;
 
-    CharacterAsserts(char actual) {
+    public CharacterAsserts(char actual) {
         this.actual = actual;
     }
 

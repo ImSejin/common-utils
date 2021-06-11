@@ -23,7 +23,7 @@ public class BooleanAsserts<SELF extends BooleanAsserts<SELF>> extends Descripto
 
     private final boolean actual;
 
-    BooleanAsserts(boolean actual) {
+    public BooleanAsserts(boolean actual) {
         this.actual = actual;
     }
 

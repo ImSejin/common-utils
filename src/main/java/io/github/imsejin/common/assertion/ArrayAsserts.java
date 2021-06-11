@@ -23,7 +23,7 @@ public class ArrayAsserts<SELF extends ArrayAsserts<SELF, T>, T> extends ObjectA
 
     private final T[] actual;
 
-    ArrayAsserts(T[] actual) {
+    public ArrayAsserts(T[] actual) {
         super(actual);
         this.actual = actual;
     }

@@ -23,7 +23,7 @@ public class LongAsserts<SELF extends LongAsserts<SELF>> extends Descriptor<SELF
 
     private final long actual;
 
-    LongAsserts(long actual) {
+    public LongAsserts(long actual) {
         this.actual = actual;
     }
 

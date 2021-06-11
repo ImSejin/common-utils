@@ -23,7 +23,7 @@ public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends LongAsserts
 
     private final double actual;
 
-    DoubleAsserts(double actual) {
+    public DoubleAsserts(double actual) {
         super((long) actual);
         this.actual = actual;
     }

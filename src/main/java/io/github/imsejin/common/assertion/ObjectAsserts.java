@@ -23,7 +23,7 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
 
     private final Object target;
 
-    ObjectAsserts(Object target) {
+    public ObjectAsserts(Object target) {
         this.target = target;
     }
 

@@ -23,7 +23,7 @@ public class MapAsserts<SELF extends MapAsserts<SELF, K, V>, K, V> extends Objec
 
     private final Map<K, V> actual;
 
-    MapAsserts(Map<K, V> actual) {
+    public MapAsserts(Map<K, V> actual) {
         super(actual);
         this.actual = actual;
     }
