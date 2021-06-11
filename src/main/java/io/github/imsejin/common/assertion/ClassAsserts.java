@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.tool.TypeClassifier;
+
 import java.lang.reflect.Modifier;
 
 @SuppressWarnings("unchecked")
@@ -28,13 +30,33 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
         this.target = target;
     }
 
+    /**
+     * Verifies this is actual type of the instance.
+     * <p>
+     * If you input a primitive type, it is converted to wrapper type.
+     * Primitive type cannot instantiate, so return value of
+     * {@link Class#isInstance(Object)} is always {@code false}.
+     *
+     * @param instance instance of this type
+     * @return whether this is actual type of the instance
+     */
     public SELF isActualTypeOf(Object instance) {
-        if (!this.target.isInstance(instance)) throw getException();
+        if (!TypeClassifier.toWrapper(target).isInstance(instance)) throw getException();
         return (SELF) this;
     }
 
+    /**
+     * Verifies this is not actual type of the instance.
+     * <p>
+     * If you input a primitive type, it is converted to wrapper type.
+     * Primitive type cannot instantiate, so return value of
+     * {@link Class#isInstance(Object)} is always {@code false}.
+     *
+     * @param instance instance of non-matched this type
+     * @return whether this is not actual type of the instance
+     */
     public SELF isNotActualTypeOf(Object instance) {
-        if (this.target.isInstance(instance)) throw getException();
+        if (TypeClassifier.toWrapper(target).isInstance(instance)) throw getException();
         return (SELF) this;
     }
 

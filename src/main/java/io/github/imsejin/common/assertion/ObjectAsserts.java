@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.tool.TypeClassifier;
+
 @SuppressWarnings("unchecked")
 public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<SELF> {
 
@@ -55,8 +57,18 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
         return (SELF) this;
     }
 
+    /**
+     * Verifies this is instance of the type.
+     * <p>
+     * If you input a primitive type, it is converted to wrapper type.
+     * Primitive type cannot instantiate, so return value of
+     * {@link Class#isInstance(Object)} is always {@code false}.
+     *
+     * @param type type
+     * @return whether this is instance of the type
+     */
     public SELF isInstanceOf(Class<?> type) {
-        if (!type.isInstance(this.target)) throw getException();
+        if (!TypeClassifier.toWrapper(type).isInstance(this.target)) throw getException();
         return (SELF) this;
     }
 
