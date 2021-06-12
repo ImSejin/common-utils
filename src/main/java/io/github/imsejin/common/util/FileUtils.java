@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +36,7 @@ import java.time.ZoneId;
  */
 public final class FileUtils {
 
+    @ExcludeFromGeneratedJacocoReport
     private FileUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

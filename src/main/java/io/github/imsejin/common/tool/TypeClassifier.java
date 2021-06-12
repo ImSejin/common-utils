@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.tool;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import java.time.*;
 import java.util.Collections;
 import java.util.Set;
@@ -25,6 +27,7 @@ import static java.util.stream.Collectors.toSet;
 
 public final class TypeClassifier {
 
+    @ExcludeFromGeneratedJacocoReport
     private TypeClassifier() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
@@ -181,6 +184,7 @@ public final class TypeClassifier {
             this.classes = Collections.unmodifiableSet(Stream.of(classes).collect(toSet()));
         }
 
+        @ExcludeFromGeneratedJacocoReport
         public Set<Class<?>> getClasses() {
             return this.classes;
         }

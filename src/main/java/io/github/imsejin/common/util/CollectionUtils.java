@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Predicate;
@@ -26,6 +28,7 @@ import java.util.function.Supplier;
  */
 public final class CollectionUtils {
 
+    @ExcludeFromGeneratedJacocoReport
     private CollectionUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

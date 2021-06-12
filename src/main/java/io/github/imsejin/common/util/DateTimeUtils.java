@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.constant.DateType;
 
 import javax.annotation.Nonnull;
@@ -37,6 +38,7 @@ public final class DateTimeUtils {
 
     private static final Randoms randoms = new Randoms(ThreadLocalRandom.current());
 
+    @ExcludeFromGeneratedJacocoReport
     private DateTimeUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import org.ini4j.Config;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
@@ -32,6 +33,7 @@ import static java.util.stream.Collectors.toMap;
  */
 public final class IniUtils {
 
+    @ExcludeFromGeneratedJacocoReport
     private IniUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

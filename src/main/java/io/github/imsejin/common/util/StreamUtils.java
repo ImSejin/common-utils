@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -28,6 +30,7 @@ import java.util.stream.StreamSupport;
  */
 public final class StreamUtils {
 
+    @ExcludeFromGeneratedJacocoReport
     private StreamUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

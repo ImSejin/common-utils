@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.array.ArrayAsserts;
 import io.github.imsejin.common.assertion.chars.CharSequenceAsserts;
 import io.github.imsejin.common.assertion.chars.StringAsserts;
@@ -33,6 +34,7 @@ import java.util.Map;
 
 public abstract class Asserts {
 
+    @ExcludeFromGeneratedJacocoReport
     private Asserts() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

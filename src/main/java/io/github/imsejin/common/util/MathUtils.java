@@ -16,10 +16,13 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import java.math.BigInteger;
 
 public final class MathUtils {
 
+    @ExcludeFromGeneratedJacocoReport
     private MathUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

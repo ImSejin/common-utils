@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.constant.OperatingSystem;
 import io.github.imsejin.common.tool.OSDetector;
@@ -43,6 +44,7 @@ public final class PathnameUtils {
      */
     private static final String UNIX_SEPARATOR = "/";
 
+    @ExcludeFromGeneratedJacocoReport
     private PathnameUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.tool;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.constant.OperatingSystem;
 
 /**
@@ -27,6 +28,7 @@ public final class OSDetector {
 
     private static final String CURRENT_OS_NAME = System.getProperty("os.name").toLowerCase();
 
+    @ExcludeFromGeneratedJacocoReport
     private OSDetector() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }

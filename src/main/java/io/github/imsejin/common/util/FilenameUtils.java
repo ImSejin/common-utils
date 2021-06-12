@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import javax.annotation.Nonnull;
 import java.io.File;
 
@@ -29,6 +31,7 @@ public final class FilenameUtils {
      */
     private static final char EXTENSION_SEPARATOR = '.';
 
+    @ExcludeFromGeneratedJacocoReport
     private FilenameUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
