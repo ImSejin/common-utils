@@ -16,50 +16,48 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.util.MathUtils;
-
 @SuppressWarnings("unchecked")
-public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNumberAsserts<SELF, Double> {
+public class ByteAsserts<SELF extends ByteAsserts<SELF>> extends AbstractNumberAsserts<SELF, Byte> {
 
-    private final double actual;
+    private final byte actual;
 
-    public DoubleAsserts(Double actual) {
+    public ByteAsserts(Byte actual) {
         super(actual);
         this.actual = actual;
     }
 
     @Override
-    public SELF isEqualTo(Double expected) {
+    public SELF isEqualTo(Byte expected) {
         if (this.actual != expected) throw getException();
         return (SELF) this;
     }
 
     @Override
-    public SELF isNotEqualTo(Double expected) {
+    public SELF isNotEqualTo(Byte expected) {
         if (this.actual == expected) throw getException();
         return (SELF) this;
     }
 
     @Override
-    public SELF isGreaterThan(Double expected) {
+    public SELF isGreaterThan(Byte expected) {
         if (this.actual <= expected) throw getException();
         return (SELF) this;
     }
 
     @Override
-    public SELF isGreaterThanOrEqualTo(Double expected) {
+    public SELF isGreaterThanOrEqualTo(Byte expected) {
         if (this.actual < expected) throw getException();
         return (SELF) this;
     }
 
     @Override
-    public SELF isLessThan(Double expected) {
+    public SELF isLessThan(Byte expected) {
         if (this.actual >= expected) throw getException();
         return (SELF) this;
     }
 
     @Override
-    public SELF isLessThanOrEqualTo(Double expected) {
+    public SELF isLessThanOrEqualTo(Byte expected) {
         if (this.actual > expected) throw getException();
         return (SELF) this;
     }
@@ -85,11 +83,6 @@ public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNum
     @Override
     public SELF isZeroOrNegative() {
         if (this.actual > 0) throw getException();
-        return (SELF) this;
-    }
-
-    public SELF hasDeciamlPart() {
-        if (!MathUtils.hasDecimalPart(this.actual)) throw getException();
         return (SELF) this;
     }
 

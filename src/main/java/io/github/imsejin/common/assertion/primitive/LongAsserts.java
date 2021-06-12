@@ -16,57 +16,71 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.assertion.Descriptor;
-
 @SuppressWarnings("unchecked")
-public class LongAsserts<SELF extends LongAsserts<SELF>> extends Descriptor<SELF> {
+public class LongAsserts<SELF extends LongAsserts<SELF>> extends AbstractNumberAsserts<SELF, Long> {
 
     private final long actual;
 
-    public LongAsserts(long actual) {
+    public LongAsserts(Long actual) {
+        super(actual);
         this.actual = actual;
     }
 
-    public SELF isEqualTo(double expected) {
+    @Override
+    public SELF isEqualTo(Long expected) {
         if (this.actual != expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isGreaterThan(double expected) {
+    @Override
+    public SELF isNotEqualTo(Long expected) {
+        if (this.actual == expected) throw getException();
+        return (SELF) this;
+    }
+
+    @Override
+    public SELF isGreaterThan(Long expected) {
         if (this.actual <= expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isGreaterThanOrEqualTo(double expected) {
+    @Override
+    public SELF isGreaterThanOrEqualTo(Long expected) {
         if (this.actual < expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isLessThan(double expected) {
+    @Override
+    public SELF isLessThan(Long expected) {
         if (this.actual >= expected) throw getException();
         return (SELF) this;
     }
 
-    public SELF isLessThanOrEqualTo(double expected) {
+    @Override
+    public SELF isLessThanOrEqualTo(Long expected) {
         if (this.actual > expected) throw getException();
         return (SELF) this;
     }
 
+    @Override
     public SELF isPositive() {
         if (this.actual < 1) throw getException();
         return (SELF) this;
     }
 
+    @Override
     public SELF isZeroOrPositive() {
         if (this.actual < 0) throw getException();
         return (SELF) this;
     }
 
+    @Override
     public SELF isNegative() {
         if (this.actual > -1) throw getException();
         return (SELF) this;
     }
 
+    @Override
     public SELF isZeroOrNegative() {
         if (this.actual > 0) throw getException();
         return (SELF) this;

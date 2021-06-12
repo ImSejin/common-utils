@@ -23,10 +23,7 @@ import io.github.imsejin.common.assertion.collection.CollectionAsserts;
 import io.github.imsejin.common.assertion.io.FileAsserts;
 import io.github.imsejin.common.assertion.map.MapAsserts;
 import io.github.imsejin.common.assertion.object.ObjectAsserts;
-import io.github.imsejin.common.assertion.primitive.BooleanAsserts;
-import io.github.imsejin.common.assertion.primitive.CharacterAsserts;
-import io.github.imsejin.common.assertion.primitive.DoubleAsserts;
-import io.github.imsejin.common.assertion.primitive.LongAsserts;
+import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAsserts;
 import io.github.imsejin.common.assertion.reflect.PackageAsserts;
 
@@ -35,6 +32,10 @@ import java.util.Collection;
 import java.util.Map;
 
 public abstract class Asserts {
+
+    private Asserts() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+    }
 
     public static <T> ArrayAsserts<?, T> that(T[] array) {
         return new ArrayAsserts<>(array);
@@ -64,20 +65,36 @@ public abstract class Asserts {
         return new ObjectAsserts<>(object);
     }
 
-    public static BooleanAsserts<?> that(boolean bool) {
+    public static BooleanAsserts<?> that(Boolean bool) {
         return new BooleanAsserts<>(bool);
     }
 
-    public static CharacterAsserts<?> that(char character) {
+    public static ByteAsserts<?> that(Byte number) {
+        return new ByteAsserts<>(number);
+    }
+
+    public static CharacterAsserts<?> that(Character character) {
         return new CharacterAsserts<>(character);
     }
 
-    public static DoubleAsserts<?> that(double number) {
+    public static DoubleAsserts<?> that(Double number) {
         return new DoubleAsserts<>(number);
     }
 
-    public static LongAsserts<?> that(long number) {
+    public static FloatAsserts<?> that(Float number) {
+        return new FloatAsserts<>(number);
+    }
+
+    public static IntegerAsserts<?> that(Integer number) {
+        return new IntegerAsserts<>(number);
+    }
+
+    public static LongAsserts<?> that(Long number) {
         return new LongAsserts<>(number);
+    }
+
+    public static ShortAsserts<?> that(Short number) {
+        return new ShortAsserts<>(number);
     }
 
     public static <T> ClassAsserts<?, T> that(Class<T> type) {
