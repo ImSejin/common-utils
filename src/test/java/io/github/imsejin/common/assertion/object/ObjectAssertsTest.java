@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("ObjectAsserts")
 class ObjectAssertsTest {
@@ -48,8 +49,8 @@ class ObjectAssertsTest {
         void test1() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            assertThatCode(() -> list.forEach(it -> Asserts.that(it).isNull()))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNull())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -63,8 +64,8 @@ class ObjectAssertsTest {
         void test0() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            assertThatCode(() -> list.forEach(it -> Asserts.that(it).isNotNull()))
-                    .doesNotThrowAnyException();
+            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotNull())
+                    .doesNotThrowAnyException());
         }
 
         @Test
@@ -85,8 +86,8 @@ class ObjectAssertsTest {
         void test0() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            assertThatCode(() -> list.forEach(it -> Asserts.that(it).isSameAs(it)))
-                    .doesNotThrowAnyException();
+            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isSameAs(actual))
+                    .doesNotThrowAnyException());
         }
 
         @Test
@@ -98,8 +99,8 @@ class ObjectAssertsTest {
             map.put('b', 3.14);
             map.put(3.14, null);
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k).isSameAs(v)))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isSameAs(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -117,8 +118,8 @@ class ObjectAssertsTest {
             map.put('b', 3.14);
             map.put(3.14, null);
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k).isNotSameAs(v)))
-                    .doesNotThrowAnyException();
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isNotSameAs(expected))
+                    .doesNotThrowAnyException());
         }
 
         @Test
@@ -126,8 +127,8 @@ class ObjectAssertsTest {
         void test1() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            assertThatCode(() -> list.forEach(it -> Asserts.that(it).isNotSameAs(it)))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotSameAs(actual))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -145,8 +146,8 @@ class ObjectAssertsTest {
             map.put(3.14, Double.valueOf(3.14));
             map.put(BigInteger.valueOf(1000), BigInteger.valueOf(1000));
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k).isEqualTo(v)))
-                    .doesNotThrowAnyException();
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
+                    .doesNotThrowAnyException());
         }
 
         @Test
@@ -158,8 +159,8 @@ class ObjectAssertsTest {
             map.put('b', 'c');
             map.put(3.14, 3.141592);
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k).isEqualTo(v)))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -177,8 +178,8 @@ class ObjectAssertsTest {
             map.put('b', 'c');
             map.put(3.14, 3.141592);
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k).isNotEqualTo(v)))
-                    .doesNotThrowAnyException();
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
+                    .doesNotThrowAnyException());
         }
 
         @Test
@@ -190,8 +191,8 @@ class ObjectAssertsTest {
             map.put(3.14, Double.valueOf(3.14));
             map.put(BigInteger.valueOf(1000), BigInteger.valueOf(1000));
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k).isNotEqualTo(v)))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -211,23 +212,21 @@ class ObjectAssertsTest {
             map.put(3.14, double.class);
             map.put(3.141592, Double.class);
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k)
-                    .as("target: {0}, value: {1}", k, v)
-                    .isInstanceOf(v)))
-                    .doesNotThrowAnyException();
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isInstanceOf(expected))
+                    .doesNotThrowAnyException());
         }
 
         @Test
         @DisplayName("throws exception, when target is not instance of given type")
         void test1() {
             Map<Object, Class<?>> map = new HashMap<>();
-            map.put("alpha", CharSequence.class);
-            map.put('\n', Character.class);
+            map.put("alpha", Character.class);
+            map.put('\n', String.class);
             map.put(3.14, float.class);
             map.put(BigInteger.valueOf(1000), BigDecimal.class);
 
-            assertThatCode(() -> map.forEach((k, v) -> Asserts.that(k).isInstanceOf(v)))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            map.forEach((actual, expected) -> assertThatThrownBy(() -> Asserts.that(actual).isInstanceOf(expected))
+                    .isInstanceOf(IllegalArgumentException.class));
         }
     }
 
