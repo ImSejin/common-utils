@@ -24,8 +24,38 @@ public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descr
     private final char actual;
     private static final Character NULL_CHARACTER = '\u0000';
 
-    public CharacterAsserts(char actual) {
+    public CharacterAsserts(Character actual) {
         this.actual = actual;
+    }
+
+    public SELF isEqualTo(Character expected) {
+        if (this.actual != expected) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isNotEqualTo(Character expected) {
+        if (this.actual == expected) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isGreaterThan(Character expected) {
+        if (this.actual <= expected) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isGreaterThanOrEqualTo(Character expected) {
+        if (this.actual < expected) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isLessThan(Character expected) {
+        if (this.actual >= expected) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isLessThanOrEqualTo(Character expected) {
+        if (this.actual > expected) throw getException();
+        return (SELF) this;
     }
 
     public SELF isZero() {
@@ -75,31 +105,6 @@ public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descr
 
     public SELF isWhitespace() {
         if (!Character.isWhitespace(this.actual)) throw getException();
-        return (SELF) this;
-    }
-
-    public SELF isEqualTo(char expected) {
-        if (this.actual != expected) throw getException();
-        return (SELF) this;
-    }
-
-    public SELF isGreaterThan(char expected) {
-        if (this.actual <= expected) throw getException();
-        return (SELF) this;
-    }
-
-    public SELF isGreaterThanOrEqualTo(char expected) {
-        if (this.actual < expected) throw getException();
-        return (SELF) this;
-    }
-
-    public SELF isLessThan(char expected) {
-        if (this.actual >= expected) throw getException();
-        return (SELF) this;
-    }
-
-    public SELF isLessThanOrEqualTo(char expected) {
-        if (this.actual > expected) throw getException();
         return (SELF) this;
     }
 
