@@ -22,9 +22,20 @@ import io.github.imsejin.common.assertion.Descriptor;
 public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descriptor<SELF> {
 
     private final char actual;
+    private static final Character NULL_CHARACTER = '\u0000';
 
     public CharacterAsserts(char actual) {
         this.actual = actual;
+    }
+
+    public SELF isZero() {
+        if (this.actual != NULL_CHARACTER) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isNotZero() {
+        if (this.actual == NULL_CHARACTER) throw getException();
+        return (SELF) this;
     }
 
     public SELF isDigit() {
