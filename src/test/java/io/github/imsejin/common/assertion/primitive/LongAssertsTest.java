@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -90,8 +91,8 @@ class LongAssertsTest {
             map.put(1L, (long) Character.valueOf('\u0000'));
             map.put(1024L, -1024L);
             map.put(Long.valueOf(32), 31L);
-            map.put(Long.MAX_VALUE, 0L);
-            map.put(0L, Long.MIN_VALUE);
+            map.put(Long.MAX_VALUE, 1L);
+            map.put(-1L, Long.MIN_VALUE);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
@@ -104,8 +105,8 @@ class LongAssertsTest {
             map.put((long) Character.valueOf('\u0000'), 0L);
             map.put(-1024L, 1024L);
             map.put(31L, Long.valueOf(31));
-            map.put(0L, Long.MAX_VALUE);
-            map.put(Long.MIN_VALUE, 0L);
+            map.put(1L, Long.MAX_VALUE);
+            map.put(Long.MIN_VALUE, -1L);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
@@ -124,8 +125,8 @@ class LongAssertsTest {
             map.put(1L, (long) Character.valueOf('\u0000'));
             map.put(1024L, -1024L);
             map.put(Long.valueOf(31), 31L);
-            map.put(Long.MAX_VALUE, 0L);
-            map.put(0L, Long.MIN_VALUE);
+            map.put(Long.MAX_VALUE, 1L);
+            map.put(-1L, Long.MIN_VALUE);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
@@ -138,8 +139,8 @@ class LongAssertsTest {
             map.put(-1L, (long) Character.valueOf('\u0000'));
             map.put(-1024L, 1024L);
             map.put(31L, Long.valueOf(32));
-            map.put(0L, Long.MAX_VALUE);
-            map.put(Long.MIN_VALUE, 0L);
+            map.put(1L, Long.MAX_VALUE);
+            map.put(Long.MIN_VALUE, -1L);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
@@ -148,24 +149,180 @@ class LongAssertsTest {
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
+    @Nested
+    @DisplayName("method 'isLessThan'")
+    class IsLessThan {
+        @Test
+        @DisplayName("passes, when target is less than other")
+        void test0() {
+            Map<Long, Long> map = new HashMap<>();
+            map.put((long) Character.valueOf('\u0000'), 1L);
+            map.put(-1024L, 1024L);
+            map.put(31L, Long.valueOf(32));
+            map.put(1L, Long.MAX_VALUE);
+            map.put(Long.MIN_VALUE, -1L);
+
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
+                    .doesNotThrowAnyException());
+        }
+
+        @Test
+        @DisplayName("throws exception, when target is greater than or equal to other")
+        void test1() {
+            Map<Long, Long> map = new HashMap<>();
+            map.put(1L, (long) Character.valueOf('\u0000'));
+            map.put(1024L, -1024L);
+            map.put(Long.valueOf(31), 31L);
+            map.put(Long.MAX_VALUE, 1L);
+            map.put(-1L, Long.MIN_VALUE);
+
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isLessThanOrEqualTo'")
+    class IsLessThanOrEqualTo {
+        @Test
+        @DisplayName("passes, when target is less than or equal to other")
+        void test0() {
+            Map<Long, Long> map = new HashMap<>();
+            map.put((long) Character.valueOf('\u0000'), 1L);
+            map.put(-1024L, 1024L);
+            map.put(31L, Long.valueOf(31));
+            map.put(1L, Long.MAX_VALUE);
+            map.put(Long.MIN_VALUE, -1L);
+
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
+                    .doesNotThrowAnyException());
+        }
+
+        @Test
+        @DisplayName("throws exception, when target is greater than other")
+        void test1() {
+            Map<Long, Long> map = new HashMap<>();
+            map.put((long) Character.valueOf('\u0000'), -1L);
+            map.put(1024L, -1024L);
+            map.put(Long.valueOf(32), 31L);
+            map.put(Long.MAX_VALUE, 1L);
+            map.put(-1L, Long.MIN_VALUE);
+
+            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isPositive'")
+    class IsPositive {
+        @ParameterizedTest
+        @ValueSource(longs = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE})
+        @DisplayName("passes, when target is positive")
+        void test0(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isPositive())
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(longs = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE})
+        @DisplayName("throws exception, when target is zero or negative")
+        void test1(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isPositive())
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isZeroOrPositive'")
+    class IsZeroOrPositive {
+        @ParameterizedTest
+        @ValueSource(longs = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE})
+        @DisplayName("passes, when target is zero or positive")
+        void test0(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(longs = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE})
+        @DisplayName("throws exception, when target is negative")
+        void test1(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isNegative()'")
+    class IsNegative {
+        @ParameterizedTest
+        @ValueSource(longs = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE})
+        @DisplayName("passes, when target is negative")
+        void test0(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isNegative())
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(longs = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE})
+        @DisplayName("throws exception, when target is zero or positive")
+        void test1(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isNegative())
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isZeroOrNegative()'")
+    class isZeroOrNegative {
+        @ParameterizedTest
+        @ValueSource(longs = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE})
+        @DisplayName("passes, when target is zero or negative")
+        void test0(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(longs = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE})
+        @DisplayName("throws exception, when target is positive")
+        void test1(long actual) {
+            assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     private static Stream<Arguments> equality() {
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put((int) Character.valueOf('\u0000'), 0);
-        map.put(-1024, 1024 * -1);
-        map.put(31, Integer.valueOf(31));
-        map.put(Integer.MIN_VALUE, -2147483648);
-        map.put(Integer.MAX_VALUE, 2147483647);
+        Map<Long, Long> map = new HashMap<>();
+        map.put((long) Character.valueOf('\u0000'), 0L);
+        map.put(-1024L, 1024 * -1L);
+        map.put(31L, Long.valueOf(31));
+        map.put(Long.MIN_VALUE, -9223372036854775808L);
+        map.put(Long.MAX_VALUE, 9223372036854775807L);
 
         return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }
 
     private static Stream<Arguments> nonEquality() {
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put((int) Character.valueOf('a'), 0);
-        map.put(1024, -1024);
-        map.put(31, 31 >> 7);
-        map.put(Integer.MIN_VALUE, 2147483647);
-        map.put(Integer.MAX_VALUE, -2147483648);
+        Map<Long, Long> map = new HashMap<>();
+        map.put((long) Character.valueOf('a'), 0L);
+        map.put(1024L, -1024L);
+        map.put(31L, 31L >> 7);
+        map.put(Long.MIN_VALUE, 9223372036854775807L);
+        map.put(Long.MAX_VALUE, -9223372036854775808L);
 
         return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }
