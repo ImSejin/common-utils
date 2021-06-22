@@ -24,135 +24,135 @@ import java.io.File;
 @SuppressWarnings("unchecked")
 public class FileAsserts<SELF extends FileAsserts<SELF>> extends ObjectAsserts<SELF> {
 
-    private final File acutal;
+    private final File actual;
 
-    public FileAsserts(File acutal) {
-        super(acutal);
-        this.acutal = acutal;
+    public FileAsserts(File actual) {
+        super(actual);
+        this.actual = actual;
     }
 
     public SELF exists() {
-        if (!this.acutal.exists()) throw getException();
+        if (!this.actual.exists()) throw getException();
         return (SELF) this;
     }
 
     public SELF isEmpty() {
-        if (this.acutal.length() > 0) throw getException();
+        if (this.actual.length() > 0) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotEmpty() {
-        if (this.acutal.length() == 0) throw getException();
+        if (this.actual.length() == 0) throw getException();
         return (SELF) this;
     }
 
     public SELF isFile() {
-        if (!this.acutal.isFile()) throw getException();
+        if (!this.actual.isFile()) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotFile() {
-        if (this.acutal.isFile()) throw getException();
+        if (this.actual.isFile()) throw getException();
         return (SELF) this;
     }
 
     public SELF isDirectory() {
-        if (!this.acutal.isDirectory()) throw getException();
+        if (!this.actual.isDirectory()) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotDirectory() {
-        if (this.acutal.isDirectory()) throw getException();
+        if (this.actual.isDirectory()) throw getException();
         return (SELF) this;
     }
 
     public SELF isAbsolute() {
-        if (!this.acutal.isAbsolute()) throw getException();
+        if (!this.actual.isAbsolute()) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotAbsolute() {
-        if (this.acutal.isAbsolute()) throw getException();
+        if (this.actual.isAbsolute()) throw getException();
         return (SELF) this;
     }
 
     public SELF isHidden() {
-        if (!this.acutal.isHidden()) throw getException();
+        if (!this.actual.isHidden()) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotHidden() {
-        if (this.acutal.isHidden()) throw getException();
+        if (this.actual.isHidden()) throw getException();
         return (SELF) this;
     }
 
     public SELF canRead() {
-        if (!this.acutal.canRead()) throw getException();
+        if (!this.actual.canRead()) throw getException();
         return (SELF) this;
     }
 
     public SELF canNotRead() {
-        if (this.acutal.canRead()) throw getException();
+        if (this.actual.canRead()) throw getException();
         return (SELF) this;
     }
 
     public SELF canWrite() {
-        if (!this.acutal.canWrite()) throw getException();
+        if (!this.actual.canWrite()) throw getException();
         return (SELF) this;
     }
 
     public SELF canNotWrite() {
-        if (this.acutal.canWrite()) throw getException();
+        if (this.actual.canWrite()) throw getException();
         return (SELF) this;
     }
 
     public SELF canExecute() {
-        if (!this.acutal.canExecute()) throw getException();
+        if (!this.actual.canExecute()) throw getException();
         return (SELF) this;
     }
 
     public SELF canNotExecute() {
-        if (this.acutal.canExecute()) throw getException();
+        if (this.actual.canExecute()) throw getException();
         return (SELF) this;
     }
 
     public SELF hasLengthOf(File expected) {
-        if (this.acutal.length() != expected.length()) throw getException();
+        if (this.actual.length() != expected.length()) throw getException();
         return (SELF) this;
     }
 
     public SELF hasLengthOf(int expected) {
-        if (this.acutal.length() != expected) throw getException();
+        if (this.actual.length() != expected) throw getException();
         return (SELF) this;
     }
 
     public SELF isLargerThan(File expected) {
-        if (this.acutal.length() <= expected.length()) throw getException();
+        if (this.actual.length() <= expected.length()) throw getException();
         return (SELF) this;
     }
 
     public SELF isLargerThan(int expected) {
-        if (this.acutal.length() <= expected) throw getException();
+        if (this.actual.length() <= expected) throw getException();
         return (SELF) this;
     }
 
     public SELF isSmallerThan(File expected) {
-        if (this.acutal.length() >= expected.length()) throw getException();
+        if (this.actual.length() >= expected.length()) throw getException();
         return (SELF) this;
     }
 
     public SELF isSmallerThan(int expected) {
-        if (this.acutal.length() >= expected) throw getException();
+        if (this.actual.length() >= expected) throw getException();
         return (SELF) this;
     }
 
     public SELF hasName(String expected) {
-        if (this.acutal.getName().equals(expected)) throw getException();
+        if (this.actual.getName().equals(expected)) throw getException();
         return (SELF) this;
     }
 
     public SELF hasExtension(String expected) {
-        if (FilenameUtils.extension(this.acutal).equals(expected)) throw getException();
+        if (FilenameUtils.extension(this.actual).equals(expected)) throw getException();
         return (SELF) this;
     }
 
