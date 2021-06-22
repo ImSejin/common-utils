@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.primitive;
 @SuppressWarnings("unchecked")
 public class IntegerAsserts<SELF extends IntegerAsserts<SELF>> extends AbstractNumberAsserts<SELF, Integer> {
 
-    private final int actual;
+    private final Integer actual;
 
     public IntegerAsserts(Integer actual) {
         super(actual);

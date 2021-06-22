@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.primitive;
 @SuppressWarnings("unchecked")
 public class ByteAsserts<SELF extends ByteAsserts<SELF>> extends AbstractNumberAsserts<SELF, Byte> {
 
-    private final byte actual;
+    private final Byte actual;
 
     public ByteAsserts(Byte actual) {
         super(actual);

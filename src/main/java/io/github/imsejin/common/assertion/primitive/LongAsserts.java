@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.primitive;
 @SuppressWarnings("unchecked")
 public class LongAsserts<SELF extends LongAsserts<SELF>> extends AbstractNumberAsserts<SELF, Long> {
 
-    private final long actual;
+    private final Long actual;
 
     public LongAsserts(Long actual) {
         super(actual);

@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.primitive;
 @SuppressWarnings("unchecked")
 public class ShortAsserts<SELF extends ShortAsserts<SELF>> extends AbstractNumberAsserts<SELF, Short> {
 
-    private final short actual;
+    private final Short actual;
 
     public ShortAsserts(Short actual) {
         super(actual);

@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.primitive;
 @SuppressWarnings("unchecked")
 public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends AbstractNumberAsserts<SELF, Float> {
 
-    private final float actual;
+    private final Float actual;
 
     public FloatAsserts(Float actual) {
         super(actual);

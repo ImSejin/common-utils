@@ -21,7 +21,7 @@ import io.github.imsejin.common.util.MathUtils;
 @SuppressWarnings("unchecked")
 public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNumberAsserts<SELF, Double> {
 
-    private final double actual;
+    private final Double actual;
 
     public DoubleAsserts(Double actual) {
         super(actual);

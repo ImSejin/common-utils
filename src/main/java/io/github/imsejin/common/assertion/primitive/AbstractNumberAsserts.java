@@ -27,6 +27,24 @@ public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<S
         this.actual = actual;
     }
 
+    public final SELF isNull() {
+        if (this.actual != null) {
+            as("It is expected to be null, but not null. (actual: '{0}')", this.actual);
+            throw getException();
+        }
+
+        return (SELF) this;
+    }
+
+    public final SELF isNotNull() {
+        if (this.actual == null) {
+            as("It is expected to be not null, but null. (actual: 'null')");
+            throw getException();
+        }
+
+        return (SELF) this;
+    }
+
     public abstract SELF isEqualTo(NUMBER expected);
 
     public abstract SELF isNotEqualTo(NUMBER expected);

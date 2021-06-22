@@ -21,8 +21,9 @@ import io.github.imsejin.common.assertion.Descriptor;
 @SuppressWarnings("unchecked")
 public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descriptor<SELF> {
 
-    private final char actual;
     private static final Character NULL_CHARACTER = '\u0000';
+
+    private final Character actual;
 
     public CharacterAsserts(Character actual) {
         this.actual = actual;
