@@ -32,7 +32,7 @@ class BooleanAssertsTest {
     class IsTrue {
         @ParameterizedTest
         @ValueSource(booleans = {true, 1 < 2, false || (0 == 0)})
-        @DisplayName("passes, when target is true")
+        @DisplayName("passes, when actual is true")
         void test0(boolean actual) {
             assertThatCode(() -> Asserts.that(actual).isTrue())
                     .doesNotThrowAnyException();
@@ -40,7 +40,7 @@ class BooleanAssertsTest {
 
         @ParameterizedTest
         @ValueSource(booleans = {false, 1 >= 2, false && (0 == 0)})
-        @DisplayName("throws exception, when target is false")
+        @DisplayName("throws exception, when actual is false")
         void test1(boolean actual) {
             assertThatCode(() -> Asserts.that(actual).isTrue())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -54,7 +54,7 @@ class BooleanAssertsTest {
     class IsFalse {
         @ParameterizedTest
         @ValueSource(booleans = {false, 1 >= 2, false && (0 == 0)})
-        @DisplayName("passes, when target is false")
+        @DisplayName("passes, when actual is false")
         void test0(boolean actual) {
             assertThatCode(() -> Asserts.that(actual).isFalse())
                     .doesNotThrowAnyException();
@@ -62,7 +62,7 @@ class BooleanAssertsTest {
 
         @ParameterizedTest
         @ValueSource(booleans = {true, 1 < 2, false || (0 == 0)})
-        @DisplayName("throws exception, when target is true")
+        @DisplayName("throws exception, when actual is true")
         void test1(boolean actual) {
             assertThatCode(() -> Asserts.that(actual).isFalse())
                     .isExactlyInstanceOf(IllegalArgumentException.class);

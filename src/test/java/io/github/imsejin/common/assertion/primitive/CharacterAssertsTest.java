@@ -42,7 +42,7 @@ class CharacterAssertsTest {
     class IsEqualTo {
         @ParameterizedTest
         @MethodSource(EQUALITY)
-        @DisplayName("passes, when target is equal to other")
+        @DisplayName("passes, when actual is equal to other")
         void test0(int actual, int expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .doesNotThrowAnyException();
@@ -50,7 +50,7 @@ class CharacterAssertsTest {
 
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
-        @DisplayName("throws exception, when target is not equal to other")
+        @DisplayName("throws exception, when actual is not equal to other")
         void test1(int actual, int expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -64,7 +64,7 @@ class CharacterAssertsTest {
     class IsNotEqualTo {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
-        @DisplayName("passes, when target is not equal to other")
+        @DisplayName("passes, when actual is not equal to other")
         void test0(int actual, int expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .doesNotThrowAnyException();
@@ -72,7 +72,7 @@ class CharacterAssertsTest {
 
         @ParameterizedTest
         @MethodSource(EQUALITY)
-        @DisplayName("throws exception, when target is equal to other")
+        @DisplayName("throws exception, when actual is equal to other")
         void test1(int actual, int expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -85,7 +85,7 @@ class CharacterAssertsTest {
     @DisplayName("method 'isGreaterThan'")
     class IsGreaterThan {
         @Test
-        @DisplayName("passes, when target is greater than other")
+        @DisplayName("passes, when actual is greater than other")
         void test0() {
             Map<Character, Character> map = new HashMap<>();
             map.put((char) 2, Character.valueOf('\u0000'));
@@ -99,7 +99,7 @@ class CharacterAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is less than or equal to other")
+        @DisplayName("throws exception, when actual is less than or equal to other")
         void test1() {
             Map<Character, Character> map = new HashMap<>();
             map.put(Character.valueOf('\u0000'), (char) 1);
@@ -119,7 +119,7 @@ class CharacterAssertsTest {
     @DisplayName("method 'isGreaterThanOrEqualTo'")
     class IsGreaterThanOrEqualTo {
         @Test
-        @DisplayName("passes, when target is greater than or equal to other")
+        @DisplayName("passes, when actual is greater than or equal to other")
         void test0() {
             Map<Character, Character> map = new HashMap<>();
             map.put((char) 2, Character.valueOf('\u0000'));
@@ -133,7 +133,7 @@ class CharacterAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is less than other")
+        @DisplayName("throws exception, when actual is less than other")
         void test1() {
             Map<Character, Character> map = new HashMap<>();
             map.put('\u0002', Character.valueOf('\u0003'));
@@ -153,7 +153,7 @@ class CharacterAssertsTest {
     @DisplayName("method 'isLessThan'")
     class IsLessThan {
         @Test
-        @DisplayName("passes, when target is less than other")
+        @DisplayName("passes, when actual is less than other")
         void test0() {
             Map<Character, Character> map = new HashMap<>();
             map.put(Character.valueOf('\u0002'), '\u0003');
@@ -167,7 +167,7 @@ class CharacterAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is greater than or equal to other")
+        @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1() {
             Map<Character, Character> map = new HashMap<>();
             map.put((char) 2, Character.valueOf('\u0000'));
@@ -187,7 +187,7 @@ class CharacterAssertsTest {
     @DisplayName("method 'isLessThanOrEqualTo'")
     class IsLessThanOrEqualTo {
         @Test
-        @DisplayName("passes, when target is less than or equal to other")
+        @DisplayName("passes, when actual is less than or equal to other")
         void test0() {
             Map<Character, Character> map = new HashMap<>();
             map.put(Character.valueOf('\u0002'), '\u0003');
@@ -201,7 +201,7 @@ class CharacterAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is greater than other")
+        @DisplayName("throws exception, when actual is greater than other")
         void test1() {
             Map<Character, Character> map = new HashMap<>();
             map.put(Character.valueOf('\u0002'), '\u0000');
@@ -221,7 +221,7 @@ class CharacterAssertsTest {
     @DisplayName("method 'isZero'")
     class IsZero {
         @Test
-        @DisplayName("passes, when target is null-character")
+        @DisplayName("passes, when actual is null-character")
         void test0() {
             List<Character> characters = Arrays.asList('\u0000', (char) 0);
 
@@ -230,7 +230,7 @@ class CharacterAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is not null-character")
+        @DisplayName("throws exception, when actual is not null-character")
         void test1() {
             List<Character> characters = Arrays.asList('\u0001', '0', 'a', null);
 
@@ -245,7 +245,7 @@ class CharacterAssertsTest {
     @DisplayName("method 'isNotZero'")
     class IsNotZero {
         @Test
-        @DisplayName("passes, when target is null-character")
+        @DisplayName("passes, when actual is null-character")
         void test0() {
             List<Character> characters = Arrays.asList('\u0001', '0', 'a', null);
 
@@ -254,7 +254,7 @@ class CharacterAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is not null-character")
+        @DisplayName("throws exception, when actual is not null-character")
         void test1() {
             List<Character> characters = Arrays.asList('\u0000', (char) 0);
 

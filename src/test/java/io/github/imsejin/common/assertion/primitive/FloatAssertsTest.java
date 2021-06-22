@@ -42,7 +42,7 @@ class FloatAssertsTest {
     class IsEqualTo {
         @ParameterizedTest
         @MethodSource(EQUALITY)
-        @DisplayName("passes, when target is equal to other")
+        @DisplayName("passes, when actual is equal to other")
         void test0(float actual, float expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .doesNotThrowAnyException();
@@ -50,7 +50,7 @@ class FloatAssertsTest {
 
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
-        @DisplayName("throws exception, when target is not equal to other")
+        @DisplayName("throws exception, when actual is not equal to other")
         void test1(float actual, float expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -64,7 +64,7 @@ class FloatAssertsTest {
     class IsNotEqualTo {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
-        @DisplayName("passes, when target is not equal to other")
+        @DisplayName("passes, when actual is not equal to other")
         void test0(float actual, float expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .doesNotThrowAnyException();
@@ -72,7 +72,7 @@ class FloatAssertsTest {
 
         @ParameterizedTest
         @MethodSource(EQUALITY)
-        @DisplayName("throws exception, when target is equal to other")
+        @DisplayName("throws exception, when actual is equal to other")
         void test1(float actual, float expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -85,7 +85,7 @@ class FloatAssertsTest {
     @DisplayName("method 'isGreaterThan'")
     class IsGreaterThan {
         @Test
-        @DisplayName("passes, when target is greater than other")
+        @DisplayName("passes, when actual is greater than other")
         void test0() {
             Map<Float, Float> map = new HashMap<>();
             map.put(1.1F, (float) Character.valueOf('\u0000'));
@@ -99,7 +99,7 @@ class FloatAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is less than or equal to other")
+        @DisplayName("throws exception, when actual is less than or equal to other")
         void test1() {
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), 0F);
@@ -119,7 +119,7 @@ class FloatAssertsTest {
     @DisplayName("method 'isGreaterThanOrEqualTo'")
     class IsGreaterThanOrEqualTo {
         @Test
-        @DisplayName("passes, when target is greater than or equal to other")
+        @DisplayName("passes, when actual is greater than or equal to other")
         void test0() {
             Map<Float, Float> map = new HashMap<>();
             map.put(1.14F, (float) Character.valueOf('\u0000'));
@@ -133,7 +133,7 @@ class FloatAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is less than other")
+        @DisplayName("throws exception, when actual is less than other")
         void test1() {
             Map<Float, Float> map = new HashMap<>();
             map.put(-1.16F, (float) Character.valueOf('\u0000'));
@@ -153,7 +153,7 @@ class FloatAssertsTest {
     @DisplayName("method 'isLessThan'")
     class IsLessThan {
         @Test
-        @DisplayName("passes, when target is less than other")
+        @DisplayName("passes, when actual is less than other")
         void test0() {
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), 1.141F);
@@ -167,7 +167,7 @@ class FloatAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is greater than or equal to other")
+        @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1() {
             Map<Float, Float> map = new HashMap<>();
             map.put(1.99F, (float) Character.valueOf('\u0000'));
@@ -187,7 +187,7 @@ class FloatAssertsTest {
     @DisplayName("method 'isLessThanOrEqualTo'")
     class IsLessThanOrEqualTo {
         @Test
-        @DisplayName("passes, when target is less than or equal to other")
+        @DisplayName("passes, when actual is less than or equal to other")
         void test0() {
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), 1.0F);
@@ -201,7 +201,7 @@ class FloatAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is greater than other")
+        @DisplayName("throws exception, when actual is greater than other")
         void test1() {
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), -1.001F);
@@ -222,7 +222,7 @@ class FloatAssertsTest {
     class IsPositive {
         @ParameterizedTest
         @ValueSource(floats = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
-        @DisplayName("passes, when target is positive")
+        @DisplayName("passes, when actual is positive")
         void test0(float actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
                     .doesNotThrowAnyException();
@@ -230,7 +230,7 @@ class FloatAssertsTest {
 
         @ParameterizedTest
         @ValueSource(floats = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
-        @DisplayName("throws exception, when target is zero or negative")
+        @DisplayName("throws exception, when actual is zero or negative")
         void test1(float actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -244,7 +244,7 @@ class FloatAssertsTest {
     class IsZeroOrPositive {
         @ParameterizedTest
         @ValueSource(floats = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
-        @DisplayName("passes, when target is zero or positive")
+        @DisplayName("passes, when actual is zero or positive")
         void test0(float actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
                     .doesNotThrowAnyException();
@@ -252,7 +252,7 @@ class FloatAssertsTest {
 
         @ParameterizedTest
         @ValueSource(floats = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
-        @DisplayName("throws exception, when target is negative")
+        @DisplayName("throws exception, when actual is negative")
         void test1(float actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -266,7 +266,7 @@ class FloatAssertsTest {
     class IsNegative {
         @ParameterizedTest
         @ValueSource(floats = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
-        @DisplayName("passes, when target is negative")
+        @DisplayName("passes, when actual is negative")
         void test0(float actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
                     .doesNotThrowAnyException();
@@ -274,7 +274,7 @@ class FloatAssertsTest {
 
         @ParameterizedTest
         @ValueSource(floats = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
-        @DisplayName("throws exception, when target is zero or positive")
+        @DisplayName("throws exception, when actual is zero or positive")
         void test1(float actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -288,7 +288,7 @@ class FloatAssertsTest {
     class isZeroOrNegative {
         @ParameterizedTest
         @ValueSource(floats = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
-        @DisplayName("passes, when target is zero or negative")
+        @DisplayName("passes, when actual is zero or negative")
         void test0(float actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .doesNotThrowAnyException();
@@ -296,7 +296,7 @@ class FloatAssertsTest {
 
         @ParameterizedTest
         @ValueSource(floats = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
-        @DisplayName("throws exception, when target is positive")
+        @DisplayName("throws exception, when actual is positive")
         void test1(float actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);

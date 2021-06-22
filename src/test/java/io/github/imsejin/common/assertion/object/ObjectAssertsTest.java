@@ -38,14 +38,14 @@ class ObjectAssertsTest {
     @DisplayName("method 'isNull'")
     class IsNull {
         @Test
-        @DisplayName("passes, when target is null")
+        @DisplayName("passes, when actual is null")
         void test0() {
             assertThatCode(() -> Asserts.that((Object) null).isNull())
                     .doesNotThrowAnyException();
         }
 
         @Test
-        @DisplayName("throws exception, when target is not null")
+        @DisplayName("throws exception, when actual is not null")
         void test1() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
@@ -60,7 +60,7 @@ class ObjectAssertsTest {
     @DisplayName("method 'isNotNull'")
     class IsNotNull {
         @Test
-        @DisplayName("passes, when target is not null")
+        @DisplayName("passes, when actual is not null")
         void test0() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
@@ -69,7 +69,7 @@ class ObjectAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is null")
+        @DisplayName("throws exception, when actual is null")
         void test1() {
             assertThatCode(() -> Asserts.that((Object) null).isNotNull())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -82,7 +82,7 @@ class ObjectAssertsTest {
     @DisplayName("method 'isSameAs'")
     class IsSameAs {
         @Test
-        @DisplayName("passes, when target and other is the same instance")
+        @DisplayName("passes, when actual and other is the same instance")
         void test0() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
@@ -91,7 +91,7 @@ class ObjectAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target and other is not the same instance")
+        @DisplayName("throws exception, when actual and other is not the same instance")
         void test1() {
             Map<Object, Object> map = new HashMap<>();
             map.put(null, 'b');
@@ -110,7 +110,7 @@ class ObjectAssertsTest {
     @DisplayName("method 'isNotSameAs'")
     class IsNotSameAs {
         @Test
-        @DisplayName("passes, when target and other is not the same instance")
+        @DisplayName("passes, when actual and other is not the same instance")
         void test0() {
             Map<Object, Object> map = new HashMap<>();
             map.put(null, 'b');
@@ -123,7 +123,7 @@ class ObjectAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target and other is not the same instance")
+        @DisplayName("throws exception, when actual and other is not the same instance")
         void test1() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
@@ -138,7 +138,7 @@ class ObjectAssertsTest {
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
         @Test
-        @DisplayName("passes, when target is equal to other")
+        @DisplayName("passes, when actual is equal to other")
         void test0() {
             Map<Object, Object> map = new HashMap<>();
             map.put("alpha", String.valueOf("alpha".toCharArray()));
@@ -151,7 +151,7 @@ class ObjectAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is not equal to other")
+        @DisplayName("throws exception, when actual is not equal to other")
         void test1() {
             Map<Object, Object> map = new HashMap<>();
             map.put(new Object(), new Object());
@@ -170,7 +170,7 @@ class ObjectAssertsTest {
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
         @Test
-        @DisplayName("passes, when target is not equal to other")
+        @DisplayName("passes, when actual is not equal to other")
         void test0() {
             Map<Object, Object> map = new HashMap<>();
             map.put(new Object(), new Object());
@@ -183,7 +183,7 @@ class ObjectAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is equal to other")
+        @DisplayName("throws exception, when actual is equal to other")
         void test1() {
             Map<Object, Object> map = new HashMap<>();
             map.put("alpha", String.valueOf("alpha".toCharArray()));
@@ -202,7 +202,7 @@ class ObjectAssertsTest {
     @DisplayName("method 'isInstanceOf'")
     class IsInstanceOf {
         @Test
-        @DisplayName("passes, when target is instance of given type")
+        @DisplayName("passes, when actual is instance of given type")
         void test0() {
             Map<Object, Class<?>> map = new HashMap<>();
             map.put(new Object(), Object.class);
@@ -217,7 +217,7 @@ class ObjectAssertsTest {
         }
 
         @Test
-        @DisplayName("throws exception, when target is not instance of given type")
+        @DisplayName("throws exception, when actual is not instance of given type")
         void test1() {
             Map<Object, Class<?>> map = new HashMap<>();
             map.put("alpha", Character.class);

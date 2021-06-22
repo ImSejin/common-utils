@@ -46,7 +46,7 @@ class PackageAssertsTest {
                 Preferences.class, MatchResult.class, Collector.class,
                 ResourceBundleControlProvider.class, Checksum.class
         })
-        @DisplayName("passes, when target is super package of given package")
+        @DisplayName("passes, when actual is super package of given package")
         void test0(Class<?> type) {
             assertThatCode(() -> Asserts.that(List.class.getPackage()).isSuperPackageOf(type.getPackage()))
                     .doesNotThrowAnyException();
@@ -58,7 +58,7 @@ class PackageAssertsTest {
                 Preferences.class, MatchResult.class, Collector.class,
                 ResourceBundleControlProvider.class, Checksum.class
         })
-        @DisplayName("throws exception, when target is not super package of given package")
+        @DisplayName("throws exception, when actual is not super package of given package")
         void test1(Class<?> type) {
             assertThatCode(() -> Asserts.that(Object.class.getPackage()).isSuperPackageOf(type.getPackage()))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -76,7 +76,7 @@ class PackageAssertsTest {
                 Preferences.class, MatchResult.class, Collector.class,
                 ResourceBundleControlProvider.class, Checksum.class
         })
-        @DisplayName("passes, when target is sub package of given package")
+        @DisplayName("passes, when actual is sub package of given package")
         void test0(Class<?> type) {
             assertThatCode(() -> Asserts.that(type.getPackage()).isSubPackageOf(List.class.getPackage()))
                     .doesNotThrowAnyException();
@@ -88,7 +88,7 @@ class PackageAssertsTest {
                 Preferences.class, MatchResult.class, Collector.class,
                 ResourceBundleControlProvider.class, Checksum.class
         })
-        @DisplayName("throws exception, when target is not sub package of given package")
+        @DisplayName("throws exception, when actual is not sub package of given package")
         void test1(Class<?> type) {
             assertThatCode(() -> Asserts.that(type.getPackage()).isSubPackageOf(Object.class.getPackage()))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
