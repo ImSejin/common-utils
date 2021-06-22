@@ -71,7 +71,7 @@ public class FileAsserts<SELF extends FileAsserts<SELF>> extends ObjectAsserts<S
         return (SELF) this;
     }
 
-    public SELF isNotAbsolute() {
+    public SELF isRelative() {
         if (this.actual.isAbsolute()) throw getException();
         return (SELF) this;
     }
