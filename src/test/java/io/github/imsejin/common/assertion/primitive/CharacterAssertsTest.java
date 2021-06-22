@@ -23,13 +23,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("CharacterAsserts")
@@ -260,6 +259,224 @@ class CharacterAssertsTest {
             List<Character> characters = Arrays.asList('\u0000', (char) 0);
 
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotZero())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isDigit'")
+    class IsDigit {
+        @ParameterizedTest
+        @ValueSource(chars = {
+                // ISO-LATIN-1 digits
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                // Arabic-Indic digits
+                '\u0660', '\u0661', '\u0662', '\u0663', '\u0664', '\u0665', '\u0666', '\u0667', '\u0668', '\u0669',
+                // Extended Arabic-Indic digits
+                '\u06F0', '\u06F1', '\u06F2', '\u06F3', '\u06F4', '\u06F5', '\u06F6', '\u06F7', '\u06F8', '\u06F9',
+                // Devanagari digits
+                '\u0966', '\u0967', '\u0968', '\u0969', '\u096A', '\u096B', '\u096C', '\u096D', '\u096E', '\u096F',
+                // Fullwidth digits
+                '\uFF10', '\uFF11', '\uFF12', '\uFF13', '\uFF14', '\uFF15', '\uFF16', '\uFF17', '\uFF18', '\uFF19',
+        })
+        @DisplayName("passes, when actual is digit")
+        void test0(char actual) {
+            assertThatCode(() -> Asserts.that(actual).isDigit())
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not digit")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isDigit(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isDigit())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isLetter'")
+    class IsLetter {
+        @Test
+        @DisplayName("passes, when actual is letter")
+        void test0() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(Character::isLetter).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetter())
+                    .doesNotThrowAnyException());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not letter")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isLetter(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetter())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isLetterOrDigit'")
+    class IsLetterOrDigit {
+        @Test
+        @DisplayName("passes, when actual is letter or digit")
+        void test0() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(Character::isLetterOrDigit).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetterOrDigit())
+                    .doesNotThrowAnyException());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is letter nor digit")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isLetterOrDigit(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetterOrDigit())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isUpperCase'")
+    class IsUpperCase {
+        @ParameterizedTest
+        @ValueSource(chars = {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        })
+        @DisplayName("passes, when actual is uppercase")
+        void test0(char actual) {
+            assertThatCode(() -> Asserts.that(actual).isUpperCase())
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not uppercase")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isUpperCase(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isUpperCase())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isLowerCase'")
+    class IsLowerCase {
+        @ParameterizedTest
+        @ValueSource(chars = {
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        })
+        @DisplayName("passes, when actual is lowercase")
+        void test0(char actual) {
+            assertThatCode(() -> Asserts.that(actual).isLowerCase())
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not lowercase")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isLowerCase(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLowerCase())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isAlphabetic'")
+    class isAlphabetic {
+        @Test
+        @DisplayName("passes, when actual is alphabetic")
+        void test0() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(Character::isAlphabetic).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isAlphabetic())
+                    .doesNotThrowAnyException());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not alphabetic")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isAlphabetic(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isAlphabetic())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isSpaceChar'")
+    class isSpaceChar {
+        @ParameterizedTest
+        @ValueSource(chars = {'\u00A0', '\u2007', '\u202F'})
+        @DisplayName("passes, when actual is space character")
+        void test0(char actual) {
+            assertThatCode(() -> Asserts.that(actual).isSpaceChar())
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not space character")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isSpaceChar(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isSpaceChar())
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isWhitespace'")
+    class isWhitespace {
+        @ParameterizedTest
+        @ValueSource(chars = {
+                '\t', '\n', '\u000B', '\f', '\r',
+                '\u001C', '\u001D', '\u001E', '\u001F',
+        })
+        @DisplayName("passes, when actual is whitespace character")
+        void test0(char actual) {
+            assertThatCode(() -> Asserts.that(actual).isWhitespace())
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not whitespace character")
+        void test1() {
+            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
+                    .filter(it -> !Character.isWhitespace(it)).collect(toList());
+
+            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isWhitespace())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
