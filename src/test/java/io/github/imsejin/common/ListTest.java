@@ -8,17 +8,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class ListTest {
+class ListTest {
 
     @Test
-    public void appendToArrayList() {
+    void appendToArrayList() {
         // given
         List<Integer> list = new ArrayList<>();
         Stopwatch stopwatch = new Stopwatch(TimeUnit.SECONDS);
         stopwatch.start();
 
         // when
-        for (int i = 0; i < 10_000_000; i++) {
+        for (int i = 0; i < 1_000_000; i++) {
             list.add(i);
         }
 
@@ -28,14 +28,14 @@ public class ListTest {
     }
 
     @Test
-    public void appendToLinkedList() {
+    void appendToLinkedList() {
         // given
         List<Integer> list = new LinkedList<>();
         Stopwatch stopwatch = new Stopwatch(TimeUnit.SECONDS);
         stopwatch.start();
 
         // when
-        for (int i = 0; i < 10_000_000; i++) {
+        for (int i = 0; i < 1_000_000; i++) {
             list.add(i);
         }
 

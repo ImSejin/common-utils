@@ -485,7 +485,7 @@ class CharacterAssertsTest {
 
     private static Stream<Arguments> equality() {
         Map<Character, Character> map = new HashMap<>();
-        map.put(Character.valueOf('\u0000'), '\u0000');
+        map.put(Character.valueOf('\u0001'), '\u0001');
         map.put((char) 1024, (char) (512 * 2));
         map.put((char) 31, Character.valueOf((char) 31));
         map.put(Character.MIN_VALUE, '\u0000');
