@@ -62,12 +62,12 @@ public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descr
     }
 
     public SELF isZero() {
-        if (this.actual != NULL_CHARACTER) throw getException();
+        if (!Objects.equals(this.actual, NULL_CHARACTER)) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotZero() {
-        if (this.actual == NULL_CHARACTER) throw getException();
+        if (Objects.equals(this.actual, NULL_CHARACTER)) throw getException();
         return (SELF) this;
     }
 
