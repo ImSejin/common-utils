@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.map;
 
 import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
+import java.util.Collection;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
@@ -70,8 +71,18 @@ public class MapAsserts<SELF extends MapAsserts<SELF, K, V>, K, V> extends Objec
         return (SELF) this;
     }
 
+    public SELF containsAllKeys(Collection<K> expected) {
+        if (!this.actual.keySet().containsAll(expected)) throw getException();
+        return (SELF) this;
+    }
+
     public SELF containsAllValues(Map<?, V> expected) {
         if (!this.actual.values().containsAll(expected.values())) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF containsAllValues(Collection<V> expected) {
+        if (!this.actual.values().containsAll(expected)) throw getException();
         return (SELF) this;
     }
 
