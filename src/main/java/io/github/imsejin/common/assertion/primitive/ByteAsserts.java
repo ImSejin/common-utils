@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
+import java.util.Objects;
+
 @SuppressWarnings("unchecked")
 public class ByteAsserts<SELF extends ByteAsserts<SELF>> extends AbstractNumberAsserts<SELF, Byte> {
 
@@ -28,13 +30,13 @@ public class ByteAsserts<SELF extends ByteAsserts<SELF>> extends AbstractNumberA
 
     @Override
     public SELF isEqualTo(Byte expected) {
-        if (this.actual != expected) throw getException();
+        if (!Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 
     @Override
     public SELF isNotEqualTo(Byte expected) {
-        if (this.actual == expected) throw getException();
+        if (Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 

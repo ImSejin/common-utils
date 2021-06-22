@@ -18,6 +18,8 @@ package io.github.imsejin.common.assertion.primitive;
 
 import io.github.imsejin.common.assertion.Descriptor;
 
+import java.util.Objects;
+
 @SuppressWarnings("unchecked")
 public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descriptor<SELF> {
 
@@ -30,12 +32,12 @@ public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descr
     }
 
     public SELF isEqualTo(Character expected) {
-        if (this.actual != expected) throw getException();
+        if (!Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 
     public SELF isNotEqualTo(Character expected) {
-        if (this.actual == expected) throw getException();
+        if (Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 

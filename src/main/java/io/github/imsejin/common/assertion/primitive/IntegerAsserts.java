@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
+import java.util.Objects;
+
 @SuppressWarnings("unchecked")
 public class IntegerAsserts<SELF extends IntegerAsserts<SELF>> extends AbstractNumberAsserts<SELF, Integer> {
 
@@ -28,13 +30,13 @@ public class IntegerAsserts<SELF extends IntegerAsserts<SELF>> extends AbstractN
 
     @Override
     public SELF isEqualTo(Integer expected) {
-        if (this.actual != expected) throw getException();
+        if (!Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 
     @Override
     public SELF isNotEqualTo(Integer expected) {
-        if (this.actual == expected) throw getException();
+        if (Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 

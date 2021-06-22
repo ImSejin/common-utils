@@ -18,6 +18,8 @@ package io.github.imsejin.common.assertion.primitive;
 
 import io.github.imsejin.common.util.MathUtils;
 
+import java.util.Objects;
+
 @SuppressWarnings("unchecked")
 public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNumberAsserts<SELF, Double> {
 
@@ -30,13 +32,13 @@ public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNum
 
     @Override
     public SELF isEqualTo(Double expected) {
-        if (this.actual != expected) throw getException();
+        if (!Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 
     @Override
     public SELF isNotEqualTo(Double expected) {
-        if (this.actual == expected) throw getException();
+        if (Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 
