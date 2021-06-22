@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.map;
 
+import io.github.imsejin.common.assertion.collection.CollectionAsserts;
 import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
 import java.util.Collection;
@@ -84,6 +85,14 @@ public class MapAsserts<SELF extends MapAsserts<SELF, K, V>, K, V> extends Objec
     public SELF containsAllValues(Collection<V> expected) {
         if (!this.actual.values().containsAll(expected)) throw getException();
         return (SELF) this;
+    }
+
+    public CollectionAsserts<?, K> asKeys() {
+        return new CollectionAsserts<>(this.actual.keySet());
+    }
+
+    public CollectionAsserts<?, V> asValues() {
+        return new CollectionAsserts<>(this.actual.values());
     }
 
 }
