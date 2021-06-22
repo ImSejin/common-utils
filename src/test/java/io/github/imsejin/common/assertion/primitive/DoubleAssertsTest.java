@@ -285,7 +285,7 @@ class DoubleAssertsTest {
 
     @Nested
     @DisplayName("method 'isZeroOrNegative()'")
-    class isZeroOrNegative {
+    class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("passes, when actual is zero or negative")

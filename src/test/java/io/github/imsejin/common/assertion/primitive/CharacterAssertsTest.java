@@ -408,7 +408,7 @@ class CharacterAssertsTest {
 
     @Nested
     @DisplayName("method 'isAlphabetic'")
-    class isAlphabetic {
+    class IsAlphabetic {
         @Test
         @DisplayName("passes, when actual is alphabetic")
         void test0() {
@@ -434,7 +434,7 @@ class CharacterAssertsTest {
 
     @Nested
     @DisplayName("method 'isSpaceChar'")
-    class isSpaceChar {
+    class IsSpaceChar {
         @ParameterizedTest
         @ValueSource(chars = {'\u00A0', '\u2007', '\u202F'})
         @DisplayName("passes, when actual is space character")
@@ -458,7 +458,7 @@ class CharacterAssertsTest {
 
     @Nested
     @DisplayName("method 'isWhitespace'")
-    class isWhitespace {
+    class IsWhitespace {
         @ParameterizedTest
         @ValueSource(chars = {
                 '\t', '\n', '\u000B', '\f', '\r',

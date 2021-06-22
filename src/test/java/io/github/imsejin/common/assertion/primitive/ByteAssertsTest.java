@@ -285,7 +285,7 @@ class ByteAssertsTest {
 
     @Nested
     @DisplayName("method 'isZeroOrNegative()'")
-    class isZeroOrNegative {
+    class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(bytes = {0, -1, Byte.MIN_VALUE})
         @DisplayName("passes, when actual is zero or negative")

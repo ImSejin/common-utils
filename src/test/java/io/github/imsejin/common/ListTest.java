@@ -1,7 +1,7 @@
 package io.github.imsejin.common;
 
 import io.github.imsejin.common.tool.Stopwatch;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

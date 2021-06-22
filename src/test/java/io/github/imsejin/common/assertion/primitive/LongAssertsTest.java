@@ -285,7 +285,7 @@ class LongAssertsTest {
 
     @Nested
     @DisplayName("method 'isZeroOrNegative()'")
-    class isZeroOrNegative {
+    class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(longs = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE})
         @DisplayName("passes, when actual is zero or negative")
