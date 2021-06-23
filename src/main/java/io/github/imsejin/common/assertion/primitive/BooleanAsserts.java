@@ -27,6 +27,24 @@ public class BooleanAsserts<SELF extends BooleanAsserts<SELF>> extends Descripto
         this.actual = actual;
     }
 
+    public SELF isNull() {
+        if (this.actual != null) {
+            as("It is expected to be null, but not null. (actual: '{0}')", this.actual);
+            throw getException();
+        }
+
+        return (SELF) this;
+    }
+
+    public SELF isNotNull() {
+        if (this.actual == null) {
+            as("It is expected to be not null, but null. (actual: 'null')");
+            throw getException();
+        }
+
+        return (SELF) this;
+    }
+
     public SELF isTrue() {
         if (!this.actual) throw getException();
         return (SELF) this;
