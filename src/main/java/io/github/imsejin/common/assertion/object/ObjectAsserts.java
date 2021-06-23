@@ -31,34 +31,55 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
 
     public SELF isNull() {
         if (this.actual != null) {
-            as("");
+            as("It is expected to be null, but not null. (actual: '{0}')", this.actual);
             throw getException();
         }
+
         return (SELF) this;
     }
 
     public SELF isNotNull() {
-        if (this.actual == null) throw getException();
+        if (this.actual == null) {
+            as("It is expected to be not null, but null. (actual: 'null')");
+            throw getException();
+        }
+
         return (SELF) this;
     }
 
-    public SELF isSameAs(Object other) {
-        if (this.actual != other) throw getException();
+    public SELF isSameAs(Object expected) {
+        if (this.actual != expected) {
+            as("They are expected to be the same, but they aren't. (expected: '{0}' actual: '{1}')", expected, this.actual);
+            throw getException();
+        }
+
         return (SELF) this;
     }
 
-    public SELF isNotSameAs(Object other) {
-        if (this.actual == other) throw getException();
+    public SELF isNotSameAs(Object expected) {
+        if (this.actual == expected) {
+            as("They are expected to be not the same, but they aren't. (expected: '{0}' actual: '{1}')", expected, this.actual);
+            throw getException();
+        }
+
         return (SELF) this;
     }
 
-    public SELF isEqualTo(Object other) {
-        if (!this.actual.equals(other)) throw getException();
+    public SELF isEqualTo(Object expected) {
+        if (!this.actual.equals(expected)) {
+            as("They are expected to be equal, but they aren't. (expected: '{0}' actual: '{1}')", expected, this.actual);
+            throw getException();
+        }
+
         return (SELF) this;
     }
 
-    public SELF isNotEqualTo(Object other) {
-        if (this.actual.equals(other)) throw getException();
+    public SELF isNotEqualTo(Object expected) {
+        if (this.actual.equals(expected)) {
+            as("They are expected to be not equal, but they aren't. (expected: '{0}' actual: '{1}')", expected, this.actual);
+            throw getException();
+        }
+
         return (SELF) this;
     }
 
@@ -73,7 +94,11 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
      * @return whether this is instance of the type
      */
     public SELF isInstanceOf(Class<?> type) {
-        if (!TypeClassifier.toWrapper(type).isInstance(this.actual)) throw getException();
+        if (!TypeClassifier.toWrapper(type).isInstance(this.actual)) {
+            as("It is expected to be instance of the type, but it isn't. (expected: '{0}' actual: '{1}')", type, this.actual);
+            throw getException();
+        }
+
         return (SELF) this;
     }
 
