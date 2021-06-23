@@ -43,7 +43,7 @@ class CharacterAssertsTest {
         @ParameterizedTest
         @MethodSource(EQUALITY)
         @DisplayName("passes, when actual is equal to other")
-        void test0(int actual, int expected) {
+        void test0(char actual, char expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .doesNotThrowAnyException();
         }
@@ -51,7 +51,7 @@ class CharacterAssertsTest {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
         @DisplayName("throws exception, when actual is not equal to other")
-        void test1(int actual, int expected) {
+        void test1(char actual, char expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -65,7 +65,7 @@ class CharacterAssertsTest {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
         @DisplayName("passes, when actual is not equal to other")
-        void test0(int actual, int expected) {
+        void test0(char actual, char expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .doesNotThrowAnyException();
         }
@@ -73,7 +73,7 @@ class CharacterAssertsTest {
         @ParameterizedTest
         @MethodSource(EQUALITY)
         @DisplayName("throws exception, when actual is equal to other")
-        void test1(int actual, int expected) {
+        void test1(char actual, char expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
