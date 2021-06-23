@@ -23,6 +23,8 @@
 
 # Getting started
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/55985d823dfa4868aef54f0a9cb9d63d)](https://app.codacy.com/gh/ImSejin/common-utils?utm_source=github.com&utm_medium=referral&utm_content=ImSejin/common-utils&utm_campaign=Badge_Grade_Settings)
+
 ### Maven
 
 ```xml
