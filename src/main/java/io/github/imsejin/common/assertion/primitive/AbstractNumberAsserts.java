@@ -18,6 +18,8 @@ package io.github.imsejin.common.assertion.primitive;
 
 import io.github.imsejin.common.assertion.Descriptor;
 
+import java.util.Objects;
+
 public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<SELF, NUMBER>, NUMBER extends Number>
         extends Descriptor<SELF> {
 
@@ -45,9 +47,15 @@ public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<S
         return (SELF) this;
     }
 
-    public abstract SELF isEqualTo(NUMBER expected);
+    public final SELF isEqualTo(NUMBER expected) {
+        if (!Objects.deepEquals(this.actual, expected)) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isNotEqualTo(NUMBER expected);
+    public final SELF isNotEqualTo(NUMBER expected) {
+        if (Objects.deepEquals(this.actual, expected)) throw getException();
+        return (SELF) this;
+    }
 
     public abstract SELF isGreaterThan(NUMBER expected);
 

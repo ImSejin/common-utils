@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import java.util.Objects;
-
 @SuppressWarnings("unchecked")
 public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends AbstractNumberAsserts<SELF, Float> {
 
@@ -26,18 +24,6 @@ public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends AbstractNumbe
     public FloatAsserts(Float actual) {
         super(actual);
         this.actual = actual;
-    }
-
-    @Override
-    public SELF isEqualTo(Float expected) {
-        if (!Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNotEqualTo(Float expected) {
-        if (Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
     }
 
     @Override

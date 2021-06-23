@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import java.util.Objects;
-
 @SuppressWarnings("unchecked")
 public class LongAsserts<SELF extends LongAsserts<SELF>> extends AbstractNumberAsserts<SELF, Long> {
 
@@ -26,18 +24,6 @@ public class LongAsserts<SELF extends LongAsserts<SELF>> extends AbstractNumberA
     public LongAsserts(Long actual) {
         super(actual);
         this.actual = actual;
-    }
-
-    @Override
-    public SELF isEqualTo(Long expected) {
-        if (!Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNotEqualTo(Long expected) {
-        if (Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
     }
 
     @Override

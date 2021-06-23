@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import java.util.Objects;
-
 @SuppressWarnings("unchecked")
 public class ShortAsserts<SELF extends ShortAsserts<SELF>> extends AbstractNumberAsserts<SELF, Short> {
 
@@ -26,18 +24,6 @@ public class ShortAsserts<SELF extends ShortAsserts<SELF>> extends AbstractNumbe
     public ShortAsserts(Short actual) {
         super(actual);
         this.actual = actual;
-    }
-
-    @Override
-    public SELF isEqualTo(Short expected) {
-        if (!Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNotEqualTo(Short expected) {
-        if (Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
     }
 
     @Override
