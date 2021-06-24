@@ -16,62 +16,10 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-@SuppressWarnings("unchecked")
 public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends AbstractNumberAsserts<SELF, Float> {
-
-    private final Float actual;
 
     public FloatAsserts(Float actual) {
         super(actual);
-        this.actual = actual;
-    }
-
-    @Override
-    public SELF isGreaterThan(Float expected) {
-        if (this.actual <= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isGreaterThanOrEqualTo(Float expected) {
-        if (this.actual < expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThan(Float expected) {
-        if (this.actual >= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThanOrEqualTo(Float expected) {
-        if (this.actual > expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isPositive() {
-        if (this.actual < 1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrPositive() {
-        if (this.actual < 0) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNegative() {
-        if (this.actual > -1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrNegative() {
-        if (this.actual > 0) throw getException();
-        return (SELF) this;
     }
 
 }

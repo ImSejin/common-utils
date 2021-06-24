@@ -16,62 +16,10 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-@SuppressWarnings("unchecked")
 public class ByteAsserts<SELF extends ByteAsserts<SELF>> extends AbstractNumberAsserts<SELF, Byte> {
-
-    private final Byte actual;
 
     public ByteAsserts(Byte actual) {
         super(actual);
-        this.actual = actual;
-    }
-
-    @Override
-    public SELF isGreaterThan(Byte expected) {
-        if (this.actual <= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isGreaterThanOrEqualTo(Byte expected) {
-        if (this.actual < expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThan(Byte expected) {
-        if (this.actual >= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThanOrEqualTo(Byte expected) {
-        if (this.actual > expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isPositive() {
-        if (this.actual < 1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrPositive() {
-        if (this.actual < 0) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNegative() {
-        if (this.actual > -1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrNegative() {
-        if (this.actual > 0) throw getException();
-        return (SELF) this;
     }
 
 }

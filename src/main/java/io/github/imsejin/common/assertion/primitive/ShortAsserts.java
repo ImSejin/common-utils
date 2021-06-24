@@ -16,62 +16,10 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-@SuppressWarnings("unchecked")
 public class ShortAsserts<SELF extends ShortAsserts<SELF>> extends AbstractNumberAsserts<SELF, Short> {
-
-    private final Short actual;
 
     public ShortAsserts(Short actual) {
         super(actual);
-        this.actual = actual;
-    }
-
-    @Override
-    public SELF isGreaterThan(Short expected) {
-        if (this.actual <= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isGreaterThanOrEqualTo(Short expected) {
-        if (this.actual < expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThan(Short expected) {
-        if (this.actual >= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThanOrEqualTo(Short expected) {
-        if (this.actual > expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isPositive() {
-        if (this.actual < 1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrPositive() {
-        if (this.actual < 0) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNegative() {
-        if (this.actual > -1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrNegative() {
-        if (this.actual > 0) throw getException();
-        return (SELF) this;
     }
 
 }

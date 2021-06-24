@@ -28,54 +28,6 @@ public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNum
         this.actual = actual;
     }
 
-    @Override
-    public SELF isGreaterThan(Double expected) {
-        if (this.actual <= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isGreaterThanOrEqualTo(Double expected) {
-        if (this.actual < expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThan(Double expected) {
-        if (this.actual >= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThanOrEqualTo(Double expected) {
-        if (this.actual > expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isPositive() {
-        if (this.actual < 1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrPositive() {
-        if (this.actual < 0) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNegative() {
-        if (this.actual > -1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrNegative() {
-        if (this.actual > 0) throw getException();
-        return (SELF) this;
-    }
-
     public SELF hasDeciamlPart() {
         if (!MathUtils.hasDecimalPart(this.actual)) throw getException();
         return (SELF) this;

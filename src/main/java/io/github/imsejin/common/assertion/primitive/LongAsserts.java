@@ -16,62 +16,10 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-@SuppressWarnings("unchecked")
 public class LongAsserts<SELF extends LongAsserts<SELF>> extends AbstractNumberAsserts<SELF, Long> {
-
-    private final Long actual;
 
     public LongAsserts(Long actual) {
         super(actual);
-        this.actual = actual;
-    }
-
-    @Override
-    public SELF isGreaterThan(Long expected) {
-        if (this.actual <= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isGreaterThanOrEqualTo(Long expected) {
-        if (this.actual < expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThan(Long expected) {
-        if (this.actual >= expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isLessThanOrEqualTo(Long expected) {
-        if (this.actual > expected) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isPositive() {
-        if (this.actual < 1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrPositive() {
-        if (this.actual < 0) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isNegative() {
-        if (this.actual > -1) throw getException();
-        return (SELF) this;
-    }
-
-    @Override
-    public SELF isZeroOrNegative() {
-        if (this.actual > 0) throw getException();
-        return (SELF) this;
     }
 
 }

@@ -20,16 +20,38 @@ import io.github.imsejin.common.assertion.Descriptor;
 
 import java.util.Objects;
 
-public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<SELF, NUMBER>, NUMBER extends Number>
+@SuppressWarnings("unchecked")
+public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<SELF, NUMBER>, NUMBER extends Number & Comparable<NUMBER>>
         extends Descriptor<SELF> {
 
     private final NUMBER actual;
 
+    private final NUMBER zero;
+
     protected AbstractNumberAsserts(NUMBER actual) {
         this.actual = actual;
+        this.zero = toNumber((NUMBER) Integer.valueOf(0), (Class<NUMBER>) actual.getClass());
     }
 
-    public final SELF isNull() {
+    /**
+     * Converts a numeric string to a number of the given type.
+     *
+     * @param number     numeric string
+     * @param numberType number type to convert numeric string to number
+     * @return converted number
+     */
+    private static <N extends Number & Comparable<? extends Number>> N toNumber(N number, Class<N> numberType) {
+        if (numberType == Byte.class) return (N) Byte.valueOf(number.byteValue());
+        if (numberType == Short.class) return (N) Short.valueOf(number.shortValue());
+        if (numberType == Integer.class) return (N) Integer.valueOf(number.intValue());
+        if (numberType == Long.class) return (N) Long.valueOf(number.longValue());
+        if (numberType == Float.class) return (N) Float.valueOf(number.floatValue());
+        if (numberType == Double.class) return (N) Double.valueOf(number.doubleValue());
+
+        return null;
+    }
+
+    public SELF isNull() {
         if (this.actual != null) {
             as("It is expected to be null, but not null. (actual: '{0}')", this.actual);
             throw getException();
@@ -38,7 +60,7 @@ public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<S
         return (SELF) this;
     }
 
-    public final SELF isNotNull() {
+    public SELF isNotNull() {
         if (this.actual == null) {
             as("It is expected to be not null, but null. (actual: 'null')");
             throw getException();
@@ -47,30 +69,54 @@ public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<S
         return (SELF) this;
     }
 
-    public final SELF isEqualTo(NUMBER expected) {
+    public SELF isEqualTo(NUMBER expected) {
         if (!Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 
-    public final SELF isNotEqualTo(NUMBER expected) {
+    public SELF isNotEqualTo(NUMBER expected) {
         if (Objects.deepEquals(this.actual, expected)) throw getException();
         return (SELF) this;
     }
 
-    public abstract SELF isGreaterThan(NUMBER expected);
+    public SELF isGreaterThan(NUMBER expected) {
+        if (this.actual.compareTo(expected) <= 0) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isGreaterThanOrEqualTo(NUMBER expected);
+    public SELF isGreaterThanOrEqualTo(NUMBER expected) {
+        if (this.actual.compareTo(expected) < 0) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isLessThan(NUMBER expected);
+    public SELF isLessThan(NUMBER expected) {
+        if (this.actual.compareTo(expected) >= 0) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isLessThanOrEqualTo(NUMBER expected);
+    public SELF isLessThanOrEqualTo(NUMBER expected) {
+        if (this.actual.compareTo(expected) > 0) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isPositive();
+    public SELF isPositive() {
+        if (this.actual.compareTo(this.zero) <= 0) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isZeroOrPositive();
+    public SELF isZeroOrPositive() {
+        if (this.actual.compareTo(this.zero) < 0) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isNegative();
+    public SELF isNegative() {
+        if (this.actual.compareTo(this.zero) >= 0) throw getException();
+        return (SELF) this;
+    }
 
-    public abstract SELF isZeroOrNegative();
+    public SELF isZeroOrNegative() {
+        if (this.actual.compareTo(this.zero) > 0) throw getException();
+        return (SELF) this;
+    }
 
 }
