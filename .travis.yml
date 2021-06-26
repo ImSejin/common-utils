@@ -8,6 +8,10 @@ matrix:
       jdk: openjdk11
     - os: linux
       jdk: openjdk15
+    - os: osx
+      jdk: openjdk11
+    - os: osx
+      jdk: openjdk15
 
 branches:
   only:
@@ -27,6 +31,12 @@ install:
   - "./mvnw clean install -Dgpg.skip"
 
 script: "./mvnw test -B"
+
+after_success:
+  # Codecov
+  # https://github.com/codecov/example-java
+  # https://github.com/codecov/example-java-maven
+  - "bash <(curl -s https://codecov.io/bash)"
 
 # Notification when Travis CI is done.
 notifications:
