@@ -21,7 +21,9 @@ import io.github.imsejin.common.assertion.Descriptor;
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractNumberAsserts<SELF extends AbstractNumberAsserts<SELF, NUMBER>, NUMBER extends Number & Comparable<NUMBER>>
+public abstract class AbstractNumberAsserts<
+        SELF extends AbstractNumberAsserts<SELF, NUMBER>,
+        NUMBER extends Number & Comparable<NUMBER>>
         extends Descriptor<SELF> {
 
     private final NUMBER actual;
