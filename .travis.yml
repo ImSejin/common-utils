@@ -28,9 +28,7 @@ before_install:
   - "chmod +x ./mvnw"
 
 install:
-  - "./mvnw clean install -Dgpg.skip"
-
-script: "./mvnw test -B"
+  - "./mvnw clean install -B -Dgpg.skip"
 
 after_success:
   # Codecov
