@@ -16,10 +16,12 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
+import io.github.imsejin.common.assertion.DecimalNumberAssertion;
 import io.github.imsejin.common.util.MathUtils;
 
 @SuppressWarnings("unchecked")
-public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNumberAsserts<SELF, Double> {
+public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNumberAsserts<SELF, Double>
+        implements DecimalNumberAssertion<SELF, Double> {
 
     private final Double actual;
 
@@ -28,7 +30,8 @@ public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends AbstractNum
         this.actual = actual;
     }
 
-    public SELF hasDeciamlPart() {
+    @Override
+    public SELF hasDecimalPart() {
         if (!MathUtils.hasDecimalPart(this.actual)) throw getException();
         return (SELF) this;
     }

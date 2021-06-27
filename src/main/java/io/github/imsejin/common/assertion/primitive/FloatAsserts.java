@@ -16,10 +16,24 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends AbstractNumberAsserts<SELF, Float> {
+import io.github.imsejin.common.assertion.DecimalNumberAssertion;
+import io.github.imsejin.common.util.MathUtils;
+
+@SuppressWarnings("unchecked")
+public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends AbstractNumberAsserts<SELF, Float>
+        implements DecimalNumberAssertion<SELF, Float> {
+
+    private final Float actual;
 
     public FloatAsserts(Float actual) {
         super(actual);
+        this.actual = actual;
+    }
+
+    @Override
+    public SELF hasDecimalPart() {
+        if (!MathUtils.hasDecimalPart(this.actual)) throw getException();
+        return (SELF) this;
     }
 
 }
