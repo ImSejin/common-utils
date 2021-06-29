@@ -28,6 +28,16 @@ public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAss
         this.actual = actual;
     }
 
+    public SELF isEqualTo(String expected) {
+        if (!this.actual.getName().equals(expected)) throw getException();
+        return (SELF) this;
+    }
+
+    public SELF isNotEqualTo(String expected) {
+        if (this.actual.getName().equals(expected)) throw getException();
+        return (SELF) this;
+    }
+
     public SELF isSuperPackageOf(Package expected) {
         if (this.actual.equals(expected) || !(expected.getName() + '.').startsWith(this.actual.getName())) {
             throw getException();

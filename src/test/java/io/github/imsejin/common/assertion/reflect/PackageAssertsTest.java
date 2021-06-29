@@ -23,7 +23,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 import java.util.jar.JarFile;
 import java.util.prefs.Preferences;
@@ -36,6 +36,62 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("PackageAsserts")
 class PackageAssertsTest {
+
+    @Nested
+    @DisplayName("method 'isEqualTo'")
+    class IsEqualTo {
+        @ParameterizedTest
+        @ValueSource(classes = {
+                BlockingQueue.class, Callable.class, Executor.class,
+                ConcurrentMap.class, Future.class, TimeUnit.class,
+        })
+        @DisplayName("passes, when actual is equal to given package name")
+        void test0(Class<?> type) {
+            assertThatCode(() -> Asserts.that(type.getPackage()).isEqualTo("java.util.concurrent"))
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(classes = {
+                BlockingQueue.class, Callable.class, Executor.class,
+                ConcurrentMap.class, Future.class, TimeUnit.class,
+        })
+        @DisplayName("throws exception, when actual is not equal to given package name")
+        void test1(Class<?> type) {
+            assertThatCode(() -> Asserts.that(type.getPackage()).isEqualTo("java.util.concurrent.atomic"))
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isNotEqualTo'")
+    class IsNotEqualTo {
+        @ParameterizedTest
+        @ValueSource(classes = {
+                BlockingQueue.class, Callable.class, Executor.class,
+                ConcurrentMap.class, Future.class, TimeUnit.class,
+        })
+        @DisplayName("passes, when actual is not equal to given package name")
+        void test0(Class<?> type) {
+            assertThatCode(() -> Asserts.that(type.getPackage()).isNotEqualTo("java.util.concurrent.atomic"))
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(classes = {
+                BlockingQueue.class, Callable.class, Executor.class,
+                ConcurrentMap.class, Future.class, TimeUnit.class,
+        })
+        @DisplayName("throws exception, when actual is equal to given package name")
+        void test1(Class<?> type) {
+            assertThatCode(() -> Asserts.that(type.getPackage()).isNotEqualTo("java.util.concurrent"))
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
     @DisplayName("method 'isSuperPackageOf'")
