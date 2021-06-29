@@ -27,6 +27,7 @@ import io.github.imsejin.common.assertion.object.ObjectAsserts;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAsserts;
 import io.github.imsejin.common.assertion.reflect.PackageAsserts;
+import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
 import java.util.Collection;
@@ -37,6 +38,38 @@ public abstract class Asserts {
     @ExcludeFromGeneratedJacocoReport
     private Asserts() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+    }
+
+    public static ArrayAsserts<?, Boolean> that(boolean[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
+    }
+
+    public static ArrayAsserts<?, Byte> that(byte[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
+    }
+
+    public static ArrayAsserts<?, Character> that(char[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
+    }
+
+    public static ArrayAsserts<?, Double> that(double[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
+    }
+
+    public static ArrayAsserts<?, Float> that(float[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
+    }
+
+    public static ArrayAsserts<?, Integer> that(int[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
+    }
+
+    public static ArrayAsserts<?, Long> that(long[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
+    }
+
+    public static ArrayAsserts<?, Short> that(short[] array) {
+        return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
     }
 
     public static <T> ArrayAsserts<?, T> that(T[] array) {
