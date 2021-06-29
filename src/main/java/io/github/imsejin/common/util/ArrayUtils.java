@@ -48,6 +48,78 @@ public final class ArrayUtils {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
+    public static boolean isNullOrEmpty(boolean[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNullOrEmpty(byte[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNullOrEmpty(char[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNullOrEmpty(double[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNullOrEmpty(float[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNullOrEmpty(int[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNullOrEmpty(long[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNullOrEmpty(short[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static <T> boolean isNullOrEmpty(T[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean exists(boolean[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static boolean exists(byte[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static boolean exists(char[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static boolean exists(double[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static boolean exists(float[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static boolean exists(int[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static boolean exists(long[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static boolean exists(short[] array) {
+        return !isNullOrEmpty(array);
+    }
+
+    public static <T> boolean exists(T[] array) {
+        return !isNullOrEmpty(array);
+    }
+
     @Nullable
     public static Boolean[] toWrapper(boolean[] array) {
         if (array == null) return null;
