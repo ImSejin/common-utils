@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.reflect;
 
+import io.github.imsejin.common.assertion.chars.StringAsserts;
 import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
 @SuppressWarnings("unchecked")
@@ -26,16 +27,6 @@ public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAss
     public PackageAsserts(Package actual) {
         super(actual);
         this.actual = actual;
-    }
-
-    public SELF isEqualTo(String expected) {
-        if (!this.actual.getName().equals(expected)) throw getException();
-        return (SELF) this;
-    }
-
-    public SELF isNotEqualTo(String expected) {
-        if (this.actual.getName().equals(expected)) throw getException();
-        return (SELF) this;
     }
 
     public SELF isSuperPackageOf(Package expected) {
@@ -52,6 +43,10 @@ public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAss
         }
 
         return (SELF) this;
+    }
+
+    public StringAsserts<?> asName() {
+        return new StringAsserts<>(this.actual.getName());
     }
 
 }

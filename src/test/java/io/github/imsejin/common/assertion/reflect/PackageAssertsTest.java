@@ -38,62 +38,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 class PackageAssertsTest {
 
     @Nested
-    @DisplayName("method 'isEqualTo'")
-    class IsEqualTo {
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("passes, when actual is equal to given package name")
-        void test0(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).isEqualTo("java.util.concurrent"))
-                    .doesNotThrowAnyException();
-        }
-
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("throws exception, when actual is not equal to given package name")
-        void test1(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).isEqualTo("java.util.concurrent.atomic"))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @Nested
-    @DisplayName("method 'isNotEqualTo'")
-    class IsNotEqualTo {
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("passes, when actual is not equal to given package name")
-        void test0(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).isNotEqualTo("java.util.concurrent.atomic"))
-                    .doesNotThrowAnyException();
-        }
-
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("throws exception, when actual is equal to given package name")
-        void test1(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).isNotEqualTo("java.util.concurrent"))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @Nested
     @DisplayName("method 'isSuperPackageOf'")
     class IsSuperPackageOf {
         @ParameterizedTest
@@ -147,6 +91,34 @@ class PackageAssertsTest {
         @DisplayName("throws exception, when actual is not sub package of given package")
         void test1(Class<?> type) {
             assertThatCode(() -> Asserts.that(type.getPackage()).isSubPackageOf(Object.class.getPackage()))
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'asName'")
+    class AsName {
+        @ParameterizedTest
+        @ValueSource(classes = {
+                BlockingQueue.class, Callable.class, Executor.class,
+                ConcurrentMap.class, Future.class, TimeUnit.class,
+        })
+        @DisplayName("passes, when actual is equal to given package name")
+        void test0(Class<?> type) {
+            assertThatCode(() -> Asserts.that(type.getPackage()).asName().isEqualTo("java.util.concurrent"))
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(classes = {
+                BlockingQueue.class, Callable.class, Executor.class,
+                ConcurrentMap.class, Future.class, TimeUnit.class,
+        })
+        @DisplayName("throws exception, when actual is not equal to given package name")
+        void test1(Class<?> type) {
+            assertThatCode(() -> Asserts.that(type.getPackage()).asName().startsWith("java.lang"))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
     }
