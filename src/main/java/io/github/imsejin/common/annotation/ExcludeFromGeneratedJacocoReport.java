@@ -27,7 +27,7 @@ import static java.lang.annotation.ElementType.*;
  * Annotation for exclusion from jacoco code coverage report.
  * <p>
  * Since Jacoco 0.8.2, you can exclude classes and methods by annotating them
- * with a custom annotation with the following properties.
+ * with a custom annotation that meets the following conditions.
  *
  * <ul>
  *     <li>The name of the annotation should include 'Generated'.</li>
