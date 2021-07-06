@@ -27,9 +27,17 @@ import io.github.imsejin.common.assertion.object.ObjectAsserts;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAsserts;
 import io.github.imsejin.common.assertion.reflect.PackageAsserts;
+import io.github.imsejin.common.assertion.time.ChronoLocalDateAsserts;
+import io.github.imsejin.common.assertion.time.ChronoLocalDateTimeAsserts;
+import io.github.imsejin.common.assertion.time.ChronoZonedDateTimeAsserts;
+import io.github.imsejin.common.assertion.time.LocalTimeAsserts;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
+import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.util.Collection;
 import java.util.Map;
 
@@ -138,6 +146,22 @@ public abstract class Asserts {
 
     public static PackageAsserts<?> that(Package pack) {
         return new PackageAsserts<>(pack);
+    }
+
+    public static ChronoLocalDateAsserts<?> that(ChronoLocalDate date) {
+        return new ChronoLocalDateAsserts<>(date);
+    }
+
+    public static <DATE extends ChronoLocalDate> ChronoLocalDateTimeAsserts<?, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
+        return new ChronoLocalDateTimeAsserts<>(dateTime);
+    }
+
+    public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAsserts<?, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
+        return new ChronoZonedDateTimeAsserts<>(dateTime);
+    }
+
+    public static LocalTimeAsserts<?> that(LocalTime time) {
+        return new LocalTimeAsserts<>(time);
     }
 
 }
