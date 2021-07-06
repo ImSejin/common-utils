@@ -119,10 +119,9 @@ public final class CollectionUtils {
      * @return map with index as key and element
      */
     public static <E> Map<Integer, E> toMap(@Nonnull Collection<E> collection) {
-        return collection.stream().collect(HashMap<Integer, E>::new,
+        return collection.stream().collect(HashMap::new,
                 (map, streamValue) -> map.put(map.size(), streamValue),
-                (map, map2) -> {
-                });
+                Map::putAll);
     }
 
     public static long findMax(@Nonnull Collection<Long> collection) {
