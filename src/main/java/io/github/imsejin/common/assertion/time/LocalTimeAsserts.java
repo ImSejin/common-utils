@@ -37,6 +37,7 @@ public class LocalTimeAsserts<SELF extends LocalTimeAsserts<SELF>> extends Objec
      * @see ChronoLocalDateAsserts#isBefore(ChronoLocalDate)
      * @see ChronoLocalDateTimeAsserts#isBefore(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isBefore(ChronoZonedDateTime)
+     * @see OffsetDateTimeAsserts#isBefore(java.time.OffsetDateTime)
      */
     public SELF isBefore(LocalTime expected) {
         if (!this.actual.isBefore(expected)) throw getException();
@@ -47,6 +48,7 @@ public class LocalTimeAsserts<SELF extends LocalTimeAsserts<SELF>> extends Objec
      * @see ChronoLocalDateAsserts#isBeforeOrEqualTo(ChronoLocalDate)
      * @see ChronoLocalDateTimeAsserts#isBeforeOrEqualTo(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isBeforeOrEqualTo(ChronoZonedDateTime)
+     * @see OffsetDateTimeAsserts#isBeforeOrEqualTo(java.time.OffsetDateTime)
      */
     public SELF isBeforeOrEqualTo(LocalTime expected) {
         if (this.actual.compareTo(expected) > 0) throw getException();
@@ -57,6 +59,7 @@ public class LocalTimeAsserts<SELF extends LocalTimeAsserts<SELF>> extends Objec
      * @see ChronoLocalDateAsserts#isAfter(ChronoLocalDate)
      * @see ChronoLocalDateTimeAsserts#isAfter(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isAfter(ChronoZonedDateTime)
+     * @see OffsetDateTimeAsserts#isAfter(java.time.OffsetDateTime)
      */
     public SELF isAfter(LocalTime expected) {
         if (!this.actual.isAfter(expected)) throw getException();
@@ -67,6 +70,7 @@ public class LocalTimeAsserts<SELF extends LocalTimeAsserts<SELF>> extends Objec
      * @see ChronoLocalDateAsserts#isAfterOrEqualTo(ChronoLocalDate)
      * @see ChronoLocalDateTimeAsserts#isAfterOrEqualTo(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isAfterOrEqualTo(ChronoZonedDateTime)
+     * @see OffsetDateTimeAsserts#isAfterOrEqualTo(java.time.OffsetDateTime)
      */
     public SELF isAfterOrEqualTo(LocalTime expected) {
         if (this.actual.compareTo(expected) < 0) throw getException();

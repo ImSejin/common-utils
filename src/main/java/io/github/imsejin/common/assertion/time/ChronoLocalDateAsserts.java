@@ -52,6 +52,7 @@ public class ChronoLocalDateAsserts<SELF extends ChronoLocalDateAsserts<SELF>> e
      * @see ChronoLocalDateTimeAsserts#isBefore(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isBefore(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAsserts#isBefore(LocalTime)
+     * @see OffsetDateTimeAsserts#isBefore(java.time.OffsetDateTime)
      */
     public SELF isBefore(ChronoLocalDate expected) {
         if (!this.actual.isBefore(expected)) throw getException();
@@ -62,6 +63,7 @@ public class ChronoLocalDateAsserts<SELF extends ChronoLocalDateAsserts<SELF>> e
      * @see ChronoLocalDateTimeAsserts#isBeforeOrEqualTo(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isBeforeOrEqualTo(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAsserts#isBeforeOrEqualTo(LocalTime)
+     * @see OffsetDateTimeAsserts#isBeforeOrEqualTo(java.time.OffsetDateTime)
      */
     public SELF isBeforeOrEqualTo(ChronoLocalDate expected) {
         if (this.actual.compareTo(expected) > 0) throw getException();
@@ -72,6 +74,7 @@ public class ChronoLocalDateAsserts<SELF extends ChronoLocalDateAsserts<SELF>> e
      * @see ChronoLocalDateTimeAsserts#isAfter(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isAfter(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAsserts#isAfter(LocalTime)
+     * @see OffsetDateTimeAsserts#isAfter(java.time.OffsetDateTime)
      */
     public SELF isAfter(ChronoLocalDate expected) {
         if (!this.actual.isAfter(expected)) throw getException();
@@ -82,6 +85,7 @@ public class ChronoLocalDateAsserts<SELF extends ChronoLocalDateAsserts<SELF>> e
      * @see ChronoLocalDateTimeAsserts#isAfterOrEqualTo(ChronoLocalDateTime)
      * @see ChronoZonedDateTimeAsserts#isAfterOrEqualTo(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAsserts#isAfterOrEqualTo(LocalTime)
+     * @see OffsetDateTimeAsserts#isAfterOrEqualTo(java.time.OffsetDateTime)
      */
     public SELF isAfterOrEqualTo(ChronoLocalDate expected) {
         if (this.actual.compareTo(expected) < 0) throw getException();

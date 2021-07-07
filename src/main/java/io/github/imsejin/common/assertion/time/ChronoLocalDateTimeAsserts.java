@@ -56,6 +56,7 @@ public class ChronoLocalDateTimeAsserts<
      * @see ChronoLocalDateAsserts#isBefore(ChronoLocalDate)
      * @see ChronoZonedDateTimeAsserts#isBefore(ChronoZonedDateTime)
      * @see LocalTimeAsserts#isBefore(LocalTime)
+     * @see OffsetDateTimeAsserts#isBefore(java.time.OffsetDateTime)
      */
     public SELF isBefore(ChronoLocalDateTime<DATE> expected) {
         if (!this.actual.isBefore(expected)) throw getException();
@@ -66,6 +67,7 @@ public class ChronoLocalDateTimeAsserts<
      * @see ChronoLocalDateAsserts#isBeforeOrEqualTo(ChronoLocalDate)
      * @see ChronoZonedDateTimeAsserts#isBeforeOrEqualTo(ChronoZonedDateTime)
      * @see LocalTimeAsserts#isBeforeOrEqualTo(LocalTime)
+     * @see OffsetDateTimeAsserts#isBeforeOrEqualTo(java.time.OffsetDateTime)
      */
     public SELF isBeforeOrEqualTo(ChronoLocalDateTime<DATE> expected) {
         if (this.actual.compareTo(expected) > 0) throw getException();
@@ -76,6 +78,7 @@ public class ChronoLocalDateTimeAsserts<
      * @see ChronoLocalDateAsserts#isAfter(ChronoLocalDate)
      * @see ChronoZonedDateTimeAsserts#isAfter(ChronoZonedDateTime)
      * @see LocalTimeAsserts#isAfter(LocalTime)
+     * @see OffsetDateTimeAsserts#isAfter(java.time.OffsetDateTime)
      */
     public SELF isAfter(ChronoLocalDateTime<DATE> expected) {
         if (!this.actual.isAfter(expected)) throw getException();
@@ -86,6 +89,7 @@ public class ChronoLocalDateTimeAsserts<
      * @see ChronoLocalDateAsserts#isAfterOrEqualTo(ChronoLocalDate)
      * @see ChronoZonedDateTimeAsserts#isAfterOrEqualTo(ChronoZonedDateTime)
      * @see LocalTimeAsserts#isAfterOrEqualTo(LocalTime)
+     * @see OffsetDateTimeAsserts#isAfterOrEqualTo(java.time.OffsetDateTime)
      */
     public SELF isAfterOrEqualTo(ChronoLocalDateTime<DATE> expected) {
         if (this.actual.compareTo(expected) < 0) throw getException();
@@ -96,6 +100,7 @@ public class ChronoLocalDateTimeAsserts<
 
     /**
      * @see ChronoZonedDateTimeAsserts#asLocalDate()
+     * @see OffsetDateTimeAsserts#asLocalDate()
      */
     public ChronoLocalDateAsserts<?> asLocalDate() {
         return new ChronoLocalDateAsserts<>(this.actual.toLocalDate());
@@ -103,6 +108,7 @@ public class ChronoLocalDateTimeAsserts<
 
     /**
      * @see ChronoZonedDateTimeAsserts#asLocalTime()
+     * @see OffsetDateTimeAsserts#asLocalTime()
      */
     public LocalTimeAsserts<?> asLocalTime() {
         return new LocalTimeAsserts<>(this.actual.toLocalTime());
