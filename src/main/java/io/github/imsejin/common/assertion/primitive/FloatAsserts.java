@@ -20,7 +20,7 @@ import io.github.imsejin.common.assertion.DecimalNumberAssertion;
 import io.github.imsejin.common.util.MathUtils;
 
 @SuppressWarnings("unchecked")
-public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends AbstractNumberAsserts<SELF, Float>
+public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends NumberAsserts<SELF, Float>
         implements DecimalNumberAssertion<SELF, Float> {
 
     private final Float actual;

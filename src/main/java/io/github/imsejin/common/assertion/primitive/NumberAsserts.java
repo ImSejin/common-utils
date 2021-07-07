@@ -21,8 +21,8 @@ import io.github.imsejin.common.assertion.Descriptor;
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
-public class AbstractNumberAsserts<
-        SELF extends AbstractNumberAsserts<SELF, NUMBER>,
+public class NumberAsserts<
+        SELF extends NumberAsserts<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>>
         extends Descriptor<SELF> {
 
@@ -30,7 +30,7 @@ public class AbstractNumberAsserts<
 
     private final NUMBER zero;
 
-    public AbstractNumberAsserts(NUMBER actual) {
+    public NumberAsserts(NUMBER actual) {
         this.actual = actual;
         this.zero = toNumber((NUMBER) Integer.valueOf(0), (Class<NUMBER>) actual.getClass());
     }

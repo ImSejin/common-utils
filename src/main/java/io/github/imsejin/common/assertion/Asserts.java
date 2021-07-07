@@ -123,8 +123,8 @@ public abstract class Asserts {
         return new FloatAsserts<>(number);
     }
 
-    public static <NUMBER extends Number & Comparable<NUMBER>> AbstractNumberAsserts<?, NUMBER> that(NUMBER number) {
-        return new AbstractNumberAsserts<>(number);
+    public static <NUMBER extends Number & Comparable<NUMBER>> NumberAsserts<?, NUMBER> that(NUMBER number) {
+        return new NumberAsserts<>(number);
     }
 
     public static <T> ClassAsserts<?, T> that(Class<T> type) {
