@@ -111,10 +111,6 @@ public abstract class Asserts {
         return new BooleanAsserts<>(bool);
     }
 
-    public static ByteAsserts<?> that(Byte number) {
-        return new ByteAsserts<>(number);
-    }
-
     public static CharacterAsserts<?> that(Character character) {
         return new CharacterAsserts<>(character);
     }
@@ -127,16 +123,8 @@ public abstract class Asserts {
         return new FloatAsserts<>(number);
     }
 
-    public static IntegerAsserts<?> that(Integer number) {
-        return new IntegerAsserts<>(number);
-    }
-
-    public static LongAsserts<?> that(Long number) {
-        return new LongAsserts<>(number);
-    }
-
-    public static ShortAsserts<?> that(Short number) {
-        return new ShortAsserts<>(number);
+    public static <NUMBER extends Number & Comparable<NUMBER>> AbstractNumberAsserts<?, NUMBER> that(NUMBER number) {
+        return new AbstractNumberAsserts<>(number);
     }
 
     public static <T> ClassAsserts<?, T> that(Class<T> type) {
