@@ -27,14 +27,12 @@ import io.github.imsejin.common.assertion.object.ObjectAsserts;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAsserts;
 import io.github.imsejin.common.assertion.reflect.PackageAsserts;
-import io.github.imsejin.common.assertion.time.ChronoLocalDateAsserts;
-import io.github.imsejin.common.assertion.time.ChronoLocalDateTimeAsserts;
-import io.github.imsejin.common.assertion.time.ChronoZonedDateTimeAsserts;
-import io.github.imsejin.common.assertion.time.LocalTimeAsserts;
+import io.github.imsejin.common.assertion.time.*;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
@@ -162,6 +160,10 @@ public abstract class Asserts {
 
     public static LocalTimeAsserts<?> that(LocalTime time) {
         return new LocalTimeAsserts<>(time);
+    }
+
+    public static OffsetDateTimeAsserts<?> that(OffsetDateTime dateTime) {
+        return new OffsetDateTimeAsserts<>(dateTime);
     }
 
 }
