@@ -33,6 +33,7 @@ import io.github.imsejin.common.util.ArrayUtils;
 import java.io.File;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
@@ -164,6 +165,10 @@ public abstract class Asserts {
 
     public static OffsetDateTimeAsserts<?> that(OffsetDateTime dateTime) {
         return new OffsetDateTimeAsserts<>(dateTime);
+    }
+
+    public static OffsetTimeAsserts<?> that(OffsetTime time) {
+        return new OffsetTimeAsserts<>(time);
     }
 
 }
