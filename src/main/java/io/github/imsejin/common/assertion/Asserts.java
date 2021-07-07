@@ -47,6 +47,8 @@ public abstract class Asserts {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
+    //////////////////////////////////////// Array ////////////////////////////////////////
+
     public static ArrayAsserts<?, Boolean> that(boolean[] array) {
         return new ArrayAsserts<>(ArrayUtils.toWrapper(array));
     }
@@ -83,6 +85,8 @@ public abstract class Asserts {
         return new ArrayAsserts<>(array);
     }
 
+    ///////////////////////////////////// Characters //////////////////////////////////////
+
     public static CharSequenceAsserts<?> that(CharSequence charSequence) {
         return new CharSequenceAsserts<>(charSequence);
     }
@@ -91,21 +95,31 @@ public abstract class Asserts {
         return new StringAsserts<>(string);
     }
 
+    ///////////////////////////////////// Collection //////////////////////////////////////
+
     public static <T> CollectionAsserts<?, T> that(Collection<T> collection) {
         return new CollectionAsserts<>(collection);
     }
+
+    //////////////////////////////////// Input/Output /////////////////////////////////////
 
     public static FileAsserts<?> that(File file) {
         return new FileAsserts<>(file);
     }
 
+    ///////////////////////////////////////// Map /////////////////////////////////////////
+
     public static <K, V> MapAsserts<?, K, V> that(Map<K, V> map) {
         return new MapAsserts<>(map);
     }
 
+    /////////////////////////////////////// Object ////////////////////////////////////////
+
     public static ObjectAsserts<?> that(Object object) {
         return new ObjectAsserts<>(object);
     }
+
+    ////////////////////////////////////// Primitive //////////////////////////////////////
 
     public static BooleanAsserts<?> that(Boolean bool) {
         return new BooleanAsserts<>(bool);
@@ -114,6 +128,8 @@ public abstract class Asserts {
     public static CharacterAsserts<?> that(Character character) {
         return new CharacterAsserts<>(character);
     }
+
+    /////////////////////////////////////// Number ////////////////////////////////////////
 
     public static DoubleAsserts<?> that(Double number) {
         return new DoubleAsserts<>(number);
@@ -127,6 +143,8 @@ public abstract class Asserts {
         return new NumberAsserts<>(number);
     }
 
+    ///////////////////////////////////// Reflection //////////////////////////////////////
+
     public static <T> ClassAsserts<?, T> that(Class<T> type) {
         return new ClassAsserts<>(type);
     }
@@ -134,6 +152,8 @@ public abstract class Asserts {
     public static PackageAsserts<?> that(Package pack) {
         return new PackageAsserts<>(pack);
     }
+
+    //////////////////////////////////////// Time /////////////////////////////////////////
 
     public static ChronoLocalDateAsserts<?> that(ChronoLocalDate date) {
         return new ChronoLocalDateAsserts<>(date);
