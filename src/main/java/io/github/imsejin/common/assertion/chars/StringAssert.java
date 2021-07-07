@@ -19,11 +19,11 @@ package io.github.imsejin.common.assertion.chars;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unchecked")
-public class StringAsserts<SELF extends StringAsserts<SELF>> extends CharSequenceAsserts<SELF> {
+public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceAssert<SELF> {
 
     private final String actual;
 
-    public StringAsserts(String actual) {
+    public StringAssert(String actual) {
         super(actual);
         this.actual = actual;
     }

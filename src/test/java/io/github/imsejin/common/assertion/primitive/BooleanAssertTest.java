@@ -28,8 +28,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-@DisplayName("BooleanAsserts")
-class BooleanAssertsTest {
+@DisplayName("BooleanAssert")
+class BooleanAssertTest {
 
     @Nested
     @DisplayName("method 'isNull'")

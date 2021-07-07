@@ -16,17 +16,17 @@
 
 package io.github.imsejin.common.assertion.reflect;
 
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 import java.lang.reflect.Modifier;
 
 @SuppressWarnings("unchecked")
-public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
+public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAssert<SELF> {
 
     private final Class<T> actual;
 
-    public ClassAsserts(Class<T> actual) {
+    public ClassAssert(Class<T> actual) {
         super(actual);
         this.actual = actual;
     }
@@ -135,8 +135,8 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    public PackageAsserts<?> asPackage() {
-        return new PackageAsserts<>(this.actual.getPackage());
+    public PackageAssert<?> asPackage() {
+        return new PackageAssert<>(this.actual.getPackage());
     }
 
 }

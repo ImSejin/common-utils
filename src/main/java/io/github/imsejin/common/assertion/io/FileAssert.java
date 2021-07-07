@@ -16,17 +16,17 @@
 
 package io.github.imsejin.common.assertion.io;
 
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
 
 @SuppressWarnings("unchecked")
-public class FileAsserts<SELF extends FileAsserts<SELF>> extends ObjectAsserts<SELF> {
+public class FileAssert<SELF extends FileAssert<SELF>> extends ObjectAssert<SELF> {
 
     private final File actual;
 
-    public FileAsserts(File actual) {
+    public FileAssert(File actual) {
         super(actual);
         this.actual = actual;
     }

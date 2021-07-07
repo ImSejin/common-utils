@@ -34,8 +34,8 @@ import java.util.zip.Checksum;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-@DisplayName("PackageAsserts")
-class PackageAssertsTest {
+@DisplayName("PackageAssert")
+class PackageAssertTest {
 
     @Nested
     @DisplayName("method 'isSuperPackageOf'")

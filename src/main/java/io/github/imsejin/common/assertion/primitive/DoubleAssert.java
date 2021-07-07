@@ -20,12 +20,12 @@ import io.github.imsejin.common.assertion.DecimalNumberAssertion;
 import io.github.imsejin.common.util.MathUtils;
 
 @SuppressWarnings("unchecked")
-public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends NumberAsserts<SELF, Double>
+public class DoubleAssert<SELF extends DoubleAssert<SELF>> extends NumberAssert<SELF, Double>
         implements DecimalNumberAssertion<SELF, Double> {
 
     private final Double actual;
 
-    public DoubleAsserts(Double actual) {
+    public DoubleAssert(Double actual) {
         super(actual);
         this.actual = actual;
     }

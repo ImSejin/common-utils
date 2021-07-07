@@ -16,18 +16,18 @@
 
 package io.github.imsejin.common.assertion.map;
 
-import io.github.imsejin.common.assertion.collection.CollectionAsserts;
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.collection.CollectionAssert;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 
 import java.util.Collection;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public class MapAsserts<SELF extends MapAsserts<SELF, K, V>, K, V> extends ObjectAsserts<SELF> {
+public class MapAssert<SELF extends MapAssert<SELF, K, V>, K, V> extends ObjectAssert<SELF> {
 
     private final Map<K, V> actual;
 
-    public MapAsserts(Map<K, V> actual) {
+    public MapAssert(Map<K, V> actual) {
         super(actual);
         this.actual = actual;
     }
@@ -89,12 +89,12 @@ public class MapAsserts<SELF extends MapAsserts<SELF, K, V>, K, V> extends Objec
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    public CollectionAsserts<?, K> asKeySet() {
-        return new CollectionAsserts<>(this.actual.keySet());
+    public CollectionAssert<?, K> asKeySet() {
+        return new CollectionAssert<>(this.actual.keySet());
     }
 
-    public CollectionAsserts<?, V> asValues() {
-        return new CollectionAsserts<>(this.actual.values());
+    public CollectionAssert<?, V> asValues() {
+        return new CollectionAssert<>(this.actual.values());
     }
 
 }

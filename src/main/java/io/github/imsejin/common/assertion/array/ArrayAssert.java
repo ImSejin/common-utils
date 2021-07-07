@@ -16,16 +16,16 @@
 
 package io.github.imsejin.common.assertion.array;
 
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 
 import java.util.Arrays;
 
 @SuppressWarnings("unchecked")
-public class ArrayAsserts<SELF extends ArrayAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
+public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends ObjectAssert<SELF> {
 
     private final T[] actual;
 
-    public ArrayAsserts(T[] actual) {
+    public ArrayAssert(T[] actual) {
         super(actual);
         this.actual = actual;
     }

@@ -20,12 +20,12 @@ import io.github.imsejin.common.assertion.DecimalNumberAssertion;
 import io.github.imsejin.common.util.MathUtils;
 
 @SuppressWarnings("unchecked")
-public class FloatAsserts<SELF extends FloatAsserts<SELF>> extends NumberAsserts<SELF, Float>
+public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SELF, Float>
         implements DecimalNumberAssertion<SELF, Float> {
 
     private final Float actual;
 
-    public FloatAsserts(Float actual) {
+    public FloatAssert(Float actual) {
         super(actual);
         this.actual = actual;
     }

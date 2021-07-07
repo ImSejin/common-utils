@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
@@ -25,11 +25,11 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 
 @SuppressWarnings("unchecked")
-public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> extends ObjectAsserts<SELF> {
+public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> extends ObjectAssert<SELF> {
 
     private final OffsetDateTime actual;
 
-    public OffsetDateTimeAsserts(OffsetDateTime actual) {
+    public OffsetDateTimeAssert(OffsetDateTime actual) {
         super(actual);
         this.actual = actual;
     }
@@ -51,10 +51,10 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
     }
 
     /**
-     * @see ChronoLocalDateAsserts#isBefore(ChronoLocalDate)
-     * @see ChronoLocalDateTimeAsserts#isBefore(ChronoLocalDateTime)
-     * @see ChronoZonedDateTimeAsserts#isBefore(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAsserts#isBefore(LocalTime)
+     * @see ChronoLocalDateAssert#isBefore(ChronoLocalDate)
+     * @see ChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
+     * @see ChronoZonedDateTimeAssert#isBefore(java.time.chrono.ChronoZonedDateTime)
+     * @see LocalTimeAssert#isBefore(LocalTime)
      */
     public SELF isBefore(OffsetDateTime expected) {
         if (!this.actual.isBefore(expected)) throw getException();
@@ -62,10 +62,10 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
     }
 
     /**
-     * @see ChronoLocalDateAsserts#isBeforeOrEqualTo(ChronoLocalDate)
-     * @see ChronoLocalDateTimeAsserts#isBeforeOrEqualTo(ChronoLocalDateTime)
-     * @see ChronoZonedDateTimeAsserts#isBeforeOrEqualTo(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAsserts#isBeforeOrEqualTo(LocalTime)
+     * @see ChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
+     * @see ChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
+     * @see ChronoZonedDateTimeAssert#isBeforeOrEqualTo(java.time.chrono.ChronoZonedDateTime)
+     * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
      */
     public SELF isBeforeOrEqualTo(OffsetDateTime expected) {
         if (this.actual.compareTo(expected) > 0) throw getException();
@@ -73,10 +73,10 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
     }
 
     /**
-     * @see ChronoLocalDateAsserts#isAfter(ChronoLocalDate)
-     * @see ChronoLocalDateTimeAsserts#isAfter(ChronoLocalDateTime)
-     * @see ChronoZonedDateTimeAsserts#isAfter(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAsserts#isAfter(LocalTime)
+     * @see ChronoLocalDateAssert#isAfter(ChronoLocalDate)
+     * @see ChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
+     * @see ChronoZonedDateTimeAssert#isAfter(java.time.chrono.ChronoZonedDateTime)
+     * @see LocalTimeAssert#isAfter(LocalTime)
      */
     public SELF isAfter(OffsetDateTime expected) {
         if (!this.actual.isAfter(expected)) throw getException();
@@ -84,10 +84,10 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
     }
 
     /**
-     * @see ChronoLocalDateAsserts#isAfterOrEqualTo(ChronoLocalDate)
-     * @see ChronoLocalDateTimeAsserts#isAfterOrEqualTo(ChronoLocalDateTime)
-     * @see ChronoZonedDateTimeAsserts#isAfterOrEqualTo(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAsserts#isAfterOrEqualTo(LocalTime)
+     * @see ChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
+     * @see ChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
+     * @see ChronoZonedDateTimeAssert#isAfterOrEqualTo(java.time.chrono.ChronoZonedDateTime)
+     * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)
      */
     public SELF isAfterOrEqualTo(OffsetDateTime expected) {
         if (this.actual.compareTo(expected) < 0) throw getException();
@@ -95,7 +95,7 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
     }
 
     /**
-     * @see OffsetTimeAsserts#isSameOffset(ZoneOffset)
+     * @see OffsetTimeAssert#isSameOffset(ZoneOffset)
      */
     public SELF isSameOffset(ZoneOffset expected) {
         if (!this.actual.getOffset().equals(expected)) throw getException();
@@ -103,7 +103,7 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
     }
 
     /**
-     * @see OffsetTimeAsserts#isNotSameOffset(ZoneOffset)
+     * @see OffsetTimeAssert#isNotSameOffset(ZoneOffset)
      */
     public SELF isNotSameOffset(ZoneOffset expected) {
         if (this.actual.getOffset().equals(expected)) throw getException();
@@ -113,34 +113,34 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
     ///////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @see ChronoLocalDateTimeAsserts#asLocalDate()
-     * @see ChronoZonedDateTimeAsserts#asLocalDate()
+     * @see ChronoLocalDateTimeAssert#asLocalDate()
+     * @see ChronoZonedDateTimeAssert#asLocalDate()
      */
-    public ChronoLocalDateAsserts<?> asLocalDate() {
-        return new ChronoLocalDateAsserts<>(this.actual.toLocalDate());
+    public ChronoLocalDateAssert<?> asLocalDate() {
+        return new ChronoLocalDateAssert<>(this.actual.toLocalDate());
     }
 
     /**
-     * @see ChronoZonedDateTimeAsserts#asLocalDateTime()
+     * @see ChronoZonedDateTimeAssert#asLocalDateTime()
      */
-    public ChronoLocalDateTimeAsserts<?, ? extends ChronoLocalDate> asLocalDateTime() {
-        return new ChronoLocalDateTimeAsserts<>(this.actual.toLocalDateTime());
+    public ChronoLocalDateTimeAssert<?, ? extends ChronoLocalDate> asLocalDateTime() {
+        return new ChronoLocalDateTimeAssert<>(this.actual.toLocalDateTime());
     }
 
-    public ChronoZonedDateTimeAsserts<?, ? extends ChronoLocalDate> asZonedDateTime() {
-        return new ChronoZonedDateTimeAsserts<>(this.actual.toZonedDateTime());
+    public ChronoZonedDateTimeAssert<?, ? extends ChronoLocalDate> asZonedDateTime() {
+        return new ChronoZonedDateTimeAssert<>(this.actual.toZonedDateTime());
     }
 
     /**
-     * @see ChronoLocalDateTimeAsserts#asLocalTime()
-     * @see ChronoZonedDateTimeAsserts#asLocalTime()
+     * @see ChronoLocalDateTimeAssert#asLocalTime()
+     * @see ChronoZonedDateTimeAssert#asLocalTime()
      */
-    public LocalTimeAsserts<?> asLocalTime() {
-        return new LocalTimeAsserts<>(this.actual.toLocalTime());
+    public LocalTimeAssert<?> asLocalTime() {
+        return new LocalTimeAssert<>(this.actual.toLocalTime());
     }
 
-    public OffsetTimeAsserts<?> asOffsetTime() {
-        return new OffsetTimeAsserts<>(this.actual.toOffsetTime());
+    public OffsetTimeAssert<?> asOffsetTime() {
+        return new OffsetTimeAssert<>(this.actual.toOffsetTime());
     }
 
 }

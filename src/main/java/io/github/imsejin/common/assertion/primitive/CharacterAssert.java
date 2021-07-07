@@ -21,13 +21,13 @@ import io.github.imsejin.common.assertion.Descriptor;
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
-public class CharacterAsserts<SELF extends CharacterAsserts<SELF>> extends Descriptor<SELF> {
+public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends Descriptor<SELF> {
 
     private static final Character NULL_CHARACTER = '\u0000';
 
     private final Character actual;
 
-    public CharacterAsserts(Character actual) {
+    public CharacterAssert(Character actual) {
         this.actual = actual;
     }
 

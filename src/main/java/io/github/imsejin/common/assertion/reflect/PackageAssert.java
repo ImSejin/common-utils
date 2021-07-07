@@ -16,15 +16,15 @@
 
 package io.github.imsejin.common.assertion.reflect;
 
-import io.github.imsejin.common.assertion.chars.StringAsserts;
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.chars.StringAssert;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 
 @SuppressWarnings("unchecked")
-public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAsserts<SELF> {
+public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAssert<SELF> {
 
     private final Package actual;
 
-    public PackageAsserts(Package actual) {
+    public PackageAssert(Package actual) {
         super(actual);
         this.actual = actual;
     }
@@ -47,8 +47,8 @@ public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAss
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    public StringAsserts<?> asName() {
-        return new StringAsserts<>(this.actual.getName());
+    public StringAssert<?> asName() {
+        return new StringAssert<>(this.actual.getName());
     }
 
 }

@@ -17,15 +17,15 @@
 package io.github.imsejin.common.assertion.object;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.reflect.ClassAsserts;
+import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 @SuppressWarnings("unchecked")
-public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<SELF> {
+public class ObjectAssert<SELF extends ObjectAssert<SELF>> extends Descriptor<SELF> {
 
     private final Object actual;
 
-    public ObjectAsserts(Object actual) {
+    public ObjectAssert(Object actual) {
         this.actual = actual;
     }
 
@@ -104,8 +104,8 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    public ClassAsserts<?, ?> asClass() {
-        return new ClassAsserts<>(this.actual.getClass());
+    public ClassAssert<?, ?> asClass() {
+        return new ClassAssert<>(this.actual.getClass());
     }
 
 }

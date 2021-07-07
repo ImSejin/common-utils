@@ -31,11 +31,11 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-@DisplayName("CharacterAsserts")
-class CharacterAssertsTest {
+@DisplayName("CharacterAssert")
+class CharacterAssertTest {
 
-    private static final String EQUALITY = "io.github.imsejin.common.assertion.primitive.CharacterAssertsTest#equality";
-    private static final String NON_EQUALITY = "io.github.imsejin.common.assertion.primitive.CharacterAssertsTest#nonEquality";
+    private static final String EQUALITY = "io.github.imsejin.common.assertion.primitive.CharacterAssertTest#equality";
+    private static final String NON_EQUALITY = "io.github.imsejin.common.assertion.primitive.CharacterAssertTest#nonEquality";
 
     @Nested
     @DisplayName("method 'isEqualTo'")

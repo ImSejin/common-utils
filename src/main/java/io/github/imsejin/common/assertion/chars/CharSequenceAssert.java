@@ -16,14 +16,14 @@
 
 package io.github.imsejin.common.assertion.chars;
 
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 
 @SuppressWarnings("unchecked")
-public class CharSequenceAsserts<SELF extends CharSequenceAsserts<SELF>> extends ObjectAsserts<SELF> {
+public class CharSequenceAssert<SELF extends CharSequenceAssert<SELF>> extends ObjectAssert<SELF> {
 
     private final CharSequence actual;
 
-    public CharSequenceAsserts(CharSequence actual) {
+    public CharSequenceAssert(CharSequence actual) {
         super(actual);
         this.actual = actual;
     }

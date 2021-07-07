@@ -19,11 +19,11 @@ package io.github.imsejin.common.assertion.primitive;
 import io.github.imsejin.common.assertion.Descriptor;
 
 @SuppressWarnings("unchecked")
-public class BooleanAsserts<SELF extends BooleanAsserts<SELF>> extends Descriptor<SELF> {
+public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends Descriptor<SELF> {
 
     private final Boolean actual;
 
-    public BooleanAsserts(Boolean actual) {
+    public BooleanAssert(Boolean actual) {
         this.actual = actual;
     }
 

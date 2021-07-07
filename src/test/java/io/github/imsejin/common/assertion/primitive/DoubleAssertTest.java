@@ -31,11 +31,11 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-@DisplayName("ByteAsserts")
-class ByteAssertsTest {
+@DisplayName("DoubleAssert")
+class DoubleAssertTest {
 
-    private static final String EQUALITY = "io.github.imsejin.common.assertion.primitive.ByteAssertsTest#equality";
-    private static final String NON_EQUALITY = "io.github.imsejin.common.assertion.primitive.ByteAssertsTest#nonEquality";
+    private static final String EQUALITY = "io.github.imsejin.common.assertion.primitive.DoubleAssertTest#equality";
+    private static final String NON_EQUALITY = "io.github.imsejin.common.assertion.primitive.DoubleAssertTest#nonEquality";
 
     @Nested
     @DisplayName("method 'isEqualTo'")
@@ -43,7 +43,7 @@ class ByteAssertsTest {
         @ParameterizedTest
         @MethodSource(EQUALITY)
         @DisplayName("passes, when actual is equal to other")
-        void test0(byte actual, byte expected) {
+        void test0(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .doesNotThrowAnyException();
         }
@@ -51,7 +51,7 @@ class ByteAssertsTest {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
         @DisplayName("throws exception, when actual is not equal to other")
-        void test1(byte actual, byte expected) {
+        void test1(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -65,7 +65,7 @@ class ByteAssertsTest {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
         @DisplayName("passes, when actual is not equal to other")
-        void test0(byte actual, byte expected) {
+        void test0(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .doesNotThrowAnyException();
         }
@@ -73,7 +73,7 @@ class ByteAssertsTest {
         @ParameterizedTest
         @MethodSource(EQUALITY)
         @DisplayName("throws exception, when actual is equal to other")
-        void test1(byte actual, byte expected) {
+        void test1(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -87,12 +87,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("passes, when actual is greater than other")
         void test0() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) 1, (byte) ((int) Character.valueOf('\u0000')));
-            map.put((byte) 124, (byte) -124);
-            map.put(Byte.valueOf((byte) 32), (byte) 31);
-            map.put(Byte.MAX_VALUE, (byte) 1);
-            map.put((byte) -1, Byte.MIN_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(1.1D, (double) Character.valueOf('\u0000'));
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(32), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
@@ -101,12 +101,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) ((int) Character.valueOf('\u0000')), (byte) 0);
-            map.put((byte) -124, (byte) 124);
-            map.put((byte) 31, Byte.valueOf((byte) 31));
-            map.put((byte) 1, Byte.MAX_VALUE);
-            map.put(Byte.MIN_VALUE, (byte) -1);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), 0D);
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(31));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
@@ -121,12 +121,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) 1, (byte) ((int) Character.valueOf('\u0000')));
-            map.put((byte) 124, (byte) -124);
-            map.put(Byte.valueOf((byte) 31), (byte) 31);
-            map.put(Byte.MAX_VALUE, (byte) 1);
-            map.put((byte) -1, Byte.MIN_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(1.14D, (double) Character.valueOf('\u0000'));
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(31), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
@@ -135,12 +135,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("throws exception, when actual is less than other")
         void test1() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) -1, (byte) ((int) Character.valueOf('\u0000')));
-            map.put((byte) -124, (byte) 124);
-            map.put((byte) 31, Byte.valueOf((byte) 32));
-            map.put((byte) 1, Byte.MAX_VALUE);
-            map.put(Byte.MIN_VALUE, (byte) -1);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(-1.16D, (double) Character.valueOf('\u0000'));
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(32));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
@@ -155,12 +155,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("passes, when actual is less than other")
         void test0() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) ((int) Character.valueOf('\u0000')), (byte) 1);
-            map.put((byte) -124, (byte) 124);
-            map.put((byte) 31, Byte.valueOf((byte) 32));
-            map.put((byte) 1, Byte.MAX_VALUE);
-            map.put(Byte.MIN_VALUE, (byte) -1);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), 1.141D);
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(32));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
@@ -169,12 +169,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) 1, (byte) ((int) Character.valueOf('\u0000')));
-            map.put((byte) 124, (byte) -124);
-            map.put(Byte.valueOf((byte) 31), (byte) 31);
-            map.put(Byte.MAX_VALUE, (byte) 1);
-            map.put((byte) -1, Byte.MIN_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(1.99D, (double) Character.valueOf('\u0000'));
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(31), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
@@ -189,12 +189,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("passes, when actual is less than or equal to other")
         void test0() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) ((int) Character.valueOf('\u0000')), (byte) 1);
-            map.put((byte) -124, (byte) 124);
-            map.put((byte) 31, Byte.valueOf((byte) 31));
-            map.put((byte) 1, Byte.MAX_VALUE);
-            map.put(Byte.MIN_VALUE, (byte) -1);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), 1.0D);
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(31));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
@@ -203,12 +203,12 @@ class ByteAssertsTest {
         @Test
         @DisplayName("throws exception, when actual is greater than other")
         void test1() {
-            Map<Byte, Byte> map = new HashMap<>();
-            map.put((byte) ((int) Character.valueOf('\u0000')), (byte) -1);
-            map.put((byte) 124, (byte) -124);
-            map.put(Byte.valueOf((byte) 32), (byte) 31);
-            map.put(Byte.MAX_VALUE, (byte) 1);
-            map.put((byte) -1, Byte.MIN_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), -1.001D);
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(32), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
@@ -221,17 +221,17 @@ class ByteAssertsTest {
     @DisplayName("method 'isPositive'")
     class IsPositive {
         @ParameterizedTest
-        @ValueSource(bytes = {1, Byte.MAX_VALUE})
+        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("passes, when actual is positive")
-        void test0(byte actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(bytes = {0, -1, Byte.MIN_VALUE})
+        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is zero or negative")
-        void test1(byte actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -243,17 +243,17 @@ class ByteAssertsTest {
     @DisplayName("method 'isZeroOrPositive'")
     class IsZeroOrPositive {
         @ParameterizedTest
-        @ValueSource(bytes = {0, 1, Byte.MAX_VALUE})
+        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("passes, when actual is zero or positive")
-        void test0(byte actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(bytes = {-1, Byte.MIN_VALUE})
+        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is negative")
-        void test1(byte actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -265,17 +265,17 @@ class ByteAssertsTest {
     @DisplayName("method 'isNegative()'")
     class IsNegative {
         @ParameterizedTest
-        @ValueSource(bytes = {-1, Byte.MIN_VALUE})
+        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("passes, when actual is negative")
-        void test0(byte actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(bytes = {0, 1, Byte.MAX_VALUE})
+        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is zero or positive")
-        void test1(byte actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -287,17 +287,17 @@ class ByteAssertsTest {
     @DisplayName("method 'isZeroOrNegative()'")
     class IsZeroOrNegative {
         @ParameterizedTest
-        @ValueSource(bytes = {0, -1, Byte.MIN_VALUE})
+        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("passes, when actual is zero or negative")
-        void test0(byte actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(bytes = {1, Byte.MAX_VALUE})
+        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is positive")
-        void test1(byte actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -306,23 +306,23 @@ class ByteAssertsTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     private static Stream<Arguments> equality() {
-        Map<Byte, Byte> map = new HashMap<>();
-        map.put((byte) ((int) Character.valueOf('\u0000')), (byte) 0);
-        map.put((byte) -124, (byte) (124 * -1));
-        map.put((byte) 31, Byte.valueOf((byte) 31));
-        map.put(Byte.MIN_VALUE, (byte) -128);
-        map.put(Byte.MAX_VALUE, (byte) 127);
+        Map<Double, Double> map = new HashMap<>();
+        map.put((double) Character.valueOf('\u0000'), 0D);
+        map.put(-1.024D, 1.024D * -1);
+        map.put(31D, Double.valueOf(31));
+        map.put(Double.MIN_VALUE, Double.MIN_VALUE);
+        map.put(Double.MAX_VALUE, Double.MAX_VALUE);
 
         return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }
 
     private static Stream<Arguments> nonEquality() {
-        Map<Byte, Byte> map = new HashMap<>();
-        map.put((byte) ((int) Character.valueOf('a')), (byte) 0);
-        map.put((byte) 124, (byte) -124);
-        map.put((byte) 31, (byte) (31 >> 7));
-        map.put(Byte.MIN_VALUE, (byte) 127);
-        map.put(Byte.MAX_VALUE, (byte) -128);
+        Map<Double, Double> map = new HashMap<>();
+        map.put((double) Character.valueOf('a'), 0D);
+        map.put(1.024D, -1.024D);
+        map.put(31D, (double) (31 >> 7));
+        map.put(Double.MIN_VALUE, -1.7976931348623157E308D);
+        map.put(Double.MAX_VALUE, 4.9E-324D);
 
         return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }

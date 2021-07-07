@@ -16,10 +16,10 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.assertion.primitive.NumberAsserts;
+import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
 public interface DecimalNumberAssertion<
-        SELF extends NumberAsserts<SELF, NUMBER> & DecimalNumberAssertion<SELF, NUMBER>,
+        SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertion<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>> {
 
     SELF hasDecimalPart();

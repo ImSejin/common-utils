@@ -16,16 +16,16 @@
 
 package io.github.imsejin.common.assertion.collection;
 
-import io.github.imsejin.common.assertion.object.ObjectAsserts;
+import io.github.imsejin.common.assertion.object.ObjectAssert;
 
 import java.util.Collection;
 
 @SuppressWarnings("unchecked")
-public class CollectionAsserts<SELF extends CollectionAsserts<SELF, T>, T> extends ObjectAsserts<SELF> {
+public class CollectionAssert<SELF extends CollectionAssert<SELF, T>, T> extends ObjectAssert<SELF> {
 
     private final Collection<T> actual;
 
-    public CollectionAsserts(Collection<T> target) {
+    public CollectionAssert(Collection<T> target) {
         super(target);
         this.actual = target;
     }
