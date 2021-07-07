@@ -30,7 +30,7 @@
 <dependency>
   <groupId>io.github.imsejin</groupId>
   <artifactId>common-utils</artifactId>
-  <version>${common.utils.version}</version>
+  <version>${common-utils.version}</version>
 </dependency>
 ```
 
