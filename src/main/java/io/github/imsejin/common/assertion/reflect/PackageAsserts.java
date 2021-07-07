@@ -45,6 +45,8 @@ public class PackageAsserts<SELF extends PackageAsserts<SELF>> extends ObjectAss
         return (SELF) this;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     public StringAsserts<?> asName() {
         return new StringAsserts<>(this.actual.getName());
     }

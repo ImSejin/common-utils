@@ -87,6 +87,8 @@ public class MapAsserts<SELF extends MapAsserts<SELF, K, V>, K, V> extends Objec
         return (SELF) this;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     public CollectionAsserts<?, K> asKeySet() {
         return new CollectionAsserts<>(this.actual.keySet());
     }

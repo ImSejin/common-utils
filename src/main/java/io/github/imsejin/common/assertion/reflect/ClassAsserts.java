@@ -133,6 +133,8 @@ public class ClassAsserts<SELF extends ClassAsserts<SELF, T>, T> extends ObjectA
         return (SELF) this;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     public PackageAsserts<?> asPackage() {
         return new PackageAsserts<>(this.actual.getPackage());
     }

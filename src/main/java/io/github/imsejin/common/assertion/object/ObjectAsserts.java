@@ -102,6 +102,8 @@ public class ObjectAsserts<SELF extends ObjectAsserts<SELF>> extends Descriptor<
         return (SELF) this;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     public ClassAsserts<?, ?> asClass() {
         return new ClassAsserts<>(this.actual.getClass());
     }
