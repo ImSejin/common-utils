@@ -18,8 +18,7 @@ package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
@@ -130,6 +129,14 @@ public class ChronoZonedDateTimeAsserts<
      */
     public LocalTimeAsserts<?> asLocalTime() {
         return new LocalTimeAsserts<>(this.actual.toLocalTime());
+    }
+
+    public OffsetDateTimeAsserts<?> asOffsetDateTime() {
+        // this.actual.withZoneSameInstant(ZoneId.of("UTC"));
+        LocalDateTime dateTime = LocalDateTime.ofInstant(this.actual.toInstant(), this.actual.getZone());
+        ZoneOffset offset = this.actual.getOffset();
+
+        return new OffsetDateTimeAsserts<>(OffsetDateTime.of(dateTime, offset));
     }
 
 }

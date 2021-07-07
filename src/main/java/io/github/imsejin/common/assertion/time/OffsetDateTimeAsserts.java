@@ -139,4 +139,8 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
         return new LocalTimeAsserts<>(this.actual.toLocalTime());
     }
 
+    public OffsetTimeAsserts<?> asOffsetTime() {
+        return new OffsetTimeAsserts<>(this.actual.toOffsetTime());
+    }
+
 }
