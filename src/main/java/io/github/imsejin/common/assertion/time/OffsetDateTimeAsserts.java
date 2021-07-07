@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.object.ObjectAsserts;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 
@@ -90,6 +91,22 @@ public class OffsetDateTimeAsserts<SELF extends OffsetDateTimeAsserts<SELF>> ext
      */
     public SELF isAfterOrEqualTo(OffsetDateTime expected) {
         if (this.actual.compareTo(expected) < 0) throw getException();
+        return (SELF) this;
+    }
+
+    /**
+     * @see OffsetTimeAsserts#isSameOffset(ZoneOffset)
+     */
+    public SELF isSameOffset(ZoneOffset expected) {
+        if (!this.actual.getOffset().equals(expected)) throw getException();
+        return (SELF) this;
+    }
+
+    /**
+     * @see OffsetTimeAsserts#isNotSameOffset(ZoneOffset)
+     */
+    public SELF isNotSameOffset(ZoneOffset expected) {
+        if (this.actual.getOffset().equals(expected)) throw getException();
         return (SELF) this;
     }
 
