@@ -40,6 +40,20 @@ import java.time.chrono.ChronoZonedDateTime;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Asserts
+ * <p>
+ * This is implemented similarly to <a href="https://assertj.github.io/doc/">AssertJ</a>'s API.
+ * <p>
+ * If you use the '{@code ACTUAL}' generic variable directly within an assertion class as a parameter,
+ * user code that use the assertion class can't be compiled because its bound type does not match
+ * the generic variable.
+ * <p>
+ * AssertJ solved this problem by <u>specifying the generic type of a class that inherited the assertion
+ * class</u>. There is a difference between this and AssertJ. This solved the problem by <u>specifying
+ * the generic type in method return type and instantiating an anonymous class that inherited
+ * the assertion class <b>with raw type</b></u>.
+ */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class Asserts {
 
