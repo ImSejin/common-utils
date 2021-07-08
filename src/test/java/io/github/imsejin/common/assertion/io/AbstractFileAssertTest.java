@@ -427,13 +427,36 @@ class AbstractFileAssertTest {
     @DisplayName("method 'hasLengthOf'")
     class HasLengthOf {
         @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
+        @DisplayName("passes, when actual has the given length")
+        void test0(@TempDir Path path) throws IOException {
+            File file0 = new File(path.toFile(), "temp0.txt");
+            Files.write(file0.toPath(), UUID.randomUUID().toString().getBytes());
+
+            File file1 = new File(path.toFile(), "temp1.txt");
+            Files.write(file1.toPath(), UUID.randomUUID().toString().getBytes());
+
+            assertThatCode(() -> Asserts.that(file0)
+                    .hasLengthOf(UUID.randomUUID().toString().length())
+                    .hasLengthOf(file1))
+                    .doesNotThrowAnyException();
         }
 
         @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
+        @DisplayName("throws exception, when actual doesn't have the given length")
+        void test1(@TempDir Path path) throws IOException {
+            String content = UUID.randomUUID().toString();
+
+            File file0 = new File(path.toFile(), "temp0.txt");
+            Files.write(file0.toPath(), content.getBytes());
+
+            File file1 = new File(path.toFile(), "temp1.txt");
+            Files.write(file1.toPath(), content.replace("-", "").getBytes());
+
+            assertThatCode(() -> Asserts.that(file0)
+                    .hasLengthOf(content.length())
+                    .hasLengthOf(file1))
+                    .hasMessageStartingWith("It is expected to be the same length, but it isn't.")
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
         }
     }
 
