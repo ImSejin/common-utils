@@ -50,7 +50,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isSameAs(ACTUAL expected) {
         if (actual != expected) {
-            as("They are expected to be the same, but they aren't. (expected: '{0}' actual: '{1}')", expected, actual);
+            as("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -59,7 +59,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNotSameAs(ACTUAL expected) {
         if (actual == expected) {
-            as("They are expected to be not the same, but they aren't. (expected: '{0}' actual: '{1}')", expected, actual);
+            as("They are expected to be not the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -68,7 +68,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isEqualTo(ACTUAL expected) {
         if (!actual.equals(expected)) {
-            as("They are expected to be equal, but they aren't. (expected: '{0}' actual: '{1}')", expected, actual);
+            as("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected.getClass(), actual.getClass());
             throw getException();
         }
 
@@ -77,7 +77,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNotEqualTo(ACTUAL expected) {
         if (actual.equals(expected)) {
-            as("They are expected to be not equal, but they aren't. (expected: '{0}' actual: '{1}')", expected, actual);
+            as("They are expected to be not equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -96,7 +96,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
      */
     public SELF isInstanceOf(Class<?> type) {
         if (!TypeClassifier.toWrapper(type).isInstance(actual)) {
-            as("It is expected to be instance of the type, but it isn't. (expected: '{0}' actual: '{1}')", type, actual);
+            as("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')", type, actual);
             throw getException();
         }
 

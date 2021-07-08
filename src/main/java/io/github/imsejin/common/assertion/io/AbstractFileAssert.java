@@ -116,31 +116,32 @@ public abstract class AbstractFileAssert<
     }
 
     public SELF hasLengthOf(ACTUAL expected) {
-        if (actual.length() != expected.length()) throw getException();
-        return self;
+        return hasLengthOf(expected.length());
     }
 
-    public SELF hasLengthOf(int expected) {
-        if (actual.length() != expected) throw getException();
+    public SELF hasLengthOf(long expected) {
+        if (actual.length() != expected) {
+            as("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length());
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLargerThan(ACTUAL expected) {
-        if (actual.length() <= expected.length()) throw getException();
-        return self;
+        return isLargerThan(expected.length());
     }
 
-    public SELF isLargerThan(int expected) {
+    public SELF isLargerThan(long expected) {
         if (actual.length() <= expected) throw getException();
         return self;
     }
 
     public SELF isSmallerThan(ACTUAL expected) {
-        if (actual.length() >= expected.length()) throw getException();
-        return self;
+        return isSmallerThan(expected.length());
     }
 
-    public SELF isSmallerThan(int expected) {
+    public SELF isSmallerThan(long expected) {
         if (actual.length() >= expected) throw getException();
         return self;
     }
