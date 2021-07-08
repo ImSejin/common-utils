@@ -100,7 +100,7 @@ public final class MathUtils {
     }
 
     public static boolean hasDecimalPart(double number) {
-        return number % 1 == 0;
+        return number % 1 != 0;
     }
 
 }
