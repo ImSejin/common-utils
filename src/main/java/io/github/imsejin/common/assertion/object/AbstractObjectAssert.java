@@ -22,6 +22,7 @@ import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 
+import java.util.Objects;
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL> extends Descriptor<SELF> {
 
     protected final ACTUAL actual;
@@ -67,7 +68,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     }
 
     public SELF isEqualTo(ACTUAL expected) {
-        if (!actual.equals(expected)) {
+        if (!Objects.deepEquals(actual, expected)) {
             as("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected.getClass(), actual.getClass());
             throw getException();
         }
@@ -76,7 +77,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     }
 
     public SELF isNotEqualTo(ACTUAL expected) {
-        if (actual.equals(expected)) {
+        if (Objects.deepEquals(actual, expected)) {
             as("They are expected to be not equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }

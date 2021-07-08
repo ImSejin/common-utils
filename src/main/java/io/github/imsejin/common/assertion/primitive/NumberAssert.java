@@ -18,8 +18,6 @@ package io.github.imsejin.common.assertion.primitive;
 
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
-import java.util.Objects;
-
 public class NumberAssert<
         SELF extends NumberAssert<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>>
@@ -50,18 +48,6 @@ public class NumberAssert<
         if (numberType == Double.class) return (N) Double.valueOf(number.doubleValue());
 
         return null;
-    }
-
-    @Override
-    public SELF isEqualTo(NUMBER expected) {
-        if (!Objects.deepEquals(actual, expected)) throw getException();
-        return self;
-    }
-
-    @Override
-    public SELF isNotEqualTo(NUMBER expected) {
-        if (Objects.deepEquals(actual, expected)) throw getException();
-        return self;
     }
 
     public SELF isGreaterThan(NUMBER expected) {

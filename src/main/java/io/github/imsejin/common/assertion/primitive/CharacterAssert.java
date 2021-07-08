@@ -28,16 +28,6 @@ public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends Abstrac
         super(actual);
     }
 
-    public SELF isEqualTo(Character expected) {
-        if (!Objects.deepEquals(actual, expected)) throw getException();
-        return self;
-    }
-
-    public SELF isNotEqualTo(Character expected) {
-        if (Objects.deepEquals(actual, expected)) throw getException();
-        return self;
-    }
-
     public SELF isGreaterThan(Character expected) {
         if (actual <= expected) throw getException();
         return self;
