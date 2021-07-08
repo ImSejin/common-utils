@@ -23,6 +23,9 @@ import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL> extends Descriptor<SELF> {
 
     protected final ACTUAL actual;
@@ -98,6 +101,28 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     public SELF isInstanceOf(Class<?> type) {
         if (!TypeClassifier.toWrapper(type).isInstance(actual)) {
             as("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')", type, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    public SELF predicate(Predicate<ACTUAL> predicate) {
+        boolean expected = Objects.requireNonNull(predicate.test(this.actual), "Predicate is not allowed to be null");
+
+        if (!expected) {
+            as("It is expected to be true, but it isn't. (expected: 'false')");
+            throw getException();
+        }
+
+        return self;
+    }
+
+    public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
+        T actual = Objects.requireNonNull(from.apply(this.actual), "Function is not allowed to be null");
+
+        if (!Objects.deepEquals(actual, expected)) {
+            as("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
