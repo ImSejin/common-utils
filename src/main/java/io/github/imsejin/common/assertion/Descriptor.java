@@ -25,7 +25,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     protected final SELF self;
 
-    private String messagePattern;
+    private String description;
 
     private Object[] arguments;
 
@@ -37,7 +37,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     }
 
     public final SELF as(String description, Object... args) {
-        this.messagePattern = description;
+        this.description = description;
         this.arguments = args;
         return this.self;
     }
@@ -49,10 +49,10 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     protected final String getMessage() {
         // Prevent NPE.
-        if (StringUtils.isNullOrEmpty(this.messagePattern)) return "";
+        if (StringUtils.isNullOrEmpty(this.description)) return "";
 
         // Escapes single quotation marks.
-        String pattern = this.messagePattern.replace("'", "''");
+        String pattern = this.description.replace("'", "''");
         MessageFormat messageFormat = new MessageFormat(pattern);
 
         return messageFormat.format(this.arguments);
