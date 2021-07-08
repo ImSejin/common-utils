@@ -36,7 +36,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNull() {
         if (actual != null) {
-            as("It is expected to be null, but not null. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be null, but not null. (actual: '{0}')", actual);
             throw getException();
         }
 
@@ -45,7 +45,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNotNull() {
         if (actual == null) {
-            as("It is expected to be not null, but null. (actual: 'null')");
+            setDefaultDescription("It is expected to be not null, but null. (actual: 'null')");
             throw getException();
         }
 
@@ -54,7 +54,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isSameAs(ACTUAL expected) {
         if (actual != expected) {
-            as("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
             throw getException();
         }
 
@@ -63,7 +64,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNotSameAs(ACTUAL expected) {
         if (actual == expected) {
-            as("They are expected to be not the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be not the same, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
             throw getException();
         }
 
@@ -72,7 +74,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isEqualTo(ACTUAL expected) {
         if (!Objects.deepEquals(actual, expected)) {
-            as("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected.getClass(), actual.getClass());
+            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected.getClass(), actual.getClass());
             throw getException();
         }
 
@@ -81,7 +84,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNotEqualTo(ACTUAL expected) {
         if (Objects.deepEquals(actual, expected)) {
-            as("They are expected to be not equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be not equal, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
             throw getException();
         }
 
@@ -100,7 +104,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
      */
     public SELF isInstanceOf(Class<?> type) {
         if (!TypeClassifier.toWrapper(type).isInstance(actual)) {
-            as("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')", type, actual);
+            setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')",
+                    type, actual);
             throw getException();
         }
 
@@ -111,7 +116,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
         boolean expected = Objects.requireNonNull(predicate.test(this.actual), "Predicate is not allowed to be null");
 
         if (!expected) {
-            as("It is expected to be true, but it isn't. (expected: 'false')");
+            setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
             throw getException();
         }
 
@@ -122,7 +127,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
         T actual = Objects.requireNonNull(from.apply(this.actual), "Function is not allowed to be null");
 
         if (!Objects.deepEquals(actual, expected)) {
-            as("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
             throw getException();
         }
 

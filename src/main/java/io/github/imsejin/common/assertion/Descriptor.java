@@ -62,4 +62,11 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         return this.function.apply(getMessage());
     }
 
+    protected final void setDefaultDescription(String description, Object... args) {
+        if (!StringUtils.isNullOrEmpty(this.description)) return;
+
+        this.description = description;
+        this.arguments = args;
+    }
+
 }

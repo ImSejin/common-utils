@@ -121,7 +121,7 @@ public abstract class AbstractFileAssert<
 
     public SELF hasLengthOf(long expected) {
         if (actual.length() != expected) {
-            as("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length());
+            setDefaultDescription("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length());
             throw getException();
         }
 

@@ -26,7 +26,7 @@ public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends AbstractObj
 
     public SELF isTrue() {
         if (!actual) {
-            as("It is expected to be true, but it isn't. (expected: 'false')");
+            setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
             throw getException();
         }
 
@@ -35,7 +35,7 @@ public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends AbstractObj
 
     public SELF isFalse() {
         if (actual) {
-            as("It is expected to be false, but it isn't. (expected: 'true')");
+            setDefaultDescription("It is expected to be false, but it isn't. (expected: 'true')");
             throw getException();
         }
 
