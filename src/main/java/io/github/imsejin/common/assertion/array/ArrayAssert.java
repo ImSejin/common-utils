@@ -16,56 +16,52 @@
 
 package io.github.imsejin.common.assertion.array;
 
-import io.github.imsejin.common.assertion.object.ObjectAssert;
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.util.Arrays;
 
-@SuppressWarnings("unchecked")
-public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends ObjectAssert<SELF> {
+public class ArrayAssert<SELF extends ArrayAssert<SELF, ACTUAL>, ACTUAL> extends AbstractObjectAssert<SELF, ACTUAL[]> {
 
-    private final T[] actual;
-
-    public ArrayAssert(T[] actual) {
+    public ArrayAssert(ACTUAL[] actual) {
         super(actual);
-        this.actual = actual;
     }
 
     public SELF isEmpty() {
         if (this.actual.length > 0) throw getException();
-        return (SELF) this;
+        return self;
     }
 
     public SELF hasElement() {
         if (this.actual.length == 0) throw getException();
-        return (SELF) this;
+        return self;
     }
 
     public SELF hasLengthOf(int expected) {
         if (this.actual.length != expected) throw getException();
-        return (SELF) this;
+        return self;
     }
 
-    public SELF isSameLength(T[] expected) {
+    public SELF isSameLength(ACTUAL[] expected) {
         if (expected == null || this.actual.length != expected.length) throw getException();
-        return (SELF) this;
+        return self;
     }
 
-    public SELF isNotSameLength(T[] expected) {
+    public SELF isNotSameLength(ACTUAL[] expected) {
         if (expected != null && this.actual.length == expected.length) throw getException();
-        return (SELF) this;
+        return self;
     }
 
-    public SELF contains(T expected) {
+    public SELF contains(ACTUAL expected) {
         if (!Arrays.asList(this.actual).contains(expected)) throw getException();
-        return (SELF) this;
+        return self;
     }
 
-    public SELF containsAll(T[] expected) {
+    public SELF containsAll(ACTUAL[] expected) {
         if (expected == null || !Arrays.asList(this.actual).containsAll(Arrays.asList(expected))) {
             throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
 }

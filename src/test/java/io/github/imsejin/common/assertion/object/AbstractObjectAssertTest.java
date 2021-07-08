@@ -31,8 +31,8 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@DisplayName("ObjectAssert")
-class ObjectAssertTest {
+@DisplayName("AbstractObjectAssert")
+class AbstractObjectAssertTest {
 
     @Nested
     @DisplayName("method 'isNull'")

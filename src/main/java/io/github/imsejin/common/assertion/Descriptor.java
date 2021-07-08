@@ -21,8 +21,9 @@ import io.github.imsejin.common.util.StringUtils;
 import java.text.MessageFormat;
 import java.util.function.Function;
 
-@SuppressWarnings("unchecked")
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
+
+    protected final SELF self;
 
     private String messagePattern;
 
@@ -30,18 +31,20 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     private Function<String, ? extends RuntimeException> function = IllegalArgumentException::new;
 
+    @SuppressWarnings("unchecked")
     protected Descriptor() {
+        this.self = (SELF) this;
     }
 
     public final SELF as(String description, Object... args) {
         this.messagePattern = description;
         this.arguments = args;
-        return (SELF) this;
+        return this.self;
     }
 
     public final SELF exception(Function<String, ? extends RuntimeException> function) {
         this.function = function;
-        return (SELF) this;
+        return this.self;
     }
 
     protected final String getMessage() {

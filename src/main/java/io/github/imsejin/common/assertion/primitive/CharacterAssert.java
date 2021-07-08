@@ -16,99 +16,96 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.util.Objects;
 
-@SuppressWarnings("unchecked")
-public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends Descriptor<SELF> {
+public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends AbstractObjectAssert<SELF, Character> {
 
     private static final Character NULL_CHARACTER = '\u0000';
 
-    private final Character actual;
-
     public CharacterAssert(Character actual) {
-        this.actual = actual;
+        super(actual);
     }
 
     public SELF isEqualTo(Character expected) {
-        if (!Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
+        if (!Objects.deepEquals(actual, expected)) throw getException();
+        return self;
     }
 
     public SELF isNotEqualTo(Character expected) {
-        if (Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
+        if (Objects.deepEquals(actual, expected)) throw getException();
+        return self;
     }
 
     public SELF isGreaterThan(Character expected) {
-        if (this.actual <= expected) throw getException();
-        return (SELF) this;
+        if (actual <= expected) throw getException();
+        return self;
     }
 
     public SELF isGreaterThanOrEqualTo(Character expected) {
-        if (this.actual < expected) throw getException();
-        return (SELF) this;
+        if (actual < expected) throw getException();
+        return self;
     }
 
     public SELF isLessThan(Character expected) {
-        if (this.actual >= expected) throw getException();
-        return (SELF) this;
+        if (actual >= expected) throw getException();
+        return self;
     }
 
     public SELF isLessThanOrEqualTo(Character expected) {
-        if (this.actual > expected) throw getException();
-        return (SELF) this;
+        if (actual > expected) throw getException();
+        return self;
     }
 
     public SELF isZero() {
-        if (!Objects.equals(this.actual, NULL_CHARACTER)) throw getException();
-        return (SELF) this;
+        if (!Objects.equals(actual, NULL_CHARACTER)) throw getException();
+        return self;
     }
 
     public SELF isNotZero() {
-        if (Objects.equals(this.actual, NULL_CHARACTER)) throw getException();
-        return (SELF) this;
+        if (Objects.equals(actual, NULL_CHARACTER)) throw getException();
+        return self;
     }
 
     public SELF isDigit() {
-        if (!Character.isDigit(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isDigit(actual)) throw getException();
+        return self;
     }
 
     public SELF isLetter() {
-        if (!Character.isLetter(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isLetter(actual)) throw getException();
+        return self;
     }
 
     public SELF isLetterOrDigit() {
-        if (!Character.isLetterOrDigit(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isLetterOrDigit(actual)) throw getException();
+        return self;
     }
 
     public SELF isUpperCase() {
-        if (!Character.isUpperCase(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isUpperCase(actual)) throw getException();
+        return self;
     }
 
     public SELF isLowerCase() {
-        if (!Character.isLowerCase(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isLowerCase(actual)) throw getException();
+        return self;
     }
 
     public SELF isAlphabetic() {
-        if (!Character.isAlphabetic(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isAlphabetic(actual)) throw getException();
+        return self;
     }
 
     public SELF isSpaceChar() {
-        if (!Character.isSpaceChar(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isSpaceChar(actual)) throw getException();
+        return self;
     }
 
     public SELF isWhitespace() {
-        if (!Character.isWhitespace(this.actual)) throw getException();
-        return (SELF) this;
+        if (!Character.isWhitespace(actual)) throw getException();
+        return self;
     }
 
 }

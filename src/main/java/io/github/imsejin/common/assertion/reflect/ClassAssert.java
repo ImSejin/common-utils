@@ -16,19 +16,17 @@
 
 package io.github.imsejin.common.assertion.reflect;
 
-import io.github.imsejin.common.assertion.object.ObjectAssert;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 import java.lang.reflect.Modifier;
 
-@SuppressWarnings("unchecked")
-public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAssert<SELF> {
-
-    private final Class<T> actual;
+public class ClassAssert<SELF extends ClassAssert<SELF, T>, T>
+        extends AbstractObjectAssert<SELF, Class<T>> {
 
     public ClassAssert(Class<T> actual) {
         super(actual);
-        this.actual = actual;
     }
 
     /**
@@ -43,7 +41,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isActualTypeOf(Object expected) {
         if (!TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
-        return (SELF) this;
+        return self;
     }
 
     /**
@@ -58,7 +56,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isNotActualTypeOf(Object expected) {
         if (TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
-        return (SELF) this;
+        return self;
     }
 
     /**
@@ -66,8 +64,8 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      * @return whether this is assignable from given type
      */
     public SELF isAssignableFrom(Class<?> expected) {
-        if (!this.actual.isAssignableFrom(expected)) throw getException();
-        return (SELF) this;
+        if (!actual.isAssignableFrom(expected)) throw getException();
+        return self;
     }
 
     /**
@@ -75,8 +73,8 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      * @return whether this is super class of given type
      */
     public SELF isSuperclassOf(Class<?> expected) {
-        if (this.actual != expected.getSuperclass()) throw getException();
-        return (SELF) this;
+        if (actual != expected.getSuperclass()) throw getException();
+        return self;
     }
 
     /**
@@ -84,59 +82,59 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      * @return whether this is sub class of given type
      */
     public SELF isSubclassOf(Class<?> expected) {
-        if (this.actual.getSuperclass() != expected) throw getException();
-        return (SELF) this;
+        if (actual.getSuperclass() != expected) throw getException();
+        return self;
     }
 
     public SELF isPrimitive() {
-        if (!this.actual.isPrimitive()) throw getException();
-        return (SELF) this;
+        if (!actual.isPrimitive()) throw getException();
+        return self;
     }
 
     public SELF isInterface() {
-        if (!this.actual.isInterface()) throw getException();
-        return (SELF) this;
+        if (!actual.isInterface()) throw getException();
+        return self;
     }
 
     public SELF isAnnotation() {
-        if (!this.actual.isAnnotation()) throw getException();
-        return (SELF) this;
+        if (!actual.isAnnotation()) throw getException();
+        return self;
     }
 
     public SELF isAbstractClass() {
-        if (!Modifier.isAbstract(this.actual.getModifiers())) throw getException();
-        return (SELF) this;
+        if (!Modifier.isAbstract(actual.getModifiers())) throw getException();
+        return self;
     }
 
     public SELF isAnonymousClass() {
-        if (!this.actual.isAnonymousClass()) throw getException();
-        return (SELF) this;
+        if (!actual.isAnonymousClass()) throw getException();
+        return self;
     }
 
     public SELF isEnum() {
-        if (!this.actual.isEnum()) throw getException();
-        return (SELF) this;
+        if (!actual.isEnum()) throw getException();
+        return self;
     }
 
     public SELF isArray() {
-        if (!this.actual.isArray()) throw getException();
-        return (SELF) this;
+        if (!actual.isArray()) throw getException();
+        return self;
     }
 
     public SELF isMemberClass() {
-        if (!this.actual.isMemberClass()) throw getException();
-        return (SELF) this;
+        if (!actual.isMemberClass()) throw getException();
+        return self;
     }
 
     public SELF isLocalClass() {
-        if (!this.actual.isLocalClass()) throw getException();
-        return (SELF) this;
+        if (!actual.isLocalClass()) throw getException();
+        return self;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public PackageAssert<?> asPackage() {
-        return new PackageAssert<>(this.actual.getPackage());
+        return Asserts.that(actual.getPackage());
     }
 
 }

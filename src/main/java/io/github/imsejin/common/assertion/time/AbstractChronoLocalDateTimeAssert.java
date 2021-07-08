@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.time.LocalTime;
@@ -23,94 +24,88 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 
-public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>> extends AbstractObjectAssert<SELF, LocalTime> {
+public abstract class AbstractChronoLocalDateTimeAssert<
+        SELF extends AbstractChronoLocalDateTimeAssert<SELF, ACTUAL, DATE>,
+        ACTUAL extends ChronoLocalDateTime<DATE>,
+        DATE extends ChronoLocalDate>
+        extends AbstractObjectAssert<SELF, ACTUAL> {
 
-    public LocalTimeAssert(LocalTime actual) {
+    protected AbstractChronoLocalDateTimeAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    @Override
+    public SELF isEqualTo(ACTUAL expected) {
+        if (!actual.isEqual(expected)) throw getException();
+        return self;
+    }
+
+    @Override
+    public SELF isNotEqualTo(ACTUAL expected) {
+        if (actual.isEqual(expected)) throw getException();
+        return self;
     }
 
     /**
      * @see AbstractChronoLocalDateAssert#isBefore(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isBefore(ChronoZonedDateTime)
+     * @see LocalTimeAssert#isBefore(LocalTime)
      * @see OffsetDateTimeAssert#isBefore(java.time.OffsetDateTime)
      */
-    public SELF isBefore(LocalTime expected) {
+    public SELF isBefore(ACTUAL expected) {
         if (!actual.isBefore(expected)) throw getException();
         return self;
     }
 
     /**
      * @see AbstractChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isBeforeOrEqualTo(ChronoZonedDateTime)
+     * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
      * @see OffsetDateTimeAssert#isBeforeOrEqualTo(java.time.OffsetDateTime)
      */
-    public SELF isBeforeOrEqualTo(LocalTime expected) {
+    public SELF isBeforeOrEqualTo(ACTUAL expected) {
         if (actual.compareTo(expected) > 0) throw getException();
         return self;
     }
 
     /**
      * @see AbstractChronoLocalDateAssert#isAfter(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isAfter(ChronoZonedDateTime)
+     * @see LocalTimeAssert#isAfter(LocalTime)
      * @see OffsetDateTimeAssert#isAfter(java.time.OffsetDateTime)
      */
-    public SELF isAfter(LocalTime expected) {
+    public SELF isAfter(ACTUAL expected) {
         if (!actual.isAfter(expected)) throw getException();
         return self;
     }
 
     /**
      * @see AbstractChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isAfterOrEqualTo(ChronoZonedDateTime)
+     * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)
      * @see OffsetDateTimeAssert#isAfterOrEqualTo(java.time.OffsetDateTime)
      */
-    public SELF isAfterOrEqualTo(LocalTime expected) {
+    public SELF isAfterOrEqualTo(ACTUAL expected) {
         if (actual.compareTo(expected) < 0) throw getException();
         return self;
     }
 
-    public SELF isMidnight() {
-        return super.isEqualTo(LocalTime.MIDNIGHT);
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
+     * @see OffsetDateTimeAssert#asLocalDate()
+     */
+    public AbstractChronoLocalDateAssert<?, ChronoLocalDate> asLocalDate() {
+        return Asserts.that(actual.toLocalDate());
     }
 
-    public SELF isBeforeMidnight() {
-        return isBefore(LocalTime.MIDNIGHT);
-    }
-
-    public SELF isBeforeOrEqualToMidnight() {
-        return isBeforeOrEqualTo(LocalTime.MIDNIGHT);
-    }
-
-    public SELF isAfterMidnight() {
-        return isAfter(LocalTime.MIDNIGHT);
-    }
-
-    public SELF isAfterOrEqualToMidnight() {
-        return isAfterOrEqualTo(LocalTime.MIDNIGHT);
-    }
-
-    public SELF isNoon() {
-        return super.isEqualTo(LocalTime.NOON);
-    }
-
-    public SELF isBeforeNoon() {
-        return isBefore(LocalTime.NOON);
-    }
-
-    public SELF isBeforeOrEqualToNoon() {
-        return isBeforeOrEqualTo(LocalTime.NOON);
-    }
-
-    public SELF isAfternoon() {
-        return isAfter(LocalTime.NOON);
-    }
-
-    public SELF isAfterOrEqualToNoon() {
-        return isAfterOrEqualTo(LocalTime.NOON);
+    /**
+     * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
+     * @see OffsetDateTimeAssert#asLocalTime()
+     */
+    public LocalTimeAssert<?> asLocalTime() {
+        return Asserts.that(actual.toLocalTime());
     }
 
 }

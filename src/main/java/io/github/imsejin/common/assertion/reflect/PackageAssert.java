@@ -16,17 +16,14 @@
 
 package io.github.imsejin.common.assertion.reflect;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.chars.StringAssert;
-import io.github.imsejin.common.assertion.object.ObjectAssert;
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
-@SuppressWarnings("unchecked")
-public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAssert<SELF> {
-
-    private final Package actual;
+public class PackageAssert<SELF extends PackageAssert<SELF>> extends AbstractObjectAssert<SELF, Package> {
 
     public PackageAssert(Package actual) {
         super(actual);
-        this.actual = actual;
     }
 
     public SELF isSuperPackageOf(Package expected) {
@@ -34,7 +31,7 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
             throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     public SELF isSubPackageOf(Package expected) {
@@ -42,13 +39,13 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
             throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public StringAssert<?> asName() {
-        return new StringAssert<>(this.actual.getName());
+        return Asserts.that(actual.getName());
     }
 
 }

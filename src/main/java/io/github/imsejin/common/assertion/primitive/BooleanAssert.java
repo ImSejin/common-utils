@@ -16,43 +16,22 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
-@SuppressWarnings("unchecked")
-public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends Descriptor<SELF> {
-
-    private final Boolean actual;
+public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends AbstractObjectAssert<SELF, Boolean> {
 
     public BooleanAssert(Boolean actual) {
-        this.actual = actual;
-    }
-
-    public SELF isNull() {
-        if (this.actual != null) {
-            as("It is expected to be null, but not null. (actual: '{0}')", this.actual);
-            throw getException();
-        }
-
-        return (SELF) this;
-    }
-
-    public SELF isNotNull() {
-        if (this.actual == null) {
-            as("It is expected to be not null, but null. (actual: 'null')");
-            throw getException();
-        }
-
-        return (SELF) this;
+        super(actual);
     }
 
     public SELF isTrue() {
-        if (!this.actual) throw getException();
-        return (SELF) this;
+        if (!actual) throw getException();
+        return self;
     }
 
     public SELF isFalse() {
-        if (this.actual) throw getException();
-        return (SELF) this;
+        if (actual) throw getException();
+        return self;
     }
 
 }

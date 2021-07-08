@@ -16,22 +16,20 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.util.Objects;
 
-@SuppressWarnings("unchecked")
 public class NumberAssert<
         SELF extends NumberAssert<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>>
-        extends Descriptor<SELF> {
-
-    private final NUMBER actual;
+        extends AbstractObjectAssert<SELF, NUMBER> {
 
     private final NUMBER zero;
 
+    @SuppressWarnings("unchecked")
     public NumberAssert(NUMBER actual) {
-        this.actual = actual;
+        super(actual);
         this.zero = toNumber((NUMBER) Integer.valueOf(0), (Class<NUMBER>) actual.getClass());
     }
 
@@ -42,6 +40,7 @@ public class NumberAssert<
      * @param numberType number type to convert numeric string to number
      * @return converted number
      */
+    @SuppressWarnings("unchecked")
     private static <N extends Number & Comparable<? extends Number>> N toNumber(N number, Class<N> numberType) {
         if (numberType == Byte.class) return (N) Byte.valueOf(number.byteValue());
         if (numberType == Short.class) return (N) Short.valueOf(number.shortValue());
@@ -53,72 +52,56 @@ public class NumberAssert<
         return null;
     }
 
-    public SELF isNull() {
-        if (this.actual != null) {
-            as("It is expected to be null, but not null. (actual: '{0}')", this.actual);
-            throw getException();
-        }
-
-        return (SELF) this;
-    }
-
-    public SELF isNotNull() {
-        if (this.actual == null) {
-            as("It is expected to be not null, but null. (actual: 'null')");
-            throw getException();
-        }
-
-        return (SELF) this;
-    }
-
+    @Override
     public SELF isEqualTo(NUMBER expected) {
-        if (!Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
+        if (!Objects.deepEquals(actual, expected)) throw getException();
+        return self;
     }
 
+    @Override
     public SELF isNotEqualTo(NUMBER expected) {
-        if (Objects.deepEquals(this.actual, expected)) throw getException();
-        return (SELF) this;
+        if (Objects.deepEquals(actual, expected)) throw getException();
+        return self;
     }
 
     public SELF isGreaterThan(NUMBER expected) {
-        if (this.actual.compareTo(expected) <= 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(expected) <= 0) throw getException();
+        return self;
     }
 
     public SELF isGreaterThanOrEqualTo(NUMBER expected) {
-        if (this.actual.compareTo(expected) < 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(expected) < 0) throw getException();
+        return self;
     }
 
     public SELF isLessThan(NUMBER expected) {
-        if (this.actual.compareTo(expected) >= 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(expected) >= 0) throw getException();
+        return self;
     }
 
     public SELF isLessThanOrEqualTo(NUMBER expected) {
-        if (this.actual.compareTo(expected) > 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(expected) > 0) throw getException();
+        return self;
     }
 
     public SELF isPositive() {
-        if (this.actual.compareTo(this.zero) <= 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(this.zero) <= 0) throw getException();
+        return self;
     }
 
     public SELF isZeroOrPositive() {
-        if (this.actual.compareTo(this.zero) < 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(this.zero) < 0) throw getException();
+        return self;
     }
 
     public SELF isNegative() {
-        if (this.actual.compareTo(this.zero) >= 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(this.zero) >= 0) throw getException();
+        return self;
     }
 
     public SELF isZeroOrNegative() {
-        if (this.actual.compareTo(this.zero) > 0) throw getException();
-        return (SELF) this;
+        if (actual.compareTo(this.zero) > 0) throw getException();
+        return self;
     }
 
 }

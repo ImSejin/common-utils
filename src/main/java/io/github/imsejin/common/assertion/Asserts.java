@@ -18,12 +18,12 @@ package io.github.imsejin.common.assertion;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.array.ArrayAssert;
-import io.github.imsejin.common.assertion.chars.CharSequenceAssert;
+import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert;
 import io.github.imsejin.common.assertion.chars.StringAssert;
-import io.github.imsejin.common.assertion.collection.CollectionAssert;
-import io.github.imsejin.common.assertion.io.FileAssert;
-import io.github.imsejin.common.assertion.map.MapAssert;
-import io.github.imsejin.common.assertion.object.ObjectAssert;
+import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
+import io.github.imsejin.common.assertion.io.AbstractFileAssert;
+import io.github.imsejin.common.assertion.map.AbstractMapAssert;
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.assertion.reflect.PackageAssert;
@@ -40,6 +40,7 @@ import java.time.chrono.ChronoZonedDateTime;
 import java.util.Collection;
 import java.util.Map;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class Asserts {
 
     @ExcludeFromGeneratedJacocoReport
@@ -87,8 +88,9 @@ public abstract class Asserts {
 
     ///////////////////////////////////// Characters //////////////////////////////////////
 
-    public static CharSequenceAssert<?> that(CharSequence charSequence) {
-        return new CharSequenceAssert<>(charSequence);
+    public static AbstractCharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
+        return new AbstractCharSequenceAssert(charSequence) {
+        };
     }
 
     public static StringAssert<?> that(String string) {
@@ -97,26 +99,30 @@ public abstract class Asserts {
 
     ///////////////////////////////////// Collection //////////////////////////////////////
 
-    public static <T> CollectionAssert<?, T> that(Collection<T> collection) {
-        return new CollectionAssert<>(collection);
+    public static <T> AbstractCollectionAssert<?, Collection<?>, T> that(Collection<T> collection) {
+        return new AbstractCollectionAssert(collection) {
+        };
     }
 
     //////////////////////////////////// Input/Output /////////////////////////////////////
 
-    public static FileAssert<?> that(File file) {
-        return new FileAssert<>(file);
+    public static AbstractFileAssert<?, File> that(File file) {
+        return new AbstractFileAssert(file) {
+        };
     }
 
     ///////////////////////////////////////// Map /////////////////////////////////////////
 
-    public static <K, V> MapAssert<?, K, V> that(Map<K, V> map) {
-        return new MapAssert<>(map);
+    public static <K, V> AbstractMapAssert<?, Map<?, ?>, K, V> that(Map<K, V> map) {
+        return new AbstractMapAssert(map) {
+        };
     }
 
     /////////////////////////////////////// Object ////////////////////////////////////////
 
-    public static ObjectAssert<?> that(Object object) {
-        return new ObjectAssert<>(object);
+    public static AbstractObjectAssert<?, Object> that(Object object) {
+        return new AbstractObjectAssert(object) {
+        };
     }
 
     ////////////////////////////////////// Primitive //////////////////////////////////////
@@ -155,16 +161,19 @@ public abstract class Asserts {
 
     //////////////////////////////////////// Time /////////////////////////////////////////
 
-    public static ChronoLocalDateAssert<?> that(ChronoLocalDate date) {
-        return new ChronoLocalDateAssert<>(date);
+    public static AbstractChronoLocalDateAssert<?, ChronoLocalDate> that(ChronoLocalDate date) {
+        return new AbstractChronoLocalDateAssert(date) {
+        };
     }
 
-    public static <DATE extends ChronoLocalDate> ChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
-        return new ChronoLocalDateTimeAssert<>(dateTime);
+    public static <DATE extends ChronoLocalDate> AbstractChronoLocalDateTimeAssert<?, ChronoLocalDateTime<DATE>, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
+        return new AbstractChronoLocalDateTimeAssert(dateTime) {
+        };
     }
 
-    public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
-        return new ChronoZonedDateTimeAssert<>(dateTime);
+    public static <DATE extends ChronoLocalDate> AbstractChronoZonedDateTimeAssert<?, ChronoZonedDateTime<DATE>, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
+        return new AbstractChronoZonedDateTimeAssert(dateTime) {
+        };
     }
 
     public static LocalTimeAssert<?> that(LocalTime time) {

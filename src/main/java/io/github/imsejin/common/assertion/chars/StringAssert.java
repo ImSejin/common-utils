@@ -18,97 +18,93 @@ package io.github.imsejin.common.assertion.chars;
 
 import java.util.regex.Pattern;
 
-@SuppressWarnings("unchecked")
-public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceAssert<SELF> {
-
-    private final String actual;
+public class StringAssert<SELF extends StringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
 
     public StringAssert(String actual) {
         super(actual);
-        this.actual = actual;
     }
 
     public SELF hasText() {
-        for (char c : this.actual.toCharArray()) {
-            if (!Character.isWhitespace(c)) return (SELF) this;
+        for (char c : actual.toCharArray()) {
+            if (!Character.isWhitespace(c)) return self;
         }
 
         throw getException();
     }
 
     public SELF isNumeric() {
-        if (this.actual.isEmpty()) throw getException();
+        if (actual.isEmpty()) throw getException();
 
-        for (char c : this.actual.toCharArray()) {
+        for (char c : actual.toCharArray()) {
             if (!Character.isDigit(c)) throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     public SELF isLetter() {
-        for (char c : this.actual.toCharArray()) {
+        for (char c : actual.toCharArray()) {
             if (!Character.isLetter(c)) throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     public SELF isLetterOrDigit() {
-        for (char c : this.actual.toCharArray()) {
+        for (char c : actual.toCharArray()) {
             if (!Character.isLetterOrDigit(c)) throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     public SELF isUpperCase() {
-        for (char c : this.actual.toCharArray()) {
+        for (char c : actual.toCharArray()) {
             if (!Character.isUpperCase(c)) throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     public SELF isLowerCase() {
-        for (char c : this.actual.toCharArray()) {
+        for (char c : actual.toCharArray()) {
             if (!Character.isLowerCase(c)) throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     public SELF isAlphabetic() {
-        for (char c : this.actual.toCharArray()) {
+        for (char c : actual.toCharArray()) {
             if (!Character.isAlphabetic(c)) throw getException();
         }
 
-        return (SELF) this;
+        return self;
     }
 
     public SELF startsWith(String expected) {
-        if (!this.actual.startsWith(expected)) throw getException();
-        return (SELF) this;
+        if (!actual.startsWith(expected)) throw getException();
+        return self;
     }
 
     public SELF endsWith(String expected) {
-        if (!this.actual.endsWith(expected)) throw getException();
-        return (SELF) this;
+        if (!actual.endsWith(expected)) throw getException();
+        return self;
     }
 
     public SELF contains(CharSequence expected) {
-        if (!this.actual.contains(expected)) throw getException();
-        return (SELF) this;
+        if (!actual.contains(expected)) throw getException();
+        return self;
     }
 
     public SELF matches(String expected) {
-        if (!this.actual.matches(expected)) throw getException();
-        return (SELF) this;
+        if (!actual.matches(expected)) throw getException();
+        return self;
     }
 
     public SELF matches(Pattern expected) {
-        if (!expected.matcher(this.actual).matches()) throw getException();
-        return (SELF) this;
+        if (!expected.matcher(actual).matches()) throw getException();
+        return self;
     }
 
 }
