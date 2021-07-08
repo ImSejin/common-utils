@@ -305,6 +305,34 @@ class DoubleAssertTest {
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
+    @Nested
+    @DisplayName("method 'hasDecimalPart()'")
+    class HasDecimalPart {
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                -123.456, -0.123456, -Float.MIN_VALUE, -Double.MIN_VALUE,
+                Double.MIN_VALUE, Float.MIN_VALUE, 0.123456, 123.456,
+        })
+        @DisplayName("passes, when actual has decimal part")
+        void test0(double actual) {
+            assertThatCode(() -> Asserts.that(actual).hasDecimalPart())
+                    .doesNotThrowAnyException();
+        }
+
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                -123456.0, -Float.MAX_VALUE, -Double.MAX_VALUE, 0,
+                Double.MAX_VALUE, Float.MAX_VALUE, 1.0, 123456.0,
+        })
+        @DisplayName("throws exception, when actual doesn't have decimal part")
+        void test1(double actual) {
+            assertThatCode(() -> Asserts.that(actual).hasDecimalPart())
+                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     private static Stream<Arguments> equality() {
         Map<Double, Double> map = new HashMap<>();
         map.put((double) Character.valueOf('\u0000'), 0D);
