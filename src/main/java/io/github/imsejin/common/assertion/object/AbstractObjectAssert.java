@@ -75,7 +75,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     public SELF isEqualTo(ACTUAL expected) {
         if (!Objects.deepEquals(actual, expected)) {
             setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected.getClass(), actual.getClass());
+                    expected, actual);
             throw getException();
         }
 
