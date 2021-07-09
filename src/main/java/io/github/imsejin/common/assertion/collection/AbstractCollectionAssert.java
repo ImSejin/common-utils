@@ -22,9 +22,9 @@ import java.util.Collection;
 
 public abstract class AbstractCollectionAssert<
         SELF extends AbstractCollectionAssert<SELF, ACTUAL, T>,
-        ACTUAL extends Collection<?>,
+        ACTUAL extends Collection<T>,
         T>
-        extends AbstractObjectAssert<SELF, Collection<?>> {
+        extends AbstractObjectAssert<SELF, Collection<T>> {
 
     protected AbstractCollectionAssert(ACTUAL target) {
         super(target);
@@ -45,12 +45,12 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
-    public SELF isSameSize(ACTUAL expected) {
+    public SELF isSameSize(Collection<?> expected) {
         if (expected == null || actual.size() != expected.size()) throw getException();
         return self;
     }
 
-    public SELF isNotSameSize(ACTUAL expected) {
+    public SELF isNotSameSize(Collection<?> expected) {
         if (expected != null && actual.size() == expected.size()) throw getException();
         return self;
     }
@@ -60,7 +60,7 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
-    public SELF containsAll(ACTUAL expected) {
+    public SELF containsAll(Collection<T> expected) {
         if (expected == null || !actual.containsAll(expected)) throw getException();
         return self;
     }

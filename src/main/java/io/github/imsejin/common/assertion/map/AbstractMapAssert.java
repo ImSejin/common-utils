@@ -91,12 +91,14 @@ public abstract class AbstractMapAssert<
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    public AbstractCollectionAssert<?, Collection<?>, ?> asKeySet() {
-        return Asserts.that(actual.keySet());
+    @SuppressWarnings("unchecked")
+    public AbstractCollectionAssert<?, Collection<K>, K> asKeySet() {
+        return Asserts.that((Collection<K>) actual.keySet());
     }
 
-    public AbstractCollectionAssert<?, Collection<?>, ?> asValues() {
-        return Asserts.that(actual.values());
+    @SuppressWarnings("unchecked")
+    public AbstractCollectionAssert<?, Collection<V>, V> asValues() {
+        return Asserts.that((Collection<V>) actual.values());
     }
 
 }

@@ -115,7 +115,7 @@ public abstract class Asserts {
 
     ///////////////////////////////////// Collection //////////////////////////////////////
 
-    public static <T> AbstractCollectionAssert<?, Collection<?>, T> that(Collection<T> collection) {
+    public static <T> AbstractCollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
         return new AbstractCollectionAssert(collection) {
         };
     }
