@@ -66,39 +66,39 @@ public abstract class Asserts {
 
     //////////////////////////////////////// Array ////////////////////////////////////////
 
-    public static ArrayAssert<?, Boolean> that(boolean[] array) {
+    public static ArrayAssert<?> that(boolean[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static ArrayAssert<?, Byte> that(byte[] array) {
+    public static ArrayAssert<?> that(byte[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static ArrayAssert<?, Character> that(char[] array) {
+    public static ArrayAssert<?> that(char[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static ArrayAssert<?, Double> that(double[] array) {
+    public static ArrayAssert<?> that(double[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static ArrayAssert<?, Float> that(float[] array) {
+    public static ArrayAssert<?> that(float[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static ArrayAssert<?, Integer> that(int[] array) {
+    public static ArrayAssert<?> that(int[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static ArrayAssert<?, Long> that(long[] array) {
+    public static ArrayAssert<?> that(long[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static ArrayAssert<?, Short> that(short[] array) {
+    public static ArrayAssert<?> that(short[] array) {
         return new ArrayAssert<>(ArrayUtils.toWrapper(array));
     }
 
-    public static <T> ArrayAssert<?, T> that(T[] array) {
+    public static <T> ArrayAssert<?> that(T[] array) {
         return new ArrayAssert<>(array);
     }
 

@@ -19,45 +19,67 @@ package io.github.imsejin.common.assertion.array;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.util.Arrays;
+import java.util.Objects;
 
-public class ArrayAssert<SELF extends ArrayAssert<SELF, ACTUAL>, ACTUAL> extends AbstractObjectAssert<SELF, ACTUAL[]> {
+public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectAssert<SELF, Object[]> {
 
-    public ArrayAssert(ACTUAL[] actual) {
+    public ArrayAssert(Object[] actual) {
         super(actual);
     }
 
+    @Override
+    public SELF isEqualTo(Object[] expected) {
+        if (!Objects.deepEquals(actual, expected)) {
+            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
+                    Arrays.toString(expected), Arrays.toString(actual));
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isNotEqualTo(Object[] expected) {
+        if (Objects.deepEquals(actual, expected)) {
+            setDefaultDescription("They are expected to be not equal, but they aren't. (expected: '{0}', actual: '{1}')",
+                    Arrays.toString(expected), Arrays.toString(actual));
+            throw getException();
+        }
+
+        return self;
+    }
+
     public SELF isEmpty() {
-        if (this.actual.length > 0) throw getException();
+        if (actual.length > 0) throw getException();
         return self;
     }
 
     public SELF hasElement() {
-        if (this.actual.length == 0) throw getException();
+        if (actual.length == 0) throw getException();
         return self;
     }
 
     public SELF hasLengthOf(int expected) {
-        if (this.actual.length != expected) throw getException();
+        if (actual.length != expected) throw getException();
         return self;
     }
 
-    public SELF isSameLength(ACTUAL[] expected) {
-        if (expected == null || this.actual.length != expected.length) throw getException();
+    public SELF isSameLength(Object[] expected) {
+        if (expected == null || actual.length != expected.length) throw getException();
         return self;
     }
 
-    public SELF isNotSameLength(ACTUAL[] expected) {
-        if (expected != null && this.actual.length == expected.length) throw getException();
+    public SELF isNotSameLength(Object[] expected) {
+        if (expected != null && actual.length == expected.length) throw getException();
         return self;
     }
 
-    public SELF contains(ACTUAL expected) {
-        if (!Arrays.asList(this.actual).contains(expected)) throw getException();
-        return self;
+    public SELF contains(Object... expected) {
+        return containsAll(expected);
     }
 
-    public SELF containsAll(ACTUAL[] expected) {
-        if (expected == null || !Arrays.asList(this.actual).containsAll(Arrays.asList(expected))) {
+    public SELF containsAll(Object[] expected) {
+        if (expected == null || !Arrays.asList(actual).containsAll(Arrays.asList(expected))) {
             throw getException();
         }
 
