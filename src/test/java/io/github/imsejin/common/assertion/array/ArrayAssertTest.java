@@ -333,6 +333,8 @@ class ArrayAssertTest {
                     .withMessageStartingWith("They are expected to be the same length, but they aren't.");
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128]).isSameLength(new String[256]))
                     .withMessageStartingWith("They are expected to be the same length, but they aren't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256]).isSameLength(null))
+                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
         }
     }
 
@@ -377,6 +379,8 @@ class ArrayAssertTest {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64]).isNotSameLength(new Stopwatch[64]))
                     .withMessageStartingWith("They are expected to be not the same length, but they are.");
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128]).isNotSameLength(new String[128]))
+                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256]).isNotSameLength(null))
                     .withMessageStartingWith("They are expected to be not the same length, but they are.");
         }
     }
