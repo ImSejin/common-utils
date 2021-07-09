@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion.collection;
 
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.array.ArrayAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.util.Collection;
@@ -63,6 +65,12 @@ public abstract class AbstractCollectionAssert<
     public SELF containsAll(Collection<T> expected) {
         if (expected == null || !actual.containsAll(expected)) throw getException();
         return self;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public ArrayAssert<?> asArray() {
+        return Asserts.that(actual.toArray());
     }
 
 }
