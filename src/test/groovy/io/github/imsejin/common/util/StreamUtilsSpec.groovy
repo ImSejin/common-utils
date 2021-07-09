@@ -20,7 +20,7 @@ import spock.lang.Specification
 
 class StreamUtilsSpec extends Specification {
 
-    def "ToStream"() {
+    def "toStream"() {
         given:
         def list = ['q', 'w', 'e', 'r', 't', 'y']
 

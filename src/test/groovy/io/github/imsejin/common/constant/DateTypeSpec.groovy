@@ -20,7 +20,7 @@ import spock.lang.Specification
 
 class DateTypeSpec extends Specification {
 
-    def "Contains"() {
+    def "contains"() {
         expect:
         DateType.contains(pattern)
 
@@ -30,13 +30,13 @@ class DateTypeSpec extends Specification {
                     'yyyy-MM-dd', 'HH:mm:ss', 'HH:mm:ss.SSS', 'yyyy-MM-dd HH:mm:ss', 'yyyy-MM-dd HH:mm:ss.SSS']
     }
 
-    def "Of"() {
+    def "from"() {
         when:
         def dateType = DateType.from(pattern)
 
         then:
         dateType != null
-        dateType.getPattern() == pattern
+        dateType.pattern == pattern
 
         where:
         pattern << ['yyyy', 'MM', 'dd', 'HH', 'mm', 'ss', 'SSS',

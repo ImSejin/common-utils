@@ -20,7 +20,7 @@ import spock.lang.Specification
 
 class OperatingSystemSpec extends Specification {
 
-    def "Contains"() {
+    def "contains"() {
         expect:
         OperatingSystem.contains(keyword)
 
@@ -28,7 +28,7 @@ class OperatingSystemSpec extends Specification {
         keyword << ['win', 'mac', 'nix', 'nux', 'aix', 'sunos']
     }
 
-    def "Of"() {
+    def "of"() {
         when:
         def os = OperatingSystem.of(keyword).orElse(null)
 
