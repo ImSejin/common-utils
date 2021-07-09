@@ -19,6 +19,7 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 /**
  * Array utilities
@@ -326,6 +327,25 @@ public final class ArrayUtils {
         }
 
         return shorts;
+    }
+
+    /**
+     * Returns stringified object regardless of whether it is null or array.
+     *
+     * <pre><code>
+     *     toString(null);                          // "null"
+     *     toString(new int[] {0, 1, 2});           // "[0, 1, 2]"
+     *     toString(new Object());                  // "java.lang.Object@28c97a5"
+     *     toString(Arrays.asList("io", "github")); // "[io, github]"
+     * </code></pre>
+     *
+     * @param array maybe array
+     * @return stringified object
+     */
+    public static String toString(@Nullable Object array) {
+        if (array == null) return "null";
+        if (array.getClass().isArray()) return Arrays.toString((Object[]) array);
+        return array.toString();
     }
 
 }
