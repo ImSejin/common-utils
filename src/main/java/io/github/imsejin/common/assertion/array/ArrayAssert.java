@@ -99,13 +99,19 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
         return self;
     }
 
-    public SELF contains(Object... expected) {
-        return containsAll(expected);
+    public SELF contains(Object expected) {
+        for (Object element : actual) {
+            if (Objects.deepEquals(element, expected)) return self;
+        }
+
+        setDefaultDescription("It is expected to contain the given element, but it doesn't. (expected: '{0}', actual: '{1}')",
+                ArrayUtils.toString(expected), Arrays.toString(actual));
+        throw getException();
     }
 
     public SELF containsAll(Object[] expected) {
-        if (expected == null || !Arrays.asList(actual).containsAll(Arrays.asList(expected))) {
-            throw getException();
+        for (Object element : expected) {
+            contains(element);
         }
 
         return self;
