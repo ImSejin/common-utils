@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.array;
 
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -41,7 +42,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     @Override
     public SELF isNotEqualTo(Object[] expected) {
         if (Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be not equal, but they aren't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
                     Arrays.toString(expected), Arrays.toString(actual));
             throw getException();
         }
@@ -50,27 +51,51 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     }
 
     public SELF isEmpty() {
-        if (actual.length > 0) throw getException();
+        if (actual.length > 0) {
+            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')'",
+                    Arrays.toString(actual));
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasElement() {
-        if (actual.length == 0) throw getException();
+        if (actual.length == 0) {
+            setDefaultDescription("It is expected to have element, but it isn't. (actual: '[]')'");
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasLengthOf(int expected) {
-        if (actual.length != expected) throw getException();
+        if (actual.length != expected) {
+            setDefaultDescription("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isSameLength(Object[] expected) {
-        if (expected == null || actual.length != expected.length) throw getException();
+        if (expected == null || actual.length != expected.length) {
+            setDefaultDescription("They are expected to be the same length, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotSameLength(Object[] expected) {
-        if (expected != null && actual.length == expected.length) throw getException();
+        if (expected != null && actual.length == expected.length) {
+            setDefaultDescription("They are expected to be not the same length, but they are. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length);
+            throw getException();
+        }
+
         return self;
     }
 
