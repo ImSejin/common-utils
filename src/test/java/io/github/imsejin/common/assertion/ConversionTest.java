@@ -110,6 +110,22 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Test
+    @DisplayName("asSuperclass(): Class -> Class")
+    void asSuperclass() {
+        assertThatNoException().isThrownBy(() -> Asserts.that(NumberFormatException.class).isNotNull()
+                .asSuperclass().isEqualTo(IllegalArgumentException.class)
+                .isSuperclassOf(NumberFormatException.class).isSubclassOf(RuntimeException.class)
+                .asSuperclass().isEqualTo(RuntimeException.class)
+                .isSuperclassOf(IllegalArgumentException.class).isSubclassOf(Exception.class)
+                .asSuperclass().isEqualTo(Exception.class)
+                .isSuperclassOf(RuntimeException.class).isSubclassOf(Throwable.class)
+                .asSuperclass().isEqualTo(Throwable.class)
+                .isSuperclassOf(Exception.class).isSubclassOf(Object.class)
+                .asSuperclass().isEqualTo(Object.class)
+                .isSuperclassOf(Throwable.class).isSubclassOf(null));
+    }
+
+    @Test
     @DisplayName("asPackage(): Class -> Package")
     void asPackage() {
         assertThatNoException().isThrownBy(() -> Asserts.that(AbstractObjectAssert.class).isNotNull()

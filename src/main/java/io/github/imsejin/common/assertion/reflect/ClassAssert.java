@@ -147,6 +147,10 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
+    public ClassAssert<?, ?> asSuperclass() {
+        return Asserts.that(actual.getSuperclass());
+    }
+
     public PackageAssert<?> asPackage() {
         return Asserts.that(actual.getPackage());
     }
