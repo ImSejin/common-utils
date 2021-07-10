@@ -58,6 +58,9 @@ import java.util.Map;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class Asserts {
 
+    /**
+     * Enables to customize Asserts class with inheritance.
+     */
     protected Asserts() {
     }
 

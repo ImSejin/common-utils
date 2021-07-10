@@ -28,6 +28,14 @@ import java.util.function.Predicate;
 
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL> extends Descriptor<SELF> {
 
+    /**
+     * Actual value or something to be validated.
+     * <p>
+     * We shouldn't check if it is null in any assertion classes.
+     * The user is responsible for checking that. If you want to avoid
+     * {@link NullPointerException}, you check if it is null explicitly
+     * using {@link #isNotNull()}.
+     */
     protected final ACTUAL actual;
 
     protected AbstractObjectAssert(ACTUAL actual) {
