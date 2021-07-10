@@ -127,7 +127,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
      * </code></pre>
      */
     public SELF containsAny(Object... expected) {
-        if (expected.length == 0) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
 
         for (Object item : expected) {
             for (Object element : actual) {
@@ -141,6 +141,8 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     }
 
     public SELF containsAll(Object[] expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+
         for (Object element : expected) {
             contains(element);
         }
