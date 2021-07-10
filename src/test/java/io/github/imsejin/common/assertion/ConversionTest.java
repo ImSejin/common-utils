@@ -51,6 +51,8 @@ class ConversionTest {
                 .containsAny("java", "lang", "imsejin").containsAll(new String[0]));
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     @Test
     @DisplayName("asKeySet(): Map -> Collection")
     void asKeySet() {
@@ -79,6 +81,8 @@ class ConversionTest {
                 .isSameSize(Arrays.asList(packageName.split("\\."))));
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     @Test
     @DisplayName("asString(): Object -> String")
     void asString() {
@@ -103,6 +107,8 @@ class ConversionTest {
                 .asClass().isSameAs(Class.class).isEqualTo(text.getClass().getClass()));
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     @Test
     @DisplayName("asPackage(): Class -> Package")
     void asPackage() {
@@ -111,12 +117,16 @@ class ConversionTest {
                 .returns("io.github.imsejin.common.assertion.object", Package::getName));
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     @Test
     @DisplayName("asName(): Package -> String")
     void asName() {
         assertThatNoException().isThrownBy(() -> Asserts.that(ClassAssert.class.getPackage()).isNotNull()
                 .asName().returns("io/github/imsejin/common/assertion/reflect", it -> it.replace('.', '/')));
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     @DisplayName("asLocalDate(): ChronoLocalDateTime -> ChronoLocalDate")
@@ -134,5 +144,7 @@ class ConversionTest {
                 .isNotNull().isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
                 .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
 
 }
