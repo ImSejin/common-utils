@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.array.ArrayAssert;
 import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert;
 import io.github.imsejin.common.assertion.chars.StringAssert;
@@ -59,9 +58,7 @@ import java.util.Map;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class Asserts {
 
-    @ExcludeFromGeneratedJacocoReport
-    private Asserts() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+    protected Asserts() {
     }
 
     //////////////////////////////////////// Array ////////////////////////////////////////
