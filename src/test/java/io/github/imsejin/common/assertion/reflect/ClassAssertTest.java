@@ -160,13 +160,27 @@ class ClassAssertTest {
     @DisplayName("method 'isSuperclassOf'")
     class IsSuperclassOf {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is superclass of the given type")
         void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Throwable.class).isSuperclassOf(Exception.class);
+                Asserts.that(Exception.class).isSuperclassOf(RuntimeException.class);
+                Asserts.that(RuntimeException.class).isSuperclassOf(IllegalArgumentException.class);
+            });
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not superclass of the given type")
         void test1() {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IllegalArgumentException.class)
+                    .isSuperclassOf(RuntimeException.class))
+                    .withMessageStartingWith("");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
+                    .isSuperclassOf(Exception.class))
+                    .withMessageStartingWith("");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
+                    .isSuperclassOf(Throwable.class))
+                    .withMessageStartingWith("");
         }
     }
 
