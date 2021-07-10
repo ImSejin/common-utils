@@ -35,13 +35,13 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
 
     @Override
     public SELF isEqualTo(OffsetDateTime expected) {
-        if (!this.actual.isEqual(expected)) throw getException();
+        if (!actual.isEqual(expected)) throw getException();
         return self;
     }
 
     @Override
     public SELF isNotEqualTo(OffsetDateTime expected) {
-        if (this.actual.isEqual(expected)) throw getException();
+        if (actual.isEqual(expected)) throw getException();
         return self;
     }
 
@@ -52,7 +52,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
      * @see LocalTimeAssert#isBefore(LocalTime)
      */
     public SELF isBefore(OffsetDateTime expected) {
-        if (!this.actual.isBefore(expected)) throw getException();
+        if (!actual.isBefore(expected)) throw getException();
         return self;
     }
 
@@ -63,7 +63,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
      * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
      */
     public SELF isBeforeOrEqualTo(OffsetDateTime expected) {
-        if (this.actual.compareTo(expected) > 0) throw getException();
+        if (actual.compareTo(expected) > 0) throw getException();
         return self;
     }
 
@@ -74,7 +74,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
      * @see LocalTimeAssert#isAfter(LocalTime)
      */
     public SELF isAfter(OffsetDateTime expected) {
-        if (!this.actual.isAfter(expected)) throw getException();
+        if (!actual.isAfter(expected)) throw getException();
         return self;
     }
 
@@ -85,7 +85,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
      * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)
      */
     public SELF isAfterOrEqualTo(OffsetDateTime expected) {
-        if (this.actual.compareTo(expected) < 0) throw getException();
+        if (actual.compareTo(expected) < 0) throw getException();
         return self;
     }
 
@@ -93,7 +93,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
      * @see OffsetTimeAssert#isSameOffset(ZoneOffset)
      */
     public SELF isSameOffset(ZoneOffset expected) {
-        if (!this.actual.getOffset().equals(expected)) throw getException();
+        if (!actual.getOffset().equals(expected)) throw getException();
         return self;
     }
 
@@ -101,7 +101,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
      * @see OffsetTimeAssert#isNotSameOffset(ZoneOffset)
      */
     public SELF isNotSameOffset(ZoneOffset expected) {
-        if (this.actual.getOffset().equals(expected)) throw getException();
+        if (actual.getOffset().equals(expected)) throw getException();
         return self;
     }
 

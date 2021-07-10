@@ -27,7 +27,7 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends AbstractObj
     }
 
     public SELF isSuperPackageOf(Package expected) {
-        if (this.actual.equals(expected) || !(expected.getName() + '.').startsWith(this.actual.getName())) {
+        if (actual.equals(expected) || !(expected.getName() + '.').startsWith(actual.getName())) {
             throw getException();
         }
 
@@ -35,7 +35,7 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends AbstractObj
     }
 
     public SELF isSubPackageOf(Package expected) {
-        if (this.actual.equals(expected) || !(this.actual.getName() + '.').startsWith(expected.getName())) {
+        if (actual.equals(expected) || !(actual.getName() + '.').startsWith(expected.getName())) {
             throw getException();
         }
 
