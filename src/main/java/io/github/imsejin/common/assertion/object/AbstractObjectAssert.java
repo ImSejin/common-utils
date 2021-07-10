@@ -99,13 +99,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
      * Primitive type cannot instantiate, so return value of
      * {@link Class#isInstance(Object)} is always {@code false}.
      *
-     * @param type type
+     * @param expected type
      * @return whether this is instance of the type
      */
-    public SELF isInstanceOf(Class<?> type) {
-        if (!TypeClassifier.toWrapper(type).isInstance(actual)) {
+    public SELF isInstanceOf(Class<?> expected) {
+        if (!TypeClassifier.toWrapper(expected).isInstance(actual)) {
             setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')",
-                    type, actual);
+                    expected, actual);
             throw getException();
         }
 
