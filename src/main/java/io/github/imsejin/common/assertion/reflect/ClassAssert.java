@@ -39,7 +39,12 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      * @return whether this is type of the instance
      */
     public SELF isTypeOf(Object expected) {
-        if (!TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
+        if (!TypeClassifier.toWrapper(actual).isInstance(expected)) {
+            setDefaultDescription("It is expected to be type of the instance, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -54,7 +59,12 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      * @return whether this is not type of the instance
      */
     public SELF isNotTypeOf(Object expected) {
-        if (TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
+        if (TypeClassifier.toWrapper(actual).isInstance(expected)) {
+            setDefaultDescription("It is expected to be not type of the instance, but it is. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -63,7 +73,12 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      * @return whether this is assignable from given type
      */
     public SELF isAssignableFrom(Class<?> expected) {
-        if (!actual.isAssignableFrom(expected)) throw getException();
+        if (!actual.isAssignableFrom(expected)) {
+            setDefaultDescription("It is expected to be assignable from the given type, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
