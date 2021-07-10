@@ -29,31 +29,31 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     /**
-     * Verifies this is actual type of the instance.
+     * Verifies this is type of the instance.
      * <p>
      * If you input a primitive type, it is converted to wrapper type.
      * Primitive type cannot instantiate, so return value of
      * {@link Class#isInstance(Object)} is always {@code false}.
      *
      * @param expected instance of this type
-     * @return whether this is actual type of the instance
+     * @return whether this is type of the instance
      */
-    public SELF isActualTypeOf(Object expected) {
+    public SELF isTypeOf(Object expected) {
         if (!TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
         return self;
     }
 
     /**
-     * Verifies this is not actual type of the instance.
+     * Verifies this is not type of the instance.
      * <p>
      * If you input a primitive type, it is converted to wrapper type.
      * Primitive type cannot instantiate, so return value of
      * {@link Class#isInstance(Object)} is always {@code false}.
      *
      * @param expected instance of non-matched this type
-     * @return whether this is not actual type of the instance
+     * @return whether this is not type of the instance
      */
-    public SELF isNotActualTypeOf(Object expected) {
+    public SELF isNotTypeOf(Object expected) {
         if (TypeClassifier.toWrapper(actual).isInstance(expected)) throw getException();
         return self;
     }
