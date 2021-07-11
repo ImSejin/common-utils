@@ -116,15 +116,18 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
      *
      * <pre><code>
      *     if (expected.length == 0) return self;
-     *     if (actual.length == 0 && expected.length == 0) return self;
+     *     if (actual.length == 0 {@literal &&} expected.length == 0) return self;
      *
      *     if (!IntStream.range(0, Math.min(actual.length, expected.length))
-     *             .anyMatch(i -> Objects.deepEquals(actual[i], expected[i]))) {
+     *             .anyMatch(i -&gt; Objects.deepEquals(actual[i], expected[i]))) {
      *         throw getException();
      *     }
      *
      *     return self;
      * </code></pre>
+     *
+     * @param expected expected array
+     * @return self
      */
     public SELF containsAny(Object... expected) {
         if (ArrayUtils.isNullOrEmpty(expected)) return self;

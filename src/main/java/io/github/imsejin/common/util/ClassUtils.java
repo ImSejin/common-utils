@@ -40,27 +40,27 @@ public final class ClassUtils {
      * +--------+--------+----------------+----------+-------+
      * | JDK \  | isEnum | getSuperclass  | abstract | final |
      * +--------+--------+----------------+----------+-------+
-     * |  8 >=  | true   | java.lang.Enum | true     | false |
+     * |  8 &gt;=  | true   | java.lang.Enum | true     | false |
      * +--------+--------+----------------+----------+-------+
-     * |  9 <=  | true   | java.lang.Enum | false    | true  |
+     * |  9 &lt;=  | true   | java.lang.Enum | false    | true  |
      * +--------+--------+----------------+----------+-------+
      *
      * 2. A class that has no body, declared in enum class body as a constant: {@link java.time.Month#JANUARY}
      * +--------+--------+----------------+----------+-------+
      * | JDK \  | isEnum | getSuperclass  | abstract | final |
      * +--------+--------+----------------+----------+-------+
-     * |  8 >=  | true   | java.lang.Enum | false    | true  |
+     * |  8 &gt;=  | true   | java.lang.Enum | false    | true  |
      * +--------+--------+----------------+----------+-------+
-     * |  9 <=  | true   | java.lang.Enum | false    | true  |
+     * |  9 &lt;=  | true   | java.lang.Enum | false    | true  |
      * +--------+--------+----------------+----------+-------+
      *
      * 3. A class that has own body, declared in enum class body as a constant: {@link java.util.concurrent.TimeUnit#HOURS}
      * +--------+--------+-------------------------------+----------+-------+
      * | JDK \  | isEnum | getSuperclass                 | abstract | final |
      * +--------+--------+-------------------------------+----------+-------+
-     * |  8 >=  | false  | java.util.concurrent.TimeUnit | false    | false |
+     * |  8 &gt;=  | false  | java.util.concurrent.TimeUnit | false    | false |
      * +--------+--------+-------------------------------+----------+-------+
-     * |  9 <=  | true   | java.lang.Enum                | false    | true  |
+     * |  9 &lt;=  | true   | java.lang.Enum                | false    | true  |
      * +--------+--------+-------------------------------+----------+-------+
      * </pre>
      *
