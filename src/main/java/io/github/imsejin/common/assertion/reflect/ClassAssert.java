@@ -87,7 +87,12 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      * @return whether this is super class of given type
      */
     public SELF isSuperclassOf(Class<?> expected) {
-        if (actual != expected.getSuperclass()) throw getException();
+        if (actual != expected.getSuperclass()) {
+            setDefaultDescription("It is expected to be superclass of the given type, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -96,22 +101,47 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      * @return whether this is sub class of given type
      */
     public SELF isSubclassOf(Class<?> expected) {
-        if (actual.getSuperclass() != expected) throw getException();
+        if (actual.getSuperclass() != expected) {
+            setDefaultDescription("It is expected to be subclass of the given type, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
         return self;
     }
 
     public SELF isPrimitive() {
-        if (!actual.isPrimitive()) throw getException();
+        if (!actual.isPrimitive()) {
+            setDefaultDescription("It is expected to be primitive, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
+    /**
+     * Verifies whether this class is interface.
+     * <p>
+     * All annotations are passed this assertion
+     * because they extends {@link java.lang.annotation.Annotation}.
+     *
+     * @return whether is is interface
+     * @see #isAnnotation()
+     */
     public SELF isInterface() {
-        if (!actual.isInterface()) throw getException();
+        if (!actual.isInterface()) {
+            setDefaultDescription("It is expected to be interface, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isAnnotation() {
-        if (!actual.isAnnotation()) throw getException();
+        if (!actual.isAnnotation()) {
+            setDefaultDescription("It is expected to be annotation, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -121,7 +151,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     public SELF isAnonymousClass() {
-        if (!actual.isAnonymousClass()) throw getException();
+        if (!actual.isAnonymousClass()) {
+            setDefaultDescription("It is expected to be anonymous class, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -131,17 +165,29 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     public SELF isArray() {
-        if (!actual.isArray()) throw getException();
+        if (!actual.isArray()) {
+            setDefaultDescription("It is expected to be array, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isMemberClass() {
-        if (!actual.isMemberClass()) throw getException();
+        if (!actual.isMemberClass()) {
+            setDefaultDescription("It is expected to be member class, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLocalClass() {
-        if (!actual.isLocalClass()) throw getException();
+        if (!actual.isLocalClass()) {
+            setDefaultDescription("It is expected to be local class, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
