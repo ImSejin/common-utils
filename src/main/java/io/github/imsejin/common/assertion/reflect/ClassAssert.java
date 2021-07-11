@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.reflect;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
+import io.github.imsejin.common.util.ClassUtils;
 
 import java.lang.reflect.Modifier;
 
@@ -146,7 +147,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     public SELF isAbstractClass() {
-        if (!Modifier.isAbstract(actual.getModifiers())) throw getException();
+        if (!ClassUtils.isAbstractClass(actual)) {
+            setDefaultDescription("It is expected to be abstract class, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -160,7 +165,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     public SELF isEnum() {
-        if (!actual.isEnum()) throw getException();
+        if (!ClassUtils.isEnumOrEnumConstant(actual)) {
+            setDefaultDescription("It is expected to be enum, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
