@@ -18,23 +18,51 @@ package io.github.imsejin.common.assertion.reflect;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.constant.DateType;
+import io.github.imsejin.common.tool.TypeClassifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
+import java.time.DayOfWeek;
+import java.time.Month;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @DisplayName("ClassAssert")
 class ClassAssertTest {
+
+    private static final List<Class<?>> INTERFACES = Arrays.asList(
+            CharSequence.class, Function.class, Member.class, Annotation.class);
+    private static final List<Class<?>> ANNOTATIONS = Arrays.asList(
+            Override.class, SuppressWarnings.class, SafeVarargs.class, FunctionalInterface.class);
+    private static final List<Class<?>> ENUMS = Arrays.asList(
+            TimeUnit.class, DateType.class, DayOfWeek.class, Month.class);
+    private static final List<Class<?>> ENUM_CONSTANTS = Stream.concat(
+            EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream())
+            .map(Object::getClass).collect(toList());
+    private static final List<Class<?>> ABSTRACT_CLASSES = Arrays.asList(
+            OutputStream.class, EnumSet.class, Asserts.class, Number.class);
+    private static final List<Class<?>> ANONYMOUS_CLASSES = Arrays.asList(
+            new Asserts() {
+            }.getClass(),
+            new Random() {
+            }.getClass());
+    private static final List<Class<?>> ARRAYS = Arrays.asList(
+            int[].class, Member[].class, Override[].class, Month[].class, Number[].class);
 
     @Nested
     @DisplayName("method 'isTypeOf'")
@@ -174,13 +202,13 @@ class ClassAssertTest {
         void test1() {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IllegalArgumentException.class)
                     .isSuperclassOf(RuntimeException.class))
-                    .withMessageStartingWith("");
+                    .withMessageStartingWith("It is expected to be superclass of the given type, but it isn't.");
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
                     .isSuperclassOf(Exception.class))
-                    .withMessageStartingWith("");
+                    .withMessageStartingWith("It is expected to be superclass of the given type, but it isn't.");
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
                     .isSuperclassOf(Throwable.class))
-                    .withMessageStartingWith("");
+                    .withMessageStartingWith("It is expected to be superclass of the given type, but it isn't.");
         }
     }
 
@@ -190,13 +218,28 @@ class ClassAssertTest {
     @DisplayName("method 'isSubclassOf'")
     class IsSubclassOf {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is subclass of the given type")
         void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(IllegalArgumentException.class).isSubclassOf(RuntimeException.class);
+                Asserts.that(RuntimeException.class).isSubclassOf(Exception.class);
+                Asserts.that(Exception.class).isSubclassOf(Throwable.class);
+            });
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not subclass of the given type")
         void test1() {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Throwable.class)
+                    .isSubclassOf(Exception.class))
+                    .withMessageStartingWith("It is expected to be subclass of the given type, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
+                    .isSubclassOf(RuntimeException.class))
+                    .withMessageStartingWith("It is expected to be subclass of the given type, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
+                    .isSubclassOf(IllegalArgumentException.class))
+                    .withMessageStartingWith("It is expected to be subclass of the given type, but it isn't.");
+
         }
     }
 
@@ -206,13 +249,19 @@ class ClassAssertTest {
     @DisplayName("method 'isPrimitive'")
     class IsPrimitive {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is primitive")
         void test0() {
+            assertThatNoException().isThrownBy(() -> TypeClassifier.Types.PRIMITIVE.getClasses()
+                    .forEach(actual -> Asserts.that(actual).isPrimitive()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not primitive")
         void test1() {
+            TypeClassifier.Types.WRAPPER.getClasses()
+                    .forEach(actual -> assertThatIllegalArgumentException()
+                            .isThrownBy(() -> Asserts.that(actual).isPrimitive())
+                            .withMessageStartingWith("It is expected to be primitive, but it isn't."));
         }
     }
 
@@ -222,13 +271,26 @@ class ClassAssertTest {
     @DisplayName("method 'isInterface'")
     class IsInterface {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is interface")
         void test0() {
+            List<Class<?>> classes = Stream.of(INTERFACES, ANNOTATIONS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            assertThatNoException().isThrownBy(() -> classes
+                    .forEach(actual -> Asserts.that(actual).isInterface()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not interface")
         void test1() {
+            List<Class<?>> classes = Stream.of(
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), ENUMS,
+                    ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isInterface())
+                    .withMessageStartingWith("It is expected to be interface, but it isn't."));
         }
     }
 
@@ -238,13 +300,23 @@ class ClassAssertTest {
     @DisplayName("method 'isAnnotation'")
     class IsAnnotation {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is annotation")
         void test0() {
+            assertThatNoException().isThrownBy(() -> ANNOTATIONS
+                    .forEach(actual -> Asserts.that(actual).isAnnotation()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not annotation")
         void test1() {
+            List<Class<?>> classes = Stream.of(
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES, ENUMS,
+                    ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isAnnotation())
+                    .withMessageStartingWith("It is expected to be annotation, but it isn't."));
         }
     }
 
@@ -254,13 +326,23 @@ class ClassAssertTest {
     @DisplayName("method 'isAbstractClass'")
     class IsAbstractClass {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is abstract class")
         void test0() {
+            assertThatNoException().isThrownBy(() -> ABSTRACT_CLASSES
+                    .forEach(actual -> Asserts.that(actual).isAbstractClass()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not abstract class")
         void test1() {
+            List<Class<?>> classes = Stream.of(
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isAbstractClass())
+                    .withMessageStartingWith("It is expected to be abstract class, but it isn't."));
         }
     }
 
@@ -270,13 +352,28 @@ class ClassAssertTest {
     @DisplayName("method 'isAnonymousClass'")
     class IsAnonymousClass {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is anonymous class")
         void test0() {
+            assertThatNoException().isThrownBy(() -> ANONYMOUS_CLASSES
+                    .forEach(actual -> Asserts.that(actual).isAnonymousClass()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not anonymous class")
         void test1() {
+            List<Class<?>> classes = Stream.of(
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ENUMS, ABSTRACT_CLASSES, ARRAYS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            System.out.printf("Enum constant that has no body is anonymous class? %s%n",
+                    Month.JANUARY.getClass().isAnonymousClass());
+            System.out.printf("Enum constant that has a body is anonymous class? %s%n",
+                    TimeUnit.DAYS.getClass().isAnonymousClass());
+
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isAnonymousClass())
+                    .withMessageStartingWith("It is expected to be anonymous class, but it isn't."));
         }
     }
 
@@ -286,13 +383,26 @@ class ClassAssertTest {
     @DisplayName("method 'isEnum'")
     class IsEnum {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is enum")
         void test0() {
+            List<Class<?>> classes = Stream.of(ENUMS, ENUM_CONSTANTS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            assertThatNoException().isThrownBy(() -> classes
+                    .forEach(actual -> Asserts.that(actual).isEnum()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not enum")
         void test1() {
+            List<Class<?>> classes = Stream.of(
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isEnum())
+                    .withMessageStartingWith("It is expected to be enum, but it isn't."));
         }
     }
 
@@ -302,13 +412,23 @@ class ClassAssertTest {
     @DisplayName("method 'isArray'")
     class IsArray {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is array")
         void test0() {
+            assertThatNoException().isThrownBy(() -> ARRAYS
+                    .forEach(actual -> Asserts.that(actual).isArray()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not array")
         void test1() {
+            List<Class<?>> classes = Stream.of(
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES)
+                    .flatMap(Collection::stream).collect(toList());
+
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isArray())
+                    .withMessageStartingWith("It is expected to be array, but it isn't."));
         }
     }
 
@@ -318,13 +438,27 @@ class ClassAssertTest {
     @DisplayName("method 'isMemberClass'")
     class IsMemberClass {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is member class")
         void test0() {
+            List<Class<?>> memberClasses = Arrays.asList(ClassAssertTest.class.getDeclaredClasses());
+
+            assertThatNoException().isThrownBy(() -> memberClasses
+                    .forEach(actual -> Asserts.that(actual).isMemberClass()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not member class")
         void test1() {
+            List<Class<?>> classes = Stream.of(
+                    TypeClassifier.Types.PRIMITIVE.getClasses(),
+                    TypeClassifier.Types.WRAPPER.getClasses(),
+                    INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS,
+                    ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    .flatMap(Collection::stream).collect(toList());
+
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isMemberClass())
+                    .withMessageStartingWith("It is expected to be member class, but it isn't."));
         }
     }
 
@@ -334,13 +468,31 @@ class ClassAssertTest {
     @DisplayName("method 'isLocalClass'")
     class IsLocalClass {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual is local class")
         void test0() {
+            abstract class A {
+                public abstract void doIt(Object it);
+            }
+            class B extends A {
+                public void doIt(Object it) {
+                    System.out.println(it);
+                }
+            }
+
+            List<Class<?>> localClasses = Arrays.asList(A.class, B.class);
+
+            assertThatNoException().isThrownBy(() -> localClasses
+                    .forEach(actual -> Asserts.that(actual).isLocalClass()));
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual is not local class")
         void test1() {
+            List<Class<?>> memberClasses = Arrays.asList(ClassAssertTest.class.getDeclaredClasses());
+
+            memberClasses.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isLocalClass())
+                    .withMessageStartingWith("It is expected to be local class, but it isn't."));
         }
     }
 
