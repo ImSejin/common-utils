@@ -46,6 +46,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isBefore(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isBefore(java.time.chrono.ChronoZonedDateTime)
@@ -57,6 +59,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isBeforeOrEqualTo(java.time.chrono.ChronoZonedDateTime)
@@ -68,6 +72,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isAfter(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isAfter(java.time.chrono.ChronoZonedDateTime)
@@ -79,6 +85,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isAfterOrEqualTo(java.time.chrono.ChronoZonedDateTime)
@@ -90,6 +98,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see OffsetTimeAssert#isSameOffset(ZoneOffset)
      */
     public SELF isSameOffset(ZoneOffset expected) {
@@ -98,6 +108,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see OffsetTimeAssert#isNotSameOffset(ZoneOffset)
      */
     public SELF isNotSameOffset(ZoneOffset expected) {
@@ -108,6 +120,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     ///////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * @return another assertion
      * @see AbstractChronoLocalDateTimeAssert#asLocalDate()
      * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
      */
@@ -116,6 +129,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @return another assertion
      * @see AbstractChronoZonedDateTimeAssert#asLocalDateTime()
      */
     public AbstractChronoLocalDateTimeAssert<?, ChronoLocalDateTime<LocalDate>, LocalDate> asLocalDateTime() {
@@ -127,6 +141,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     }
 
     /**
+     * @return another assertion
      * @see AbstractChronoLocalDateTimeAssert#asLocalTime()
      * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
      */

@@ -47,6 +47,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isBefore(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
      * @see LocalTimeAssert#isBefore(LocalTime)
@@ -58,6 +60,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
      * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
@@ -69,6 +73,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isAfter(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
      * @see LocalTimeAssert#isAfter(LocalTime)
@@ -80,6 +86,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
      * @see AbstractChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
      * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)
@@ -103,6 +111,7 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     ///////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * @return another assertion
      * @see AbstractChronoLocalDateTimeAssert#asLocalDate()
      * @see OffsetDateTimeAssert#asLocalDate()
      */
@@ -111,6 +120,7 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     }
 
     /**
+     * @return another assertion
      * @see OffsetDateTimeAssert#asLocalDateTime()
      */
     public AbstractChronoLocalDateTimeAssert<?, ChronoLocalDateTime<DATE>, DATE> asLocalDateTime() {
@@ -118,6 +128,7 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     }
 
     /**
+     * @return another assertion
      * @see AbstractChronoLocalDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */

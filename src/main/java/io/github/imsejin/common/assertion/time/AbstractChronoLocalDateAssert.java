@@ -44,6 +44,8 @@ public abstract class AbstractChronoLocalDateAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isBefore(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAssert#isBefore(LocalTime)
@@ -55,6 +57,8 @@ public abstract class AbstractChronoLocalDateAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isBeforeOrEqualTo(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
@@ -66,6 +70,8 @@ public abstract class AbstractChronoLocalDateAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isAfter(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAssert#isAfter(LocalTime)
@@ -77,6 +83,8 @@ public abstract class AbstractChronoLocalDateAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
      * @see AbstractChronoZonedDateTimeAssert#isAfterOrEqualTo(java.time.chrono.ChronoZonedDateTime)
      * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)

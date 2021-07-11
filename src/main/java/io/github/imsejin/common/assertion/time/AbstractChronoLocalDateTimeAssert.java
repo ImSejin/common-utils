@@ -47,6 +47,8 @@ public abstract class AbstractChronoLocalDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isBefore(ChronoLocalDate)
      * @see AbstractChronoZonedDateTimeAssert#isBefore(ChronoZonedDateTime)
      * @see LocalTimeAssert#isBefore(LocalTime)
@@ -58,6 +60,8 @@ public abstract class AbstractChronoLocalDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
      * @see AbstractChronoZonedDateTimeAssert#isBeforeOrEqualTo(ChronoZonedDateTime)
      * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
@@ -69,6 +73,8 @@ public abstract class AbstractChronoLocalDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isAfter(ChronoLocalDate)
      * @see AbstractChronoZonedDateTimeAssert#isAfter(ChronoZonedDateTime)
      * @see LocalTimeAssert#isAfter(LocalTime)
@@ -80,6 +86,8 @@ public abstract class AbstractChronoLocalDateTimeAssert<
     }
 
     /**
+     * @param expected expected value
+     * @return self
      * @see AbstractChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
      * @see AbstractChronoZonedDateTimeAssert#isAfterOrEqualTo(ChronoZonedDateTime)
      * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)
@@ -93,6 +101,7 @@ public abstract class AbstractChronoLocalDateTimeAssert<
     ///////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * @return another assertion
      * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
      * @see OffsetDateTimeAssert#asLocalDate()
      */
@@ -101,6 +110,7 @@ public abstract class AbstractChronoLocalDateTimeAssert<
     }
 
     /**
+     * @return another assertion
      * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
