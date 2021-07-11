@@ -121,9 +121,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     }
 
     public SELF predicate(Predicate<ACTUAL> predicate) {
-        boolean expected = Objects.requireNonNull(predicate.test(this.actual), "Predicate is not allowed to be null");
-
-        if (!expected) {
+        if (!Objects.requireNonNull(predicate, "Predicate is not allowed to be null").test(this.actual)) {
             setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
             throw getException();
         }
