@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
@@ -42,7 +43,9 @@ public final class JsonUtils {
 
     private static final Gson gson = new Gson();
 
+    @ExcludeFromGeneratedJacocoReport
     private JsonUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

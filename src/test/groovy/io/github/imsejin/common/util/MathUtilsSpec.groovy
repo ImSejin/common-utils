@@ -22,7 +22,7 @@ import spock.lang.Unroll
 class MathUtilsSpec extends Specification {
 
     @Unroll("MathUtils.fibonacci(#input) == #expected")
-    def "Fibonacci"() {
+    def "fibonacci"() {
         when:
         def result = MathUtils.fibonacci(input)
 
@@ -45,7 +45,7 @@ class MathUtilsSpec extends Specification {
     }
 
     @Unroll("MathUtils.factorial(#input) == #expected")
-    def "Factorial"() {
+    def "factorial"() {
         when:
         def result = MathUtils.factorial(input)
 
@@ -63,7 +63,7 @@ class MathUtilsSpec extends Specification {
     }
 
     @Unroll("MathUtils.ceil(#amount, #len) == #expected")
-    def "Ceil"() {
+    def "ceil"() {
         expect:
         def actual = MathUtils.ceil(amount, len)
         String.valueOf(actual) == expected
@@ -80,7 +80,7 @@ class MathUtilsSpec extends Specification {
     }
 
     @Unroll("MathUtils.round(#amount, #len) == #expected")
-    def "Round"() {
+    def "round"() {
         expect:
         def actual = MathUtils.round(amount, len)
         String.valueOf(actual) == expected
@@ -97,7 +97,7 @@ class MathUtilsSpec extends Specification {
     }
 
     @Unroll("MathUtils.floor(#amount, #len) == #expected")
-    def "Floor"() {
+    def "floor"() {
         expect:
         def actual = MathUtils.floor(amount, len)
         String.valueOf(actual) == expected

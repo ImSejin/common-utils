@@ -16,11 +16,15 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import java.math.BigInteger;
 
 public final class MathUtils {
 
+    @ExcludeFromGeneratedJacocoReport
     private MathUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     public static BigInteger fibonacci(long number) {
@@ -96,7 +100,7 @@ public final class MathUtils {
     }
 
     public static boolean hasDecimalPart(double number) {
-        return number % 1 == 0;
+        return number % 1 != 0;
     }
 
 }

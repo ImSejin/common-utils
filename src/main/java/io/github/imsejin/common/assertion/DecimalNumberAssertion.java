@@ -16,21 +16,12 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.util.MathUtils;
+import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
-@SuppressWarnings("unchecked")
-public class DoubleAsserts<SELF extends DoubleAsserts<SELF>> extends LongAsserts<SELF> {
+public interface DecimalNumberAssertion<
+        SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertion<SELF, NUMBER>,
+        NUMBER extends Number & Comparable<NUMBER>> {
 
-    private final double target;
-
-    DoubleAsserts(double target) {
-        super((long) target);
-        this.target = target;
-    }
-
-    public SELF hasDeciamlPart() {
-        if (!MathUtils.hasDecimalPart(this.target)) throw getException();
-        return (SELF) this;
-    }
+    SELF hasDecimalPart();
 
 }

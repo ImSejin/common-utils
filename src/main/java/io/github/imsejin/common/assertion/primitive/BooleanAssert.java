@@ -14,25 +14,32 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.primitive;
 
-@SuppressWarnings("unchecked")
-public class BooleanAsserts<SELF extends BooleanAsserts<SELF>> extends Descriptor<SELF> {
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
-    private final boolean target;
+public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends AbstractObjectAssert<SELF, Boolean> {
 
-    BooleanAsserts(boolean target) {
-        this.target = target;
+    public BooleanAssert(Boolean actual) {
+        super(actual);
     }
 
     public SELF isTrue() {
-        if (!this.target) throw getException();
-        return (SELF) this;
+        if (!actual) {
+            setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
+            throw getException();
+        }
+
+        return self;
     }
 
     public SELF isFalse() {
-        if (this.target) throw getException();
-        return (SELF) this;
+        if (actual) {
+            setDefaultDescription("It is expected to be false, but it isn't. (expected: 'true')");
+            throw getException();
+        }
+
+        return self;
     }
 
 }

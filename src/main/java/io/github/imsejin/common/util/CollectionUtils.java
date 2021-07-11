@@ -16,6 +16,9 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.assertion.Asserts;
+
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Predicate;
@@ -26,16 +29,18 @@ import java.util.function.Supplier;
  */
 public final class CollectionUtils {
 
+    @ExcludeFromGeneratedJacocoReport
     private CollectionUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**
      * Checks whether the collection is null or empty.
      *
      * <pre><code>
-     *     isNullOrEmpty(null);     // true
-     *     isNullOrEmpty([]);       // true
-     *     isNullOrEmpty([5, 6]);   // false
+     *     isNullOrEmpty(null);   // true
+     *     isNullOrEmpty([]);     // true
+     *     isNullOrEmpty([5, 6]); // false
      * </code></pre>
      *
      * @param collection collection
@@ -49,9 +54,9 @@ public final class CollectionUtils {
      * Checks whether the map is null or empty.
      *
      * <pre><code>
-     *     isNullOrEmpty(null);     // true
-     *     isNullOrEmpty({});       // true
-     *     isNullOrEmpty({a: 5});   // false
+     *     isNullOrEmpty(null);   // true
+     *     isNullOrEmpty({});     // true
+     *     isNullOrEmpty({a: 5}); // false
      * </code></pre>
      *
      * @param map map
@@ -89,9 +94,9 @@ public final class CollectionUtils {
      * Checks whether the collection exists or not.
      *
      * <pre><code>
-     *     exists(null);    // false
-     *     exists([]);      // false
-     *     exists([5, 6]);  // true
+     *     exists(null);   // false
+     *     exists([]);     // false
+     *     exists([5, 6]); // true
      * </code></pre>
      *
      * @param collection collection
@@ -114,10 +119,9 @@ public final class CollectionUtils {
      * @return map with index as key and element
      */
     public static <E> Map<Integer, E> toMap(@Nonnull Collection<E> collection) {
-        return collection.stream().collect(HashMap<Integer, E>::new,
+        return collection.stream().collect(HashMap::new,
                 (map, streamValue) -> map.put(map.size(), streamValue),
-                (map, map2) -> {
-                });
+                Map::putAll);
     }
 
     public static long findMax(@Nonnull Collection<Long> collection) {
@@ -145,7 +149,9 @@ public final class CollectionUtils {
      * @throws IllegalArgumentException if size is non-positive
      */
     public static <E> List<List<E>> partitionBySize(@Nonnull List<E> list, int chunkSize) {
-        if (chunkSize < 1) throw new IllegalArgumentException("Size of each list must be greater than or equal to 1");
+        Asserts.that(chunkSize)
+                .as("Size of each list must be greater than 0")
+                .isGreaterThan(0);
 
         /*
         The following code can be replaced with this code.
@@ -187,8 +193,11 @@ public final class CollectionUtils {
      * @throws IllegalArgumentException if count is non-positive or list's size is less than count
      */
     public static <E> List<List<E>> partitionByCount(@Nonnull List<E> list, int count) {
-        if (count < 1) throw new IllegalArgumentException("The number of lists must be greater than or equal to 1");
-        if (list.size() < count) throw new IllegalArgumentException("Count must be less than list's size");
+        Asserts.that(count)
+                .as("The number of lists must be greater than 0")
+                .isGreaterThan(0)
+                .as("Count must be less than or equal to list's size")
+                .isLessThanOrEqualTo(list.size());
 
         int originSize = list.size();
         int quotient = Math.floorDiv(originSize, count);

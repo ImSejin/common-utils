@@ -21,35 +21,38 @@ import io.github.imsejin.common.util.StringUtils;
 import java.text.MessageFormat;
 import java.util.function.Function;
 
-@SuppressWarnings("unchecked")
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
-    private String messagePattern;
+    protected final SELF self;
+
+    private String description;
 
     private Object[] arguments;
 
     private Function<String, ? extends RuntimeException> function = IllegalArgumentException::new;
 
+    @SuppressWarnings("unchecked")
     protected Descriptor() {
+        this.self = (SELF) this;
     }
 
     public final SELF as(String description, Object... args) {
-        this.messagePattern = description;
+        this.description = description;
         this.arguments = args;
-        return (SELF) this;
+        return this.self;
     }
 
     public final SELF exception(Function<String, ? extends RuntimeException> function) {
         this.function = function;
-        return (SELF) this;
+        return this.self;
     }
 
     protected final String getMessage() {
         // Prevent NPE.
-        if (StringUtils.isNullOrEmpty(this.messagePattern)) return "";
+        if (StringUtils.isNullOrEmpty(this.description)) return "";
 
         // Escapes single quotation marks.
-        String pattern = this.messagePattern.replace("'", "''");
+        String pattern = this.description.replace("'", "''");
         MessageFormat messageFormat = new MessageFormat(pattern);
 
         return messageFormat.format(this.arguments);
@@ -57,6 +60,13 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     protected final RuntimeException getException() {
         return this.function.apply(getMessage());
+    }
+
+    protected final void setDefaultDescription(String description, Object... args) {
+        if (!StringUtils.isNullOrEmpty(this.description)) return;
+
+        this.description = description;
+        this.arguments = args;
     }
 
 }

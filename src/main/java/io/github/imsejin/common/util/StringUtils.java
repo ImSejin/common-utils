@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.text.NumberFormat;
@@ -34,7 +36,9 @@ public final class StringUtils {
      */
     private static final char WHITE_SPACE = '\u0020';
 
+    @ExcludeFromGeneratedJacocoReport
     private StringUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**

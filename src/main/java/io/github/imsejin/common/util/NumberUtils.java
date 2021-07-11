@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
 import javax.annotation.Nonnull;
 import java.math.BigInteger;
 import java.text.NumberFormat;
@@ -28,7 +30,9 @@ public final class NumberUtils {
         formatter.setGroupingUsed(false);
     }
 
+    @ExcludeFromGeneratedJacocoReport
     private NumberUtils() {
+        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
     /**
