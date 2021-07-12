@@ -17,7 +17,11 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.tool.TypeClassifier;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Modifier;
 
 /**
@@ -96,6 +100,35 @@ public final class ClassUtils {
         return Modifier.isAbstract(modifiers) &&
                 !Modifier.isFinal(modifiers) && // Keyword 'abstract' is cannot be compatible with 'final' (exclude array class).
                 !clazz.isPrimitive() && !clazz.isInterface() && !isEnumOrEnumConstant(clazz);
+    }
+
+    public static boolean isSuperclass(@Nonnull Class<?> superclass, Class<?> subclass) {
+        Asserts.that(superclass).isNotNull();
+        if (subclass == null || superclass == subclass) return false;
+
+        for (Class<?> c = subclass.getSuperclass(); c != null; c = c.getSuperclass()) {
+            if (c == superclass) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets initial value of the type.
+     *
+     * @param type type of the object
+     * @return initial value of the type
+     * @see TypeClassifier#isNumericPrimitive(Class)
+     */
+    @Nullable
+    public static Object initialValueOf(Class<?> type) {
+        // Value of primitive type cannot be null.
+        if (TypeClassifier.isNumericPrimitive(type)) return 0;
+        if (type == char.class) return '\u0000';
+        if (type == boolean.class) return false;
+
+        // The others can be null.
+        return null;
     }
 
 }
