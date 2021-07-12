@@ -25,6 +25,9 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
 
+/**
+ * Type classifier
+ */
 public final class TypeClassifier {
 
     @ExcludeFromGeneratedJacocoReport
@@ -184,7 +187,6 @@ public final class TypeClassifier {
             this.classes = Collections.unmodifiableSet(Stream.of(classes).collect(toSet()));
         }
 
-        @ExcludeFromGeneratedJacocoReport
         public Set<Class<?>> getClasses() {
             return this.classes;
         }
