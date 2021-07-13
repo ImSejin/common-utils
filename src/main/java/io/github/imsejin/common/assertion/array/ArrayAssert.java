@@ -69,6 +69,18 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
         return self;
     }
 
+    public SELF doesNotContainNull() {
+        for (Object element : actual) {
+            if (element != null) continue;
+
+            setDefaultDescription("It is expected not to contain null, but it isn't. (actual: '{0}')",
+                    Arrays.toString(actual));
+            throw getException();
+        }
+
+        return self;
+    }
+
     public SELF hasLengthOf(int expected) {
         if (actual.length != expected) {
             setDefaultDescription("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')",

@@ -42,6 +42,17 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
+    public SELF doesNotContainNull() {
+        for (T element : actual) {
+            if (element != null) continue;
+
+            setDefaultDescription("It is expected not to contain null, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
     public SELF hasSizeOf(int size) {
         if (actual.size() != size) throw getException();
         return self;
