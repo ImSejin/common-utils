@@ -65,42 +65,44 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not equal to other")
         void test1() {
+            String description = "They are expected to be equal, but they aren't.";
+
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new boolean[0])
                             .isEqualTo(new Boolean[]{true, false}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new byte[0])
                             .isEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[0])
                             .isEqualTo(new Character[]{Character.MIN_VALUE, Character.MAX_VALUE / 2, Character.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new double[0])
                             .isEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new float[0])
                             .isEqualTo(new Float[]{Float.MIN_VALUE, -1.1F, 0.0F, 1.1F, Float.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[0])
                             .isEqualTo(new Integer[]{Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new long[0])
                             .isEqualTo(new Long[]{Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new short[0])
                             .isEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new String[0])
                             .isEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "array"}))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't.");
+                    .withMessageStartingWith(description);
         }
     }
 
@@ -137,42 +139,44 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual is equal to other")
         void test1() {
+            String description = "They are expected to be not equal, but they are.";
+
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new boolean[]{true, false})
                             .isNotEqualTo(new Boolean[]{true, false}))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE})
                             .isNotEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[0])
                             .isNotEqualTo(new Character[0]))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE})
                             .isNotEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new float[]{})
                             .isNotEqualTo(new Float[]{}))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[0])
                             .isNotEqualTo(new Integer[]{}))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new long[]{})
                             .isNotEqualTo(new Long[0]))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE})
                             .isNotEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that("io.github.imsejin.common.assertion.array".split("\\."))
                             .isNotEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "array"}))
-                    .withMessageStartingWith("They are expected to be not equal, but they are.");
+                    .withMessageStartingWith(description);
         }
     }
 
@@ -225,24 +229,26 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual is empty")
         void test1() {
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[0]).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't.");
+            String description = "It is expected to have element, but it isn't.";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[0])
+                    .hasElement()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[0])
+                    .hasElement()).withMessageStartingWith(description);
         }
     }
 
@@ -315,24 +321,26 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't have the given length")
         void test1() {
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0]).hasLengthOf(128))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1]).hasLengthOf(64))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2]).hasLengthOf(32))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4]).hasLengthOf(16))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8]).hasLengthOf(-1))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16]).hasLengthOf(4))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32]).hasLengthOf(2))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64]).hasLengthOf(1))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128]).hasLengthOf(0))
-                    .withMessageStartingWith("It is expected to be the same length, but it isn't.");
+            String description = "It is expected to be the same length, but it isn't.";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .hasLengthOf(128)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .hasLengthOf(64)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .hasLengthOf(32)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .hasLengthOf(16)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .hasLengthOf(-1)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .hasLengthOf(4)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .hasLengthOf(2)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .hasLengthOf(1)).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .hasLengthOf(0)).withMessageStartingWith(description);
         }
     }
 
@@ -360,26 +368,28 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual and other have a difference with length")
         void test1() {
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0]).isSameLength(new Object[1]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1]).isSameLength(new StringBuilder[2]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2]).isSameLength(new Character[3]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4]).isSameLength(new Double[3]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8]).isSameLength(new Field[10]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16]).isSameLength(new Constructor[32]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32]).isSameLength(new Class<?>[5]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64]).isSameLength(new Array[128]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128]).isSameLength(new String[256]))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256]).isSameLength(null))
-                    .withMessageStartingWith("They are expected to be the same length, but they aren't.");
+            String description = "They are expected to be the same length, but they aren't.";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .isSameLength(new Object[1])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .isSameLength(new StringBuilder[2])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .isSameLength(new Character[3])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .isSameLength(new Double[3])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .isSameLength(new Field[10])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .isSameLength(new Constructor[32])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .isSameLength(new Class<?>[5])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .isSameLength(new Array[128])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .isSameLength(new String[256])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
+                    .isSameLength(null)).withMessageStartingWith(description);
         }
     }
 
@@ -407,26 +417,28 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual and other have the same length")
         void test1() {
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0]).isNotSameLength(new Object[0]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1]).isNotSameLength(new StringBuilder[1]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2]).isNotSameLength(new Character[2]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4]).isNotSameLength(new Double[4]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8]).isNotSameLength(new Field[8]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16]).isNotSameLength(new Constructor[16]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32]).isNotSameLength(new Class<?>[32]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64]).isNotSameLength(new Stopwatch[64]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128]).isNotSameLength(new String[128]))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256]).isNotSameLength(null))
-                    .withMessageStartingWith("They are expected to be not the same length, but they are.");
+            String description = "They are expected to be not the same length, but they are.";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .isNotSameLength(new Object[0])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .isNotSameLength(new StringBuilder[1])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .isNotSameLength(new Character[2])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .isNotSameLength(new Double[4])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .isNotSameLength(new Field[8])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .isNotSameLength(new Constructor[16])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .isNotSameLength(new Class<?>[32])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .isNotSameLength(new Stopwatch[64])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .isNotSameLength(new String[128])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
+                    .isNotSameLength(null)).withMessageStartingWith(description);
         }
     }
 
@@ -448,15 +460,17 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain the given elements")
         void test1() {
+            String description = "It is expected to contain the given element, but it doesn't.";
+
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).contains('f'))
-                    .withMessageStartingWith("It is expected to contain the given element, but it doesn't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).contains(1024L))
-                    .withMessageStartingWith("It is expected to contain the given element, but it doesn't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\.")).contains(""))
-                    .withMessageStartingWith("It is expected to contain the given element, but it doesn't.");
+                    .withMessageStartingWith(description);
         }
     }
 
@@ -479,16 +493,18 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain all the given elements")
         void test1() {
+            String description = "It is expected to contain the given elements, but it doesn't.";
+
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).containsAny(null, '\u0000'))
-                    .withMessageStartingWith("It is expected to contain the given elements, but it doesn't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAny(0L))
-                    .withMessageStartingWith("It is expected to contain the given elements, but it doesn't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
                             .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect"))
-                    .withMessageStartingWith("It is expected to contain the given elements, but it doesn't.");
+                    .withMessageStartingWith(description);
         }
     }
 
@@ -511,18 +527,20 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain the given array")
         void test1() {
+            String description = "It is expected to contain the given element, but it doesn't.";
+
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
                             .containsAll(new Character[]{'e', 'd', 'c', 'f', 'a'}))
-                    .withMessageStartingWith("It is expected to contain the given element, but it doesn't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
                             .containsAll(new Long[]{-1024L, -1L, 0L, 1L, 1024L}))
-                    .withMessageStartingWith("It is expected to contain the given element, but it doesn't.");
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
                             .containsAll(new String[]{"IMSEJIN", "GITHUB", "COMMON", "ARRAY", "ASSERTION", "IO"}))
-                    .withMessageStartingWith("It is expected to contain the given element, but it doesn't.");
+                    .withMessageStartingWith(description);
         }
     }
 
