@@ -249,6 +249,51 @@ class ArrayAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
+    @DisplayName("method 'doesNotContainNull'")
+    class DoesNotContainNull {
+        @Test
+        @DisplayName("passes, when actual doesn't contain null")
+        void test0() {
+            List<Object[]> list = Arrays.asList(
+                    new Object[0],
+                    new String[]{"Alpha", "null", "", "BETA", "gamma"},
+                    new Character[]{'A', Character.MIN_VALUE, 'b', '0'},
+                    new Integer[]{0, Integer.MIN_VALUE, Integer.MAX_VALUE}
+            );
+
+            list.forEach(actual -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).doesNotContainNull()));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual contains null")
+        void test1() {
+            String description = "It is expected not to contain null, but it isn't.";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Boolean[]{true, null, false})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Byte[]{23, null, -54})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Character[]{'0', ' ', null, 'i'})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Double[]{null, 3.14, 0.0})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Float[]{1.141F, 0.0F, null})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{0, null, -10})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Long[]{-128L, 64L, null})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Short[]{null, 2048, -4096})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[]{"", null, "alpha"})
+                    .doesNotContainNull()).withMessageStartingWith(description);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
     @DisplayName("method 'hasLengthOf'")
     class HasLengthOf {
         @Test
