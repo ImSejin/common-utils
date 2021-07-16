@@ -119,23 +119,20 @@ public final class ClassFinder {
 
         String filename = file.getName().toLowerCase();
         if (includeJars && filename.endsWith(".jar")) {
-            JarFile jar;
-            try {
-                jar = new JarFile(file);
-            } catch (IOException ignored) {
-                return true;
-            }
-
-            Enumeration<JarEntry> entries = jar.entries();
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement();
-                String name = entry.getName();
-                int extIndex = name.lastIndexOf(".class");
-                if (extIndex > 0) {
-                    if (!visitor.visit(name.substring(0, extIndex).replace('/', '.'))) {
-                        return false;
+            try (JarFile jar = new JarFile(file)) {
+                Enumeration<JarEntry> entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
+                    String name = entry.getName();
+                    int extIndex = name.lastIndexOf(".class");
+                    if (extIndex > 0) {
+                        if (!visitor.visit(name.substring(0, extIndex).replace('/', '.'))) {
+                            return false;
+                        }
                     }
                 }
+            } catch (IOException ignored) {
+                return true;
             }
         } else if (filename.endsWith(".class")) {
             return visitor.visit(createClassName(root, file));
