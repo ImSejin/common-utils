@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @DisplayName("AbstractObjectAssert")
 class AbstractObjectAssertTest {
@@ -40,8 +40,7 @@ class AbstractObjectAssertTest {
         @Test
         @DisplayName("passes, when actual is null")
         void test0() {
-            assertThatCode(() -> Asserts.that((Object) null).isNull())
-                    .doesNotThrowAnyException();
+            assertThatNoException().isThrownBy(() -> Asserts.that((Object) null).isNull());
         }
 
         @Test
@@ -49,9 +48,9 @@ class AbstractObjectAssertTest {
         void test1() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNull())
-                    .hasMessageStartingWith("It is expected to be null, but not null.")
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            list.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isNull())
+                    .withMessageStartingWith("It is expected to be null, but not null."));
         }
     }
 
@@ -65,16 +64,16 @@ class AbstractObjectAssertTest {
         void test0() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotNull())
-                    .doesNotThrowAnyException());
+            list.forEach(actual -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).isNotNull()));
         }
 
         @Test
         @DisplayName("throws exception, when actual is null")
         void test1() {
-            assertThatCode(() -> Asserts.that((Object) null).isNotNull())
-                    .hasMessageStartingWith("It is expected to be not null, but null.")
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((Object) null).isNotNull())
+                    .withMessageStartingWith("It is expected to be not null, but null.");
         }
     }
 
@@ -88,8 +87,8 @@ class AbstractObjectAssertTest {
         void test0() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isSameAs(actual))
-                    .doesNotThrowAnyException());
+            list.forEach(actual -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).isSameAs(actual)));
         }
 
         @Test
@@ -101,9 +100,9 @@ class AbstractObjectAssertTest {
             map.put('b', 3.14);
             map.put(3.14, null);
 
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isSameAs(expected))
-                    .hasMessageStartingWith("They are expected to be the same, but they aren't.")
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isSameAs(expected))
+                    .withMessageStartingWith("They are expected to be the same, but they aren't."));
         }
     }
 
@@ -121,8 +120,8 @@ class AbstractObjectAssertTest {
             map.put('b', 3.14);
             map.put(3.14, null);
 
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isNotSameAs(expected))
-                    .doesNotThrowAnyException());
+            map.forEach((actual, expected) -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).isNotSameAs(expected)));
         }
 
         @Test
@@ -130,9 +129,9 @@ class AbstractObjectAssertTest {
         void test1() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotSameAs(actual))
-                    .hasMessageStartingWith("They are expected to be not the same, but they aren't.")
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            list.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isNotSameAs(actual))
+                    .withMessageStartingWith("They are expected to be not the same, but they aren't."));
         }
     }
 
@@ -150,8 +149,8 @@ class AbstractObjectAssertTest {
             map.put(3.14, Double.valueOf(3.14));
             map.put(BigInteger.valueOf(1000), BigInteger.valueOf(1000));
 
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
-                    .doesNotThrowAnyException());
+            map.forEach((actual, expected) -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).isEqualTo(expected)));
         }
 
         @Test
@@ -163,9 +162,9 @@ class AbstractObjectAssertTest {
             map.put('b', 'c');
             map.put(3.14, 3.141592);
 
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
-                    .hasMessageStartingWith("They are expected to be equal, but they aren't.")
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isEqualTo(expected))
+                    .withMessageStartingWith("They are expected to be equal, but they aren't."));
         }
     }
 
@@ -183,8 +182,7 @@ class AbstractObjectAssertTest {
             map.put('b', 'c');
             map.put(3.14, 3.141592);
 
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .doesNotThrowAnyException());
+            map.forEach((actual, expected) -> assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected)));
         }
 
         @Test
@@ -196,9 +194,9 @@ class AbstractObjectAssertTest {
             map.put(3.14, Double.valueOf(3.14));
             map.put(BigInteger.valueOf(1000), BigInteger.valueOf(1000));
 
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .hasMessageStartingWith("They are expected to be not equal, but they aren't.")
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected))
+                    .withMessageStartingWith("They are expected to be not equal, but they aren't."));
         }
     }
 
@@ -218,8 +216,8 @@ class AbstractObjectAssertTest {
             map.put(3.14, double.class);
             map.put(3.141592, Double.class);
 
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isInstanceOf(expected))
-                    .doesNotThrowAnyException());
+            map.forEach((actual, expected) -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).isInstanceOf(expected)));
         }
 
         @Test
@@ -231,9 +229,9 @@ class AbstractObjectAssertTest {
             map.put(3.14, float.class);
             map.put(BigInteger.valueOf(1000), BigDecimal.class);
 
-            map.forEach((actual, expected) -> assertThatThrownBy(() -> Asserts.that(actual).isInstanceOf(expected))
-                    .hasMessageStartingWith("It is expected to be instance of the type, but it isn't.")
-                    .isInstanceOf(IllegalArgumentException.class));
+            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isInstanceOf(expected))
+                    .withMessageStartingWith("It is expected to be instance of the type, but it isn't."));
         }
     }
 
