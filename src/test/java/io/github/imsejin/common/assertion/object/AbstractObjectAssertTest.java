@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -232,6 +232,69 @@ class AbstractObjectAssertTest {
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isInstanceOf(expected))
                     .withMessageStartingWith("It is expected to be instance of the type, but it isn't."));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'predicate'")
+    class Predicate {
+        @Test
+        @DisplayName("passes, when predication result of the actual is true")
+        void test0() {
+            Map<Object, Object> map = new HashMap<>();
+            map.put(LocalDate.now(), LocalDateTime.now().toLocalDate());
+            map.put("alpha", "ALPHA".toLowerCase());
+            map.put('c', "c".charAt(0));
+            map.put(3.14F, Float.valueOf("3.14"));
+            map.put(3.141592, Double.valueOf("3.141592"));
+
+            map.forEach((actual, expected) -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals)));
+        }
+
+        @Test
+        @DisplayName("throws exception, when predication result of the actual is false")
+        void test1() {
+            Map<Object, Object> map = new HashMap<>();
+            map.put(LocalDate.now(), LocalDateTime.now().minusDays(1));
+            map.put("alpha", "alpha".toUpperCase());
+            map.put('c', "C".charAt(0));
+            map.put(3.14F, 3.14);
+            map.put(3.141592, 3.141592F);
+
+            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals))
+                    .withMessageStartingWith("It is expected to be true, but it isn't."));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'returns'")
+    class Returns {
+        @Test
+        @DisplayName("passes, when actual is instance of given type")
+        void test0() {
+            Map<String, String> map = IntStream.range(0, 10).mapToObj(n -> UUID.randomUUID().toString())
+                    .collect(HashMap::new, (m, it) -> m.put(it, it.replace("-", "")), Map::putAll);
+
+            map.forEach((actual, expected) -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual)
+                            .returns(actual.replace("-", ""), it -> it.replace("-", ""))));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not instance of given type")
+        void test1() {
+            Map<String, String> map = IntStream.range(0, 10).mapToObj(n -> UUID.randomUUID().toString())
+                    .collect(HashMap::new, (m, it) -> m.put(it, it.replace("-", "")), Map::putAll);
+
+            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).returns(actual, it -> it.replace('-', '_')))
+                    .withMessageStartingWith("They are expected to be equal, but they aren't."));
         }
     }
 
