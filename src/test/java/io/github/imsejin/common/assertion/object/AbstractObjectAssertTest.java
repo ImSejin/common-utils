@@ -276,7 +276,7 @@ class AbstractObjectAssertTest {
     @DisplayName("method 'returns'")
     class Returns {
         @Test
-        @DisplayName("passes, when actual is instance of given type")
+        @DisplayName("passes, when value returned by function using the actual is equal to the expected")
         void test0() {
             Map<String, String> map = IntStream.range(0, 10).mapToObj(n -> UUID.randomUUID().toString())
                     .collect(HashMap::new, (m, it) -> m.put(it, it.replace("-", "")), Map::putAll);
@@ -287,7 +287,7 @@ class AbstractObjectAssertTest {
         }
 
         @Test
-        @DisplayName("throws exception, when actual is not instance of given type")
+        @DisplayName("throws exception, when value returned by function using the actual is not equal to the expected")
         void test1() {
             Map<String, String> map = IntStream.range(0, 10).mapToObj(n -> UUID.randomUUID().toString())
                     .collect(HashMap::new, (m, it) -> m.put(it, it.replace("-", "")), Map::putAll);
