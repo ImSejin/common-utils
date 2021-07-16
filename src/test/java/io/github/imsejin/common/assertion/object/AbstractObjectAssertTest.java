@@ -26,6 +26,7 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -276,14 +277,19 @@ class AbstractObjectAssertTest {
     @DisplayName("method 'returns'")
     class Returns {
         @Test
+        @SuppressWarnings("unchecked")
         @DisplayName("passes, when value returned by function using the actual is equal to the expected")
         void test0() {
-            Map<String, String> map = IntStream.range(0, 10).mapToObj(n -> UUID.randomUUID().toString())
-                    .collect(HashMap::new, (m, it) -> m.put(it, it.replace("-", "")), Map::putAll);
+            Map<Object, Function<?, ?>> map = new HashMap<>();
+            map.put(LocalDate.now(), it -> LocalDateTime.now().toLocalDate());
+            map.put("alpha", it -> "ALPHA".toLowerCase());
+            map.put('c', it -> "c".charAt(0));
+            map.put(3.14F, it -> Float.valueOf("3.14"));
+            map.put(3.141592, it -> Double.valueOf("3.141592"));
 
             map.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual)
-                            .returns(actual.replace("-", ""), it -> it.replace("-", ""))));
+                            .returns(actual, (Function<Object, ? super Object>) expected)));
         }
 
         @Test
