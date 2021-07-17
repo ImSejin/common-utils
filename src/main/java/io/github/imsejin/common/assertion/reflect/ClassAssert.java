@@ -61,7 +61,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      */
     public SELF isNotTypeOf(Object expected) {
         if (TypeClassifier.toWrapper(actual).isInstance(expected)) {
-            setDefaultDescription("It is expected to be not type of the instance, but it is. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription("It is expected not to be type of the instance, but it is. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }

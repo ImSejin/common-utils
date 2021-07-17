@@ -139,7 +139,7 @@ class ClassAssertTest {
 
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotTypeOf(expected))
-                    .withMessageStartingWith("It is expected to be not type of the instance, but it is."));
+                    .withMessageStartingWith("It is expected not to be type of the instance, but it is."));
         }
     }
 
