@@ -28,27 +28,50 @@ public abstract class AbstractCharSequenceAssert<
     }
 
     public SELF isEmpty() {
-        if (actual.length() > 0) throw getException();
+        if (actual.length() > 0) {
+            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotEmpty() {
-        if (actual.length() <= 0) throw getException();
+        if (actual.length() <= 0) {
+            setDefaultDescription("It is expected to be not empty, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasLengthOf(int expected) {
-        if (actual.length() != expected) throw getException();
+        if (actual.length() != expected) {
+            setDefaultDescription("It is expected to have the same length, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length());
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isSameLength(ACTUAL expected) {
-        if (expected == null || actual.length() != expected.length()) throw getException();
+        if (expected == null || actual.length() != expected.length()) {
+            setDefaultDescription("It is expected to have the same length, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected == null ? "null" : expected.length(), actual.length());
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotSameLength(ACTUAL expected) {
-        if (expected != null && actual.length() == expected.length()) throw getException();
+        if (expected != null && actual.length() == expected.length()) {
+            setDefaultDescription("It is expected not to have the same length, but it is. (expected: '{0}', actual: '{1}')",
+                    expected.length(), actual.length());
+            throw getException();
+        }
+
         return self;
     }
 
