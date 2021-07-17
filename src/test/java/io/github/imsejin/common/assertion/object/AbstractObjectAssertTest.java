@@ -283,7 +283,7 @@ class AbstractObjectAssertTest {
             Map<Object, Function<?, ?>> map = new HashMap<>();
             map.put(LocalDate.now(), it -> LocalDateTime.now().toLocalDate());
             map.put("alpha", it -> "ALPHA".toLowerCase());
-            map.put('c', it -> "c".charAt(0));
+            map.put('c', it -> Character.toLowerCase("C".charAt(0)));
             map.put(3.14F, it -> Float.valueOf("3.14"));
             map.put(3.141592, it -> Double.valueOf("3.141592"));
 
