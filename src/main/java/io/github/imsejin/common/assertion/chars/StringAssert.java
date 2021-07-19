@@ -50,6 +50,11 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends AbstractCharS
     }
 
     public SELF isLetter() {
+        if (actual.isEmpty()) {
+            setDefaultDescription("It is expected to be letter, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         for (char c : actual.toCharArray()) {
             if (!Character.isLetter(c)) {
                 setDefaultDescription("It is expected to be letter, but it isn't. (actual: '{0}')", actual);
@@ -61,6 +66,11 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends AbstractCharS
     }
 
     public SELF isLetterOrDigit() {
+        if (actual.isEmpty()) {
+            setDefaultDescription("It is expected to be letter or digit, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         for (char c : actual.toCharArray()) {
             if (!Character.isLetterOrDigit(c)) {
                 setDefaultDescription("It is expected to be letter or digit, but it isn't. (actual: '{0}')", actual);
@@ -72,6 +82,11 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends AbstractCharS
     }
 
     public SELF isUpperCase() {
+        if (actual.isEmpty()) {
+            setDefaultDescription("It is expected to have only uppercase letter(s), but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         for (char c : actual.toCharArray()) {
             if (!Character.isUpperCase(c)) {
                 setDefaultDescription("It is expected to have only uppercase letter(s), but it isn't. (actual: '{0}')", actual);
@@ -83,6 +98,11 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends AbstractCharS
     }
 
     public SELF isLowerCase() {
+        if (actual.isEmpty()) {
+            setDefaultDescription("It is expected to have only lowercase letter(s), but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         for (char c : actual.toCharArray()) {
             if (!Character.isLowerCase(c)) {
                 setDefaultDescription("It is expected to have only lowercase letter(s), but it isn't. (actual: '{0}')", actual);
@@ -94,6 +114,11 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends AbstractCharS
     }
 
     public SELF isAlphabetic() {
+        if (actual.isEmpty()) {
+            setDefaultDescription("It is expected to be alphabetic, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         for (char c : actual.toCharArray()) {
             if (!Character.isAlphabetic(c)) {
                 setDefaultDescription("It is expected to be alphabetic, but it isn't. (actual: '{0}')", actual);
