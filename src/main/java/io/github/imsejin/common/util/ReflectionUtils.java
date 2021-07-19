@@ -42,7 +42,7 @@ public final class ReflectionUtils {
      * Gets fields of the type including its inherited fields.
      *
      * @param type type of the object
-     * @return inherited and own fields
+     * @return inherited and own fields (non-static)
      * @see Class#getDeclaredFields()
      * @see Class#getSuperclass()
      */
@@ -58,6 +58,9 @@ public final class ReflectionUtils {
         if (!Modifier.isStatic(type.getModifiers()) && (type.isMemberClass() || type.isLocalClass())) {
             fields.remove(0);
         }
+
+        // Removes static fields from list.
+        fields.removeIf(it -> Modifier.isStatic(it.getModifiers()));
 
         return fields;
     }

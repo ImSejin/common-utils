@@ -50,7 +50,7 @@ class ReflectionUtilsTest {
                 .isNotEmpty()
                 .doesNotContainNull()
                 .map(Field::getName)
-                .containsExactly("serialVersionUID", "id", "name", "createdAt", "modifiedAt");
+                .containsExactly("id", "name", "createdAt", "modifiedAt");
 
         Class<?> subclass = Class.forName(Parent.class.getName() + "$Child");
         assertThat(ReflectionUtils.getInheritedFields(subclass))
@@ -58,7 +58,7 @@ class ReflectionUtilsTest {
                 .isNotEmpty()
                 .doesNotContainNull()
                 .map(Field::getName)
-                .containsExactly("serialVersionUID", "id", "name", "createdAt", "modifiedAt", "id", "title");
+                .containsExactly("id", "name", "createdAt", "modifiedAt", "id", "title");
 
         class C {
         }
