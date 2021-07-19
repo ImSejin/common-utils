@@ -84,7 +84,7 @@ class AbstractObjectAssertTest {
     @DisplayName("method 'isSameAs'")
     class IsSameAs {
         @Test
-        @DisplayName("passes, when actual and other is the same instance")
+        @DisplayName("passes, when actual and other are the same instance")
         void test0() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
@@ -93,7 +93,7 @@ class AbstractObjectAssertTest {
         }
 
         @Test
-        @DisplayName("throws exception, when actual and other is not the same instance")
+        @DisplayName("throws exception, when actual and other are not the same instance")
         void test1() {
             Map<Object, Object> map = new HashMap<>();
             map.put(null, 'b');
@@ -113,7 +113,7 @@ class AbstractObjectAssertTest {
     @DisplayName("method 'isNotSameAs'")
     class IsNotSameAs {
         @Test
-        @DisplayName("passes, when actual and other is not the same instance")
+        @DisplayName("passes, when actual and other are not the same instance")
         void test0() {
             Map<Object, Object> map = new HashMap<>();
             map.put(null, 'b');
@@ -126,7 +126,7 @@ class AbstractObjectAssertTest {
         }
 
         @Test
-        @DisplayName("throws exception, when actual and other is not the same instance")
+        @DisplayName("throws exception, when actual and other are not the same instance")
         void test1() {
             List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
