@@ -66,9 +66,9 @@ public abstract class AbstractCharSequenceAssert<
     }
 
     public SELF isNotSameLength(ACTUAL expected) {
-        if (expected != null && actual.length() == expected.length()) {
+        if (expected == null || actual.length() == expected.length()) {
             setDefaultDescription("It is expected not to have the same length, but it is. (expected: '{0}', actual: '{1}')",
-                    expected.length(), actual.length());
+                    expected == null ? "null" : expected.length(), actual.length());
             throw getException();
         }
 
