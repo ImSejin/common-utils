@@ -220,7 +220,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                     <!--
                         Only required if names of test classes don't match default Surefire patterns('*Test').
                         By default only files ending in 'Test' will be included,
