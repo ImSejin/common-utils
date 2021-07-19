@@ -30,6 +30,8 @@ import io.github.imsejin.common.assertion.reflect.PackageAssert;
 import io.github.imsejin.common.assertion.time.*;
 import io.github.imsejin.common.util.FileUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -45,6 +47,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ClassFinderTest {
 
     @Test
+    @EnabledOnJre(JRE.JAVA_8)
     void getAllSubclasses0() {
         // given
         Class<Collection> superclass = Collection.class;
@@ -83,6 +86,7 @@ class ClassFinderTest {
     }
 
     @Test
+    @EnabledOnJre(JRE.JAVA_8)
     void getAllSubclasses2() {
         // given
         Class<AbstractQueue> superclass = AbstractQueue.class;

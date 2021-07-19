@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -45,6 +46,8 @@ public final class ClassFinder {
 
     /**
      * Returns all classes that extends the given class.
+     * <p>
+     * <b>Since JDK 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param superclass superclass
      * @return all subclasses
@@ -55,6 +58,8 @@ public final class ClassFinder {
 
     /**
      * Returns all classes that extends the given class.
+     * <p>
+     * <b>Since JDK 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param superclass   superclass
      * @param searchPolicy policy of search
@@ -66,6 +71,8 @@ public final class ClassFinder {
 
     /**
      * Returns all classes that extends the given class.
+     * <p>
+     * <b>Since JDK 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param superclass   superclass
      * @param searchPolicy policy of search
@@ -73,9 +80,14 @@ public final class ClassFinder {
      * @return all subclasses
      */
     public static Set<Class<?>> getAllSubclasses(Class<?> superclass, SearchPolicy searchPolicy, ClassLoader classLoader) {
+        Pattern pattern = Pattern.compile("^[a-zA-Z].+\\$\\d+.*$");
+
         List<Class<?>> subclasses = new ArrayList<>();
         ClassFinder.findClasses(name -> {
             try {
+                // Excludes anonymous classes.
+                if (pattern.matcher(name).matches()) return true;
+
                 return subclasses.add(Class.forName(name, false, classLoader));
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -87,6 +99,8 @@ public final class ClassFinder {
 
     /**
      * Visits all classes in classpath.
+     * <p>
+     * <b>Since JDK 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param visitor visitor
      */
