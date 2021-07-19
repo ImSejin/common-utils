@@ -125,6 +125,7 @@ class AbstractCharSequenceAssertTest {
         @DisplayName("throws exception, when length of the actual is not equal to length of the given")
         void test1() {
             Map<CharSequence, CharSequence> map = new HashMap<>();
+            map.put("string", null);
             map.put(new StringBuilder("imsejin"), new StringBuilder("sejin"));
             map.put(UUID.randomUUID().toString(), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3));
@@ -154,6 +155,7 @@ class AbstractCharSequenceAssertTest {
         @DisplayName("throws exception, when length of the actual is equal to length of the given")
         void test1() {
             Map<CharSequence, CharSequence> map = new HashMap<>();
+            map.put("string", null);
             map.put(new StringBuilder("imsejin"), new StringBuilder("imsejin"));
             map.put(UUID.randomUUID().toString().replace("-", ""), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng"));

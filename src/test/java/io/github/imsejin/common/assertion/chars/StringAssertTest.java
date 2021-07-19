@@ -103,6 +103,7 @@ class StringAssertTest {
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isLetter(n) ? "-" : "") + (char) n)
                     .collect(toList());
+            list.add("");
 
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetter())
@@ -131,6 +132,7 @@ class StringAssertTest {
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isLetterOrDigit(n) ? "-" : "") + (char) n)
                     .collect(toList());
+            list.add("");
 
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetterOrDigit())
@@ -159,6 +161,7 @@ class StringAssertTest {
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isUpperCase(n) ? "a" : "") + (char) n)
                     .collect(toList());
+            list.add("");
 
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isUpperCase())
@@ -187,6 +190,7 @@ class StringAssertTest {
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isLowerCase(n) ? "A" : "") + (char) n)
                     .collect(toList());
+            list.add("");
 
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLowerCase())
@@ -215,6 +219,7 @@ class StringAssertTest {
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isAlphabetic(n) ? "_" : "") + (char) n)
                     .collect(toList());
+            list.add("");
 
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAlphabetic())
