@@ -109,7 +109,7 @@ public final class TypeClassifier {
         return contains(type, Types.WRAPPER);
     }
 
-    public static Class<?> toWrapper(Class<?> primitiveType) {
+    public static Class<?> box(Class<?> primitiveType) {
         if (!primitiveType.isPrimitive()) return primitiveType;
 
         if (primitiveType == byte.class) return Byte.class;
