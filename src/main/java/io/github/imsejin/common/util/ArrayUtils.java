@@ -226,7 +226,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static boolean[] toPrimitive(Boolean[] array) {
+    public static boolean[] unbox(Boolean[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BOOLEAN_PRIMITIVE_ARRAY;
 
@@ -239,7 +239,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static byte[] toPrimitive(Byte[] array) {
+    public static byte[] unbox(Byte[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BYTE_PRIMITIVE_ARRAY;
 
@@ -252,7 +252,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static char[] toPrimitive(Character[] array) {
+    public static char[] unbox(Character[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_CHARACTER_PRIMITIVE_ARRAY;
 
@@ -265,7 +265,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static double[] toPrimitive(Double[] array) {
+    public static double[] unbox(Double[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_DOUBLE_PRIMITIVE_ARRAY;
 
@@ -278,7 +278,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static float[] toPrimitive(Float[] array) {
+    public static float[] unbox(Float[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_FLOAT_PRIMITIVE_ARRAY;
 
@@ -291,7 +291,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static int[] toPrimitive(Integer[] array) {
+    public static int[] unbox(Integer[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_INTEGER_PRIMITIVE_ARRAY;
 
@@ -304,7 +304,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static long[] toPrimitive(Long[] array) {
+    public static long[] unbox(Long[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_LONG_PRIMITIVE_ARRAY;
 
@@ -317,7 +317,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static short[] toPrimitive(Short[] array) {
+    public static short[] unbox(Short[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_SHORT_PRIMITIVE_ARRAY;
 
