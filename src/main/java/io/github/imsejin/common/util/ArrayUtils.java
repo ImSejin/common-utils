@@ -122,7 +122,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Boolean[] toWrapper(boolean[] array) {
+    public static Boolean[] box(boolean[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BOOLEAN_WRAPPER_ARRAY;
 
@@ -135,7 +135,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Byte[] toWrapper(byte[] array) {
+    public static Byte[] box(byte[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BYTE_WRAPPER_ARRAY;
 
@@ -148,7 +148,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Character[] toWrapper(char[] array) {
+    public static Character[] box(char[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_CHARACTER_WRAPPER_ARRAY;
 
@@ -161,7 +161,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Double[] toWrapper(double[] array) {
+    public static Double[] box(double[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_DOUBLE_WRAPPER_ARRAY;
 
@@ -174,7 +174,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Float[] toWrapper(float[] array) {
+    public static Float[] box(float[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_FLOAT_WRAPPER_ARRAY;
 
@@ -187,7 +187,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Integer[] toWrapper(int[] array) {
+    public static Integer[] box(int[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_INTEGER_WRAPPER_ARRAY;
 
@@ -200,7 +200,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Long[] toWrapper(long[] array) {
+    public static Long[] box(long[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_LONG_WRAPPER_ARRAY;
 
@@ -213,7 +213,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Short[] toWrapper(short[] array) {
+    public static Short[] box(short[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_SHORT_WRAPPER_ARRAY;
 
