@@ -125,7 +125,7 @@ public final class TypeClassifier {
         return primitiveType;
     }
 
-    public static Class<?> toPrimitive(Class<?> wrapperType) {
+    public static Class<?> unbox(Class<?> wrapperType) {
         if (wrapperType.isPrimitive()) return wrapperType;
 
         if (wrapperType == Byte.class) return byte.class;
