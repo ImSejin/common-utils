@@ -25,12 +25,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -125,6 +127,22 @@ public final class FileUtils {
         try {
             return Files.find(path, Integer.MAX_VALUE, (p, bfa) -> bfa.isRegularFile())
                     .map(Path::toFile).collect(toSet());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Deletes all directories and files recursively.
+     *
+     * @param path    path
+     * @param options options for visiting files
+     */
+    public static void deleteRecursively(Path path, FileVisitOption... options) {
+        try {
+            Files.walk(path, options).map(Path::toFile).filter(File::exists)
+                    .sorted(Comparator.reverseOrder()) // To delete directories that contain files.
+                    .forEach(File::delete);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
