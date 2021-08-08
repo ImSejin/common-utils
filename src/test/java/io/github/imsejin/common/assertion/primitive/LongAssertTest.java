@@ -262,7 +262,7 @@ class LongAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isNegative()'")
+    @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
         @ValueSource(longs = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE})
@@ -284,7 +284,7 @@ class LongAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isZeroOrNegative()'")
+    @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(longs = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE})

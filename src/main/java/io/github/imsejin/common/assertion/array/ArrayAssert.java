@@ -52,7 +52,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
 
     public SELF isEmpty() {
         if (actual.length > 0) {
-            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')'",
+            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')",
                     Arrays.toString(actual));
             throw getException();
         }
@@ -62,7 +62,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
 
     public SELF hasElement() {
         if (actual.length == 0) {
-            setDefaultDescription("It is expected to have element, but it isn't. (actual: '[]')'");
+            setDefaultDescription("It is expected to have element, but it isn't. (actual: '[]')");
             throw getException();
         }
 

@@ -262,7 +262,7 @@ class FloatAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isNegative()'")
+    @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
         @ValueSource(floats = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
@@ -284,7 +284,7 @@ class FloatAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isZeroOrNegative()'")
+    @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(floats = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
@@ -306,7 +306,7 @@ class FloatAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'hasDecimalPart()'")
+    @DisplayName("method 'hasDecimalPart'")
     class HasDecimalPart {
         @ParameterizedTest
         @ValueSource(floats = {

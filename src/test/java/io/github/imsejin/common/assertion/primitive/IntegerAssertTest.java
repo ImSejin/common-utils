@@ -262,7 +262,7 @@ class IntegerAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isNegative()'")
+    @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
         @ValueSource(ints = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE})
@@ -284,7 +284,7 @@ class IntegerAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isZeroOrNegative()'")
+    @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(ints = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE})

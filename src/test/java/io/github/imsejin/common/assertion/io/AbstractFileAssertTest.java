@@ -225,7 +225,7 @@ class AbstractFileAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isRelative()'")
+    @DisplayName("method 'isRelative'")
     class IsRelative {
         @Test
         @DisplayName("passes, when actual is in relative path")

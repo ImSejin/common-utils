@@ -262,7 +262,7 @@ class ShortAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isNegative()'")
+    @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
         @ValueSource(shorts = {-1, Byte.MIN_VALUE, Short.MIN_VALUE})
@@ -284,7 +284,7 @@ class ShortAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isZeroOrNegative()'")
+    @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(shorts = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE})

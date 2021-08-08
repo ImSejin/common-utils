@@ -262,7 +262,7 @@ class ByteAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isNegative()'")
+    @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
         @ValueSource(bytes = {-1, Byte.MIN_VALUE})
@@ -284,7 +284,7 @@ class ByteAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isZeroOrNegative()'")
+    @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
         @ValueSource(bytes = {0, -1, Byte.MIN_VALUE})
