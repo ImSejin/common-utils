@@ -21,8 +21,6 @@ import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 import io.github.imsejin.common.util.ClassUtils;
 
-import java.lang.reflect.Modifier;
-
 public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractObjectAssert<SELF, Class<?>> {
 
     public ClassAssert(Class<T> actual) {

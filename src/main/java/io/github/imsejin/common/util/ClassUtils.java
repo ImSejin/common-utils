@@ -96,10 +96,10 @@ public final class ClassUtils {
     public static boolean isAbstractClass(Class<?> clazz) {
         if (clazz == null) return false;
 
+        // Keyword 'abstract' is cannot be compatible with 'final' except native objects.
         final int modifiers = clazz.getModifiers();
-        return Modifier.isAbstract(modifiers) &&
-                !Modifier.isFinal(modifiers) && // Keyword 'abstract' is cannot be compatible with 'final' (exclude array class).
-                !clazz.isPrimitive() && !clazz.isInterface() && !isEnumOrEnumConstant(clazz);
+        return Modifier.isAbstract(modifiers) && !Modifier.isFinal(modifiers) &&
+                !clazz.isArray() && !clazz.isPrimitive() && !clazz.isInterface() && !isEnumOrEnumConstant(clazz);
     }
 
     public static boolean isSuperclass(@Nonnull Class<?> superclass, Class<?> subclass) {
