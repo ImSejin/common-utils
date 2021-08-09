@@ -18,6 +18,7 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
@@ -346,6 +347,40 @@ public final class ArrayUtils {
         if (array == null) return "null";
         if (array.getClass().isArray()) return Arrays.toString((Object[]) array);
         return array.toString();
+    }
+
+    /**
+     * Prepends elements to array.
+     *
+     * @param src      source array
+     * @param elements elements to be prepended
+     * @return prepended array
+     */
+    public static Object[] prepend(@Nonnull Object[] src, Object... elements) {
+        if (isNullOrEmpty(elements)) return src;
+
+        Object[] array = new Object[elements.length + src.length];
+        System.arraycopy(elements, 0, array, 0, elements.length);
+        if (exists(src)) System.arraycopy(src, 0, array, elements.length, src.length);
+
+        return array;
+    }
+
+    /**
+     * Appends elements to array.
+     *
+     * @param src      source array
+     * @param elements elements to be appended
+     * @return appended array
+     */
+    public static Object[] append(@Nonnull Object[] src, Object... elements) {
+        if (isNullOrEmpty(elements)) return src;
+
+        Object[] array = new Object[src.length + elements.length];
+        if (exists(src)) System.arraycopy(src, 0, array, 0, src.length);
+        System.arraycopy(elements, 0, array, src.length, elements.length);
+
+        return array;
     }
 
 }
