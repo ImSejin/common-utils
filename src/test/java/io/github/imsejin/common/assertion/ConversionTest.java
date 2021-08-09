@@ -19,17 +19,21 @@ package io.github.imsejin.common.assertion;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.util.CollectionUtils;
+import io.github.imsejin.common.util.DateTimeUtils;
 import io.github.imsejin.common.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
@@ -159,6 +163,66 @@ class ConversionTest {
         assertThatNoException().isThrownBy(() -> Asserts.that(LocalDateTime.of(LocalDate.now(), LocalTime.MIN))
                 .isNotNull().isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
                 .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    @DisplayName("asLength(): Array -> int")
+    void asLength0() {
+        assertThatNoException().isThrownBy(() -> Asserts.that(new String[]{"a", "b", "c", "d"})
+                .isNotNull().doesNotContainNull().hasElement()
+                .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(4));
+    }
+
+    @Test
+    @DisplayName("asLength(): CharSequence -> int")
+    void asLength1() {
+        // given
+        String name = getClass().getPackage().getName();
+
+        // expect
+        assertThatNoException().isThrownBy(() -> Asserts.that(name)
+                .isNotNull().hasText()
+                .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(name.length()));
+    }
+
+    @Test
+    @DisplayName("asLength(): File -> long")
+    void asLength2(@TempDir Path path) throws IOException {
+        // given
+        File file = new File(path.toFile(), DateTimeUtils.now());
+        String content = getClass().getPackage().getName();
+        Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
+
+        // expect
+        assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                .isNotNull().exists().canRead()
+                .asLength().isGreaterThan(1L).isLessThan(Long.MAX_VALUE).isEqualTo((long) content.length()));
+    }
+
+    @Test
+    @DisplayName("asSize(): Collection -> int")
+    void asSize0() {
+        // given
+        List<String> collection = Arrays.asList("A", "B", "C", "D", "E", "F");
+
+        // expect
+        assertThatNoException().isThrownBy(() -> Asserts.that(collection)
+                .isNotNull().doesNotContainNull().hasElement()
+                .asSize().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(collection.size()));
+    }
+
+    @Test
+    @DisplayName("asSize(): Map -> int")
+    void asSize1() {
+        // given
+        Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList("A", "B", "C"));
+
+        // expect
+        assertThatNoException().isThrownBy(() -> Asserts.that(map)
+                .isNotNull().hasEntry()
+                .asSize().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(map.size()));
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
