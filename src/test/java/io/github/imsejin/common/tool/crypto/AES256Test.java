@@ -19,15 +19,11 @@ package io.github.imsejin.common.tool.crypto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Arrays;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AES256Test {
 
-    private static final String KEY = "be783dd232cc4d3d";
-
-    private static final Crypto crypto = new AES256(KEY);
+    private static final String KEY = "a218571d289c4e79a383620e72dd2413";
 
     @ParameterizedTest
     @ValueSource(strings = {" ", ",", "\"", "a", "of"})
@@ -49,17 +45,31 @@ class AES256Test {
                 "This book is a treatise on the theory of ethics, very popular during the Renaissance. " +
                 "The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.";
 
-        Arrays.stream(origin.split(delimiter)).forEach(text -> {
+        for (int length : new int[]{16, 24, 32}) {
+            Crypto crypto = new AES256(KEY.substring(0, length));
+            assertEncryptionAndDecryption(crypto, origin.split(delimiter));
+        }
+    }
+
+    private static void assertEncryptionAndDecryption(Crypto crypto, String... texts) {
+        for (String text : texts) {
             // when: 1
             String encrypted = crypto.encrypt(text);
             // then: 1
-            assertThat(encrypted).isNotNull().isNotBlank().isNotEqualTo(text);
+            assertThat(encrypted)
+                    .as("Plaintext will be encrypted: '%s' => '%s'", text, encrypted)
+                    .isNotNull().isNotBlank().isNotEqualTo(text)
+                    .as("Same plaintext, same ciphertext: '%s' => ('%s' == '%s')", text, encrypted, crypto.encrypt(text))
+                    .isEqualTo(crypto.encrypt(text));
+            System.out.printf("ciphertext: %s%n", encrypted);
 
             // when: 2
             String decrypted = crypto.decrypt(encrypted);
             // then: 2
-            assertThat(decrypted).isNotNull().isNotBlank().isEqualTo(text);
-        });
+            assertThat(decrypted)
+                    .as("Ciphertext will be decrypted: '%s' => '%s'", encrypted, decrypted)
+                    .isNotNull().isNotBlank().isEqualTo(text);
+        }
     }
 
 }

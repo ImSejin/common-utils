@@ -19,12 +19,10 @@ package io.github.imsejin.common.tool.crypto;
 import io.github.imsejin.common.assertion.Asserts;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.security.spec.AlgorithmParameterSpec;
 import java.util.Base64;
 
 /**
@@ -32,11 +30,12 @@ import java.util.Base64;
  */
 public class AES256 implements Crypto {
 
-    public static final String ALGORITHM = "AES/CBC/PKCS5Padding";
+    /**
+     * {@code AES/CBC/PKCS5Padding} is vulnerable to being decrypted.
+     */
+    public static final String ALGORITHM = "AES/ECB/PKCS5Padding";
 
     private final Key key;
-
-    private final AlgorithmParameterSpec algParamSpec;
 
     private final Charset charset;
 
@@ -46,8 +45,8 @@ public class AES256 implements Crypto {
 
     public AES256(String key, Charset charset) {
         Asserts.that(key)
-                .as("AES256.key must have 16 characters, but it isn't: '{0}'", key)
-                .isNotNull().hasText().hasLengthOf(16);
+                .as("AES256.key must have 16, 24 or 32 characters, but it isn't: '{0}'", key)
+                .isNotNull().hasText().matches("^(.{16}|.{24}|.{32})$");
         Asserts.that(charset)
                 .as("AES256.charset is not allowed to be null, but it is", charset)
                 .isNotNull();
@@ -55,7 +54,6 @@ public class AES256 implements Crypto {
         byte[] bytes = key.getBytes(charset);
 
         this.key = new SecretKeySpec(bytes, "AES");
-        this.algParamSpec = new IvParameterSpec(bytes);
         this.charset = charset;
     }
 
@@ -63,7 +61,7 @@ public class AES256 implements Crypto {
     public String encrypt(String text) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, this.key, this.algParamSpec);
+            cipher.init(Cipher.ENCRYPT_MODE, this.key);
 
             byte[] encrypted = cipher.doFinal(text.getBytes(this.charset));
 
@@ -77,7 +75,7 @@ public class AES256 implements Crypto {
     public String decrypt(String cipherText) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, this.key, this.algParamSpec);
+            cipher.init(Cipher.DECRYPT_MODE, this.key);
 
             byte[] decodedBytes = Base64.getDecoder().decode(cipherText);
             byte[] decrypted = cipher.doFinal(decodedBytes);
