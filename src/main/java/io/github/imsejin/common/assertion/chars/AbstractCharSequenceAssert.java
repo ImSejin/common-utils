@@ -16,7 +16,9 @@
 
 package io.github.imsejin.common.assertion.chars;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
 public abstract class AbstractCharSequenceAssert<
         SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>,
@@ -73,6 +75,12 @@ public abstract class AbstractCharSequenceAssert<
         }
 
         return self;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public NumberAssert<?, Integer> asLength() {
+        return Asserts.that(actual.length());
     }
 
 }

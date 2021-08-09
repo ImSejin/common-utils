@@ -16,7 +16,9 @@
 
 package io.github.imsejin.common.assertion.io;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.primitive.NumberAssert;
 import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
@@ -155,6 +157,12 @@ public abstract class AbstractFileAssert<
     public SELF hasExtension(String expected) {
         if (FilenameUtils.extension(actual).equals(expected)) throw getException();
         return self;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public NumberAssert<?, Long> asLength() {
+        return Asserts.that(actual.length());
     }
 
 }

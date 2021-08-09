@@ -16,7 +16,9 @@
 
 package io.github.imsejin.common.assertion.array;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.primitive.NumberAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.Arrays;
@@ -163,6 +165,12 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
         }
 
         return self;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public NumberAssert<?, Integer> asLength() {
+        return Asserts.that(actual.length);
     }
 
 }
