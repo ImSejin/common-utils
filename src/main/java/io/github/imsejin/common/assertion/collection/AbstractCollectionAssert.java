@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.array.ArrayAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
+import io.github.imsejin.common.util.CollectionUtils;
 
 import java.util.Collection;
 
@@ -103,7 +104,14 @@ public abstract class AbstractCollectionAssert<
     }
 
     public SELF containsAll(Collection<T> expected) {
-        if (expected == null || !actual.containsAll(expected)) throw getException();
+        if (CollectionUtils.isNullOrEmpty(expected)) return self;
+
+        if (!actual.containsAll(expected)) {
+            setDefaultDescription("It is expected to contain the given collection, but it doesn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
