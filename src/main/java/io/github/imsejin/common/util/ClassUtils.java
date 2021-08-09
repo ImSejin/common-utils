@@ -37,12 +37,12 @@ public final class ClassUtils {
     /**
      * Checks if this class is enum or its one of a constant.
      * <p>
-     * A class that extends {@link Enum} and its constants are changed internally since JDK 9.
+     * A class that extends {@link Enum} and its constants are changed internally since Java 9.
      *
      * <pre>
      * 1. A class that extends {@link Enum}: {@link java.util.concurrent.TimeUnit}
      * +--------+--------+----------------+----------+-------+
-     * | JDK \  | isEnum | getSuperclass  | abstract | final |
+     * | Java \ | isEnum | getSuperclass  | abstract | final |
      * +--------+--------+----------------+----------+-------+
      * |  8 &gt;=  | true   | java.lang.Enum | true     | false |
      * +--------+--------+----------------+----------+-------+
@@ -51,7 +51,7 @@ public final class ClassUtils {
      *
      * 2. A class that has no body, declared in enum class body as a constant: {@link java.time.Month#JANUARY}
      * +--------+--------+----------------+----------+-------+
-     * | JDK \  | isEnum | getSuperclass  | abstract | final |
+     * | Java \ | isEnum | getSuperclass  | abstract | final |
      * +--------+--------+----------------+----------+-------+
      * |  8 &gt;=  | true   | java.lang.Enum | false    | true  |
      * +--------+--------+----------------+----------+-------+
@@ -60,7 +60,7 @@ public final class ClassUtils {
      *
      * 3. A class that has own body, declared in enum class body as a constant: {@link java.util.concurrent.TimeUnit#HOURS}
      * +--------+--------+-------------------------------+----------+-------+
-     * | JDK \  | isEnum | getSuperclass                 | abstract | final |
+     * | Java \ | isEnum | getSuperclass                 | abstract | final |
      * +--------+--------+-------------------------------+----------+-------+
      * |  8 &gt;=  | false  | java.util.concurrent.TimeUnit | false    | false |
      * +--------+--------+-------------------------------+----------+-------+
@@ -76,10 +76,10 @@ public final class ClassUtils {
     public static boolean isEnumOrEnumConstant(Class<?> clazz) {
         if (clazz == null) return false;
 
-        // JDK 9 later
+        // Java 9 or later
         if (clazz.isEnum()) return true;
 
-        // JDK 8 for enum constant as an anonymous class.
+        // Until Java 8, enum constant that has body is an anonymous class.
         for (Class<?> c = clazz.getSuperclass(); c != null; c = c.getSuperclass()) {
             if (c.isEnum()) return true;
         }
