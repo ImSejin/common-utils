@@ -96,7 +96,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     public SELF isSameLength(Object[] expected) {
         if (expected == null || actual.length != expected.length) {
             setDefaultDescription("They are expected to be the same length, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length);
+                    expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }
 
@@ -106,7 +106,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     public SELF isNotSameLength(Object[] expected) {
         if (expected == null || actual.length == expected.length) {
             setDefaultDescription("They are expected to be not the same length, but they are. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length);
+                    expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }
 

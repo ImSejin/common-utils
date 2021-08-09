@@ -34,12 +34,20 @@ public abstract class AbstractCollectionAssert<
     }
 
     public SELF isEmpty() {
-        if (!actual.isEmpty()) throw getException();
+        if (!actual.isEmpty()) {
+            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasElement() {
-        if (actual.isEmpty()) throw getException();
+        if (actual.isEmpty()) {
+            setDefaultDescription("It is expected to have element, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -54,23 +62,43 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
-    public SELF hasSizeOf(int size) {
-        if (actual.size() != size) throw getException();
+    public SELF hasSizeOf(int expected) {
+        if (actual.size() != expected) {
+            setDefaultDescription("It is expected to be the same size, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.size());
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isSameSize(Collection<?> expected) {
-        if (expected == null || actual.size() != expected.size()) throw getException();
+        if (expected == null || actual.size() != expected.size()) {
+            setDefaultDescription("They are expected to be the same size, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected == null ? "null" : expected.size(), actual.size());
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotSameSize(Collection<?> expected) {
-        if (expected != null && actual.size() == expected.size()) throw getException();
+        if (expected == null || actual.size() == expected.size()) {
+            setDefaultDescription("They are expected to be not the same size, but they are. (expected: '{0}', actual: '{1}')",
+                    expected == null ? "null" : expected.size(), actual.size());
+            throw getException();
+        }
+
         return self;
     }
 
-    public SELF contains(T element) {
-        if (!actual.contains(element)) throw getException();
+    public SELF contains(T expected) {
+        if (!actual.contains(expected)) {
+            setDefaultDescription("It is expected to contain the given element, but it doesn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
