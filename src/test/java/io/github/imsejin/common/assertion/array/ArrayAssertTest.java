@@ -483,7 +483,7 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual contains the given elements at least 1")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).containsAny();
+                Asserts.that(new Character[]{'a', 'b', 'c', 'd', 'e', null}).containsAny(null);
                 Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAny(null, 1024L, -1);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect", "common");
