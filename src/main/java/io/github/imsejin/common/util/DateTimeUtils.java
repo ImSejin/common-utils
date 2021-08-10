@@ -159,7 +159,7 @@ public final class DateTimeUtils {
             dateFormat.setLenient(false);
             dateFormat.parse(date.replace("-", ""));
             return true;
-        } catch (ParseException ex) {
+        } catch (ParseException ignored) {
             return false;
         }
     }
@@ -196,8 +196,8 @@ public final class DateTimeUtils {
      * Returns the last date of the year and month.
      *
      * <pre><code>
-     *     withMonthlyLastDate(2019, 2); // 20190228
-     *     withMonthlyLastDate(2020, 2); // 20200229
+     *     getLastDateOfMonth(2019, 2); // 20190228
+     *     getLastDateOfMonth(2020, 2); // 20200229
      * </code></pre>
      *
      * @param year  year
@@ -213,8 +213,8 @@ public final class DateTimeUtils {
      * Returns the last date of the year and month.
      *
      * <pre><code>
-     *     withMonthlyLastDate(2019, Month.FEBRUARY); // 20190228
-     *     withMonthlyLastDate(2020, Month.FEBRUARY); // 20200229
+     *     getLastDateOfMonth(2019, Month.FEBRUARY); // 20190228
+     *     getLastDateOfMonth(2020, Month.FEBRUARY); // 20200229
      * </code></pre>
      *
      * @param year  year
@@ -230,8 +230,8 @@ public final class DateTimeUtils {
      * Returns the last date of the year and month.
      *
      * <pre><code>
-     *     withMonthlyLastDate("2019", "2"); // 20190228
-     *     withMonthlyLastDate("2020", "2"); // 20200229
+     *     getLastDateOfMonth("2019", "2"); // 20190228
+     *     getLastDateOfMonth("2020", "2"); // 20200229
      * </code></pre>
      *
      * @param year  year
@@ -247,8 +247,8 @@ public final class DateTimeUtils {
      * Returns the last date of the year and month.
      *
      * <pre><code>
-     *     withMonthlyLastDate("2019", Month.FEBRUARY); // 20190228
-     *     withMonthlyLastDate("2020", Month.FEBRUARY); // 20200229
+     *     getLastDateOfMonth("2019", Month.FEBRUARY); // 20190228
+     *     getLastDateOfMonth("2020", Month.FEBRUARY); // 20200229
      * </code></pre>
      *
      * @param year  year
@@ -298,7 +298,6 @@ public final class DateTimeUtils {
     }
 
     private static class Randoms {
-
         private final ThreadLocalRandom random;
 
         private Randoms(ThreadLocalRandom random) {
@@ -318,7 +317,6 @@ public final class DateTimeUtils {
             long randomSeconds = this.random.nextLong(start.toEpochSecond(offset), end.toEpochSecond(offset));
             return LocalDateTime.ofInstant(Instant.ofEpochSecond(randomSeconds), ZoneId.systemDefault());
         }
-
     }
 
 }
