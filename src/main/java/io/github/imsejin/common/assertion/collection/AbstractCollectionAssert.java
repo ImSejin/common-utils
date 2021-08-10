@@ -20,9 +20,12 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.array.ArrayAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
+import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 public abstract class AbstractCollectionAssert<
         SELF extends AbstractCollectionAssert<SELF, ACTUAL, T>,
@@ -101,6 +104,20 @@ public abstract class AbstractCollectionAssert<
         }
 
         return self;
+    }
+
+    public SELF containsAny(T first, T... others) {
+        Object[] expected = ArrayUtils.prepend(others, first);
+
+        for (Object item : expected) {
+            for (Object element : actual) {
+                if (Objects.deepEquals(element, item)) return self;
+            }
+        }
+
+        setDefaultDescription("It is expected to contain the given elements, but it doesn't. (expected: '{0}', actual: '{1}')",
+                Arrays.toString(expected), actual);
+        throw getException();
     }
 
     public SELF containsAll(Collection<T> expected) {
