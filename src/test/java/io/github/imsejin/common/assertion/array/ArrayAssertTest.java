@@ -448,17 +448,17 @@ class ArrayAssertTest {
     @DisplayName("method 'contains'")
     class Contains {
         @Test
-        @DisplayName("passes, when actual contains the given elements")
+        @DisplayName("passes, when actual contains the given element")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).contains('d');
                 Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).contains(1024);
-                Asserts.that(getClass().getPackage().getName().split("\\.")).containsAny("imsejin", "github");
+                Asserts.that(getClass().getPackage().getName().split("\\.")).contains("imsejin");
             });
         }
 
         @Test
-        @DisplayName("throws exception, when actual doesn't contain the given elements")
+        @DisplayName("throws exception, when actual doesn't contain the given element")
         void test1() {
             String description = "It is expected to contain the given element, but it doesn't.";
 
