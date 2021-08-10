@@ -107,7 +107,7 @@ public final class FilenameUtils {
      *     : --> ：
      *     * --> ＊
      *     ? --> ？
-     *     " --> ˝
+     *     " --> ＂
      *     < --> ＜
      *     > --> ＞
      *     | --> ｜
@@ -116,7 +116,7 @@ public final class FilenameUtils {
      * <pre>{@code
      *     String unallowables = "** <happy/\\new year> **:\"john\" -> |\"jeremy\"|";
      *
-     *     toSafeName(unallowables);                // ＊＊ ＜happy／＼new year＞ ＊＊：˝john˝ -＞ ｜˝jeremy˝｜
+     *     toSafeName(unallowables);                // ＊＊ ＜happy／＼new year＞ ＊＊：＂john＂ -＞ ｜＂jeremy＂｜
      *     toSafeName("where he is gone..");        // where he is gone…
      *     toSafeName("I feel happy when coding."); // I feel happy when coding．
      * }</pre>
@@ -125,15 +125,15 @@ public final class FilenameUtils {
      * @return filename in which unallowable characters are replaced with allowable characters
      */
     public static String replaceUnallowables(@Nonnull String filename) {
-        return filename.replaceAll("\\\\", "＼")
-                .replaceAll("/", "／")
-                .replaceAll(":", "：")
-                .replaceAll("\\*", "＊")
-                .replaceAll("\\?", "？")
-                .replaceAll("\"", "˝")
-                .replaceAll("<", "＜")
-                .replaceAll(">", "＞")
-                .replaceAll("\\|", "｜")
+        return filename.replace('\\', '＼')
+                .replace('/', '／')
+                .replace(':', '：')
+                .replace('*', '＊')
+                .replace('?', '？')
+                .replace('"', '＂')
+                .replace('<', '＜')
+                .replace('>', '＞')
+                .replace('|', '｜')
                 .replaceAll("\\.{2,}+$", "…")
                 .replaceAll("\\.$", "．");
     }
