@@ -119,9 +119,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Returns instance of type.
-     *
-     * <p> This can instantiate the type that has constructor without parameter.
+     * Returns instance of type using default constructor.
      *
      * @param type class
      * @param <T>  type of instance
@@ -130,23 +128,42 @@ public final class ReflectionUtils {
      * @throws RuntimeException if failed to instantiate
      */
     public static <T> T instantiate(Class<T> type) {
+        return instantiate(type, null, null);
+    }
+
+    /**
+     * Returns instance of type using the specific constructor.
+     *
+     * @param type       class
+     * @param paramTypes parameter types of constructor
+     * @param initArgs   initial arguments of constructor
+     * @param <T>        type of instance
+     * @return instance of type
+     * @throws RuntimeException if the type doesn't have default constructor
+     * @throws RuntimeException if failed to instantiate
+     */
+    public static <T> T instantiate(Class<T> type, @Nullable Class<?>[] paramTypes, @Nullable Object[] initArgs) {
         Asserts.that(type).isNotNull();
+        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull().isSameLength(initArgs);
+        if (initArgs != null) Asserts.that(initArgs).isSameLength(paramTypes);
 
         Constructor<T> constructor;
         try {
-            // Allows only constructor without parameter.
-            constructor = type.getDeclaredConstructor();
+            // Gets constructor with the specific parameter types.
+            constructor = type.getDeclaredConstructor(paramTypes);
         } catch (NoSuchMethodException e) {
-            String message = String.format("Cannot find a default constructor in the class(%s)", type);
+            String message = String.format("Cannot find a constructor: %s(%s)",
+                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
             throw new RuntimeException(message, e);
         }
         constructor.setAccessible(true);
 
         // Instantiates new model and sets up data into the model's fields.
         try {
-            return constructor.newInstance();
+            return constructor.newInstance(initArgs);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            String message = String.format("Failed to instantiate of the class(%s)", type.getName());
+            String message = String.format("Failed to instantiate by constructor: %s(%s)",
+                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
             throw new RuntimeException(message, e);
         }
     }
