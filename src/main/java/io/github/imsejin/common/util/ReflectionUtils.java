@@ -20,10 +20,7 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.Asserts;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -166,6 +163,40 @@ public final class ReflectionUtils {
             String message = String.format("Failed to instantiate by constructor: %s(%s)",
                     type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
             throw new RuntimeException(message, e);
+        }
+    }
+
+    /**
+     * Invokes the specific method and returns its result.
+     *
+     * @param type       class
+     * @param instance   instance if method is static, null
+     * @param methodName name of method
+     * @param paramTypes parameter types of method
+     * @param args       arguments of method
+     * @return result of method
+     */
+    public static Object invoke(Class<?> type, @Nullable Object instance,
+                                String methodName, @Nullable Class<?>[] paramTypes, @Nullable Object[] args) {
+        Asserts.that(type).isNotNull();
+        Asserts.that(methodName).isNotNull().hasText();
+        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull().isSameLength(args);
+        if (args != null) Asserts.that(args).isSameLength(paramTypes);
+
+        Method method;
+        try {
+            method = type.getDeclaredMethod(methodName, paramTypes);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
+        method.setAccessible(true);
+
+        try {
+            return method.invoke(instance, args);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
     }
 

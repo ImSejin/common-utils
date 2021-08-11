@@ -26,8 +26,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.time.LocalDateTime;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -144,10 +143,33 @@ class ReflectionUtilsTest {
                 .isExactlyInstanceOf(clazz);
     }
 
+    @Test
+    @DisplayName("method 'invoke'")
+    void invoke() {
+        // given: 1
+        List<Character> characters = Arrays.asList('0', '1', '2');
+        // when: 1
+        Object size = ReflectionUtils.invoke(Collection.class, characters, "size", null, null);
+        // then: 1
+        assertThat(size)
+                .isNotNull().isExactlyInstanceOf(Integer.class).isEqualTo(characters.size());
+
+        // given: 2
+        Class<?>[] paramTypes = {Object.class};
+        Object[] args = {"a element in singleton list"};
+        // when: 2
+        Object singletonList = ReflectionUtils.invoke(Collections.class, null, "singletonList", paramTypes, args);
+        // then: 2
+        assertThat(singletonList)
+                .isNotNull().returns(true, it -> List.class.isAssignableFrom(it.getClass()))
+                .isEqualTo(Collections.singletonList(args[0]));
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////
 
     private static class A {
         private static Long id;
+
         private static class AA {
             private static String name;
         }
