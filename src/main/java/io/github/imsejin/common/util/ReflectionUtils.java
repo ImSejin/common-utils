@@ -65,25 +65,25 @@ public final class ReflectionUtils {
     /**
      * Returns value of the field.
      *
-     * @param model model in list
-     * @param field targeted field
+     * @param instance instance if method is static, null
+     * @param field    targeted field
      * @return field value
      * @throws RuntimeException if get value from the field
      */
     @Nullable
-    public static Object getFieldValue(@Nullable Object model, Field field) {
+    public static Object getFieldValue(@Nullable Object instance, Field field) {
         Asserts.that(field).isNotNull();
-        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(model).isNotNull();
+        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
 
         // Enables to have access to the field even private field.
         field.setAccessible(true);
 
         try {
             // Returns value in the field.
-            return field.get(model);
+            return field.get(instance);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to get value from the field(%s) of the class(%s)",
-                    field.getName(), model.getClass().getName());
+                    field.getName(), instance.getClass().getName());
             throw new RuntimeException(message, e);
         }
     }
@@ -91,14 +91,14 @@ public final class ReflectionUtils {
     /**
      * Sets up value into the field.
      *
-     * @param model model in list
-     * @param field targeted field
-     * @param value value to be set into field
+     * @param instance instance if method is static, null
+     * @param field    targeted field
+     * @param value    value to be set into field
      * @throws RuntimeException if failed to set value into the field
      */
-    public static void setFieldValue(@Nullable Object model, Field field, Object value) {
+    public static void setFieldValue(@Nullable Object instance, Field field, Object value) {
         Asserts.that(field).isNotNull();
-        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(model).isNotNull();
+        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
         if (field.getType().isPrimitive()) Asserts.that(value)
                 .as("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
                 .isNotNull();
@@ -108,10 +108,10 @@ public final class ReflectionUtils {
 
         // Sets value into the field.
         try {
-            field.set(model, value);
+            field.set(instance, value);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to set value into the field(%s) of the class(%s)",
-                    field.getName(), model.getClass().getName());
+                    field.getName(), instance.getClass().getName());
             throw new RuntimeException(message, e);
         }
     }
