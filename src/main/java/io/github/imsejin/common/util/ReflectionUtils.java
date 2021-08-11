@@ -70,14 +70,13 @@ public final class ReflectionUtils {
      *
      * @param model model in list
      * @param field targeted field
-     * @param <T>   type of the object
      * @return field value
      * @throws RuntimeException if get value from the field
      */
     @Nullable
-    public static <T> Object getFieldValue(T model, Field field) {
-        Asserts.that(model).isNotNull();
+    public static Object getFieldValue(@Nullable Object model, Field field) {
         Asserts.that(field).isNotNull();
+        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(model).isNotNull();
 
         // Enables to have access to the field even private field.
         field.setAccessible(true);
@@ -98,12 +97,14 @@ public final class ReflectionUtils {
      * @param model model in list
      * @param field targeted field
      * @param value value to be set into field
-     * @param <T>   type of the object
      * @throws RuntimeException if failed to set value into the field
      */
-    public static <T> void setFieldValue(T model, Field field, Object value) {
-        Asserts.that(model).isNotNull();
+    public static void setFieldValue(@Nullable Object model, Field field, Object value) {
         Asserts.that(field).isNotNull();
+        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(model).isNotNull();
+        if (field.getType().isPrimitive()) Asserts.that(value)
+                .as("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
+                .isNotNull();
 
         // Enables to have access to the field even private field.
         field.setAccessible(true);
