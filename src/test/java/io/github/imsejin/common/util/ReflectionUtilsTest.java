@@ -152,7 +152,8 @@ class ReflectionUtilsTest {
         Object size = ReflectionUtils.invoke(Collection.class, characters, "size", null, null);
         // then: 1
         assertThat(size)
-                .isNotNull().isExactlyInstanceOf(Integer.class).isEqualTo(characters.size());
+                .isNotNull().isExactlyInstanceOf(Integer.class)
+                .isEqualTo(characters.size());
 
         // given: 2
         Class<?>[] paramTypes = {Object.class};

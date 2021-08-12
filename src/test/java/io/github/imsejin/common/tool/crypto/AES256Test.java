@@ -61,7 +61,10 @@ class AES256Test {
                     .isNotNull().isNotBlank().isNotEqualTo(text)
                     .as("Same plaintext, same ciphertext: '%s' => ('%s' == '%s')", text, encrypted, crypto.encrypt(text))
                     .isEqualTo(crypto.encrypt(text));
-            System.out.printf("ciphertext: %s%n", encrypted);
+
+            int length = crypto.getKey().length();
+            System.out.printf("[%d] plaintext: %s%n%" + (("[" + length + "] ").length()) + "sciphertext: %s%n",
+                    length, text, ' ', encrypted);
 
             // when: 2
             String decrypted = crypto.decrypt(encrypted);
