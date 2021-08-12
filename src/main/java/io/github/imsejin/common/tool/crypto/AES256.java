@@ -31,9 +31,12 @@ import java.util.Base64;
 public class AES256 implements Crypto {
 
     /**
+     * Algorithm for cipher.
+     * <p>
      * {@code AES/CBC/PKCS5Padding} is vulnerable to being decrypted.
+     * {@code AES/ECB/PKCS5Padding} is equal to {@code AES}.
      */
-    public static final String ALGORITHM = "AES/ECB/PKCS5Padding";
+    public static final String ALGORITHM = "AES";
 
     private final Key key;
 
