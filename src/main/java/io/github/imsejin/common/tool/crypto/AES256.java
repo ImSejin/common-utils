@@ -86,4 +86,9 @@ public class AES256 implements Crypto {
         }
     }
 
+    @Override
+    public String getKey() {
+        return new String(this.key.getEncoded(), this.charset);
+    }
+
 }

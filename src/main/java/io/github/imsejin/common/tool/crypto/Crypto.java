@@ -37,4 +37,11 @@ public interface Crypto {
      */
     String decrypt(String cipherText);
 
+    /**
+     * Returns the given key.
+     *
+     * @return key
+     */
+    String getKey();
+
 }
