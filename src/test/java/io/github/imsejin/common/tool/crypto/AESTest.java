@@ -17,17 +17,21 @@
 package io.github.imsejin.common.tool.crypto;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AES256Test {
+class AESTest {
 
     private static final String KEY = "a218571d289c4e79a383620e72dd2413";
 
     @ParameterizedTest
-    @ValueSource(strings = {" ", ",", "\"", "a", "of"})
-    void test0(String delimiter) {
+    @MethodSource("provideAESImplmentations")
+    void test(int length, Function<String, AES128> provider) {
         // given
         String origin = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
@@ -45,8 +49,9 @@ class AES256Test {
                 "This book is a treatise on the theory of ethics, very popular during the Renaissance. " +
                 "The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.";
 
-        for (int length : new int[]{16, 24, 32}) {
-            Crypto crypto = new AES256(KEY.substring(0, length));
+        Crypto crypto = provider.apply(KEY.substring(0, length));
+
+        for (String delimiter : new String[]{" ", ",", "\"", "a", "of"}) {
             assertEncryptionAndDecryption(crypto, origin.split(delimiter));
         }
     }
@@ -73,6 +78,16 @@ class AES256Test {
                     .as("Ciphertext will be decrypted: '%s' => '%s'", encrypted, decrypted)
                     .isNotNull().isNotBlank().isEqualTo(text);
         }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    private static Stream<Arguments> provideAESImplmentations() {
+        Function<String, AES128> aes128 = AES128::new;
+        Function<String, AES192> aes192 = AES192::new;
+        Function<String, AES256> aes256 = AES256::new;
+
+        return Stream.of(Arguments.of(16, aes128), Arguments.of(24, aes192), Arguments.of(32, aes256));
     }
 
 }

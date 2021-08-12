@@ -20,16 +20,16 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Implementation of {@link AES} using algorithm AES256.
+ * Implementation of {@link AES} using algorithm AES128.
  */
-public class AES256 extends AES {
+public class AES128 extends AES {
 
-    public AES256(String key) {
+    public AES128(String key) {
         this(key, StandardCharsets.UTF_8);
     }
 
-    public AES256(String key, Charset charset) {
-        super(key, 32, charset);
+    public AES128(String key, Charset charset) {
+        super(key, 16, charset);
     }
 
 }
