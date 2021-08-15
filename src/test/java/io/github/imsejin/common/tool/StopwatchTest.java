@@ -1,6 +1,5 @@
 package io.github.imsejin.common.tool;
 
-import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.ReflectionUtils;
 import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.*;
@@ -119,17 +118,18 @@ class StopwatchTest {
             stopwatch.stop();
 
             // then
-            double ns = MathUtils.floor(stopwatch.getTotalTime(), 6);
+            double ns = stopwatch.getTotalTime();
             for (Map.Entry<TimeUnit, DoubleFunction<Double>> entry : units.entrySet()) {
                 TimeUnit timeUnit = entry.getKey();
 
-                double expected = MathUtils.floor(entry.getValue().apply(ns), 6);
+                double expected = entry.getValue().apply(ns);
                 stopwatch.setTimeUnit(timeUnit);
-                assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
+                assertThat(stopwatch.getTotalTime())
                         .as("Total time with %s unit", timeUnit.name().toLowerCase())
-                        .isEqualTo(expected);
+                        .isCloseTo(expected, Percentage.withPercentage(99.999999));
                 System.out.printf("%s: %s%n", timeUnit, BigDecimal.valueOf(expected).stripTrailingZeros().toPlainString());
             }
+            System.out.println("---");
         }
     }
 
