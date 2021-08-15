@@ -16,15 +16,19 @@
 
 package io.github.imsejin.common.util;
 
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.reflect.ClassAssert;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
@@ -115,6 +119,24 @@ class ReflectionUtilsTest {
         A.AA.name = null;
     }
 
+    @Test
+    @DisplayName("method 'getDeclaredConstructor'")
+    void getDeclaredConstructor() throws ClassNotFoundException {
+        // given: 1
+        Class<Asserts> t0 = Asserts.class;
+        // when: 1
+        Constructor<Asserts> c0 = ReflectionUtils.getDeclaredConstructor(t0);
+        // then: 1
+        assertThat(c0.getDeclaringClass()).isEqualTo(t0);
+
+        // given: 2
+        Class<?> t1 = Class.forName(Parent.class.getName() + "$Child");
+        // when: 2
+        Constructor<?> c1 = ReflectionUtils.getDeclaredConstructor(t1, int.class, String.class);
+        // then: 2
+        assertThat(c1.getDeclaringClass()).isEqualTo(t1);
+    }
+
     @ParameterizedTest
     @DisplayName("method 'instantiate'")
     @ValueSource(classes = {A.class, A.AA.class, A.AB.class, B.class, B.BA.class})
@@ -144,6 +166,29 @@ class ReflectionUtilsTest {
     }
 
     @Test
+    @DisplayName("method 'getDeclaredMethod'")
+    void getDeclaredMethod() throws ClassNotFoundException {
+        // given: 1
+        Class<Asserts> t0 = Asserts.class;
+        // when: 1
+        Method m0 = ReflectionUtils.getDeclaredMethod(t0, "that", Class.class);
+        // then: 1
+        assertThat(m0)
+                .isNotNull().returns(t0, Method::getDeclaringClass)
+                .returns(ClassAssert.class, it -> invokeMethod(it, null, Object.class).getClass());
+
+        // given: 2
+        Class<?> t1 = Class.forName(Parent.class.getName() + "$Child");
+        // when: 2
+        Method m1 = ReflectionUtils.getDeclaredMethod(t1, "getId");
+        // then: 2
+        Object instance = ReflectionUtils.instantiate(t1, new Class<?>[]{int.class, String.class}, new Object[]{256, "smith"});
+        assertThat(m1)
+                .isNotNull().returns(t1, Method::getDeclaringClass)
+                .returns(256, it -> invokeMethod(it, instance));
+    }
+
+    @Test
     @DisplayName("method 'invoke'")
     void invoke() {
         // given: 1
@@ -167,6 +212,15 @@ class ReflectionUtilsTest {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
+
+    private static Object invokeMethod(Method method, @Nullable Object instance, Object... args) {
+        try {
+            method.setAccessible(true);
+            return method.invoke(instance, args);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static class A {
         private static Long id;
@@ -194,9 +248,11 @@ class Parent implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    @Getter
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     private static class Child extends Parent {
-        private int id;
-        private String title;
+        private final int id;
+        private final String title;
     }
 
 }
