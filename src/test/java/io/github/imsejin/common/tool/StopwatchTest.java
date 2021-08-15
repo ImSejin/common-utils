@@ -1,8 +1,11 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.util.MathUtils;
+import io.github.imsejin.common.util.ReflectionUtils;
+import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.*;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.Map;
@@ -131,6 +134,24 @@ class StopwatchTest {
     }
 
     @Test
+    @DisplayName("private method 'convertTimeUnit'")
+    void convertTimeUnit() throws ReflectiveOperationException {
+        // given
+        Method method = ReflectionUtils.getDeclaredMethod(Stopwatch.class, "convertTimeUnit",
+                double.class, TimeUnit.class, TimeUnit.class);
+        method.setAccessible(true);
+
+        // expect
+        assertThatConversionFromNanoseconds(method, 102.4);
+        assertThatConversionFromMicroseconds(method, 51.2);
+        assertThatConversionFromMilliseconds(method, 25.6);
+        assertThatConversionFromSeconds(method, 12.8);
+        assertThatConversionFromMinutes(method, 6.4);
+        assertThatConversionFromHours(method, 3.2);
+        assertThatConversionFromDays(method, 1.6);
+    }
+
+    @Test
     @Disabled
     void getSummary() throws InterruptedException {
         // given
@@ -178,32 +199,132 @@ class StopwatchTest {
         }
     }
 
-    @Test
-    @Disabled
-    void convertTimeUnit1() {
-        // given
-        long amount = 2000;
+    ///////////////////////////////////////////////////////////////////////////////////////
 
-        // when: ms => sec
-        long convert = TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS);
-        System.out.println(convert);
-        long converted = amount / convert;
-
-        // then
-        System.out.println(converted + " sec");
+    private static void assertThatConversionFromNanoseconds(Method convertTimeUnit, double amount) throws ReflectiveOperationException {
+        Percentage per = Percentage.withPercentage(99.999999);
+        // To nanoseconds.
+        assertThat(amount).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, TimeUnit.NANOSECONDS), per);
+        // To microseconds.
+        assertThat(amount / 1_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, TimeUnit.MICROSECONDS), per);
+        // To milliseconds.
+        assertThat(amount / 1_000_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, TimeUnit.MILLISECONDS), per);
+        // To seconds.
+        assertThat(amount / 1_000_000_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, TimeUnit.SECONDS), per);
+        // To minutes.
+        assertThat(amount / 1_000_000_000 / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, TimeUnit.MINUTES), per);
+        // To hours.
+        assertThat(amount / 1_000_000_000 / 60 / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, TimeUnit.HOURS), per);
+        // To days.
+        assertThat(amount / 1_000_000_000 / 60 / 60 / 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, TimeUnit.DAYS), per);
     }
 
-    @Test
-    @Disabled
-    void convertTimeUnit2() {
-        // given
-        long amount = 2;
+    private static void assertThatConversionFromMicroseconds(Method convertTimeUnit, double amount) throws ReflectiveOperationException {
+        Percentage per = Percentage.withPercentage(99.999999);
+        // To nanoseconds.
+        assertThat(amount * 1_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, TimeUnit.NANOSECONDS), per);
+        // To microseconds.
+        assertThat(amount).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, TimeUnit.MICROSECONDS), per);
+        // To milliseconds.
+        assertThat(amount / 1_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, TimeUnit.MILLISECONDS), per);
+        // To seconds.
+        assertThat(amount / 1_000_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, TimeUnit.SECONDS), per);
+        // To minutes.
+        assertThat(amount / 1_000_000 / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, TimeUnit.MINUTES), per);
+        // To hours.
+        assertThat(amount / 1_000_000 / 60 / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, TimeUnit.HOURS), per);
+        // To days.
+        assertThat(amount / 1_000_000 / 60 / 60 / 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, TimeUnit.DAYS), per);
+    }
 
-        // when: sec => ms
-        double converted = amount * TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS);
+    private static void assertThatConversionFromMilliseconds(Method convertTimeUnit, double amount) throws ReflectiveOperationException {
+        Percentage per = Percentage.withPercentage(99.999999);
+        // To nanoseconds.
+        assertThat(amount * 1_000_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, TimeUnit.NANOSECONDS), per);
+        // To microseconds.
+        assertThat(amount * 1_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, TimeUnit.MICROSECONDS), per);
+        // To milliseconds.
+        assertThat(amount).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, TimeUnit.MILLISECONDS), per);
+        // To seconds.
+        assertThat(amount / 1_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, TimeUnit.SECONDS), per);
+        // To minutes.
+        assertThat(amount / 1_000 / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, TimeUnit.MINUTES), per);
+        // To hours.
+        assertThat(amount / 1_000 / 60 / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, TimeUnit.HOURS), per);
+        // To days.
+        assertThat(amount / 1_000 / 60 / 60 / 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, TimeUnit.DAYS), per);
+    }
 
-        // then
-        System.out.println(converted + " ms");
+    private static void assertThatConversionFromSeconds(Method convertTimeUnit, double amount) throws ReflectiveOperationException {
+        Percentage per = Percentage.withPercentage(99.999999);
+        // To nanoseconds.
+        assertThat(amount * 1_000_000_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, TimeUnit.NANOSECONDS), per);
+        // To microseconds.
+        assertThat(amount * 1_000_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, TimeUnit.MICROSECONDS), per);
+        // To milliseconds.
+        assertThat(amount * 1_000).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, TimeUnit.MILLISECONDS), per);
+        // To seconds.
+        assertThat(amount).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, TimeUnit.SECONDS), per);
+        // To minutes.
+        assertThat(amount / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, TimeUnit.MINUTES), per);
+        // To hours.
+        assertThat(amount / 60 / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, TimeUnit.HOURS), per);
+        // To days.
+        assertThat(amount / 60 / 60 / 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, TimeUnit.DAYS), per);
+    }
+
+    private static void assertThatConversionFromMinutes(Method convertTimeUnit, double amount) throws ReflectiveOperationException {
+        Percentage per = Percentage.withPercentage(99.999999);
+        // To nanoseconds.
+        assertThat(amount * 1_000_000_000 * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, TimeUnit.NANOSECONDS), per);
+        // To microseconds.
+        assertThat(amount * 1_000_000 * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, TimeUnit.MICROSECONDS), per);
+        // To milliseconds.
+        assertThat(amount * 1_000 * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, TimeUnit.MILLISECONDS), per);
+        // To seconds.
+        assertThat(amount * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, TimeUnit.SECONDS), per);
+        // To minutes.
+        assertThat(amount).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, TimeUnit.MINUTES), per);
+        // To hours.
+        assertThat(amount / 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, TimeUnit.HOURS), per);
+        // To days.
+        assertThat(amount / 60 / 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, TimeUnit.DAYS), per);
+    }
+
+    private static void assertThatConversionFromHours(Method convertTimeUnit, double amount) throws ReflectiveOperationException {
+        Percentage per = Percentage.withPercentage(99.999999);
+        // To nanoseconds.
+        assertThat(amount * 1_000_000_000 * 60 * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, TimeUnit.NANOSECONDS), per);
+        // To microseconds.
+        assertThat(amount * 1_000_000 * 60 * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, TimeUnit.MICROSECONDS), per);
+        // To milliseconds.
+        assertThat(amount * 1_000 * 60 * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, TimeUnit.MILLISECONDS), per);
+        // To seconds.
+        assertThat(amount * 60 * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, TimeUnit.SECONDS), per);
+        // To minutes.
+        assertThat(amount * 60).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, TimeUnit.MINUTES), per);
+        // To hours.
+        assertThat(amount).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, TimeUnit.HOURS), per);
+        // To days.
+        assertThat(amount / 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, TimeUnit.DAYS), per);
+    }
+
+    private static void assertThatConversionFromDays(Method convertTimeUnit, double amount) throws ReflectiveOperationException {
+        Percentage per = Percentage.withPercentage(99.999999);
+        // To nanoseconds.
+        assertThat(amount * 1_000_000_000 * 60 * 60 * 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, TimeUnit.NANOSECONDS), per);
+        // To microseconds.
+        assertThat(amount * 1_000_000 * 60 * 60 * 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, TimeUnit.MICROSECONDS), per);
+        // To milliseconds.
+        assertThat(amount * 1_000 * 60 * 60 * 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, TimeUnit.MILLISECONDS), per);
+        // To seconds.
+        assertThat(amount * 60 * 60 * 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, TimeUnit.SECONDS), per);
+        // To minutes.
+        assertThat(amount * 60 * 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, TimeUnit.MINUTES), per);
+        // To hours.
+        assertThat(amount * 24).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, TimeUnit.HOURS), per);
+        // To days.
+        assertThat(amount).isCloseTo((double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, TimeUnit.DAYS), per);
     }
 
 }
