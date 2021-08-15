@@ -1,19 +1,71 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.util.MathUtils;
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@DisplayName("Stopwatch")
 class StopwatchTest {
 
+    @Nested
+    @DisplayName("method 'isRunning'")
+    class IsRunning {
+        @Test
+        @DisplayName("returns true, when stopwatch is running")
+        void test0() {
+            // given
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.start();
+
+            // expect
+            assertThat(stopwatch.isRunning()).isTrue();
+        }
+
+        @Test
+        @DisplayName("returns false, when stopwatch is not running")
+        void test1() {
+            assertThat(new Stopwatch().isRunning()).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("method 'hasNeverBeenStopped'")
+    class HasNeverBeenStopped {
+        @Test
+        @DisplayName("returns true, when stopwatch has ever been stopped")
+        void test0() {
+            // given
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.start();
+
+            // expect
+            assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
+            assertThat(new Stopwatch().hasNeverBeenStopped()).isTrue();
+        }
+
+        @Test
+        @DisplayName("returns false, when stopwatch has never been stopped")
+        void test1() {
+            // given
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.start();
+            stopwatch.stop();
+
+            // expect
+            assertThat(stopwatch.hasNeverBeenStopped()).isFalse();
+        }
+    }
+
     @Test
-    @SneakyThrows
-    void getTotalTime() {
+    void getTotalTime() throws InterruptedException {
         // given
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start("the first");
@@ -91,36 +143,25 @@ class StopwatchTest {
 
     @Test
     @Disabled
-    @SneakyThrows
-    void getSummary() {
+    void getSummary() throws InterruptedException {
         // given
         Stopwatch stopwatch = new Stopwatch();
-        stopwatch.start();
 
         // when
+        stopwatch.start();
         TimeUnit.MILLISECONDS.sleep(250);
         stopwatch.stop();
 
         // then
-        System.out.println(stopwatch.getSummary());
-        stopwatch.setTimeUnit(TimeUnit.MICROSECONDS);
-        System.out.println(stopwatch.getSummary());
-        stopwatch.setTimeUnit(TimeUnit.MILLISECONDS);
-        System.out.println(stopwatch.getSummary());
-        stopwatch.setTimeUnit(TimeUnit.SECONDS);
-        System.out.println(stopwatch.getSummary());
-        stopwatch.setTimeUnit(TimeUnit.MINUTES);
-        System.out.println(stopwatch.getSummary());
-        stopwatch.setTimeUnit(TimeUnit.HOURS);
-        System.out.println(stopwatch.getSummary());
-        stopwatch.setTimeUnit(TimeUnit.DAYS);
-        System.out.println(stopwatch.getSummary());
+        for (TimeUnit timeUnit : TimeUnit.values()) {
+            stopwatch.setTimeUnit(timeUnit);
+            System.out.println(stopwatch.getSummary());
+        }
     }
 
     @Test
     @Disabled
-    @SneakyThrows
-    void getStatistics() {
+    void getStatistics() throws InterruptedException {
         // given
         Stopwatch stopwatch = new Stopwatch();
 
@@ -142,26 +183,10 @@ class StopwatchTest {
         stopwatch.stop();
 
         // then
-        stopwatch.setTimeUnit(TimeUnit.NANOSECONDS);
-        System.out.println(stopwatch.getStatistics());
-
-        stopwatch.setTimeUnit(TimeUnit.MICROSECONDS);
-        System.out.println(stopwatch.getStatistics());
-
-        stopwatch.setTimeUnit(TimeUnit.MILLISECONDS);
-        System.out.println(stopwatch.getStatistics());
-
-        stopwatch.setTimeUnit(TimeUnit.SECONDS);
-        System.out.println(stopwatch.getStatistics());
-
-        stopwatch.setTimeUnit(TimeUnit.MINUTES);
-        System.out.println(stopwatch.getStatistics());
-
-        stopwatch.setTimeUnit(TimeUnit.HOURS);
-        System.out.println(stopwatch.getStatistics());
-
-        stopwatch.setTimeUnit(TimeUnit.DAYS);
-        System.out.println(stopwatch.getStatistics());
+        for (TimeUnit timeUnit : TimeUnit.values()) {
+            stopwatch.setTimeUnit(timeUnit);
+            System.out.println(stopwatch.getStatistics());
+        }
     }
 
     @Test
