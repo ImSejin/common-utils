@@ -117,6 +117,27 @@ public final class ReflectionUtils {
     }
 
     /**
+     * Returns the specific constructor declared by given type.
+     *
+     * @param type       class
+     * @param paramTypes parameter types of constructor
+     * @return constructor
+     */
+    public static <T> Constructor<T> getDeclaredConstructor(Class<T> type, @Nullable Class<?>... paramTypes) {
+        Asserts.that(type).isNotNull();
+        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
+
+        try {
+            // Gets constructor with the specific parameter types.
+            return type.getDeclaredConstructor(paramTypes);
+        } catch (NoSuchMethodException e) {
+            String message = String.format("Cannot find a constructor: %s(%s)",
+                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
+            throw new RuntimeException(message, e);
+        }
+    }
+
+    /**
      * Returns instance of type using default constructor.
      *
      * @param type class
@@ -163,6 +184,26 @@ public final class ReflectionUtils {
             String message = String.format("Failed to instantiate by constructor: %s(%s)",
                     type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
             throw new RuntimeException(message, e);
+        }
+    }
+
+    /**
+     * Returns the specific method declared by given type.
+     *
+     * @param type       class
+     * @param methodName name of method
+     * @param paramTypes parameter types of method
+     * @return method
+     */
+    public static Method getDeclaredMethod(Class<?> type, String methodName, @Nullable Class<?>... paramTypes) {
+        Asserts.that(type).isNotNull();
+        Asserts.that(methodName).isNotNull().hasText();
+        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
+
+        try {
+            return type.getDeclaredMethod(methodName, paramTypes);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
     }
 
