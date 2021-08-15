@@ -23,8 +23,12 @@ import io.github.imsejin.common.util.StringUtils;
 import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * Stopwatch that supports various {@link TimeUnit}.
@@ -35,10 +39,8 @@ public final class Stopwatch {
 
     /**
      * Recorded tasks.
-     *
-     * <p> These are only added, not removed and sorted.
      */
-    private final List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks = new AddonlyList<>();
 
     /**
      * Start nano time for a task.
@@ -337,6 +339,58 @@ public final class Stopwatch {
         @Override
         public String toString() {
             return this.totalTime + "  " + this.percentage + "  " + this.name;
+        }
+    }
+
+    /**
+     * List that supports addition and clearance.
+     * <p>
+     * This can only add or clear, but not set, sort, remove, retain, replace.
+     */
+    private static class AddonlyList<E> extends ArrayList<E> {
+        @Override
+        public E set(int index, E element) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".set is not supported");
+        }
+
+        @Override
+        public void sort(Comparator<? super E> c) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".sort is not supported");
+        }
+
+        @Override
+        public E remove(int index) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".remove is not supported");
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".remove is not supported");
+        }
+
+        @Override
+        protected void removeRange(int fromIndex, int toIndex) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".removeRange is not supported");
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".removeAll is not supported");
+        }
+
+        @Override
+        public boolean removeIf(Predicate<? super E> filter) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".removeIf is not supported");
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".retainAll is not supported");
+        }
+
+        @Override
+        public void replaceAll(UnaryOperator<E> operator) {
+            throw new UnsupportedOperationException(getClass().getSimpleName() + ".replaceAll is not supported");
         }
     }
 
