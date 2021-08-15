@@ -23,12 +23,10 @@ import io.github.imsejin.common.util.StringUtils;
 import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 /**
  * Stopwatch that supports various time units
@@ -40,7 +38,7 @@ public final class Stopwatch {
     /**
      * Recorded tasks.
      */
-    private final List<Task> tasks = new AddonlyList<>();
+    private final Tasks tasks = new Tasks();
 
     /**
      * Start nano time for a task.
@@ -79,7 +77,7 @@ public final class Stopwatch {
      */
     public Stopwatch(@Nonnull TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .as("Time unit cannot be null")
+                .as("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -119,7 +117,7 @@ public final class Stopwatch {
      */
     public void setTimeUnit(@Nonnull TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .as("Time unit cannot be null")
+                .as("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -140,14 +138,15 @@ public final class Stopwatch {
      * <p> Sets up task name of current task.
      *
      * @param taskName current task name
+     * @throws UnsupportedOperationException if stopwatch is running
      */
     public void start(@Nonnull String taskName) {
         Asserts.that(taskName)
                 .as("Task name cannot be null")
                 .isNotNull();
         Asserts.that(isRunning())
-                .as("Stopwatch is already running")
-                .exception(RuntimeException::new)
+                .as("Stopwatch cannot start, when it is already running")
+                .exception(UnsupportedOperationException::new)
                 .isFalse();
 
         this.currentTaskName = taskName;
@@ -161,16 +160,16 @@ public final class Stopwatch {
      *
      * @param format format string as current task name
      * @param args   arguments
-     * @throws IllegalArgumentException if format is null
-     * @throws RuntimeException         if stopwatch is running
+     * @throws IllegalArgumentException      if format is null
+     * @throws UnsupportedOperationException if stopwatch is running
      */
     public void start(@Nonnull String format, Object... args) {
         Asserts.that(format)
                 .as("Task name cannot be null")
                 .isNotNull();
         Asserts.that(isRunning())
-                .as("Stopwatch is already running")
-                .exception(RuntimeException::new)
+                .as("Stopwatch cannot start, when it is already running")
+                .exception(UnsupportedOperationException::new)
                 .isFalse();
 
         this.currentTaskName = String.format(format, args);
@@ -182,17 +181,17 @@ public final class Stopwatch {
      *
      * <p> Current task will be saved and closed.
      *
-     * @throws RuntimeException if stopwatch is not running
+     * @throws UnsupportedOperationException if stopwatch is not running
      */
     public void stop() {
         Asserts.that(isRunning())
-                .as("Stopwatch is not running")
-                .exception(RuntimeException::new)
+                .as("Stopwatch cannot stop, when it is not running")
+                .exception(UnsupportedOperationException::new)
                 .isTrue();
 
         long elapsedNanoTime = System.nanoTime() - this.startNanoTime;
         this.totalNanoTime += elapsedNanoTime;
-        this.tasks.add(new Task(elapsedNanoTime, this.currentTaskName));
+        this.tasks.add(elapsedNanoTime, this.currentTaskName);
         this.currentTaskName = null;
     }
 
@@ -219,8 +218,8 @@ public final class Stopwatch {
      */
     public void clear() {
         Asserts.that(isRunning())
-                .as("Stopwatch is running; To clear, stop it first")
-                .exception(RuntimeException::new)
+                .as("Stopwatch is running. To clear, stop it first")
+                .exception(UnsupportedOperationException::new)
                 .isFalse();
 
         forceClear();
@@ -243,13 +242,13 @@ public final class Stopwatch {
      * and shown up to the millionths(sixth after decimal point).
      *
      * @return the sum of task times
-     * @throws RuntimeException if stopwatch has never been stopped
+     * @throws UnsupportedOperationException if stopwatch has never been stopped
      * @see MathUtils#floor(double, int)
      */
     public double getTotalTime() {
         Asserts.that(hasNeverBeenStopped())
-                .as("Stopwatch has never been stopped")
-                .exception(RuntimeException::new)
+                .as("Stopwatch has no total time, because it has never been stopped")
+                .exception(UnsupportedOperationException::new)
                 .isFalse();
 
         return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
@@ -263,10 +262,10 @@ public final class Stopwatch {
      */
     public String getSummary() {
         int decimalPlace = this.timeUnit == TimeUnit.NANOSECONDS ? 0 : 6;
-        return "Stopwatch: RUNNING_TIME = " +
-                BigDecimal.valueOf(MathUtils.floor(this.getTotalTime(), decimalPlace)).stripTrailingZeros().toPlainString() +
-                ' ' +
-                getTimeUnitAbbreviation(this.timeUnit);
+        String runningTime = BigDecimal.valueOf(MathUtils.floor(getTotalTime(), decimalPlace))
+                .stripTrailingZeros().toPlainString();
+
+        return "Stopwatch: RUNNING_TIME = " + runningTime + ' ' + getTimeUnitAbbreviation(this.timeUnit);
     }
 
     /**
@@ -282,8 +281,8 @@ public final class Stopwatch {
         double totalTime = getTotalTime();
 
         // Sets up task time and percentage to each task.
-        for (Task task : this.tasks) {
-            double taskTime = convertTimeUnit(task.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
+        for (Tasks.Task task : this.tasks) {
+            double taskTime = convertTimeUnit(task.getTotalNanoTime(), TimeUnit.NANOSECONDS, this.timeUnit);
             task.setTaskTime(taskTime);
             task.setTotalTime(taskTime, this.timeUnit);
 
@@ -292,27 +291,58 @@ public final class Stopwatch {
         }
 
         final int timeUnitIndex = this.tasks.stream()
-                .map(task -> task.totalTime.length())
+                .map(task -> task.getTotalTime().length())
                 .reduce(0, Math::max);
         String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", getTimeUnitAbbreviation(this.timeUnit));
 
-        for (Task task : this.tasks) {
-            task.setTotalTime(task.taskTime, this.timeUnit, timeUnitIndex);
+        for (Tasks.Task task : this.tasks) {
+            task.setTotalTime(task.getTaskTime(), this.timeUnit, timeUnitIndex);
         }
 
         StringBuilder sb = new StringBuilder(getSummary());
-        sb.append('\n');
-        sb.append("----------------------------------------\n");
-        sb.append(timeUnitColumn).append("  ").append(String.format("%-3c", '%')).append("  ").append("TASK_NAME\n");
-        sb.append("----------------------------------------\n");
-        for (Task task : this.tasks) {
+        sb.append("\n----------------------------------------\n");
+        sb.append(timeUnitColumn).append("  ").append(String.format("%-3c", '%')).append("  ").append("TASK_NAME");
+        sb.append("\n----------------------------------------\n");
+        for (Tasks.Task task : this.tasks) {
             sb.append(task).append('\n');
         }
 
         return sb.toString();
     }
 
-    private static final class Task {
+}
+
+/**
+ * Stopwatch's tasks that support addition and clearance.
+ * <p>
+ * This can only add or clear, but not set, sort, remove, retain, replace.
+ */
+class Tasks implements Iterable<Tasks.Task> {
+
+    private final List<Task> list = new ArrayList<>();
+
+    public boolean add(long totalNanoTime, String name) {
+        return this.list.add(new Task(totalNanoTime, name));
+    }
+
+    public void clear() {
+        this.list.clear();
+    }
+
+    public boolean isEmpty() {
+        return this.list.isEmpty();
+    }
+
+    public Stream<Task> stream() {
+        return this.list.stream();
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return this.list.iterator();
+    }
+
+    static final class Task {
         private final long totalNanoTime;
         private final String name;
         private double taskTime;
@@ -324,8 +354,20 @@ public final class Stopwatch {
             this.name = name;
         }
 
+        public long getTotalNanoTime() {
+            return this.totalNanoTime;
+        }
+
+        public double getTaskTime() {
+            return this.taskTime;
+        }
+
         public void setTaskTime(double taskTime) {
             this.taskTime = taskTime;
+        }
+
+        public String getTotalTime() {
+            return this.totalTime;
         }
 
         public void setTotalTime(double totalTime, TimeUnit timeUnit) {
@@ -347,57 +389,4 @@ public final class Stopwatch {
             return this.totalTime + "  " + this.percentage + "  " + this.name;
         }
     }
-
-    /**
-     * List that supports addition and clearance.
-     * <p>
-     * This can only add or clear, but not set, sort, remove, retain, replace.
-     */
-    private static class AddonlyList<E> extends ArrayList<E> {
-        @Override
-        public E set(int index, E element) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".set is not supported");
-        }
-
-        @Override
-        public void sort(Comparator<? super E> c) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".sort is not supported");
-        }
-
-        @Override
-        public E remove(int index) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".remove is not supported");
-        }
-
-        @Override
-        public boolean remove(Object o) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".remove is not supported");
-        }
-
-        @Override
-        protected void removeRange(int fromIndex, int toIndex) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".removeRange is not supported");
-        }
-
-        @Override
-        public boolean removeAll(Collection<?> c) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".removeAll is not supported");
-        }
-
-        @Override
-        public boolean removeIf(Predicate<? super E> filter) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".removeIf is not supported");
-        }
-
-        @Override
-        public boolean retainAll(Collection<?> c) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".retainAll is not supported");
-        }
-
-        @Override
-        public void replaceAll(UnaryOperator<E> operator) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + ".replaceAll is not supported");
-        }
-    }
-
 }
