@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 /**
- * Stopwatch that supports various {@link TimeUnit}.
+ * Stopwatch that supports various time units
  *
  * @see TimeUnit
  */
@@ -65,7 +65,7 @@ public final class Stopwatch {
     private TimeUnit timeUnit = TimeUnit.NANOSECONDS;
 
     /**
-     * Returns {@link Stopwatch} that is set with default {@link TimeUnit}.
+     * Returns a stopwatch that is set with default {@link TimeUnit}.
      *
      * <p> Default time unit is {@link TimeUnit#NANOSECONDS}.
      */
@@ -73,7 +73,7 @@ public final class Stopwatch {
     }
 
     /**
-     * Returns {@link Stopwatch} that is set with custom {@link TimeUnit}.
+     * Returns a stopwatch that is set with custom {@link TimeUnit}.
      *
      * @param timeUnit time unit
      */
@@ -113,7 +113,7 @@ public final class Stopwatch {
     }
 
     /**
-     * Sets up the {@link TimeUnit}.
+     * Sets time unit.
      *
      * @param timeUnit time unit
      */
@@ -126,9 +126,9 @@ public final class Stopwatch {
     }
 
     /**
-     * Starts to run {@link Stopwatch}.
+     * Starts to run stopwatch.
      *
-     * <p> Sets up task name of current task with empty string.
+     * <p> Sets task name of current task with empty string.
      */
     public void start() {
         start("");
@@ -155,7 +155,7 @@ public final class Stopwatch {
     }
 
     /**
-     * Starts to run {@link Stopwatch}.
+     * Runs stopwatch.
      *
      * <p> Sets up task name of current task.
      *
@@ -178,7 +178,7 @@ public final class Stopwatch {
     }
 
     /**
-     * Stops the {@link Stopwatch} running.
+     * Stops stopwatch.
      *
      * <p> Current task will be saved and closed.
      *
@@ -197,23 +197,26 @@ public final class Stopwatch {
     }
 
     /**
-     * Checks if {@link Stopwatch} is running now.
+     * Checks if stopwatch is running.
      *
-     * @return whether {@link Stopwatch} is running.
+     * @return whether stopwatch is running.
      */
     public boolean isRunning() {
         return this.currentTaskName != null;
     }
 
     /**
-     * Checks if {@link Stopwatch} has never been stopped.
+     * Checks if stopwatch has never been stopped.
      *
-     * @return whether {@link Stopwatch} has never been stopped.
+     * @return whether stopwatch has never been stopped.
      */
     public boolean hasNeverBeenStopped() {
         return this.tasks.isEmpty();
     }
 
+    /**
+     * Clears all tasks.
+     */
     public void clear() {
         Asserts.that(isRunning())
                 .as("Stopwatch is running; To clear, stop it first")
@@ -223,6 +226,9 @@ public final class Stopwatch {
         forceClear();
     }
 
+    /**
+     * Clears all tasks even if stopwatch is running.
+     */
     public void forceClear() {
         this.tasks.clear();
         this.startNanoTime = 0;
@@ -233,7 +239,7 @@ public final class Stopwatch {
     /**
      * Returns the sum of the elapsed time of all saved tasks.
      *
-     * <p> This total time will be converted with {@link Stopwatch}'s {@link TimeUnit}
+     * <p> This total time will be converted with {@link Stopwatch#timeUnit}
      * and shown up to the millionths(sixth after decimal point).
      *
      * @return the sum of task times
@@ -250,9 +256,9 @@ public final class Stopwatch {
     }
 
     /**
-     * Returns {@link #getTotalTime()} and abbreviation of {@link Stopwatch}'s {@link TimeUnit}.
+     * Returns total time and abbreviation of {@link Stopwatch#timeUnit}.
      *
-     * @return {@link Stopwatch}'s summary
+     * @return summary of stopwatch
      * @see #getTotalTime()
      */
     public String getSummary() {
@@ -269,7 +275,7 @@ public final class Stopwatch {
      * <p> This shows the percentage of how long each task took
      * and how much time it took up in total time.
      *
-     * @return {@link Stopwatch}'s statistics
+     * @return statistics of stopwatch
      * @see #getSummary()
      */
     public String getStatistics() {
