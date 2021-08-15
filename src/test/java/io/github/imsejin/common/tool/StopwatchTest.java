@@ -1,16 +1,15 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.util.MathUtils;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.math.BigDecimal;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.DoubleFunction;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("Stopwatch")
 class StopwatchTest {
@@ -64,81 +63,71 @@ class StopwatchTest {
         }
     }
 
-    @Test
-    void getTotalTime() throws InterruptedException {
-        // given
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.start("the first");
+    @Nested
+    @DisplayName("method 'getTotalTime'")
+    class GetTotalTime {
+        @Test
+        @DisplayName("passes, when stopwatch has ever been stopped")
+        void test0() {
+            // given
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.start();
+            stopwatch.stop();
 
-        // when
-        TimeUnit.MILLISECONDS.sleep(100);
-        stopwatch.stop();
+            // expect
+            assertThatNoException().isThrownBy(stopwatch::getTotalTime);
+        }
 
-        stopwatch.start("the second");
-        TimeUnit.MILLISECONDS.sleep(350);
-        stopwatch.stop();
-        double totalTime = MathUtils.floor(stopwatch.getTotalTime(), 6);
+        @Test
+        @DisplayName("throws exception, when stopwatch has never been stopped")
+        void test1() {
+            assertThatThrownBy(new Stopwatch()::getTotalTime)
+                    .as("Get total time without any stopping")
+                    .hasMessage("Stopwatch has no total time, because it has never been stopped")
+                    .isExactlyInstanceOf(UnsupportedOperationException.class);
+        }
 
-        // then
-        assertThat(totalTime)
-                .as("#1 Total time with nanoseconds unit")
-                .isEqualTo(stopwatch.getTotalTime());
-        System.out.println(BigDecimal.valueOf(stopwatch.getTotalTime()).stripTrailingZeros().toPlainString() + " ns");
+        @RepeatedTest(10)
+        @DisplayName("returns the total time in unit of stopwatch")
+        void test2() throws InterruptedException {
+            // given
+            EnumMap<TimeUnit, DoubleFunction<Double>> units = new EnumMap<>(TimeUnit.class);
+            units.put(TimeUnit.NANOSECONDS, n -> n);
+            units.put(TimeUnit.MICROSECONDS, n -> n / 1_000);
+            units.put(TimeUnit.MILLISECONDS, n -> n / 1_000_000);
+            units.put(TimeUnit.SECONDS, n -> n / 1_000_000_000);
+            units.put(TimeUnit.MINUTES, n -> n / 1_000_000_000 / 60);
+            units.put(TimeUnit.HOURS, n -> n / 1_000_000_000 / 60 / 60);
+            units.put(TimeUnit.DAYS, n -> n / 1_000_000_000 / 60 / 60 / 24);
 
-        stopwatch.setTimeUnit(TimeUnit.MICROSECONDS);
-        double us = MathUtils.floor(totalTime / 1_000, 6);
-        assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("#2 Total time with microseconds unit")
-                .isEqualTo(us);
-        System.out.println(BigDecimal.valueOf(us).stripTrailingZeros().toPlainString() + " μs");
+            Stopwatch stopwatch = new Stopwatch();
 
-        stopwatch.setTimeUnit(TimeUnit.MILLISECONDS);
-        double ms = MathUtils.floor(totalTime / 1_000_000, 6);
-        assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("#3 Total time with milliseconds unit")
-                .isEqualTo(ms);
-        System.out.println(BigDecimal.valueOf(ms).stripTrailingZeros().toPlainString() + " ms");
+            // when
+            stopwatch.start("first");
+            TimeUnit.MILLISECONDS.sleep(100);
+            stopwatch.stop();
 
-        stopwatch.setTimeUnit(TimeUnit.SECONDS);
-        double sec = MathUtils.floor(totalTime / 1_000_000_000, 6);
-        assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("#4 Total time with seconds unit")
-                .isEqualTo(sec);
-        System.out.println(BigDecimal.valueOf(sec).stripTrailingZeros().toPlainString() + " sec");
+            stopwatch.start("second");
+            TimeUnit.MILLISECONDS.sleep(200);
+            stopwatch.stop();
 
-        stopwatch.setTimeUnit(TimeUnit.MINUTES);
-        double min = MathUtils.floor(totalTime / 1_000_000_000 / 60, 6);
-        assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("#5 Total time with minutes unit")
-                .isEqualTo(min);
-        System.out.println(BigDecimal.valueOf(min).stripTrailingZeros().toPlainString() + " min");
+            stopwatch.start("third");
+            TimeUnit.MILLISECONDS.sleep(50);
+            stopwatch.stop();
 
-        stopwatch.setTimeUnit(TimeUnit.HOURS);
-        double hrs = MathUtils.floor(totalTime / 1_000_000_000 / 60 / 60, 6);
-        assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("#6 Total time with hours unit")
-                .isEqualTo(hrs);
-        System.out.println(BigDecimal.valueOf(hrs).stripTrailingZeros().toPlainString() + " hrs");
+            // then
+            double ns = MathUtils.floor(stopwatch.getTotalTime(), 6);
+            for (Map.Entry<TimeUnit, DoubleFunction<Double>> entry : units.entrySet()) {
+                TimeUnit timeUnit = entry.getKey();
 
-        stopwatch.setTimeUnit(TimeUnit.DAYS);
-        double days = MathUtils.floor(totalTime / 1_000_000_000 / 60 / 60 / 24, 6);
-        assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
-                .as("#7 Total time with days unit")
-                .isEqualTo(days);
-        System.out.println(BigDecimal.valueOf(days).stripTrailingZeros().toPlainString() + " days");
-    }
-
-    @Test
-    @DisplayName("getTotalTime() + hasNeverBeenStopped()")
-    void getTotalTimeWithException() {
-        // given
-        Stopwatch stopwatch = new Stopwatch();
-
-        // when & then
-        assertThatThrownBy(stopwatch::getTotalTime)
-                .as("Get total time without any stopping")
-                .hasMessage("Stopwatch has never been stopped")
-                .isExactlyInstanceOf(RuntimeException.class);
+                double expected = MathUtils.floor(entry.getValue().apply(ns), 6);
+                stopwatch.setTimeUnit(timeUnit);
+                assertThat(MathUtils.floor(stopwatch.getTotalTime(), 6))
+                        .as("Total time with %s unit", timeUnit.name().toLowerCase())
+                        .isEqualTo(expected);
+                System.out.printf("%s: %s%n", timeUnit, BigDecimal.valueOf(expected).stripTrailingZeros().toPlainString());
+            }
+        }
     }
 
     @Test
