@@ -59,10 +59,8 @@ public final class Stopwatch {
 
     /**
      * Time unit for task time to be printed or returned.
-     *
-     * <p> Default is {@link TimeUnit#NANOSECONDS}.
      */
-    private TimeUnit timeUnit = TimeUnit.NANOSECONDS;
+    private TimeUnit timeUnit;
 
     /**
      * Returns a stopwatch that is set with default {@link TimeUnit}.
@@ -70,6 +68,7 @@ public final class Stopwatch {
      * <p> Default time unit is {@link TimeUnit#NANOSECONDS}.
      */
     public Stopwatch() {
+        this.timeUnit = TimeUnit.NANOSECONDS;
     }
 
     /**
