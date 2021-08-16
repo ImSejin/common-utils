@@ -203,12 +203,13 @@ class StopwatchTest {
             for (Map.Entry<TimeUnit, DoubleFunction<Double>> entry : units.entrySet()) {
                 TimeUnit timeUnit = entry.getKey();
 
-                double expected = entry.getValue().apply(ns);
                 stopwatch.setTimeUnit(timeUnit);
-                assertThat(stopwatch.getTotalTime())
+                double actual = stopwatch.getTotalTime();
+
+                assertThat(actual)
                         .as("Total time with %s unit", timeUnit.name().toLowerCase())
-                        .isCloseTo(expected, Percentage.withPercentage(99.999999));
-                System.out.printf("%s: %s%n", timeUnit, BigDecimal.valueOf(expected).stripTrailingZeros().toPlainString());
+                        .isCloseTo(entry.getValue().apply(ns), Percentage.withPercentage(99.999999));
+                System.out.printf("%s: %s%n", timeUnit, BigDecimal.valueOf(actual).stripTrailingZeros().toPlainString());
             }
             System.out.println("---");
         }

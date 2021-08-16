@@ -35,6 +35,8 @@ import java.util.stream.Stream;
  */
 public final class Stopwatch {
 
+    private static final int DECIMAL_PLACE = 6;
+
     /**
      * Recorded tasks.
      */
@@ -251,7 +253,8 @@ public final class Stopwatch {
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
-        return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
+        double converted = convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
+        return MathUtils.floor(converted, DECIMAL_PLACE);
     }
 
     /**
@@ -261,10 +264,7 @@ public final class Stopwatch {
      * @see #getTotalTime()
      */
     public String getSummary() {
-        int decimalPlace = this.timeUnit == TimeUnit.NANOSECONDS ? 0 : 6;
-        String runningTime = BigDecimal.valueOf(MathUtils.floor(getTotalTime(), decimalPlace))
-                .stripTrailingZeros().toPlainString();
-
+        String runningTime = BigDecimal.valueOf(getTotalTime()).stripTrailingZeros().toPlainString();
         return "Stopwatch: RUNNING_TIME = " + runningTime + ' ' + getTimeUnitAbbreviation(this.timeUnit);
     }
 
