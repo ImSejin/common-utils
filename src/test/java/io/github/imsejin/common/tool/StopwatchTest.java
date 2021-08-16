@@ -66,6 +66,87 @@ class StopwatchTest {
     }
 
     @Nested
+    @DisplayName("method 'clear'")
+    class Clear {
+        @Test
+        @DisplayName("passes, when stopwatch is not running")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                // given
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.start();
+                stopwatch.stop();
+                // when
+                stopwatch.clear();
+                // then
+                assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
+            });
+
+            assertThatNoException().isThrownBy(() -> {
+                // given
+                Stopwatch stopwatch = new Stopwatch();
+                // when
+                stopwatch.clear();
+                // then
+                assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when stopwatch is running")
+        void test1() {
+            // given
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.start();
+
+            // expect
+            assertThatExceptionOfType(UnsupportedOperationException.class)
+                    .isThrownBy(stopwatch::clear)
+                    .withMessage("Stopwatch is running. To clear, stop it first");
+        }
+    }
+
+    @Nested
+    @DisplayName("method 'forceClear'")
+    class ForceClear {
+        @Test
+        @DisplayName("passes, when stopwatch is not running")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                // given
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.start();
+                stopwatch.stop();
+                // when
+                stopwatch.forceClear();
+                // then
+                assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
+            });
+
+            assertThatNoException().isThrownBy(() -> {
+                // given
+                Stopwatch stopwatch = new Stopwatch();
+                // when
+                stopwatch.forceClear();
+                // then
+                assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
+            });
+        }
+
+        @Test
+        @DisplayName("passes, when stopwatch is running")
+        void test1() {
+            // given
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.start();
+
+            // except
+            assertThatNoException().isThrownBy(stopwatch::forceClear);
+            assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
+        }
+    }
+
+    @Nested
     @DisplayName("method 'getTotalTime'")
     class GetTotalTime {
         @Test
