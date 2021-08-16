@@ -113,6 +113,15 @@ public final class Stopwatch {
     }
 
     /**
+     * Returns time unit of stopwatch.
+     *
+     * @return time unit
+     */
+    public TimeUnit getTimeUnit() {
+        return this.timeUnit;
+    }
+
+    /**
      * Sets time unit.
      *
      * @param timeUnit time unit
