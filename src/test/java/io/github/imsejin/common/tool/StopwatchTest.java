@@ -187,15 +187,15 @@ class StopwatchTest {
 
             // when
             stopwatch.start("first");
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(75);
             stopwatch.stop();
 
             stopwatch.start("second");
-            TimeUnit.MILLISECONDS.sleep(200);
+            TimeUnit.MILLISECONDS.sleep(125);
             stopwatch.stop();
 
             stopwatch.start("third");
-            TimeUnit.MILLISECONDS.sleep(50);
+            TimeUnit.MILLISECONDS.sleep(25);
             stopwatch.stop();
 
             // then
@@ -216,7 +216,7 @@ class StopwatchTest {
     }
 
     @Test
-    @DisplayName("private method 'convertTimeUnit'")
+    @DisplayName("package-private method 'convertTimeUnit'")
     void convertTimeUnit() throws ReflectiveOperationException {
         // given
         Method method = ReflectionUtils.getDeclaredMethod(Stopwatch.class, "convertTimeUnit",

@@ -23,10 +23,8 @@ import io.github.imsejin.common.util.StringUtils;
 import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 /**
  * Stopwatch that supports various time units
@@ -35,12 +33,12 @@ import java.util.stream.Stream;
  */
 public final class Stopwatch {
 
-    private static final int DECIMAL_PLACE = 6;
+    static final int DECIMAL_PLACE = 6;
 
     /**
      * Recorded tasks.
      */
-    private final Tasks tasks = new Tasks();
+    private final Tasks tasks = new Tasks(this);
 
     /**
      * Start nano time for a task.
@@ -84,13 +82,13 @@ public final class Stopwatch {
         this.timeUnit = timeUnit;
     }
 
-    private static double convertTimeUnit(double amount, TimeUnit from, TimeUnit to) {
+    static double convertTimeUnit(double amount, TimeUnit from, TimeUnit to) {
         return from.ordinal() < to.ordinal()
                 ? amount / from.convert(1, to)
                 : amount * to.convert(1, from);
     }
 
-    private static String getTimeUnitAbbreviation(TimeUnit timeUnit) {
+    static String getTimeUnitAbbreviation(TimeUnit timeUnit) {
         switch (timeUnit) {
             case NANOSECONDS:
                 return "ns";
@@ -283,39 +281,9 @@ public final class Stopwatch {
      * and how much time it took up in total time.
      *
      * @return statistics of stopwatch
-     * @see #getSummary()
      */
     public String getStatistics() {
-        double totalTime = getTotalTime();
-
-        // Sets up task time and percentage to each task.
-        for (Tasks.Task task : this.tasks) {
-            double taskTime = convertTimeUnit(task.getTotalNanoTime(), TimeUnit.NANOSECONDS, this.timeUnit);
-            task.setTaskTime(taskTime);
-            task.setTotalTime(taskTime, this.timeUnit);
-
-            int percentage = (int) Math.round(taskTime / totalTime * 100);
-            task.setPercentage(percentage);
-        }
-
-        final int timeUnitIndex = this.tasks.stream()
-                .map(task -> task.getTotalTime().length())
-                .reduce(0, Math::max);
-        String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", getTimeUnitAbbreviation(this.timeUnit));
-
-        for (Tasks.Task task : this.tasks) {
-            task.setTotalTime(task.getTaskTime(), this.timeUnit, timeUnitIndex);
-        }
-
-        StringBuilder sb = new StringBuilder(getSummary());
-        sb.append("\n----------------------------------------\n");
-        sb.append(timeUnitColumn).append("  ").append(String.format("%-3c", '%')).append("  ").append("TASK_NAME");
-        sb.append("\n----------------------------------------\n");
-        for (Tasks.Task task : this.tasks) {
-            sb.append(task).append('\n');
-        }
-
-        return sb.toString();
+        return getSummary() + this.tasks;
     }
 
 }
@@ -325,9 +293,15 @@ public final class Stopwatch {
  * <p>
  * This can only add or clear, but not set, sort, remove, retain, replace.
  */
-class Tasks implements Iterable<Tasks.Task> {
+class Tasks {
+
+    private final Stopwatch stopwatch;
 
     private final List<Task> list = new ArrayList<>();
+
+    Tasks(Stopwatch stopwatch) {
+        this.stopwatch = stopwatch;
+    }
 
     public boolean add(long totalNanoTime, String name) {
         return this.list.add(new Task(totalNanoTime, name));
@@ -341,16 +315,42 @@ class Tasks implements Iterable<Tasks.Task> {
         return this.list.isEmpty();
     }
 
-    public Stream<Task> stream() {
-        return this.list.stream();
-    }
-
     @Override
-    public Iterator<Task> iterator() {
-        return this.list.iterator();
+    public String toString() {
+        double totalTime = this.stopwatch.getTotalTime();
+        TimeUnit timeUnit = this.stopwatch.getTimeUnit();
+
+        // Sets up task time and percentage to each task.
+        for (Task task : this.list) {
+            double taskTime = Stopwatch.convertTimeUnit(task.getTotalNanoTime(), TimeUnit.NANOSECONDS, timeUnit);
+            task.setTaskTime(taskTime);
+            task.setTotalTime(taskTime, timeUnit);
+
+            int percentage = (int) Math.round(taskTime / totalTime * 100);
+            task.setPercentage(percentage);
+        }
+
+        final int timeUnitIndex = this.list.stream()
+                .map(task -> task.getTotalTime().length())
+                .reduce(0, Math::max);
+        String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", Stopwatch.getTimeUnitAbbreviation(timeUnit));
+
+        for (Task task : this.list) {
+            task.setTotalTime(task.getTaskTime(), timeUnit, timeUnitIndex);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n----------------------------------------\n");
+        sb.append(timeUnitColumn).append("  ").append(String.format("%-3c", '%')).append("  ").append("TASK_NAME");
+        sb.append("\n----------------------------------------\n");
+        for (Task task : this.list) {
+            sb.append(task).append('\n');
+        }
+
+        return sb.toString();
     }
 
-    static final class Task {
+    private static final class Task {
         private final long totalNanoTime;
         private final String name;
         private double taskTime;
@@ -379,12 +379,12 @@ class Tasks implements Iterable<Tasks.Task> {
         }
 
         public void setTotalTime(double totalTime, TimeUnit timeUnit) {
-            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%.6f";
+            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%." + Stopwatch.DECIMAL_PLACE + "f";
             this.totalTime = String.format(format, totalTime);
         }
 
         public void setTotalTime(double totalTime, TimeUnit timeUnit, int len) {
-            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%.6f";
+            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%." + Stopwatch.DECIMAL_PLACE + "f";
             this.totalTime = StringUtils.padEnd(len, String.format(format, totalTime));
         }
 
@@ -397,4 +397,5 @@ class Tasks implements Iterable<Tasks.Task> {
             return this.totalTime + "  " + this.percentage + "  " + this.name;
         }
     }
+
 }
