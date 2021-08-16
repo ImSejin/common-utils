@@ -26,10 +26,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("DoubleAssert")
 class DoubleAssertTest {
@@ -300,6 +303,69 @@ class DoubleAssertTest {
         void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isBetween'")
+    class IsBetween {
+        @Test
+        @DisplayName("passes, when actual is between x and y inclusively")
+        void test0() {
+            new Random().doubles(-100, 50).limit(10_000)
+                    .forEach(n -> assertThatNoException().isThrownBy(() -> {
+                        Asserts.that(n).isBetween(n, n);
+                        Asserts.that(n).isBetween(n, n + 0.1);
+                        Asserts.that(n).isBetween(n - 0.1, n);
+                        Asserts.that(n).isBetween(n - 0.1, n + 0.1);
+                    }));
+        }
+
+
+        @Test
+        @DisplayName("throws exception, when actual is not between x and y inclusively")
+        void test1() {
+            List<Double> doubles = new Random().doubles(-100, 50)
+                    .limit(10_000).boxed().collect(toList());
+
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1, n)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1, n - 0.1)));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'IsStrictlyBetween'")
+    class IsStrictlyBetween {
+        @Test
+        @DisplayName("passes, when actual is between x and y exclusively")
+        void test0() {
+            new Random().doubles(-100, 50)
+                    .limit(10_000).forEach(n -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(n).as("{0} < {1} < {2}", n - 1, n, n + 1).isStrictlyBetween(n - 1, n + 1)));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not between x and y exclusively")
+        void test1() {
+            List<Double> doubles = new Random().doubles(-100, 50)
+                    .limit(10_000).boxed().collect(toList());
+
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n + 0.1)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1, n)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n + 0.1, n - 0.1)));
         }
     }
 

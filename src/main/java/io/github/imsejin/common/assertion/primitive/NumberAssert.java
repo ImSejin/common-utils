@@ -90,4 +90,12 @@ public class NumberAssert<
         return self;
     }
 
+    public SELF isBetween(NUMBER startInclusive, NUMBER endInclusive) {
+        return isGreaterThanOrEqualTo(startInclusive).isLessThanOrEqualTo(endInclusive);
+    }
+
+    public SELF isStrictlyBetween(NUMBER startExclusive, NUMBER endExclusive) {
+        return isGreaterThan(startExclusive).isLessThan(endExclusive);
+    }
+
 }

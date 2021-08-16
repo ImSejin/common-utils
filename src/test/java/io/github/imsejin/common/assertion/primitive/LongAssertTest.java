@@ -26,10 +26,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("LongAssert")
 class LongAssertTest {
@@ -300,6 +303,68 @@ class LongAssertTest {
         void test1(long actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isBetween'")
+    class IsBetween {
+        @Test
+        @DisplayName("passes, when actual is between x and y inclusively")
+        void test0() {
+            LongStream.rangeClosed(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1).limit(10_000)
+                    .forEach(n -> assertThatNoException().isThrownBy(() -> {
+                        Asserts.that(n).isBetween(n, n);
+                        Asserts.that(n).isBetween(n, n + 1);
+                        Asserts.that(n).isBetween(n - 1, n);
+                        Asserts.that(n).isBetween(n - 1, n + 1);
+                    }));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not between x and y inclusively")
+        void test1() {
+            List<Long> longs = LongStream.rangeClosed(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1)
+                    .limit(10_000).boxed().collect(toList());
+
+            longs.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 1)));
+            longs.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 1, n)));
+            longs.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 1, n - 1)));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'IsStrictlyBetween'")
+    class IsStrictlyBetween {
+        @Test
+        @DisplayName("passes, when actual is between x and y exclusively")
+        void test0() {
+            LongStream.rangeClosed(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1)
+                    .limit(10_000).forEach(n -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 1, n + 1)));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not between x and y exclusively")
+        void test1() {
+            List<Long> longs = LongStream.rangeClosed(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1)
+                    .limit(10_000).boxed().collect(toList());
+
+            longs.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
+            longs.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n + 1)));
+            longs.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 1, n)));
+            longs.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n + 1, n - 1)));
         }
     }
 

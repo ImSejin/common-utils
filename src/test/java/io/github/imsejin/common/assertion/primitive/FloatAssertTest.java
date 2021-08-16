@@ -26,10 +26,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("FloatAssert")
 class FloatAssertTest {
@@ -326,6 +329,69 @@ class FloatAssertTest {
         void test1(float actual) {
             assertThatCode(() -> Asserts.that(actual).hasDecimalPart())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isBetween'")
+    class IsBetween {
+        @Test
+        @DisplayName("passes, when actual is between x and y inclusively")
+        void test0() {
+            new Random().doubles(-100, 50).limit(10_000).mapToObj(n -> (float) n)
+                    .forEach(n -> assertThatNoException().isThrownBy(() -> {
+                        Asserts.that(n).isBetween(n, n);
+                        Asserts.that(n).isBetween(n, n + 0.1F);
+                        Asserts.that(n).isBetween(n - 0.1F, n);
+                        Asserts.that(n).isBetween(n - 0.1F, n + 0.1F);
+                    }));
+        }
+
+
+        @Test
+        @DisplayName("throws exception, when actual is not between x and y inclusively")
+        void test1() {
+            List<Float> floats = new Random().doubles(-100, 50)
+                    .limit(10_000).mapToObj(n -> (float) n).collect(toList());
+
+            floats.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1F)));
+            floats.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1F, n)));
+            floats.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1F, n - 0.1F)));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'IsStrictlyBetween'")
+    class IsStrictlyBetween {
+        @Test
+        @DisplayName("passes, when actual is between x and y exclusively")
+        void test0() {
+            new Random().doubles(-100, 50)
+                    .limit(10_000).mapToObj(n -> (float) n).forEach(n -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n + 0.1F)));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not between x and y exclusively")
+        void test1() {
+            List<Float> floats = new Random().doubles(-100, 50)
+                    .limit(10_000).mapToObj(n -> (float) n).collect(toList());
+
+            floats.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
+            floats.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n + 0.1F)));
+            floats.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n)));
+            floats.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n + 0.1F, n - 0.1F)));
         }
     }
 
