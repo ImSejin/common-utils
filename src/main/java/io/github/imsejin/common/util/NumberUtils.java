@@ -395,4 +395,63 @@ public final class NumberUtils {
         return number % 1 != 0;
     }
 
+    /**
+     * Returns reversed number.
+     *
+     * <pre><code>
+     *     reverse(0); // 0
+     *     reverse(1024); // 4201
+     *     reverse();
+     *     reverse();
+     * </code></pre>
+     *
+     * @param number number
+     * @return reversed number
+     */
+    public static long reverse(long number) {
+        long reversed = 0;
+
+        // Runs loop until number becomes 0.
+        while (number != 0) {
+
+            // Gets last digit from number.
+            long digit = number % 10;
+            reversed = reversed * 10 + digit;
+
+            // Removes the last digit from number.
+            number /= 10;
+        }
+
+        return reversed;
+    }
+
+    /**
+     * Returns reversed big integer.
+     *
+     * <pre><code>
+     *     reverse(0); // 0
+     *     reverse(1024); // 4201
+     *     reverse();
+     *     reverse();
+     * </code></pre>
+     *
+     * @param bigInt big integer
+     * @return reversed big integer
+     */
+    public static BigInteger reverse(@Nonnull BigInteger bigInt) {
+        BigInteger reversed = BigInteger.ZERO;
+
+        // Runs loop until number becomes 0.
+        while (!bigInt.equals(BigInteger.ZERO)) {
+            // Gets last digit from number.
+            BigInteger digit = bigInt.remainder(BigInteger.TEN);
+            reversed = reversed.multiply(BigInteger.TEN).add(digit);
+
+            // Removes the last digit from number.
+            bigInt = bigInt.divide(BigInteger.TEN);
+        }
+
+        return reversed;
+    }
+
 }
