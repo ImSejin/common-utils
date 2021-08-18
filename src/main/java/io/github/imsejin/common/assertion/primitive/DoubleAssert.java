@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.primitive;
 
 import io.github.imsejin.common.assertion.DecimalNumberAssertion;
-import io.github.imsejin.common.util.MathUtils;
+import io.github.imsejin.common.util.NumberUtils;
 
 public class DoubleAssert<SELF extends DoubleAssert<SELF>> extends NumberAssert<SELF, Double>
         implements DecimalNumberAssertion<SELF, Double> {
@@ -28,7 +28,7 @@ public class DoubleAssert<SELF extends DoubleAssert<SELF>> extends NumberAssert<
 
     @Override
     public SELF hasDecimalPart() {
-        if (!MathUtils.hasDecimalPart(actual)) throw getException();
+        if (!NumberUtils.hasDecimalPart(actual)) throw getException();
         return self;
     }
 

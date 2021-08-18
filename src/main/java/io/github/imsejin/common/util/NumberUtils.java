@@ -378,4 +378,21 @@ public final class NumberUtils {
         return bigInt.abs().toString().length();
     }
 
+    /**
+     * Checks whether number has decimal part.
+     *
+     * <pre><code>
+     *     hasDecimalPart(-1.41421); // true
+     *     hasDecimalPart(0);        // false
+     *     hasDecimalPart(3.141592); // true
+     *     hasDecimalPart(64.0);     // false
+     * </code></pre>
+     *
+     * @param number number
+     * @return whether number has decimal part
+     */
+    public static boolean hasDecimalPart(double number) {
+        return number % 1 != 0;
+    }
+
 }
