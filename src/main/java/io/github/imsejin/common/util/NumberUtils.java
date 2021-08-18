@@ -382,6 +382,7 @@ public final class NumberUtils {
      * Checks whether number has decimal part.
      *
      * <pre><code>
+     *     hasDecimalPart(-32.0);    // false
      *     hasDecimalPart(-1.41421); // true
      *     hasDecimalPart(0);        // false
      *     hasDecimalPart(3.141592); // true
@@ -399,10 +400,11 @@ public final class NumberUtils {
      * Returns reversed number.
      *
      * <pre><code>
-     *     reverse(0); // 0
+     *     reverse(-910); // -19
+     *     reverse(-100); // -1
+     *     reverse(0);    // 0
      *     reverse(1024); // 4201
-     *     reverse();
-     *     reverse();
+     *     reverse(2080); // 802
      * </code></pre>
      *
      * @param number number
@@ -429,10 +431,11 @@ public final class NumberUtils {
      * Returns reversed big integer.
      *
      * <pre><code>
-     *     reverse(0); // 0
-     *     reverse(1024); // 4201
-     *     reverse();
-     *     reverse();
+     *     reverse(new BigInteger("-15010")); // -1051
+     *     reverse(new BigInteger("-40"));    // -4
+     *     reverse(BigInteger.ZERO);          // 0
+     *     reverse(BigInteger.TEN);           // 1
+     *     reverse(new BigInteger("65536"));  // 63556
      * </code></pre>
      *
      * @param bigInt big integer
