@@ -68,4 +68,41 @@ class NumberUtilsSpec extends Specification {
         -128.0               | false
     }
 
+    def "Get reversed number"() {
+        when:
+        def actual = NumberUtils.reverse number
+
+        then:
+        actual == expected
+
+        where:
+        number                                            | expected
+        Long.MIN_VALUE                                    | -8085774586302733229
+        Integer.MIN_VALUE                                 | -8463847412
+        Short.MIN_VALUE                                   | -86723
+        -25000                                            | -52
+        Byte.MIN_VALUE                                    | -821
+        0                                                 | 0
+        Byte.MAX_VALUE                                    | 721
+        1000                                              | 1
+        Short.MAX_VALUE                                   | 76723
+        Integer.MAX_VALUE                                 | 7463847412
+        Long.MAX_VALUE                                    | 7085774586302733229
+        new BigInteger("-987654321098765432109876543210") | new BigInteger("-12345678901234567890123456789")
+        Long.MIN_VALUE.toBigInteger()                     | BigInteger.valueOf(-8085774586302733229)
+        Integer.MIN_VALUE.toBigInteger()                  | BigInteger.valueOf(-8463847412)
+        Short.MIN_VALUE.toBigInteger()                    | BigInteger.valueOf(-86723)
+        Byte.MIN_VALUE.toBigInteger()                     | BigInteger.valueOf(-821)
+        new BigInteger("-2080")                           | BigInteger.valueOf(-802)
+        new BigInteger("-1")                              | BigInteger.valueOf(-1)
+        BigInteger.ZERO                                   | BigInteger.ZERO
+        BigInteger.ONE                                    | BigInteger.ONE
+        BigInteger.TEN                                    | BigInteger.ONE
+        Byte.MAX_VALUE.toBigInteger()                     | BigInteger.valueOf(721)
+        Short.MAX_VALUE.toBigInteger()                    | BigInteger.valueOf(76723)
+        Integer.MAX_VALUE.toBigInteger()                  | BigInteger.valueOf(7463847412)
+        Long.MAX_VALUE.toBigInteger()                     | BigInteger.valueOf(7085774586302733229)
+        new BigInteger("8453487412897056489434840070000") | new BigInteger("700484349846507982147843548")
+    }
+
 }
