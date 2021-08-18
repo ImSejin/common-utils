@@ -82,7 +82,9 @@ class NumberUtilsSpec extends Specification {
         Short.MIN_VALUE                                   | -86723
         -25000                                            | -52
         Byte.MIN_VALUE                                    | -821
+        -5                                                | -5
         0                                                 | 0
+        9                                                 | 9
         Byte.MAX_VALUE                                    | 721
         1000                                              | 1
         Short.MAX_VALUE                                   | 76723
