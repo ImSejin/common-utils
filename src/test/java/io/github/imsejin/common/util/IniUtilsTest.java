@@ -1,6 +1,5 @@
 package io.github.imsejin.common.util;
 
-import lombok.SneakyThrows;
 import org.ini4j.Ini;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -109,7 +108,6 @@ class IniUtilsTest {
     }
 
     @Test
-    @SneakyThrows
     void write(@TempDir Path path) {
         // given
         File file = new File(path.toFile(), "test.ini");
