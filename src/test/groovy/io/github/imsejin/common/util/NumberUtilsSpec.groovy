@@ -43,4 +43,29 @@ class NumberUtilsSpec extends Specification {
         number << ["-115234155123123413842342342024623440", "-5", "0", "9", "1505512411489465416645571849602523405834510"]
     }
 
+    def "Check whether number has decimal part"() {
+        when:
+        def actual = NumberUtils.hasDecimalPart number
+
+        then:
+        actual == expected
+
+        where:
+        number               | expected
+        -1.41421356237       | true
+        0.5                  | true
+        3.141592653589793238 | true
+        Float.MIN_VALUE      | true
+        Double.MIN_VALUE     | true
+        Double.MAX_VALUE     | false
+        Float.MAX_VALUE      | false
+        Long.MIN_VALUE       | false
+        Long.MAX_VALUE       | false
+        Integer.MIN_VALUE    | false
+        Integer.MAX_VALUE    | false
+        64.0                 | false
+        0.0                  | false
+        -128.0               | false
+    }
+
 }
