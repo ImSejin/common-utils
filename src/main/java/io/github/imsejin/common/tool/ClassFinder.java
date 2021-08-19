@@ -46,41 +46,41 @@ public final class ClassFinder {
     }
 
     /**
-     * Returns all classes that extends the given class.
+     * Returns all subtypes that extends the given class.
      * <p>
      * <b>Since Java 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param superclass superclass
-     * @return all subclasses
+     * @return all subtypes
      */
-    public static Set<Class<?>> getAllSubclasses(Class<?> superclass) {
-        return getAllSubclasses(superclass, SearchPolicy.ALL, Thread.currentThread().getContextClassLoader());
+    public static Set<Class<?>> getAllSubtypes(Class<?> superclass) {
+        return getAllSubtypes(superclass, SearchPolicy.ALL, Thread.currentThread().getContextClassLoader());
     }
 
     /**
-     * Returns all classes that extends the given class.
+     * Returns all subtypes that extends the given class.
      * <p>
      * <b>Since Java 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param superclass   superclass
      * @param searchPolicy policy of search
-     * @return all subclasses
+     * @return all subtypes
      */
-    public static Set<Class<?>> getAllSubclasses(Class<?> superclass, SearchPolicy searchPolicy) {
-        return getAllSubclasses(superclass, searchPolicy, Thread.currentThread().getContextClassLoader());
+    public static Set<Class<?>> getAllSubtypes(Class<?> superclass, SearchPolicy searchPolicy) {
+        return getAllSubtypes(superclass, searchPolicy, Thread.currentThread().getContextClassLoader());
     }
 
     /**
-     * Returns all classes that extends the given class.
+     * Returns all subtypes that extends the given class.
      * <p>
      * <b>Since Java 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param superclass   superclass
      * @param searchPolicy policy of search
      * @param classLoader  class loader
-     * @return all subclasses
+     * @return all subtypes
      */
-    public static Set<Class<?>> getAllSubclasses(Class<?> superclass, SearchPolicy searchPolicy, ClassLoader classLoader) {
+    public static Set<Class<?>> getAllSubtypes(Class<?> superclass, SearchPolicy searchPolicy, ClassLoader classLoader) {
         Pattern pattern = Pattern.compile("^[a-zA-Z].+\\$\\d+.*$");
 
         List<Class<?>> subclasses = new ArrayList<>();
@@ -106,9 +106,7 @@ public final class ClassFinder {
      * @param visitor visitor
      */
     public static void findClasses(Predicate<String> visitor) {
-        String javaHome = System.getProperty("java.home");
-
-        File file = new File(javaHome, "lib");
+        File file = new File(System.getProperty("java.home"), "lib");
         if (file.exists()) {
             findClasses0(file, file, true, visitor);
         }
@@ -181,7 +179,7 @@ public final class ClassFinder {
         },
 
         /**
-         * Search all subclasses and implementations.
+         * Search all subtypes(sub-interfaces, subclasses and implementations).
          */
         ALL {
             @Override
