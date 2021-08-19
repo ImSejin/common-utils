@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
@@ -104,7 +105,7 @@ public final class ClassFinder {
      *
      * @param visitor visitor
      */
-    public static void findClasses(Visitor<String> visitor) {
+    public static void findClasses(Predicate<String> visitor) {
         String javaHome = System.getProperty("java.home");
 
         File file = new File(javaHome, "lib");
@@ -122,7 +123,7 @@ public final class ClassFinder {
         }
     }
 
-    private static boolean findClasses0(File root, File file, boolean includeJars, Visitor<String> visitor) {
+    private static boolean findClasses0(File root, File file, boolean includeJars, Predicate<String> visitor) {
         if (file.isDirectory()) {
             for (File child : Objects.requireNonNull(file.listFiles())) {
                 if (!findClasses0(root, child, includeJars, visitor)) {
@@ -140,7 +141,7 @@ public final class ClassFinder {
                     String name = entry.getName();
                     int extIndex = name.lastIndexOf(".class");
                     if (extIndex > 0) {
-                        if (!visitor.visit(name.substring(0, extIndex).replace('/', '.'))) {
+                        if (!visitor.test(name.substring(0, extIndex).replace('/', '.'))) {
                             return false;
                         }
                     }
@@ -149,7 +150,7 @@ public final class ClassFinder {
                 return true;
             }
         } else if (filename.endsWith(".class")) {
-            return visitor.visit(createClassName(root, file));
+            return visitor.test(createClassName(root, file));
         }
 
         return true;
@@ -166,15 +167,6 @@ public final class ClassFinder {
         }
 
         return sb.toString();
-    }
-
-    @FunctionalInterface
-    public interface Visitor<T> {
-        /**
-         * @return {@code true} if the algorithm should visit more results,
-         * {@code false} if it should terminate now.
-         */
-        boolean visit(T t);
     }
 
     public enum SearchPolicy {
