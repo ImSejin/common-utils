@@ -209,7 +209,7 @@ class StopwatchTest {
 
                 assertThat(actual)
                         .as("Total time with %s unit", timeUnit.name().toLowerCase())
-                        .isCloseTo(entry.getValue().apply(ns), Percentage.withPercentage(99.999999));
+                        .isCloseTo(entry.getValue().apply(ns), Percentage.withPercentage(99.9));
                 System.out.printf("%s %s%n", BigDecimal.valueOf(actual).stripTrailingZeros().toPlainString(),
                         timeUnit.name().toLowerCase());
             }

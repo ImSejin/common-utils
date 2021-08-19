@@ -120,7 +120,7 @@ public abstract class AbstractCollectionAssert<
         throw getException();
     }
 
-    public SELF containsAll(Collection<T> expected) {
+    public SELF containsAll(Collection<? extends T> expected) {
         if (CollectionUtils.isNullOrEmpty(expected)) return self;
 
         if (!actual.containsAll(expected)) {
