@@ -29,6 +29,8 @@ import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.assertion.reflect.PackageAssert;
 import io.github.imsejin.common.assertion.time.*;
 import io.github.imsejin.common.util.FileUtils;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
@@ -43,67 +45,88 @@ import java.util.concurrent.DelayQueue;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("ClassFinder")
 @SuppressWarnings("rawtypes")
 class ClassFinderTest {
 
-    @Test
-    @EnabledOnJre(JRE.JAVA_8)
-    void getAllSubclasses0() {
-        // given
-        Class<Collection> superclass = Collection.class;
+    @Nested
+    @DisplayName("method 'getAllSubtypes'")
+    class GetAllSubtypes {
+        @Test
+        @EnabledOnJre(JRE.JAVA_8)
+        @DisplayName("returns all subtypes of java.util.Collection, when java version is 8")
+        void test0() {
+            // given
+            Class<Collection> superclass = Collection.class;
 
-        // when
-        Set<Class<?>> subclasses = ClassFinder.getAllSubclasses(superclass);
+            // when
+            Set<Class<?>> subtypes = ClassFinder.getAllSubtypes(superclass);
 
-        // then
-        assertThat(subclasses)
-                .isNotEmpty()
-                .doesNotContainNull()
-                .contains(List.class, Set.class, ArrayList.class, Vector.class, Queue.class, Stack.class);
+            // then
+            List<Class<? extends Collection>> subInterfaces = Arrays.asList(List.class, Set.class, Queue.class);
+            List<Class<? extends AbstractList>> implementations = Arrays.asList(ArrayList.class, Vector.class, Stack.class);
+            assertThat(subInterfaces)
+                    .allMatch(superclass::isAssignableFrom)
+                    .map(it -> Arrays.asList(it.getInterfaces()))
+                    .allMatch(it -> it.contains(superclass));
+            assertThat(implementations)
+                    .allMatch(superclass::isAssignableFrom);
+            assertThat(subtypes)
+                    .isNotEmpty()
+                    .doesNotContainNull()
+                    .containsAll(subInterfaces)
+                    .containsAll(implementations);
+        }
+
+        @Test
+        @DisplayName("returns subclasses of Descriptor, when superclass is in source directory")
+        void test1() {
+            // given
+            Class<Descriptor> superclass = Descriptor.class;
+            ClassFinder.SearchPolicy searchPolicy = ClassFinder.SearchPolicy.CLASS;
+
+            // when
+            Set<Class<?>> subclasses = ClassFinder.getAllSubtypes(superclass, searchPolicy);
+
+            // then
+            assertThat(subclasses)
+                    .isNotEmpty()
+                    .doesNotContainNull()
+                    .contains(ArrayAssert.class, AbstractCharSequenceAssert.class, StringAssert.class,
+                            AbstractCollectionAssert.class, AbstractFileAssert.class, AbstractMapAssert.class,
+                            AbstractObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
+                            FloatAssert.class, NumberAssert.class, ClassAssert.class, PackageAssert.class,
+                            AbstractChronoLocalDateAssert.class, AbstractChronoLocalDateTimeAssert.class,
+                            AbstractChronoZonedDateTimeAssert.class, LocalTimeAssert.class,
+                            OffsetDateTimeAssert.class, OffsetTimeAssert.class);
+        }
+
+        @Test
+        @EnabledOnJre(JRE.JAVA_8)
+        @DisplayName("returns subclasses of java.util.AbstractQueue, when java version is 8")
+        void test2() {
+            // given
+            Class<AbstractQueue> superclass = AbstractQueue.class;
+            ClassFinder.SearchPolicy searchPolicy = ClassFinder.SearchPolicy.CLASS;
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+
+            // when
+            Set<Class<?>> subclasses = ClassFinder.getAllSubtypes(superclass, searchPolicy, classLoader);
+
+            // then
+            List<Class<? extends AbstractQueue>> classes = Arrays.asList(
+                    ArrayBlockingQueue.class, ConcurrentLinkedQueue.class, DelayQueue.class, PriorityQueue.class);
+            assertThat(subclasses)
+                    .allMatch(superclass::isAssignableFrom);
+            assertThat(subclasses)
+                    .isNotEmpty()
+                    .doesNotContainNull()
+                    .containsAll(classes);
+        }
     }
 
     @Test
-    void getAllSubclasses1() {
-        // given
-        Class<Descriptor> superclass = Descriptor.class;
-        ClassFinder.SearchPolicy searchPolicy = ClassFinder.SearchPolicy.CLASS;
-
-        // when
-        Set<Class<?>> subclasses = ClassFinder.getAllSubclasses(superclass, searchPolicy);
-
-        // then
-        assertThat(subclasses)
-                .isNotEmpty()
-                .doesNotContainNull()
-                .contains(ArrayAssert.class, AbstractCharSequenceAssert.class, StringAssert.class,
-                        AbstractCollectionAssert.class, AbstractFileAssert.class, AbstractMapAssert.class,
-                        AbstractObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
-                        FloatAssert.class, NumberAssert.class, ClassAssert.class, PackageAssert.class,
-                        AbstractChronoLocalDateAssert.class, AbstractChronoLocalDateTimeAssert.class,
-                        AbstractChronoZonedDateTimeAssert.class, LocalTimeAssert.class,
-                        OffsetDateTimeAssert.class, OffsetTimeAssert.class
-                );
-    }
-
-    @Test
-    @EnabledOnJre(JRE.JAVA_8)
-    void getAllSubclasses2() {
-        // given
-        Class<AbstractQueue> superclass = AbstractQueue.class;
-        ClassFinder.SearchPolicy searchPolicy = ClassFinder.SearchPolicy.CLASS;
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-        // when
-        Set<Class<?>> subclasses = ClassFinder.getAllSubclasses(superclass, searchPolicy, classLoader);
-
-        // then
-        assertThat(subclasses)
-                .isNotEmpty()
-                .doesNotContainNull()
-                .contains(ArrayBlockingQueue.class, ConcurrentLinkedQueue.class, DelayQueue.class, PriorityQueue.class);
-    }
-
-    @Test
+    @DisplayName("method 'findClasses'")
     void findClasses() throws IOException {
         // given
         List<String> classNames = new ArrayList<>();
