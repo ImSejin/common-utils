@@ -18,8 +18,7 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.constant.DateType;
-import io.github.imsejin.common.constant.OperatingSystem;
-import io.github.imsejin.common.tool.OSDetector;
+import io.github.imsejin.common.constant.OS;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -108,7 +107,7 @@ public final class PathnameUtils {
                 .map(String::trim)
                 .collect(Collectors.joining(File.separator));
 
-        return absolute && OSDetector.getOS() != OperatingSystem.WINDOWS
+        return absolute && OS.getCurrentOS() != OS.WINDOWS
                 ? UNIX_SEPARATOR + trimmed
                 : trimmed;
     }
