@@ -381,8 +381,7 @@ class DoubleAssertTest {
         })
         @DisplayName("passes, when actual has decimal part")
         void test0(double actual) {
-            assertThatCode(() -> Asserts.that(actual).hasDecimalPart())
-                    .doesNotThrowAnyException();
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).hasDecimalPart());
         }
 
         @ParameterizedTest
@@ -392,8 +391,9 @@ class DoubleAssertTest {
         })
         @DisplayName("throws exception, when actual doesn't have decimal part")
         void test1(double actual) {
-            assertThatCode(() -> Asserts.that(actual).hasDecimalPart())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).hasDecimalPart())
+                    .withMessageStartingWith("It is expected to have decimal part, but it isn't.");
         }
     }
 

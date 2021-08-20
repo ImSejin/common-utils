@@ -28,7 +28,11 @@ public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SE
 
     @Override
     public SELF hasDecimalPart() {
-        if (!NumberUtils.hasDecimalPart(actual)) throw getException();
+        if (!NumberUtils.hasDecimalPart(actual)) {
+            setDefaultDescription("It is expected to have decimal part, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 

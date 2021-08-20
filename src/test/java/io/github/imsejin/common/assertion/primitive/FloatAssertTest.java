@@ -309,32 +309,6 @@ class FloatAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'hasDecimalPart'")
-    class HasDecimalPart {
-        @ParameterizedTest
-        @ValueSource(floats = {
-                -123.456F, -0.123456F, -Float.MIN_VALUE, Float.MIN_VALUE, 0.123456F, 123.456F
-        })
-        @DisplayName("passes, when actual has decimal part")
-        void test0(float actual) {
-            assertThatCode(() -> Asserts.that(actual).hasDecimalPart())
-                    .doesNotThrowAnyException();
-        }
-
-        @ParameterizedTest
-        @ValueSource(floats = {
-                -123456.0F, -Float.MAX_VALUE, 0, Float.MAX_VALUE, 1.0F, 123456.0F
-        })
-        @DisplayName("throws exception, when actual doesn't have decimal part")
-        void test1(float actual) {
-            assertThatCode(() -> Asserts.that(actual).hasDecimalPart())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @Nested
     @DisplayName("method 'isBetween'")
     class IsBetween {
         @Test
@@ -348,7 +322,6 @@ class FloatAssertTest {
                         Asserts.that(n).isBetween(n - 0.1F, n + 0.1F);
                     }));
         }
-
 
         @Test
         @DisplayName("throws exception, when actual is not between x and y inclusively")
@@ -392,6 +365,32 @@ class FloatAssertTest {
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n)));
             floats.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n + 0.1F, n - 0.1F)));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'hasDecimalPart'")
+    class HasDecimalPart {
+        @ParameterizedTest
+        @ValueSource(floats = {
+                -123.456F, -0.123456F, -Float.MIN_VALUE, Float.MIN_VALUE, 0.123456F, 123.456F
+        })
+        @DisplayName("passes, when actual has decimal part")
+        void test0(float actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).hasDecimalPart());
+        }
+
+        @ParameterizedTest
+        @ValueSource(floats = {
+                -123456.0F, -Float.MAX_VALUE, 0, Float.MAX_VALUE, 1.0F, 123456.0F
+        })
+        @DisplayName("throws exception, when actual doesn't have decimal part")
+        void test1(float actual) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).hasDecimalPart())
+                    .withMessageStartingWith("It is expected to have decimal part, but it isn't.");
         }
     }
 
