@@ -259,8 +259,7 @@ public final class Stopwatch {
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
-        double converted = convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
-        return MathUtils.floor(converted, DECIMAL_PLACE);
+        return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
     }
 
     /**
@@ -270,7 +269,9 @@ public final class Stopwatch {
      * @see #getTotalTime()
      */
     public String getSummary() {
-        String runningTime = BigDecimal.valueOf(getTotalTime()).stripTrailingZeros().toPlainString();
+        double totalTime = MathUtils.floor(getTotalTime(), DECIMAL_PLACE);
+        String runningTime = BigDecimal.valueOf(totalTime).stripTrailingZeros().toPlainString();
+
         return "Stopwatch: RUNNING_TIME = " + runningTime + ' ' + getTimeUnitAbbreviation(this.timeUnit);
     }
 
@@ -317,7 +318,7 @@ class Tasks {
 
     @Override
     public String toString() {
-        double totalTime = this.stopwatch.getTotalTime();
+        double totalTime = MathUtils.floor(this.stopwatch.getTotalTime(), Stopwatch.DECIMAL_PLACE);
         TimeUnit timeUnit = this.stopwatch.getTimeUnit();
 
         // Sets up task time and percentage to each task.
