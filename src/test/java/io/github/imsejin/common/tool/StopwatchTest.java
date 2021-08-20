@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.EnumMap;
-import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.DoubleFunction;
 
@@ -201,15 +201,13 @@ class StopwatchTest {
 
             // then
             double ns = stopwatch.getTotalTime();
-            for (Map.Entry<TimeUnit, DoubleFunction<Double>> entry : units.entrySet()) {
-                TimeUnit timeUnit = entry.getKey();
-
+            for (TimeUnit timeUnit : TimeUnit.values()) {
                 stopwatch.setTimeUnit(timeUnit);
                 double actual = stopwatch.getTotalTime();
 
                 assertThat(actual)
                         .as("Total time with %s unit", timeUnit.name().toLowerCase())
-                        .isCloseTo(entry.getValue().apply(ns), Percentage.withPercentage(99.9));
+                        .isCloseTo(units.get(timeUnit).apply(ns), Percentage.withPercentage(1.0E-10));
                 System.out.printf("%s %s%n", BigDecimal.valueOf(actual).stripTrailingZeros().toPlainString(),
                         timeUnit.name().toLowerCase());
             }
@@ -217,7 +215,7 @@ class StopwatchTest {
         }
     }
 
-    @Test
+    @RepeatedTest(100)
     @DisplayName("package-private method 'convertTimeUnit'")
     void convertTimeUnit() {
         // given
@@ -226,13 +224,14 @@ class StopwatchTest {
         method.setAccessible(true);
 
         // expect
-        assertThatConversionFromNanoseconds(method, 102.4);
-        assertThatConversionFromMicroseconds(method, 51.2);
-        assertThatConversionFromMilliseconds(method, 25.6);
-        assertThatConversionFromSeconds(method, 12.8);
-        assertThatConversionFromMinutes(method, 6.4);
-        assertThatConversionFromHours(method, 3.2);
-        assertThatConversionFromDays(method, 1.6);
+        Random random = new Random();
+        assertThatConversionFromNanoseconds(method, random.nextDouble());
+        assertThatConversionFromMicroseconds(method, random.nextDouble());
+        assertThatConversionFromMilliseconds(method, random.nextDouble());
+        assertThatConversionFromSeconds(method, random.nextDouble());
+        assertThatConversionFromMinutes(method, random.nextDouble());
+        assertThatConversionFromHours(method, random.nextDouble());
+        assertThatConversionFromDays(method, random.nextDouble());
     }
 
     @Test
@@ -300,7 +299,7 @@ class StopwatchTest {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
             double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, timeUnit);
-            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(99.9));
+            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
 
@@ -319,7 +318,7 @@ class StopwatchTest {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
             double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.MICROSECONDS, timeUnit);
-            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(99.9));
+            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
 
@@ -338,7 +337,7 @@ class StopwatchTest {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
             double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.MILLISECONDS, timeUnit);
-            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(99.9));
+            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
 
@@ -357,7 +356,7 @@ class StopwatchTest {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
             double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.SECONDS, timeUnit);
-            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(99.9));
+            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
 
@@ -376,7 +375,7 @@ class StopwatchTest {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
             double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.MINUTES, timeUnit);
-            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(99.9));
+            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
 
@@ -395,7 +394,7 @@ class StopwatchTest {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
             double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.HOURS, timeUnit);
-            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(99.9));
+            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
 
@@ -414,7 +413,7 @@ class StopwatchTest {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
             double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.DAYS, timeUnit);
-            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(99.9));
+            assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
 
