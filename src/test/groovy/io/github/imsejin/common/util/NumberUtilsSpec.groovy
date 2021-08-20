@@ -68,7 +68,31 @@ class NumberUtilsSpec extends Specification {
         -128.0               | false
     }
 
-    def "Get reversed number"() {
+    def "Get reversed long number"() {
+        when:
+        def actual = NumberUtils.reverse number
+
+        then:
+        actual == expected
+
+        where:
+        number            | expected
+        Long.MIN_VALUE    | -8085774586302733229
+        Integer.MIN_VALUE | -8463847412
+        Short.MIN_VALUE   | -86723
+        -25000            | -52
+        Byte.MIN_VALUE    | -821
+        -5                | -5
+        0                 | 0
+        9                 | 9
+        Byte.MAX_VALUE    | 721
+        1000              | 1
+        Short.MAX_VALUE   | 76723
+        Integer.MAX_VALUE | 7463847412
+        Long.MAX_VALUE    | 7085774586302733229
+    }
+
+    def "Get reversed big integer"() {
         when:
         def actual = NumberUtils.reverse number
 
@@ -77,19 +101,6 @@ class NumberUtilsSpec extends Specification {
 
         where:
         number                                            | expected
-        Long.MIN_VALUE                                    | -8085774586302733229
-        Integer.MIN_VALUE                                 | -8463847412
-        Short.MIN_VALUE                                   | -86723
-        -25000                                            | -52
-        Byte.MIN_VALUE                                    | -821
-        -5                                                | -5
-        0                                                 | 0
-        9                                                 | 9
-        Byte.MAX_VALUE                                    | 721
-        1000                                              | 1
-        Short.MAX_VALUE                                   | 76723
-        Integer.MAX_VALUE                                 | 7463847412
-        Long.MAX_VALUE                                    | 7085774586302733229
         new BigInteger("-987654321098765432109876543210") | new BigInteger("-12345678901234567890123456789")
         Long.MIN_VALUE.toBigInteger()                     | BigInteger.valueOf(-8085774586302733229)
         Integer.MIN_VALUE.toBigInteger()                  | BigInteger.valueOf(-8463847412)
