@@ -139,7 +139,7 @@ class ClassAssertTest {
 
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotTypeOf(expected))
-                    .withMessageStartingWith("It is expected to be not type of the instance, but it is."));
+                    .withMessageStartingWith("It is expected not to be type of the instance, but it is."));
         }
     }
 
@@ -200,15 +200,14 @@ class ClassAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not superclass of the given type")
         void test1() {
+            String description = "It is expected to be superclass of the given type, but it isn't.";
+
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IllegalArgumentException.class)
-                    .isSuperclassOf(RuntimeException.class))
-                    .withMessageStartingWith("It is expected to be superclass of the given type, but it isn't.");
+                    .isSuperclassOf(RuntimeException.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
-                    .isSuperclassOf(Exception.class))
-                    .withMessageStartingWith("It is expected to be superclass of the given type, but it isn't.");
+                    .isSuperclassOf(Exception.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
-                    .isSuperclassOf(Throwable.class))
-                    .withMessageStartingWith("It is expected to be superclass of the given type, but it isn't.");
+                    .isSuperclassOf(Throwable.class)).withMessageStartingWith(description);
         }
     }
 
@@ -230,15 +229,14 @@ class ClassAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not subclass of the given type")
         void test1() {
+            String description = "It is expected to be subclass of the given type, but it isn't.";
+
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Throwable.class)
-                    .isSubclassOf(Exception.class))
-                    .withMessageStartingWith("It is expected to be subclass of the given type, but it isn't.");
+                    .isSubclassOf(Exception.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
-                    .isSubclassOf(RuntimeException.class))
-                    .withMessageStartingWith("It is expected to be subclass of the given type, but it isn't.");
+                    .isSubclassOf(RuntimeException.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
-                    .isSubclassOf(IllegalArgumentException.class))
-                    .withMessageStartingWith("It is expected to be subclass of the given type, but it isn't.");
+                    .isSubclassOf(IllegalArgumentException.class)).withMessageStartingWith(description);
 
         }
     }

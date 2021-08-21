@@ -51,7 +51,8 @@ import java.util.Map;
  * AssertJ solved this problem by <u>specifying the generic type of a class that inherited the assertion
  * class</u>. There is a difference between this and AssertJ. This solved the problem by <u>specifying
  * the generic type in method return type and instantiating an anonymous class that inherited
- * the assertion class <b>with raw type</b></u>.
+ * the assertion class <b>with raw type because the diamond operator is not supported on anonymous classes
+ * until Java 8</b></u>.
  *
  * @see <a href="https://assertj.github.io/doc/">AssertJ API document</a>
  */
@@ -67,35 +68,35 @@ public abstract class Asserts {
     //////////////////////////////////////// Array ////////////////////////////////////////
 
     public static ArrayAssert<?> that(boolean[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(byte[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(char[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(double[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(float[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(int[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(long[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(short[] array) {
-        return new ArrayAssert<>(ArrayUtils.toWrapper(array));
+        return new ArrayAssert<>(ArrayUtils.box(array));
     }
 
     public static <T> ArrayAssert<?> that(T[] array) {

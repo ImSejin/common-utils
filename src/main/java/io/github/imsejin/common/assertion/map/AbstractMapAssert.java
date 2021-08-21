@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.map;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
 import java.util.Collection;
 import java.util.Map;
@@ -99,6 +100,10 @@ public abstract class AbstractMapAssert<
     @SuppressWarnings("unchecked")
     public AbstractCollectionAssert<?, Collection<V>, V> asValues() {
         return Asserts.that((Collection<V>) actual.values());
+    }
+
+    public NumberAssert<?, Integer> asSize() {
+        return Asserts.that(actual.size());
     }
 
 }

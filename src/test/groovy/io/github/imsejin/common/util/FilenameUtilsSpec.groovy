@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Sejin Im
+ * Copyright 2021 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.constant
+package io.github.imsejin.common.util
 
 import spock.lang.Specification
 
-class OperatingSystemSpec extends Specification {
+class FilenameUtilsSpec extends Specification {
 
-    def "contains"() {
-        expect:
-        OperatingSystem.contains(keyword)
-
-        where:
-        keyword << ['win', 'mac', 'nix', 'nux', 'aix', 'sunos']
-    }
-
-    def "of"() {
+    def "ReplaceUnallowables"() {
         when:
-        def os = OperatingSystem.of(keyword).orElse(null)
+        def actual = FilenameUtils.replaceUnallowables filename
 
         then:
-        os != null
-        os.getKeywords().contains(keyword)
+        actual == expected
 
         where:
-        keyword << ['win', 'mac', 'nix', 'nux', 'aix', 'sunos']
+        filename                                            | expected
+        "where he is gone.."                                | "where he is gone…"
+        "I feel happy when coding."                         | "I feel happy when coding．"
+        "** <happy/\\new year> **:\"john\" -> |\"jeremy\"|" | "＊＊ ＜happy／＼new year＞ ＊＊：＂john＂ -＞ ｜＂jeremy＂｜"
     }
 
 }

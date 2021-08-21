@@ -3,9 +3,14 @@
 <p align="center">Common utilities for java programming</p>
 
 <p align="center">
+    <!--
     <a href="https://travis-ci.com/github/ImSejin/common-utils">
         <img alt="Travis CI" src="https://img.shields.io/travis/com/ImSejin/common-utils/release?style=flat-square">
-    </a>  
+    </a>
+    -->
+    <a href="https://github.com/ImSejin/common-utils/actions/workflows/maven-build.yml">
+        <img alt="Github Workflows" src="https://img.shields.io/github/workflow/status/imsejin/common-utils/Java%20CI%20with%20Maven?label=build&style=flat-square">
+    </a>
     <a href="https://codecov.io/gh/ImSejin/common-utils">
         <img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/ImSejin/common-utils/release?label=code%20coverage&style=flat-square&token=F9DCS57CAN"/>
     </a>

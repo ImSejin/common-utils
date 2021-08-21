@@ -16,7 +16,9 @@
 
 package io.github.imsejin.common.assertion.array;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.primitive.NumberAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.Arrays;
@@ -52,7 +54,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
 
     public SELF isEmpty() {
         if (actual.length > 0) {
-            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')'",
+            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')",
                     Arrays.toString(actual));
             throw getException();
         }
@@ -62,7 +64,19 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
 
     public SELF hasElement() {
         if (actual.length == 0) {
-            setDefaultDescription("It is expected to have element, but it isn't. (actual: '[]')'");
+            setDefaultDescription("It is expected to have element, but it isn't. (actual: '[]')");
+            throw getException();
+        }
+
+        return self;
+    }
+
+    public SELF doesNotContainNull() {
+        for (Object element : actual) {
+            if (element != null) continue;
+
+            setDefaultDescription("It is expected not to contain null, but it isn't. (actual: '{0}')",
+                    Arrays.toString(actual));
             throw getException();
         }
 
@@ -82,7 +96,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     public SELF isSameLength(Object[] expected) {
         if (expected == null || actual.length != expected.length) {
             setDefaultDescription("They are expected to be the same length, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length);
+                    expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }
 
@@ -92,7 +106,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     public SELF isNotSameLength(Object[] expected) {
         if (expected == null || actual.length == expected.length) {
             setDefaultDescription("They are expected to be not the same length, but they are. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length);
+                    expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }
 
@@ -116,7 +130,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
      *
      * <pre><code>
      *     if (expected.length == 0) return self;
-     *     if (actual.length == 0 {@literal &&} expected.length == 0) return self;
+     *     if (actual.length == 0 &amp;&amp; expected.length == 0) return self;
      *
      *     if (!IntStream.range(0, Math.min(actual.length, expected.length))
      *             .anyMatch(i -&gt; Objects.deepEquals(actual[i], expected[i]))) {
@@ -126,11 +140,12 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
      *     return self;
      * </code></pre>
      *
-     * @param expected expected array
+     * @param first  expected first value
+     * @param others expected other values
      * @return self
      */
-    public SELF containsAny(Object... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+    public SELF containsAny(Object first, Object... others) {
+        Object[] expected = ArrayUtils.prepend(others, first);
 
         for (Object item : expected) {
             for (Object element : actual) {
@@ -151,6 +166,12 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
         }
 
         return self;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public NumberAssert<?, Integer> asLength() {
+        return Asserts.that(actual.length);
     }
 
 }

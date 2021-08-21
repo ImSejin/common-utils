@@ -21,8 +21,6 @@ import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 import io.github.imsejin.common.util.ClassUtils;
 
-import java.lang.reflect.Modifier;
-
 public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractObjectAssert<SELF, Class<?>> {
 
     public ClassAssert(Class<T> actual) {
@@ -40,7 +38,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      * @return whether this is type of the instance
      */
     public SELF isTypeOf(Object expected) {
-        if (!TypeClassifier.toWrapper(actual).isInstance(expected)) {
+        if (!TypeClassifier.box(actual).isInstance(expected)) {
             setDefaultDescription("It is expected to be type of the instance, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
@@ -60,8 +58,8 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
      * @return whether this is not type of the instance
      */
     public SELF isNotTypeOf(Object expected) {
-        if (TypeClassifier.toWrapper(actual).isInstance(expected)) {
-            setDefaultDescription("It is expected to be not type of the instance, but it is. (expected: '{0}', actual: '{1}')",
+        if (TypeClassifier.box(actual).isInstance(expected)) {
+            setDefaultDescription("It is expected not to be type of the instance, but it is. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }

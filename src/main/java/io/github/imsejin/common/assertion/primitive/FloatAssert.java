@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.primitive;
 
 import io.github.imsejin.common.assertion.DecimalNumberAssertion;
-import io.github.imsejin.common.util.MathUtils;
+import io.github.imsejin.common.util.NumberUtils;
 
 public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SELF, Float>
         implements DecimalNumberAssertion<SELF, Float> {
@@ -28,7 +28,11 @@ public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SE
 
     @Override
     public SELF hasDecimalPart() {
-        if (!MathUtils.hasDecimalPart(actual)) throw getException();
+        if (!NumberUtils.hasDecimalPart(actual)) {
+            setDefaultDescription("It is expected to have decimal part, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 

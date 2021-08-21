@@ -18,10 +18,18 @@ package io.github.imsejin.common.assertion;
 
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
+/**
+ * Assertion for decimal number
+ */
 public interface DecimalNumberAssertion<
         SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertion<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>> {
 
+    /**
+     * Asserts that actual value has decimal part.
+     *
+     * @return assertion instance
+     */
     SELF hasDecimalPart();
 
 }

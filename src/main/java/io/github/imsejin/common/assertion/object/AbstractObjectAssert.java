@@ -111,7 +111,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
      * @return whether this is instance of the type
      */
     public SELF isInstanceOf(Class<?> expected) {
-        if (!TypeClassifier.toWrapper(expected).isInstance(actual)) {
+        if (!TypeClassifier.box(expected).isInstance(actual)) {
             setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
@@ -121,7 +121,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     }
 
     public SELF predicate(Predicate<ACTUAL> predicate) {
-        if (!Objects.requireNonNull(predicate, "Predicate is not allowed to be null").test(this.actual)) {
+        if (!Objects.requireNonNull(predicate, "Predicate is not allowed to be null").test(actual)) {
             setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
             throw getException();
         }

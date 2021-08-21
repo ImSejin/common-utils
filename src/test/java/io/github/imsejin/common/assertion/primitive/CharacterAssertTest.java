@@ -461,7 +461,7 @@ class CharacterAssertTest {
     class IsWhitespace {
         @ParameterizedTest
         @ValueSource(chars = {
-                '\t', '\n', '\u000B', '\f', '\r',
+                '\t', '\n', '\u000B', '\f', '\r', '\u0020',
                 '\u001C', '\u001D', '\u001E', '\u001F',
         })
         @DisplayName("passes, when actual is whitespace character")

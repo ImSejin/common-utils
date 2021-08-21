@@ -19,6 +19,7 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nonnull;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 
@@ -376,6 +377,91 @@ public final class NumberUtils {
      */
     public static int getNumOfPlaces(@Nonnull BigInteger bigInt) {
         return bigInt.abs().toString().length();
+    }
+
+    /**
+     * Checks whether number has decimal part.
+     * <p>
+     * (whether number is integer)
+     *
+     * <pre><code>
+     *     hasDecimalPart(-32.0);    // false
+     *     hasDecimalPart(-1.41421); // true
+     *     hasDecimalPart(0);        // false
+     *     hasDecimalPart(3.141592); // true
+     *     hasDecimalPart(64.0);     // false
+     * </code></pre>
+     *
+     * @param number number
+     * @return whether number has decimal part
+     */
+    public static boolean hasDecimalPart(double number) {
+        return number % 1 != 0;
+    }
+
+    public static boolean hasDecimalPart(BigDecimal bigDecimal) {
+        return bigDecimal.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO);
+    }
+
+    /**
+     * Returns reversed number.
+     *
+     * <pre><code>
+     *     reverse(-910); // -19
+     *     reverse(-100); // -1
+     *     reverse(0);    // 0
+     *     reverse(1024); // 4201
+     *     reverse(2080); // 802
+     * </code></pre>
+     *
+     * @param number number
+     * @return reversed number
+     */
+    public static long reverse(long number) {
+        long reversed = 0;
+
+        // Runs loop until number becomes 0.
+        while (number != 0) {
+
+            // Gets last digit from number.
+            long digit = number % 10;
+            reversed = reversed * 10 + digit;
+
+            // Removes the last digit from number.
+            number /= 10;
+        }
+
+        return reversed;
+    }
+
+    /**
+     * Returns reversed big integer.
+     *
+     * <pre><code>
+     *     reverse(new BigInteger("-15010")); // -1051
+     *     reverse(new BigInteger("-40"));    // -4
+     *     reverse(BigInteger.ZERO);          // 0
+     *     reverse(BigInteger.TEN);           // 1
+     *     reverse(new BigInteger("65536"));  // 63556
+     * </code></pre>
+     *
+     * @param bigInt big integer
+     * @return reversed big integer
+     */
+    public static BigInteger reverse(@Nonnull BigInteger bigInt) {
+        BigInteger reversed = BigInteger.ZERO;
+
+        // Runs loop until number becomes 0.
+        while (!bigInt.equals(BigInteger.ZERO)) {
+            // Gets last digit from number.
+            BigInteger digit = bigInt.remainder(BigInteger.TEN);
+            reversed = reversed.multiply(BigInteger.TEN).add(digit);
+
+            // Removes the last digit from number.
+            bigInt = bigInt.divide(BigInteger.TEN);
+        }
+
+        return reversed;
     }
 
 }

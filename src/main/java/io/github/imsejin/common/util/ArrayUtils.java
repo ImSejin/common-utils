@@ -18,6 +18,7 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
@@ -122,7 +123,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Boolean[] toWrapper(boolean[] array) {
+    public static Boolean[] box(boolean[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BOOLEAN_WRAPPER_ARRAY;
 
@@ -135,7 +136,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Byte[] toWrapper(byte[] array) {
+    public static Byte[] box(byte[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BYTE_WRAPPER_ARRAY;
 
@@ -148,7 +149,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Character[] toWrapper(char[] array) {
+    public static Character[] box(char[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_CHARACTER_WRAPPER_ARRAY;
 
@@ -161,7 +162,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Double[] toWrapper(double[] array) {
+    public static Double[] box(double[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_DOUBLE_WRAPPER_ARRAY;
 
@@ -174,7 +175,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Float[] toWrapper(float[] array) {
+    public static Float[] box(float[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_FLOAT_WRAPPER_ARRAY;
 
@@ -187,7 +188,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Integer[] toWrapper(int[] array) {
+    public static Integer[] box(int[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_INTEGER_WRAPPER_ARRAY;
 
@@ -200,7 +201,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Long[] toWrapper(long[] array) {
+    public static Long[] box(long[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_LONG_WRAPPER_ARRAY;
 
@@ -213,7 +214,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static Short[] toWrapper(short[] array) {
+    public static Short[] box(short[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_SHORT_WRAPPER_ARRAY;
 
@@ -226,7 +227,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static boolean[] toPrimitive(Boolean[] array) {
+    public static boolean[] unbox(Boolean[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BOOLEAN_PRIMITIVE_ARRAY;
 
@@ -239,7 +240,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static byte[] toPrimitive(Byte[] array) {
+    public static byte[] unbox(Byte[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BYTE_PRIMITIVE_ARRAY;
 
@@ -252,7 +253,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static char[] toPrimitive(Character[] array) {
+    public static char[] unbox(Character[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_CHARACTER_PRIMITIVE_ARRAY;
 
@@ -265,7 +266,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static double[] toPrimitive(Double[] array) {
+    public static double[] unbox(Double[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_DOUBLE_PRIMITIVE_ARRAY;
 
@@ -278,7 +279,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static float[] toPrimitive(Float[] array) {
+    public static float[] unbox(Float[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_FLOAT_PRIMITIVE_ARRAY;
 
@@ -291,7 +292,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static int[] toPrimitive(Integer[] array) {
+    public static int[] unbox(Integer[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_INTEGER_PRIMITIVE_ARRAY;
 
@@ -304,7 +305,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static long[] toPrimitive(Long[] array) {
+    public static long[] unbox(Long[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_LONG_PRIMITIVE_ARRAY;
 
@@ -317,7 +318,7 @@ public final class ArrayUtils {
     }
 
     @Nullable
-    public static short[] toPrimitive(Short[] array) {
+    public static short[] unbox(Short[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_SHORT_PRIMITIVE_ARRAY;
 
@@ -346,6 +347,40 @@ public final class ArrayUtils {
         if (array == null) return "null";
         if (array.getClass().isArray()) return Arrays.toString((Object[]) array);
         return array.toString();
+    }
+
+    /**
+     * Prepends elements to array.
+     *
+     * @param src      source array
+     * @param elements elements to be prepended
+     * @return prepended array
+     */
+    public static Object[] prepend(@Nonnull Object[] src, Object... elements) {
+        if (isNullOrEmpty(elements)) return src;
+
+        Object[] array = new Object[elements.length + src.length];
+        System.arraycopy(elements, 0, array, 0, elements.length);
+        if (exists(src)) System.arraycopy(src, 0, array, elements.length, src.length);
+
+        return array;
+    }
+
+    /**
+     * Appends elements to array.
+     *
+     * @param src      source array
+     * @param elements elements to be appended
+     * @return appended array
+     */
+    public static Object[] append(@Nonnull Object[] src, Object... elements) {
+        if (isNullOrEmpty(elements)) return src;
+
+        Object[] array = new Object[src.length + elements.length];
+        if (exists(src)) System.arraycopy(src, 0, array, 0, src.length);
+        System.arraycopy(elements, 0, array, src.length, elements.length);
+
+        return array;
     }
 
 }

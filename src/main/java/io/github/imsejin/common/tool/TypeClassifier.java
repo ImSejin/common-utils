@@ -25,6 +25,9 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
 
+/**
+ * Type classifier
+ */
 public final class TypeClassifier {
 
     @ExcludeFromGeneratedJacocoReport
@@ -106,7 +109,7 @@ public final class TypeClassifier {
         return contains(type, Types.WRAPPER);
     }
 
-    public static Class<?> toWrapper(Class<?> primitiveType) {
+    public static Class<?> box(Class<?> primitiveType) {
         if (!primitiveType.isPrimitive()) return primitiveType;
 
         if (primitiveType == byte.class) return Byte.class;
@@ -122,7 +125,7 @@ public final class TypeClassifier {
         return primitiveType;
     }
 
-    public static Class<?> toPrimitive(Class<?> wrapperType) {
+    public static Class<?> unbox(Class<?> wrapperType) {
         if (wrapperType.isPrimitive()) return wrapperType;
 
         if (wrapperType == Byte.class) return byte.class;
@@ -184,7 +187,6 @@ public final class TypeClassifier {
             this.classes = Collections.unmodifiableSet(Stream.of(classes).collect(toSet()));
         }
 
-        @ExcludeFromGeneratedJacocoReport
         public Set<Class<?>> getClasses() {
             return this.classes;
         }
