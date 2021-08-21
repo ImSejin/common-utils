@@ -380,6 +380,8 @@ public final class NumberUtils {
 
     /**
      * Checks whether number has decimal part.
+     * <p>
+     * (whether number is integer)
      *
      * <pre><code>
      *     hasDecimalPart(-32.0);    // false

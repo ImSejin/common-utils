@@ -32,10 +32,10 @@ public class NumberAssert<
     }
 
     /**
-     * Converts a numeric string to a number of the given type.
+     * Converts a number to the given type.
      *
-     * @param number     numeric string
-     * @param numberType number type to convert numeric string to number
+     * @param number     number to be converted
+     * @param numberType type of number
      * @return converted number
      */
     @SuppressWarnings("unchecked")
