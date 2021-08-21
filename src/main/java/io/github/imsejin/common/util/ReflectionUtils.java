@@ -121,6 +121,7 @@ public final class ReflectionUtils {
      *
      * @param type       class
      * @param paramTypes parameter types of constructor
+     * @param <T>        type of instance
      * @return constructor
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> type, @Nullable Class<?>... paramTypes) {

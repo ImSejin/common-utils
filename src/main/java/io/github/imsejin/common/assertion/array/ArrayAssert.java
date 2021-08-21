@@ -130,7 +130,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
      *
      * <pre><code>
      *     if (expected.length == 0) return self;
-     *     if (actual.length == 0 && expected.length == 0) return self;
+     *     if (actual.length == 0 &amp;&amp; expected.length == 0) return self;
      *
      *     if (!IntStream.range(0, Math.min(actual.length, expected.length))
      *             .anyMatch(i -&gt; Objects.deepEquals(actual[i], expected[i]))) {
