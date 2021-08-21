@@ -45,7 +45,7 @@ class NumberUtilsSpec extends Specification {
 
     def "Check whether number has decimal part"() {
         when:
-        def actual = NumberUtils.hasDecimalPart number
+        def actual = NumberUtils.hasDecimalPart number as double
 
         then:
         actual == expected
