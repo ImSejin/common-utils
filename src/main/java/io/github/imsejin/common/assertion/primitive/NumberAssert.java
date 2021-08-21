@@ -16,7 +16,11 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+
+import java.math.BigDecimal;
+import java.util.Objects;
 
 public class NumberAssert<
         SELF extends NumberAssert<SELF, NUMBER>,
@@ -96,6 +100,56 @@ public class NumberAssert<
 
     public SELF isStrictlyBetween(NUMBER startExclusive, NUMBER endExclusive) {
         return isGreaterThan(startExclusive).isLessThan(endExclusive);
+    }
+
+    /**
+     * Asserts that actual value is close to other.
+     *
+     * @param expected   approximation
+     * @param percentage acceptable error rate
+     * @return assertion instance
+     */
+    public SELF isCloseTo(NUMBER expected, double percentage) {
+        Asserts.that(percentage)
+                .as("Error percentage must be zero or positive and less than 100, but it isn't: {0}", percentage)
+                .isZeroOrPositive().isLessThan(100.0);
+
+        // When acceptable error rate is 0%, they must be equal.
+        if (percentage == 0.0) return isEqualTo(expected);
+
+        // Prevents calculating actual value with expected value from resulting in NaN.
+        if (Objects.deepEquals(actual, expected)) return self;
+
+        if (expected == null) {
+            setDefaultDescription("It is expected to close to other, but it isn't. (expected: 'null', actual: '{0}')", actual);
+            throw getException();
+        }
+
+        // To calculate with arguments that are type of abstract Number, converts them to double.
+        double $actual = actual.doubleValue();
+        double $expected = expected.doubleValue();
+
+        if (Double.isNaN($actual) || Double.isInfinite($actual) || Double.isNaN($expected) || Double.isInfinite($expected)) {
+            setDefaultDescription("It is expected to close to other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    String.valueOf(expected), String.valueOf(actual));
+            throw getException();
+        }
+
+        double diff = Math.abs($actual - $expected);
+        double errorRate = diff / $actual * 100.0;
+
+        // When actual is 0, errorRate is NaN or infinite.
+        boolean invalid = Double.isNaN(errorRate) || Double.isInfinite(errorRate);
+        if (invalid || Math.abs(errorRate) > percentage) {
+            setDefaultDescription("It is expected to close to other by less than {0}%, but difference was {1}%. (expected: '{2}', actual: '{3}')",
+                    BigDecimal.valueOf(percentage).stripTrailingZeros().toPlainString(),
+                    invalid ? errorRate : BigDecimal.valueOf(errorRate).stripTrailingZeros().toPlainString(),
+                    BigDecimal.valueOf($expected).stripTrailingZeros().toPlainString(),
+                    BigDecimal.valueOf($actual).stripTrailingZeros().toPlainString());
+            throw getException();
+        }
+
+        return self;
     }
 
 }
