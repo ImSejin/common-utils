@@ -371,6 +371,83 @@ class FloatAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
+    @DisplayName("method 'isCloseTo'")
+    class IsCloseTo {
+        @Test
+        @DisplayName("passes, when actual is close to other")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MAX_VALUE, 0);
+                Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MAX_VALUE * 0.9F, 10.001);
+                Asserts.that(123_456_789.012F).isCloseTo(98_765.432F, 99.93);
+                Asserts.that(1024.0F).isCloseTo(32.0F, 96.875);
+                Asserts.that(100.05F).isCloseTo(93.99F, 7.01);
+                Asserts.that(64.0F).isCloseTo(16.0F, 75);
+                Asserts.that(5.0F).isCloseTo(4.5F, 12.5);
+                Asserts.that((float) Math.PI).isCloseTo((float) Math.PI, Float.MIN_VALUE);
+                Asserts.that((float) Math.sqrt(2)).isCloseTo(1.414213F, 4.3E-5);
+                Asserts.that((float) -Math.PI).isCloseTo(-3.141592F, 2.3E-5);
+                Asserts.that(-5.0F).isCloseTo(-4.0F, 20);
+                Asserts.that(-5.0F).isCloseTo(-4.5F, 10);
+                Asserts.that(-33.701F).isCloseTo(-3.64F, 90.91);
+                Asserts.that(-100.0F).isCloseTo(-125.0F, 25);
+                Asserts.that(-500.0F).isCloseTo(-499.3F, 0.2);
+                Asserts.that(-87_654_321.098F).isCloseTo(-12_345.678F, 99.986);
+                Asserts.that(4.9E-30F).isCloseTo(4.8E-30F, 2.05);
+                Asserts.that(Float.MIN_VALUE).isCloseTo(Float.MIN_VALUE, 0);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not close to other")
+        void test1() {
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MAX_VALUE * 0.9F, 10))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MIN_VALUE, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(64.01F).isCloseTo(32.01F, 49.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(1.0F).isCloseTo(0.0F, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(-1.0F).isCloseTo(0.0F, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(-20.6F).isCloseTo(-15.0F, 10))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(4.9E-30F).isCloseTo(4.8E-30F, 2))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Float.NaN).isCloseTo(0.0F, 99.9))
+                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: 'NaN')");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Float.NEGATIVE_INFINITY).isCloseTo(0.0F, 99.9))
+                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: '-Infinity')");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Float.POSITIVE_INFINITY).isCloseTo(0.1F, 99.9))
+                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.1', actual: 'Infinity')");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Float.MIN_VALUE).isCloseTo(Float.MAX_VALUE, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(1.0F, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(-1.0F, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
     @DisplayName("method 'hasDecimalPart'")
     class HasDecimalPart {
         @ParameterizedTest

@@ -371,6 +371,64 @@ class ByteAssertTest {
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
+    @Nested
+    @DisplayName("method 'isCloseTo'")
+    class IsCloseTo {
+        @Test
+        @DisplayName("passes, when actual is close to other")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Byte.MAX_VALUE).isCloseTo(Byte.MAX_VALUE, 0);
+                Asserts.that(Byte.MAX_VALUE).isCloseTo((byte) (Byte.MAX_VALUE * 0.25), 75.6);
+                Asserts.that((byte) 100).isCloseTo((byte) 93, 7.01);
+                Asserts.that((byte) 64).isCloseTo((byte) 16, 75);
+                Asserts.that((byte) -5).isCloseTo((byte) -4, 20);
+                Asserts.that((byte) -33).isCloseTo((byte) -3, 90.91);
+                Asserts.that(Byte.MIN_VALUE).isCloseTo((byte) (Byte.MIN_VALUE * 0.25), 75);
+                Asserts.that(Byte.MIN_VALUE).isCloseTo(Byte.MIN_VALUE, 0);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not close to other")
+        void test1() {
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Byte.MAX_VALUE).isCloseTo((byte) (Byte.MAX_VALUE * 0.25), 75))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Byte.MAX_VALUE).isCloseTo(Byte.MIN_VALUE, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((byte) 64).isCloseTo((byte) 32, 49.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((byte) 1).isCloseTo((byte) 0, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((byte) -1).isCloseTo((byte) 0, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((byte) -20).isCloseTo((byte) -15, 10))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Byte.MIN_VALUE).isCloseTo(Byte.MAX_VALUE, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Byte.MIN_VALUE).isCloseTo((byte) (Byte.MIN_VALUE * 0.9), 9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((byte) 0).isCloseTo((byte) 1, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((byte) 0).isCloseTo((byte) -1, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     private static Stream<Arguments> equality() {
         Map<Byte, Byte> map = new HashMap<>();
         map.put((byte) ((int) Character.valueOf('\u0000')), (byte) 0);

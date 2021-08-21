@@ -371,6 +371,66 @@ class ShortAssertTest {
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
+    @Nested
+    @DisplayName("method 'isCloseTo'")
+    class IsCloseTo {
+        @Test
+        @DisplayName("passes, when actual is close to other")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Short.MAX_VALUE).isCloseTo(Short.MAX_VALUE, 0);
+                Asserts.that(Short.MAX_VALUE).isCloseTo((short) (Short.MAX_VALUE * 0.25), 75.003);
+                Asserts.that((short) 1024).isCloseTo((short) 32, 96.875);
+                Asserts.that((short) 100).isCloseTo((short) 93, 7.01);
+                Asserts.that((short) 64).isCloseTo((short) 16, 75);
+                Asserts.that((short) -5).isCloseTo((short) -4, 20);
+                Asserts.that((short) -33).isCloseTo((short) -3, 90.91);
+                Asserts.that((short) -500).isCloseTo((short) -499, 0.2);
+                Asserts.that(Short.MIN_VALUE).isCloseTo((short) (Short.MIN_VALUE * 0.25), 75);
+                Asserts.that(Short.MIN_VALUE).isCloseTo(Short.MIN_VALUE, 0);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not close to other")
+        void test1() {
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Short.MAX_VALUE).isCloseTo((short) (Short.MAX_VALUE * 0.25), 75))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Short.MAX_VALUE).isCloseTo(Short.MIN_VALUE, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((short) 64).isCloseTo((short) 32, 49.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((short) 1).isCloseTo((short) 0, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((short) -1).isCloseTo((short) 0, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((short) -20).isCloseTo((short) -15, 10))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Short.MIN_VALUE).isCloseTo(Short.MAX_VALUE, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Short.MIN_VALUE).isCloseTo((short) (Short.MIN_VALUE * 0.9), 9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((short) 0).isCloseTo((short) 1, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((short) 0).isCloseTo((short) -1, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     private static Stream<Arguments> equality() {
         Map<Short, Short> map = new HashMap<>();
         map.put((short) ((int) Character.valueOf('\u0000')), (short) 0);

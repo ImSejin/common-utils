@@ -372,6 +372,83 @@ class DoubleAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
+    @DisplayName("method 'isCloseTo'")
+    class IsCloseTo {
+        @Test
+        @DisplayName("passes, when actual is close to other")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MAX_VALUE, 0);
+                Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MAX_VALUE * 0.9, 10);
+                Asserts.that(123_456_789.012).isCloseTo(98_765.432, 99.93);
+                Asserts.that(1024.0).isCloseTo(32.0, 96.875);
+                Asserts.that(100.05).isCloseTo(93.99, 7.01);
+                Asserts.that(64.0).isCloseTo(16.0, 75);
+                Asserts.that(5.0).isCloseTo(4.5, 12.5);
+                Asserts.that(Math.PI).isCloseTo(Math.PI, Double.MIN_VALUE);
+                Asserts.that(Math.sqrt(2)).isCloseTo(1.414213, 4.0E-5);
+                Asserts.that(-Math.PI).isCloseTo(-3.141592, 2.1E-5);
+                Asserts.that(-5.0).isCloseTo(-4.0, 20);
+                Asserts.that(-5.0).isCloseTo(-4.5, 10);
+                Asserts.that(-33.701).isCloseTo(-3.64, 90.91);
+                Asserts.that(-100.0).isCloseTo(-125.0, 25);
+                Asserts.that(-500.0).isCloseTo(-499.3, 0.2);
+                Asserts.that(-87_654_321.098).isCloseTo(-12_345.678, 99.986);
+                Asserts.that(4.9E-200).isCloseTo(4.8E-200, 2.05);
+                Asserts.that(Double.MIN_VALUE).isCloseTo(Double.MIN_VALUE, 0);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not close to other")
+        void test1() {
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MAX_VALUE * 0.9, 9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MIN_VALUE, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(64.01).isCloseTo(32.01, 49.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(1.0).isCloseTo(0.0, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(-1.0).isCloseTo(0.0, 99.9))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(-20.6).isCloseTo(-15.0, 10))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(4.9E-200).isCloseTo(4.8E-200, 2))
+                    .withMessageMatching(regex);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Double.NaN).isCloseTo(0.0, 99.9))
+                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: 'NaN')");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Double.NEGATIVE_INFINITY).isCloseTo(0.0, 99.9))
+                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: '-Infinity')");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Double.POSITIVE_INFINITY).isCloseTo(0.1, 99.9))
+                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.1', actual: 'Infinity')");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Double.MIN_VALUE).isCloseTo(Double.MAX_VALUE, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(0.0).isCloseTo(1.0, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(0.0).isCloseTo(-1.0, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
     @DisplayName("method 'hasDecimalPart'")
     class HasDecimalPart {
         @ParameterizedTest
