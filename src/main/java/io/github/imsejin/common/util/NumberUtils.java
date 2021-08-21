@@ -19,6 +19,7 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nonnull;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 
@@ -396,6 +397,10 @@ public final class NumberUtils {
      */
     public static boolean hasDecimalPart(double number) {
         return number % 1 != 0;
+    }
+
+    public static boolean hasDecimalPart(BigDecimal bigDecimal) {
+        return bigDecimal.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO);
     }
 
     /**
