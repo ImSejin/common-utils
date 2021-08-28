@@ -103,7 +103,7 @@ public class NumberAssert<
     }
 
     /**
-     * Asserts that actual value is close to other.
+     * Verifies that actual value is close to other.
      *
      * @param expected   approximation
      * @param percentage acceptable error rate

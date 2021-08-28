@@ -26,7 +26,7 @@ public interface DecimalNumberAssertion<
         NUMBER extends Number & Comparable<NUMBER>> {
 
     /**
-     * Asserts that actual value has decimal part.
+     * Verifies that actual value has decimal part.
      *
      * @return assertion instance
      */

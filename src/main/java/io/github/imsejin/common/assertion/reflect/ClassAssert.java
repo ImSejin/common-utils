@@ -68,6 +68,8 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     /**
+     * Verifies this is assignable from the type.
+     *
      * @param expected sub type
      * @return whether this is assignable from given type
      */
@@ -82,6 +84,8 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     /**
+     * Verifies this is superclass of the type.
+     *
      * @param expected sub type
      * @return whether this is super class of given type
      */
@@ -96,6 +100,8 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     }
 
     /**
+     * Verifies is subclass of the type.
+     *
      * @param expected super type
      * @return whether this is sub class of given type
      */
@@ -108,6 +114,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is primitive.
+     *
+     * @return whether this is primitive
+     */
     public SELF isPrimitive() {
         if (!actual.isPrimitive()) {
             setDefaultDescription("It is expected to be primitive, but it isn't. (actual: '{0}')", actual);
@@ -135,6 +146,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is annotation type.
+     *
+     * @return whether this is annotation type
+     */
     public SELF isAnnotation() {
         if (!actual.isAnnotation()) {
             setDefaultDescription("It is expected to be annotation, but it isn't. (actual: '{0}')", actual);
@@ -144,6 +160,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is abstract class.
+     *
+     * @return whether this is abstract class.
+     */
     public SELF isAbstractClass() {
         if (!ClassUtils.isAbstractClass(actual)) {
             setDefaultDescription("It is expected to be abstract class, but it isn't. (actual: '{0}')", actual);
@@ -153,6 +174,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is anonymous class.
+     *
+     * @return whether this is anonymous class.
+     */
     public SELF isAnonymousClass() {
         if (!actual.isAnonymousClass()) {
             setDefaultDescription("It is expected to be anonymous class, but it isn't. (actual: '{0}')", actual);
@@ -162,6 +188,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is type of enum.
+     *
+     * @return whether this is type of enum.
+     */
     public SELF isEnum() {
         if (!ClassUtils.isEnumOrEnumConstant(actual)) {
             setDefaultDescription("It is expected to be enum, but it isn't. (actual: '{0}')", actual);
@@ -171,6 +202,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is type of array.
+     *
+     * @return whether this is type of array.
+     */
     public SELF isArray() {
         if (!actual.isArray()) {
             setDefaultDescription("It is expected to be array, but it isn't. (actual: '{0}')", actual);
@@ -180,6 +216,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is inner class.
+     *
+     * @return whether this is inner class.
+     */
     public SELF isMemberClass() {
         if (!actual.isMemberClass()) {
             setDefaultDescription("It is expected to be member class, but it isn't. (actual: '{0}')", actual);
@@ -189,6 +230,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
         return self;
     }
 
+    /**
+     * Verifies this is local class.
+     *
+     * @return whether this is local class.
+     */
     public SELF isLocalClass() {
         if (!actual.isLocalClass()) {
             setDefaultDescription("It is expected to be local class, but it isn't. (actual: '{0}')", actual);
