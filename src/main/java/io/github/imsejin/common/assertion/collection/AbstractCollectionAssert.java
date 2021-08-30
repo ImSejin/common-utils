@@ -31,7 +31,7 @@ public abstract class AbstractCollectionAssert<
         SELF extends AbstractCollectionAssert<SELF, ACTUAL, T>,
         ACTUAL extends Collection<T>,
         T>
-        extends AbstractObjectAssert<SELF, Collection<T>> {
+        extends AbstractObjectAssert<SELF, ACTUAL> {
 
     protected AbstractCollectionAssert(ACTUAL target) {
         super(target);
