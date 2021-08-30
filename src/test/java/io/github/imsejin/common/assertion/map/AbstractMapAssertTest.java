@@ -193,6 +193,9 @@ class AbstractMapAssertTest {
 
             // expect
             assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isSameSize(null))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isSameSize(Collections.singletonMap(null, null)))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
@@ -241,6 +244,9 @@ class AbstractMapAssertTest {
             hashMap.put('c', new Object());
 
             // expect
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isNotSameSize(null))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isNotSameSize(new Properties()))
                     .withMessageStartingWith(description);

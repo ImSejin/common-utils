@@ -223,6 +223,9 @@ class AbstractCollectionAssertTest {
             String description = "They are expected to be the same size, but they aren't.";
 
             assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).isSameSize(null))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Collections.emptyList()).isSameSize(Collections.singletonList(null)))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
@@ -265,6 +268,9 @@ class AbstractCollectionAssertTest {
         void test1() {
             String description = "They are expected to be not the same size, but they are.";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).isNotSameSize(null))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Collections.emptyList()).isNotSameSize(new ArrayList<>()))
                     .withMessageStartingWith(description);

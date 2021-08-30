@@ -417,6 +417,9 @@ class ShortAssertTest {
             String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
 
             assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that((short) 36).isCloseTo(null, 15))
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Short.MAX_VALUE).isCloseTo((short) (Short.MAX_VALUE * 0.25), 75))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()

@@ -418,6 +418,9 @@ class IntegerAssertTest {
             String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
 
             assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(36).isCloseTo(null, 15))
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Integer.MAX_VALUE).isCloseTo((int) (Integer.MAX_VALUE * 0.25), 75))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()

@@ -424,6 +424,9 @@ class FloatAssertTest {
             String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
 
             assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(36.5F).isCloseTo(null, 15))
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MAX_VALUE * 0.9F, 10))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
