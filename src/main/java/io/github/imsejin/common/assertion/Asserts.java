@@ -130,7 +130,7 @@ public abstract class Asserts {
 
     ///////////////////////////////////////// Map /////////////////////////////////////////
 
-    public static <K, V> AbstractMapAssert<?, Map<?, ?>, K, V> that(Map<K, V> map) {
+    public static <K, V> AbstractMapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
         return new AbstractMapAssert(map) {
         };
     }
