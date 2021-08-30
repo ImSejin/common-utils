@@ -204,8 +204,10 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual has element")
         void test1() {
+            // given
             List<char[]> list = Arrays.asList(new char[]{1, 2}, new char[]{'0', '1', '2'}, new char[]{' ', 'F'});
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
                     .withMessageStartingWith("It is expected to be empty, but it isn't."));
@@ -220,8 +222,10 @@ class ArrayAssertTest {
         @Test
         @DisplayName("passes, when actual has element")
         void test0() {
+            // given
             List<byte[]> list = Arrays.asList(new byte[]{1, 2}, new byte[]{'0', '1', '2'}, new byte[]{' ', 'F'});
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).hasElement()));
         }
@@ -260,6 +264,7 @@ class ArrayAssertTest {
         @Test
         @DisplayName("passes, when actual doesn't contain null")
         void test0() {
+            // given
             List<Object[]> list = Arrays.asList(
                     new Object[0],
                     new String[]{"Alpha", "null", "", "BETA", "gamma"},
@@ -267,6 +272,7 @@ class ArrayAssertTest {
                     new Integer[]{0, Integer.MIN_VALUE, Integer.MAX_VALUE}
             );
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).doesNotContainNull()));
         }

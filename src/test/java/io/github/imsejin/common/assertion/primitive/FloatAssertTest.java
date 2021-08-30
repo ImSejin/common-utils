@@ -90,6 +90,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("passes, when actual is greater than other")
         void test0() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put(1.1F, (float) Character.valueOf('\u0000'));
             map.put(1.024F, -1.024F);
@@ -97,6 +98,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -104,6 +106,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), 0F);
             map.put(-1.024F, 1.024F);
@@ -111,6 +114,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -124,6 +128,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put(1.14F, (float) Character.valueOf('\u0000'));
             map.put(1.024F, -1.024F);
@@ -131,6 +136,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -138,6 +144,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is less than other")
         void test1() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put(-1.16F, (float) Character.valueOf('\u0000'));
             map.put(-1.024F, 1.024F);
@@ -145,6 +152,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -158,6 +166,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("passes, when actual is less than other")
         void test0() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), 1.141F);
             map.put(-1.024F, 1.024F);
@@ -165,6 +174,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -172,6 +182,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put(1.99F, (float) Character.valueOf('\u0000'));
             map.put(1.024F, -1.024F);
@@ -179,6 +190,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -192,6 +204,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("passes, when actual is less than or equal to other")
         void test0() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), 1.0F);
             map.put(-1.024F, 1.024F);
@@ -199,6 +212,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -206,6 +220,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is greater than other")
         void test1() {
+            // given
             Map<Float, Float> map = new HashMap<>();
             map.put((float) Character.valueOf('\u0000'), -1.001F);
             map.put(1.024F, -1.024F);
@@ -213,6 +228,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -326,9 +342,11 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not between x and y inclusively")
         void test1() {
+            // given
             List<Float> floats = new Random().doubles(-100, 50)
                     .limit(10_000).mapToObj(n -> (float) n).collect(toList());
 
+            // except
             floats.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1F)));
             floats.forEach(n -> assertThatIllegalArgumentException()
@@ -354,9 +372,11 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not between x and y exclusively")
         void test1() {
+            // given
             List<Float> floats = new Random().doubles(-100, 50)
                     .limit(10_000).mapToObj(n -> (float) n).collect(toList());
 
+            // except
             floats.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             floats.forEach(n -> assertThatIllegalArgumentException()

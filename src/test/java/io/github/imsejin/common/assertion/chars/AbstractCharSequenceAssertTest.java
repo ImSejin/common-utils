@@ -36,8 +36,10 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("passes, when actual is empty")
         void test0() {
+            // given
             List<? extends CharSequence> list = Arrays.asList(new StringBuilder(), new StringBuffer(10), "");
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty()));
         }
@@ -45,8 +47,10 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not empty")
         void test1() {
+            // given
             List<? extends CharSequence> list = Arrays.asList(new StringBuilder(" "), new StringBuffer("alpha"), " ");
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
                     .withMessageStartingWith("It is expected to be empty, but it isn't."));
@@ -59,9 +63,11 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("passes, when actual is not empty")
         void test0() {
+            // given
             List<? extends CharSequence> list = Arrays.asList(
                     new StringBuilder(" "), new StringBuffer("string"), " ", "\n\r\t");
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEmpty()));
         }
@@ -69,8 +75,10 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("throws exception, when actual is empty")
         void test1() {
+            // given
             List<? extends CharSequence> list = Arrays.asList(new StringBuilder(), new StringBuffer(10), "");
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEmpty())
                     .withMessageStartingWith("It is expected to be not empty, but it isn't."));
@@ -83,11 +91,13 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("passes, when actual has the given length")
         void test0() {
+            // given
             Map<CharSequence, Integer> map = new HashMap<>();
             map.put(new StringBuilder("imsejin"), new StringBuilder("imsejin").length());
             map.put(UUID.randomUUID().toString().replace("-", ""), 32);
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").length());
 
+            // except
             map.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).hasLengthOf(expected)));
         }
@@ -95,11 +105,13 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't have the given length")
         void test1() {
+            // given
             Map<CharSequence, Integer> map = new HashMap<>();
             map.put(new StringBuilder("imsejin"), new StringBuilder("sejin").length());
             map.put(UUID.randomUUID().toString(), 32);
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3).length());
 
+            // except
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).hasLengthOf(expected))
                     .withMessageStartingWith("It is expected to have the same length, but it isn't."));
@@ -112,11 +124,13 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("passes, when length of the actual is equal to length of the given")
         void test0() {
+            // given
             Map<CharSequence, CharSequence> map = new HashMap<>();
             map.put(new StringBuilder("imsejin"), new StringBuilder("imsejin"));
             map.put(UUID.randomUUID().toString().replace("-", ""), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng"));
 
+            // except
             map.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isSameLength(expected)));
         }
@@ -124,12 +138,14 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("throws exception, when length of the actual is not equal to length of the given")
         void test1() {
+            // given
             Map<CharSequence, CharSequence> map = new HashMap<>();
             map.put("string", null);
             map.put(new StringBuilder("imsejin"), new StringBuilder("sejin"));
             map.put(UUID.randomUUID().toString(), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3));
 
+            // except
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isSameLength(expected))
                     .withMessageStartingWith("It is expected to have the same length, but it isn't."));
@@ -142,11 +158,13 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("passes, when length of the actual is not equal to length of the given")
         void test0() {
+            // given
             Map<CharSequence, CharSequence> map = new HashMap<>();
             map.put(new StringBuilder("imsejin"), new StringBuilder("sejin"));
             map.put(UUID.randomUUID().toString(), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3));
 
+            // except
             map.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameLength(expected)));
         }
@@ -154,12 +172,14 @@ class AbstractCharSequenceAssertTest {
         @Test
         @DisplayName("throws exception, when length of the actual is equal to length of the given")
         void test1() {
+            // given
             Map<CharSequence, CharSequence> map = new HashMap<>();
             map.put("string", null);
             map.put(new StringBuilder("imsejin"), new StringBuilder("imsejin"));
             map.put(UUID.randomUUID().toString().replace("-", ""), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng"));
 
+            // except
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameLength(expected))
                     .withMessageStartingWith("It is expected not to have the same length, but it is."));
