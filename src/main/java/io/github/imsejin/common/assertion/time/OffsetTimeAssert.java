@@ -21,11 +21,10 @@ import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.chrono.ChronoZonedDateTime;
 
-public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>> extends AbstractObjectAssert<SELF, OffsetTime> {
+public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
+        extends AbstractObjectAssert<SELF, OffsetTime>
+        implements DateAssertion<SELF, OffsetTime>, OffsetAssertion<SELF> {
 
     public OffsetTimeAssert(OffsetTime actual) {
         super(actual);
@@ -46,11 +45,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>> extends Abstr
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isBefore(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isBefore(ChronoZonedDateTime)
-     * @see OffsetDateTimeAssert#isBefore(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isBefore(OffsetTime expected) {
         if (!actual.isBefore(expected)) throw getException();
         return self;
@@ -59,11 +55,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>> extends Abstr
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isBeforeOrEqualTo(ChronoZonedDateTime)
-     * @see OffsetDateTimeAssert#isBeforeOrEqualTo(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isBeforeOrEqualTo(OffsetTime expected) {
         if (actual.compareTo(expected) > 0) throw getException();
         return self;
@@ -72,11 +65,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>> extends Abstr
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isAfter(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isAfter(ChronoZonedDateTime)
-     * @see OffsetDateTimeAssert#isAfter(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isAfter(OffsetTime expected) {
         if (!actual.isAfter(expected)) throw getException();
         return self;
@@ -85,11 +75,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>> extends Abstr
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isAfterOrEqualTo(ChronoZonedDateTime)
-     * @see OffsetDateTimeAssert#isAfterOrEqualTo(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isAfterOrEqualTo(OffsetTime expected) {
         if (actual.compareTo(expected) < 0) throw getException();
         return self;
@@ -98,8 +85,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>> extends Abstr
     /**
      * @param expected expected value
      * @return self
-     * @see OffsetDateTimeAssert#isSameOffset(ZoneOffset)
      */
+    @Override
     public SELF isSameOffset(ZoneOffset expected) {
         if (!actual.getOffset().equals(expected)) throw getException();
         return self;
@@ -108,8 +95,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>> extends Abstr
     /**
      * @param expected expected value
      * @return self
-     * @see OffsetDateTimeAssert#isNotSameOffset(ZoneOffset)
      */
+    @Override
     public SELF isNotSameOffset(ZoneOffset expected) {
         if (actual.getOffset().equals(expected)) throw getException();
         return self;

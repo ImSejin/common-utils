@@ -28,7 +28,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
         SELF extends AbstractChronoZonedDateTimeAssert<SELF, ACTUAL, DATE>,
         ACTUAL extends ChronoZonedDateTime<DATE>,
         DATE extends ChronoLocalDate>
-        extends AbstractObjectAssert<SELF, ACTUAL> {
+        extends AbstractObjectAssert<SELF, ACTUAL>
+        implements DateAssertion<SELF, ACTUAL> {
 
     protected AbstractChronoZonedDateTimeAssert(ACTUAL actual) {
         super(actual);
@@ -49,11 +50,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isBefore(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
-     * @see LocalTimeAssert#isBefore(LocalTime)
-     * @see OffsetDateTimeAssert#isBefore(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isBefore(ACTUAL expected) {
         if (!actual.isBefore(expected)) throw getException();
         return self;
@@ -62,11 +60,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
-     * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
-     * @see OffsetDateTimeAssert#isBeforeOrEqualTo(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isBeforeOrEqualTo(ACTUAL expected) {
         if (actual.compareTo(expected) > 0) throw getException();
         return self;
@@ -75,11 +70,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isAfter(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
-     * @see LocalTimeAssert#isAfter(LocalTime)
-     * @see OffsetDateTimeAssert#isAfter(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isAfter(ACTUAL expected) {
         if (!actual.isAfter(expected)) throw getException();
         return self;
@@ -88,11 +80,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
-     * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)
-     * @see OffsetDateTimeAssert#isAfterOrEqualTo(java.time.OffsetDateTime)
      */
+    @Override
     public SELF isAfterOrEqualTo(ACTUAL expected) {
         if (actual.compareTo(expected) < 0) throw getException();
         return self;

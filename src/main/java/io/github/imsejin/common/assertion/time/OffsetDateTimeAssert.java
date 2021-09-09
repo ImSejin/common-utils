@@ -20,14 +20,15 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 
-public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> extends AbstractObjectAssert<SELF, OffsetDateTime> {
+public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
+        extends AbstractObjectAssert<SELF, OffsetDateTime>
+        implements DateAssertion<SELF, OffsetDateTime>, OffsetAssertion<SELF> {
 
     public OffsetDateTimeAssert(OffsetDateTime actual) {
         super(actual);
@@ -48,11 +49,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isBefore(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBefore(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isBefore(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAssert#isBefore(LocalTime)
      */
+    @Override
     public SELF isBefore(OffsetDateTime expected) {
         if (!actual.isBefore(expected)) throw getException();
         return self;
@@ -61,11 +59,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isBeforeOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isBeforeOrEqualTo(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isBeforeOrEqualTo(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAssert#isBeforeOrEqualTo(LocalTime)
      */
+    @Override
     public SELF isBeforeOrEqualTo(OffsetDateTime expected) {
         if (actual.compareTo(expected) > 0) throw getException();
         return self;
@@ -74,11 +69,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isAfter(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfter(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isAfter(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAssert#isAfter(LocalTime)
      */
+    @Override
     public SELF isAfter(OffsetDateTime expected) {
         if (!actual.isAfter(expected)) throw getException();
         return self;
@@ -87,11 +79,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     /**
      * @param expected expected value
      * @return self
-     * @see AbstractChronoLocalDateAssert#isAfterOrEqualTo(ChronoLocalDate)
-     * @see AbstractChronoLocalDateTimeAssert#isAfterOrEqualTo(ChronoLocalDateTime)
-     * @see AbstractChronoZonedDateTimeAssert#isAfterOrEqualTo(java.time.chrono.ChronoZonedDateTime)
-     * @see LocalTimeAssert#isAfterOrEqualTo(LocalTime)
      */
+    @Override
     public SELF isAfterOrEqualTo(OffsetDateTime expected) {
         if (actual.compareTo(expected) < 0) throw getException();
         return self;
@@ -100,8 +89,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     /**
      * @param expected expected value
      * @return self
-     * @see OffsetTimeAssert#isSameOffset(ZoneOffset)
      */
+    @Override
     public SELF isSameOffset(ZoneOffset expected) {
         if (!actual.getOffset().equals(expected)) throw getException();
         return self;
@@ -110,8 +99,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>> exten
     /**
      * @param expected expected value
      * @return self
-     * @see OffsetTimeAssert#isNotSameOffset(ZoneOffset)
      */
+    @Override
     public SELF isNotSameOffset(ZoneOffset expected) {
         if (actual.getOffset().equals(expected)) throw getException();
         return self;
