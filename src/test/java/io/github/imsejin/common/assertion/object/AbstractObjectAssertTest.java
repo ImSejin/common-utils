@@ -142,7 +142,7 @@ class AbstractObjectAssertTest {
             // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameAs(actual))
-                    .withMessageStartingWith("They are expected to be not the same, but they aren't."));
+                    .withMessageStartingWith("They are expected to be not the same, but they are."));
         }
     }
 
@@ -215,7 +215,7 @@ class AbstractObjectAssertTest {
             // except
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .withMessageStartingWith("They are expected to be not equal, but they aren't."));
+                    .withMessageStartingWith("They are expected to be not equal, but they are."));
         }
     }
 

@@ -81,7 +81,7 @@ class AbstractCharSequenceAssertTest {
             // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEmpty())
-                    .withMessageStartingWith("It is expected to be not empty, but it isn't."));
+                    .withMessageStartingWith("It is expected to be not empty, but it is."));
         }
     }
 

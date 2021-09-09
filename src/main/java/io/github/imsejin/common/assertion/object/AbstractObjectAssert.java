@@ -72,7 +72,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNotSameAs(ACTUAL expected) {
         if (actual == expected) {
-            setDefaultDescription("They are expected to be not the same, but they aren't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription("They are expected to be not the same, but they are. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }
@@ -92,7 +92,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     public SELF isNotEqualTo(ACTUAL expected) {
         if (Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be not equal, but they aren't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }
