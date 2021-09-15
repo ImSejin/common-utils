@@ -35,13 +35,23 @@ public abstract class AbstractChronoLocalDateTimeAssert<
 
     @Override
     public SELF isEqualTo(ACTUAL expected) {
-        if (!actual.isEqual(expected)) throw getException();
+        if (!actual.isEqual(expected)) {
+            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     @Override
     public SELF isNotEqualTo(ACTUAL expected) {
-        if (actual.isEqual(expected)) throw getException();
+        if (actual.isEqual(expected)) {
+            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -51,7 +61,12 @@ public abstract class AbstractChronoLocalDateTimeAssert<
      */
     @Override
     public SELF isBefore(ACTUAL expected) {
-        if (!actual.isBefore(expected)) throw getException();
+        if (!actual.isBefore(expected)) {
+            setDefaultDescription("It is expected to be before than the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -61,7 +76,11 @@ public abstract class AbstractChronoLocalDateTimeAssert<
      */
     @Override
     public SELF isBeforeOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) > 0) throw getException();
+        if (actual.compareTo(expected) > 0) {
+            setDefaultDescription("It is expected to be before than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
         return self;
     }
 
@@ -71,7 +90,12 @@ public abstract class AbstractChronoLocalDateTimeAssert<
      */
     @Override
     public SELF isAfter(ACTUAL expected) {
-        if (!actual.isAfter(expected)) throw getException();
+        if (!actual.isAfter(expected)) {
+            setDefaultDescription("It is expected to be after than the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -81,7 +105,12 @@ public abstract class AbstractChronoLocalDateTimeAssert<
      */
     @Override
     public SELF isAfterOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) < 0) throw getException();
+        if (actual.compareTo(expected) < 0) {
+            setDefaultDescription("It is expected to be after than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
