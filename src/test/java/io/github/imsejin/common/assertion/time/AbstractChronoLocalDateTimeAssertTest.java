@@ -32,18 +32,25 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 @DisplayName("AbstractChronoLocalDateTimeAssert")
 class AbstractChronoLocalDateTimeAssertTest {
 
+    private static final String IS_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isEqualTo";
+    private static final String IS_NOT_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isNotEqualTo";
+    private static final String IS_BEFORE = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBefore";
+    private static final String IS_BEFORE_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBeforeOrEqualTo";
+    private static final String IS_AFTER = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfter";
+    private static final String IS_AFTER_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfterOrEqualTo";
+
     @Nested
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isEqualTo")
+        @MethodSource(IS_EQUAL_TO)
         @DisplayName("passes, when actual is equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
         }
 
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isNotEqualTo")
+        @MethodSource(IS_NOT_EQUAL_TO)
         @DisplayName("throws exception, when actual is not equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -58,14 +65,14 @@ class AbstractChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isNotEqualTo")
+        @MethodSource(IS_NOT_EQUAL_TO)
         @DisplayName("passes, when actual is not equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
         }
 
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isEqualTo")
+        @MethodSource(IS_EQUAL_TO)
         @DisplayName("throws exception, when actual is equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -80,14 +87,14 @@ class AbstractChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isBefore'")
     class IsBefore {
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBefore")
+        @MethodSource(IS_BEFORE)
         @DisplayName("passes, when actual is before than other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBefore(expected));
         }
 
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfterOrEqualTo")
+        @MethodSource(IS_AFTER_OR_EQUAL_TO)
         @DisplayName("throws exception, when actual is after than or equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -102,14 +109,14 @@ class AbstractChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isBeforeOrEqualTo'")
     class IsBeforeOrEqualTo {
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBeforeOrEqualTo")
+        @MethodSource(IS_BEFORE_OR_EQUAL_TO)
         @DisplayName("passes, when actual is before than or equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBeforeOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfter")
+        @MethodSource(IS_AFTER)
         @DisplayName("throws exception, when actual is after than other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -124,14 +131,14 @@ class AbstractChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isAfter'")
     class IsAfter {
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfter")
+        @MethodSource(IS_AFTER)
         @DisplayName("passes, when actual is after than other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfter(expected));
         }
 
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBeforeOrEqualTo")
+        @MethodSource(IS_BEFORE_OR_EQUAL_TO)
         @DisplayName("throws exception, when actual is before than or equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -146,14 +153,14 @@ class AbstractChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isAfterOrEqualTo'")
     class IsAfterOrEqualTo {
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfterOrEqualTo")
+        @MethodSource(IS_AFTER_OR_EQUAL_TO)
         @DisplayName("passes, when actual is after than or equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfterOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @MethodSource("io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBefore")
+        @MethodSource(IS_BEFORE)
         @DisplayName("throws exception, when actual is before than other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
