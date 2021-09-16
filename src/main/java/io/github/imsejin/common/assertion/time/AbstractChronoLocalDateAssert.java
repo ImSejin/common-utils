@@ -78,6 +78,7 @@ public abstract class AbstractChronoLocalDateAssert<
                     expected, actual);
             throw getException();
         }
+
         return self;
     }
 
