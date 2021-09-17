@@ -17,16 +17,15 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.util.DateTimeUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.YearMonth;
+import java.time.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -41,6 +40,8 @@ class AbstractChronoLocalDateAssertTest {
     private static final String IS_BEFORE_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateAssertTest#isBeforeOrEqualTo";
     private static final String IS_AFTER = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateAssertTest#isAfter";
     private static final String IS_AFTER_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateAssertTest#isAfterOrEqualTo";
+    private static final String IS_LEAP_YEAR = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateAssertTest#isLeapYear";
+    private static final String IS_NOT_LEAP_YEAR = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateAssertTest#isNotLeapYear";
 
     @Nested
     @DisplayName("method 'isEqualTo'")
@@ -177,17 +178,19 @@ class AbstractChronoLocalDateAssertTest {
     @Nested
     @DisplayName("method 'isLeapYear'")
     class IsLeapYear {
-        @Test
+        @ParameterizedTest
+        @MethodSource(IS_LEAP_YEAR)
         @DisplayName("passes, when actual is leap year")
-        void test0() {
-            assertThatNoException().isThrownBy(() -> {
-            });
+        void test0(LocalDate actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
 
-        @Test
+        @ParameterizedTest
+        @MethodSource(IS_NOT_LEAP_YEAR)
         @DisplayName("throws exception, when actual is not leap year")
-        void test1() {
-
+        void test1(LocalDate actual) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isLeapYear())
+                    .withMessageStartingWith("It is expected to be leap year, but it isn't.");
         }
     }
 
@@ -196,16 +199,19 @@ class AbstractChronoLocalDateAssertTest {
     @Nested
     @DisplayName("method 'isNotLeapYear'")
     class IsNotLeapYear {
-        @Test
+        @ParameterizedTest
+        @MethodSource(IS_NOT_LEAP_YEAR)
         @DisplayName("passes, when actual is not leap year")
-        void test0() {
-
+        void test0(LocalDate actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
 
-        @Test
+        @ParameterizedTest
+        @MethodSource(IS_LEAP_YEAR)
         @DisplayName("throws exception, when actual is leap year")
-        void test1() {
-
+        void test1(LocalDate actual) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear())
+                    .withMessageStartingWith("It is expected not to be leap year, but it is.");
         }
     }
 
@@ -261,6 +267,22 @@ class AbstractChronoLocalDateAssertTest {
 
     private static Stream<Arguments> isAfterOrEqualTo() {
         return Stream.concat(isAfter(), isEqualTo());
+    }
+
+    private static Stream<Arguments> isLeapYear() {
+        LocalDateTime start = LocalDate.of(0, Month.JANUARY, 1).atTime(LocalTime.MIN);
+        LocalDateTime end = LocalDate.now().atTime(LocalTime.MAX);
+
+        return IntStream.generate(() -> 0).mapToObj(n -> DateTimeUtils.random(start, end).toLocalDate())
+                .filter(LocalDate::isLeapYear).limit(10).map(Arguments::of);
+    }
+
+    private static Stream<Arguments> isNotLeapYear() {
+        LocalDateTime start = LocalDate.of(0, Month.JANUARY, 1).atTime(LocalTime.MIN);
+        LocalDateTime end = LocalDate.now().atTime(LocalTime.MAX);
+
+        return IntStream.generate(() -> 0).mapToObj(n -> DateTimeUtils.random(start, end).toLocalDate())
+                .filter(it -> !it.isLeapYear()).limit(10).map(Arguments::of);
     }
 
 }
