@@ -188,7 +188,7 @@ public abstract class Asserts {
         };
     }
 
-    public static <DATE extends ChronoLocalDate> AbstractChronoZonedDateTimeAssert<?, ChronoZonedDateTime<DATE>, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
+    public static <DATE extends ChronoLocalDate> AbstractChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
         return new AbstractChronoZonedDateTimeAssert(dateTime) {
         };
     }

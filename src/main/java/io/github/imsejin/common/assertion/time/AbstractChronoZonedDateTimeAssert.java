@@ -17,7 +17,6 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -27,66 +26,12 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoZonedDateTime;
 
 public abstract class AbstractChronoZonedDateTimeAssert<
-        SELF extends AbstractChronoZonedDateTimeAssert<SELF, ACTUAL, DATE>,
-        ACTUAL extends ChronoZonedDateTime<DATE>,
+        SELF extends AbstractChronoZonedDateTimeAssert<SELF, DATE>,
         DATE extends ChronoLocalDate>
-        extends AbstractObjectAssert<SELF, ACTUAL>
-        implements DateAssertion<SELF, ACTUAL> {
+        extends AbstractTemporalAssert<SELF, ChronoZonedDateTime<?>> {
 
-    protected AbstractChronoZonedDateTimeAssert(ACTUAL actual) {
+    protected AbstractChronoZonedDateTimeAssert(ChronoZonedDateTime<DATE> actual) {
         super(actual);
-    }
-
-    @Override
-    public SELF isEqualTo(ACTUAL expected) {
-        if (!actual.isEqual(expected)) throw getException();
-        return self;
-    }
-
-    @Override
-    public SELF isNotEqualTo(ACTUAL expected) {
-        if (actual.isEqual(expected)) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isBefore(ACTUAL expected) {
-        if (!actual.isBefore(expected)) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isBeforeOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) > 0) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isAfter(ACTUAL expected) {
-        if (!actual.isAfter(expected)) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isAfterOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) < 0) throw getException();
-        return self;
     }
 
     public SELF isSameZone(ZoneId expected) {
@@ -114,8 +59,9 @@ public abstract class AbstractChronoZonedDateTimeAssert<
      * @return another assertion
      * @see OffsetDateTimeAssert#asLocalDateTime()
      */
+    @SuppressWarnings("unchecked")
     public AbstractChronoLocalDateTimeAssert<?, DATE> asLocalDateTime() {
-        return Asserts.that(actual.toLocalDateTime());
+        return (AbstractChronoLocalDateTimeAssert<?, DATE>) Asserts.that(actual.toLocalDateTime());
     }
 
     /**
