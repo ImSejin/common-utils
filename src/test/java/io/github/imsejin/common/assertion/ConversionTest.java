@@ -49,7 +49,7 @@ class ConversionTest {
         int count = StringUtils.countOf(packageName, ".") + 1;
         Collection<String> collection = Arrays.stream(packageName.split("\\.")).collect(toList());
 
-        // except
+        // expect
         assertThatNoException().isThrownBy(() -> Asserts.that(collection).hasSizeOf(count)
                 .asArray().hasElement().hasLengthOf(count).contains("github")
                 .containsAny("java", "lang", "imsejin").containsAll(new String[0]));
@@ -65,7 +65,7 @@ class ConversionTest {
         int count = StringUtils.countOf(packageName, ".") + 1;
         Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
 
-        // except
+        // expect
         assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
                 .asKeySet().hasElement().hasSizeOf(count).contains(0)
                 .containsAll(IntStream.range(0, count).boxed().collect(toList())));
@@ -79,7 +79,7 @@ class ConversionTest {
         int count = StringUtils.countOf(packageName, ".") + 1;
         Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
 
-        // except
+        // expect
         assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
                 .asValues().hasElement().hasSizeOf(count).contains("common")
                 .isSameSize(Arrays.asList(packageName.split("\\."))));
@@ -93,7 +93,7 @@ class ConversionTest {
         // given
         UUID uuid = UUID.randomUUID();
 
-        // except
+        // expect
         assertThatNoException().isThrownBy(() -> Asserts.that(uuid).isNotNull().isEqualTo(UUID.fromString(uuid.toString()))
                 .asString().matches("[\\da-z]{8}-[\\da-z]{4}-[\\da-z]{4}-[\\da-z]{4}-[\\da-z]{12}")
                 .isEqualTo(uuid.toString()));
@@ -105,7 +105,7 @@ class ConversionTest {
         // given
         String text = "AbstractObjectAssert";
 
-        // except
+        // expect
         assertThatNoException().isThrownBy(() -> Asserts.that(text).isNotNull().hasText()
                 .asClass().isSameAs(String.class).isEqualTo(text.getClass())
                 .asClass().isSameAs(Class.class).isEqualTo(text.getClass().getClass()));
