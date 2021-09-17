@@ -113,12 +113,20 @@ public abstract class AbstractChronoLocalDateAssert<
     }
 
     public SELF isLeapYear() {
-        if (!actual.isLeapYear()) throw getException();
+        if (!actual.isLeapYear()) {
+            setDefaultDescription("It is expected to be leap year, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotLeapYear() {
-        if (actual.isLeapYear()) throw getException();
+        if (actual.isLeapYear()) {
+            setDefaultDescription("It is expected not to be leap year, but it is. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
