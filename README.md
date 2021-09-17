@@ -19,7 +19,7 @@
     </a>
     <br/>
     <a href="https://lgtm.com/projects/g/ImSejin/common-utils/context:java">
-        <img alt="Lgtm grade" src="https://img.shields.io/lgtm/grade/java/github/ImSejin/common-utils.svg?logo=&logoWidth=18&label=lgtm%3A%20code%20quality&&style=flat-square"/>
+        <img alt="Lgtm grade" src="https://img.shields.io/lgtm/grade/java/github/ImSejin/common-utils.svg?label=lgtm%3A%20code%20quality&&style=flat-square"/>
     </a>
     <a href="https://www.codacy.com/gh/ImSejin/common-utils/dashboard">
         <img alt="Codacy grade" src="https://img.shields.io/codacy/grade/cda840b8532940ae8c3604696da8eabe?label=codacy%3A%20code%20quality&style=flat-square">
