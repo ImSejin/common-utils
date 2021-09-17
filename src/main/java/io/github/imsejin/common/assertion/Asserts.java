@@ -178,7 +178,7 @@ public abstract class Asserts {
 
     //////////////////////////////////////// Time /////////////////////////////////////////
 
-    public static AbstractChronoLocalDateAssert<?, ChronoLocalDate> that(ChronoLocalDate date) {
+    public static AbstractChronoLocalDateAssert<?> that(ChronoLocalDate date) {
         return new AbstractChronoLocalDateAssert(date) {
         };
     }

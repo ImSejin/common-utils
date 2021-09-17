@@ -122,7 +122,7 @@ public abstract class AbstractChronoLocalDateTimeAssert<
      * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
      * @see OffsetDateTimeAssert#asLocalDate()
      */
-    public AbstractChronoLocalDateAssert<?, ChronoLocalDate> asLocalDate() {
+    public AbstractChronoLocalDateAssert<?> asLocalDate() {
         return Asserts.that(actual.toLocalDate());
     }
 
