@@ -22,7 +22,6 @@ import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
@@ -120,7 +119,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      * @return another assertion
      * @see AbstractChronoZonedDateTimeAssert#asLocalDateTime()
      */
-    public AbstractChronoLocalDateTimeAssert<?, ChronoLocalDateTime<LocalDate>, LocalDate> asLocalDateTime() {
+    public AbstractChronoLocalDateTimeAssert<?, LocalDate> asLocalDateTime() {
         return Asserts.that(actual.toLocalDateTime());
     }
 

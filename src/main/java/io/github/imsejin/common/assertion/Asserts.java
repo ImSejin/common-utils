@@ -183,7 +183,7 @@ public abstract class Asserts {
         };
     }
 
-    public static <DATE extends ChronoLocalDate> AbstractChronoLocalDateTimeAssert<?, ChronoLocalDateTime<DATE>, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
+    public static <DATE extends ChronoLocalDate> AbstractChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
         return new AbstractChronoLocalDateTimeAssert(dateTime) {
         };
     }

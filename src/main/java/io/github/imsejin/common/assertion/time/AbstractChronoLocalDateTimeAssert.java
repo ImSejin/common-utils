@@ -17,102 +17,17 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 
 public abstract class AbstractChronoLocalDateTimeAssert<
-        SELF extends AbstractChronoLocalDateTimeAssert<SELF, ACTUAL, DATE>,
-        ACTUAL extends ChronoLocalDateTime<DATE>,
+        SELF extends AbstractChronoLocalDateTimeAssert<SELF, DATE>,
         DATE extends ChronoLocalDate>
-        extends AbstractObjectAssert<SELF, ACTUAL>
-        implements DateAssertion<SELF, ACTUAL> {
+        extends AbstractTemporalAssert<SELF, ChronoLocalDateTime<?>> {
 
-    protected AbstractChronoLocalDateTimeAssert(ACTUAL actual) {
+    protected AbstractChronoLocalDateTimeAssert(ChronoLocalDateTime<DATE> actual) {
         super(actual);
-    }
-
-    @Override
-    public SELF isEqualTo(ACTUAL expected) {
-        if (!actual.isEqual(expected)) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    @Override
-    public SELF isNotEqualTo(ACTUAL expected) {
-        if (actual.isEqual(expected)) {
-            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isBefore(ACTUAL expected) {
-        if (!actual.isBefore(expected)) {
-            setDefaultDescription("It is expected to be before than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isBeforeOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) > 0) {
-            setDefaultDescription("It is expected to be before than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isAfter(ACTUAL expected) {
-        if (!actual.isAfter(expected)) {
-            setDefaultDescription("It is expected to be after than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isAfterOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) < 0) {
-            setDefaultDescription("It is expected to be after than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////

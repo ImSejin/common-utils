@@ -24,7 +24,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 
 public abstract class AbstractChronoZonedDateTimeAssert<
@@ -115,7 +114,7 @@ public abstract class AbstractChronoZonedDateTimeAssert<
      * @return another assertion
      * @see OffsetDateTimeAssert#asLocalDateTime()
      */
-    public AbstractChronoLocalDateTimeAssert<?, ChronoLocalDateTime<DATE>, DATE> asLocalDateTime() {
+    public AbstractChronoLocalDateTimeAssert<?, DATE> asLocalDateTime() {
         return Asserts.that(actual.toLocalDateTime());
     }
 
