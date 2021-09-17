@@ -17,70 +17,17 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
-        extends AbstractObjectAssert<SELF, OffsetDateTime>
-        implements DateAssertion<SELF, OffsetDateTime>, OffsetAssertion<SELF> {
+        extends AbstractTemporalAssert<SELF, OffsetDateTime>
+        implements OffsetAssertion<SELF> {
 
     public OffsetDateTimeAssert(OffsetDateTime actual) {
         super(actual);
-    }
-
-    @Override
-    public SELF isEqualTo(OffsetDateTime expected) {
-        if (!actual.isEqual(expected)) throw getException();
-        return self;
-    }
-
-    @Override
-    public SELF isNotEqualTo(OffsetDateTime expected) {
-        if (actual.isEqual(expected)) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isBefore(OffsetDateTime expected) {
-        if (!actual.isBefore(expected)) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isBeforeOrEqualTo(OffsetDateTime expected) {
-        if (actual.compareTo(expected) > 0) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isAfter(OffsetDateTime expected) {
-        if (!actual.isAfter(expected)) throw getException();
-        return self;
-    }
-
-    /**
-     * @param expected expected value
-     * @return self
-     */
-    @Override
-    public SELF isAfterOrEqualTo(OffsetDateTime expected) {
-        if (actual.compareTo(expected) < 0) throw getException();
-        return self;
     }
 
     /**
