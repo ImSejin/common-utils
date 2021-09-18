@@ -135,7 +135,7 @@ class MathUtilsSpec extends Specification {
     }
 
     @Unroll("MathUtils.isOdd(#amount) == #expected")
-    def "isOdd"() {
+    def "Check long number is odd"() {
         expect:
         MathUtils.isOdd(amount) == expected
 
@@ -148,6 +148,30 @@ class MathUtilsSpec extends Specification {
         17      | true
         854     | false
         97231   | true
+    }
+
+    @Unroll("MathUtils.isOdd(#amount) == #expected")
+    def "Check big integer is odd"() {
+        expect:
+        MathUtils.isOdd(amount) == expected
+
+        where:
+        amount                                            | expected
+        new BigInteger("-987654321098765432109876543210") | false
+        Long.MIN_VALUE.toBigInteger()                     | false
+        Integer.MIN_VALUE.toBigInteger()                  | false
+        Short.MIN_VALUE.toBigInteger()                    | false
+        Byte.MIN_VALUE.toBigInteger()                     | false
+        new BigInteger("-2080")                           | false
+        new BigInteger("-1")                              | true
+        BigInteger.ZERO                                   | false
+        BigInteger.ONE                                    | true
+        BigInteger.TEN                                    | false
+        Byte.MAX_VALUE.toBigInteger()                     | true
+        Short.MAX_VALUE.toBigInteger()                    | true
+        Integer.MAX_VALUE.toBigInteger()                  | true
+        Long.MAX_VALUE.toBigInteger()                     | true
+        new BigInteger("8453487412897056489434840070000") | false
     }
 
 }
