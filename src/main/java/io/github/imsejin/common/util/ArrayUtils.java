@@ -345,7 +345,7 @@ public final class ArrayUtils {
      */
     public static String toString(@Nullable Object array) {
         if (array == null) return "null";
-        if (array.getClass().isArray()) return Arrays.toString((Object[]) array);
+        if (array.getClass().isArray()) return Arrays.deepToString((Object[]) array);
         return array.toString();
     }
 

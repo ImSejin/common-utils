@@ -116,7 +116,7 @@ public abstract class AbstractCollectionAssert<
         }
 
         setDefaultDescription("It is expected to contain the given elements, but it doesn't. (expected: '{0}', actual: '{1}')",
-                Arrays.toString(expected), actual);
+                Arrays.deepToString(expected), actual);
         throw getException();
     }
 
