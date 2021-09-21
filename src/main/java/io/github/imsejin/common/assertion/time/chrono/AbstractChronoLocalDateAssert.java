@@ -16,29 +16,33 @@
 
 package io.github.imsejin.common.assertion.time.chrono;
 
+import io.github.imsejin.common.assertion.time.YearAssertion;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.chrono.ChronoLocalDate;
 
 public abstract class AbstractChronoLocalDateAssert<SELF extends AbstractChronoLocalDateAssert<SELF>>
-        extends AbstractTemporalAssert<SELF, ChronoLocalDate> {
+        extends AbstractTemporalAssert<SELF, ChronoLocalDate>
+        implements YearAssertion<SELF> {
 
     protected AbstractChronoLocalDateAssert(ChronoLocalDate actual) {
         super(actual);
     }
 
+    @Override
     public SELF isLeapYear() {
         if (!actual.isLeapYear()) {
-            setDefaultDescription("It is expected to be leap year, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription(YearAssertion.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isNotLeapYear() {
         if (actual.isLeapYear()) {
-            setDefaultDescription("It is expected not to be leap year, but it is. (actual: '{0}')", actual);
+            setDefaultDescription(YearAssertion.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
             throw getException();
         }
 
