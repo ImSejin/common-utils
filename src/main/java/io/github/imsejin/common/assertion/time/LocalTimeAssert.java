@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+
 import java.time.LocalTime;
 
 public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>

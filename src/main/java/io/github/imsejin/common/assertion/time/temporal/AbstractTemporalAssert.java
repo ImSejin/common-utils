@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.time;
+package io.github.imsejin.common.assertion.time.temporal;
 
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 

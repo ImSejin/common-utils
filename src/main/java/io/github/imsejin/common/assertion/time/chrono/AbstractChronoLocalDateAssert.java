@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion.time.chrono;
 
-import io.github.imsejin.common.assertion.time.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.chrono.ChronoLocalDate;
 
