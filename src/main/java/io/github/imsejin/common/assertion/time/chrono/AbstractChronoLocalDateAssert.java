@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.time;
+package io.github.imsejin.common.assertion.time.chrono;
+
+import io.github.imsejin.common.assertion.time.AbstractTemporalAssert;
 
 import java.time.chrono.ChronoLocalDate;
 

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.time;
+package io.github.imsejin.common.assertion.time.chrono;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.util.DateTimeUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,20 +25,23 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-@DisplayName("AbstractChronoLocalDateTimeAssert")
-class AbstractChronoLocalDateTimeAssertTest {
+@DisplayName("AbstractChronoLocalDateAssert")
+class AbstractChronoLocalDateAssertTest {
 
-    private static final String IS_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isEqualTo";
-    private static final String IS_NOT_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isNotEqualTo";
-    private static final String IS_BEFORE = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBefore";
-    private static final String IS_BEFORE_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isBeforeOrEqualTo";
-    private static final String IS_AFTER = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfter";
-    private static final String IS_AFTER_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.AbstractChronoLocalDateTimeAssertTest#isAfterOrEqualTo";
+    private static final String IS_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isEqualTo";
+    private static final String IS_NOT_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isNotEqualTo";
+    private static final String IS_BEFORE = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isBefore";
+    private static final String IS_BEFORE_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isBeforeOrEqualTo";
+    private static final String IS_AFTER = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isAfter";
+    private static final String IS_AFTER_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isAfterOrEqualTo";
+    private static final String IS_LEAP_YEAR = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isLeapYear";
+    private static final String IS_NOT_LEAP_YEAR = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isNotLeapYear";
 
     @Nested
     @DisplayName("method 'isEqualTo'")
@@ -45,14 +49,14 @@ class AbstractChronoLocalDateTimeAssertTest {
         @ParameterizedTest
         @MethodSource(IS_EQUAL_TO)
         @DisplayName("passes, when actual is equal to other")
-        void test0(LocalDateTime actual, LocalDateTime expected) {
+        void test0(LocalDate actual, LocalDate expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_NOT_EQUAL_TO)
         @DisplayName("throws exception, when actual is not equal to other")
-        void test1(LocalDateTime actual, LocalDateTime expected) {
+        void test1(LocalDate actual, LocalDate expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEqualTo(expected))
                     .withMessageStartingWith("They are expected to be equal, but they aren't.");
@@ -67,14 +71,14 @@ class AbstractChronoLocalDateTimeAssertTest {
         @ParameterizedTest
         @MethodSource(IS_NOT_EQUAL_TO)
         @DisplayName("passes, when actual is not equal to other")
-        void test0(LocalDateTime actual, LocalDateTime expected) {
+        void test0(LocalDate actual, LocalDate expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_EQUAL_TO)
         @DisplayName("throws exception, when actual is equal to other")
-        void test1(LocalDateTime actual, LocalDateTime expected) {
+        void test1(LocalDate actual, LocalDate expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .withMessageStartingWith("They are expected to be not equal, but they are.");
@@ -89,14 +93,14 @@ class AbstractChronoLocalDateTimeAssertTest {
         @ParameterizedTest
         @MethodSource(IS_BEFORE)
         @DisplayName("passes, when actual is before than other")
-        void test0(LocalDateTime actual, LocalDateTime expected) {
+        void test0(LocalDate actual, LocalDate expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBefore(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_AFTER_OR_EQUAL_TO)
         @DisplayName("throws exception, when actual is after than or equal to other")
-        void test1(LocalDateTime actual, LocalDateTime expected) {
+        void test1(LocalDate actual, LocalDate expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isBefore(expected))
                     .withMessageStartingWith("It is expected to be before than the other, but it isn't.");
@@ -111,14 +115,14 @@ class AbstractChronoLocalDateTimeAssertTest {
         @ParameterizedTest
         @MethodSource(IS_BEFORE_OR_EQUAL_TO)
         @DisplayName("passes, when actual is before than or equal to other")
-        void test0(LocalDateTime actual, LocalDateTime expected) {
+        void test0(LocalDate actual, LocalDate expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBeforeOrEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_AFTER)
         @DisplayName("throws exception, when actual is after than other")
-        void test1(LocalDateTime actual, LocalDateTime expected) {
+        void test1(LocalDate actual, LocalDate expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isBeforeOrEqualTo(expected))
                     .withMessageStartingWith("It is expected to be before than or equal to the other, but it isn't.");
@@ -133,14 +137,14 @@ class AbstractChronoLocalDateTimeAssertTest {
         @ParameterizedTest
         @MethodSource(IS_AFTER)
         @DisplayName("passes, when actual is after than other")
-        void test0(LocalDateTime actual, LocalDateTime expected) {
+        void test0(LocalDate actual, LocalDate expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfter(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_BEFORE_OR_EQUAL_TO)
         @DisplayName("throws exception, when actual is before than or equal to other")
-        void test1(LocalDateTime actual, LocalDateTime expected) {
+        void test1(LocalDate actual, LocalDate expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAfter(expected))
                     .withMessageStartingWith("It is expected to be after than the other, but it isn't.");
@@ -155,14 +159,14 @@ class AbstractChronoLocalDateTimeAssertTest {
         @ParameterizedTest
         @MethodSource(IS_AFTER_OR_EQUAL_TO)
         @DisplayName("passes, when actual is after than or equal to other")
-        void test0(LocalDateTime actual, LocalDateTime expected) {
+        void test0(LocalDate actual, LocalDate expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfterOrEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_BEFORE)
         @DisplayName("throws exception, when actual is before than other")
-        void test1(LocalDateTime actual, LocalDateTime expected) {
+        void test1(LocalDate actual, LocalDate expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAfterOrEqualTo(expected))
                     .withMessageStartingWith("It is expected to be after than or equal to the other, but it isn't.");
@@ -171,36 +175,78 @@ class AbstractChronoLocalDateTimeAssertTest {
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
+    @Nested
+    @DisplayName("method 'isLeapYear'")
+    class IsLeapYear {
+        @ParameterizedTest
+        @MethodSource(IS_LEAP_YEAR)
+        @DisplayName("passes, when actual is leap year")
+        void test0(LocalDate actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
+        }
+
+        @ParameterizedTest
+        @MethodSource(IS_NOT_LEAP_YEAR)
+        @DisplayName("throws exception, when actual is not leap year")
+        void test1(LocalDate actual) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isLeapYear())
+                    .withMessageStartingWith("It is expected to be leap year, but it isn't.");
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isNotLeapYear'")
+    class IsNotLeapYear {
+        @ParameterizedTest
+        @MethodSource(IS_NOT_LEAP_YEAR)
+        @DisplayName("passes, when actual is not leap year")
+        void test0(LocalDate actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
+        }
+
+        @ParameterizedTest
+        @MethodSource(IS_LEAP_YEAR)
+        @DisplayName("throws exception, when actual is leap year")
+        void test1(LocalDate actual) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear())
+                    .withMessageStartingWith("It is expected not to be leap year, but it is.");
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     private static Stream<Arguments> isEqualTo() {
         return Stream.of(
-                Arguments.of(LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-                        LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0))),
-                Arguments.of(LocalDateTime.now().withNano(0).plusHours(25).minusMinutes(60),
-                        LocalDateTime.now().withNano(0).plusDays(1)),
-                Arguments.of(LocalDateTime.of(LocalDate.of(1918, 12, 31), LocalTime.MAX),
-                        LocalDateTime.from(YearMonth.of(1918, Month.DECEMBER).atEndOfMonth().atTime(LocalTime.MAX)))
+                Arguments.of(LocalDate.now(),
+                        LocalDate.now().plusWeeks(1).minusDays(7)),
+                Arguments.of(LocalDate.now(),
+                        LocalDate.from(YearMonth.now().adjustInto(LocalDate.now()))),
+                Arguments.of(LocalDate.of(1918, 12, 31),
+                        LocalDate.from(YearMonth.of(1918, Month.DECEMBER).atEndOfMonth()))
         );
     }
 
     private static Stream<Arguments> isNotEqualTo() {
         return Stream.of(
-                Arguments.of(LocalDateTime.now(),
-                        LocalDateTime.now().plusSeconds(1)),
-                Arguments.of(LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-                        LocalDateTime.of(LocalDate.now(), LocalTime.MAX)),
-                Arguments.of(LocalDateTime.of(LocalDate.of(1950, 6, 25), LocalTime.MIDNIGHT),
-                        LocalDateTime.from(LocalDate.of(2000, 6, 25).atTime(LocalTime.MIDNIGHT)))
+                Arguments.of(LocalDate.now(),
+                        LocalDate.now().minusDays(1)),
+                Arguments.of(LocalDate.now(),
+                        LocalDate.from(YearMonth.now().minusMonths(1).adjustInto(LocalDate.now()))),
+                Arguments.of(LocalDate.of(1918, 12, 31),
+                        LocalDate.from(YearMonth.of(1918, Month.DECEMBER).atDay(28)))
         );
     }
 
     private static Stream<Arguments> isBefore() {
         return Stream.of(
-                Arguments.of(LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-                        LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0, 1))),
-                Arguments.of(LocalDateTime.now().withNano(0).plusHours(25).minusMinutes(61),
-                        LocalDateTime.now().withNano(0).plusDays(1)),
-                Arguments.of(LocalDateTime.from(YearMonth.of(1918, Month.DECEMBER).atDay(28).atTime(LocalTime.MAX)),
-                        LocalDateTime.from(YearMonth.of(1918, Month.DECEMBER).atEndOfMonth().atTime(LocalTime.MAX)))
+                Arguments.of(LocalDate.now(),
+                        LocalDate.now().plusDays(1)),
+                Arguments.of(LocalDate.now().plusDays(7),
+                        LocalDate.now().plusWeeks(2).minusDays(6)),
+                Arguments.of(LocalDate.from(YearMonth.of(1918, Month.DECEMBER).atDay(28)),
+                        LocalDate.from(YearMonth.of(1918, Month.DECEMBER).atEndOfMonth()))
         );
     }
 
@@ -210,17 +256,33 @@ class AbstractChronoLocalDateTimeAssertTest {
 
     private static Stream<Arguments> isAfter() {
         return Stream.of(
-                Arguments.of(LocalDateTime.of(LocalDate.now(), LocalTime.MIN).plusMinutes(1),
-                        LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0))),
-                Arguments.of(LocalDateTime.now().withNano(0).plusHours(26).minusMinutes(60),
-                        LocalDateTime.now().withNano(0).plusDays(1)),
-                Arguments.of(LocalDateTime.of(LocalDate.of(1918, 12, 31), LocalTime.MAX),
-                        LocalDateTime.from(YearMonth.of(1918, Month.DECEMBER).atDay(1).atTime(LocalTime.MAX)))
+                Arguments.of(LocalDate.now().plusDays(1),
+                        LocalDate.now()),
+                Arguments.of(LocalDate.now().plusWeeks(2).minusDays(6),
+                        LocalDate.now().plusDays(7)),
+                Arguments.of(LocalDate.from(YearMonth.of(1918, Month.DECEMBER).atEndOfMonth()),
+                        LocalDate.from(YearMonth.of(1918, Month.DECEMBER).atDay(28)))
         );
     }
 
     private static Stream<Arguments> isAfterOrEqualTo() {
         return Stream.concat(isAfter(), isEqualTo());
+    }
+
+    private static Stream<Arguments> isLeapYear() {
+        LocalDateTime start = LocalDate.of(0, Month.JANUARY, 1).atTime(LocalTime.MIN);
+        LocalDateTime end = LocalDate.now().atTime(LocalTime.MAX);
+
+        return IntStream.generate(() -> 0).mapToObj(n -> DateTimeUtils.random(start, end).toLocalDate())
+                .filter(LocalDate::isLeapYear).limit(10).map(Arguments::of);
+    }
+
+    private static Stream<Arguments> isNotLeapYear() {
+        LocalDateTime start = LocalDate.of(0, Month.JANUARY, 1).atTime(LocalTime.MIN);
+        LocalDateTime end = LocalDate.now().atTime(LocalTime.MAX);
+
+        return IntStream.generate(() -> 0).mapToObj(n -> DateTimeUtils.random(start, end).toLocalDate())
+                .filter(it -> !it.isLeapYear()).limit(10).map(Arguments::of);
     }
 
 }
