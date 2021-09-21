@@ -33,9 +33,7 @@ import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTim
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
+import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
@@ -180,6 +178,14 @@ public abstract class Asserts {
     }
 
     //////////////////////////////////////// Time /////////////////////////////////////////
+
+    public static YearAssert<?> that(Year year) {
+        return new YearAssert(year);
+    }
+
+    public static YearMonthAssert<?> that(YearMonth yearMonth) {
+        return new YearMonthAssert(yearMonth);
+    }
 
     public static AbstractChronoLocalDateAssert<?> that(ChronoLocalDate date) {
         return new AbstractChronoLocalDateAssert(date) {
