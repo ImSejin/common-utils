@@ -22,6 +22,7 @@ import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
 import io.github.imsejin.common.assertion.map.AbstractMapAssert;
+import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
@@ -33,6 +34,7 @@ import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTim
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
@@ -154,6 +156,10 @@ public abstract class Asserts {
     }
 
     /////////////////////////////////////// Number ////////////////////////////////////////
+
+    public static BigDecimalAssert<?> that(BigDecimal number) {
+        return new BigDecimalAssert<>(number);
+    }
 
     public static DoubleAssert<?> that(Double number) {
         return new DoubleAssert<>(number);

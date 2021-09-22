@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Objects;
 
 public class NumberAssert<
@@ -50,6 +51,8 @@ public class NumberAssert<
         if (numberType == Long.class) return (N) Long.valueOf(number.longValue());
         if (numberType == Float.class) return (N) Float.valueOf(number.floatValue());
         if (numberType == Double.class) return (N) Double.valueOf(number.doubleValue());
+        if (numberType == BigInteger.class) return (N) BigInteger.valueOf(number.longValue());
+        if (numberType == BigDecimal.class) return (N) BigDecimal.valueOf(number.doubleValue());
 
         return null;
     }
