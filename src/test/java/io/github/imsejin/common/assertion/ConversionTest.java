@@ -29,9 +29,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -211,6 +209,119 @@ class ConversionTest {
             assertThatNoException().isThrownBy(() -> Asserts.that(LocalDateTime.of(LocalDate.now(), LocalTime.MIN))
                     .isNotNull().isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
                     .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
+        }
+
+        @Test
+        @DisplayName("asInstant(): ChronoLocalDateTime -> Instant")
+        void asInstant() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(LocalDateTime.now().withNano(0))
+                    .isNotNull().isAfter(LocalDateTime.from(LocalDate.MIN.atTime(LocalTime.MAX)))
+                    .asInstant().isBeforeOrEqualTo(Instant.now()));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class AbstractChronoZonedDateTimeAssert {
+        @Test
+        @DisplayName("asLocalDate(): ChronoZonedDateTime -> ChronoLocalDate")
+        void asLocalDate() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(ZonedDateTime.now().withNano(0))
+                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
+                    .asLocalDate().isEqualTo(LocalDate.now())
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
+        }
+
+        @Test
+        @DisplayName("asLocalDate(): ChronoZonedDateTime -> ChronoLocalDateTime")
+        void asLocalDateTime() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(ZonedDateTime.now().withNano(0))
+                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
+                    .asLocalDateTime().isEqualTo(LocalDateTime.now().withNano(0))
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
+        }
+
+        @Test
+        @DisplayName("asLocalTime(): ChronoZonedDateTime -> LocalTime")
+        void asLocalTime() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(ZonedDateTime.of(LocalDate.now(), LocalTime.MIN, ZoneId.systemDefault()))
+                    .isNotNull().isEqualTo(ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneId.systemDefault()))
+                    .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
+        }
+
+        @Test
+        @DisplayName("asLocalDate(): ChronoZonedDateTime -> OffsetDateTime")
+        void asOffsetDateTime() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(ZonedDateTime.now().withNano(0))
+                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
+                    .asOffsetDateTime().isEqualTo(OffsetDateTime.now().withNano(0))
+                    .predicate(it -> it.isAfter(OffsetDateTime.MIN)));
+        }
+
+        @Test
+        @DisplayName("asInstant(): ChronoZonedDateTime -> Instant")
+        void asInstant() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(ZonedDateTime.now().withNano(0))
+                    .isNotNull().isAfter(ZonedDateTime.from(LocalDate.MIN.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault())))
+                    .asInstant().isBeforeOrEqualTo(Instant.now()));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class OffsetDateTimeAssert {
+        @Test
+        @DisplayName("asLocalDate(): OffsetDateTime -> ChronoLocalDate")
+        void asLocalDate() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(OffsetDateTime.now().withNano(0))
+                    .isNotNull().isBefore(OffsetDateTime.now().plusSeconds(1))
+                    .asLocalDate().isEqualTo(LocalDate.now())
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
+        }
+
+        @Test
+        @DisplayName("asLocalDate(): OffsetDateTime -> ChronoLocalDateTime")
+        void asLocalDateTime() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(OffsetDateTime.now().withNano(0))
+                    .isNotNull().isBefore(OffsetDateTime.now().plusSeconds(1))
+                    .asLocalDateTime().isEqualTo(LocalDateTime.now().withNano(0))
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
+        }
+
+        @Test
+        @DisplayName("asLocalDate(): OffsetDateTime -> ChronoZonedDateTime")
+        void asZonedDateTime() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(OffsetDateTime.now().withNano(0))
+                    .isNotNull().isBefore(OffsetDateTime.now().plusSeconds(1))
+                    .asLocalDateTime().isEqualTo(LocalDateTime.now().withNano(0))
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
+        }
+
+        @Test
+        @DisplayName("asLocalTime(): OffsetDateTime -> LocalTime")
+        void asLocalTime() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(OffsetDateTime.of(LocalDate.now(), LocalTime.MIN, ZoneOffset.UTC))
+                    .isNotNull().isEqualTo(OffsetDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneOffset.UTC))
+                    .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
+        }
+
+        @Test
+        @DisplayName("asLocalDate(): OffsetDateTime -> OffsetTime")
+        void asOffsetTime() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(OffsetDateTime.now().withNano(0))
+                    .isNotNull().isBefore(OffsetDateTime.now().plusSeconds(1))
+                    .asOffsetTime().isEqualTo(OffsetTime.now().withNano(0))
+                    .predicate(it -> it.isAfter(OffsetTime.MIN)));
+        }
+
+        @Test
+        @DisplayName("asInstant(): OffsetDateTime -> Instant")
+        void asInstant() {
+            assertThatNoException().isThrownBy(() -> Asserts.that(OffsetDateTime.now().withNano(0))
+                    .isNotNull().isAfter(OffsetDateTime.from(LocalDate.MIN.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault())))
+                    .asInstant().isBeforeOrEqualTo(Instant.now()));
         }
     }
 
