@@ -90,4 +90,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
         return Asserts.that(actual.toOffsetTime());
     }
 
+    public InstantAssert<?> asInstant() {
+        return Asserts.that(actual.toInstant());
+    }
+
 }
