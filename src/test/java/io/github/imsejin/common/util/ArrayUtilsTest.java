@@ -25,6 +25,104 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ArrayUtilsTest {
 
     @Test
+    @DisplayName("method 'isNullOrEmpty'")
+    void isNullOrEmpty() {
+        boolean[] booleans = null;
+        assertThat(ArrayUtils.isNullOrEmpty(booleans)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new boolean[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new boolean[]{false, true})).isFalse();
+
+        byte[] bytes = null;
+        assertThat(ArrayUtils.isNullOrEmpty(bytes)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new byte[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new byte[]{-128, 0, 127})).isFalse();
+
+        char[] chars = null;
+        assertThat(ArrayUtils.isNullOrEmpty(chars)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new char[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new char[]{'a', 'b', 'c'})).isFalse();
+
+        double[] doubles = null;
+        assertThat(ArrayUtils.isNullOrEmpty(doubles)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new double[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new double[]{-3.14, 0.0, 3.14})).isFalse();
+
+        float[] floats = null;
+        assertThat(ArrayUtils.isNullOrEmpty(floats)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new float[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new float[]{-3.14F, 0.0F, 3.14F})).isFalse();
+
+        int[] ints = null;
+        assertThat(ArrayUtils.isNullOrEmpty(ints)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new int[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new int[]{-128, 0, 127})).isFalse();
+
+        long[] longs = null;
+        assertThat(ArrayUtils.isNullOrEmpty(longs)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new long[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new long[]{-128, 0, 127})).isFalse();
+
+        short[] shorts = null;
+        assertThat(ArrayUtils.isNullOrEmpty(shorts)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new short[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new short[]{-32768, 0, 32767})).isFalse();
+
+        String[] strings = null;
+        assertThat(ArrayUtils.isNullOrEmpty(strings)).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new String[0])).isTrue();
+        assertThat(ArrayUtils.isNullOrEmpty(new String[]{"alpha", "beta", "delta"})).isFalse();
+    }
+
+    @Test
+    @DisplayName("method 'exists'")
+    void exists() {
+        boolean[] booleans = null;
+        assertThat(ArrayUtils.exists(booleans)).isFalse();
+        assertThat(ArrayUtils.exists(new boolean[0])).isFalse();
+        assertThat(ArrayUtils.exists(new boolean[]{false, true})).isTrue();
+
+        byte[] bytes = null;
+        assertThat(ArrayUtils.exists(bytes)).isFalse();
+        assertThat(ArrayUtils.exists(new byte[0])).isFalse();
+        assertThat(ArrayUtils.exists(new byte[]{-128, 0, 127})).isTrue();
+
+        char[] chars = null;
+        assertThat(ArrayUtils.exists(chars)).isFalse();
+        assertThat(ArrayUtils.exists(new char[0])).isFalse();
+        assertThat(ArrayUtils.exists(new char[]{'a', 'b', 'c'})).isTrue();
+
+        double[] doubles = null;
+        assertThat(ArrayUtils.exists(doubles)).isFalse();
+        assertThat(ArrayUtils.exists(new double[0])).isFalse();
+        assertThat(ArrayUtils.exists(new double[]{-3.14, 0.0, 3.14})).isTrue();
+
+        float[] floats = null;
+        assertThat(ArrayUtils.exists(floats)).isFalse();
+        assertThat(ArrayUtils.exists(new float[0])).isFalse();
+        assertThat(ArrayUtils.exists(new float[]{-3.14F, 0.0F, 3.14F})).isTrue();
+
+        int[] ints = null;
+        assertThat(ArrayUtils.exists(ints)).isFalse();
+        assertThat(ArrayUtils.exists(new int[0])).isFalse();
+        assertThat(ArrayUtils.exists(new int[]{-128, 0, 127})).isTrue();
+
+        long[] longs = null;
+        assertThat(ArrayUtils.exists(longs)).isFalse();
+        assertThat(ArrayUtils.exists(new long[0])).isFalse();
+        assertThat(ArrayUtils.exists(new long[]{-128, 0, 127})).isTrue();
+
+        short[] shorts = null;
+        assertThat(ArrayUtils.exists(shorts)).isFalse();
+        assertThat(ArrayUtils.exists(new short[0])).isFalse();
+        assertThat(ArrayUtils.exists(new short[]{-32768, 0, 32767})).isTrue();
+
+        String[] strings = null;
+        assertThat(ArrayUtils.exists(strings)).isFalse();
+        assertThat(ArrayUtils.exists(new String[0])).isFalse();
+        assertThat(ArrayUtils.exists(new String[]{"alpha", "beta", "delta"})).isTrue();
+    }
+
+    @Test
     @DisplayName("method 'prepend'")
     @SuppressWarnings("ConfusingArgumentToVarargsMethod")
     void prepend() {
