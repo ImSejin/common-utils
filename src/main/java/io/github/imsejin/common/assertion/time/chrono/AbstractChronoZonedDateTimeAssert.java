@@ -78,7 +78,6 @@ public abstract class AbstractChronoZonedDateTimeAssert<
     }
 
     public OffsetDateTimeAssert<?> asOffsetDateTime() {
-        // actual.withZoneSameInstant(ZoneId.of("UTC"));
         LocalDateTime dateTime = LocalDateTime.ofInstant(actual.toInstant(), actual.getZone());
         ZoneOffset offset = actual.getOffset();
 
