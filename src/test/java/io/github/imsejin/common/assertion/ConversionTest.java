@@ -198,7 +198,7 @@ class ConversionTest {
     class AbstractChronoLocalDateTimeAssert {
         @Test
         @DisplayName("asLocalDate(): ChronoLocalDateTime -> ChronoLocalDate")
-        void asLocalDate0() {
+        void asLocalDate() {
             assertThatNoException().isThrownBy(() -> Asserts.that(LocalDateTime.now())
                     .isNotNull().isBefore(LocalDateTime.now().plusSeconds(1))
                     .asLocalDate().isEqualTo(LocalDate.now())
@@ -207,7 +207,7 @@ class ConversionTest {
 
         @Test
         @DisplayName("asLocalTime(): ChronoLocalDateTime -> LocalTime")
-        void asLocalTime0() {
+        void asLocalTime() {
             assertThatNoException().isThrownBy(() -> Asserts.that(LocalDateTime.of(LocalDate.now(), LocalTime.MIN))
                     .isNotNull().isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
                     .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
@@ -220,7 +220,7 @@ class ConversionTest {
     class ArrayAssert {
         @Test
         @DisplayName("asLength(): Array -> int")
-        void asLength0() {
+        void asLength() {
             assertThatNoException().isThrownBy(() -> Asserts.that(new String[]{"a", "b", "c", "d"})
                     .isNotNull().doesNotContainNull().hasElement()
                     .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(4));
