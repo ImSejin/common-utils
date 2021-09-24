@@ -185,6 +185,10 @@ public abstract class Asserts {
 
     //////////////////////////////////////// Time /////////////////////////////////////////
 
+    public static InstantAssert<?> that(Instant instant) {
+        return new InstantAssert(instant);
+    }
+
     public static YearAssert<?> that(Year year) {
         return new YearAssert(year);
     }
