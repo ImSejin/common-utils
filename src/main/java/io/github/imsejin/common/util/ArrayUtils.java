@@ -352,6 +352,11 @@ public final class ArrayUtils {
     /**
      * Prepends elements to array.
      *
+     * <pre><code>
+     *     prepend(new Character[]{'a', 'b'}, "c", "d"); // ["c", "d", 'a', 'b']
+     *     prepend(new int[]{3, 4, 5, 6}, 0, 1, 2);      // [0, 1, 2, 3, 4, 5, 6]
+     * </code></pre>
+     *
      * @param src      source array
      * @param elements elements to be prepended
      * @return prepended array
@@ -368,6 +373,11 @@ public final class ArrayUtils {
 
     /**
      * Appends elements to array.
+     *
+     * <pre><code>
+     *     append(new Character[]{'a', 'b'}, "c", "d"); // ['a', 'b', "c", "d"]
+     *     append(new int[]{3, 4, 5, 6}, 0, 1, 2);      // [3, 4, 5, 6, 0, 1, 2]
+     * </code></pre>
      *
      * @param src      source array
      * @param elements elements to be appended
