@@ -73,28 +73,44 @@ class CollectionUtilsSpec extends Specification {
 
     def "If list is null or empty, returns the other list"() {
         when:
-        def actual = CollectionUtils.ifNullOrEmpty(list, defaultValue)
+        def actual = CollectionUtils.ifNullOrEmpty(list as List, defaultValue)
 
         then:
         actual == expected
 
         where:
         list              | defaultValue | expected
+        null              | []           | []
         []                | [1, 2]       | [1, 2]
         ["alpha", "beta"] | []           | ["alpha", "beta"]
     }
 
     def "If set is null or empty, returns the other set"() {
         when:
-        def actual = CollectionUtils.ifNullOrEmpty(set, defaultValue)
+        def actual = CollectionUtils.ifNullOrEmpty(set as Set, defaultValue)
 
         then:
         actual == expected
 
         where:
         set                   | defaultValue          | expected
+        null                  | Collections.EMPTY_SET | Collections.EMPTY_SET
         Collections.EMPTY_SET | [2, 1, 3].toSet()     | [1, 2, 3].toSet()
         [-854].toSet()        | Collections.EMPTY_SET | [-854].toSet()
+    }
+
+    def "If map is null or empty, returns the other map"() {
+        when:
+        def actual = CollectionUtils.ifNullOrEmpty(map as Map, defaultValue)
+
+        then:
+        actual == expected
+
+        where:
+        map                     | defaultValue | expected
+        null                    | [:]          | [:]
+        [:]                     | [0: 1, 1: 2] | [0: 1, 1: 2]
+        [alpha: 123, beta: 456] | [:]          | [alpha: 123, beta: 456]
     }
 
     def "Checks collection exists"() {
