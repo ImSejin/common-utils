@@ -24,7 +24,7 @@ class MathUtilsSpec extends Specification {
     @Unroll("MathUtils.fibonacci(#input) == #expected")
     def "fibonacci"() {
         when:
-        def result = MathUtils.fibonacci(input)
+        def result = MathUtils.fibonacci input
 
         then:
         result.toString() == expected
@@ -47,7 +47,7 @@ class MathUtilsSpec extends Specification {
     @Unroll("MathUtils.factorial(#input) == #expected")
     def "factorial"() {
         when:
-        def result = MathUtils.factorial(input)
+        def result = MathUtils.factorial input
 
         then:
         result.toString() == expected

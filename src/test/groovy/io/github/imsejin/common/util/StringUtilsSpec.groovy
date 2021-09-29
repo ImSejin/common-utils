@@ -41,7 +41,7 @@ class StringUtilsSpec extends Specification {
     @Unroll("StringUtils.formatComma(#num) == '#expected'")
     def "Put a comma on every three digits"() {
         when:
-        def actual = StringUtils.formatComma(num)
+        def actual = StringUtils.formatComma num
 
         then:
         actual == expected
@@ -110,7 +110,7 @@ class StringUtilsSpec extends Specification {
     @Unroll("StringUtils.chop('#input') == '#expected'")
     def "Remove the last character in the string"() {
         when:
-        def chopped = StringUtils.chop(input)
+        def chopped = StringUtils.chop input
 
         then:
         chopped == expected

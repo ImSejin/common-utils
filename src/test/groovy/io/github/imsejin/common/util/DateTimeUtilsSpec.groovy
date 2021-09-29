@@ -32,7 +32,7 @@ class DateTimeUtilsSpec extends Specification {
         def numOfDays = yearMonth.lengthOfMonth()
 
         when:
-        def leapYear = DateTimeUtils.isLeapYear(year)
+        def leapYear = DateTimeUtils.isLeapYear year
 
         then:
         leapYear ? numOfDays == 29 : numOfDays == 28
@@ -51,8 +51,8 @@ class DateTimeUtilsSpec extends Specification {
         def randomTime = DateTimeUtils.random(startTime, endTime)
 
         then:
-        randomTime.isAfter(startTime)
-        randomTime.isBefore(endTime)
+        randomTime.isAfter startTime
+        randomTime.isBefore endTime
 
         where:
         i << (1..10_000)

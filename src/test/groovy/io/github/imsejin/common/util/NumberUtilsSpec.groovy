@@ -22,7 +22,7 @@ class NumberUtilsSpec extends Specification {
 
     def "Get number of places with long"() {
         when:
-        def numOfPlaces = NumberUtils.getNumOfPlaces(number)
+        def numOfPlaces = NumberUtils.getNumOfPlaces number
 
         then:
         if (number == Integer.MIN_VALUE || number == Long.MIN_VALUE) number++

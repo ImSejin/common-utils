@@ -22,7 +22,7 @@ class DateTypeSpec extends Specification {
 
     def "contains"() {
         expect:
-        DateType.contains(pattern)
+        DateType.contains pattern
 
         where:
         pattern << ['yyyy', 'MM', 'dd', 'HH', 'mm', 'ss', 'SSS',
@@ -32,7 +32,7 @@ class DateTypeSpec extends Specification {
 
     def "from"() {
         when:
-        def dateType = DateType.from(pattern)
+        def dateType = DateType.from pattern
 
         then:
         dateType != null
