@@ -67,6 +67,7 @@ class CollectionUtilsSpec extends Specification {
 
         where:
         collection             | defaultValue | expected
+        null                   | []           | []
         new PriorityQueue<?>() | null         | null
         [[1, 2], ["b", "a"]]   | []           | [[1, 2], ["b", "a"]]
     }
