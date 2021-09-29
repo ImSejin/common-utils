@@ -20,7 +20,7 @@ import spock.lang.Specification
 
 class FilenameUtilsSpec extends Specification {
 
-    def "ReplaceUnallowables"() {
+    def "Replaces unallowable characters"() {
         when:
         def actual = FilenameUtils.replaceUnallowables filename
 
@@ -28,10 +28,10 @@ class FilenameUtilsSpec extends Specification {
         actual == expected
 
         where:
-        filename                                            | expected
-        "where he is gone.."                                | "where he is gone…"
-        "I feel happy when coding."                         | "I feel happy when coding．"
-        "** <happy/\\new year> **:\"john\" -> |\"jeremy\"|" | "＊＊ ＜happy／＼new year＞ ＊＊：＂john＂ -＞ ｜＂jeremy＂｜"
+        filename                                        | expected
+        'where he is gone..'                            | 'where he is gone…'
+        'I feel happy when coding.'                     | 'I feel happy when coding．'
+        '** <happy/\\new year> **:"john" -> |"jeremy"|' | '＊＊ ＜happy／＼new year＞ ＊＊：＂john＂ -＞ ｜＂jeremy＂｜'
     }
 
 }
