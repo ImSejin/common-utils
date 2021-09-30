@@ -72,6 +72,20 @@ class CollectionUtilsSpec extends Specification {
         [[1, 2], ["b", "a"]]   | []           | [[1, 2], ["b", "a"]]
     }
 
+    def "If collection is null or empty, supplier returns the other collection"() {
+        when:
+        def actual = CollectionUtils.ifNullOrEmpty(collection as Collection, supplier)
+
+        then:
+        actual == expected
+
+        where:
+        collection             | supplier | expected
+        null                   | { [] }   | []
+        new PriorityQueue<?>() | { null } | null
+        [[1, 2], ["b", "a"]]   | { [] }   | [[1, 2], ["b", "a"]]
+    }
+
     def "If list is null or empty, returns the other list"() {
         when:
         def actual = CollectionUtils.ifNullOrEmpty(list as List, defaultValue)
@@ -84,6 +98,20 @@ class CollectionUtilsSpec extends Specification {
         null              | []           | []
         []                | [1, 2]       | [1, 2]
         ["alpha", "beta"] | []           | ["alpha", "beta"]
+    }
+
+    def "If list is null or empty, supplier returns the other list"() {
+        when:
+        def actual = CollectionUtils.ifNullOrEmpty(list as List, supplier)
+
+        then:
+        actual == expected
+
+        where:
+        list              | supplier   | expected
+        null              | { [] }     | []
+        []                | { [1, 2] } | [1, 2]
+        ["alpha", "beta"] | { [] }     | ["alpha", "beta"]
     }
 
     def "If set is null or empty, returns the other set"() {
@@ -100,6 +128,20 @@ class CollectionUtilsSpec extends Specification {
         [-854].toSet()        | Collections.EMPTY_SET | [-854].toSet()
     }
 
+    def "If set is null or empty, supplier returns the other set"() {
+        when:
+        def actual = CollectionUtils.ifNullOrEmpty(set as Set, supplier)
+
+        then:
+        actual == expected
+
+        where:
+        set                   | supplier                  | expected
+        null                  | { Collections.EMPTY_SET } | Collections.EMPTY_SET
+        Collections.EMPTY_SET | { [2, 1, 3].toSet() }     | [1, 2, 3].toSet()
+        [-854].toSet()        | { Collections.EMPTY_SET } | [-854].toSet()
+    }
+
     def "If map is null or empty, returns the other map"() {
         when:
         def actual = CollectionUtils.ifNullOrEmpty(map as Map, defaultValue)
@@ -112,6 +154,20 @@ class CollectionUtilsSpec extends Specification {
         null                    | [:]          | [:]
         [:]                     | [0: 1, 1: 2] | [0: 1, 1: 2]
         [alpha: 123, beta: 456] | [:]          | [alpha: 123, beta: 456]
+    }
+
+    def "If map is null or empty, supplier returns the other map"() {
+        when:
+        def actual = CollectionUtils.ifNullOrEmpty(map as Map, supplier)
+
+        then:
+        actual == expected
+
+        where:
+        map                     | supplier         | expected
+        null                    | { [:] }          | [:]
+        [:]                     | { [0: 1, 1: 2] } | [0: 1, 1: 2]
+        [alpha: 123, beta: 456] | { [:] }          | [alpha: 123, beta: 456]
     }
 
     def "Checks collection exists"() {
@@ -187,24 +243,24 @@ class CollectionUtilsSpec extends Specification {
         when:
         def outer = CollectionUtils.partitionBySize(integers, chunkSize)
 
-        then:
+        then: """
+            If remainder exists, size of last sub-list is equal to it.
+            All sub-lists except the last are equal to chuck' size.
+        """
         def outerSize = outer.size()
         def originSize = integers.size()
         boolean modExists = Math.floorMod(originSize, chunkSize) > 0
+        IntStream.range(0, outerSize).mapToObj({
+            def inner = outer.get(it)
 
-        for (int i = 0; i < outerSize; i++) {
-            def inner = outer.get(i)
-
-            if (modExists && i == outerSize - 1) {
-                // If remainder exists, last sub list's size is equal to it.
-                inner.size() == Math.floorMod(originSize, chunkSize)
+            if (modExists && it == outerSize - 1) {
+                return inner.size() == Math.floorMod(originSize, chunkSize)
             } else {
-                // All sub-lists except the last are equal to chuck's size.
-                inner.size() == chunkSize
+                return inner.size() == chunkSize
             }
-        }
+        }).reduce((a, b) -> a && b).get()
 
-        // All sizes of inner lists except last are the same.
+        and: "All sizes of inner lists except last are the same."
         def maybeExceptLast = Math.floorMod(originSize, chunkSize) > 0 && Math.floorDiv(originSize, chunkSize) > 0
                 ? outer.subList(0, outerSize - 2)
                 : outer
@@ -212,7 +268,7 @@ class CollectionUtilsSpec extends Specification {
         def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::min)
         maxSizeOfInnerList == minSizeOfInnerList
 
-        // Sum of inner list' size and origin list' size are the same.
+        and: "Sum of inner list' size and origin list' size are the same."
         def sizeOfInnerLists = outer.stream().mapToInt(List::size).sum()
         sizeOfInnerLists == range
 
@@ -228,11 +284,10 @@ class CollectionUtilsSpec extends Specification {
         when:
         def outer = CollectionUtils.partitionByCount(integers, count)
 
-        then:
-        // Outer list' size and parameter 'count' are the same.
+        then: "Outer list' size and parameter 'count' are the same."
         outer.size() == count
 
-        // All sizes of inner lists except last are the same.
+        and: "All sizes of inner lists except last are the same."
         def maybeExceptLast = Math.floorMod(integers.size(), count) > 0
                 ? outer.subList(0, count - 2)
                 : outer
@@ -240,7 +295,7 @@ class CollectionUtilsSpec extends Specification {
         def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::min)
         maxSizeOfInnerList == minSizeOfInnerList
 
-        // Sum of inner list' size and origin list' size are the same.
+        and: "Sum of inner list' size and origin list' size are the same."
         def sizeOfInnerLists = outer.stream().mapToInt(List::size).sum()
         sizeOfInnerLists == range
 
