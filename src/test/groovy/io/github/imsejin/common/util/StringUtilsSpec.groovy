@@ -60,7 +60,7 @@ class StringUtilsSpec extends Specification {
     @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
     def "Find with groups"() {
         given:
-        def pattern = Pattern.compile('^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$')
+        def pattern = Pattern.compile '^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$'
 
         when:
         def result = StringUtils.find(src, pattern, 1, 2, 3)
@@ -71,11 +71,11 @@ class StringUtilsSpec extends Specification {
         result.get(3) == third
 
         where:
-        src                                                          | first | second                   | third
-        "CO_Felix Nelly(Loplop) - CTK [COMPLETE]"                    | "CO"  | "Felix Nelly(Loplop)"    | "CTK"
-        "L_What Does the Fox Say? - Team_Gaji"                       | "L"   | "What Does the Fox Say?" | "Team_Gaji"
-        "ST_Chief - Final - Jung Kiyoung, Baek Seunghoon [COMPLETE]" | "ST"  | "Chief - Final"          | "Jung Kiyoung, Baek Seunghoon"
-        "L_Barber Shop Quartet - JIM, Nexcube, Bolero [COMPLETE]"    | "L"   | "Barber Shop Quartet"    | "JIM, Nexcube, Bolero"
+        src                                                          || first | second                   | third
+        "CO_Felix Nelly(Loplop) - CTK [COMPLETE]"                    || "CO"  | "Felix Nelly(Loplop)"    | "CTK"
+        "L_What Does the Fox Say? - Team_Gaji"                       || "L"   | "What Does the Fox Say?" | "Team_Gaji"
+        "ST_Chief - Final - Jung Kiyoung, Baek Seunghoon [COMPLETE]" || "ST"  | "Chief - Final"          | "Jung Kiyoung, Baek Seunghoon"
+        "L_Barber Shop Quartet - JIM, Nexcube, Bolero [COMPLETE]"    || "L"   | "Barber Shop Quartet"    | "JIM, Nexcube, Bolero"
     }
 
     def "How many times the keyword is in the text?"() {
@@ -91,7 +91,7 @@ class StringUtilsSpec extends Specification {
 
     def "Reverses each character's position"() {
         when:
-        def reversed = StringUtils.reverse(text as String)
+        def reversed = StringUtils.reverse text as String
 
         then:
         char[] chars = text.toCharArray()
@@ -140,14 +140,14 @@ class StringUtilsSpec extends Specification {
         actual == expected
 
         where:
-        origin          | len                 | appendix | expected
-        "12"            | 3                   | "0"      | "012"
-        "9781911223139" | origin.length()     | "-"      | origin
-        "111"           | origin.length() + 1 | "10-"    | "10-111"
-        "111"           | origin.length() + 2 | "10-"    | "10-10-111"
-        "111"           | origin.length() + 3 | "10-"    | "10-10-10-111"
-        "20210101"      | 0                   | ""       | origin
-        "19991231"      | -1                  | null     | origin
+        origin          | len                 | appendix || expected
+        "12"            | 3                   | "0"      || "012"
+        "9781911223139" | origin.length()     | "-"      || origin
+        "111"           | origin.length() + 1 | "10-"    || "10-111"
+        "111"           | origin.length() + 2 | "10-"    || "10-10-111"
+        "111"           | origin.length() + 3 | "10-"    || "10-10-10-111"
+        "20210101"      | 0                   | ""       || origin
+        "19991231"      | -1                  | null     || origin
     }
 
     def "Add padding after the string"() {
@@ -158,14 +158,14 @@ class StringUtilsSpec extends Specification {
         actual == expected
 
         where:
-        origin          | len                 | appendix | expected
-        "0304"          | 8                   | "0"      | "03040000"
-        "9781911223139" | origin.length()     | "-"      | origin
-        "111"           | origin.length() + 1 | "-10"    | "111-10"
-        "111"           | origin.length() + 2 | "-10"    | "111-10-10"
-        "111"           | origin.length() + 3 | "-10"    | "111-10-10-10"
-        "20210101"      | 0                   | ""       | origin
-        "19991231"      | -1                  | null     | origin
+        origin          | len                 | appendix || expected
+        "0304"          | 8                   | "0"      || "03040000"
+        "9781911223139" | origin.length()     | "-"      || origin
+        "111"           | origin.length() + 1 | "-10"    || "111-10"
+        "111"           | origin.length() + 2 | "-10"    || "111-10-10"
+        "111"           | origin.length() + 3 | "-10"    || "111-10-10-10"
+        "20210101"      | 0                   | ""       || origin
+        "19991231"      | -1                  | null     || origin
     }
 
 }

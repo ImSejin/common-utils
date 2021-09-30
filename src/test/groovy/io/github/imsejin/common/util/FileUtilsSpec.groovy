@@ -61,16 +61,14 @@ class FileUtilsSpec extends Specification {
         when:
         Files.delete dir
 
-        then:
-        // Cannot delete not empty directory, as well as all its files and directories.
+        then: "Cannot delete not empty directory, as well as all its files and directories."
         thrown DirectoryNotEmptyException
         Files.walk(dir).map(Path::toFile).allMatch(File::exists)
 
         when:
         FileUtils.deleteRecursively dir
 
-        then:
-        // Directory is deleted even if not empty.
+        then: "Directory is deleted even if not empty."
         Files.notExists dir
 
         where:

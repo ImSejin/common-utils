@@ -66,10 +66,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        collection             | defaultValue | expected
-        null                   | []           | []
-        new PriorityQueue<?>() | null         | null
-        [[1, 2], ["b", "a"]]   | []           | [[1, 2], ["b", "a"]]
+        collection             | defaultValue || expected
+        null                   | []           || []
+        new PriorityQueue<?>() | null         || null
+        [[1, 2], ["b", "a"]]   | []           || [[1, 2], ["b", "a"]]
     }
 
     def "If collection is null or empty, supplier returns the other collection"() {
@@ -80,10 +80,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        collection             | supplier | expected
-        null                   | { [] }   | []
-        new PriorityQueue<?>() | { null } | null
-        [[1, 2], ["b", "a"]]   | { [] }   | [[1, 2], ["b", "a"]]
+        collection             | supplier || expected
+        null                   | { [] }   || []
+        new PriorityQueue<?>() | { null } || null
+        [[1, 2], ["b", "a"]]   | { [] }   || [[1, 2], ["b", "a"]]
     }
 
     def "If list is null or empty, returns the other list"() {
@@ -94,10 +94,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        list              | defaultValue | expected
-        null              | []           | []
-        []                | [1, 2]       | [1, 2]
-        ["alpha", "beta"] | []           | ["alpha", "beta"]
+        list              | defaultValue || expected
+        null              | []           || []
+        []                | [1, 2]       || [1, 2]
+        ["alpha", "beta"] | []           || ["alpha", "beta"]
     }
 
     def "If list is null or empty, supplier returns the other list"() {
@@ -108,10 +108,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        list              | supplier   | expected
-        null              | { [] }     | []
-        []                | { [1, 2] } | [1, 2]
-        ["alpha", "beta"] | { [] }     | ["alpha", "beta"]
+        list              | supplier   || expected
+        null              | { [] }     || []
+        []                | { [1, 2] } || [1, 2]
+        ["alpha", "beta"] | { [] }     || ["alpha", "beta"]
     }
 
     def "If set is null or empty, returns the other set"() {
@@ -122,10 +122,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        set                   | defaultValue          | expected
-        null                  | Collections.EMPTY_SET | Collections.EMPTY_SET
-        Collections.EMPTY_SET | [2, 1, 3].toSet()     | [1, 2, 3].toSet()
-        [-854].toSet()        | Collections.EMPTY_SET | [-854].toSet()
+        set                   | defaultValue          || expected
+        null                  | Collections.EMPTY_SET || Collections.EMPTY_SET
+        Collections.EMPTY_SET | [2, 1, 3].toSet()     || [1, 2, 3].toSet()
+        [-854].toSet()        | Collections.EMPTY_SET || [-854].toSet()
     }
 
     def "If set is null or empty, supplier returns the other set"() {
@@ -136,10 +136,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        set                   | supplier                  | expected
-        null                  | { Collections.EMPTY_SET } | Collections.EMPTY_SET
-        Collections.EMPTY_SET | { [2, 1, 3].toSet() }     | [1, 2, 3].toSet()
-        [-854].toSet()        | { Collections.EMPTY_SET } | [-854].toSet()
+        set                   | supplier                  || expected
+        null                  | { Collections.EMPTY_SET } || Collections.EMPTY_SET
+        Collections.EMPTY_SET | { [2, 1, 3].toSet() }     || [1, 2, 3].toSet()
+        [-854].toSet()        | { Collections.EMPTY_SET } || [-854].toSet()
     }
 
     def "If map is null or empty, returns the other map"() {
@@ -150,10 +150,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        map                     | defaultValue | expected
-        null                    | [:]          | [:]
-        [:]                     | [0: 1, 1: 2] | [0: 1, 1: 2]
-        [alpha: 123, beta: 456] | [:]          | [alpha: 123, beta: 456]
+        map                     | defaultValue || expected
+        null                    | [:]          || [:]
+        [:]                     | [0: 1, 1: 2] || [0: 1, 1: 2]
+        [alpha: 123, beta: 456] | [:]          || [alpha: 123, beta: 456]
     }
 
     def "If map is null or empty, supplier returns the other map"() {
@@ -164,10 +164,10 @@ class CollectionUtilsSpec extends Specification {
         actual == expected
 
         where:
-        map                     | supplier         | expected
-        null                    | { [:] }          | [:]
-        [:]                     | { [0: 1, 1: 2] } | [0: 1, 1: 2]
-        [alpha: 123, beta: 456] | { [:] }          | [alpha: 123, beta: 456]
+        map                     | supplier         || expected
+        null                    | { [:] }          || [:]
+        [:]                     | { [0: 1, 1: 2] } || [0: 1, 1: 2]
+        [alpha: 123, beta: 456] | { [:] }          || [alpha: 123, beta: 456]
     }
 
     def "Checks collection exists"() {
