@@ -162,6 +162,8 @@ public final class StringUtils {
      * 공백 문자열이 하나라도 있는지 확인한다.
      *
      * <pre><code>
+     *     anyNullOrBlank(null);              // true
+     *     anyNullOrBlank([]);                // true
      *     anyNullOrBlank([null, " "]);       // true
      *     anyNullOrBlank([null, "ABC"]);     // true
      *     anyNullOrBlank(["ABC", ""]);       // true
@@ -181,6 +183,8 @@ public final class StringUtils {
      * 모두 공백 문자열인지 확인한다.
      *
      * <pre><code>
+     *     allNullOrBlank(null);              // true
+     *     allNullOrBlank([]);                // true
      *     allNullOrBlank([null, " "]);       // true
      *     allNullOrBlank([null, "ABC"]);     // false
      *     allNullOrBlank(["ABC", ""]);       // false
