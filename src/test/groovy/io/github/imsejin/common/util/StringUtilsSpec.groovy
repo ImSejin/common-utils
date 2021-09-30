@@ -19,6 +19,7 @@ package io.github.imsejin.common.util
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.util.function.Supplier
 import java.util.regex.Pattern
 
 import static java.util.stream.Collectors.toList
@@ -37,6 +38,93 @@ class StringUtilsSpec extends Specification {
             Nunc posuere libero non erat varius dapibus. Nulla facilisi. Ut semper sollicitudin mi id finibus. Maecenas vel scelerisque neque. Etiam condimentum hendrerit lectus ac posuere. In suscipit, quam eu vehicula facilisis, elit metus efficitur risus, eu faucibus orci felis vitae quam. Etiam id ante a risus porttitor dignissim. Fusce a tellus et ante rhoncus tempus eu eget mauris. Duis fringilla mollis eros id aliquam. Vivamus placerat tincidunt nulla, vitae blandit ante mollis id. Etiam imperdiet blandit mi eu ornare. Morbi hendrerit efficitur suscipit. Duis eleifend leo nibh, sed mattis arcu viverra a. Duis eget libero lorem.
             Nulla consequat sapien fringilla ultrices volutpat. Suspendisse eget ultrices metus. Pellentesque a volutpat sapien. Vivamus commodo congue fermentum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent sed purus mattis, faucibus dui ut, fringilla libero. Cras suscipit ante et est gravida bibendum. Fusce sed mattis libero. Fusce dapibus id nunc vel ultricies. Donec viverra volutpat pretium. Suspendisse enim augue, viverra non tortor et, maximus consectetur neque. Duis eget arcu in nulla aliquet fermentum. Nulla elementum, felis suscipit ultrices laoreet, nisl ipsum lobortis dui, mollis mollis tellus erat vitae tellus. Curabitur nec nibh a ipsum egestas pretium vel vel odio. Aenean ex urna, vehicula vel arcu eu, fringilla venenatis diam. Aenean vel diam et tortor malesuada viverra.
             """
+
+    def "Checks if string is null or empty"() {
+        expect:
+        StringUtils.isNullOrEmpty(string) == expected
+
+        where:
+        string | expected
+        null   | true
+        ''     | true
+        ""     | true
+        """""" | true
+        " "    | false
+        "null" | false
+    }
+
+    def "If string is null or empty, returns the other string"() {
+        expect:
+        StringUtils.ifNullOrEmpty(string, defaultValue as String) == expected
+
+        where:
+        string | defaultValue || expected
+        null   | "default"    || "default"
+        ''     | ""           || ""
+        ""     | null         || null
+        """""" | " "          || " "
+        " "    | null         || " "
+        "null" | ""           || "null"
+    }
+
+    def "If string is null or empty, supplier returns the other string"() {
+        expect:
+        StringUtils.ifNullOrEmpty(string, supplier as Supplier) == expected
+
+        where:
+        string | supplier      || expected
+        null   | { "default" } || "default"
+        ''     | { "" }        || ""
+        ""     | { null }      || null
+        """""" | { " " }       || " "
+        " "    | { null }      || " "
+        "null" | { "" }        || "null"
+    }
+
+    def "Checks if string is null or blank"() {
+        expect:
+        StringUtils.isNullOrBlank(string) == expected
+
+        where:
+        string | expected
+        null   | true
+        ''     | true
+        ""     | true
+        """""" | true
+        " "    | true
+        " A"   | false
+        "A "   | false
+        " A "  | false
+        "null" | false
+    }
+
+    def "If string is null or blank, returns the other string"() {
+        expect:
+        StringUtils.ifNullOrBlank(string, defaultValue as String) == expected
+
+        where:
+        string | defaultValue || expected
+        null   | "default"    || "default"
+        ''     | ""           || ""
+        ""     | null         || null
+        """""" | " "          || " "
+        " "    | null         || null
+        "null" | ""           || "null"
+    }
+
+    def "If string is null or blank, supplier returns the other string"() {
+        expect:
+        StringUtils.ifNullOrBlank(string, supplier as Supplier) == expected
+
+        where:
+        string | supplier      || expected
+        null   | { "default" } || "default"
+        ''     | { "" }        || ""
+        ""     | { null }      || null
+        """""" | { " " }       || " "
+        " "    | { null }      || null
+        "null" | { "" }        || "null"
+    }
 
     @Unroll("StringUtils.formatComma(#num) == '#expected'")
     def "Put a comma on every three digits"() {
@@ -133,39 +221,35 @@ class StringUtilsSpec extends Specification {
     }
 
     def "Add padding before the string"() {
-        when:
-        def actual = StringUtils.padStart(len, origin, appendix)
-
-        then:
-        actual == expected
+        expect:
+        StringUtils.padStart(len, origin) == expected0
+        StringUtils.padStart(len, origin, appendix) == expected1
 
         where:
-        origin          | len                 | appendix || expected
-        "12"            | 3                   | "0"      || "012"
-        "9781911223139" | origin.length()     | "-"      || origin
-        "111"           | origin.length() + 1 | "10-"    || "10-111"
-        "111"           | origin.length() + 2 | "10-"    || "10-10-111"
-        "111"           | origin.length() + 3 | "10-"    || "10-10-10-111"
-        "20210101"      | 0                   | ""       || origin
-        "19991231"      | -1                  | null     || origin
+        origin          | len                 | appendix || expected0 | expected1
+        "12"            | 3                   | "0"      || " 12"     | "012"
+        "9781911223139" | origin.length()     | "-"      || origin    | origin
+        "111"           | origin.length() + 1 | "10-"    || " 111"    | "10-111"
+        "111"           | origin.length() + 2 | "10-"    || "  111"   | "10-10-111"
+        "111"           | origin.length() + 3 | "10-"    || "   111"  | "10-10-10-111"
+        "20210101"      | 0                   | ""       || origin    | origin
+        "19991231"      | -1                  | null     || origin    | origin
     }
 
     def "Add padding after the string"() {
-        when:
-        def actual = StringUtils.padEnd(len, origin, appendix)
-
-        then:
-        actual == expected
+        expect:
+        StringUtils.padEnd(len, origin) == expected0
+        StringUtils.padEnd(len, origin, appendix) == expected1
 
         where:
-        origin          | len                 | appendix || expected
-        "0304"          | 8                   | "0"      || "03040000"
-        "9781911223139" | origin.length()     | "-"      || origin
-        "111"           | origin.length() + 1 | "-10"    || "111-10"
-        "111"           | origin.length() + 2 | "-10"    || "111-10-10"
-        "111"           | origin.length() + 3 | "-10"    || "111-10-10-10"
-        "20210101"      | 0                   | ""       || origin
-        "19991231"      | -1                  | null     || origin
+        origin          | len                 | appendix || expected0  | expected1
+        "0304"          | 8                   | "0"      || "0304    " | "03040000"
+        "9781911223139" | origin.length()     | "-"      || origin     | origin
+        "111"           | origin.length() + 1 | "-10"    || "111 "     | "111-10"
+        "111"           | origin.length() + 2 | "-10"    || "111  "    | "111-10-10"
+        "111"           | origin.length() + 3 | "-10"    || "111   "   | "111-10-10-10"
+        "20210101"      | 0                   | ""       || origin     | origin
+        "19991231"      | -1                  | null     || origin     | origin
     }
 
 }
