@@ -176,7 +176,12 @@ public final class StringUtils {
      */
     public static boolean anyNullOrBlank(Collection<String> strings) {
         if (CollectionUtils.isNullOrEmpty(strings)) return true;
-        return strings.stream().anyMatch(StringUtils::isNullOrBlank);
+
+        for (String string : strings) {
+            if (StringUtils.isNullOrBlank(string)) return true;
+        }
+
+        return false;
     }
 
     /**
@@ -197,7 +202,12 @@ public final class StringUtils {
      */
     public static boolean allNullOrBlank(Collection<String> strings) {
         if (CollectionUtils.isNullOrEmpty(strings)) return true;
-        return strings.stream().allMatch(StringUtils::isNullOrBlank);
+
+        for (String string : strings) {
+            if (StringUtils.isNullOrBlank(string)) return false;
+        }
+
+        return true;
     }
 
     /**
@@ -218,7 +228,12 @@ public final class StringUtils {
      */
     public static boolean anyEquals(String criterion, Collection<String> strings) {
         if (criterion == null || CollectionUtils.isNullOrEmpty(strings)) return false;
-        return strings.stream().anyMatch(criterion::equals);
+
+        for (String string : strings) {
+            if (criterion.equals(string)) return true;
+        }
+
+        return false;
     }
 
     /**
