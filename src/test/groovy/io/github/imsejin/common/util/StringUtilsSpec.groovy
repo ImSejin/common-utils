@@ -125,6 +125,25 @@ class StringUtilsSpec extends Specification {
         "null" | { "" }        || "null"
     }
 
+    def "Checks if string is numeric"() {
+        expect:
+        StringUtils.isNumeric(string) == expected
+
+        where:
+        string    | expected
+        "0123"    | true
+        " 0123"   | false
+        "0123 "   | false
+        " 0123 "  | false
+        "-8"      | false
+        "--1"     | false
+        "+57"     | false
+        "123,456" | false
+        "alpha"   | false
+        " "       | false
+        ""        | false
+        null      | false
+    }
 
     def "Adds padding before the string"() {
         expect:
@@ -159,17 +178,19 @@ class StringUtilsSpec extends Specification {
     }
 
     @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
-    def "Find with groups"() {
+    def "Finds with groups"() {
         given:
-        def pattern = Pattern.compile '^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$'
+        def pattern = '^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$'
 
         when:
-        def result = StringUtils.find(src, pattern, 1, 2, 3)
+        def result = StringUtils.find(src, pattern, 0)
+        def resultMap = StringUtils.find(src, pattern, 0, 1, 2, 3)
 
         then:
-        result.get(1) == first
-        result.get(2) == second
-        result.get(3) == third
+        result == src
+        resultMap.get(1) == first
+        resultMap.get(2) == second
+        resultMap.get(3) == third
 
         where:
         src                                                          || first | second                   | third
