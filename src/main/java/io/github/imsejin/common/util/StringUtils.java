@@ -522,6 +522,23 @@ public final class StringUtils {
      * Finds the captured string with regular expression.
      *
      * <pre>{@code
+     *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // div
+     * }</pre>
+     *
+     * @param src   source string
+     * @param regex regular expression
+     * @param group group number you want to get value of
+     * @return captured string
+     */
+    @Nullable
+    public static String find(@Nonnull String src, @Nonnull String regex, int group) {
+        return find(src, Pattern.compile(regex), group);
+    }
+
+    /**
+     * Finds the captured string with regular expression.
+     *
+     * <pre>{@code
      *    Pattern pattern = Pattern.compile("<.+>(.*)<\/(.+)>");
      *    find("<div>A</div>", pattern, 1); // div
      * }</pre>
@@ -544,27 +561,20 @@ public final class StringUtils {
     }
 
     /**
-     * Finds the captured string with regular expression.
+     * Finds the captured strings with regular expression.
      *
      * <pre>{@code
-     *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // div
+     *     find("<div>A</div>", "<.+>(.*)<\/(.+)>", Pattern.MULTILINE, 1, 2); // {1: "A", 2: "div"}
      * }</pre>
      *
-     * @param src   source string
-     * @param regex regular expression
-     * @param group group number you want to get value of
-     * @return captured string
+     * @param src    source string
+     * @param regex  regular expression
+     * @param flags  regular flags
+     * @param groups group numbers you want to get value of
+     * @return map whose key is group number and whose value is a captured string.
      */
-    @Nullable
-    public static String find(@Nonnull String src, @Nonnull String regex, int group) {
-        Matcher matcher = Pattern.compile(regex).matcher(src);
-
-        String result = null;
-        while (matcher.find()) {
-            result = matcher.group(group);
-        }
-
-        return result;
+    public static Map<Integer, String> find(@Nonnull String src, @Nonnull String regex, int flags, int... groups) {
+        return find(src, Pattern.compile(regex, flags), groups);
     }
 
     /**
@@ -582,32 +592,6 @@ public final class StringUtils {
      */
     public static Map<Integer, String> find(@Nonnull String src, @Nonnull Pattern pattern, int... groups) {
         Matcher matcher = pattern.matcher(src);
-
-        Map<Integer, String> result = new HashMap<>();
-        while (matcher.find()) {
-            for (int group : groups) {
-                result.put(group, matcher.group(group));
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Finds the captured strings with regular expression.
-     *
-     * <pre>{@code
-     *     find("<div>A</div>", "<.+>(.*)<\/(.+)>", Pattern.MULTILINE, 1, 2); // {1: "A", 2: "div"}
-     * }</pre>
-     *
-     * @param src    source string
-     * @param regex  regular expression
-     * @param flags  regular flags
-     * @param groups group numbers you want to get value of
-     * @return map whose key is group number and whose value is a captured string.
-     */
-    public static Map<Integer, String> find(@Nonnull String src, @Nonnull String regex, int flags, int... groups) {
-        Matcher matcher = Pattern.compile(regex, flags).matcher(src);
 
         Map<Integer, String> result = new HashMap<>();
         while (matcher.find()) {
