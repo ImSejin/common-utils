@@ -20,7 +20,6 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.util.function.Supplier
-import java.util.regex.Pattern
 
 import static java.util.stream.Collectors.toList
 
@@ -126,23 +125,37 @@ class StringUtilsSpec extends Specification {
         "null" | { "" }        || "null"
     }
 
-    @Unroll("StringUtils.formatComma(#num) == '#expected'")
-    def "Put a comma on every three digits"() {
-        when:
-        def actual = StringUtils.formatComma num
 
-        then:
-        actual == expected
+    def "Adds padding before the string"() {
+        expect:
+        StringUtils.padStart(len, origin) == expected0
+        StringUtils.padStart(len, origin, appendix) == expected1
 
         where:
-        num           | expected
-        "-1034784621" | "-1,034,784,621"
-        -48450        | "-48,450"
-        "512"         | "512"
-        0             | "0"
-        "1024"        | "1,024"
-        89751         | "89,751"
-        "1034784621"  | "1,034,784,621"
+        origin          | len                 | appendix || expected0 | expected1
+        "12"            | 3                   | "0"      || " 12"     | "012"
+        "9781911223139" | origin.length()     | "-"      || origin    | origin
+        "111"           | origin.length() + 1 | "10-"    || " 111"    | "10-111"
+        "111"           | origin.length() + 2 | "10-"    || "  111"   | "10-10-111"
+        "111"           | origin.length() + 3 | "10-"    || "   111"  | "10-10-10-111"
+        "20210101"      | 0                   | ""       || origin    | origin
+        "19991231"      | -1                  | null     || origin    | origin
+    }
+
+    def "Adds padding after the string"() {
+        expect:
+        StringUtils.padEnd(len, origin) == expected0
+        StringUtils.padEnd(len, origin, appendix) == expected1
+
+        where:
+        origin          | len                 | appendix || expected0  | expected1
+        "0304"          | 8                   | "0"      || "0304    " | "03040000"
+        "9781911223139" | origin.length()     | "-"      || origin     | origin
+        "111"           | origin.length() + 1 | "-10"    || "111 "     | "111-10"
+        "111"           | origin.length() + 2 | "-10"    || "111  "    | "111-10-10"
+        "111"           | origin.length() + 3 | "-10"    || "111   "   | "111-10-10-10"
+        "20210101"      | 0                   | ""       || origin     | origin
+        "19991231"      | -1                  | null     || origin     | origin
     }
 
     @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
@@ -195,8 +208,27 @@ class StringUtilsSpec extends Specification {
                 .map(String::trim).filter(it -> it.length() > 0).collect(toList())
     }
 
+    @Unroll("StringUtils.formatComma(#num) == '#expected'")
+    def "Puts a comma on every three digits"() {
+        when:
+        def actual = StringUtils.formatComma num
+
+        then:
+        actual == expected
+
+        where:
+        num           | expected
+        "-1034784621" | "-1,034,784,621"
+        -48450        | "-48,450"
+        "512"         | "512"
+        0             | "0"
+        "1024"        | "1,024"
+        89751         | "89,751"
+        "1034784621"  | "1,034,784,621"
+    }
+
     @Unroll("StringUtils.chop('#input') == '#expected'")
-    def "Remove the last character in the string"() {
+    def "Removes the last character in the string"() {
         when:
         def chopped = StringUtils.chop input
 
@@ -218,38 +250,6 @@ class StringUtilsSpec extends Specification {
         "and"         | "an"
         "typesetting" | "typesettin"
         "industry"    | "industr"
-    }
-
-    def "Add padding before the string"() {
-        expect:
-        StringUtils.padStart(len, origin) == expected0
-        StringUtils.padStart(len, origin, appendix) == expected1
-
-        where:
-        origin          | len                 | appendix || expected0 | expected1
-        "12"            | 3                   | "0"      || " 12"     | "012"
-        "9781911223139" | origin.length()     | "-"      || origin    | origin
-        "111"           | origin.length() + 1 | "10-"    || " 111"    | "10-111"
-        "111"           | origin.length() + 2 | "10-"    || "  111"   | "10-10-111"
-        "111"           | origin.length() + 3 | "10-"    || "   111"  | "10-10-10-111"
-        "20210101"      | 0                   | ""       || origin    | origin
-        "19991231"      | -1                  | null     || origin    | origin
-    }
-
-    def "Add padding after the string"() {
-        expect:
-        StringUtils.padEnd(len, origin) == expected0
-        StringUtils.padEnd(len, origin, appendix) == expected1
-
-        where:
-        origin          | len                 | appendix || expected0  | expected1
-        "0304"          | 8                   | "0"      || "0304    " | "03040000"
-        "9781911223139" | origin.length()     | "-"      || origin     | origin
-        "111"           | origin.length() + 1 | "-10"    || "111 "     | "111-10"
-        "111"           | origin.length() + 2 | "-10"    || "111  "    | "111-10-10"
-        "111"           | origin.length() + 3 | "-10"    || "111   "   | "111-10-10-10"
-        "20210101"      | 0                   | ""       || origin     | origin
-        "19991231"      | -1                  | null     || origin     | origin
     }
 
 }
