@@ -125,6 +125,38 @@ class StringUtilsSpec extends Specification {
         "null" | { "" }        || "null"
     }
 
+    def "Checks if criterial string is equal to other strings"() {
+        expect:
+        StringUtils.anyEquals(criterion, strings) == expected
+
+        where:
+        criterion | strings            || expected
+        null      | [null]             || true
+        ""        | [null, ""]         || true
+        " c"      | ["a", "B", " c"]   || true
+        null      | null               || false
+        null      | []                 || false
+        null      | ["null"]           || false
+        ""        | []                 || false
+        "AB"      | ['ab', "aB", "Ab"] || false
+    }
+
+    def "Checks if criterial string contains other strings"() {
+        expect:
+        StringUtils.anyContains(criterion, strings) == expected
+
+        where:
+        criterion | strings            || expected
+        ""        | [null, ""]         || true
+        " c"      | ["a", "B", "c"]    || true
+        "Abs"     | ['ab', "aB", "Ab"] || true
+        null      | null               || false
+        null      | []                 || false
+        null      | [null]             || false
+        null      | ["null"]           || false
+        ""        | []                 || false
+    }
+
     def "Checks if string is numeric"() {
         expect:
         StringUtils.isNumeric(string) == expected
@@ -177,29 +209,6 @@ class StringUtilsSpec extends Specification {
         "19991231"      | -1                  | null     || origin     | origin
     }
 
-    @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
-    def "Finds with groups"() {
-        given:
-        def pattern = '^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$'
-
-        when:
-        def result = StringUtils.find(src, pattern, 0)
-        def resultMap = StringUtils.find(src, pattern, 0, 1, 2, 3)
-
-        then:
-        result == src
-        resultMap.get(1) == first
-        resultMap.get(2) == second
-        resultMap.get(3) == third
-
-        where:
-        src                                                          || first | second                   | third
-        "CO_Felix Nelly(Loplop) - CTK [COMPLETE]"                    || "CO"  | "Felix Nelly(Loplop)"    | "CTK"
-        "L_What Does the Fox Say? - Team_Gaji"                       || "L"   | "What Does the Fox Say?" | "Team_Gaji"
-        "ST_Chief - Final - Jung Kiyoung, Baek Seunghoon [COMPLETE]" || "ST"  | "Chief - Final"          | "Jung Kiyoung, Baek Seunghoon"
-        "L_Barber Shop Quartet - JIM, Nexcube, Bolero [COMPLETE]"    || "L"   | "Barber Shop Quartet"    | "JIM, Nexcube, Bolero"
-    }
-
     def "How many times the keyword is in the text?"() {
         given:
         def keyword = " "
@@ -229,6 +238,22 @@ class StringUtilsSpec extends Specification {
                 .map(String::trim).filter(it -> it.length() > 0).collect(toList())
     }
 
+    def "Replaces the last string with other string"() {
+        when:
+        def actual = StringUtils.replaceLast(text, regex, replacement)
+
+        then:
+        actual == expected
+
+        where:
+        text               | regex  | replacement || expected
+        "1?2?3?4?5?"       | "\\?"  | " "         || "1?2?3?4?5 "
+        "ABC%DEF%GHI"      | "%"    | "-"         || "ABC%DEF-GHI"
+        "alpha.beta.gamma" | "a\\." | "/"         || "alpha.bet/gamma"
+        "-|=|-|=|-|=|-"    | "\\|*" | "\\\\|/"    || text + "\\|/"
+        "-|=|-|=|-|=|-"    | "\\|+" | "\\\\|/"    || "-|=|-|=|-|=\\|/-"
+    }
+
     @Unroll("StringUtils.formatComma(#num) == '#expected'")
     def "Puts a comma on every three digits"() {
         when:
@@ -248,8 +273,31 @@ class StringUtilsSpec extends Specification {
         "1034784621"  | "1,034,784,621"
     }
 
+    @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
+    def "Finds with groups"() {
+        given:
+        def pattern = '^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$'
+
+        when:
+        def result = StringUtils.find(src, pattern, 0)
+        def resultMap = StringUtils.find(src, pattern, 0, 1, 2, 3)
+
+        then:
+        result == src
+        resultMap.get(1) == first
+        resultMap.get(2) == second
+        resultMap.get(3) == third
+
+        where:
+        src                                                          || first | second                   | third
+        "CO_Felix Nelly(Loplop) - CTK [COMPLETE]"                    || "CO"  | "Felix Nelly(Loplop)"    | "CTK"
+        "L_What Does the Fox Say? - Team_Gaji"                       || "L"   | "What Does the Fox Say?" | "Team_Gaji"
+        "ST_Chief - Final - Jung Kiyoung, Baek Seunghoon [COMPLETE]" || "ST"  | "Chief - Final"          | "Jung Kiyoung, Baek Seunghoon"
+        "L_Barber Shop Quartet - JIM, Nexcube, Bolero [COMPLETE]"    || "L"   | "Barber Shop Quartet"    | "JIM, Nexcube, Bolero"
+    }
+
     @Unroll("StringUtils.chop('#input') == '#expected'")
-    def "Removes the last character in the string"() {
+    def "Removes the last character from the string"() {
         when:
         def chopped = StringUtils.chop input
 
@@ -271,6 +319,18 @@ class StringUtilsSpec extends Specification {
         "and"         | "an"
         "typesetting" | "typesettin"
         "industry"    | "industr"
+    }
+
+    def "Gets the last character from string"() {
+        expect:
+        StringUtils.getLastString(string) == expected
+
+        where:
+        string   | expected
+        ""       | ""
+        "a "     | " "
+        "null"   | "l"
+        "alpha." | "."
     }
 
 }
