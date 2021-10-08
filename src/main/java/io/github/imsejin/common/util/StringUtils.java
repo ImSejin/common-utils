@@ -45,9 +45,9 @@ public final class StringUtils {
      * Checks whether the string is null or empty.
      *
      * <pre><code>
-     *     isNullOrEmpty(null);     // true
-     *     isNullOrEmpty("");       // true
-     *     isNullOrEmpty("abc");    // false
+     *     isNullOrEmpty(null);  // true
+     *     isNullOrEmpty("");    // true
+     *     isNullOrEmpty("abc"); // false
      * </code></pre>
      *
      * @param str string
@@ -63,9 +63,9 @@ public final class StringUtils {
      * If not, this returns original string.
      *
      * <pre><code>
-     *     ifNullOrEmpty(null, "(empty)");      // (empty)
-     *     ifNullOrEmpty("", "(empty)");        // (empty)
-     *     ifNullOrEmpty(" ", "(empty)");       // \u0020
+     *     ifNullOrEmpty(null, "(empty)"); // "(empty)"
+     *     ifNullOrEmpty("", "(empty)");   // "(empty)"
+     *     ifNullOrEmpty(" ", "(empty)");  // "\u0020"
      * </code></pre>
      *
      * @param str          original string
@@ -82,9 +82,9 @@ public final class StringUtils {
      * If not, this returns original string.
      *
      * <pre>{@code
-     *     ifNullOrEmpty(null, () -> "(empty)");    // (empty)
-     *     ifNullOrEmpty("", () -> "(empty)");      // (empty)
-     *     ifNullOrEmpty(" ", () -> "(empty)");     // \u0020
+     *     ifNullOrEmpty(null, () -> "(empty)"); // "(empty)"
+     *     ifNullOrEmpty("", () -> "(empty)");   // "(empty)"
+     *     ifNullOrEmpty(" ", () -> "(empty)");  // "\u0020"
      * }</pre>
      *
      * @param str      original string
@@ -99,10 +99,10 @@ public final class StringUtils {
      * Checks whether the string is null or blank.
      *
      * <pre><code>
-     *     isNullOrBlank(null);     // true
-     *     isNullOrBlank("");       // true
-     *     isNullOrBlank(" ");      // true
-     *     isNullOrBlank(" ABC");   // false
+     *     isNullOrBlank(null);   // true
+     *     isNullOrBlank("");     // true
+     *     isNullOrBlank(" ");    // true
+     *     isNullOrBlank(" ABC"); // false
      * </code></pre>
      *
      * @param str string
@@ -124,10 +124,10 @@ public final class StringUtils {
      * If not, this returns original string.
      *
      * <pre><code>
-     *     ifNullOrBlank(null, "(empty)");      // (empty)
-     *     ifNullOrBlank("", "(empty)");        // (empty)
-     *     ifNullOrBlank(" ", "(empty)");       // (empty)
-     *     ifNullOrBlank(" ABC", "(empty)");    //  ABC
+     *     ifNullOrBlank(null, "(empty)");   // "(empty)"
+     *     ifNullOrBlank("", "(empty)");     // "(empty)"
+     *     ifNullOrBlank(" ", "(empty)");    // "(empty)"
+     *     ifNullOrBlank(" ABC", "(empty)"); // " ABC"
      * </code></pre>
      *
      * @param str          original string
@@ -144,10 +144,10 @@ public final class StringUtils {
      * If not, this returns original string.
      *
      * <pre>{@code
-     *     ifNullOrBlank(null, () -> "(empty)");    // (empty)
-     *     ifNullOrBlank("", () -> "(empty)");      // (empty)
-     *     ifNullOrBlank(" ", () -> "(empty)");     // (empty)
-     *     ifNullOrBlank(" ABC", () -> "(empty)");  //  ABC
+     *     ifNullOrBlank(null, () -> "(empty)");   // "(empty)"
+     *     ifNullOrBlank("", () -> "(empty)");     // "(empty)"
+     *     ifNullOrBlank(" ", () -> "(empty)");    // "(empty)"
+     *     ifNullOrBlank(" ABC", () -> "(empty)"); // " ABC"
      * }</pre>
      *
      * @param str      original string
@@ -159,26 +159,31 @@ public final class StringUtils {
     }
 
     /**
-     * `기준 문자열`과 일치하는 문자열이 하나라도 있는지 확인한다.
+     * Checks if criterial string is equal to other strings.
      *
      * <pre><code>
-     *     anyEquals(null, [null]);           // false
-     *     anyEquals("", [null]);             // false
-     *     anyEquals(null, [""]);             // false
-     *     anyEquals("", [null, ""]);         // true
-     *     anyEquals("ABC", ["abc"]);         // false
-     *     anyEquals("ABC", ["abc", "ABC"]);  // true
+     *     anyEquals(null, [null]);          // true
+     *     anyEquals("", [null, ""]);        // true
+     *     anyEquals("ABC", ["abc", "ABC"]); // true
+     *     anyEquals(null, null);            // false
+     *     anyEquals(null, []);              // false
+     *     anyEquals(null, [""]);            // false
+     *     anyEquals("", [null]);            // false
+     *     anyEquals("ABC", ["abc"]);        // false
      * </code></pre>
      *
-     * @param criterion criterion string
-     * @param strings   strings
+     * @param criterion criterial string
+     * @param strings   strings to be compared
      * @return whether any strings are equal to criterion string
      */
-    public static boolean anyEquals(String criterion, Collection<String> strings) {
-        if (criterion == null || CollectionUtils.isNullOrEmpty(strings)) return false;
+    public static boolean anyEquals(@Nullable String criterion, @Nullable Collection<String> strings) {
+        if (CollectionUtils.isNullOrEmpty(strings)) return false;
 
         for (String string : strings) {
-            if (criterion.equals(string)) return true;
+            if (Objects.deepEquals(criterion, string)) return true;
+        }
+
+        return false;
     }
 
     /**
@@ -213,12 +218,13 @@ public final class StringUtils {
      * Checks whether the string is numeric.
      *
      * <pre><code>
-     *     isNumeric(null);     // false
-     *     isNumeric("");       // false
-     *     isNumeric(" ");      // false
-     *     isNumeric(" ABC");   // false
-     *     isNumeric(" 01");    // false
-     *     isNumeric("011");    // true
+     *     isNumeric("011");  // true
+     *     isNumeric(null);   // false
+     *     isNumeric("");     // false
+     *     isNumeric(" ");    // false
+     *     isNumeric(" ABC"); // false
+     *     isNumeric(" 01");  // false
+     *     isNumeric("-86");  // false
      * </code></pre>
      *
      * @param str string
@@ -357,8 +363,8 @@ public final class StringUtils {
      * 가장 마지막에 일치하는 문구를 원하는 문구로 대체한다.
      *
      * <pre><code>
-     *     replaceLast("ABC%DEF%GHI", "%", "-");    // ABC%DEF-GHI
-     *     replaceLast("ABC%DEF%GHI", "%", "\\$");  // ABC%DEF$GHI
+     *     replaceLast("ABC%DEF%GHI", "%", "-");   // "ABC%DEF-GHI"
+     *     replaceLast("ABC%DEF%GHI", "%", "\\$"); // "ABC%DEF$GHI"
      * </code></pre>
      *
      * @param text        text
@@ -374,9 +380,9 @@ public final class StringUtils {
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
      * <pre><code>
-     *     formatComma(-100);   // -100
-     *     formatComma(0);      // 0
-     *     formatComma(100000); // 100,000
+     *     formatComma(-100);   // "-100"
+     *     formatComma(0);      // "0"
+     *     formatComma(100000); // "100,000"
      * </code></pre>
      *
      * @param amount amount number
@@ -390,9 +396,9 @@ public final class StringUtils {
      * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
      *
      * <pre><code>
-     *     formatComma("-100");   // -100
-     *     formatComma("0");      // 0
-     *     formatComma("100000"); // 100,000
+     *     formatComma("-100");   // "-100"
+     *     formatComma("0");      // "0"
+     *     formatComma("100000"); // "100,000"
      * </code></pre>
      *
      * @param amount amount number
@@ -406,9 +412,9 @@ public final class StringUtils {
      * Replicates a string as many times as you want.
      *
      * <pre><code>
-     *     repeat(null, 2);     // nullnull
-     *     repeat("", 5);       // \u0000
-     *     repeat("abc", 3);    // abcabcabc
+     *     repeat(null, 2);  // "nullnull"
+     *     repeat("", 5);    // "\u0000"
+     *     repeat("abc", 3); // "abcabcabc"
      * </code></pre>
      *
      * <table>
@@ -451,8 +457,8 @@ public final class StringUtils {
      * Replicates a character as many times as you want.
      *
      * <pre><code>
-     *     repeat(' ', 3);    // "   "
-     *     repeat('a', 3);    // aaa
+     *     repeat(' ', 3); // "   "
+     *     repeat('a', 3); // "aaa"
      * </code></pre>
      *
      * <table>
@@ -495,7 +501,7 @@ public final class StringUtils {
      * Finds the captured string with regular expression.
      *
      * <pre>{@code
-     *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // div
+     *    find("<div>A</div>", "<.+>.*<\/(.+)>", 1); // "div"
      * }</pre>
      *
      * @param src   source string
@@ -513,7 +519,7 @@ public final class StringUtils {
      *
      * <pre>{@code
      *    Pattern pattern = Pattern.compile("<.+>(.*)<\/(.+)>");
-     *    find("<div>A</div>", pattern, 1); // div
+     *    find("<div>A</div>", pattern, 1); // "div"
      * }</pre>
      *
      * @param src     source string
@@ -577,7 +583,7 @@ public final class StringUtils {
     }
 
     /**
-     * Removes last characters in the string.
+     * Removes the last characters in the string.
      *
      * @param str string
      * @return chopped string
@@ -586,6 +592,12 @@ public final class StringUtils {
         return str.isEmpty() ? str : str.substring(0, str.length() - 1);
     }
 
+    /**
+     * Returns the last character from string
+     *
+     * @param str string
+     * @return the last character
+     */
     public static String getLastString(@Nonnull String str) {
         return str.isEmpty() ? str : String.valueOf(str.charAt(str.length() - 1));
     }
