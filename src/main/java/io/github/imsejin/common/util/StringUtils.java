@@ -179,6 +179,31 @@ public final class StringUtils {
 
         for (String string : strings) {
             if (criterion.equals(string)) return true;
+    }
+
+    /**
+     * Checks if criterial string contains other strings.
+     *
+     * <pre><code>
+     *    anyContains("", [null, ""]);            // true
+     *    anyContains(" c", ["a", "B", "c"]);     // true
+     *    anyContains("Abs", ['ab', "aB", "Ab"]); // true
+     *    anyContains(null, null);                // false
+     *    anyContains(null, []);                  // false
+     *    anyContains(null, [null]);              // false
+     *    anyContains(null, ["null"]);            // false
+     *    anyContains("", []);                    // false
+     * </code></pre>
+     *
+     * @param criterion criterial string
+     * @param strings   strings to be compared
+     * @return whether criterial string contains other strings
+     */
+    public static boolean anyContains(@Nullable String criterion, @Nullable Iterable<String> strings) {
+        if (criterion == null || strings == null || strings.spliterator().estimateSize() == 0) return false;
+
+        for (String string : strings) {
+            if (string != null && criterion.contains(string)) return true;
         }
 
         return false;
@@ -549,17 +574,6 @@ public final class StringUtils {
         }
 
         return result;
-    }
-
-    /**
-     * Checks if criterial string contains other strings.
-     *
-     * @param container    criterial string
-     * @param containments list of strings to compare
-     * @return whether criterial string contains other strings
-     */
-    public static boolean anyContains(@Nonnull String container, @Nonnull Collection<String> containments) {
-        return containments.stream().anyMatch(container::contains);
     }
 
     /**
