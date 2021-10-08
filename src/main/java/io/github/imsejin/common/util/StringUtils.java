@@ -159,58 +159,6 @@ public final class StringUtils {
     }
 
     /**
-     * 공백 문자열이 하나라도 있는지 확인한다.
-     *
-     * <pre><code>
-     *     anyNullOrBlank(null);              // true
-     *     anyNullOrBlank([]);                // true
-     *     anyNullOrBlank([null, " "]);       // true
-     *     anyNullOrBlank([null, "ABC"]);     // true
-     *     anyNullOrBlank(["ABC", ""]);       // true
-     *     anyNullOrBlank([" ", "ABC"]);      // true
-     *     anyNullOrBlank([" ABC", "ABC"]);   // false
-     * </code></pre>
-     *
-     * @param strings strings
-     * @return whether any strings are null or blank
-     */
-    public static boolean anyNullOrBlank(Collection<String> strings) {
-        if (CollectionUtils.isNullOrEmpty(strings)) return true;
-
-        for (String string : strings) {
-            if (StringUtils.isNullOrBlank(string)) return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * 모두 공백 문자열인지 확인한다.
-     *
-     * <pre><code>
-     *     allNullOrBlank(null);              // true
-     *     allNullOrBlank([]);                // true
-     *     allNullOrBlank([null, " "]);       // true
-     *     allNullOrBlank([null, "ABC"]);     // false
-     *     allNullOrBlank(["ABC", ""]);       // false
-     *     allNullOrBlank([" ", "ABC"]);      // false
-     *     allNullOrBlank([" ABC", "ABC"]);   // false
-     * </code></pre>
-     *
-     * @param strings strings
-     * @return whether all strings are null or blank
-     */
-    public static boolean allNullOrBlank(Collection<String> strings) {
-        if (CollectionUtils.isNullOrEmpty(strings)) return true;
-
-        for (String string : strings) {
-            if (StringUtils.isNullOrBlank(string)) return false;
-        }
-
-        return true;
-    }
-
-    /**
      * `기준 문자열`과 일치하는 문자열이 하나라도 있는지 확인한다.
      *
      * <pre><code>
