@@ -36,8 +36,7 @@ public final class StreamUtils {
     }
 
     public static <T> Stream<T> toStream(@Nonnull Iterator<T> iter) {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
-                iter, Spliterator.ORDERED), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, Spliterator.ORDERED), false);
     }
 
 }

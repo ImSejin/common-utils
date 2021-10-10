@@ -66,7 +66,7 @@ public final class JsonUtils {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 url.openStream(), StandardCharsets.UTF_8))) {
-            jsonText = readAllJson(reader);
+            jsonText = readAllLines(reader);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +80,7 @@ public final class JsonUtils {
      * @param reader reader
      * @return JSON string
      */
-    private static String readAllJson(@Nonnull Reader reader) {
+    private static String readAllLines(@Nonnull Reader reader) {
         BufferedReader bufferedReader;
         if (reader instanceof BufferedReader) {
             bufferedReader = (BufferedReader) reader;
