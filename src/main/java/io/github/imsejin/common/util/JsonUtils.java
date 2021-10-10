@@ -38,6 +38,8 @@ import static java.util.stream.Collectors.joining;
  * JSON utilities
  *
  * <p> Utilities for handling JSON.
+ *
+ * @see Gson
  */
 public final class JsonUtils {
 
@@ -52,8 +54,7 @@ public final class JsonUtils {
      * Reads the JSON format string returned by the URL and converts it to {@link JsonObject}.
      *
      * <pre><code>
-     *     String uriText = "http://cdn.lezhin.com/episodes/snail/1.json?access_token=5be30a25-a044-410c-88b0-19a1da968a64";
-     *     URL url = URI.create(uriText).toURL();
+     *     URL url = new URL("http://cdn.lezhin.com/episodes/snail/1.json");
      *     JsonObject json = JsonUtils.readJsonFromUrl(url);
      * </code></pre>
      *

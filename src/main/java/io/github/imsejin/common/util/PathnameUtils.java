@@ -52,7 +52,7 @@ public final class PathnameUtils {
      * Gets the current path where the application is.
      *
      * <pre><code>
-     *     getCurrentPathname(); // /usr/local/repositories/common-utils
+     *     getCurrentPathname(); // "/usr/local/repositories/common-utils"
      * </code></pre>
      *
      * @return current path where the application is
@@ -70,8 +70,8 @@ public final class PathnameUtils {
      * Removes all the path separators.
      *
      * <pre><code>
-     *     removeSeparators("C:\\Program Files\\Java"); // C:Program FilesJava
-     *     removeSeparators("/usr/data/java"); // usrsdatajava
+     *     removeSeparators("C:\\Program Files\\Java"); // "C:Program FilesJava"
+     *     removeSeparators("/usr/data/java");          // "usrsdatajava"
      * </code></pre>
      *
      * @param pathname pathname
@@ -116,9 +116,9 @@ public final class PathnameUtils {
      * Concatenates pathnames.
      *
      * <pre><code>
-     *     concat(false, "C:\\", "Program Files", "Java");  // C:\\Program Files\\Java
-     *     concat(true, "/usr/", "/data/", "java");         // /usr/data/java
-     *     concat(false, "/usr/", "/data/", "java");        // usr/data/java
+     *     concat(false, "C:\\", "Program Files", "Java");  // "C:\\Program Files\\Java"
+     *     concat(true, "/usr/", "/data/", "java");         // "/usr/data/java"
+     *     concat(false, "/usr/", "/data/", "java");        // "usr/data/java"
      * </code></pre>
      *
      * @param absolute  whether paths are absolute
@@ -130,12 +130,11 @@ public final class PathnameUtils {
     }
 
     /**
-     * 경로 끝에 현재의 연/월(yyyy/MM) 경로를 추가한다.<br>
      * Adds the current year/month (yyyy/MM) pathname to the end of the pathname.
      *
      * <pre><code>
-     *     DateTimeUtils.today();                   // 20191231
-     *     appendYearMonth("C:\\Program Files");    // C:\\Program Files\\2019\\12
+     *     DateTimeUtils.today();                   // "20191231"
+     *     appendYearMonth("C:\\Program Files");    // "C:\\Program Files\\2019\\12"
      * </code></pre>
      *
      * @param pathname pathname
@@ -146,12 +145,11 @@ public final class PathnameUtils {
     }
 
     /**
-     * 경로 끝에 현재의 연/월/일(yyyy/MM/dd) 경로를 추가한다.<br>
      * Adds the current year/month/day (yyyy/MM/dd) pathname to the end of the pathname.
      *
      * <pre><code>
-     *     DateTimeUtils.today();           // 20191231
-     *     appendDate("C:\\Program Files"); // C:\\Program Files\\2019\\12\\31
+     *     DateTimeUtils.today();           // "20191231"
+     *     appendDate("C:\\Program Files"); // "C:\\Program Files\\2019\\12\\31"
      * </code></pre>
      *
      * @param pathname pathname
