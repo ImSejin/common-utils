@@ -20,28 +20,70 @@ import spock.lang.Specification
 import spock.lang.TempDir
 import spock.lang.Unroll
 
+import java.nio.charset.StandardCharsets
 import java.nio.file.DirectoryNotEmptyException
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
+import java.time.LocalDateTime
 
 class FileUtilsSpec extends Specification {
 
     @TempDir
     private Path tempPath
 
-    def "GetCreationTime"() {
+    def "Gets creation time of a file"() {
+        given:
+        def file = Paths.get("./src/main/java/io/github/imsejin/common/util", "FileUtils.java").toRealPath().toFile()
+
+        when:
+        def creationTime = FileUtils.getCreationTime file
+
+        then:
+        creationTime.isBefore(LocalDateTime.now())
     }
 
-    def "MkdirAsOwnName"() {
+    def "Makes a directory as own name"() {
+        given:
+        def file = Files.createTempFile(tempPath, "temp-file-", ".txt").toFile()
+
+        when:
+        def dir = FileUtils.mkdirAsOwnName file
+
+        then:
+        dir.exists()
+        dir.isDirectory()
+        dir.getName() == FilenameUtils.getBaseName(file.getName())
     }
 
-    def "GetFileAttributes"() {
+    def "Download a file with URL"() {
+        given:
+        def content = "Lorem ipsum dolor sit amet".getBytes(StandardCharsets.UTF_8)
+        def path = Files.createTempFile(tempPath, "temp-file-", ".txt")
+        Files.write(path.toRealPath(), content)
+        def url = path.toRealPath().toUri().toURL()
+        def dest = tempPath.resolve("temp-file-downloaded.txt").toFile()
+
+        when:
+        def downloaded = FileUtils.download(url, dest)
+
+        then:
+        downloaded
+        content == Files.readAllBytes(dest.toPath())
     }
 
-    def "Download"() {
-    }
+    def "Finds all files in the path"() {
+        given:
+        def count = 10
+        for (i in 0..<count) {
+            Files.createTempFile(tempPath, "temp-file-", null)
+        }
 
-    def "FindAllFiles"() {
+        when:
+        def files = FileUtils.findAllFiles tempPath
+
+        then:
+        files.size() == count
     }
 
     @Unroll("Deletes a directory recursively: repeated #i time(s)")
