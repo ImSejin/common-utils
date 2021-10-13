@@ -75,7 +75,7 @@ public final class FileUtils {
      * @return directory whose name is the same name as the filename in the same path
      */
     public static File mkdirAsOwnName(@Nonnull File file) {
-        String dirName = FilenameUtils.baseName(file);
+        String dirName = FilenameUtils.getBaseName(file.getName());
 
         File dir = new File(file.getParentFile(), dirName);
         dir.mkdir();

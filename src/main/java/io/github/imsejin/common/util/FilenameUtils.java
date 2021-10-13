@@ -73,8 +73,7 @@ public final class FilenameUtils {
      * @param file file
      * @return filename without extension
      */
-    public static String baseName(@Nonnull File file) {
-        String filename = file.getName();
+    public static String getBaseName(@Nonnull String filename) {
         int index = indexOfExtension(filename);
         return index == -1 ? filename : filename.substring(0, index);
     }
