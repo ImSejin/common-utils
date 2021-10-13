@@ -154,7 +154,9 @@ class StringUtilsSpec extends Specification {
         null      | []                 || false
         null      | [null]             || false
         null      | ["null"]           || false
+        ""        | null               || false
         ""        | []                 || false
+        "A"       | ['ab', "aB", "Ab"] || false
     }
 
     def "Checks if string is numeric"() {
