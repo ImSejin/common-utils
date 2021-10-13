@@ -381,8 +381,7 @@ public final class NumberUtils {
 
     /**
      * Checks whether number has decimal part.
-     * <p>
-     * (whether number is integer)
+     * <p> (whether number is integer)
      *
      * <pre><code>
      *     hasDecimalPart(-32.0);    // false
@@ -399,6 +398,21 @@ public final class NumberUtils {
         return number % 1 != 0;
     }
 
+    /**
+     * Checks whether big decimal has decimal part.
+     * <p> (whether number is integer)
+     *
+     * <pre><code>
+     *     hasDecimalPart(BigDecimal.valueOf(-32.0));    // false
+     *     hasDecimalPart(BigDecimal.valueOf(-1.41421)); // true
+     *     hasDecimalPart(BigDecimal.valueOf(0));        // false
+     *     hasDecimalPart(BigDecimal.valueOf(3.141592)); // true
+     *     hasDecimalPart(BigDecimal.valueOf(64.0));     // false
+     * </code></pre>
+     *
+     * @param bigDecimal big decimal
+     * @return whether number has decimal part
+     */
     public static boolean hasDecimalPart(BigDecimal bigDecimal) {
         return bigDecimal.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) != 0;
     }
