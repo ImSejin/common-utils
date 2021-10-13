@@ -65,6 +65,20 @@ public final class FileUtils {
     }
 
     /**
+     * Returns attributes of file.
+     *
+     * @param file file
+     * @return file's attributes
+     */
+    public static BasicFileAttributes getFileAttributes(@Nonnull File file) {
+        try {
+            return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Creates a directory whose name is the same name as the filename in the same path.
      *
      * <pre><code>
@@ -82,20 +96,6 @@ public final class FileUtils {
         dir.mkdir();
 
         return dir;
-    }
-
-    /**
-     * Returns attributes of file.
-     *
-     * @param file file
-     * @return file's attributes
-     */
-    public static BasicFileAttributes getFileAttributes(@Nonnull File file) {
-        try {
-            return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
