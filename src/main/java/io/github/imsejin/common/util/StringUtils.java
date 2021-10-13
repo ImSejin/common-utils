@@ -36,6 +36,11 @@ public final class StringUtils {
      */
     private static final char WHITE_SPACE = '\u0020';
 
+    /**
+     * Number formatter.
+     */
+    private static final NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+
     @ExcludeFromGeneratedJacocoReport
     private StringUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
@@ -388,8 +393,8 @@ public final class StringUtils {
      * @param amount amount number
      * @return formatted number with comma
      */
-    public static String formatComma(long amount) {
-        return NumberFormat.getInstance(Locale.US).format(amount);
+    public static String formatComma(double amount) {
+        return formatter.format(amount);
     }
 
     /**
@@ -405,7 +410,7 @@ public final class StringUtils {
      * @return formatted number with comma
      */
     public static String formatComma(String amount) {
-        return NumberFormat.getInstance(Locale.US).format(Long.parseLong(amount));
+        return formatter.format(Double.parseDouble(amount));
     }
 
     /**
