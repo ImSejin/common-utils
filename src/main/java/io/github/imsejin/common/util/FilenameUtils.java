@@ -91,8 +91,7 @@ public final class FilenameUtils {
      * @param file file
      * @return extension name
      */
-    public static String extension(@Nonnull File file) {
-        String filename = file.getName();
+    public static String getExtension(@Nonnull String filename) {
         int index = indexOfExtension(filename);
         return index == -1 ? "" : filename.substring(index + 1);
     }

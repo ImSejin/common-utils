@@ -155,7 +155,7 @@ public abstract class AbstractFileAssert<
     }
 
     public SELF hasExtension(String expected) {
-        if (FilenameUtils.extension(actual).equals(expected)) throw getException();
+        if (FilenameUtils.getExtension(actual.getName()).equals(expected)) throw getException();
         return self;
     }
 
