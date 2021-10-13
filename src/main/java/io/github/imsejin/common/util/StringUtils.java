@@ -382,32 +382,34 @@ public final class StringUtils {
     }
 
     /**
-     * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
+     * Returns a string formatted by each three-digits with comma.
      *
      * <pre><code>
      *     formatComma(-100);   // "-100"
      *     formatComma(0);      // "0"
-     *     formatComma(100000); // "100,000"
+     *     formatComma(84.0);   // "84"
+     *     formatComma(1024.5); // "1,024.5"
      * </code></pre>
      *
-     * @param amount amount number
-     * @return formatted number with comma
+     * @param amount number
+     * @return formatted numeric string with comma
      */
     public static String formatComma(double amount) {
         return formatter.format(amount);
     }
 
     /**
-     * 3자리 숫자마다 ,(comma)로 구분한 문자열을 반환한다.
+     * Returns a string formatted by each three-digits with comma.
      *
      * <pre><code>
      *     formatComma("-100");   // "-100"
      *     formatComma("0");      // "0"
-     *     formatComma("100000"); // "100,000"
+     *     formatComma("84.0");   // "84"
+     *     formatComma("1024.5"); // "1,024.5"
      * </code></pre>
      *
-     * @param amount amount number
-     * @return formatted number with comma
+     * @param amount numeric string
+     * @return formatted numeric string with comma
      */
     public static String formatComma(String amount) {
         return formatter.format(Double.parseDouble(amount));
