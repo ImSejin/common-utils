@@ -22,12 +22,14 @@ import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public final class NumberUtils {
 
-    private static final NumberFormat formatter = NumberFormat.getInstance();
+    private static final NumberFormat formatter = NumberFormat.getInstance(Locale.US);
 
     static {
+        // Makes formatter do without comma.
         formatter.setGroupingUsed(false);
     }
 
