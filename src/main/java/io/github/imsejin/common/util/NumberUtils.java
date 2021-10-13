@@ -400,7 +400,7 @@ public final class NumberUtils {
     }
 
     public static boolean hasDecimalPart(BigDecimal bigDecimal) {
-        return bigDecimal.remainder(BigDecimal.ONE).equals(BigDecimal.ZERO);
+        return bigDecimal.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) != 0;
     }
 
     /**
