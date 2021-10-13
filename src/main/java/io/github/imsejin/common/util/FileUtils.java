@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.FileVisitOption;
@@ -94,6 +95,21 @@ public final class FileUtils {
             return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Downloads a file with URL.
+     *
+     * @param url  URL
+     * @param dest file for destination
+     * @return whether success to download file or not
+     */
+    public static boolean download(URL url, File dest) {
+        try {
+            return download(url.openStream(), dest);
+        } catch (IOException e) {
+            return false;
         }
     }
 
