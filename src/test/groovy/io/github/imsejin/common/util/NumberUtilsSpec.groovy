@@ -20,7 +20,7 @@ import spock.lang.Specification
 
 class NumberUtilsSpec extends Specification {
 
-    def "Get number of places with long"() {
+    def "Gets number of places with long"() {
         when:
         def numOfPlaces = NumberUtils.getNumOfPlaces number
 
@@ -32,7 +32,7 @@ class NumberUtilsSpec extends Specification {
         number << [Long.MIN_VALUE, Integer.MIN_VALUE, -50_000, -1, 0, 1, 50_000, Integer.MAX_VALUE, Long.MAX_VALUE]
     }
 
-    def "Get number of places with BigInteger"() {
+    def "Gets number of places with BigInteger"() {
         when:
         def numOfPlaces = NumberUtils.getNumOfPlaces(new BigInteger(number))
 
@@ -43,12 +43,14 @@ class NumberUtilsSpec extends Specification {
         number << ["-115234155123123413842342342024623440", "-5", "0", "9", "1505512411489465416645571849602523405834510"]
     }
 
-    def "Check whether number has decimal part"() {
+    def "Checks whether number has decimal part"() {
         when:
-        def actual = NumberUtils.hasDecimalPart number as double
+        def actual0 = NumberUtils.hasDecimalPart number as double
+        def actual1 = NumberUtils.hasDecimalPart number as BigDecimal
 
         then:
-        actual == expected
+        actual0 == expected
+        actual1 == expected
 
         where:
         number               | expected
@@ -68,7 +70,7 @@ class NumberUtilsSpec extends Specification {
         -128.0               | false
     }
 
-    def "Get reversed long number"() {
+    def "Gets reversed long number"() {
         when:
         def actual = NumberUtils.reverse number
 
@@ -92,7 +94,7 @@ class NumberUtilsSpec extends Specification {
         Long.MAX_VALUE    | 7085774586302733229
     }
 
-    def "Get reversed big integer"() {
+    def "Gets reversed big integer"() {
         when:
         def actual = NumberUtils.reverse number
 
