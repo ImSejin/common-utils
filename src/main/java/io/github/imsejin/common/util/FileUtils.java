@@ -52,7 +52,7 @@ public final class FileUtils {
      * Returns creation time of the file.
      *
      * <pre><code>
-     *     File file = new File("C:\\Program Files\\Java\\jdk1.8.0_202\\README.html");
+     *     File file = new File("C:\\Program Files\\Java", "README.md");
      *     getCreationTime(file); // 2020-02-29 23:06:34
      * </code></pre>
      *
