@@ -20,6 +20,63 @@ import spock.lang.Specification
 
 class NumberUtilsSpec extends Specification {
 
+    def "If number is not positive, returns 1"() {
+        expect:
+        NumberUtils.toPositive(number as Double) == expected
+        NumberUtils.toPositive(number as Float) == expected
+        NumberUtils.toPositive(number as Long) == expected
+        NumberUtils.toPositive(number as Integer) == expected
+        NumberUtils.toPositive(number as Short) == expected
+        NumberUtils.toPositive(number as Byte) == expected
+
+        where:
+        number | expected
+        -128   | 1
+        -56.5  | 1
+        0      | 1
+        null   | 1
+        1.0    | 1.0
+        3      | 3
+        98.0   | 98
+    }
+
+    def "If number is not negative, returns -1"() {
+        expect:
+        NumberUtils.toNegative(number as Double) == expected
+        NumberUtils.toNegative(number as Float) == expected
+        NumberUtils.toNegative(number as Long) == expected
+        NumberUtils.toNegative(number as Integer) == expected
+        NumberUtils.toNegative(number as Short) == expected
+        NumberUtils.toNegative(number as Byte) == expected
+
+        where:
+        number | expected
+        -128   | -128
+        -56.0  | -56
+        -2     | -2
+        0      | -1
+        null   | -1
+        1      | -1
+        98.0   | -1
+    }
+
+    def "If number is null, returns the other number"() {
+        expect:
+        NumberUtils.ifNull(number as Double, defaultNumber) == expected
+        NumberUtils.ifNull(number as Float, defaultNumber) == expected
+        NumberUtils.ifNull(number as Long, defaultNumber) == expected
+        NumberUtils.ifNull(number as Integer, defaultNumber) == expected
+        NumberUtils.ifNull(number as Short, defaultNumber) == expected
+        NumberUtils.ifNull(number as Byte, defaultNumber) == expected
+
+        where:
+        number | defaultNumber || expected
+        -1     | -1            || -1
+        0      | 0             || 0
+        null   | 5             || 5
+        1      | 1             || 1
+    }
+
     def "Gets number of places with long"() {
         when:
         def numOfPlaces = NumberUtils.getNumOfPlaces number
