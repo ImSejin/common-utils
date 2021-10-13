@@ -140,7 +140,7 @@ class ClassFinderTest {
         ClassFinder.findClasses(classNames::add);
 
         // then
-        Path sourcePath = Paths.get("./src/main/java/io/github/imsejin/common").toRealPath();
+        Path sourcePath = Paths.get(".", "src", "main", "java", "io", "github", "imsejin", "common").toRealPath();
         assertThat(classNames)
                 .doesNotContainNull()
                 .filteredOn(name -> name.startsWith("io.github.imsejin.common"))
