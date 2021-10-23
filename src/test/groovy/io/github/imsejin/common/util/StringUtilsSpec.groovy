@@ -212,14 +212,16 @@ class StringUtilsSpec extends Specification {
     }
 
     def "How many times the keyword is in the text?"() {
-        given:
-        def keyword = " "
-
         when:
         def count = StringUtils.countOf(LOREM_IPSUM, keyword)
 
         then:
-        count == LOREM_IPSUM.length() - LOREM_IPSUM.replace(keyword, "").length()
+        count == expected
+
+        where:
+        keyword | expected
+        ""      | LOREM_IPSUM.length()
+        " "     | LOREM_IPSUM.length() - LOREM_IPSUM.replace(keyword, "").length()
     }
 
     def "Reverses each character's position"() {

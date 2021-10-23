@@ -59,17 +59,24 @@ class FileUtilsSpec extends Specification {
     def "Download a file with URL"() {
         given:
         def content = "Lorem ipsum dolor sit amet".getBytes(StandardCharsets.UTF_8)
-        def path = Files.createTempFile(tempPath, "temp-file-", ".txt")
-        Files.write(path.toRealPath(), content)
-        def url = path.toRealPath().toUri().toURL()
+        def path = Files.createTempFile(tempPath, "temp-file-", ".txt").toRealPath()
+        Files.write(path, content)
         def dest = tempPath.resolve("temp-file-downloaded.txt").toFile()
 
-        when:
-        def downloaded = FileUtils.download(url, dest)
+        when: "Tries to download with valid URL."
+        def validUrl = path.toUri().toURL()
+        def successful = FileUtils.download(validUrl, dest)
 
-        then:
-        downloaded
+        then: "Successfully downloaded with valid URL."
+        successful
         content == Files.readAllBytes(dest.toPath())
+
+        when: "Tries to download with invalid URL."
+        def invalidUrl = path.resolve(UUID.randomUUID().toString()).toUri().toURL()
+        def failed = FileUtils.download(invalidUrl, dest)
+
+        then: "Failed to download with valid URL."
+        !failed
     }
 
     def "Finds all files in the path"() {

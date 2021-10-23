@@ -62,12 +62,12 @@ class NumberUtilsSpec extends Specification {
 
     def "If number is null, returns the other number"() {
         expect:
-        NumberUtils.ifNull(number as Double, defaultNumber) == expected
-        NumberUtils.ifNull(number as Float, defaultNumber) == expected
-        NumberUtils.ifNull(number as Long, defaultNumber) == expected
-        NumberUtils.ifNull(number as Integer, defaultNumber) == expected
-        NumberUtils.ifNull(number as Short, defaultNumber) == expected
-        NumberUtils.ifNull(number as Byte, defaultNumber) == expected
+        NumberUtils.ifNull(number as Double, defaultNumber as double) == expected
+        NumberUtils.ifNull(number as Float, defaultNumber as float) == expected
+        NumberUtils.ifNull(number as Long, defaultNumber as long) == expected
+        NumberUtils.ifNull(number as Integer, defaultNumber as int) == expected
+        NumberUtils.ifNull(number as Short, defaultNumber as short) == expected
+        NumberUtils.ifNull(number as Byte, defaultNumber as byte) == expected
 
         where:
         number | defaultNumber || expected
