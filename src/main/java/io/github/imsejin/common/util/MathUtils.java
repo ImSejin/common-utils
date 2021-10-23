@@ -99,4 +99,14 @@ public final class MathUtils {
         return (number & 1) == 1;
     }
 
+    /**
+     * Checks if number is odd.
+     *
+     * @param bigInt number
+     * @return whether number is odd or not
+     */
+    public static boolean isOdd(BigInteger bigInt) {
+        return bigInt.testBit(0);
+    }
+
 }

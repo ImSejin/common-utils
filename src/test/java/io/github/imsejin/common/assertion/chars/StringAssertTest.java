@@ -67,7 +67,10 @@ class StringAssertTest {
         @RepeatedTest(10)
         @DisplayName("passes, when actual is numeric")
         void test0() {
+            // given
             String actual = UUID.randomUUID().toString().replaceAll("[^\\d]", "");
+
+            // except
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNumeric());
         }
 
@@ -88,11 +91,13 @@ class StringAssertTest {
         @Test
         @DisplayName("passes, when actual is letter")
         void test0() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .filter(Character::isLetter)
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isLetter()));
         }
@@ -100,11 +105,13 @@ class StringAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not letter")
         void test1() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isLetter(n) ? "-" : "") + (char) n)
                     .collect(toList());
             list.add("");
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetter())
                     .withMessageStartingWith("It is expected to be letter, but it isn't."));
@@ -117,11 +124,13 @@ class StringAssertTest {
         @Test
         @DisplayName("passes, when actual is letter or digit")
         void test0() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .filter(Character::isLetterOrDigit)
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isLetterOrDigit()));
         }
@@ -129,11 +138,13 @@ class StringAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not letter and digit")
         void test1() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isLetterOrDigit(n) ? "-" : "") + (char) n)
                     .collect(toList());
             list.add("");
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetterOrDigit())
                     .withMessageStartingWith("It is expected to be letter or digit, but it isn't."));
@@ -146,11 +157,13 @@ class StringAssertTest {
         @Test
         @DisplayName("passes, when actual has only uppercase letters")
         void test0() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .filter(Character::isUpperCase)
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isUpperCase()));
         }
@@ -158,11 +171,13 @@ class StringAssertTest {
         @Test
         @DisplayName("throws exception, when actual has a lowercase letter")
         void test1() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isUpperCase(n) ? "a" : "") + (char) n)
                     .collect(toList());
             list.add("");
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isUpperCase())
                     .withMessageStartingWith("It is expected to have only uppercase letter(s), but it isn't."));
@@ -175,11 +190,13 @@ class StringAssertTest {
         @Test
         @DisplayName("passes, when actual has only lowercase letters")
         void test0() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .filter(Character::isLowerCase)
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isLowerCase()));
         }
@@ -187,11 +204,13 @@ class StringAssertTest {
         @Test
         @DisplayName("throws exception, when actual has a uppercase letter")
         void test1() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isLowerCase(n) ? "A" : "") + (char) n)
                     .collect(toList());
             list.add("");
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLowerCase())
                     .withMessageStartingWith("It is expected to have only lowercase letter(s), but it isn't."));
@@ -204,11 +223,13 @@ class StringAssertTest {
         @Test
         @DisplayName("passes, when actual is alphabetic")
         void test0() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .filter(Character::isAlphabetic)
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isAlphabetic()));
         }
@@ -216,11 +237,13 @@ class StringAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not alphabetic")
         void test1() {
+            // given
             List<String> list = IntStream.rangeClosed(0, Character.MAX_VALUE)
                     .mapToObj(n -> (Character.isAlphabetic(n) ? "_" : "") + (char) n)
                     .collect(toList());
             list.add("");
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAlphabetic())
                     .withMessageStartingWith("It is expected to be alphabetic, but it isn't."));

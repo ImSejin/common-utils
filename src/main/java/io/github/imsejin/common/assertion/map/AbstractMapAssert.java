@@ -23,10 +23,11 @@ import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class AbstractMapAssert<
         SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>,
-        ACTUAL extends Map<?, ?>,
+        ACTUAL extends Map<K, V>,
         K,
         V>
         extends AbstractObjectAssert<SELF, ACTUAL> {
@@ -36,70 +37,113 @@ public abstract class AbstractMapAssert<
     }
 
     public SELF isEmpty() {
-        if (!actual.isEmpty()) throw getException();
+        if (!actual.isEmpty()) {
+            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasEntry() {
-        if (actual.isEmpty()) throw getException();
+        if (actual.isEmpty()) {
+            setDefaultDescription("It is expected to have entry, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasSizeOf(int expected) {
-        if (actual.size() != expected) throw getException();
+        if (actual.size() != expected) {
+            setDefaultDescription("It is expected to be the same size, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.size());
+            throw getException();
+        }
+
         return self;
     }
 
-    public SELF isSameSize(ACTUAL expected) {
-        if (expected == null || actual.size() != expected.size()) throw getException();
+    public SELF isSameSize(Map<?, ?> expected) {
+        if (expected == null || actual.size() != expected.size()) {
+            setDefaultDescription("They are expected to be the same size, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected == null ? "null" : expected.size(), actual.size());
+            throw getException();
+        }
+
         return self;
     }
 
-    public SELF isNotSameSize(ACTUAL expected) {
-        if (expected != null && actual.size() == expected.size()) throw getException();
+    public SELF isNotSameSize(Map<?, ?> expected) {
+        if (expected == null || actual.size() == expected.size()) {
+            setDefaultDescription("They are expected to be not the same size, but they are. (expected: '{0}', actual: '{1}')",
+                    expected == null ? "null" : expected.size(), actual.size());
+            throw getException();
+        }
+
         return self;
     }
 
-    public SELF containsKey(K key) {
-        if (!actual.containsKey(key)) throw getException();
+    public SELF containsKey(K expected) {
+        if (!actual.containsKey(expected)) {
+            setDefaultDescription("It is expected to contain the given key, but it doesn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.keySet());
+            throw getException();
+        }
+
         return self;
     }
 
-    public SELF containsValue(V value) {
-        if (!actual.containsValue(value)) throw getException();
+    public SELF containsValue(V expected) {
+        if (!actual.containsValue(expected)) {
+            setDefaultDescription("It is expected to contain the given value, but it doesn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.values());
+            throw getException();
+        }
+
         return self;
     }
 
-    public SELF containsAllKeys(ACTUAL expected) {
-        if (!actual.keySet().containsAll(expected.keySet())) throw getException();
+    public SELF containsAllKeys(Map<? extends K, ?> expected) {
+        return containsAllKeys(expected.keySet());
+    }
+
+    public SELF containsAllKeys(Collection<? extends K> expected) {
+        Set<K> actualKeys = actual.keySet();
+
+        if (!actualKeys.containsAll(expected)) {
+            setDefaultDescription("It is expected to contain all the given keys, but it doesn't. (expected: '{0}', actual: '{1}')",
+                    expected, actualKeys);
+            throw getException();
+        }
+
         return self;
     }
 
-    public SELF containsAllKeys(Collection<K> expected) {
-        if (!actual.keySet().containsAll(expected)) throw getException();
-        return self;
+    public SELF containsAllValues(Map<?, ? extends V> expected) {
+        return containsAllValues(expected.values());
     }
 
-    public SELF containsAllValues(ACTUAL expected) {
-        if (!actual.values().containsAll(expected.values())) throw getException();
-        return self;
-    }
+    public SELF containsAllValues(Collection<? extends V> expected) {
+        Collection<V> actualValues = actual.values();
 
-    public SELF containsAllValues(Collection<V> expected) {
-        if (!actual.values().containsAll(expected)) throw getException();
+        if (!actualValues.containsAll(expected)) {
+            setDefaultDescription("It is expected to contain all the given values, but it doesn't. (expected: '{0}', actual: '{1}')",
+                    expected, actualValues);
+            throw getException();
+        }
+
         return self;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    @SuppressWarnings("unchecked")
     public AbstractCollectionAssert<?, Collection<K>, K> asKeySet() {
-        return Asserts.that((Collection<K>) actual.keySet());
+        return Asserts.that(actual.keySet());
     }
 
-    @SuppressWarnings("unchecked")
     public AbstractCollectionAssert<?, Collection<V>, V> asValues() {
-        return Asserts.that((Collection<V>) actual.values());
+        return Asserts.that(actual.values());
     }
 
     public NumberAssert<?, Integer> asSize() {

@@ -25,8 +25,10 @@ public interface DecimalNumberAssertion<
         SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertion<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>> {
 
+    String DEFAULT_DESCRIPTION_HAS_DECIMAL_PART = "It is expected to have decimal part, but it isn't. (actual: '{0}')";
+
     /**
-     * Asserts that actual value has decimal part.
+     * Verifies that actual value has decimal part.
      *
      * @return assertion instance
      */

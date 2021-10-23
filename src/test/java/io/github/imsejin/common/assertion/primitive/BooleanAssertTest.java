@@ -44,8 +44,10 @@ class BooleanAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not null")
         void test1() {
+            // given
             List<Boolean> list = Arrays.asList(true, Boolean.FALSE, new Boolean(true), Boolean.valueOf("false"));
 
+            // except
             list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNull())
                     .hasMessageStartingWith("It is expected to be null, but not null.")
                     .isExactlyInstanceOf(IllegalArgumentException.class));
@@ -60,8 +62,10 @@ class BooleanAssertTest {
         @Test
         @DisplayName("passes, when actual is not null")
         void test0() {
+            // given
             List<Boolean> list = Arrays.asList(true, Boolean.FALSE, new Boolean(true), Boolean.valueOf("false"));
 
+            // except
             list.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotNull())
                     .doesNotThrowAnyException());
         }

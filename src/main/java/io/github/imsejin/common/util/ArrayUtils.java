@@ -20,6 +20,7 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -50,281 +51,281 @@ public final class ArrayUtils {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
-    public static boolean isNullOrEmpty(boolean[] array) {
-        return array == null || array.length == 0;
+    public static boolean isNullOrEmpty(Object array) {
+        return array == null || Array.getLength(array) == 0;
     }
 
-    public static boolean isNullOrEmpty(byte[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(char[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(double[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(float[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(int[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(long[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(short[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static <T> boolean isNullOrEmpty(T[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean exists(boolean[] array) {
+    public static boolean exists(Object array) {
         return !isNullOrEmpty(array);
     }
 
-    public static boolean exists(byte[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(char[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(double[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(float[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(int[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(long[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(short[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static <T> boolean exists(T[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    @Nullable
-    public static Boolean[] box(boolean[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Boolean[] box(@Nonnull boolean[] array) {
         if (array.length == 0) return EMPTY_BOOLEAN_WRAPPER_ARRAY;
 
         Boolean[] booleans = new Boolean[array.length];
         for (int i = 0; i < booleans.length; i++) {
-            booleans[i] = Boolean.valueOf(array[i]);
+            booleans[i] = array[i];
         }
 
         return booleans;
     }
 
-    @Nullable
-    public static Byte[] box(byte[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Byte[] box(@Nonnull byte[] array) {
         if (array.length == 0) return EMPTY_BYTE_WRAPPER_ARRAY;
 
         Byte[] bytes = new Byte[array.length];
         for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = Byte.valueOf(array[i]);
+            bytes[i] = array[i];
         }
 
         return bytes;
     }
 
-    @Nullable
-    public static Character[] box(char[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Character[] box(@Nonnull char[] array) {
         if (array.length == 0) return EMPTY_CHARACTER_WRAPPER_ARRAY;
 
         Character[] characters = new Character[array.length];
         for (int i = 0; i < characters.length; i++) {
-            characters[i] = Character.valueOf(array[i]);
+            characters[i] = array[i];
         }
 
         return characters;
     }
 
-    @Nullable
-    public static Double[] box(double[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Double[] box(@Nonnull double[] array) {
         if (array.length == 0) return EMPTY_DOUBLE_WRAPPER_ARRAY;
 
         Double[] doubles = new Double[array.length];
         for (int i = 0; i < doubles.length; i++) {
-            doubles[i] = Double.valueOf(array[i]);
+            doubles[i] = array[i];
         }
 
         return doubles;
     }
 
-    @Nullable
-    public static Float[] box(float[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Float[] box(@Nonnull float[] array) {
         if (array.length == 0) return EMPTY_FLOAT_WRAPPER_ARRAY;
 
         Float[] floats = new Float[array.length];
         for (int i = 0; i < floats.length; i++) {
-            floats[i] = Float.valueOf(array[i]);
+            floats[i] = array[i];
         }
 
         return floats;
     }
 
-    @Nullable
-    public static Integer[] box(int[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Integer[] box(@Nonnull int[] array) {
         if (array.length == 0) return EMPTY_INTEGER_WRAPPER_ARRAY;
 
         Integer[] integers = new Integer[array.length];
         for (int i = 0; i < integers.length; i++) {
-            integers[i] = Integer.valueOf(array[i]);
+            integers[i] = array[i];
         }
 
         return integers;
     }
 
-    @Nullable
-    public static Long[] box(long[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Long[] box(@Nonnull long[] array) {
         if (array.length == 0) return EMPTY_LONG_WRAPPER_ARRAY;
 
         Long[] longs = new Long[array.length];
         for (int i = 0; i < longs.length; i++) {
-            longs[i] = Long.valueOf(array[i]);
+            longs[i] = array[i];
         }
 
         return longs;
     }
 
-    @Nullable
-    public static Short[] box(short[] array) {
-        if (array == null) return null;
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
+    public static Short[] box(@Nonnull short[] array) {
         if (array.length == 0) return EMPTY_SHORT_WRAPPER_ARRAY;
 
         Short[] shorts = new Short[array.length];
         for (int i = 0; i < shorts.length; i++) {
-            shorts[i] = Short.valueOf(array[i]);
+            shorts[i] = array[i];
         }
 
         return shorts;
     }
 
-    @Nullable
-    public static boolean[] unbox(Boolean[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static boolean[] unbox(@Nonnull Boolean[] array) {
         if (array.length == 0) return EMPTY_BOOLEAN_PRIMITIVE_ARRAY;
 
         boolean[] booleans = new boolean[array.length];
         for (int i = 0; i < booleans.length; i++) {
-            booleans[i] = array[i].booleanValue();
+            booleans[i] = array[i];
         }
 
         return booleans;
     }
 
-    @Nullable
-    public static byte[] unbox(Byte[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static byte[] unbox(@Nonnull Byte[] array) {
         if (array.length == 0) return EMPTY_BYTE_PRIMITIVE_ARRAY;
 
         byte[] bytes = new byte[array.length];
         for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = array[i].byteValue();
+            bytes[i] = array[i];
         }
 
         return bytes;
     }
 
-    @Nullable
-    public static char[] unbox(Character[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static char[] unbox(@Nonnull Character[] array) {
         if (array.length == 0) return EMPTY_CHARACTER_PRIMITIVE_ARRAY;
 
         char[] chars = new char[array.length];
         for (int i = 0; i < chars.length; i++) {
-            chars[i] = array[i].charValue();
+            chars[i] = array[i];
         }
 
         return chars;
     }
 
-    @Nullable
-    public static double[] unbox(Double[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static double[] unbox(@Nonnull Double[] array) {
         if (array.length == 0) return EMPTY_DOUBLE_PRIMITIVE_ARRAY;
 
         double[] doubles = new double[array.length];
         for (int i = 0; i < doubles.length; i++) {
-            doubles[i] = array[i].doubleValue();
+            doubles[i] = array[i];
         }
 
         return doubles;
     }
 
-    @Nullable
-    public static float[] unbox(Float[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static float[] unbox(@Nonnull Float[] array) {
         if (array.length == 0) return EMPTY_FLOAT_PRIMITIVE_ARRAY;
 
         float[] floats = new float[array.length];
         for (int i = 0; i < floats.length; i++) {
-            floats[i] = array[i].floatValue();
+            floats[i] = array[i];
         }
 
         return floats;
     }
 
-    @Nullable
-    public static int[] unbox(Integer[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static int[] unbox(@Nonnull Integer[] array) {
         if (array.length == 0) return EMPTY_INTEGER_PRIMITIVE_ARRAY;
 
         int[] ints = new int[array.length];
         for (int i = 0; i < ints.length; i++) {
-            ints[i] = array[i].intValue();
+            ints[i] = array[i];
         }
 
         return ints;
     }
 
-    @Nullable
-    public static long[] unbox(Long[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static long[] unbox(@Nonnull Long[] array) {
         if (array.length == 0) return EMPTY_LONG_PRIMITIVE_ARRAY;
 
         long[] longs = new long[array.length];
         for (int i = 0; i < longs.length; i++) {
-            longs[i] = array[i].longValue();
+            longs[i] = array[i];
         }
 
         return longs;
     }
 
-    @Nullable
-    public static short[] unbox(Short[] array) {
-        if (array == null) return null;
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
+    public static short[] unbox(@Nonnull Short[] array) {
         if (array.length == 0) return EMPTY_SHORT_PRIMITIVE_ARRAY;
 
         short[] shorts = new short[array.length];
         for (int i = 0; i < shorts.length; i++) {
-            shorts[i] = array[i].shortValue();
+            shorts[i] = array[i];
         }
 
         return shorts;
@@ -345,12 +346,17 @@ public final class ArrayUtils {
      */
     public static String toString(@Nullable Object array) {
         if (array == null) return "null";
-        if (array.getClass().isArray()) return Arrays.toString((Object[]) array);
+        if (array.getClass().isArray()) return Arrays.deepToString((Object[]) array);
         return array.toString();
     }
 
     /**
      * Prepends elements to array.
+     *
+     * <pre><code>
+     *     prepend(new Character[]{'a', 'b'}, "c", "d"); // ["c", "d", 'a', 'b']
+     *     prepend(new int[]{3, 4, 5, 6}, 0, 1, 2);      // [0, 1, 2, 3, 4, 5, 6]
+     * </code></pre>
      *
      * @param src      source array
      * @param elements elements to be prepended
@@ -368,6 +374,11 @@ public final class ArrayUtils {
 
     /**
      * Appends elements to array.
+     *
+     * <pre><code>
+     *     append(new Character[]{'a', 'b'}, "c", "d"); // ['a', 'b', "c", "d"]
+     *     append(new int[]{3, 4, 5, 6}, 0, 1, 2);      // [3, 4, 5, 6, 0, 1, 2]
+     * </code></pre>
      *
      * @param src      source array
      * @param elements elements to be appended

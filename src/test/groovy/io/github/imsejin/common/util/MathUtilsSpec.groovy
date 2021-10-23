@@ -24,7 +24,7 @@ class MathUtilsSpec extends Specification {
     @Unroll("MathUtils.fibonacci(#input) == #expected")
     def "fibonacci"() {
         when:
-        def result = MathUtils.fibonacci(input)
+        def result = MathUtils.fibonacci input
 
         then:
         result.toString() == expected
@@ -47,7 +47,7 @@ class MathUtilsSpec extends Specification {
     @Unroll("MathUtils.factorial(#input) == #expected")
     def "factorial"() {
         when:
-        def result = MathUtils.factorial(input)
+        def result = MathUtils.factorial input
 
         then:
         result.toString() == expected
@@ -69,21 +69,21 @@ class MathUtilsSpec extends Specification {
         String.valueOf(actual) == expected
 
         where:
-        amount                | len | expected
-        345764.48395751       | -3  | "346000.0"
-        -345764.48395751      | -3  | "-345000.0"
-        51307.0078102         | -2  | "51400.0"
-        -51307.0078102        | -2  | "-51300.0"
-        48.038537052          | -1  | "50.0"
-        -48.038537052         | -1  | "-40.0"
-        0.1575153545          | 0   | "1.0"
-        -0.1575153545         | 0   | "-0.0"
-        1.248458248           | 1   | "1.3"
-        -1.248458248          | 1   | "-1.2"
-        854.0812738218        | 2   | "854.09"
-        -854.0812738218       | 2   | "-854.08"
-        97234.10398570893174  | 3   | "97234.104"
-        -97234.10398570893174 | 3   | "-97234.103"
+        amount                | len || expected
+        345764.48395751       | -3  || "346000.0"
+        -345764.48395751      | -3  || "-345000.0"
+        51307.0078102         | -2  || "51400.0"
+        -51307.0078102        | -2  || "-51300.0"
+        48.038537052          | -1  || "50.0"
+        -48.038537052         | -1  || "-40.0"
+        0.1575153545          | 0   || "1.0"
+        -0.1575153545         | 0   || "-0.0"
+        1.248458248           | 1   || "1.3"
+        -1.248458248          | 1   || "-1.2"
+        854.0812738218        | 2   || "854.09"
+        -854.0812738218       | 2   || "-854.08"
+        97234.10398570893174  | 3   || "97234.104"
+        -97234.10398570893174 | 3   || "-97234.103"
     }
 
     @Unroll("MathUtils.round(#amount, #len) == #expected")
@@ -93,21 +93,21 @@ class MathUtilsSpec extends Specification {
         String.valueOf(actual) == expected
 
         where:
-        amount                | len | expected
-        345764.48395751       | -3  | "346000.0"
-        -345764.48395751      | -3  | "-346000.0"
-        51307.0078102         | -2  | "51300.0"
-        -51307.0078102        | -2  | "-51300.0"
-        48.038537052          | -1  | "50.0"
-        -48.038537052         | -1  | "-50.0"
-        0.1575153545          | 0   | "0.0"
-        -0.1575153545         | 0   | "0.0"
-        1.248458248           | 1   | "1.2"
-        -1.248458248          | 1   | "-1.2"
-        854.0812738218        | 2   | "854.08"
-        -854.0812738218       | 2   | "-854.08"
-        97234.10398570893174  | 3   | "97234.104"
-        -97234.10398570893174 | 3   | "-97234.104"
+        amount                | len || expected
+        345764.48395751       | -3  || "346000.0"
+        -345764.48395751      | -3  || "-346000.0"
+        51307.0078102         | -2  || "51300.0"
+        -51307.0078102        | -2  || "-51300.0"
+        48.038537052          | -1  || "50.0"
+        -48.038537052         | -1  || "-50.0"
+        0.1575153545          | 0   || "0.0"
+        -0.1575153545         | 0   || "0.0"
+        1.248458248           | 1   || "1.2"
+        -1.248458248          | 1   || "-1.2"
+        854.0812738218        | 2   || "854.08"
+        -854.0812738218       | 2   || "-854.08"
+        97234.10398570893174  | 3   || "97234.104"
+        -97234.10398570893174 | 3   || "-97234.104"
     }
 
     @Unroll("MathUtils.floor(#amount, #len) == #expected")
@@ -117,25 +117,25 @@ class MathUtilsSpec extends Specification {
         String.valueOf(actual) == expected
 
         where:
-        amount                | len | expected
-        345764.48395751       | -3  | "345000.0"
-        -345764.48395751      | -3  | "-346000.0"
-        51307.0078102         | -2  | "51300.0"
-        -51307.0078102        | -2  | "-51400.0"
-        48.038537052          | -1  | "40.0"
-        -48.038537052         | -1  | "-50.0"
-        0.1575153545          | 0   | "0.0"
-        -0.1575153545         | 0   | "-1.0"
-        1.248458248           | 1   | "1.2"
-        -1.248458248          | 1   | "-1.3"
-        854.0812738218        | 2   | "854.08"
-        -854.0812738218       | 2   | "-854.09"
-        97234.10398570893174  | 3   | "97234.103"
-        -97234.10398570893174 | 3   | "-97234.104"
+        amount                | len || expected
+        345764.48395751       | -3  || "345000.0"
+        -345764.48395751      | -3  || "-346000.0"
+        51307.0078102         | -2  || "51300.0"
+        -51307.0078102        | -2  || "-51400.0"
+        48.038537052          | -1  || "40.0"
+        -48.038537052         | -1  || "-50.0"
+        0.1575153545          | 0   || "0.0"
+        -0.1575153545         | 0   || "-1.0"
+        1.248458248           | 1   || "1.2"
+        -1.248458248          | 1   || "-1.3"
+        854.0812738218        | 2   || "854.08"
+        -854.0812738218       | 2   || "-854.09"
+        97234.10398570893174  | 3   || "97234.103"
+        -97234.10398570893174 | 3   || "-97234.104"
     }
 
     @Unroll("MathUtils.isOdd(#amount) == #expected")
-    def "isOdd"() {
+    def "Check long number is odd"() {
         expect:
         MathUtils.isOdd(amount) == expected
 
@@ -148,6 +148,30 @@ class MathUtilsSpec extends Specification {
         17      | true
         854     | false
         97231   | true
+    }
+
+    @Unroll("MathUtils.isOdd(#amount) == #expected")
+    def "Check big integer is odd"() {
+        expect:
+        MathUtils.isOdd(amount) == expected
+
+        where:
+        amount                                            | expected
+        new BigInteger("-987654321098765432109876543210") | false
+        Long.MIN_VALUE.toBigInteger()                     | false
+        Integer.MIN_VALUE.toBigInteger()                  | false
+        Short.MIN_VALUE.toBigInteger()                    | false
+        Byte.MIN_VALUE.toBigInteger()                     | false
+        new BigInteger("-2080")                           | false
+        new BigInteger("-1")                              | true
+        BigInteger.ZERO                                   | false
+        BigInteger.ONE                                    | true
+        BigInteger.TEN                                    | false
+        Byte.MAX_VALUE.toBigInteger()                     | true
+        Short.MAX_VALUE.toBigInteger()                    | true
+        Integer.MAX_VALUE.toBigInteger()                  | true
+        Long.MAX_VALUE.toBigInteger()                     | true
+        new BigInteger("8453487412897056489434840070000") | false
     }
 
 }

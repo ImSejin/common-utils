@@ -31,7 +31,7 @@ public abstract class AbstractCollectionAssert<
         SELF extends AbstractCollectionAssert<SELF, ACTUAL, T>,
         ACTUAL extends Collection<T>,
         T>
-        extends AbstractObjectAssert<SELF, Collection<T>> {
+        extends AbstractObjectAssert<SELF, ACTUAL> {
 
     protected AbstractCollectionAssert(ACTUAL target) {
         super(target);
@@ -116,7 +116,7 @@ public abstract class AbstractCollectionAssert<
         }
 
         setDefaultDescription("It is expected to contain the given elements, but it doesn't. (expected: '{0}', actual: '{1}')",
-                Arrays.toString(expected), actual);
+                Arrays.deepToString(expected), actual);
         throw getException();
     }
 

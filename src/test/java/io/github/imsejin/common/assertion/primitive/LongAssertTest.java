@@ -90,6 +90,7 @@ class LongAssertTest {
         @Test
         @DisplayName("passes, when actual is greater than other")
         void test0() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put(1L, (long) Character.valueOf('\u0000'));
             map.put(1024L, -1024L);
@@ -97,6 +98,7 @@ class LongAssertTest {
             map.put(Long.MAX_VALUE, 1L);
             map.put(-1L, Long.MIN_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -104,6 +106,7 @@ class LongAssertTest {
         @Test
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put((long) Character.valueOf('\u0000'), 0L);
             map.put(-1024L, 1024L);
@@ -111,6 +114,7 @@ class LongAssertTest {
             map.put(1L, Long.MAX_VALUE);
             map.put(Long.MIN_VALUE, -1L);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -124,6 +128,7 @@ class LongAssertTest {
         @Test
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put(1L, (long) Character.valueOf('\u0000'));
             map.put(1024L, -1024L);
@@ -131,6 +136,7 @@ class LongAssertTest {
             map.put(Long.MAX_VALUE, 1L);
             map.put(-1L, Long.MIN_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -138,6 +144,7 @@ class LongAssertTest {
         @Test
         @DisplayName("throws exception, when actual is less than other")
         void test1() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put(-1L, (long) Character.valueOf('\u0000'));
             map.put(-1024L, 1024L);
@@ -145,6 +152,7 @@ class LongAssertTest {
             map.put(1L, Long.MAX_VALUE);
             map.put(Long.MIN_VALUE, -1L);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -158,6 +166,7 @@ class LongAssertTest {
         @Test
         @DisplayName("passes, when actual is less than other")
         void test0() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put((long) Character.valueOf('\u0000'), 1L);
             map.put(-1024L, 1024L);
@@ -165,6 +174,7 @@ class LongAssertTest {
             map.put(1L, Long.MAX_VALUE);
             map.put(Long.MIN_VALUE, -1L);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -172,6 +182,7 @@ class LongAssertTest {
         @Test
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put(1L, (long) Character.valueOf('\u0000'));
             map.put(1024L, -1024L);
@@ -179,6 +190,7 @@ class LongAssertTest {
             map.put(Long.MAX_VALUE, 1L);
             map.put(-1L, Long.MIN_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -192,6 +204,7 @@ class LongAssertTest {
         @Test
         @DisplayName("passes, when actual is less than or equal to other")
         void test0() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put((long) Character.valueOf('\u0000'), 1L);
             map.put(-1024L, 1024L);
@@ -199,6 +212,7 @@ class LongAssertTest {
             map.put(1L, Long.MAX_VALUE);
             map.put(Long.MIN_VALUE, -1L);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -206,6 +220,7 @@ class LongAssertTest {
         @Test
         @DisplayName("throws exception, when actual is greater than other")
         void test1() {
+            // given
             Map<Long, Long> map = new HashMap<>();
             map.put((long) Character.valueOf('\u0000'), -1L);
             map.put(1024L, -1024L);
@@ -213,6 +228,7 @@ class LongAssertTest {
             map.put(Long.MAX_VALUE, 1L);
             map.put(-1L, Long.MIN_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -326,9 +342,11 @@ class LongAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not between x and y inclusively")
         void test1() {
+            // given
             List<Long> longs = LongStream.rangeClosed(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1)
                     .limit(10_000).boxed().collect(toList());
 
+            // except
             longs.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 1)));
             longs.forEach(n -> assertThatIllegalArgumentException()
@@ -354,9 +372,11 @@ class LongAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not between x and y exclusively")
         void test1() {
+            // given
             List<Long> longs = LongStream.rangeClosed(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1)
                     .limit(10_000).boxed().collect(toList());
 
+            // except
             longs.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             longs.forEach(n -> assertThatIllegalArgumentException()
@@ -397,6 +417,9 @@ class LongAssertTest {
         void test1() {
             String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(36L).isCloseTo(null, 15))
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Long.MAX_VALUE).isCloseTo((long) (Long.MAX_VALUE * 0.25), 74))
                     .withMessageMatching(regex);

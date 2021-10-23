@@ -35,9 +35,11 @@ class AbstractCollectionAssertTest {
         @Test
         @DisplayName("passes, when actual is empty")
         void test0() {
+            // given
             List<Collection<?>> list = Arrays.asList(
                     Collections.emptyList(), new ArrayList<>(), new HashSet<>(), new Stack<>(), new PriorityQueue<>());
 
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty()));
         }
@@ -58,7 +60,7 @@ class AbstractCollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.singletonList(""), set, stack, queue);
 
-            // when & then
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
                     .withMessageStartingWith("It is expected to be empty, but it isn't."));
@@ -84,7 +86,7 @@ class AbstractCollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.singletonList(""), set, stack, queue);
 
-            // when & then
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).hasElement()));
         }
@@ -120,7 +122,7 @@ class AbstractCollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.emptyList(), set, stack, queue);
 
-            // when & then
+            // except
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).doesNotContainNull()));
         }
@@ -138,6 +140,7 @@ class AbstractCollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.singletonList(null), set, stack);
 
+            // except
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).doesNotContainNull())
                     .withMessageStartingWith("It is expected not to contain null, but it isn't."));
@@ -151,6 +154,7 @@ class AbstractCollectionAssertTest {
         @DisplayName("passes, when actual has the given size")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
+                // given
                 Set<String> set = new HashSet<>();
                 set.add("new");
                 set.add("set");
@@ -161,6 +165,7 @@ class AbstractCollectionAssertTest {
                 queue.add("new");
                 queue.add("queue");
 
+                // except
                 Asserts.that(Collections.emptyList()).hasSizeOf(0);
                 Asserts.that(Collections.singletonList(null)).hasSizeOf(1);
                 Asserts.that(set).hasSizeOf(set.size());
@@ -193,6 +198,7 @@ class AbstractCollectionAssertTest {
         @DisplayName("passes, when actual and other have the same size")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
+                // given
                 Set<String> set = new HashSet<>();
                 set.add("set");
                 Stack<String> stack = new Stack<>();
@@ -202,6 +208,7 @@ class AbstractCollectionAssertTest {
                 queue.add("new");
                 queue.add("queue");
 
+                // expect
                 Asserts.that(Collections.emptyList()).isSameSize(new HashSet<>());
                 Asserts.that(Collections.singletonList(null)).isSameSize(set);
                 Asserts.that(set).isSameSize(set);
@@ -215,6 +222,9 @@ class AbstractCollectionAssertTest {
         void test1() {
             String description = "They are expected to be the same size, but they aren't.";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).isSameSize(null))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Collections.emptyList()).isSameSize(Collections.singletonList(null)))
                     .withMessageStartingWith(description);
@@ -234,6 +244,7 @@ class AbstractCollectionAssertTest {
         @DisplayName("passes, when actual and other have a difference with size")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
+                // given
                 Set<String> set = new HashSet<>();
                 set.add("set");
                 Stack<String> stack = new Stack<>();
@@ -243,6 +254,7 @@ class AbstractCollectionAssertTest {
                 queue.add("new");
                 queue.add("queue");
 
+                // except
                 Asserts.that(Collections.emptyList()).isNotSameSize(set);
                 Asserts.that(Collections.singletonList(null)).isNotSameSize(new HashSet<>());
                 Asserts.that(set).isNotSameSize(stack);
@@ -256,6 +268,9 @@ class AbstractCollectionAssertTest {
         void test1() {
             String description = "They are expected to be not the same size, but they are.";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).isNotSameSize(null))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Collections.emptyList()).isNotSameSize(new ArrayList<>()))
                     .withMessageStartingWith(description);

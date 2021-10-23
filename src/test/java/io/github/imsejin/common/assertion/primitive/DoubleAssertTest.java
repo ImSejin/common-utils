@@ -90,6 +90,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("passes, when actual is greater than other")
         void test0() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put(1.1D, (double) Character.valueOf('\u0000'));
             map.put(1.024D, -1.024D);
@@ -97,6 +98,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -104,6 +106,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put((double) Character.valueOf('\u0000'), 0D);
             map.put(-1.024D, 1.024D);
@@ -111,6 +114,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -124,6 +128,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put(1.14D, (double) Character.valueOf('\u0000'));
             map.put(1.024D, -1.024D);
@@ -131,6 +136,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -138,6 +144,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("throws exception, when actual is less than other")
         void test1() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put(-1.16D, (double) Character.valueOf('\u0000'));
             map.put(-1.024D, 1.024D);
@@ -145,6 +152,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -158,6 +166,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("passes, when actual is less than other")
         void test0() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put((double) Character.valueOf('\u0000'), 1.141D);
             map.put(-1.024D, 1.024D);
@@ -165,6 +174,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -172,6 +182,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put(1.99D, (double) Character.valueOf('\u0000'));
             map.put(1.024D, -1.024D);
@@ -179,6 +190,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -192,6 +204,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("passes, when actual is less than or equal to other")
         void test0() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put((double) Character.valueOf('\u0000'), 1.0D);
             map.put(-1.024D, 1.024D);
@@ -199,6 +212,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -206,6 +220,7 @@ class DoubleAssertTest {
         @Test
         @DisplayName("throws exception, when actual is greater than other")
         void test1() {
+            // given
             Map<Double, Double> map = new HashMap<>();
             map.put((double) Character.valueOf('\u0000'), -1.001D);
             map.put(1.024D, -1.024D);
@@ -213,6 +228,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
+            // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -327,9 +343,11 @@ class DoubleAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not between x and y inclusively")
         void test1() {
+            // given
             List<Double> doubles = new Random().doubles(-100, 50)
                     .limit(10_000).boxed().collect(toList());
 
+            // except
             doubles.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1)));
             doubles.forEach(n -> assertThatIllegalArgumentException()
@@ -355,9 +373,11 @@ class DoubleAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not between x and y exclusively")
         void test1() {
+            // given
             List<Double> doubles = new Random().doubles(-100, 50)
                     .limit(10_000).boxed().collect(toList());
 
+            // except
             doubles.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             doubles.forEach(n -> assertThatIllegalArgumentException()
@@ -404,6 +424,9 @@ class DoubleAssertTest {
         void test1() {
             String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(36.5).isCloseTo(null, 15))
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MAX_VALUE * 0.9, 9))
                     .withMessageMatching(regex);

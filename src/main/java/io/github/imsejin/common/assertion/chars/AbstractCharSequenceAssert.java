@@ -40,7 +40,7 @@ public abstract class AbstractCharSequenceAssert<
 
     public SELF isNotEmpty() {
         if (actual.length() <= 0) {
-            setDefaultDescription("It is expected to be not empty, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be not empty, but it is. (actual: '{0}')", actual);
             throw getException();
         }
 

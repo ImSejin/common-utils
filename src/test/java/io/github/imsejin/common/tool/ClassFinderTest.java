@@ -27,7 +27,12 @@ import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.assertion.reflect.PackageAssert;
-import io.github.imsejin.common.assertion.time.*;
+import io.github.imsejin.common.assertion.time.LocalTimeAssert;
+import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
+import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
+import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
+import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
+import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
 import io.github.imsejin.common.util.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -135,7 +140,7 @@ class ClassFinderTest {
         ClassFinder.findClasses(classNames::add);
 
         // then
-        Path sourcePath = Paths.get("./src/main/java/io/github/imsejin/common").toRealPath();
+        Path sourcePath = Paths.get(".", "src", "main", "java", "io", "github", "imsejin", "common").toRealPath();
         assertThat(classNames)
                 .doesNotContainNull()
                 .filteredOn(name -> name.startsWith("io.github.imsejin.common"))

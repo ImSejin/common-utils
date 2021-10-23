@@ -19,7 +19,7 @@ package io.github.imsejin.common.util
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.util.regex.Pattern
+import java.util.function.Supplier
 
 import static java.util.stream.Collectors.toList
 
@@ -38,60 +38,195 @@ class StringUtilsSpec extends Specification {
             Nulla consequat sapien fringilla ultrices volutpat. Suspendisse eget ultrices metus. Pellentesque a volutpat sapien. Vivamus commodo congue fermentum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent sed purus mattis, faucibus dui ut, fringilla libero. Cras suscipit ante et est gravida bibendum. Fusce sed mattis libero. Fusce dapibus id nunc vel ultricies. Donec viverra volutpat pretium. Suspendisse enim augue, viverra non tortor et, maximus consectetur neque. Duis eget arcu in nulla aliquet fermentum. Nulla elementum, felis suscipit ultrices laoreet, nisl ipsum lobortis dui, mollis mollis tellus erat vitae tellus. Curabitur nec nibh a ipsum egestas pretium vel vel odio. Aenean ex urna, vehicula vel arcu eu, fringilla venenatis diam. Aenean vel diam et tortor malesuada viverra.
             """
 
-    @Unroll("StringUtils.formatComma(#num) == '#expected'")
-    def "Put a comma on every three digits"() {
-        when:
-        def actual = StringUtils.formatComma(num)
-
-        then:
-        actual == expected
+    def "Checks if string is null or empty"() {
+        expect:
+        StringUtils.isNullOrEmpty(string) == expected
 
         where:
-        num           | expected
-        "-1034784621" | "-1,034,784,621"
-        -48450        | "-48,450"
-        "512"         | "512"
-        0             | "0"
-        "1024"        | "1,024"
-        89751         | "89,751"
-        "1034784621"  | "1,034,784,621"
+        string | expected
+        null   | true
+        ''     | true
+        ""     | true
+        """""" | true
+        " "    | false
+        "null" | false
     }
 
-    @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
-    def "Find with groups"() {
-        given:
-        def pattern = Pattern.compile('^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$')
-
-        when:
-        def result = StringUtils.find(src, pattern, 1, 2, 3)
-
-        then:
-        result.get(1) == first
-        result.get(2) == second
-        result.get(3) == third
+    def "If string is null or empty, returns the other string"() {
+        expect:
+        StringUtils.ifNullOrEmpty(string, defaultValue as String) == expected
 
         where:
-        src                                                          | first | second                   | third
-        "CO_Felix Nelly(Loplop) - CTK [COMPLETE]"                    | "CO"  | "Felix Nelly(Loplop)"    | "CTK"
-        "L_What Does the Fox Say? - Team_Gaji"                       | "L"   | "What Does the Fox Say?" | "Team_Gaji"
-        "ST_Chief - Final - Jung Kiyoung, Baek Seunghoon [COMPLETE]" | "ST"  | "Chief - Final"          | "Jung Kiyoung, Baek Seunghoon"
-        "L_Barber Shop Quartet - JIM, Nexcube, Bolero [COMPLETE]"    | "L"   | "Barber Shop Quartet"    | "JIM, Nexcube, Bolero"
+        string | defaultValue || expected
+        null   | "default"    || "default"
+        ''     | ""           || ""
+        ""     | null         || null
+        """""" | " "          || " "
+        " "    | null         || " "
+        "null" | ""           || "null"
+    }
+
+    def "If string is null or empty, supplier returns the other string"() {
+        expect:
+        StringUtils.ifNullOrEmpty(string, supplier as Supplier) == expected
+
+        where:
+        string | supplier      || expected
+        null   | { "default" } || "default"
+        ''     | { "" }        || ""
+        ""     | { null }      || null
+        """""" | { " " }       || " "
+        " "    | { null }      || " "
+        "null" | { "" }        || "null"
+    }
+
+    def "Checks if string is null or blank"() {
+        expect:
+        StringUtils.isNullOrBlank(string) == expected
+
+        where:
+        string | expected
+        null   | true
+        ''     | true
+        ""     | true
+        """""" | true
+        " "    | true
+        " A"   | false
+        "A "   | false
+        " A "  | false
+        "null" | false
+    }
+
+    def "If string is null or blank, returns the other string"() {
+        expect:
+        StringUtils.ifNullOrBlank(string, defaultValue as String) == expected
+
+        where:
+        string | defaultValue || expected
+        null   | "default"    || "default"
+        ''     | ""           || ""
+        ""     | null         || null
+        """""" | " "          || " "
+        " "    | null         || null
+        "null" | ""           || "null"
+    }
+
+    def "If string is null or blank, supplier returns the other string"() {
+        expect:
+        StringUtils.ifNullOrBlank(string, supplier as Supplier) == expected
+
+        where:
+        string | supplier      || expected
+        null   | { "default" } || "default"
+        ''     | { "" }        || ""
+        ""     | { null }      || null
+        """""" | { " " }       || " "
+        " "    | { null }      || null
+        "null" | { "" }        || "null"
+    }
+
+    def "Checks if criterial string is equal to other strings"() {
+        expect:
+        StringUtils.anyEquals(criterion, strings) == expected
+
+        where:
+        criterion | strings            || expected
+        null      | [null]             || true
+        ""        | [null, ""]         || true
+        " c"      | ["a", "B", " c"]   || true
+        null      | null               || false
+        null      | []                 || false
+        null      | ["null"]           || false
+        ""        | []                 || false
+        "AB"      | ['ab', "aB", "Ab"] || false
+    }
+
+    def "Checks if criterial string contains other strings"() {
+        expect:
+        StringUtils.anyContains(criterion, strings) == expected
+
+        where:
+        criterion | strings            || expected
+        ""        | [null, ""]         || true
+        " c"      | ["a", "B", "c"]    || true
+        "Abs"     | ['ab', "aB", "Ab"] || true
+        null      | null               || false
+        null      | []                 || false
+        null      | [null]             || false
+        null      | ["null"]           || false
+        ""        | null               || false
+        ""        | []                 || false
+        "A"       | ['ab', "aB", "Ab"] || false
+    }
+
+    def "Checks if string is numeric"() {
+        expect:
+        StringUtils.isNumeric(string) == expected
+
+        where:
+        string    | expected
+        "0123"    | true
+        " 0123"   | false
+        "0123 "   | false
+        " 0123 "  | false
+        "-8"      | false
+        "--1"     | false
+        "+57"     | false
+        "123,456" | false
+        "alpha"   | false
+        " "       | false
+        ""        | false
+        null      | false
+    }
+
+    def "Adds padding before the string"() {
+        expect:
+        StringUtils.padStart(len, origin) == expected0
+        StringUtils.padStart(len, origin, appendix) == expected1
+
+        where:
+        origin          | len                 | appendix || expected0 | expected1
+        "12"            | 3                   | "0"      || " 12"     | "012"
+        "9781911223139" | origin.length()     | "-"      || origin    | origin
+        "111"           | origin.length() + 1 | "10-"    || " 111"    | "10-111"
+        "111"           | origin.length() + 2 | "10-"    || "  111"   | "10-10-111"
+        "111"           | origin.length() + 3 | "10-"    || "   111"  | "10-10-10-111"
+        "20210101"      | 0                   | ""       || origin    | origin
+        "19991231"      | -1                  | null     || origin    | origin
+    }
+
+    def "Adds padding after the string"() {
+        expect:
+        StringUtils.padEnd(len, origin) == expected0
+        StringUtils.padEnd(len, origin, appendix) == expected1
+
+        where:
+        origin          | len                 | appendix || expected0  | expected1
+        "0304"          | 8                   | "0"      || "0304    " | "03040000"
+        "9781911223139" | origin.length()     | "-"      || origin     | origin
+        "111"           | origin.length() + 1 | "-10"    || "111 "     | "111-10"
+        "111"           | origin.length() + 2 | "-10"    || "111  "    | "111-10-10"
+        "111"           | origin.length() + 3 | "-10"    || "111   "   | "111-10-10-10"
+        "20210101"      | 0                   | ""       || origin     | origin
+        "19991231"      | -1                  | null     || origin     | origin
     }
 
     def "How many times the keyword is in the text?"() {
-        given:
-        def keyword = " "
-
         when:
         def count = StringUtils.countOf(LOREM_IPSUM, keyword)
 
         then:
-        count == LOREM_IPSUM.length() - LOREM_IPSUM.replace(keyword, "").length()
+        count == expected
+
+        where:
+        keyword | expected
+        ""      | LOREM_IPSUM.length()
+        " "     | LOREM_IPSUM.length() - LOREM_IPSUM.replace(keyword, "").length()
     }
 
     def "Reverses each character's position"() {
         when:
-        def reversed = StringUtils.reverse(text as String)
+        def reversed = StringUtils.reverse text as String
 
         then:
         char[] chars = text.toCharArray()
@@ -107,10 +242,68 @@ class StringUtilsSpec extends Specification {
                 .map(String::trim).filter(it -> it.length() > 0).collect(toList())
     }
 
-    @Unroll("StringUtils.chop('#input') == '#expected'")
-    def "Remove the last character in the string"() {
+    def "Replaces the last string with other string"() {
         when:
-        def chopped = StringUtils.chop(input)
+        def actual = StringUtils.replaceLast(text, regex, replacement)
+
+        then:
+        actual == expected
+
+        where:
+        text               | regex  | replacement || expected
+        "1?2?3?4?5?"       | "\\?"  | " "         || "1?2?3?4?5 "
+        "ABC%DEF%GHI"      | "%"    | "-"         || "ABC%DEF-GHI"
+        "alpha.beta.gamma" | "a\\." | "/"         || "alpha.bet/gamma"
+        "-|=|-|=|-|=|-"    | "\\|*" | "\\\\|/"    || text + "\\|/"
+        "-|=|-|=|-|=|-"    | "\\|+" | "\\\\|/"    || "-|=|-|=|-|=\\|/-"
+    }
+
+    @Unroll("StringUtils.formatComma(#num) == '#expected'")
+    def "Puts a comma on every three digits"() {
+        when:
+        def actual = StringUtils.formatComma num
+
+        then:
+        actual == expected
+
+        where:
+        num             | expected
+        "-1034784621.0" | "-1,034,784,621"
+        -48450          | "-48,450"
+        "-51.2"         | "-51.2"
+        0               | "0"
+        "102"           | "102"
+        8975.1          | "8,975.1"
+        "1034784621.00" | "1,034,784,621"
+    }
+
+    @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
+    def "Finds with groups"() {
+        given:
+        def pattern = '^(.+)_(.+) - ([^-]+?)( \\[COMPLETE])?$'
+
+        when:
+        def result = StringUtils.find(src, pattern, 0)
+        def resultMap = StringUtils.find(src, pattern, 0, 1, 2, 3)
+
+        then:
+        result == src
+        resultMap.get(1) == first
+        resultMap.get(2) == second
+        resultMap.get(3) == third
+
+        where:
+        src                                                          || first | second                   | third
+        "CO_Felix Nelly(Loplop) - CTK [COMPLETE]"                    || "CO"  | "Felix Nelly(Loplop)"    | "CTK"
+        "L_What Does the Fox Say? - Team_Gaji"                       || "L"   | "What Does the Fox Say?" | "Team_Gaji"
+        "ST_Chief - Final - Jung Kiyoung, Baek Seunghoon [COMPLETE]" || "ST"  | "Chief - Final"          | "Jung Kiyoung, Baek Seunghoon"
+        "L_Barber Shop Quartet - JIM, Nexcube, Bolero [COMPLETE]"    || "L"   | "Barber Shop Quartet"    | "JIM, Nexcube, Bolero"
+    }
+
+    @Unroll("StringUtils.chop('#input') == '#expected'")
+    def "Removes the last character from the string"() {
+        when:
+        def chopped = StringUtils.chop input
 
         then:
         chopped == expected
@@ -132,40 +325,16 @@ class StringUtilsSpec extends Specification {
         "industry"    | "industr"
     }
 
-    def "Add padding before the string"() {
-        when:
-        def actual = StringUtils.padStart(len, origin, appendix)
-
-        then:
-        actual == expected
+    def "Gets the last character from string"() {
+        expect:
+        StringUtils.getLastString(string) == expected
 
         where:
-        origin          | len                 | appendix | expected
-        "12"            | 3                   | "0"      | "012"
-        "9781911223139" | origin.length()     | "-"      | origin
-        "111"           | origin.length() + 1 | "10-"    | "10-111"
-        "111"           | origin.length() + 2 | "10-"    | "10-10-111"
-        "111"           | origin.length() + 3 | "10-"    | "10-10-10-111"
-        "20210101"      | 0                   | ""       | origin
-        "19991231"      | -1                  | null     | origin
-    }
-
-    def "Add padding after the string"() {
-        when:
-        def actual = StringUtils.padEnd(len, origin, appendix)
-
-        then:
-        actual == expected
-
-        where:
-        origin          | len                 | appendix | expected
-        "0304"          | 8                   | "0"      | "03040000"
-        "9781911223139" | origin.length()     | "-"      | origin
-        "111"           | origin.length() + 1 | "-10"    | "111-10"
-        "111"           | origin.length() + 2 | "-10"    | "111-10-10"
-        "111"           | origin.length() + 3 | "-10"    | "111-10-10-10"
-        "20210101"      | 0                   | ""       | origin
-        "19991231"      | -1                  | null     | origin
+        string   | expected
+        ""       | ""
+        "a "     | " "
+        "null"   | "l"
+        "alpha." | "."
     }
 
 }

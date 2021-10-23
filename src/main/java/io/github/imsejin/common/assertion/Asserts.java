@@ -22,17 +22,20 @@ import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
 import io.github.imsejin.common.assertion.map.AbstractMapAssert;
+import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.assertion.reflect.PackageAssert;
 import io.github.imsejin.common.assertion.time.*;
+import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
+import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
+import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
+import java.math.BigDecimal;
+import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
@@ -68,35 +71,35 @@ public abstract class Asserts {
     //////////////////////////////////////// Array ////////////////////////////////////////
 
     public static ArrayAssert<?> that(boolean[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(byte[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(char[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(double[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(float[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(int[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(long[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static ArrayAssert<?> that(short[] array) {
-        return new ArrayAssert<>(ArrayUtils.box(array));
+        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
     }
 
     public static <T> ArrayAssert<?> that(T[] array) {
@@ -130,7 +133,7 @@ public abstract class Asserts {
 
     ///////////////////////////////////////// Map /////////////////////////////////////////
 
-    public static <K, V> AbstractMapAssert<?, Map<?, ?>, K, V> that(Map<K, V> map) {
+    public static <K, V> AbstractMapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
         return new AbstractMapAssert(map) {
         };
     }
@@ -153,6 +156,10 @@ public abstract class Asserts {
     }
 
     /////////////////////////////////////// Number ////////////////////////////////////////
+
+    public static BigDecimalAssert<?> that(BigDecimal number) {
+        return new BigDecimalAssert<>(number);
+    }
 
     public static DoubleAssert<?> that(Double number) {
         return new DoubleAssert<>(number);
@@ -178,17 +185,29 @@ public abstract class Asserts {
 
     //////////////////////////////////////// Time /////////////////////////////////////////
 
-    public static AbstractChronoLocalDateAssert<?, ChronoLocalDate> that(ChronoLocalDate date) {
+    public static InstantAssert<?> that(Instant instant) {
+        return new InstantAssert(instant);
+    }
+
+    public static YearAssert<?> that(Year year) {
+        return new YearAssert(year);
+    }
+
+    public static YearMonthAssert<?> that(YearMonth yearMonth) {
+        return new YearMonthAssert(yearMonth);
+    }
+
+    public static AbstractChronoLocalDateAssert<?> that(ChronoLocalDate date) {
         return new AbstractChronoLocalDateAssert(date) {
         };
     }
 
-    public static <DATE extends ChronoLocalDate> AbstractChronoLocalDateTimeAssert<?, ChronoLocalDateTime<DATE>, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
+    public static <DATE extends ChronoLocalDate> AbstractChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
         return new AbstractChronoLocalDateTimeAssert(dateTime) {
         };
     }
 
-    public static <DATE extends ChronoLocalDate> AbstractChronoZonedDateTimeAssert<?, ChronoZonedDateTime<DATE>, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
+    public static <DATE extends ChronoLocalDate> AbstractChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
         return new AbstractChronoZonedDateTimeAssert(dateTime) {
         };
     }

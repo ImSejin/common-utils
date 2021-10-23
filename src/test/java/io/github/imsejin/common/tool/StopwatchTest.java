@@ -25,7 +25,7 @@ class StopwatchTest {
         void test0() {
             // given
             Stopwatch stopwatch = new Stopwatch();
-            stopwatch.start();
+            stopwatch.start("Let's start %s", Stopwatch.class.getSimpleName());
 
             // expect
             assertThat(stopwatch.isRunning()).isTrue();

@@ -19,7 +19,6 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nonnull;
-import java.io.File;
 
 /**
  * Filename utilities
@@ -38,15 +37,14 @@ public final class FilenameUtils {
 
     /**
      * Returns position of the extension.
-     * <br>
-     * If cannot find it, returns -1.
+     * <p> If cannot find it, returns -1.
      *
      * <pre><code>
-     *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
-     *     indexOfExtension(file);          // 6
+     *     File file0 = new File("D:\\Program Files\\Java", "README.md");
+     *     indexOfExtension(file0.getName()); // 6
      *
-     *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/.gitignore");
-     *     indexOfExtension(anotherFile);   // -1
+     *     File file1 = new File("D:\\Program Files\\Java", ".gitignore");
+     *     indexOfExtension(file1.getName()); // -1
      * </code></pre>
      *
      * @param filename filename
@@ -59,41 +57,37 @@ public final class FilenameUtils {
 
     /**
      * Returns the filename excluding the extension.
-     * <br>
-     * if file is null, returns empty string.
+     * <p> If file is null, returns empty string.
      *
      * <pre><code>
-     *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
-     *     baseName(file);          // README
+     *     File file0 = new File("D:\\Program Files\\Java", "README.md");
+     *     getBaseName(file0.getName()); // "README"
      *
-     *     File anotherFile = new File("D:/Program Files/Java/jdk1.8.0_202/LICENSE");
-     *     baseName(anotherFile);   // LICENSE
+     *     File file1 = new File("D:\\Program Files\\Java", "LICENSE");
+     *     getBaseName(file1.getName()); // "LICENSE"
      * </code></pre>
      *
-     * @param file file
+     * @param filename filename
      * @return filename without extension
      */
-    public static String baseName(@Nonnull File file) {
-        String filename = file.getName();
+    public static String getBaseName(@Nonnull String filename) {
         int index = indexOfExtension(filename);
         return index == -1 ? filename : filename.substring(0, index);
     }
 
     /**
      * Returns the file's extension.
-     * <br>
-     * if file is null, returns empty string.
+     * <p> If file is null, returns empty string.
      *
      * <pre><code>
-     *     File file = new File("D:/Program Files/Java/jdk1.8.0_202/README.html");
-     *     extension(file); // html
+     *     File file = new File("D:\\Program Files\\Java", "README.md");
+     *     getExtension(file.getName()); // "html"
      * </code></pre>
      *
-     * @param file file
+     * @param filename filename
      * @return extension name
      */
-    public static String extension(@Nonnull File file) {
-        String filename = file.getName();
+    public static String getExtension(@Nonnull String filename) {
         int index = indexOfExtension(filename);
         return index == -1 ? "" : filename.substring(index + 1);
     }
@@ -116,9 +110,9 @@ public final class FilenameUtils {
      * <pre>{@code
      *     String unallowables = "** <happy/\\new year> **:\"john\" -> |\"jeremy\"|";
      *
-     *     toSafeName(unallowables);                // ＊＊ ＜happy／＼new year＞ ＊＊：＂john＂ -＞ ｜＂jeremy＂｜
-     *     toSafeName("where he is gone..");        // where he is gone…
-     *     toSafeName("I feel happy when coding."); // I feel happy when coding．
+     *     toSafeName(unallowables);                // "＊＊ ＜happy／＼new year＞ ＊＊：＂john＂ -＞ ｜＂jeremy＂｜"
+     *     toSafeName("where he is gone..");        // "where he is gone…"
+     *     toSafeName("I feel happy when coding."); // "I feel happy when coding．"
      * }</pre>
      *
      * @param filename filename that has unallowable characters

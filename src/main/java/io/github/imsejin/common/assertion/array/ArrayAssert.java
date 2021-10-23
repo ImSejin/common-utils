@@ -34,7 +34,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     public SELF isEqualTo(Object[] expected) {
         if (!Objects.deepEquals(actual, expected)) {
             setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
-                    Arrays.toString(expected), Arrays.toString(actual));
+                    Arrays.deepToString(expected), Arrays.deepToString(actual));
             throw getException();
         }
 
@@ -45,7 +45,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     public SELF isNotEqualTo(Object[] expected) {
         if (Objects.deepEquals(actual, expected)) {
             setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
-                    Arrays.toString(expected), Arrays.toString(actual));
+                    Arrays.deepToString(expected), Arrays.deepToString(actual));
             throw getException();
         }
 
@@ -55,7 +55,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
     public SELF isEmpty() {
         if (actual.length > 0) {
             setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')",
-                    Arrays.toString(actual));
+                    Arrays.deepToString(actual));
             throw getException();
         }
 
@@ -76,7 +76,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
             if (element != null) continue;
 
             setDefaultDescription("It is expected not to contain null, but it isn't. (actual: '{0}')",
-                    Arrays.toString(actual));
+                    Arrays.deepToString(actual));
             throw getException();
         }
 
@@ -119,7 +119,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
         }
 
         setDefaultDescription("It is expected to contain the given element, but it doesn't. (expected: '{0}', actual: '{1}')",
-                ArrayUtils.toString(expected), Arrays.toString(actual));
+                ArrayUtils.toString(expected), Arrays.deepToString(actual));
         throw getException();
     }
 
@@ -154,7 +154,7 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectA
         }
 
         setDefaultDescription("It is expected to contain the given elements, but it doesn't. (expected: '{0}', actual: '{1}')",
-                Arrays.toString(expected), Arrays.toString(actual));
+                Arrays.deepToString(expected), Arrays.deepToString(actual));
         throw getException();
     }
 

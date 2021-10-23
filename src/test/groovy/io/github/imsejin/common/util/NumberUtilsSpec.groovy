@@ -20,9 +20,66 @@ import spock.lang.Specification
 
 class NumberUtilsSpec extends Specification {
 
-    def "Get number of places with long"() {
+    def "If number is not positive, returns 1"() {
+        expect:
+        NumberUtils.toPositive(number as Double) == expected
+        NumberUtils.toPositive(number as Float) == expected
+        NumberUtils.toPositive(number as Long) == expected
+        NumberUtils.toPositive(number as Integer) == expected
+        NumberUtils.toPositive(number as Short) == expected
+        NumberUtils.toPositive(number as Byte) == expected
+
+        where:
+        number | expected
+        -128   | 1
+        -56.5  | 1
+        0      | 1
+        null   | 1
+        1.0    | 1.0
+        3      | 3
+        98.0   | 98
+    }
+
+    def "If number is not negative, returns -1"() {
+        expect:
+        NumberUtils.toNegative(number as Double) == expected
+        NumberUtils.toNegative(number as Float) == expected
+        NumberUtils.toNegative(number as Long) == expected
+        NumberUtils.toNegative(number as Integer) == expected
+        NumberUtils.toNegative(number as Short) == expected
+        NumberUtils.toNegative(number as Byte) == expected
+
+        where:
+        number | expected
+        -128   | -128
+        -56.0  | -56
+        -2     | -2
+        0      | -1
+        null   | -1
+        1      | -1
+        98.0   | -1
+    }
+
+    def "If number is null, returns the other number"() {
+        expect:
+        NumberUtils.ifNull(number as Double, defaultNumber as double) == expected
+        NumberUtils.ifNull(number as Float, defaultNumber as float) == expected
+        NumberUtils.ifNull(number as Long, defaultNumber as long) == expected
+        NumberUtils.ifNull(number as Integer, defaultNumber as int) == expected
+        NumberUtils.ifNull(number as Short, defaultNumber as short) == expected
+        NumberUtils.ifNull(number as Byte, defaultNumber as byte) == expected
+
+        where:
+        number | defaultNumber || expected
+        -1     | -1            || -1
+        0      | 0             || 0
+        null   | 5             || 5
+        1      | 1             || 1
+    }
+
+    def "Gets number of places with long"() {
         when:
-        def numOfPlaces = NumberUtils.getNumOfPlaces(number)
+        def numOfPlaces = NumberUtils.getNumOfPlaces number
 
         then:
         if (number == Integer.MIN_VALUE || number == Long.MIN_VALUE) number++
@@ -32,7 +89,7 @@ class NumberUtilsSpec extends Specification {
         number << [Long.MIN_VALUE, Integer.MIN_VALUE, -50_000, -1, 0, 1, 50_000, Integer.MAX_VALUE, Long.MAX_VALUE]
     }
 
-    def "Get number of places with BigInteger"() {
+    def "Gets number of places with BigInteger"() {
         when:
         def numOfPlaces = NumberUtils.getNumOfPlaces(new BigInteger(number))
 
@@ -43,12 +100,14 @@ class NumberUtilsSpec extends Specification {
         number << ["-115234155123123413842342342024623440", "-5", "0", "9", "1505512411489465416645571849602523405834510"]
     }
 
-    def "Check whether number has decimal part"() {
+    def "Checks whether number has decimal part"() {
         when:
-        def actual = NumberUtils.hasDecimalPart number as double
+        def actual0 = NumberUtils.hasDecimalPart number as double
+        def actual1 = NumberUtils.hasDecimalPart number as BigDecimal
 
         then:
-        actual == expected
+        actual0 == expected
+        actual1 == expected
 
         where:
         number               | expected
@@ -68,7 +127,7 @@ class NumberUtilsSpec extends Specification {
         -128.0               | false
     }
 
-    def "Get reversed long number"() {
+    def "Gets reversed long number"() {
         when:
         def actual = NumberUtils.reverse number
 
@@ -92,7 +151,7 @@ class NumberUtilsSpec extends Specification {
         Long.MAX_VALUE    | 7085774586302733229
     }
 
-    def "Get reversed big integer"() {
+    def "Gets reversed big integer"() {
         when:
         def actual = NumberUtils.reverse number
 

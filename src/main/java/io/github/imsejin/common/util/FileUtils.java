@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.FileVisitOption;
@@ -51,7 +52,7 @@ public final class FileUtils {
      * Returns creation time of the file.
      *
      * <pre><code>
-     *     File file = new File("C:\\Program Files\\Java\\jdk1.8.0_202\\README.html");
+     *     File file = new File("C:\\Program Files\\Java", "README.md");
      *     getCreationTime(file); // 2020-02-29 23:06:34
      * </code></pre>
      *
@@ -61,6 +62,20 @@ public final class FileUtils {
     public static LocalDateTime getCreationTime(@Nonnull File file) {
         FileTime time = getFileAttributes(file).creationTime();
         return LocalDateTime.ofInstant(time.toInstant(), ZoneId.systemDefault());
+    }
+
+    /**
+     * Returns attributes of file.
+     *
+     * @param file file
+     * @return file's attributes
+     */
+    public static BasicFileAttributes getFileAttributes(@Nonnull File file) {
+        try {
+            return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -75,7 +90,7 @@ public final class FileUtils {
      * @return directory whose name is the same name as the filename in the same path
      */
     public static File mkdirAsOwnName(@Nonnull File file) {
-        String dirName = FilenameUtils.baseName(file);
+        String dirName = FilenameUtils.getBaseName(file.getName());
 
         File dir = new File(file.getParentFile(), dirName);
         dir.mkdir();
@@ -84,16 +99,17 @@ public final class FileUtils {
     }
 
     /**
-     * Returns attributes of file.
+     * Downloads a file with URL.
      *
-     * @param file file
-     * @return file's attributes
+     * @param url  URL
+     * @param dest file for destination
+     * @return whether success to download file or not
      */
-    public static BasicFileAttributes getFileAttributes(@Nonnull File file) {
+    public static boolean download(URL url, File dest) {
         try {
-            return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            return download(url.openStream(), dest);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 

@@ -66,24 +66,32 @@ public final class CollectionUtils {
         return map == null || map.isEmpty();
     }
 
+    public static <E> Collection<E> ifNullOrEmpty(Collection<E> collection, Collection<E> defaultList) {
+        return isNullOrEmpty(collection) ? defaultList : collection;
+    }
+
+    public static <E> Collection<E> ifNullOrEmpty(Collection<E> collection, @Nonnull Supplier<Collection<E>> supplier) {
+        return isNullOrEmpty(collection) ? supplier.get() : collection;
+    }
+
     public static <E> List<E> ifNullOrEmpty(List<E> list, List<E> defaultList) {
         return isNullOrEmpty(list) ? defaultList : list;
-    }
-
-    public static <E> Set<E> ifNullOrEmpty(Set<E> set, Set<E> defaultSet) {
-        return isNullOrEmpty(set) ? defaultSet : set;
-    }
-
-    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, Map<K, V> defaultMap) {
-        return isNullOrEmpty(map) ? defaultMap : map;
     }
 
     public static <E> List<E> ifNullOrEmpty(List<E> list, @Nonnull Supplier<List<E>> supplier) {
         return isNullOrEmpty(list) ? supplier.get() : list;
     }
 
+    public static <E> Set<E> ifNullOrEmpty(Set<E> set, Set<E> defaultSet) {
+        return isNullOrEmpty(set) ? defaultSet : set;
+    }
+
     public static <E> Set<E> ifNullOrEmpty(Set<E> set, @Nonnull Supplier<Set<E>> supplier) {
         return isNullOrEmpty(set) ? supplier.get() : set;
+    }
+
+    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, Map<K, V> defaultMap) {
+        return isNullOrEmpty(map) ? defaultMap : map;
     }
 
     public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, @Nonnull Supplier<Map<K, V>> supplier) {
@@ -104,6 +112,22 @@ public final class CollectionUtils {
      */
     public static boolean exists(Collection<?> collection) {
         return !isNullOrEmpty(collection);
+    }
+
+    /**
+     * Checks whether the map exists or not.
+     *
+     * <pre><code>
+     *     exists(null);   // false
+     *     exists({});     // false
+     *     exists({a: 5}); // true
+     * </code></pre>
+     *
+     * @param map map
+     * @return whether the map exists or not
+     */
+    public static boolean exists(Map<?, ?> map) {
+        return !isNullOrEmpty(map);
     }
 
     /**

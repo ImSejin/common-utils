@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Objects;
 
 public class NumberAssert<
@@ -50,47 +51,85 @@ public class NumberAssert<
         if (numberType == Long.class) return (N) Long.valueOf(number.longValue());
         if (numberType == Float.class) return (N) Float.valueOf(number.floatValue());
         if (numberType == Double.class) return (N) Double.valueOf(number.doubleValue());
+        if (numberType == BigInteger.class) return (N) BigInteger.valueOf(number.longValue());
+        if (numberType == BigDecimal.class) return (N) BigDecimal.valueOf(number.doubleValue());
 
         return null;
     }
 
     public SELF isGreaterThan(NUMBER expected) {
-        if (actual.compareTo(expected) <= 0) throw getException();
+        if (actual.compareTo(expected) <= 0) {
+            setDefaultDescription("It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isGreaterThanOrEqualTo(NUMBER expected) {
-        if (actual.compareTo(expected) < 0) throw getException();
+        if (actual.compareTo(expected) < 0) {
+            setDefaultDescription("It is expected to be greater than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLessThan(NUMBER expected) {
-        if (actual.compareTo(expected) >= 0) throw getException();
+        if (actual.compareTo(expected) >= 0) {
+            setDefaultDescription("It is expected to be less than the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLessThanOrEqualTo(NUMBER expected) {
-        if (actual.compareTo(expected) > 0) throw getException();
+        if (actual.compareTo(expected) > 0) {
+            setDefaultDescription("It is expected to be less than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isPositive() {
-        if (actual.compareTo(this.zero) <= 0) throw getException();
+        if (actual.compareTo(this.zero) <= 0) {
+            setDefaultDescription("It is expected to be positive, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isZeroOrPositive() {
-        if (actual.compareTo(this.zero) < 0) throw getException();
+        if (actual.compareTo(this.zero) < 0) {
+            setDefaultDescription("It is expected to be zero or positive, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNegative() {
-        if (actual.compareTo(this.zero) >= 0) throw getException();
+        if (actual.compareTo(this.zero) >= 0) {
+            setDefaultDescription("It is expected to be negative, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isZeroOrNegative() {
-        if (actual.compareTo(this.zero) > 0) throw getException();
+        if (actual.compareTo(this.zero) > 0) {
+            setDefaultDescription("It is expected to be zero or negative, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -103,7 +142,7 @@ public class NumberAssert<
     }
 
     /**
-     * Asserts that actual value is close to other.
+     * Verifies that actual value is close to other.
      *
      * @param expected   approximation
      * @param percentage acceptable error rate
