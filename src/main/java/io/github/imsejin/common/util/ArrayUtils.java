@@ -20,6 +20,7 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -50,40 +51,8 @@ public final class ArrayUtils {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
-    public static boolean isNullOrEmpty(boolean[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(byte[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(char[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(double[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(float[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(int[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(long[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static boolean isNullOrEmpty(short[] array) {
-        return array == null || array.length == 0;
-    }
-
-    public static <T> boolean isNullOrEmpty(T[] array) {
-        return array == null || array.length == 0;
+    public static boolean isNullOrEmpty(Object array) {
+        return array == null || Array.getLength(array) == 0;
     }
 
     public static boolean exists(boolean[] array) {
