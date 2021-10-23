@@ -59,9 +59,7 @@ public final class ArrayUtils {
         return !isNullOrEmpty(array);
     }
 
-    @Nullable
-    public static Boolean[] box(boolean[] array) {
-        if (array == null) return null;
+    public static Boolean[] box(@Nonnull boolean[] array) {
         if (array.length == 0) return EMPTY_BOOLEAN_WRAPPER_ARRAY;
 
         Boolean[] booleans = new Boolean[array.length];
@@ -72,9 +70,7 @@ public final class ArrayUtils {
         return booleans;
     }
 
-    @Nullable
-    public static Byte[] box(byte[] array) {
-        if (array == null) return null;
+    public static Byte[] box(@Nonnull byte[] array) {
         if (array.length == 0) return EMPTY_BYTE_WRAPPER_ARRAY;
 
         Byte[] bytes = new Byte[array.length];
@@ -85,9 +81,7 @@ public final class ArrayUtils {
         return bytes;
     }
 
-    @Nullable
-    public static Character[] box(char[] array) {
-        if (array == null) return null;
+    public static Character[] box(@Nonnull char[] array) {
         if (array.length == 0) return EMPTY_CHARACTER_WRAPPER_ARRAY;
 
         Character[] characters = new Character[array.length];
@@ -98,9 +92,7 @@ public final class ArrayUtils {
         return characters;
     }
 
-    @Nullable
-    public static Double[] box(double[] array) {
-        if (array == null) return null;
+    public static Double[] box(@Nonnull double[] array) {
         if (array.length == 0) return EMPTY_DOUBLE_WRAPPER_ARRAY;
 
         Double[] doubles = new Double[array.length];
@@ -111,9 +103,7 @@ public final class ArrayUtils {
         return doubles;
     }
 
-    @Nullable
-    public static Float[] box(float[] array) {
-        if (array == null) return null;
+    public static Float[] box(@Nonnull float[] array) {
         if (array.length == 0) return EMPTY_FLOAT_WRAPPER_ARRAY;
 
         Float[] floats = new Float[array.length];
@@ -124,9 +114,7 @@ public final class ArrayUtils {
         return floats;
     }
 
-    @Nullable
-    public static Integer[] box(int[] array) {
-        if (array == null) return null;
+    public static Integer[] box(@Nonnull int[] array) {
         if (array.length == 0) return EMPTY_INTEGER_WRAPPER_ARRAY;
 
         Integer[] integers = new Integer[array.length];
@@ -137,9 +125,7 @@ public final class ArrayUtils {
         return integers;
     }
 
-    @Nullable
-    public static Long[] box(long[] array) {
-        if (array == null) return null;
+    public static Long[] box(@Nonnull long[] array) {
         if (array.length == 0) return EMPTY_LONG_WRAPPER_ARRAY;
 
         Long[] longs = new Long[array.length];
@@ -150,9 +136,7 @@ public final class ArrayUtils {
         return longs;
     }
 
-    @Nullable
-    public static Short[] box(short[] array) {
-        if (array == null) return null;
+    public static Short[] box(@Nonnull short[] array) {
         if (array.length == 0) return EMPTY_SHORT_WRAPPER_ARRAY;
 
         Short[] shorts = new Short[array.length];
@@ -163,9 +147,7 @@ public final class ArrayUtils {
         return shorts;
     }
 
-    @Nullable
-    public static boolean[] unbox(Boolean[] array) {
-        if (array == null) return null;
+    public static boolean[] unbox(@Nonnull Boolean[] array) {
         if (array.length == 0) return EMPTY_BOOLEAN_PRIMITIVE_ARRAY;
 
         boolean[] booleans = new boolean[array.length];
@@ -176,9 +158,7 @@ public final class ArrayUtils {
         return booleans;
     }
 
-    @Nullable
-    public static byte[] unbox(Byte[] array) {
-        if (array == null) return null;
+    public static byte[] unbox(@Nonnull Byte[] array) {
         if (array.length == 0) return EMPTY_BYTE_PRIMITIVE_ARRAY;
 
         byte[] bytes = new byte[array.length];
@@ -189,9 +169,7 @@ public final class ArrayUtils {
         return bytes;
     }
 
-    @Nullable
-    public static char[] unbox(Character[] array) {
-        if (array == null) return null;
+    public static char[] unbox(@Nonnull Character[] array) {
         if (array.length == 0) return EMPTY_CHARACTER_PRIMITIVE_ARRAY;
 
         char[] chars = new char[array.length];
@@ -202,9 +180,7 @@ public final class ArrayUtils {
         return chars;
     }
 
-    @Nullable
-    public static double[] unbox(Double[] array) {
-        if (array == null) return null;
+    public static double[] unbox(@Nonnull Double[] array) {
         if (array.length == 0) return EMPTY_DOUBLE_PRIMITIVE_ARRAY;
 
         double[] doubles = new double[array.length];
@@ -215,9 +191,7 @@ public final class ArrayUtils {
         return doubles;
     }
 
-    @Nullable
-    public static float[] unbox(Float[] array) {
-        if (array == null) return null;
+    public static float[] unbox(@Nonnull Float[] array) {
         if (array.length == 0) return EMPTY_FLOAT_PRIMITIVE_ARRAY;
 
         float[] floats = new float[array.length];
@@ -228,9 +202,7 @@ public final class ArrayUtils {
         return floats;
     }
 
-    @Nullable
-    public static int[] unbox(Integer[] array) {
-        if (array == null) return null;
+    public static int[] unbox(@Nonnull Integer[] array) {
         if (array.length == 0) return EMPTY_INTEGER_PRIMITIVE_ARRAY;
 
         int[] ints = new int[array.length];
@@ -241,9 +213,7 @@ public final class ArrayUtils {
         return ints;
     }
 
-    @Nullable
-    public static long[] unbox(Long[] array) {
-        if (array == null) return null;
+    public static long[] unbox(@Nonnull Long[] array) {
         if (array.length == 0) return EMPTY_LONG_PRIMITIVE_ARRAY;
 
         long[] longs = new long[array.length];
@@ -254,9 +224,7 @@ public final class ArrayUtils {
         return longs;
     }
 
-    @Nullable
-    public static short[] unbox(Short[] array) {
-        if (array == null) return null;
+    public static short[] unbox(@Nonnull Short[] array) {
         if (array.length == 0) return EMPTY_SHORT_PRIMITIVE_ARRAY;
 
         short[] shorts = new short[array.length];
