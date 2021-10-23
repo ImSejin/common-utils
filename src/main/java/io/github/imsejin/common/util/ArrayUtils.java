@@ -59,6 +59,12 @@ public final class ArrayUtils {
         return !isNullOrEmpty(array);
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Boolean[] box(@Nonnull boolean[] array) {
         if (array.length == 0) return EMPTY_BOOLEAN_WRAPPER_ARRAY;
 
@@ -70,6 +76,12 @@ public final class ArrayUtils {
         return booleans;
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Byte[] box(@Nonnull byte[] array) {
         if (array.length == 0) return EMPTY_BYTE_WRAPPER_ARRAY;
 
@@ -81,6 +93,12 @@ public final class ArrayUtils {
         return bytes;
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Character[] box(@Nonnull char[] array) {
         if (array.length == 0) return EMPTY_CHARACTER_WRAPPER_ARRAY;
 
@@ -92,6 +110,12 @@ public final class ArrayUtils {
         return characters;
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Double[] box(@Nonnull double[] array) {
         if (array.length == 0) return EMPTY_DOUBLE_WRAPPER_ARRAY;
 
@@ -103,6 +127,12 @@ public final class ArrayUtils {
         return doubles;
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Float[] box(@Nonnull float[] array) {
         if (array.length == 0) return EMPTY_FLOAT_WRAPPER_ARRAY;
 
@@ -114,6 +144,12 @@ public final class ArrayUtils {
         return floats;
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Integer[] box(@Nonnull int[] array) {
         if (array.length == 0) return EMPTY_INTEGER_WRAPPER_ARRAY;
 
@@ -125,6 +161,12 @@ public final class ArrayUtils {
         return integers;
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Long[] box(@Nonnull long[] array) {
         if (array.length == 0) return EMPTY_LONG_WRAPPER_ARRAY;
 
@@ -136,6 +178,12 @@ public final class ArrayUtils {
         return longs;
     }
 
+    /**
+     * Makes primitive array boxed.
+     *
+     * @param array primitive array
+     * @return boxed array
+     */
     public static Short[] box(@Nonnull short[] array) {
         if (array.length == 0) return EMPTY_SHORT_WRAPPER_ARRAY;
 
@@ -147,6 +195,12 @@ public final class ArrayUtils {
         return shorts;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static boolean[] unbox(@Nonnull Boolean[] array) {
         if (array.length == 0) return EMPTY_BOOLEAN_PRIMITIVE_ARRAY;
 
@@ -158,6 +212,12 @@ public final class ArrayUtils {
         return booleans;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static byte[] unbox(@Nonnull Byte[] array) {
         if (array.length == 0) return EMPTY_BYTE_PRIMITIVE_ARRAY;
 
@@ -169,6 +229,12 @@ public final class ArrayUtils {
         return bytes;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static char[] unbox(@Nonnull Character[] array) {
         if (array.length == 0) return EMPTY_CHARACTER_PRIMITIVE_ARRAY;
 
@@ -180,6 +246,12 @@ public final class ArrayUtils {
         return chars;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static double[] unbox(@Nonnull Double[] array) {
         if (array.length == 0) return EMPTY_DOUBLE_PRIMITIVE_ARRAY;
 
@@ -191,6 +263,12 @@ public final class ArrayUtils {
         return doubles;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static float[] unbox(@Nonnull Float[] array) {
         if (array.length == 0) return EMPTY_FLOAT_PRIMITIVE_ARRAY;
 
@@ -202,6 +280,12 @@ public final class ArrayUtils {
         return floats;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static int[] unbox(@Nonnull Integer[] array) {
         if (array.length == 0) return EMPTY_INTEGER_PRIMITIVE_ARRAY;
 
@@ -213,6 +297,12 @@ public final class ArrayUtils {
         return ints;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static long[] unbox(@Nonnull Long[] array) {
         if (array.length == 0) return EMPTY_LONG_PRIMITIVE_ARRAY;
 
@@ -224,6 +314,12 @@ public final class ArrayUtils {
         return longs;
     }
 
+    /**
+     * Makes wrapper array unboxed.
+     *
+     * @param array wrapper array
+     * @return primitive array
+     */
     public static short[] unbox(@Nonnull Short[] array) {
         if (array.length == 0) return EMPTY_SHORT_PRIMITIVE_ARRAY;
 
