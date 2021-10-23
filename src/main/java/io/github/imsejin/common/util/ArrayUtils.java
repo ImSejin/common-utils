@@ -55,39 +55,7 @@ public final class ArrayUtils {
         return array == null || Array.getLength(array) == 0;
     }
 
-    public static boolean exists(boolean[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(byte[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(char[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(double[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(float[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(int[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(long[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static boolean exists(short[] array) {
-        return !isNullOrEmpty(array);
-    }
-
-    public static <T> boolean exists(T[] array) {
+    public static boolean exists(Object array) {
         return !isNullOrEmpty(array);
     }
 
