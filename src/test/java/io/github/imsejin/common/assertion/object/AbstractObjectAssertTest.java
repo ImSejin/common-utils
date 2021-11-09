@@ -303,11 +303,10 @@ class AbstractObjectAssertTest {
     @DisplayName("method 'returns'")
     class Returns {
         @Test
-        @SuppressWarnings("unchecked")
         @DisplayName("passes, when value returned by function using the actual is equal to the expected")
         void test0() {
             // given
-            Map<Object, Function<?, ?>> map = new HashMap<>();
+            Map<Object, Function<Object, Object>> map = new HashMap<>();
             map.put(LocalDate.now(), it -> LocalDateTime.now().toLocalDate());
             map.put("alpha", it -> "ALPHA".toLowerCase());
             map.put('c', it -> Character.toLowerCase("C".charAt(0)));
@@ -316,8 +315,7 @@ class AbstractObjectAssertTest {
 
             // except
             map.forEach((actual, expected) -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual)
-                            .returns(actual, (Function<Object, ? super Object>) expected)));
+                    .isThrownBy(() -> Asserts.that(actual).returns(actual, expected)));
         }
 
         @Test
