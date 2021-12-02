@@ -24,11 +24,15 @@ import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /**
  * Reflection utilities
  */
 public final class ReflectionUtils {
+
+    private static final Pattern OUTER_CLASS_REF_PATTERN = Pattern.compile("^this\\$[0-9]+$");
 
     @ExcludeFromGeneratedJacocoReport
     private ReflectionUtils() {
@@ -51,13 +55,19 @@ public final class ReflectionUtils {
             fields.addAll(0, Arrays.asList(clazz.getDeclaredFields()));
         }
 
-        // Removes a instance of outer class when the type is non-static inner class.
-        if (!Modifier.isStatic(type.getModifiers()) && (type.isMemberClass() || type.isLocalClass())) {
-            fields.remove(0);
-        }
+        // Removes static fields.
+        Predicate<Field> filter = it -> Modifier.isStatic(it.getModifiers());
 
-        // Removes static fields from list.
-        fields.removeIf(it -> Modifier.isStatic(it.getModifiers()));
+        // Removes the fields for reference to outer class when a type is non-static.
+        // e.g. this$0, this$1, ...
+        filter = filter.or(it -> Modifier.isFinal(it.getModifiers()) &&
+                OUTER_CLASS_REF_PATTERN.matcher(it.getName()).matches());
+
+        // Removes internal field for meta-programming in groovy class.
+        filter = filter.or(it -> Modifier.isTransient(it.getModifiers()) &&
+                it.getType().getName().equals("groovy.lang.MetaClass"));
+
+        fields.removeIf(filter);
 
         return fields;
     }
