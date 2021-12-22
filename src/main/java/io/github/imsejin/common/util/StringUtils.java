@@ -616,9 +616,9 @@ public final class StringUtils {
      *     // Positive ordinal
      *     ordinalIndexOf("1,2,3,4", ',', 1);           // 1
      *     ordinalIndexOf("alpha|beta|gamma", '|', 2);  // 10
-     *     ordinalIndexOf("a:b::c::", ':', 5);          // 7
+     *     ordinalIndexOf("A/B//D///", '/', 5);         // 7
      *     ordinalIndexOf("15.768", '.', 1);            // 2
-     *     ordinalIndexOf("15.768", '.', 2);            // -1
+     *     ordinalIndexOf("15.768", '.', 3);            // -1
      *     ordinalIndexOf("a,b,c", ';', 2);             // -1
      *
      *     // Zero ordinal
@@ -627,9 +627,9 @@ public final class StringUtils {
      *     // Negative ordinal
      *     ordinalIndexOf("1,2,3,4", ',', -1);          // 5
      *     ordinalIndexOf("alpha|beta|gamma", '|', -2); // 5
-     *     ordinalIndexOf("a:b::c::", ':', -5);         // 1
+     *     ordinalIndexOf("A/B//D///", '/', -5);        // 3
      *     ordinalIndexOf("15.768", '.', -1);           // 2
-     *     ordinalIndexOf("15.768", '.', -2);           // -1
+     *     ordinalIndexOf("15.768", '.', -3);           // -1
      *     ordinalIndexOf("a,b,c", ';', -2);            // -1
      * }</pre>
      *
