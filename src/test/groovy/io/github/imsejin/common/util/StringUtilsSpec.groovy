@@ -337,4 +337,30 @@ class StringUtilsSpec extends Specification {
         "alpha." | "."
     }
 
+    def "Gets the ordinal index of the string"() {
+        when:
+        def actual = StringUtils.ordinalIndexOf(string, character as char, ordinal)
+
+        then:
+        actual == expected
+
+        where:
+        string             | character | ordinal || expected
+        "1,2,3,4"          | ','       | 1       || 1
+        "alpha|beta|gamma" | '|'       | 2       || 10
+        "A/B//D///G"       | '/'       | 5       || 7
+        "a:b::c::"         | ':'       | 5       || 7
+        "15.768"           | '.'       | 1       || 2
+        "15.768"           | '.'       | 2       || -1
+        "a,b,c"            | ';'       | 2       || -1
+        "x-y-z"            | '-'       | 0       || -1
+        "1,2,3,4"          | ','       | -1      || 5
+        "alpha|beta|gamma" | '|'       | -2      || 5
+        "A/B//D///G"       | '/'       | -5      || 3
+        "a:b::c::"         | ':'       | -5      || 1
+        "15.768"           | '.'       | -1      || 2
+        "15.768"           | '.'       | -2      || -1
+        "a,b,c"            | ';'       | -2      || -1
+    }
+
 }
