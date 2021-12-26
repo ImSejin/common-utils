@@ -332,10 +332,11 @@ class BigIntegerAssertTest {
         @Test
         @DisplayName("passes, when actual is between x and y exclusively")
         void test0() {
-            IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
-                    .limit(10_000).mapToObj(BigInteger::valueOf).forEach(n -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(n)
-                            .isStrictlyBetween(n.subtract(BigInteger.ONE), n.add(BigInteger.ONE))));
+            for (int i = Integer.MIN_VALUE; i < Integer.MIN_VALUE + 10_000; i++) {
+                BigInteger bigInt = BigInteger.valueOf(i);
+                assertThatNoException().isThrownBy(() -> Asserts.that(bigInt)
+                        .isStrictlyBetween(bigInt.subtract(BigInteger.ONE), bigInt.add(BigInteger.ONE)));
+            }
         }
 
         @Test
