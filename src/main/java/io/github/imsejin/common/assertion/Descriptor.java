@@ -36,6 +36,12 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         this.self = (SELF) this;
     }
 
+    protected static void merge(Descriptor<?> source, Descriptor<?> target) {
+        target.description = source.description;
+        target.arguments = source.arguments;
+        target.function = source.function;
+    }
+
     public final SELF as(String description, Object... args) {
         this.description = description;
         this.arguments = args;
