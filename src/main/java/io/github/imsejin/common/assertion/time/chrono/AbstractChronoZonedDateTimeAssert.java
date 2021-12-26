@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.time.chrono;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
@@ -56,7 +57,10 @@ public abstract class AbstractChronoZonedDateTimeAssert<
      * @see OffsetDateTimeAssert#asLocalDate()
      */
     public AbstractChronoLocalDateAssert<?> asLocalDate() {
-        return Asserts.that(actual.toLocalDate());
+        AbstractChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     /**
@@ -65,7 +69,10 @@ public abstract class AbstractChronoZonedDateTimeAssert<
      */
     @SuppressWarnings("unchecked")
     public AbstractChronoLocalDateTimeAssert<?, DATE> asLocalDateTime() {
-        return (AbstractChronoLocalDateTimeAssert<?, DATE>) Asserts.that(actual.toLocalDateTime());
+        AbstractChronoLocalDateTimeAssert<?, DATE> assertion = (AbstractChronoLocalDateTimeAssert<?, DATE>) Asserts.that(actual.toLocalDateTime());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     /**
@@ -74,18 +81,27 @@ public abstract class AbstractChronoZonedDateTimeAssert<
      * @see OffsetDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {
-        return Asserts.that(actual.toLocalTime());
+        LocalTimeAssert<?> assertion = Asserts.that(actual.toLocalTime());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     public OffsetDateTimeAssert<?> asOffsetDateTime() {
         LocalDateTime dateTime = LocalDateTime.ofInstant(actual.toInstant(), actual.getZone());
         ZoneOffset offset = actual.getOffset();
 
-        return Asserts.that(OffsetDateTime.of(dateTime, offset));
+        OffsetDateTimeAssert<?> assertion = Asserts.that(OffsetDateTime.of(dateTime, offset));
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     public InstantAssert<?> asInstant() {
-        return Asserts.that(actual.toInstant());
+        InstantAssert<?> assertion = Asserts.that(actual.toInstant());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }

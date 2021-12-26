@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.reflect;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.tool.TypeClassifier;
 import io.github.imsejin.common.util.ClassUtils;
@@ -247,11 +248,17 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractO
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public ClassAssert<?, ?> asSuperclass() {
-        return Asserts.that(actual.getSuperclass());
+        ClassAssert<?, ?> assertion = Asserts.that(actual.getSuperclass());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     public PackageAssert<?> asPackage() {
-        return Asserts.that(actual.getPackage());
+        PackageAssert<?> assertion = Asserts.that(actual.getPackage());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }

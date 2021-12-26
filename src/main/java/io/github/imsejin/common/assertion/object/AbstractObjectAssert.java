@@ -145,11 +145,17 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
     @SuppressWarnings("unchecked")
     public ClassAssert<?, ACTUAL> asClass() {
-        return (ClassAssert<?, ACTUAL>) Asserts.that(actual.getClass());
+        ClassAssert<?, ACTUAL> assertion = (ClassAssert<?, ACTUAL>) Asserts.that(actual.getClass());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     public StringAssert<?> asString() {
-        return Asserts.that(actual.toString());
+        StringAssert<?> assertion = Asserts.that(actual.toString());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }

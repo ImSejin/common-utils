@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 import io.github.imsejin.common.util.FilenameUtils;
@@ -162,7 +163,10 @@ public abstract class AbstractFileAssert<
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public NumberAssert<?, Long> asLength() {
-        return Asserts.that(actual.length());
+        NumberAssert<?, Long> assertion = Asserts.that(actual.length());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }

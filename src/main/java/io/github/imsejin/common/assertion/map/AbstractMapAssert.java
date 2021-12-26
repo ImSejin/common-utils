@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.map;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
@@ -139,15 +140,24 @@ public abstract class AbstractMapAssert<
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public AbstractCollectionAssert<?, Collection<K>, K> asKeySet() {
-        return Asserts.that(actual.keySet());
+        AbstractCollectionAssert<?, Collection<K>, K> assertion = Asserts.that(actual.keySet());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     public AbstractCollectionAssert<?, Collection<V>, V> asValues() {
-        return Asserts.that(actual.values());
+        AbstractCollectionAssert<?, Collection<V>, V> assertion = Asserts.that(actual.values());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     public NumberAssert<?, Integer> asSize() {
-        return Asserts.that(actual.size());
+        NumberAssert<?, Integer> assertion = Asserts.that(actual.size());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }
