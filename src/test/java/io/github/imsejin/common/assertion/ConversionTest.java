@@ -609,7 +609,7 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isNotNull().exists().canWrite().canExecute().isNotEmpty()
+                    .isNotNull().exists().canRead().canWrite().isNotEmpty()
                     .asName().hasText().contains("content").endsWith("txt"));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(file)
