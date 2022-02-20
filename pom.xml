@@ -6,7 +6,7 @@
 
     <groupId>io.github.imsejin</groupId>
     <artifactId>common-utils</artifactId>
-    <version>0.7.0</version>
+    <version>0.7.1</version>
     <packaging>jar</packaging>
 
     <name>Common Utils</name>
