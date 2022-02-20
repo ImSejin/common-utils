@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -38,12 +37,17 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 @DisplayName("BigIntegerAssert")
 class BigIntegerAssertTest {
 
-    private static final String IS_EQUAL_TO = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest#isEqualTo";
-    private static final String IS_NOT_EQUAL_TO = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest#isNotEqualTo";
-    private static final String IS_GREATER_THAN = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest#isGreaterThan";
-    private static final String IS_GREATER_THAN_OR_EQUAL_TO = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest#isGreaterThanOrEqualTo";
-    private static final String IS_LESS_THAN = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest#isLessThan";
-    private static final String IS_LESS_THAN_OR_EQUAL_TO = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest#isLessThanOrEqualTo";
+    private static final String FQCN = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest";
+    private static final String IS_EQUAL_TO = FQCN + "#isEqualTo";
+    private static final String IS_NOT_EQUAL_TO = FQCN + "#isNotEqualTo";
+    private static final String IS_GREATER_THAN = FQCN + "#isGreaterThan";
+    private static final String IS_GREATER_THAN_OR_EQUAL_TO = FQCN + "#isGreaterThanOrEqualTo";
+    private static final String IS_LESS_THAN = FQCN + "#isLessThan";
+    private static final String IS_LESS_THAN_OR_EQUAL_TO = FQCN + "#isLessThanOrEqualTo";
+    private static final String IS_POSITIVE = FQCN + "#isPositive";
+    private static final String IS_ZERO_OR_POSITIVE = FQCN + "#isZeroOrPositive";
+    private static final String IS_NEGATIVE = FQCN + "#isNegative";
+    private static final String IS_ZERO_OR_NEGATIVE = FQCN + "#isZeroOrNegative";
 
     @Nested
     @DisplayName("method 'isEqualTo'")
@@ -181,24 +185,18 @@ class BigIntegerAssertTest {
     @DisplayName("method 'isPositive'")
     class IsPositive {
         @ParameterizedTest
-        @ValueSource(strings = {
-                "1", "128", "1024", "65535", "2147483647",
-                "9223372036854775807", "8770435964971880478329856",
-        })
+        @MethodSource(IS_POSITIVE)
         @DisplayName("passes, when actual is positive")
-        void test0(String actual) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(new BigInteger(actual)).isPositive());
+        void test0(BigInteger actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isPositive());
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {
-                "-8770435964971880478329856", "-9223372036854775807",
-                "-2147483647", "-65535", "-1024", "-128", "-1", "0",
-        })
+        @MethodSource(IS_ZERO_OR_NEGATIVE)
         @DisplayName("throws exception, when actual is zero or negative")
-        void test1(String actual) {
+        void test1(BigInteger actual) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new BigInteger(actual)).isPositive())
+                    .isThrownBy(() -> Asserts.that(actual).isPositive())
                     .withMessageStartingWith("It is expected to be positive, but it isn't.");
         }
     }
@@ -209,24 +207,18 @@ class BigIntegerAssertTest {
     @DisplayName("method 'isZeroOrPositive'")
     class IsZeroOrPositive {
         @ParameterizedTest
-        @ValueSource(strings = {
-                "0", "1", "128", "1024", "65535", "2147483647",
-                "9223372036854775807", "8770435964971880478329856",
-        })
+        @MethodSource(IS_ZERO_OR_POSITIVE)
         @DisplayName("passes, when actual is zero or positive")
-        void test0(String actual) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(new BigInteger(actual)).isZeroOrPositive());
+        void test0(BigInteger actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isZeroOrPositive());
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {
-                "-8770435964971880478329856", "-9223372036854775807",
-                "-2147483647", "-65535", "-1024", "-128", "-1",
-        })
+        @MethodSource(IS_NEGATIVE)
         @DisplayName("throws exception, when actual is negative")
-        void test1(String actual) {
+        void test1(BigInteger actual) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new BigInteger(actual)).isZeroOrPositive())
+                    .isThrownBy(() -> Asserts.that(actual).isZeroOrPositive())
                     .withMessageStartingWith("It is expected to be zero or positive, but it isn't.");
         }
     }
@@ -237,24 +229,18 @@ class BigIntegerAssertTest {
     @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
-        @ValueSource(strings = {
-                "-8770435964971880478329856", "-9223372036854775807",
-                "-2147483647", "-65535", "-1024", "-128", "-1",
-        })
+        @MethodSource(IS_NEGATIVE)
         @DisplayName("passes, when actual is negative")
-        void test0(String actual) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(new BigInteger(actual)).isNegative());
+        void test0(BigInteger actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNegative());
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {
-                "0", "1", "128", "1024", "65535", "2147483647",
-                "9223372036854775807", "8770435964971880478329856",
-        })
+        @MethodSource(IS_ZERO_OR_POSITIVE)
         @DisplayName("throws exception, when actual is zero or positive")
-        void test1(String actual) {
+        void test1(BigInteger actual) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new BigInteger(actual)).isNegative())
+                    .isThrownBy(() -> Asserts.that(actual).isNegative())
                     .withMessageStartingWith("It is expected to be negative, but it isn't.");
         }
     }
@@ -265,24 +251,18 @@ class BigIntegerAssertTest {
     @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
-        @ValueSource(strings = {
-                "-8770435964971880478329856", "-9223372036854775807",
-                "-2147483647", "-65535", "-1024", "-128", "-1", "0",
-        })
+        @MethodSource(IS_ZERO_OR_NEGATIVE)
         @DisplayName("passes, when actual is zero or negative")
-        void test0(String actual) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(new BigInteger(actual)).isZeroOrNegative());
+        void test0(BigInteger actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isZeroOrNegative());
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {
-                "1", "128", "1024", "65535", "2147483647",
-                "9223372036854775807", "8770435964971880478329856",
-        })
+        @MethodSource(IS_POSITIVE)
         @DisplayName("throws exception, when actual is positive")
-        void test1(String actual) {
+        void test1(BigInteger actual) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new BigInteger(actual)).isZeroOrNegative())
+                    .isThrownBy(() -> Asserts.that(actual).isZeroOrNegative())
                     .withMessageStartingWith("It is expected to be zero or negative, but it isn't.");
         }
     }
@@ -475,7 +455,13 @@ class BigIntegerAssertTest {
 
     private static Stream<Arguments> isPositive() {
         return Stream.of(
-                Arguments.of()
+                Arguments.of(new BigInteger("1")),
+                Arguments.of(new BigInteger("128")),
+                Arguments.of(new BigInteger("1024")),
+                Arguments.of(new BigInteger("65535")),
+                Arguments.of(new BigInteger("2147483647")),
+                Arguments.of(new BigInteger("9223372036854775807")),
+                Arguments.of(new BigInteger("8770435964971880478329856"))
         );
     }
 
@@ -489,7 +475,13 @@ class BigIntegerAssertTest {
 
     private static Stream<Arguments> isNegative() {
         return Stream.of(
-                Arguments.of()
+                Arguments.of(new BigInteger("-1")),
+                Arguments.of(new BigInteger("-128")),
+                Arguments.of(new BigInteger("-1024")),
+                Arguments.of(new BigInteger("-65535")),
+                Arguments.of(new BigInteger("-2147483647")),
+                Arguments.of(new BigInteger("-9223372036854775807")),
+                Arguments.of(new BigInteger("-8770435964971880478329856"))
         );
     }
 

@@ -34,14 +34,15 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 @DisplayName("AbstractChronoLocalDateAssert")
 class AbstractChronoLocalDateAssertTest {
 
-    private static final String IS_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isEqualTo";
-    private static final String IS_NOT_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isNotEqualTo";
-    private static final String IS_BEFORE = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isBefore";
-    private static final String IS_BEFORE_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isBeforeOrEqualTo";
-    private static final String IS_AFTER = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isAfter";
-    private static final String IS_AFTER_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isAfterOrEqualTo";
-    private static final String IS_LEAP_YEAR = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isLeapYear";
-    private static final String IS_NOT_LEAP_YEAR = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest#isNotLeapYear";
+    private static final String FQCN = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest";
+    private static final String IS_EQUAL_TO = FQCN + "#isEqualTo";
+    private static final String IS_NOT_EQUAL_TO = FQCN + "#isNotEqualTo";
+    private static final String IS_BEFORE = FQCN + "#isBefore";
+    private static final String IS_BEFORE_OR_EQUAL_TO = FQCN + "#isBeforeOrEqualTo";
+    private static final String IS_AFTER = FQCN + "#isAfter";
+    private static final String IS_AFTER_OR_EQUAL_TO = FQCN + "#isAfterOrEqualTo";
+    private static final String IS_LEAP_YEAR = FQCN + "#isLeapYear";
+    private static final String IS_NOT_LEAP_YEAR = FQCN + "#isNotLeapYear";
 
     @Nested
     @DisplayName("method 'isEqualTo'")
