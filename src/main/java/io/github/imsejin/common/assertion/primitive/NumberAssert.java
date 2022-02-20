@@ -42,6 +42,7 @@ public class NumberAssert<
      * @param number     number to be converted
      * @param numberType type of number
      * @return converted number
+     * @throws UnsupportedOperationException if numberType is unsupported
      */
     @SuppressWarnings("unchecked")
     private static <N extends Number & Comparable<? extends Number>> N toNumber(N number, Class<N> numberType) {
@@ -54,7 +55,7 @@ public class NumberAssert<
         if (numberType == BigInteger.class) return (N) BigInteger.valueOf(number.longValue());
         if (numberType == BigDecimal.class) return (N) BigDecimal.valueOf(number.doubleValue());
 
-        return null;
+        throw new UnsupportedOperationException("NumberAssert doesn't support the type: " + numberType);
     }
 
     public SELF isGreaterThan(NUMBER expected) {

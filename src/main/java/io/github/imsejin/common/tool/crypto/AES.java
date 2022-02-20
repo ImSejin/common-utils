@@ -21,7 +21,6 @@ import io.github.imsejin.common.assertion.Asserts;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 
@@ -52,7 +51,7 @@ abstract class AES implements Crypto {
 
         byte[] bytes = key.getBytes(charset);
 
-        this.key = new SecretKeySpec(bytes, "AES");
+        this.key = new SecretKeySpec(bytes, ALGORITHM);
         this.charset = charset;
     }
 

@@ -17,7 +17,7 @@
 package io.github.imsejin.common.tool.crypto;
 
 /**
- * Interface that supports two way encryption.
+ * Interface that supports two-way encryption.
  */
 public interface Crypto {
 

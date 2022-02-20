@@ -34,8 +34,9 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayName("CharacterAssert")
 class CharacterAssertTest {
 
-    private static final String EQUALITY = "io.github.imsejin.common.assertion.primitive.CharacterAssertTest#equality";
-    private static final String NON_EQUALITY = "io.github.imsejin.common.assertion.primitive.CharacterAssertTest#nonEquality";
+    private static final String FQCN = "io.github.imsejin.common.assertion.primitive.CharacterAssertTest";
+    private static final String EQUALITY = FQCN + "#equality";
+    private static final String NON_EQUALITY = FQCN + "#nonEquality";
 
     @Nested
     @DisplayName("method 'isEqualTo'")

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -34,10 +35,10 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-@DisplayName("BigIntegerAssert")
-class BigIntegerAssertTest {
+@DisplayName("BigDecimalAssert")
+class BigDecimalAssertTest {
 
-    private static final String FQCN = "io.github.imsejin.common.assertion.math.BigIntegerAssertTest";
+    private static final String FQCN = "io.github.imsejin.common.assertion.math.BigDecimalAssertTest";
     private static final String IS_EQUAL_TO = FQCN + "#isEqualTo";
     private static final String IS_NOT_EQUAL_TO = FQCN + "#isNotEqualTo";
     private static final String IS_GREATER_THAN = FQCN + "#isGreaterThan";
@@ -55,14 +56,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_EQUAL_TO)
         @DisplayName("passes, when actual is equal to other")
-        void test0(BigInteger actual, BigInteger expected) {
+        void test0(BigDecimal actual, BigDecimal expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_NOT_EQUAL_TO)
         @DisplayName("throws exception, when actual is not equal to other")
-        void test1(BigInteger actual, BigInteger expected) {
+        void test1(BigDecimal actual, BigDecimal expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEqualTo(expected))
                     .withMessageStartingWith("They are expected to be equal, but they aren't.");
@@ -77,14 +78,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_NOT_EQUAL_TO)
         @DisplayName("passes, when actual is not equal to other")
-        void test0(BigInteger actual, BigInteger expected) {
+        void test0(BigDecimal actual, BigDecimal expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_EQUAL_TO)
         @DisplayName("throws exception, when actual is equal to other")
-        void test1(BigInteger actual, BigInteger expected) {
+        void test1(BigDecimal actual, BigDecimal expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .withMessageStartingWith("They are expected to be not equal, but they are.");
@@ -99,14 +100,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_GREATER_THAN)
         @DisplayName("passes, when actual is greater than other")
-        void test0(BigInteger actual, BigInteger expected) {
+        void test0(BigDecimal actual, BigDecimal expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThan(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_LESS_THAN_OR_EQUAL_TO)
         @DisplayName("throws exception, when actual is less than or equal to other")
-        void test1(BigInteger actual, BigInteger expected) {
+        void test1(BigDecimal actual, BigDecimal expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isGreaterThan(expected))
                     .withMessageStartingWith("It is expected to be greater than the other, but it isn't.");
@@ -121,14 +122,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_GREATER_THAN_OR_EQUAL_TO)
         @DisplayName("passes, when actual is greater than or equal to other")
-        void test0(BigInteger actual, BigInteger expected) {
+        void test0(BigDecimal actual, BigDecimal expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_LESS_THAN)
         @DisplayName("throws exception, when actual is less than other")
-        void test1(BigInteger actual, BigInteger expected) {
+        void test1(BigDecimal actual, BigDecimal expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .withMessageStartingWith("It is expected to be greater than or equal to the other, but it isn't.");
@@ -143,14 +144,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_LESS_THAN)
         @DisplayName("passes, when actual is less than other")
-        void test0(BigInteger actual, BigInteger expected) {
+        void test0(BigDecimal actual, BigDecimal expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThan(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_GREATER_THAN_OR_EQUAL_TO)
         @DisplayName("throws exception, when actual is greater than or equal to other")
-        void test1(BigInteger actual, BigInteger expected) {
+        void test1(BigDecimal actual, BigDecimal expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLessThan(expected))
                     .withMessageStartingWith("It is expected to be less than the other, but it isn't.");
@@ -165,14 +166,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_LESS_THAN_OR_EQUAL_TO)
         @DisplayName("passes, when actual is less than or equal to other")
-        void test0(BigInteger actual, BigInteger expected) {
+        void test0(BigDecimal actual, BigDecimal expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThanOrEqualTo(expected));
         }
 
         @ParameterizedTest
         @MethodSource(IS_GREATER_THAN)
         @DisplayName("throws exception, when actual is greater than other")
-        void test1(BigInteger actual, BigInteger expected) {
+        void test1(BigDecimal actual, BigDecimal expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .withMessageStartingWith("It is expected to be less than or equal to the other, but it isn't.");
@@ -187,14 +188,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_POSITIVE)
         @DisplayName("passes, when actual is positive")
-        void test0(BigInteger actual) {
+        void test0(BigDecimal actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isPositive());
         }
 
         @ParameterizedTest
         @MethodSource(IS_ZERO_OR_NEGATIVE)
         @DisplayName("throws exception, when actual is zero or negative")
-        void test1(BigInteger actual) {
+        void test1(BigDecimal actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isPositive())
                     .withMessageStartingWith("It is expected to be positive, but it isn't.");
@@ -209,14 +210,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_ZERO_OR_POSITIVE)
         @DisplayName("passes, when actual is zero or positive")
-        void test0(BigInteger actual) {
+        void test0(BigDecimal actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isZeroOrPositive());
         }
 
         @ParameterizedTest
         @MethodSource(IS_NEGATIVE)
         @DisplayName("throws exception, when actual is negative")
-        void test1(BigInteger actual) {
+        void test1(BigDecimal actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isZeroOrPositive())
                     .withMessageStartingWith("It is expected to be zero or positive, but it isn't.");
@@ -231,14 +232,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_NEGATIVE)
         @DisplayName("passes, when actual is negative")
-        void test0(BigInteger actual) {
+        void test0(BigDecimal actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNegative());
         }
 
         @ParameterizedTest
         @MethodSource(IS_ZERO_OR_POSITIVE)
         @DisplayName("throws exception, when actual is zero or positive")
-        void test1(BigInteger actual) {
+        void test1(BigDecimal actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNegative())
                     .withMessageStartingWith("It is expected to be negative, but it isn't.");
@@ -253,14 +254,14 @@ class BigIntegerAssertTest {
         @ParameterizedTest
         @MethodSource(IS_ZERO_OR_NEGATIVE)
         @DisplayName("passes, when actual is zero or negative")
-        void test0(BigInteger actual) {
+        void test0(BigDecimal actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isZeroOrNegative());
         }
 
         @ParameterizedTest
         @MethodSource(IS_POSITIVE)
         @DisplayName("throws exception, when actual is positive")
-        void test1(BigInteger actual) {
+        void test1(BigDecimal actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isZeroOrNegative())
                     .withMessageStartingWith("It is expected to be zero or negative, but it isn't.");
@@ -275,10 +276,10 @@ class BigIntegerAssertTest {
         @Test
         @DisplayName("passes, when actual is between x and y inclusively")
         void test0() {
-            IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1).limit(10_000).mapToObj(BigInteger::valueOf)
+            IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1).limit(10_000).mapToObj(BigDecimal::valueOf)
                     .forEach(n -> assertThatNoException().isThrownBy(() -> {
-                        BigInteger startInclusive = n.subtract(BigInteger.ONE);
-                        BigInteger endInclusive = n.add(BigInteger.ONE);
+                        BigDecimal startInclusive = n.subtract(BigDecimal.ONE);
+                        BigDecimal endInclusive = n.add(BigDecimal.ONE);
 
                         Asserts.that(n).isBetween(n, n);
                         Asserts.that(n).isBetween(n, endInclusive);
@@ -291,16 +292,16 @@ class BigIntegerAssertTest {
         @DisplayName("throws exception, when actual is not between x and y inclusively")
         void test1() {
             // given
-            List<BigInteger> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
-                    .limit(10_000).mapToObj(BigInteger::valueOf).collect(toList());
+            List<BigDecimal> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
+                    .limit(10_000).mapToObj(BigDecimal::valueOf).collect(toList());
 
             // except
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isBetween(n, n.subtract(BigInteger.ONE))));
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n, n.subtract(BigDecimal.ONE))));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isBetween(n.add(BigInteger.ONE), n)));
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n.add(BigDecimal.ONE), n)));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isBetween(n.add(BigInteger.ONE), n.subtract(BigInteger.ONE))));
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n.add(BigDecimal.ONE), n.subtract(BigDecimal.ONE))));
         }
     }
 
@@ -313,9 +314,9 @@ class BigIntegerAssertTest {
         @DisplayName("passes, when actual is between x and y exclusively")
         void test0() {
             for (int i = Integer.MIN_VALUE; i < Integer.MIN_VALUE + 10_000; i++) {
-                BigInteger bigInt = BigInteger.valueOf(i);
+                BigDecimal bigInt = BigDecimal.valueOf(i);
                 assertThatNoException().isThrownBy(() -> Asserts.that(bigInt)
-                        .isStrictlyBetween(bigInt.subtract(BigInteger.ONE), bigInt.add(BigInteger.ONE)));
+                        .isStrictlyBetween(bigInt.subtract(BigDecimal.ONE), bigInt.add(BigDecimal.ONE)));
             }
         }
 
@@ -323,18 +324,18 @@ class BigIntegerAssertTest {
         @DisplayName("throws exception, when actual is not between x and y exclusively")
         void test1() {
             // given
-            List<BigInteger> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
-                    .limit(10_000).mapToObj(BigInteger::valueOf).collect(toList());
+            List<BigDecimal> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
+                    .limit(10_000).mapToObj(BigDecimal::valueOf).collect(toList());
 
             // except
             bigInts.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n.add(BigInteger.ONE))));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n.add(BigDecimal.ONE))));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.subtract(BigInteger.ONE), n)));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.subtract(BigDecimal.ONE), n)));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.add(BigInteger.ONE), n.subtract(BigInteger.ONE))));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.add(BigDecimal.ONE), n.subtract(BigDecimal.ONE))));
         }
     }
 
@@ -347,18 +348,18 @@ class BigIntegerAssertTest {
         @DisplayName("passes, when actual is close to other")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MAX_VALUE), 0);
-                Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75.1);
-                Asserts.that(BigInteger.valueOf(123_456_789)).isCloseTo(BigInteger.valueOf(98_765), 99.93);
-                Asserts.that(BigInteger.valueOf(1024)).isCloseTo(BigInteger.valueOf(32), 96.875);
-                Asserts.that(BigInteger.valueOf(100)).isCloseTo(BigInteger.valueOf(93), 7.01);
-                Asserts.that(BigInteger.valueOf(64)).isCloseTo(BigInteger.valueOf(16), 75);
-                Asserts.that(BigInteger.valueOf(-5)).isCloseTo(BigInteger.valueOf(-4), 20);
-                Asserts.that(BigInteger.valueOf(-33)).isCloseTo(BigInteger.valueOf(-3), 90.91);
-                Asserts.that(BigInteger.valueOf(-500)).isCloseTo(BigInteger.valueOf(-499), 0.2);
-                Asserts.that(BigInteger.valueOf(-87_654_321)).isCloseTo(BigInteger.valueOf(-12_345), 99.986);
-                Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MIN_VALUE * 0.25)), 75);
-                Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MIN_VALUE), 0);
+                Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MAX_VALUE), 0);
+                Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75.1);
+                Asserts.that(BigDecimal.valueOf(123_456_789)).isCloseTo(BigDecimal.valueOf(98_765), 99.93);
+                Asserts.that(BigDecimal.valueOf(1024)).isCloseTo(BigDecimal.valueOf(32), 96.875);
+                Asserts.that(BigDecimal.valueOf(100)).isCloseTo(BigDecimal.valueOf(93), 7.01);
+                Asserts.that(BigDecimal.valueOf(64)).isCloseTo(BigDecimal.valueOf(16), 75);
+                Asserts.that(BigDecimal.valueOf(-5)).isCloseTo(BigDecimal.valueOf(-4), 20);
+                Asserts.that(BigDecimal.valueOf(-33)).isCloseTo(BigDecimal.valueOf(-3), 90.91);
+                Asserts.that(BigDecimal.valueOf(-500)).isCloseTo(BigDecimal.valueOf(-499), 0.2);
+                Asserts.that(BigDecimal.valueOf(-87_654_321)).isCloseTo(BigDecimal.valueOf(-12_345), 99.986);
+                Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MIN_VALUE * 0.25)), 75);
+                Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MIN_VALUE), 0);
             });
         }
 
@@ -368,38 +369,89 @@ class BigIntegerAssertTest {
             String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
 
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.TEN).isCloseTo(null, 15))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.TEN).isCloseTo(null, 15))
                     .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MIN_VALUE), 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MIN_VALUE), 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(64)).isCloseTo(BigInteger.valueOf(32), 49.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(64)).isCloseTo(BigDecimal.valueOf(32), 49.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.ONE).isCloseTo(BigInteger.ZERO, 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.ONE).isCloseTo(BigDecimal.ZERO, 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.ONE.negate()).isCloseTo(BigInteger.ZERO, 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.ONE.negate()).isCloseTo(BigDecimal.ZERO, 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(-20)).isCloseTo(BigInteger.valueOf(-15), 10))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(-20)).isCloseTo(BigDecimal.valueOf(-15), 10))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MAX_VALUE), 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MAX_VALUE), 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MIN_VALUE * 0.9)), 9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MIN_VALUE * 0.9)), 9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.ZERO).isCloseTo(BigInteger.ONE, 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.ZERO).isCloseTo(BigDecimal.ONE, 99.9))
                     .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.ZERO).isCloseTo(BigInteger.ONE.negate(), 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.ZERO).isCloseTo(BigDecimal.ONE.negate(), 99.9))
                     .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'hasDecimalPart'")
+    class HasDecimalPart {
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "-87704359649718804783.29856",
+                "-922337203685477.5807",
+                "-2147483.647",
+                "-655.35",
+                "-102.4",
+                "-1.01",
+                "1.01",
+                "102.4",
+                "655.35",
+                "2147483.647",
+                "922337203685477.5807",
+                "87704359649718804783.29856",
+        })
+        @DisplayName("passes, when actual has decimal part")
+        void test0(String actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(new BigDecimal(actual)).hasDecimalPart());
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "-8770435964971880478329856",
+                "-9223372036854775807",
+                "-2147483647",
+                "-65535",
+                "-1024",
+                "-101",
+                "-1",
+                "0",
+                "1",
+                "101",
+                "1024",
+                "65535",
+                "2147483647",
+                "9223372036854775807",
+                "8770435964971880478329856",
+        })
+        @DisplayName("throws exception, when actual doesn't have decimal part")
+        void test1(String actual) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new BigDecimal(actual)).hasDecimalPart())
+                    .withMessageStartingWith("It is expected to have decimal part, but it isn't.");
         }
     }
 
@@ -407,31 +459,31 @@ class BigIntegerAssertTest {
 
     private static Stream<Arguments> isEqualTo() {
         return Stream.of(
-                Arguments.of(BigInteger.ZERO, new BigInteger("0")),
-                Arguments.of(BigInteger.ONE, BigInteger.valueOf(1)),
-                Arguments.of(BigInteger.TEN, BigDecimal.valueOf(10.6).toBigInteger()),
-                Arguments.of(new BigInteger("ffffff", 16), BigInteger.valueOf(16777215)),
-                Arguments.of(new BigInteger("18446744073709551614"), BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(2)))
+                Arguments.of(BigDecimal.ZERO, new BigDecimal("0")),
+                Arguments.of(BigDecimal.ONE, BigDecimal.valueOf(1.00)),
+                Arguments.of(BigDecimal.TEN, BigDecimal.valueOf(10.0)),
+                Arguments.of(new BigDecimal(new BigInteger("ffffff", 16)), new BigDecimal(BigInteger.valueOf(16777215))),
+                Arguments.of(new BigDecimal("18446744073709551614"), BigDecimal.valueOf(Long.MAX_VALUE).multiply(BigDecimal.valueOf(2)))
         );
     }
 
     private static Stream<Arguments> isNotEqualTo() {
         return Stream.of(
-                Arguments.of(BigInteger.ZERO, new BigInteger("10")),
-                Arguments.of(BigInteger.ONE, BigInteger.ZERO),
-                Arguments.of(BigInteger.TEN, BigDecimal.valueOf(11).toBigInteger()),
-                Arguments.of(new BigInteger("ffffff", 16), BigInteger.valueOf(-16777215)),
-                Arguments.of(new BigInteger(Long.MAX_VALUE + "" + Long.MAX_VALUE), BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(2)))
+                Arguments.of(BigDecimal.ZERO, new BigDecimal("10")),
+                Arguments.of(BigDecimal.ONE, BigDecimal.ZERO),
+                Arguments.of(BigDecimal.TEN, BigDecimal.valueOf(11)),
+                Arguments.of(new BigDecimal(new BigInteger("ffffff", 16)), new BigDecimal(BigInteger.valueOf(-16777215))),
+                Arguments.of(new BigDecimal(Long.MAX_VALUE + "" + Long.MAX_VALUE), BigDecimal.valueOf(Long.MAX_VALUE).multiply(BigDecimal.valueOf(2)))
         );
     }
 
     private static Stream<Arguments> isGreaterThan() {
         return Stream.of(
-                Arguments.of(new BigInteger("-512"), BigInteger.valueOf(-1024)),
-                Arguments.of(BigInteger.ZERO, BigInteger.ONE.negate()),
-                Arguments.of(BigInteger.ONE, BigInteger.ZERO),
-                Arguments.of(BigInteger.TEN, new BigInteger("0001")),
-                Arguments.of(BigInteger.valueOf(Byte.MAX_VALUE), BigInteger.TEN)
+                Arguments.of(new BigDecimal("-512"), BigDecimal.valueOf(-1024)),
+                Arguments.of(BigDecimal.ZERO, BigDecimal.ONE.negate()),
+                Arguments.of(BigDecimal.ONE, BigDecimal.ZERO),
+                Arguments.of(BigDecimal.TEN, new BigDecimal("0001")),
+                Arguments.of(BigDecimal.valueOf(Byte.MAX_VALUE), BigDecimal.TEN)
         );
     }
 
@@ -441,11 +493,11 @@ class BigIntegerAssertTest {
 
     private static Stream<Arguments> isLessThan() {
         return Stream.of(
-                Arguments.of(BigInteger.valueOf(-1024), new BigInteger("-512")),
-                Arguments.of(BigInteger.ONE.negate(), BigInteger.ZERO),
-                Arguments.of(BigInteger.ZERO, BigInteger.ONE),
-                Arguments.of(new BigInteger("0001"), BigInteger.TEN),
-                Arguments.of(BigInteger.TEN, BigInteger.valueOf(Byte.MAX_VALUE))
+                Arguments.of(BigDecimal.valueOf(-1024), new BigDecimal("-512")),
+                Arguments.of(BigDecimal.ONE.negate(), BigDecimal.ZERO),
+                Arguments.of(BigDecimal.ZERO, BigDecimal.ONE),
+                Arguments.of(new BigDecimal("0001"), BigDecimal.TEN),
+                Arguments.of(BigDecimal.TEN, BigDecimal.valueOf(Byte.MAX_VALUE))
         );
     }
 
@@ -455,18 +507,18 @@ class BigIntegerAssertTest {
 
     private static Stream<Arguments> isPositive() {
         return Stream.of(
-                Arguments.of(new BigInteger("1")),
-                Arguments.of(new BigInteger("128")),
-                Arguments.of(new BigInteger("1024")),
-                Arguments.of(new BigInteger("65535")),
-                Arguments.of(new BigInteger("2147483647")),
-                Arguments.of(new BigInteger("9223372036854775807")),
-                Arguments.of(new BigInteger("8770435964971880478329856"))
+                Arguments.of(new BigDecimal("1")),
+                Arguments.of(new BigDecimal("128")),
+                Arguments.of(new BigDecimal("102.4")),
+                Arguments.of(new BigDecimal("655.35")),
+                Arguments.of(new BigDecimal("2147483.647")),
+                Arguments.of(new BigDecimal("922337203685477.5807")),
+                Arguments.of(new BigDecimal("87704359649718804783.29856"))
         );
     }
 
     private static Stream<Arguments> isZero() {
-        return Stream.of(Arguments.of(BigInteger.ZERO));
+        return Stream.of(Arguments.of(BigDecimal.ZERO));
     }
 
     private static Stream<Arguments> isZeroOrPositive() {
@@ -475,13 +527,13 @@ class BigIntegerAssertTest {
 
     private static Stream<Arguments> isNegative() {
         return Stream.of(
-                Arguments.of(new BigInteger("-1")),
-                Arguments.of(new BigInteger("-128")),
-                Arguments.of(new BigInteger("-1024")),
-                Arguments.of(new BigInteger("-65535")),
-                Arguments.of(new BigInteger("-2147483647")),
-                Arguments.of(new BigInteger("-9223372036854775807")),
-                Arguments.of(new BigInteger("-8770435964971880478329856"))
+                Arguments.of(new BigDecimal("-1")),
+                Arguments.of(new BigDecimal("-128")),
+                Arguments.of(new BigDecimal("-102.4")),
+                Arguments.of(new BigDecimal("-655.35")),
+                Arguments.of(new BigDecimal("-2147483.647")),
+                Arguments.of(new BigDecimal("-922337203685477.5807")),
+                Arguments.of(new BigDecimal("-87704359649718804783.29856"))
         );
     }
 

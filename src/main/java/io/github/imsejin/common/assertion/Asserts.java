@@ -140,7 +140,7 @@ public abstract class Asserts {
 
     /////////////////////////////////////// Object ////////////////////////////////////////
 
-    public static AbstractObjectAssert<?, Object> that(Object object) {
+    public static <T> AbstractObjectAssert<?, T> that(T object) {
         return new AbstractObjectAssert(object) {
         };
     }

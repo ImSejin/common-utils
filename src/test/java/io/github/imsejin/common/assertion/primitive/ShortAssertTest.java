@@ -37,8 +37,9 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("ShortAssert")
 class ShortAssertTest {
 
-    private static final String EQUALITY = "io.github.imsejin.common.assertion.primitive.ShortAssertTest#equality";
-    private static final String NON_EQUALITY = "io.github.imsejin.common.assertion.primitive.ShortAssertTest#nonEquality";
+    private static final String FQCN = "io.github.imsejin.common.assertion.primitive.ShortAssertTest";
+    private static final String EQUALITY = FQCN + "#equality";
+    private static final String NON_EQUALITY = FQCN + "#nonEquality";
 
     @Nested
     @DisplayName("method 'isEqualTo'")

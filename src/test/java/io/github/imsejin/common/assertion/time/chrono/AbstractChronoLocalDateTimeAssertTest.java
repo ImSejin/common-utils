@@ -32,12 +32,13 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 @DisplayName("AbstractChronoLocalDateTimeAssert")
 class AbstractChronoLocalDateTimeAssertTest {
 
-    private static final String IS_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssertTest#isEqualTo";
-    private static final String IS_NOT_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssertTest#isNotEqualTo";
-    private static final String IS_BEFORE = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssertTest#isBefore";
-    private static final String IS_BEFORE_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssertTest#isBeforeOrEqualTo";
-    private static final String IS_AFTER = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssertTest#isAfter";
-    private static final String IS_AFTER_OR_EQUAL_TO = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssertTest#isAfterOrEqualTo";
+    private static final String FQCN = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssertTest";
+    private static final String IS_EQUAL_TO = FQCN + "#isEqualTo";
+    private static final String IS_NOT_EQUAL_TO = FQCN + "#isNotEqualTo";
+    private static final String IS_BEFORE = FQCN + "#isBefore";
+    private static final String IS_BEFORE_OR_EQUAL_TO = FQCN + "#isBeforeOrEqualTo";
+    private static final String IS_AFTER = FQCN + "#isAfter";
+    private static final String IS_AFTER_OR_EQUAL_TO = FQCN + "#isAfterOrEqualTo";
 
     @Nested
     @DisplayName("method 'isEqualTo'")

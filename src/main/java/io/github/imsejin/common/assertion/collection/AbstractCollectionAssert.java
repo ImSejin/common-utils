@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.collection;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.array.ArrayAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
@@ -135,11 +136,17 @@ public abstract class AbstractCollectionAssert<
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public ArrayAssert<?> asArray() {
-        return Asserts.that(actual.toArray());
+        ArrayAssert<?> assertion = Asserts.that(actual.toArray());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
     public NumberAssert<?, Integer> asSize() {
-        return Asserts.that(actual.size());
+        NumberAssert<?, Integer> assertion = Asserts.that(actual.size());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }

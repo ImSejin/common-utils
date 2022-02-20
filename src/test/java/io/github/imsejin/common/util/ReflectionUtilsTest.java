@@ -58,6 +58,7 @@ class ReflectionUtilsTest {
 
         class C {
         }
+
         Stream.of(getClass(), A.class, A.AA.class, A.AB.class, B.class, B.BA.class, C.class)
                 .forEach(clazz -> assertThat(ReflectionUtils.getInheritedFields(clazz))
                         .isNotNull()
@@ -249,6 +250,7 @@ class Parent implements Serializable {
     private LocalDateTime modifiedAt;
 
     @Getter
+    @SuppressWarnings("unused")
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     private static class Child extends Parent {
         private final int id;

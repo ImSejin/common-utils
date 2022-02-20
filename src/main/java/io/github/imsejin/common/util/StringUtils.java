@@ -609,4 +609,61 @@ public final class StringUtils {
         return str.isEmpty() ? str : String.valueOf(str.charAt(str.length() - 1));
     }
 
+    /**
+     * Returns the ordinal index of the string.
+     *
+     * <pre>{@code
+     *     // Positive ordinal
+     *     ordinalIndexOf("1,2,3,4", ',', 1);           // 1
+     *     ordinalIndexOf("alpha|beta|gamma", '|', 2);  // 10
+     *     ordinalIndexOf("A/B//D///", '/', 5);         // 7
+     *     ordinalIndexOf("15.768", '.', 1);            // 2
+     *     ordinalIndexOf("15.768", '.', 3);            // -1
+     *     ordinalIndexOf("a,b,c", ';', 2);             // -1
+     *
+     *     // Zero ordinal
+     *     ordinalIndexOf("x-y-z", '-', 0);             // -1
+     *
+     *     // Negative ordinal
+     *     ordinalIndexOf("1,2,3,4", ',', -1);          // 5
+     *     ordinalIndexOf("alpha|beta|gamma", '|', -2); // 5
+     *     ordinalIndexOf("A/B//D///", '/', -5);        // 3
+     *     ordinalIndexOf("15.768", '.', -1);           // 2
+     *     ordinalIndexOf("15.768", '.', -3);           // -1
+     *     ordinalIndexOf("a,b,c", ';', -2);            // -1
+     * }</pre>
+     *
+     * @param str     string
+     * @param ch      a character
+     * @param ordinal n-th character to find
+     * @return the n-th index of the string, or -1 if no match
+     */
+    public static int ordinalIndexOf(@Nonnull String str, char ch, int ordinal) {
+        // When ordinal is zero, regard as not finding.
+        if (ordinal == 0) return -1;
+
+        int index;
+
+        if (ordinal > 0) {
+            // When ordinal is positive, find the character from the beginning.
+            index = str.indexOf(ch);
+            if (index == -1) return -1;
+
+            for (int i = 1; i < ordinal && index != -1; i++) {
+                index = str.indexOf(ch, index + 1);
+            }
+
+        } else {
+            // When ordinal is negative, find the character from the end.
+            index = str.lastIndexOf(ch);
+            if (index == -1) return -1;
+
+            for (int i = -1; i > ordinal && index != -1; i--) {
+                index = str.lastIndexOf(ch, index - 1);
+            }
+        }
+
+        return index;
+    }
+
 }

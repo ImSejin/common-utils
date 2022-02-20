@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.reflect;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 
@@ -45,7 +46,10 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends AbstractObj
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public StringAssert<?> asName() {
-        return Asserts.that(actual.getName());
+        StringAssert<?> assertion = Asserts.that(actual.getName());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }

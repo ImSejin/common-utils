@@ -17,6 +17,8 @@
 package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 import io.github.imsejin.common.util.FilenameUtils;
@@ -150,19 +152,29 @@ public abstract class AbstractFileAssert<
     }
 
     public SELF hasName(String expected) {
-        if (actual.getName().equals(expected)) throw getException();
+        if (!actual.getName().equals(expected)) throw getException();
         return self;
     }
 
     public SELF hasExtension(String expected) {
-        if (FilenameUtils.getExtension(actual.getName()).equals(expected)) throw getException();
+        if (!FilenameUtils.getExtension(actual.getName()).equals(expected)) throw getException();
         return self;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
     public NumberAssert<?, Long> asLength() {
-        return Asserts.that(actual.length());
+        NumberAssert<?, Long> assertion = Asserts.that(actual.length());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
+    }
+
+    public StringAssert<?> asName() {
+        StringAssert<?> assertion = Asserts.that(actual.getName());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }
