@@ -29,6 +29,44 @@ public class BigDecimalAssert<SELF extends BigDecimalAssert<SELF>> extends Numbe
         super(actual);
     }
 
+    /**
+     * To compare equality of {@link BigDecimal} with only its value,
+     * we use {@link BigDecimal#compareTo(BigDecimal)}.
+     * <p>
+     * ({@code BigDecimal.scale} is ignored)
+     *
+     * @see BigDecimal#equals(Object)
+     */
+    @Override
+    public SELF isEqualTo(BigDecimal expected) {
+        if (actual.compareTo(expected) != 0) {
+            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * To compare equality of {@link BigDecimal} with only its value,
+     * we use {@link BigDecimal#compareTo(BigDecimal)}.
+     * <p>
+     * ({@code BigDecimal.scale} is ignored)
+     *
+     * @see BigDecimal#equals(Object)
+     */
+    @Override
+    public SELF isNotEqualTo(BigDecimal expected) {
+        if (actual.compareTo(expected) == 0) {
+            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
     @Override
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
