@@ -75,7 +75,7 @@ public final class ReflectionUtils {
     /**
      * Returns value of the field.
      *
-     * @param instance instance if method is static, null
+     * @param instance instance if field is static, null
      * @param field    targeted field
      * @return field value
      * @throws RuntimeException if get value from the field
