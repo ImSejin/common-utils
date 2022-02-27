@@ -21,29 +21,39 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import javax.annotation.Nullable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Array utilities
  */
 public final class ArrayUtils {
 
-    private static final Boolean[] EMPTY_BOOLEAN_WRAPPER_ARRAY = new Boolean[0];
-    private static final Byte[] EMPTY_BYTE_WRAPPER_ARRAY = new Byte[0];
-    private static final Character[] EMPTY_CHARACTER_WRAPPER_ARRAY = new Character[0];
-    private static final Double[] EMPTY_DOUBLE_WRAPPER_ARRAY = new Double[0];
-    private static final Float[] EMPTY_FLOAT_WRAPPER_ARRAY = new Float[0];
-    private static final Integer[] EMPTY_INTEGER_WRAPPER_ARRAY = new Integer[0];
-    private static final Long[] EMPTY_LONG_WRAPPER_ARRAY = new Long[0];
-    private static final Short[] EMPTY_SHORT_WRAPPER_ARRAY = new Short[0];
+    public static final Map<Class<?>, Object> EMPTY_ARRAY_MAP;
 
-    private static final boolean[] EMPTY_BOOLEAN_PRIMITIVE_ARRAY = new boolean[0];
-    private static final byte[] EMPTY_BYTE_PRIMITIVE_ARRAY = new byte[0];
-    private static final char[] EMPTY_CHARACTER_PRIMITIVE_ARRAY = new char[0];
-    private static final double[] EMPTY_DOUBLE_PRIMITIVE_ARRAY = new double[0];
-    private static final float[] EMPTY_FLOAT_PRIMITIVE_ARRAY = new float[0];
-    private static final int[] EMPTY_INTEGER_PRIMITIVE_ARRAY = new int[0];
-    private static final long[] EMPTY_LONG_PRIMITIVE_ARRAY = new long[0];
-    private static final short[] EMPTY_SHORT_PRIMITIVE_ARRAY = new short[0];
+    static {
+        Map<Class<?>, Object> cache = new HashMap<>();
+        cache.put(boolean.class, new boolean[0]);
+        cache.put(byte.class, new byte[0]);
+        cache.put(short.class, new short[0]);
+        cache.put(char.class, new char[0]);
+        cache.put(int.class, new int[0]);
+        cache.put(long.class, new long[0]);
+        cache.put(float.class, new float[0]);
+        cache.put(double.class, new double[0]);
+        cache.put(Void.class, new Void[0]);
+        cache.put(Boolean.class, new Boolean[0]);
+        cache.put(Byte.class, new Byte[0]);
+        cache.put(Short.class, new Short[0]);
+        cache.put(Character.class, new Character[0]);
+        cache.put(Integer.class, new Integer[0]);
+        cache.put(Long.class, new Long[0]);
+        cache.put(Float.class, new Float[0]);
+        cache.put(Double.class, new Double[0]);
+
+        EMPTY_ARRAY_MAP = Collections.unmodifiableMap(cache);
+    }
 
     @ExcludeFromGeneratedJacocoReport
     private ArrayUtils() {
@@ -64,11 +74,19 @@ public final class ArrayUtils {
      * @param array primitive array
      * @return boxed array
      */
+    @Nullable
     public static Object wrap(@Nullable Object array) {
         if (array == null) return null;
 
         int length = Array.getLength(array);
-        Class<?> wrapped = ClassUtils.wrap(array.getClass().getComponentType());
+        Class<?> componentType = array.getClass().getComponentType();
+
+        // When array is not primitive, doesn't need to wrap.
+        if (length == 0 && !componentType.isPrimitive()) return array;
+
+        // To save memory, returns cached empty array.
+        Class<?> wrapped = ClassUtils.wrap(componentType);
+        if (length == 0) return EMPTY_ARRAY_MAP.get(wrapped);
 
         Object instance = Array.newInstance(wrapped, length);
         for (int i = 0; i < length; i++) {
@@ -85,11 +103,19 @@ public final class ArrayUtils {
      * @param array boxed array
      * @return primitive array
      */
+    @Nullable
     public static Object unwrap(@Nullable Object array) {
         if (array == null) return null;
 
         int length = Array.getLength(array);
-        Class<?> primitive = ClassUtils.unwrap(array.getClass().getComponentType());
+        Class<?> componentType = array.getClass().getComponentType();
+
+        // When array is primitive, doesn't need to unwrap.
+        if (length == 0 && componentType.isPrimitive()) return array;
+
+        // To save memory, returns cached empty array.
+        Class<?> primitive = ClassUtils.unwrap(componentType);
+        if (length == 0 && ClassUtils.isWrapper(componentType)) return EMPTY_ARRAY_MAP.get(primitive);
 
         Object instance = Array.newInstance(primitive, length);
         for (int i = 0; i < length; i++) {
