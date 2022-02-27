@@ -223,4 +223,55 @@ public final class ClassUtils {
         return (Class<T>) clazz;
     }
 
+    /**
+     * Returns all the types extended or implemented by this class.
+     *
+     * <p> There are 3 cases of return value.
+     * <dl>
+     *     <dt><b>case 1: {@code null}</b></dt>
+     *     <dd>Empty set.</dd>
+     *
+     *     <dt><b>case 2: {@code java.lang.Object}</b></dt>
+     *     <dd>Singleton set that contains that.</dd>
+     *
+     *     <dt><b>case 3: other classes</b></dt>
+     *     <dd>Set that contains own class and all the types extended or implemented by that.</dd>
+     * </dl>
+     *
+     * @param clazz endpoint class
+     * @return all the types extended or implemented by this class
+     * @see <a href="https://stackoverflow.com/questions/22031207/find-all-classes-and-interfaces-a-class-extends-or-implements-recursively">
+     * Find all classes and interfaces a class extends or implements recursively</a>
+     */
+    public static Set<Class<?>> getAllExtendedOrImplementedTypes(@Nullable Class<?> clazz) {
+        if (clazz == null) return Collections.emptySet();
+        List<Class<?>> classes = new ArrayList<>();
+
+        do {
+            classes.add(clazz);
+
+            // First, adds all the interfaces implemented by this class.
+            Class<?>[] interfaces = clazz.getInterfaces();
+            if (interfaces.length > 0) {
+                classes.addAll(Arrays.asList(interfaces));
+
+                for (Class<?> it : interfaces) {
+                    classes.addAll(getAllExtendedOrImplementedTypes(it));
+                }
+            }
+
+            // Adds the super class.
+            Class<?> superclass = clazz.getSuperclass();
+
+            // All interfaces don't have java.lang.Object as superclass.
+            // They return null, so breaks the recursive cycle and returns.
+            if (superclass == null) break;
+
+            // Now inspects the superclass.
+            clazz = superclass;
+        } while (Object.class != clazz);
+
+        return new HashSet<>(classes);
+    }
+
 }
