@@ -33,37 +33,37 @@ public final class ClassUtils {
     }
 
     /**
-     * Checks if this class is enum or its one of a constant.
+     * Checks if this class is enum or one of its constants.
      * <p>
      * A class that extends {@link Enum} and its constants are changed internally since Java 9.
      *
      * <pre>
      * 1. A class that extends {@link Enum}: {@link java.util.concurrent.TimeUnit}
-     * +--------+--------+----------------+----------+-------+
-     * | Java \ | isEnum | getSuperclass  | abstract | final |
-     * +--------+--------+----------------+----------+-------+
-     * |  8 &gt;=  | true   | java.lang.Enum | true     | false |
-     * +--------+--------+----------------+----------+-------+
-     * |  9 &lt;=  | true   | java.lang.Enum | false    | true  |
-     * +--------+--------+----------------+----------+-------+
+     * +---------+--------+------------------+----------------+----------+-------+
+     * | Java \  | isEnum | isAnonymousClass | getSuperclass  | abstract | final |
+     * +---------+--------+------------------+----------------+----------+-------+
+     * | until 8 | true   | false            | java.lang.Enum | true     | false |
+     * +---------+--------+------------------+----------------+----------+-------+
+     * | since 9 | true   | false            | java.lang.Enum | false    | true  |
+     * +---------+--------+------------------+----------------+----------+-------+
      *
      * 2. A class that has no body, declared in enum class body as a constant: {@link java.time.Month#JANUARY}
-     * +--------+--------+----------------+----------+-------+
-     * | Java \ | isEnum | getSuperclass  | abstract | final |
-     * +--------+--------+----------------+----------+-------+
-     * |  8 &gt;=  | true   | java.lang.Enum | false    | true  |
-     * +--------+--------+----------------+----------+-------+
-     * |  9 &lt;=  | true   | java.lang.Enum | false    | true  |
-     * +--------+--------+----------------+----------+-------+
+     * +---------+--------+------------------+----------------+----------+-------+
+     * | Java \  | isEnum | isAnonymousClass | getSuperclass  | abstract | final |
+     * +---------+--------+------------------+----------------+----------+-------+
+     * | until 8 | true   | false            | java.lang.Enum | false    | true  |
+     * +---------+--------+------------------+----------------+----------+-------+
+     * | since 9 | true   | false            | java.lang.Enum | false    | true  |
+     * +---------+--------+------------------+----------------+----------+-------+
      *
      * 3. A class that has own body, declared in enum class body as a constant: {@link java.util.concurrent.TimeUnit#HOURS}
-     * +--------+--------+-------------------------------+----------+-------+
-     * | Java \ | isEnum | getSuperclass                 | abstract | final |
-     * +--------+--------+-------------------------------+----------+-------+
-     * |  8 &gt;=  | false  | java.util.concurrent.TimeUnit | false    | false |
-     * +--------+--------+-------------------------------+----------+-------+
-     * |  9 &lt;=  | true   | java.lang.Enum                | false    | true  |
-     * +--------+--------+-------------------------------+----------+-------+
+     * +---------+--------+------------------+-------------------------------+----------+-------+
+     * | Java \  | isEnum | isAnonymousClass | getSuperclass                 | abstract | final |
+     * +---------+--------+------------------+-------------------------------+----------+-------+
+     * | until 8 | false  | true             | java.util.concurrent.TimeUnit | false    | false |
+     * +---------+--------+------------------+-------------------------------+----------+-------+
+     * | since 9 | true   | false            | java.lang.Enum                | false    | true  |
+     * +---------+--------+------------------+-------------------------------+----------+-------+
      * </pre>
      *
      * @param clazz class
