@@ -71,18 +71,8 @@ public final class ClassUtils {
      * @see Class#isEnum()
      * @see Enum#getDeclaringClass()
      */
-    public static boolean isEnumOrEnumConstant(Class<?> clazz) {
-        if (clazz == null) return false;
-
-        // Java 9 or later
-        if (clazz.isEnum()) return true;
-
-        // Until Java 8, enum constant that has body is an anonymous class.
-        for (Class<?> c = clazz.getSuperclass(); c != null; c = c.getSuperclass()) {
-            if (c.isEnum()) return true;
-        }
-
-        return false;
+    public static boolean isEnumOrEnumConstant(@Nullable Class<?> clazz) {
+        return clazz != null && Enum.class.isAssignableFrom(clazz);
     }
 
     /**
