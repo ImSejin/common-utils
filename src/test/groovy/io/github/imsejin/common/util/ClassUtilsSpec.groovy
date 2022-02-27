@@ -16,7 +16,17 @@
 
 package io.github.imsejin.common.util
 
-
+import io.github.imsejin.common.assertion.DecimalNumberAssertion
+import io.github.imsejin.common.assertion.Descriptor
+import io.github.imsejin.common.assertion.array.ArrayAssert
+import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert
+import io.github.imsejin.common.assertion.chars.StringAssert
+import io.github.imsejin.common.assertion.math.BigDecimalAssert
+import io.github.imsejin.common.assertion.object.AbstractObjectAssert
+import io.github.imsejin.common.assertion.primitive.NumberAssert
+import io.github.imsejin.common.tool.crypto.AES
+import io.github.imsejin.common.tool.crypto.AES256
+import io.github.imsejin.common.tool.crypto.Crypto
 import spock.lang.Specification
 
 class ClassUtilsSpec extends Specification {
@@ -265,17 +275,19 @@ class ClassUtilsSpec extends Specification {
         def types = ClassUtils.getAllExtendedOrImplementedTypes clazz
 
         then:
-        println types
         types == expected as Set
 
         where:
-        clazz        | expected
-        null         | []
-        Object       | [clazz]
-        Runnable     | [clazz]
-        ArrayList    | [Iterable, Collection, List, RandomAccess, Cloneable, Serializable, AbstractCollection, AbstractList, clazz]
-        String       | [Serializable, Comparable, CharSequence, clazz]
-        StringBuffer | [Appendable, Serializable, CharSequence, AbstractStringBuilder, clazz]
+        clazz            | expected
+        null             | []
+        Object           | [clazz]
+        Runnable         | [clazz]
+        ArrayList        | [Iterable, Collection, List, RandomAccess, Cloneable, Serializable, AbstractCollection, AbstractList, clazz]
+        String           | [Serializable, Comparable, CharSequence, clazz]
+        AES256           | [Crypto, AES, clazz]
+        ArrayAssert      | [Descriptor, AbstractObjectAssert, clazz]
+        StringAssert     | [Descriptor, AbstractObjectAssert, AbstractCharSequenceAssert, clazz]
+        BigDecimalAssert | [Descriptor, AbstractObjectAssert, NumberAssert, DecimalNumberAssertion, clazz]
     }
 
 }
