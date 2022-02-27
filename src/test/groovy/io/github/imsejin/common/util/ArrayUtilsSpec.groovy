@@ -60,56 +60,64 @@ class ArrayUtilsSpec extends Specification {
 
     def "Makes primitive array boxed"() {
         when:
-        def actual = ArrayUtils.box array
+        def actual = ArrayUtils.wrap array
 
         then:
+        actual?.class == expected?.class
         actual == expected
 
         where:
         array                      | expected
+        null                       | array
+        [] as Object[]             | array
+        [new Object()] as Object[] | array
         [] as boolean[]            | [] as Boolean[]
         [false, true] as boolean[] | [false, true] as Boolean[]
         [] as byte[]               | [] as Byte[]
         [-1, 0, 1] as byte[]       | [-1, 0, 1] as Byte[]
+        [] as short[]              | [] as Short[]
+        [-1, 0, 1] as short[]      | [-1, 0, 1] as Short[]
         [] as char[]               | [] as Character[]
         ['a', 'b', 'c'] as char[]  | ['a', 'b', 'c'] as Character[]
-        [] as double[]             | [] as Double[]
-        [-1, 0, 1] as double[]     | [-1, 0, 1] as Double[]
-        [] as float[]              | [] as Float[]
-        [-1, 0, 1] as float[]      | [-1, 0, 1] as Float[]
         [] as int[]                | [] as Integer[]
         [-1, 0, 1] as int[]        | [-1, 0, 1] as Integer[]
         [] as long[]               | [] as Long[]
         [-1, 0, 1] as long[]       | [-1, 0, 1] as Long[]
-        [] as short[]              | [] as Short[]
-        [-1, 0, 1] as short[]      | [-1, 0, 1] as Short[]
+        [] as float[]              | [] as Float[]
+        [-1, 0, 1] as float[]      | [-1, 0, 1] as Float[]
+        [] as double[]             | [] as Double[]
+        [-1, 0, 1] as double[]     | [-1, 0, 1] as Double[]
     }
 
     def "Makes wrapper array unboxed"() {
         when:
-        def actual = ArrayUtils.unbox array
+        def actual = ArrayUtils.unwrap array
 
         then:
+        actual?.class == expected?.class
         actual == expected
 
         where:
         array                          | expected
+        null                           | array
+        [] as Object[]                 | array
+        [new Object()] as Object[]     | array
         [] as Boolean[]                | [] as boolean[]
         [false, true] as Boolean[]     | [false, true] as boolean[]
         [] as Byte[]                   | [] as byte[]
         [-1, 0, 1] as Byte[]           | [-1, 0, 1] as byte[]
+        [] as Short[]                  | [] as short[]
+        [-1, 0, 1] as Short[]          | [-1, 0, 1] as short[]
         [] as Character[]              | [] as char[]
         ['a', 'b', 'c'] as Character[] | ['a', 'b', 'c'] as char[]
-        [] as Double[]                 | [] as double[]
-        [-1, 0, 1] as Double[]         | [-1, 0, 1] as double[]
-        [] as Float[]                  | [] as float[]
-        [-1, 0, 1] as Float[]          | [-1, 0, 1] as float[]
         [] as Integer[]                | [] as int[]
         [-1, 0, 1] as Integer[]        | [-1, 0, 1] as int[]
         [] as Long[]                   | [] as long[]
         [-1, 0, 1] as Long[]           | [-1, 0, 1] as long[]
-        [] as Short[]                  | [] as short[]
-        [-1, 0, 1] as Short[]          | [-1, 0, 1] as short[]
+        [] as Double[]                 | [] as double[]
+        [-1, 0, 1] as Double[]         | [-1, 0, 1] as double[]
+        [] as Float[]                  | [] as float[]
+        [-1, 0, 1] as Float[]          | [-1, 0, 1] as float[]
     }
 
     def "Converts array to string"() {
