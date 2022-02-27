@@ -25,9 +25,9 @@ import io.github.imsejin.common.util.ArrayUtils;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ArrayAssert<SELF extends ArrayAssert<SELF>> extends AbstractObjectAssert<SELF, Object[]> {
+public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends AbstractObjectAssert<SELF, T[]> {
 
-    public ArrayAssert(Object[] actual) {
+    public ArrayAssert(T[] actual) {
         super(actual);
     }
 

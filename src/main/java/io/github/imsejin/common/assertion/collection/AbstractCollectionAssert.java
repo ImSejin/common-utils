@@ -135,8 +135,9 @@ public abstract class AbstractCollectionAssert<
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    public ArrayAssert<?> asArray() {
-        ArrayAssert<?> assertion = Asserts.that(actual.toArray());
+    @SuppressWarnings("unchecked")
+    public ArrayAssert<?, T> asArray() {
+        ArrayAssert<?, T> assertion = Asserts.that((T[]) actual.toArray());
         Descriptor.merge(this, assertion);
 
         return assertion;

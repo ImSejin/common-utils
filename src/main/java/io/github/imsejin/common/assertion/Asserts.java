@@ -70,39 +70,39 @@ public abstract class Asserts {
 
     //////////////////////////////////////// Array ////////////////////////////////////////
 
-    public static ArrayAssert<?> that(boolean[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Boolean> that(boolean[] array) {
+        return new ArrayAssert<>((Boolean[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?> that(byte[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Byte> that(byte[] array) {
+        return new ArrayAssert<>((Byte[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?> that(char[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Short> that(short[] array) {
+        return new ArrayAssert<>((Short[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?> that(double[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Character> that(char[] array) {
+        return new ArrayAssert<>((Character[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?> that(float[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Integer> that(int[] array) {
+        return new ArrayAssert<>((Integer[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?> that(int[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Long> that(long[] array) {
+        return new ArrayAssert<>((Long[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?> that(long[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Float> that(float[] array) {
+        return new ArrayAssert<>((Float[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?> that(short[] array) {
-        return new ArrayAssert<>(array == null ? null : ArrayUtils.box(array));
+    public static ArrayAssert<?, Double> that(double[] array) {
+        return new ArrayAssert<>((Double[]) ArrayUtils.wrap(array));
     }
 
-    public static <T> ArrayAssert<?> that(T[] array) {
+    public static <T> ArrayAssert<?, T> that(T[] array) {
         return new ArrayAssert<>(array);
     }
 
