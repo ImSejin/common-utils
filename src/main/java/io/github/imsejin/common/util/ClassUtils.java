@@ -81,7 +81,7 @@ public final class ClassUtils {
      * @param clazz class
      * @return whether this class is abstract
      */
-    public static boolean isAbstractClass(Class<?> clazz) {
+    public static boolean isAbstractClass(@Nullable Class<?> clazz) {
         if (clazz == null) return false;
 
         // Keyword 'abstract' is cannot be compatible with 'final' except native objects.
@@ -90,8 +90,7 @@ public final class ClassUtils {
                 !clazz.isArray() && !clazz.isPrimitive() && !clazz.isInterface() && !isEnumOrEnumConstant(clazz);
     }
 
-    public static boolean isSuperclass(@Nonnull Class<?> superclass, Class<?> subclass) {
-        Asserts.that(superclass).isNotNull();
+    public static boolean isSuperclass(Class<?> superclass, @Nullable Class<?> subclass) {
         if (subclass == null || superclass == subclass) return false;
 
         for (Class<?> c = subclass.getSuperclass(); c != null; c = c.getSuperclass()) {

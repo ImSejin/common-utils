@@ -174,18 +174,12 @@ public final class ReflectionUtils {
      */
     public static <T> T instantiate(Class<T> type, @Nullable Class<?>[] paramTypes, @Nullable Object[] initArgs) {
         Asserts.that(type).isNotNull();
-        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull().isSameLength(initArgs);
-        if (initArgs != null) Asserts.that(initArgs).isSameLength(paramTypes);
+        if (paramTypes != null) Asserts.that(initArgs).isNotNull().isSameLength(paramTypes);
+        if (initArgs != null) Asserts.that(paramTypes).isNotNull().isSameLength(initArgs);
 
-        Constructor<T> constructor;
-        try {
-            // Gets constructor with the specific parameter types.
-            constructor = type.getDeclaredConstructor(paramTypes);
-        } catch (NoSuchMethodException e) {
-            String message = String.format("Cannot find a constructor: %s(%s)",
-                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
-            throw new RuntimeException(message, e);
-        }
+        Constructor<T> constructor = getDeclaredConstructor(type, paramTypes);
+        boolean accessible = constructor.isAccessible();
+
         constructor.setAccessible(true);
 
         // Instantiates new model and sets up data into the model's fields.
