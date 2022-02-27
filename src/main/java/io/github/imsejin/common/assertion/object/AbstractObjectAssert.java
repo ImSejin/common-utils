@@ -20,7 +20,7 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
-import io.github.imsejin.common.tool.TypeClassifier;
+import io.github.imsejin.common.util.ClassUtils;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -111,7 +111,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
      * @return whether this is instance of the type
      */
     public SELF isInstanceOf(Class<?> expected) {
-        if (!TypeClassifier.box(expected).isInstance(actual)) {
+        if (!ClassUtils.wrap(expected).isInstance(actual)) {
             setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
