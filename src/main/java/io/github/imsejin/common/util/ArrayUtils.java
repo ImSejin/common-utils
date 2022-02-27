@@ -18,7 +18,6 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -150,7 +149,7 @@ public final class ArrayUtils {
      * @param elements elements to be prepended
      * @return prepended array
      */
-    public static Object[] prepend(@Nonnull Object[] src, Object... elements) {
+    public static Object[] prepend(Object[] src, @Nullable Object... elements) {
         if (isNullOrEmpty(elements)) return src;
 
         Object[] array = new Object[elements.length + src.length];
@@ -172,7 +171,7 @@ public final class ArrayUtils {
      * @param elements elements to be appended
      * @return appended array
      */
-    public static Object[] append(@Nonnull Object[] src, Object... elements) {
+    public static Object[] append(Object[] src, @Nullable Object... elements) {
         if (isNullOrEmpty(elements)) return src;
 
         Object[] array = new Object[src.length + elements.length];
