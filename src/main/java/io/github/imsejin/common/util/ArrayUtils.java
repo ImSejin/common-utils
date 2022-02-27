@@ -346,7 +346,25 @@ public final class ArrayUtils {
      */
     public static String toString(@Nullable Object array) {
         if (array == null) return "null";
-        if (array.getClass().isArray()) return Arrays.deepToString((Object[]) array);
+
+        Class<?> clazz = array.getClass();
+        if (clazz.isArray()) {
+            // One dimensional object array or multi-dimensional array.
+            if (array instanceof Object[]) return Arrays.deepToString((Object[]) array);
+
+            // One dimensional primitive array.
+            Class<?> componentType = clazz.getComponentType();
+            if (componentType == boolean.class) return Arrays.toString((boolean[]) array);
+            if (componentType == byte.class) return Arrays.toString((byte[]) array);
+            if (componentType == short.class) return Arrays.toString((short[]) array);
+            if (componentType == char.class) return Arrays.toString((char[]) array);
+            if (componentType == int.class) return Arrays.toString((int[]) array);
+            if (componentType == long.class) return Arrays.toString((long[]) array);
+            if (componentType == float.class) return Arrays.toString((float[]) array);
+            if (componentType == double.class) return Arrays.toString((double[]) array);
+        }
+
+        // Others.
         return array.toString();
     }
 
