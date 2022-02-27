@@ -85,6 +85,8 @@ public final class ReflectionUtils {
         Asserts.that(field).isNotNull();
         if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
 
+        boolean accessible = field.isAccessible();
+
         // Enables to have access to the field even private field.
         field.setAccessible(true);
 
@@ -93,8 +95,11 @@ public final class ReflectionUtils {
             return field.get(instance);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to get value from the field(%s) of the class(%s)",
-                    field.getName(), instance.getClass().getName());
+                    field.getName(), field.getDeclaringClass().getName());
             throw new RuntimeException(message, e);
+        } finally {
+            // Rolls back the accessibility of the field as it was.
+            field.setAccessible(accessible);
         }
     }
 
@@ -113,6 +118,8 @@ public final class ReflectionUtils {
                 .as("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
                 .isNotNull();
 
+        boolean accessible = field.isAccessible();
+
         // Enables to have access to the field even private field.
         field.setAccessible(true);
 
@@ -121,8 +128,11 @@ public final class ReflectionUtils {
             field.set(instance, value);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to set value into the field(%s) of the class(%s)",
-                    field.getName(), instance.getClass().getName());
+                    field.getName(), field.getDeclaringClass().getName());
             throw new RuntimeException(message, e);
+        } finally {
+            // Rolls back the accessibility of the field as it was.
+            field.setAccessible(accessible);
         }
     }
 
@@ -189,6 +199,9 @@ public final class ReflectionUtils {
             String message = String.format("Failed to instantiate by constructor: %s(%s)",
                     type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
             throw new RuntimeException(message, e);
+        } finally {
+            // Rolls back the accessibility of the constructor as it was.
+            constructor.setAccessible(accessible);
         }
     }
 
@@ -237,12 +250,16 @@ public final class ReflectionUtils {
         }
 
         if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
+        boolean accessible = method.isAccessible();
         method.setAccessible(true);
 
         try {
             return method.invoke(instance, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
+        } finally {
+            // Rolls back the accessibility of the method as it was.
+            method.setAccessible(accessible);
         }
     }
 
