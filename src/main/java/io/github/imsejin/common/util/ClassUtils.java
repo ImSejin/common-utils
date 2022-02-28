@@ -243,7 +243,7 @@ public final class ClassUtils {
      * @see <a href="https://stackoverflow.com/questions/22031207/find-all-classes-and-interfaces-a-class-extends-or-implements-recursively">
      * Find all classes and interfaces a class extends or implements recursively</a>
      */
-    public static Set<Class<?>> getAllExtendedOrImplementedTypes(@Nullable Class<?> clazz) {
+    public static Set<Class<?>> getAllExtendedOrImplementedTypesAsSet(@Nullable Class<?> clazz) {
         if (clazz == null) return Collections.emptySet();
         List<Class<?>> classes = new ArrayList<>();
 
@@ -256,7 +256,7 @@ public final class ClassUtils {
                 classes.addAll(Arrays.asList(interfaces));
 
                 for (Class<?> it : interfaces) {
-                    classes.addAll(getAllExtendedOrImplementedTypes(it));
+                    classes.addAll(getAllExtendedOrImplementedTypesAsSet(it));
                 }
             }
 
@@ -269,7 +269,7 @@ public final class ClassUtils {
 
             // Now inspects the superclass.
             clazz = superclass;
-        } while (Object.class != clazz);
+        } while (clazz != Object.class);
 
         return new HashSet<>(classes);
     }

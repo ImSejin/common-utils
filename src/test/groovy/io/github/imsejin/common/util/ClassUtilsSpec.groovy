@@ -270,12 +270,12 @@ class ClassUtilsSpec extends Specification {
     }
 
     @SuppressWarnings("GroovyAccessibility")
-    def "Get all the types extended or implemented by the given class"() {
+    def "Gets all the types extended or implemented by the given class as a set"() {
         when:
-        def types = ClassUtils.getAllExtendedOrImplementedTypes clazz
+        def set = ClassUtils.getAllExtendedOrImplementedTypesAsSet clazz
 
         then:
-        types == expected as Set
+        set == expected as Set
 
         where:
         clazz            | expected
