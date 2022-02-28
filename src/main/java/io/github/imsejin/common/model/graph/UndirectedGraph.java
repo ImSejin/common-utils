@@ -100,9 +100,6 @@ public class UndirectedGraph<E> implements Graph<E> {
             Set<E> oldbie = this.adjacentVertexMap.get(e);
             Set<E> newbie = graph.getAdjacentVertexes(e);
 
-            // Graph don't need to add the empty edges.
-            if (newbie.isEmpty()) continue;
-
             if (oldbie == null) {
                 // Adds new vertex and its edges.
                 this.adjacentVertexMap.put(e, newbie);
