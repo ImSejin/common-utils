@@ -17,6 +17,8 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.model.graph.Graph;
+import io.github.imsejin.common.model.graph.UndirectedGraph;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Modifier;
@@ -272,6 +274,39 @@ public final class ClassUtils {
         } while (clazz != Object.class);
 
         return new HashSet<>(classes);
+    }
+
+    public static Graph<Class<?>> getAllExtendedOrImplementedTypesAsGraph(@Nullable Class<?> clazz) {
+        if (clazz == null) return new UndirectedGraph<>();
+        Graph<Class<?>> graph = new UndirectedGraph<>();
+
+        do {
+            graph.addVertex(clazz);
+
+            // First, adds all the interfaces implemented by this class.
+            for (Class<?> it : clazz.getInterfaces()) {
+                graph.addVertex(it);
+                graph.addEdge(clazz, it);
+                graph.addAll(getAllExtendedOrImplementedTypesAsGraph(it));
+            }
+
+            // Adds the super class.
+            Class<?> superclass = clazz.getSuperclass();
+
+            // All interfaces don't have java.lang.Object as superclass.
+            // They return null, so breaks the recursive cycle and returns.
+            if (superclass == null) break;
+
+            if (superclass != Object.class) {
+                graph.addVertex(superclass);
+                graph.addEdge(clazz, superclass);
+            }
+
+            // Now inspects the superclass.
+            clazz = superclass;
+        } while (clazz != Object.class);
+
+        return graph;
     }
 
 }

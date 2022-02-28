@@ -291,4 +291,27 @@ class ClassUtilsSpec extends Specification {
         BigDecimalAssert | [Descriptor, AbstractObjectAssert, NumberAssert, DecimalNumberAssertion, clazz]
     }
 
+    @SuppressWarnings("GroovyAccessibility")
+    def "Gets all the types extended or implemented by the given class as a graph"() {
+        when:
+        def graph = ClassUtils.getAllExtendedOrImplementedTypesAsGraph clazz
+
+        then:
+        graph.vertexSize == expected.size()
+        graph.allVertexes == expected as Set
+
+        where:
+        clazz            | expected
+        null             | []
+        Object           | [clazz]
+        Runnable         | [clazz]
+        List             | [Iterable, Collection, clazz]
+        ArrayList        | [Iterable, Collection, List, RandomAccess, Cloneable, Serializable, AbstractCollection, AbstractList, clazz]
+        TreeMap          | [Map, AbstractMap, SortedMap, NavigableMap, Cloneable, Serializable, clazz]
+        AES256           | [Crypto, AES, clazz]
+        ArrayAssert      | [Descriptor, AbstractObjectAssert, clazz]
+        StringAssert     | [Descriptor, AbstractObjectAssert, AbstractCharSequenceAssert, clazz]
+        BigDecimalAssert | [Descriptor, AbstractObjectAssert, NumberAssert, DecimalNumberAssertion, clazz]
+    }
+
 }
