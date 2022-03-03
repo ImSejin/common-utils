@@ -25,33 +25,84 @@ import spock.lang.Specification
 @SuppressWarnings("GroovyAccessibility")
 class UndirectedGraphSpec extends Specification {
 
-    def "Adds vertexes and edges"() {
+    def "Adds vertices"() {
+        given:
+        def graph = new UndirectedGraph<>() as Graph<?>
+
+        when: "Graph has vertices as many as the number of elements, but no edge"
+        def added = elements.stream().map(graph::addVertex).reduce(Boolean.TRUE, { a, b -> a && b })
+
+        then: """
+            1. All elements are added to graph as vertices
+            2. Graph has no edge, so its pathLength is zero
+            3. Graph has vertices as many as the number of elements
+            4. There are no adjacent vertices
+        """
+        added == expected
+        graph.pathLength == 0
+        graph.vertexSize == elements.stream().filter(Objects::nonNull).count()
+        elements.stream().flatMap({ graph.getAdjacentVertices(it).stream() }).count() == 0
+
+        where:
+        elements                                         | expected
+        [new Object(), null]                             | false
+        [new Object(), new Object()]                     | true
+        ["alpha", "", "gamma", "delta"]                  | true
+        [String, Serializable, Comparable, CharSequence] | true
+        [0, -1, 104, -2.5, 98, -47.029]                  | true
+    }
+
+    def "Adds vertices and edges"() {
         given:
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
+        def vertices = [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable]
+        def edges = [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList],
+                     [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
 
         when:
-        graph.addVertex Iterable
-        graph.addVertex Collection
-        graph.addEdge(Iterable, Collection)
-        graph.addVertex List
-        graph.addEdge(Collection, List)
-        graph.addVertex AbstractCollection
-        graph.addEdge(Collection, AbstractCollection)
-        graph.addVertex AbstractList
-        graph.addEdge(AbstractCollection, AbstractList)
-        graph.addVertex ArrayList
-        graph.addVertex RandomAccess
-        graph.addVertex Cloneable
-        graph.addVertex Serializable
-        graph.addEdge(ArrayList, List)
-        graph.addEdge(ArrayList, RandomAccess)
-        graph.addEdge(ArrayList, Cloneable)
-        graph.addEdge(ArrayList, Serializable)
+        vertices.forEach(graph::addVertex)
+        edges.forEach({ them -> graph.addEdge(them[0], them[1]) })
 
         then:
-        graph.vertexSize == 9
-        graph.vertexSize == graph.allVertexes.size()
-        println graph
+        graph.vertexSize == vertices.size()
+        graph.pathLength == edges.size()
+        graph.vertexSize == graph.allVertices.size()
+    }
+
+    def "Removes vertices"() {
+        given:
+        def graph = new UndirectedGraph<>() as Graph<?>
+        def vertices = [String, Serializable, Comparable, CharSequence]
+        def edges = [[String, Serializable], [String, Comparable], [String, CharSequence]]
+
+        when:
+        vertices.forEach(graph::addVertex)
+        edges.forEach({ them -> graph.addEdge(them[0], them[1]) })
+
+        then: """
+            1. Graph has vertices as many as it is added
+            2. Graph has edges as many as it is added
+        """
+        graph.vertexSize == vertices.size()
+        graph.pathLength == edges.size()
+
+        when:
+        def removeNull = graph.removeVertex null
+        def removeComparable = graph.removeVertex Comparable
+
+        then:
+        !removeNull
+        removeComparable
+        graph.vertexSize == vertices.size() - 1
+        graph.pathLength == edges.size() - 1
+
+        when:
+        def removeString = graph.removeVertex String
+
+        then:
+        removeString
+        graph.vertexSize == vertices.size() - 2
+        graph.pathLength == 0
     }
 
     def "Adds the other graph"() {
