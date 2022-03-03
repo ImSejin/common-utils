@@ -39,8 +39,8 @@ public class UndirectedGraph<E> implements Graph<E> {
     public boolean addVertex(E e) {
         if (e == null) return false;
 
-        Set<E> vertexes = this.adjacentVertexMap.get(e);
-        if (vertexes != null) return false;
+        Set<E> vertices = this.adjacentVertexMap.get(e);
+        if (vertices != null) return false;
 
         this.adjacentVertexMap.put(e, new HashSet<>());
         return true;
@@ -48,8 +48,8 @@ public class UndirectedGraph<E> implements Graph<E> {
 
     @Override
     public boolean removeVertex(E e) {
-        Set<E> vertexes = this.adjacentVertexMap.get(e);
-        if (vertexes == null) return false;
+        Set<E> vertices = this.adjacentVertexMap.get(e);
+        if (vertices == null) return false;
 
         this.adjacentVertexMap.remove(e);
         for (Set<E> them : this.adjacentVertexMap.values()) {
@@ -63,6 +63,8 @@ public class UndirectedGraph<E> implements Graph<E> {
 
     @Override
     public boolean addEdge(E e1, E e2) {
+        if (e1 == null || e2 == null || e1.equals(e2)) return false;
+
         Set<E> v1 = this.adjacentVertexMap.get(e1);
         Set<E> v2 = this.adjacentVertexMap.get(e2);
 
@@ -77,6 +79,8 @@ public class UndirectedGraph<E> implements Graph<E> {
 
     @Override
     public boolean removeEdge(E e1, E e2) {
+        if (e1 == null || e2 == null || e1.equals(e2)) return false;
+
         Set<E> v1 = this.adjacentVertexMap.get(e1);
         Set<E> v2 = this.adjacentVertexMap.get(e2);
 
@@ -91,14 +95,14 @@ public class UndirectedGraph<E> implements Graph<E> {
 
     @Override
     public boolean addAll(Graph<E> graph) {
-        Set<E> vertexes = graph.getAllVertexes();
+        Set<E> vertices = graph.getAllVertices();
 
         // Graph don't need to add the empty one.
-        if (vertexes.isEmpty()) return false;
+        if (vertices.isEmpty()) return false;
 
-        for (E e : vertexes) {
+        for (E e : vertices) {
             Set<E> oldbie = this.adjacentVertexMap.get(e);
-            Set<E> newbie = graph.getAdjacentVertexes(e);
+            Set<E> newbie = graph.getAdjacentVertices(e);
 
             if (oldbie == null) {
                 // Adds new vertex and its edges.
@@ -118,22 +122,27 @@ public class UndirectedGraph<E> implements Graph<E> {
     }
 
     @Override
+    public boolean containsVertex(E e) {
+        return this.adjacentVertexMap.containsKey(e);
+    }
+
+    @Override
     public int getVertexSize() {
         return this.adjacentVertexMap.size();
     }
 
     @Override
-    public int getEdgeSize() {
+    public int getPathLength() {
         return this.edges.size();
     }
 
     @Override
-    public Set<E> getAllVertexes() {
+    public Set<E> getAllVertices() {
         return this.adjacentVertexMap.keySet();
     }
 
     @Override
-    public Set<E> getAdjacentVertexes(E e) {
+    public Set<E> getAdjacentVertices(E e) {
         return this.adjacentVertexMap.get(e);
     }
 
@@ -174,7 +183,7 @@ public class UndirectedGraph<E> implements Graph<E> {
         if (!(o instanceof UndirectedGraph)) return false;
 
         UndirectedGraph<?> that = (UndirectedGraph<?>) o;
-        return adjacentVertexMap.equals(that.adjacentVertexMap);
+        return this.adjacentVertexMap.equals(that.adjacentVertexMap);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -192,8 +201,9 @@ public class UndirectedGraph<E> implements Graph<E> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Edge)) return false;
-            Edge<?> edge = (Edge<?>) o;
-            return this.vertex1.equals(edge.vertex1) && this.vertex2.equals(edge.vertex2);
+
+            Edge<?> that = (Edge<?>) o;
+            return this.vertex1.equals(that.vertex1) && this.vertex2.equals(that.vertex2);
         }
 
         @Override

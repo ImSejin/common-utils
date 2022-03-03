@@ -30,12 +30,14 @@ public interface Graph<E> {
 
     boolean addAll(Graph<E> graph);
 
+    boolean containsVertex(E e);
+
     int getVertexSize();
 
-    int getEdgeSize();
+    int getPathLength();
 
-    Set<E> getAllVertexes();
+    Set<E> getAllVertices();
 
-    Set<E> getAdjacentVertexes(E e);
+    Set<E> getAdjacentVertices(E e);
 
 }

@@ -97,7 +97,7 @@ class UndirectedGraphSpec extends Specification {
         println graph0
     }
 
-    def "Gets all the number of vertexes"() {
+    def "Gets all the number of vertices"() {
         given:
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
 
@@ -123,9 +123,9 @@ class UndirectedGraphSpec extends Specification {
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
 
         expect: "Empty graph has no edge"
-        graph.edgeSize == 0
+        graph.pathLength == 0
 
-        when: "Add vertexes and its edges"
+        when: "Add vertices and its edges"
         graph.addVertex Iterable
         graph.addVertex Collection
         graph.addEdge(Iterable, Collection)
@@ -144,28 +144,28 @@ class UndirectedGraphSpec extends Specification {
         graph.addEdge(ArrayList, RandomAccess)
         graph.addEdge(ArrayList, Cloneable)
         graph.addEdge(ArrayList, Serializable)
-        def edgeSize = graph.edgeSize
+        def pathLength = graph.pathLength
 
-        then: "This graph has 9 vertexes and 9 edges"
-        edgeSize == 9
+        then: "This graph has 9 vertices and 9 edges"
+        pathLength == 9
         println graph
 
-        when: "Removes the vertex 'ArrayList' that is adjacent to 5 other vertexes"
+        when: "Removes the vertex 'ArrayList' that is adjacent to 5 other vertices"
         def vertex = ArrayList
-        def adjacentVertexes = graph.getAdjacentVertexes vertex
+        def adjacentVertexes = graph.getAdjacentVertices vertex
         graph.removeVertex vertex
 
-        then: "Decreases the number of edges in graph as many as the vertex that is adjacent to the other vertexes"
-        graph.edgeSize == edgeSize - adjacentVertexes.size()
+        then: "Decreases the number of edges in graph as many as the vertex that is adjacent to the other vertices"
+        graph.pathLength == pathLength - adjacentVertexes.size()
     }
 
-    def "Gets all the vertexes"() {
+    def "Gets all the vertices"() {
         given:
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
 
         expect:
-        graph.allVertexes.size() == 0
-        graph.allVertexes == [] as Set
+        graph.allVertices.size() == 0
+        graph.allVertices == [] as Set
 
         when:
         graph.addVertex Double
@@ -177,18 +177,18 @@ class UndirectedGraphSpec extends Specification {
         graph.addEdge(Number, Serializable)
 
         then:
-        graph.allVertexes.size() == 4
-        graph.allVertexes == [Double, Number, Comparable, Serializable] as Set
+        graph.allVertices.size() == 4
+        graph.allVertices == [Double, Number, Comparable, Serializable] as Set
     }
 
-    def "Gets the adjacent vertexes by vertex"() {
+    def "Gets the adjacent vertices by vertex"() {
         given:
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
 
         expect: "Returns null if graph doesn't have the given vertex"
-        graph.getAdjacentVertexes(StringBuilder) == null
+        graph.getAdjacentVertices(StringBuilder) == null
 
-        when: "Add vertexes and its edges"
+        when: "Add vertices and its edges"
         graph.addVertex StringBuilder
         graph.addVertex Serializable
         graph.addVertex AbstractStringBuilder
@@ -198,11 +198,11 @@ class UndirectedGraphSpec extends Specification {
         graph.addEdge(StringBuilder, CharSequence)
         graph.addVertex Appendable
         graph.addEdge(Appendable, AbstractStringBuilder)
-        def vertexes = graph.getAdjacentVertexes StringBuilder
+        def vertices = graph.getAdjacentVertices StringBuilder
 
-        then: "Vertex 'StringBuilder' is adjacent to 3 other vertexes"
-        vertexes.size() == 3
-        vertexes == [Serializable, AbstractStringBuilder, CharSequence] as Set
+        then: "Vertex 'StringBuilder' is adjacent to 3 other vertices"
+        vertices.size() == 3
+        vertices == [Serializable, AbstractStringBuilder, CharSequence] as Set
     }
 
     def "Equality and hash code"() {
@@ -212,7 +212,7 @@ class UndirectedGraphSpec extends Specification {
         expect: "Empty graph is equal to another empty graph"
         graph == new UndirectedGraph<>()
 
-        when: "Add vertexes and its edges"
+        when: "Add vertices and its edges"
         graph.addVertex String
         graph.addVertex Serializable
         graph.addVertex Comparable
@@ -222,8 +222,8 @@ class UndirectedGraphSpec extends Specification {
         graph.addEdge(String, CharSequence)
 
         then: """
-            1. Graph that has vertexes or edges is not equal to another empty graph
-            2. Graph that has vertexes or edges is equal to another graph that has the same content
+            1. Graph that has vertices or edges is not equal to another empty graph
+            2. Graph that has vertices or edges is equal to another graph that has the same content
         """
         graph != new UndirectedGraph<>()
         graph == new UndirectedGraph<>(graph)

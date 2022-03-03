@@ -298,7 +298,7 @@ class ClassUtilsSpec extends Specification {
 
         then:
         graph.vertexSize == expected.size()
-        graph.allVertexes == expected as Set
+        graph.allVertices == expected as Set
 
         where:
         clazz            | expected
