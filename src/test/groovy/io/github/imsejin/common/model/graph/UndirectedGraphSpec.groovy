@@ -61,12 +61,32 @@ class UndirectedGraphSpec extends Specification {
 
         when:
         vertices.forEach(graph::addVertex)
-        edges.forEach({ them -> graph.addEdge(them[0], them[1]) })
+        def added = edges.stream().map({ edge -> graph.addEdge(edge[0], edge[1]) }).reduce(Boolean.TRUE, { a, b -> a && b })
 
         then:
+        added
         graph.vertexSize == vertices.size()
         graph.pathLength == edges.size()
         graph.vertexSize == graph.allVertices.size()
+
+        when:
+        def addNullAsFirst = graph.addEdge(null, List)
+        def addNullAsSecond = graph.addEdge(List, null)
+        def addSameVertices = graph.addEdge(List, List)
+        def addInvalidVertexAsFirst = graph.addEdge(Object, List)
+        def addInvalidVertexAsSecond = graph.addEdge(List, Object)
+        def addSameEdges = edges.stream().map({ edge -> graph.addEdge(edge[0], edge[1]) }).reduce(Boolean.TRUE, { a, b -> a && b })
+        def addReversedEdges = edges.stream().map({ edge -> graph.addEdge(edge[1], edge[0]) }).reduce(Boolean.TRUE, { a, b -> a && b })
+
+        then:
+        !addNullAsFirst
+        !addNullAsSecond
+        !addSameVertices
+        !addInvalidVertexAsFirst
+        !addInvalidVertexAsSecond
+        !addSameEdges
+        !addReversedEdges
+        graph.pathLength == edges.size()
     }
 
     def "Removes vertices"() {
