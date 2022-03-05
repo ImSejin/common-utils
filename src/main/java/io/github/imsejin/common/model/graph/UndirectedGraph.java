@@ -70,9 +70,12 @@ public class UndirectedGraph<E> implements Graph<E> {
 
         if (v1 == null || v2 == null) return false;
 
+        Edge<E> edge = new Edge<>(e1, e2);
+        if (this.edges.contains(edge)) return false;
+
         v1.add(e2);
         v2.add(e1);
-        this.edges.add(new Edge<>(e1, e2));
+        this.edges.add(edge);
 
         return true;
     }
@@ -203,12 +206,16 @@ public class UndirectedGraph<E> implements Graph<E> {
             if (!(o instanceof Edge)) return false;
 
             Edge<?> that = (Edge<?>) o;
-            return this.vertex1.equals(that.vertex1) && this.vertex2.equals(that.vertex2);
+
+            // Considers as the same even if the vertex order of edge is reversed.
+            return (this.vertex1.equals(that.vertex1) && this.vertex2.equals(that.vertex2)) ||
+                    (this.vertex1.equals(that.vertex2) && this.vertex2.equals(that.vertex1));
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.vertex1, this.vertex2);
+            // Considers as the same even if the vertex order of edge is reversed.
+            return Objects.hash(this.vertex1.hashCode() + this.vertex2.hashCode());
         }
     }
 
