@@ -55,19 +55,20 @@ class BreadthFirstIteratorSpec extends Specification {
         graph.vertexSize == vertexes.size()
         graph.allVertices == vertexes as Set
         root == vertexes.first()
+        second.contains vertexes[1]
         last.contains vertexes.last()
 
         where:
-        root               | last
-        ArrayList          | [Iterable]
-        AbstractList       | [Iterable]
-        AbstractCollection | [Cloneable, Serializable, RandomAccess]
-        List               | [Cloneable, Serializable, RandomAccess, Iterable, AbstractCollection, AbstractList]
-        Collection         | [Cloneable, Serializable, RandomAccess]
-        Iterable           | [Cloneable, Serializable, RandomAccess]
-        Cloneable          | [Iterable]
-        Serializable       | [Iterable]
-        RandomAccess       | [Iterable]
+        root               || second                                                      | last
+        ArrayList          || [Cloneable, Serializable, RandomAccess, List, AbstractList] | [Iterable]
+        AbstractList       || [AbstractCollection, ArrayList]                             | [Iterable]
+        AbstractCollection || [Collection, AbstractList]                                  | [Cloneable, Serializable, RandomAccess]
+        List               || [Collection, ArrayList]                                     | [Cloneable, Serializable, RandomAccess, Iterable, AbstractCollection, AbstractList]
+        Collection         || [Iterable, List, AbstractCollection]                        | [Cloneable, Serializable, RandomAccess]
+        Iterable           || [Collection]                                                | [Cloneable, Serializable, RandomAccess]
+        Cloneable          || [ArrayList]                                                 | [Iterable]
+        Serializable       || [ArrayList]                                                 | [Iterable]
+        RandomAccess       || [ArrayList]                                                 | [Iterable]
     }
 
 }
