@@ -37,10 +37,7 @@ public class UndirectedGraph<E> implements Graph<E> {
 
     @Override
     public boolean addVertex(E e) {
-        if (e == null) return false;
-
-        Set<E> vertices = this.adjacentVertexMap.get(e);
-        if (vertices != null) return false;
+        if (e == null || this.adjacentVertexMap.containsKey(e)) return false;
 
         this.adjacentVertexMap.put(e, new HashSet<>());
         return true;
@@ -48,15 +45,13 @@ public class UndirectedGraph<E> implements Graph<E> {
 
     @Override
     public boolean removeVertex(E e) {
-        Set<E> vertices = this.adjacentVertexMap.get(e);
-        if (vertices == null) return false;
+        if (e == null || !this.adjacentVertexMap.containsKey(e)) return false;
 
         this.adjacentVertexMap.remove(e);
         for (Set<E> them : this.adjacentVertexMap.values()) {
             them.remove(e);
         }
-
-        this.edges.removeIf(edge -> edge.vertex1 == e || edge.vertex2 == e);
+        this.edges.removeIf(edge -> edge.vertex1.equals(e) || edge.vertex2.equals(e));
 
         return true;
     }
