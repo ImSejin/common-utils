@@ -52,6 +52,35 @@ class UndirectedGraphSpec extends Specification {
         [String, Serializable, Comparable, CharSequence] | true
     }
 
+    def "Removes vertices"() {
+        given:
+        def graph = new UndirectedGraph<>() as Graph<?>
+        vertices.forEach(graph::addVertex)
+        edges.forEach({ edge -> graph.addEdge(edge[0], edge[1]) })
+
+        expect:
+        !graph.removeVertex(null)
+        !graph.removeVertex(Object)
+        graph.vertexSize == vertices.size()
+        graph.pathLength == edges.size()
+
+        when:
+        def vertex = vertices[0]
+        def removed = graph.removeVertex vertex
+
+        then:
+        removed
+        graph.vertexSize == vertices.size() - 1
+        graph.pathLength == edges.stream().filter({ !it.contains(vertex) }).count()
+
+        where:
+        vertices                                         | edges
+        [false, true]                                    | []
+        [0, 1, 2, 3, 4, 5]                               | [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4]]
+        ["A", "B", "C", "D", "E", "F"]                   | [["A", "B"], ["B", "C"], ["A", "D"], ["D", "E"], ["E", "F"]]
+        [String, Serializable, Comparable, CharSequence] | [[String, Serializable], [String, Comparable], [String, CharSequence]]
+    }
+
     def "Adds vertices and edges"() {
         given:
         def graph = new UndirectedGraph<>() as Graph<?>
@@ -60,11 +89,14 @@ class UndirectedGraphSpec extends Specification {
         vertices.forEach(graph::addVertex)
         def added = edges.stream().map({ edge -> graph.addEdge(edge[0], edge[1]) }).reduce(Boolean.TRUE, { a, b -> a && b })
 
-        then:
+        then: """
+            1. All vertices are added to UndirectedGraph.
+            2. UndirectedGraph has vertices as many as it is added.
+            3. UndirectedGraph has edges as many as it is added.
+        """
         added
         graph.vertexSize == vertices.size()
         graph.pathLength == edges.size()
-        graph.vertexSize == graph.allVertices.size()
 
         expect: """
             1. UndirectedGraph doesn't allow to add edge with null as vertex.
@@ -89,42 +121,6 @@ class UndirectedGraphSpec extends Specification {
         ["A", "B", "C", "D"]                                                                                             | [["A", "B"], ["A", "C"], ["B", "C"]]
         [String, Serializable, Comparable, CharSequence]                                                                 | [[String, Serializable], [String, Comparable], [String, CharSequence]]
         [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable] | [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList], [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
-    }
-
-    def "Removes vertices"() {
-        given:
-        def graph = new UndirectedGraph<>() as Graph<?>
-        def vertices = [String, Serializable, Comparable, CharSequence]
-        def edges = [[String, Serializable], [String, Comparable], [String, CharSequence]]
-
-        when:
-        vertices.forEach(graph::addVertex)
-        edges.forEach({ them -> graph.addEdge(them[0], them[1]) })
-
-        then: """
-            1. UndirectedGraph has vertices as many as it is added.
-            2. UndirectedGraph has edges as many as it is added.
-        """
-        graph.vertexSize == vertices.size()
-        graph.pathLength == edges.size()
-
-        when:
-        def removeNull = graph.removeVertex null
-        def removeComparable = graph.removeVertex Comparable
-
-        then:
-        !removeNull
-        removeComparable
-        graph.vertexSize == vertices.size() - 1
-        graph.pathLength == edges.size() - 1
-
-        when:
-        def removeString = graph.removeVertex String
-
-        then:
-        removeString
-        graph.vertexSize == vertices.size() - 2
-        graph.pathLength == 0
     }
 
     def "Adds the other graph"() {
