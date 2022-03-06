@@ -29,14 +29,14 @@ class UndirectedGraphSpec extends Specification {
         given:
         def graph = new UndirectedGraph<>() as Graph<?>
 
-        when: "Graph has vertices as many as the number of elements, but no edge"
+        when: "UndirectedGraph has vertices as many as the number of elements, but no edge"
         def added = elements.stream().map(graph::addVertex).reduce(Boolean.TRUE, { a, b -> a && b })
 
         then: """
-            1. All elements are added to graph as vertices
-            2. Graph has no edge, so its pathLength is zero
-            3. Graph has vertices as many as the number of elements
-            4. There are no adjacent vertices
+            1. All elements are added to graph as vertices.
+            2. UndirectedGraph has no edge, so its pathLength is zero.
+            3. UndirectedGraph has vertices as many as the number of elements.
+            4. There are no adjacent vertices.
         """
         added == expected
         graph.pathLength == 0
@@ -47,9 +47,9 @@ class UndirectedGraphSpec extends Specification {
         elements                                         | expected
         [new Object(), null]                             | false
         [new Object(), new Object()]                     | true
+        [0, -1, 104, -2.5, 98, -47.029]                  | true
         ["alpha", "", "gamma", "delta"]                  | true
         [String, Serializable, Comparable, CharSequence] | true
-        [0, -1, 104, -2.5, 98, -47.029]                  | true
     }
 
     def "Adds vertices and edges"() {
@@ -102,8 +102,8 @@ class UndirectedGraphSpec extends Specification {
         edges.forEach({ them -> graph.addEdge(them[0], them[1]) })
 
         then: """
-            1. Graph has vertices as many as it is added
-            2. Graph has edges as many as it is added
+            1. UndirectedGraph has vertices as many as it is added.
+            2. UndirectedGraph has edges as many as it is added.
         """
         graph.vertexSize == vertices.size()
         graph.pathLength == edges.size()
@@ -295,8 +295,8 @@ class UndirectedGraphSpec extends Specification {
         graph.addEdge(String, CharSequence)
 
         then: """
-            1. Graph that has vertices or edges is not equal to another empty graph
-            2. Graph that has vertices or edges is equal to another graph that has the same content
+            1. UndirectedGraph that has vertices or edges is not equal to another empty graph
+            2. UndirectedGraph that has vertices or edges is equal to another graph that has the same content
         """
         graph != new UndirectedGraph<>()
         graph == new UndirectedGraph<>(graph)
