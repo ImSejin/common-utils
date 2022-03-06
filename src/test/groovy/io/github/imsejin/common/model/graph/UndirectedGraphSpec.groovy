@@ -54,10 +54,7 @@ class UndirectedGraphSpec extends Specification {
 
     def "Adds vertices and edges"() {
         given:
-        def graph = new UndirectedGraph<>() as Graph<Class<?>>
-        def vertices = [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable]
-        def edges = [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList],
-                     [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
+        def graph = new UndirectedGraph<>() as Graph<?>
 
         when:
         vertices.forEach(graph::addVertex)
@@ -69,24 +66,29 @@ class UndirectedGraphSpec extends Specification {
         graph.pathLength == edges.size()
         graph.vertexSize == graph.allVertices.size()
 
-        when:
-        def addNullAsFirst = graph.addEdge(null, List)
-        def addNullAsSecond = graph.addEdge(List, null)
-        def addSameVertices = graph.addEdge(List, List)
-        def addInvalidVertexAsFirst = graph.addEdge(Object, List)
-        def addInvalidVertexAsSecond = graph.addEdge(List, Object)
-        def addSameEdges = edges.stream().map({ edge -> graph.addEdge(edge[0], edge[1]) }).reduce(Boolean.TRUE, { a, b -> a && b })
-        def addReversedEdges = edges.stream().map({ edge -> graph.addEdge(edge[1], edge[0]) }).reduce(Boolean.TRUE, { a, b -> a && b })
-
-        then:
-        !addNullAsFirst
-        !addNullAsSecond
-        !addSameVertices
-        !addInvalidVertexAsFirst
-        !addInvalidVertexAsSecond
-        !addSameEdges
-        !addReversedEdges
+        expect: """
+            1. UndirectedGraph doesn't allow to add edge with null as vertex.
+            2. UndirectedGraph doesn't allow to add edge with the same vertices.
+            3. UndirectedGraph doesn't allow to add edge with vertex that is not added.
+            4. UndirectedGraph doesn't allow to add edge that is already added.
+            5. UndirectedGraph doesn't allow to add edge that is already added even if vertices is reversed.
+            6. UndirectedGraph.pathLength is as it is.
+        """
+        def vertex = vertices[0]
+        !graph.addEdge(null, vertex) && !graph.addEdge(vertex, null)
+        !graph.addEdge(vertex, vertex)
+        !graph.addEdge(Object, vertex) && !graph.addEdge(vertex, Object)
+        edges.isEmpty() || !edges.stream().map({ edge -> graph.addEdge(edge[0], edge[1]) }).reduce(Boolean.TRUE, { a, b -> a && b })
+        edges.isEmpty() || !edges.stream().map({ edge -> graph.addEdge(edge[1], edge[0]) }).reduce(Boolean.TRUE, { a, b -> a && b })
         graph.pathLength == edges.size()
+
+        where:
+        vertices                                                                                                         | edges
+        [false, true]                                                                                                    | []
+        [0, 1, 2, 3, 4, 5]                                                                                               | [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4]]
+        ["A", "B", "C", "D"]                                                                                             | [["A", "B"], ["A", "C"], ["B", "C"]]
+        [String, Serializable, Comparable, CharSequence]                                                                 | [[String, Serializable], [String, Comparable], [String, CharSequence]]
+        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable] | [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList], [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
     }
 
     def "Removes vertices"() {
