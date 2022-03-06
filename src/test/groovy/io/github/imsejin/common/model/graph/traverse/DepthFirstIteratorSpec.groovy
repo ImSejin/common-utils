@@ -23,39 +23,25 @@ import spock.lang.Specification
 class DepthFirstIteratorSpec extends Specification {
 
     def "Iterate"() {
-        given: "Add vertexes and its edges"
+        given: "Add vertices and its edges"
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
-        graph.addVertex Iterable
-        graph.addVertex Collection
-        graph.addEdge(Iterable, Collection)
-        graph.addVertex List
-        graph.addEdge(Collection, List)
-        graph.addVertex AbstractCollection
-        graph.addEdge(Collection, AbstractCollection)
-        graph.addVertex AbstractList
-        graph.addEdge(AbstractCollection, AbstractList)
-        graph.addVertex ArrayList
-        graph.addVertex RandomAccess
-        graph.addVertex Cloneable
-        graph.addVertex Serializable
-        graph.addEdge(ArrayList, AbstractList)
-        graph.addEdge(ArrayList, List)
-        graph.addEdge(ArrayList, RandomAccess)
-        graph.addEdge(ArrayList, Cloneable)
-        graph.addEdge(ArrayList, Serializable)
+        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable].forEach(graph::addVertex)
+        def edges = [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList],
+                     [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
+        edges.forEach(graph::addEdge)
 
         when:
-        def vertexes = []
+        def vertices = []
         def iterator = new DepthFirstIterator<>(graph, root)
         while (iterator.hasNext()) {
-            vertexes.add iterator.next()
+            vertices.add iterator.next()
         }
 
         then:
-        graph.vertexSize == vertexes.size()
-        graph.allVertices == vertexes as Set
-        root == vertexes.first()
-        last.contains vertexes.last()
+        graph.vertexSize == vertices.size()
+        graph.allVertices == vertices as Set
+        root == vertices.first()
+        last.contains vertices.last()
 
         where:
         root               | last
