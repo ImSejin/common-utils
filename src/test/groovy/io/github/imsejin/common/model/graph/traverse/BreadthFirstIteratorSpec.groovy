@@ -60,9 +60,9 @@ class BreadthFirstIteratorSpec extends Specification {
         where:
         root               | last
         ArrayList          | [Iterable]
-        AbstractList       | [Iterable, List]
+        AbstractList       | [Iterable]
         AbstractCollection | [Cloneable, Serializable, RandomAccess]
-        List               | [Cloneable, Serializable, RandomAccess, AbstractCollection, AbstractList]
+        List               | [Cloneable, Serializable, RandomAccess, Iterable, AbstractCollection, AbstractList]
         Collection         | [Cloneable, Serializable, RandomAccess]
         Iterable           | [Cloneable, Serializable, RandomAccess]
         Cloneable          | [Iterable]
