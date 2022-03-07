@@ -16,10 +16,6 @@
 
 package io.github.imsejin.common.model.graph
 
-import io.github.imsejin.common.assertion.Descriptor
-import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert
-import io.github.imsejin.common.assertion.chars.StringAssert
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert
 import spock.lang.Specification
 
 @SuppressWarnings("GroovyAccessibility")
@@ -58,7 +54,12 @@ class UndirectedGraphSpec extends Specification {
         vertices.forEach(graph::addVertex)
         edges.forEach({ edge -> graph.addEdge(edge[0], edge[1]) })
 
-        expect:
+        expect: """
+            1. UndirectedGraph doesn't allow to remove null as vertex.
+            2. UndirectedGraph doesn't allow to remove vertex that is not added.
+            3. UndirectedGraph still has the same vertices as it was.
+            4. UndirectedGraph still has the same pathLength as it was.
+        """
         !graph.removeVertex(null)
         !graph.removeVertex(Object)
         graph.vertexSize == vertices.size()
@@ -68,9 +69,13 @@ class UndirectedGraphSpec extends Specification {
         def vertex = vertices[0]
         def removed = graph.removeVertex vertex
 
-        then:
+        then: """
+            1. UndirectedGraph removed the first vertex.
+            2. Vertices of UndirectedGraph are decreased as many as they are removed.
+            3. UndirectedGraph doesn't have the removed vertex anymore.
+        """
         removed
-        graph.vertexSize == vertices.size() - 1
+        graph.vertexSize == vertices.stream().filter({ it != vertex }).count()
         graph.pathLength == edges.stream().filter({ !it.contains(vertex) }).count()
 
         where:
@@ -123,172 +128,99 @@ class UndirectedGraphSpec extends Specification {
         [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable] | [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList], [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
     }
 
+    def "Removes edges"() {
+        given:
+        def graph = new UndirectedGraph<>() as Graph<?>
+        vertices.forEach(graph::addVertex)
+        edges.forEach({ edge -> graph.addEdge(edge[0], edge[1]) })
+        def vertex = vertices[0]
+
+        expect: """
+            1. UndirectedGraph doesn't allow to remove edge with null as vertex.
+            2. UndirectedGraph doesn't allow to remove edge with the same vertices.
+            3. UndirectedGraph doesn't allow to remove edge with vertex that is not added.
+            4. UndirectedGraph still has the same pathLength as it was.
+        """
+        !graph.removeEdge(null, vertex) && !graph.removeEdge(vertex, null)
+        !graph.removeEdge(vertex, vertex)
+        !graph.removeEdge(Object, vertex) && !graph.removeEdge(vertex, Object)
+        graph.pathLength == edges.size()
+
+        when:
+        def edge = [vertex, vertices[1]]
+        def removed = graph.removeEdge(edge[0], edge[1])
+
+        then: """
+            1. UndirectedGraph removed a edge.
+            2. Edges of UndirectedGraph are decreased as many as they are removed.
+        """
+        removed
+        graph.pathLength == edges.stream().filter({ (edge as Set) != (it as Set) }).count()
+
+        where:
+        vertices                                         | edges
+        [false, true]                                    | []
+        [0, 1, 2, 3, 4, 5]                               | [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4]]
+        ["A", "B", "C", "D", "E", "F"]                   | [["A", "B"], ["B", "C"], ["A", "D"], ["D", "E"], ["E", "F"]]
+        [String, Serializable, Comparable, CharSequence] | [[String, Serializable], [String, Comparable], [String, CharSequence]]
+    }
+
     def "Adds the other graph"() {
         given:
-        def graph0 = new UndirectedGraph<>() as Graph<Class<?>>
-        def graph1 = new UndirectedGraph<>() as Graph<Class<?>>
+        def origin = new UndirectedGraph<>() as Graph<?>
+        def other = new UndirectedGraph<>() as Graph<?>
 
         when:
-        graph0.addVertex StringBuilder
-        graph0.addVertex Serializable
-        graph0.addVertex AbstractStringBuilder
-        graph0.addVertex CharSequence
-        graph0.addEdge(StringBuilder, Serializable)
-        graph0.addEdge(StringBuilder, AbstractStringBuilder)
-        graph0.addEdge(StringBuilder, CharSequence)
-        graph0.addVertex Appendable
-        graph0.addEdge(Appendable, AbstractStringBuilder)
+        def isEqual = origin == other
+        originVertices.forEach(origin::addVertex)
+        originEdges.forEach(origin::addEdge)
+        otherVertices.forEach(other::addVertex)
+        otherEdges.forEach(other::addEdge)
+        def isNotEqual = origin != other
 
         then:
-        graph0.vertexSize == 5
-        println graph0
+        isEqual
+        isNotEqual
 
         when:
-        graph1.addVertex String
-        graph1.addVertex Serializable
-        graph1.addVertex Comparable
-        graph1.addVertex CharSequence
-        graph1.addEdge(String, Serializable)
-        graph1.addEdge(String, Comparable)
-        graph1.addEdge(String, CharSequence)
+        def graph = new UndirectedGraph<>(origin) as Graph<?>
 
         then:
-        graph1.vertexSize == 4
+        graph == origin
+        graph != other
 
         when:
-        graph0.addAll graph1
+        def addAll = graph.addAll other
 
         then:
-        graph0.vertexSize == 7
-        graph1.vertexSize == 4
-        graph0 == new UndirectedGraph<>(graph0)
-        graph1 == new UndirectedGraph<>(graph1)
-        println graph0
-    }
-
-    def "Gets all the number of vertices"() {
-        given:
-        def graph = new UndirectedGraph<>() as Graph<Class<?>>
-
-        expect:
-        graph.vertexSize == 0
+        addAll
+        originEdges.isEmpty() || graph != origin
+        originEdges.isEmpty() || graph != other
 
         when:
-        graph.addVertex Descriptor
-        graph.addVertex AbstractObjectAssert
-        graph.addEdge(Descriptor, AbstractObjectAssert)
-        graph.addVertex AbstractCharSequenceAssert
-        graph.addEdge(AbstractObjectAssert, AbstractCharSequenceAssert)
-        graph.addVertex StringAssert
-        graph.addEdge(AbstractCharSequenceAssert, StringAssert)
+        origin.addAll other
 
         then:
-        graph.vertexSize == 4
-        println graph
-    }
+        graph == origin
 
-    def "Gets all the number of edges"() {
-        given:
-        def graph = new UndirectedGraph<>() as Graph<Class<?>>
-
-        expect: "Empty graph has no edge"
-        graph.pathLength == 0
-
-        when: "Add vertices and its edges"
-        graph.addVertex Iterable
-        graph.addVertex Collection
-        graph.addEdge(Iterable, Collection)
-        graph.addVertex List
-        graph.addEdge(Collection, List)
-        graph.addVertex AbstractCollection
-        graph.addEdge(Collection, AbstractCollection)
-        graph.addVertex AbstractList
-        graph.addEdge(AbstractCollection, AbstractList)
-        graph.addVertex ArrayList
-        graph.addVertex RandomAccess
-        graph.addVertex Cloneable
-        graph.addVertex Serializable
-        graph.addEdge(ArrayList, AbstractList)
-        graph.addEdge(ArrayList, List)
-        graph.addEdge(ArrayList, RandomAccess)
-        graph.addEdge(ArrayList, Cloneable)
-        graph.addEdge(ArrayList, Serializable)
-        def pathLength = graph.pathLength
-
-        then: "This graph has 9 vertices and 9 edges"
-        pathLength == 9
-        println graph
-
-        when: "Removes the vertex 'ArrayList' that is adjacent to 5 other vertices"
-        def vertex = ArrayList
-        def adjacentVertexes = graph.getAdjacentVertices vertex
-        graph.removeVertex vertex
-
-        then: "Decreases the number of edges in graph as many as the vertex that is adjacent to the other vertices"
-        graph.pathLength == pathLength - adjacentVertexes.size()
-    }
-
-    def "Gets all the vertices"() {
-        given:
-        def graph = new UndirectedGraph<>() as Graph<Class<?>>
-
-        expect:
-        graph.allVertices.size() == 0
-        graph.allVertices == [] as Set
-
-        when:
-        graph.addVertex Double
-        graph.addVertex Number
-        graph.addVertex Comparable
-        graph.addEdge(Double, Number)
-        graph.addEdge(Double, Comparable)
-        graph.addVertex Serializable
-        graph.addEdge(Number, Serializable)
-
-        then:
-        graph.allVertices.size() == 4
-        graph.allVertices == [Double, Number, Comparable, Serializable] as Set
-    }
-
-    def "Gets the adjacent vertices by vertex"() {
-        given:
-        def graph = new UndirectedGraph<>() as Graph<Class<?>>
-
-        expect: "Returns null if graph doesn't have the given vertex"
-        graph.getAdjacentVertices(StringBuilder) == null
-
-        when: "Add vertices and its edges"
-        graph.addVertex StringBuilder
-        graph.addVertex Serializable
-        graph.addVertex AbstractStringBuilder
-        graph.addVertex CharSequence
-        graph.addEdge(StringBuilder, Serializable)
-        graph.addEdge(StringBuilder, AbstractStringBuilder)
-        graph.addEdge(StringBuilder, CharSequence)
-        graph.addVertex Appendable
-        graph.addEdge(Appendable, AbstractStringBuilder)
-        def vertices = graph.getAdjacentVertices StringBuilder
-
-        then: "Vertex 'StringBuilder' is adjacent to 3 other vertices"
-        vertices.size() == 3
-        vertices == [Serializable, AbstractStringBuilder, CharSequence] as Set
+        where:
+        originVertices         | originEdges                              || otherVertices                      | otherEdges
+        [false, true]          | []                                       || [false, true]                      | [[false, true]]
+        [0, 1, 2, 3, 4]        | [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]] || [0, 1, 2, 3, 4, 5]                 | [[5, 0], [5, 1], [5, 2], [5, 3], [5, 4]]
+        ["A", "B", "C", "D"]   | [["A", "B"], ["B", "C"], ["A", "D"]]     || ["C", "D", "E", "F"]               | [["D", "E"], ["E", "F"]]
+        [String, Serializable] | [[String, Serializable]]                 || [String, Comparable, CharSequence] | [[String, Comparable], [String, CharSequence]]
     }
 
     def "Equality and hash code"() {
         given:
-        def graph = new UndirectedGraph<>() as Graph<Class<?>>
+        def graph = new UndirectedGraph<>() as Graph<?>
 
         expect: "Empty graph is equal to another empty graph"
         graph == new UndirectedGraph<>()
 
         when: "Add vertices and its edges"
-        graph.addVertex String
-        graph.addVertex Serializable
-        graph.addVertex Comparable
-        graph.addVertex CharSequence
-        graph.addEdge(String, Serializable)
-        graph.addEdge(String, Comparable)
-        graph.addEdge(String, CharSequence)
+        [String, Serializable, Comparable, CharSequence].forEach(graph::addVertex)
+        [[String, Serializable], [String, Comparable], [String, CharSequence]].forEach(graph::addEdge)
 
         then: """
             1. UndirectedGraph that has vertices or edges is not equal to another empty graph
