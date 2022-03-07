@@ -17,8 +17,8 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.model.graph.DirectedGraph;
 import io.github.imsejin.common.model.graph.Graph;
-import io.github.imsejin.common.model.graph.UndirectedGraph;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Modifier;
@@ -277,8 +277,8 @@ public final class ClassUtils {
     }
 
     public static Graph<Class<?>> getAllExtendedOrImplementedTypesAsGraph(@Nullable Class<?> clazz) {
-        if (clazz == null) return new UndirectedGraph<>();
-        Graph<Class<?>> graph = new UndirectedGraph<>();
+        if (clazz == null) return new DirectedGraph<>();
+        Graph<Class<?>> graph = new DirectedGraph<>();
 
         do {
             graph.addVertex(clazz);
