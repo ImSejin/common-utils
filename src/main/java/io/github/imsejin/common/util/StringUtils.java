@@ -666,4 +666,68 @@ public final class StringUtils {
         return index;
     }
 
+    /**
+     * Returns index of the current closing bracket.
+     *
+     * <pre>
+     *     String s0 = "{name: 'jeremy', age: 16}";
+     *     indexOfCurrentClosingBracket(s0.toCharArray(), 0, '{', '}');  // 24
+     *
+     *     String s1 = "[0, [1, 2], 3]";
+     *     indexOfCurrentClosingBracket(s1.toCharArray(), 0, '[', ']');  // 13
+     *     indexOfCurrentClosingBracket(s1.toCharArray(), 12, '[', ']'); // 13
+     *     indexOfCurrentClosingBracket(s1.toCharArray(), 4, '[', ']');  // 9
+     *     indexOfCurrentClosingBracket(s1.toCharArray(), 7, '[', ']');  // 9
+     * </pre>
+     *
+     * @param chars  characters
+     * @param pos    index of character in the current bracket
+     * @param opener character of opening bracket
+     * @param closer character of closing bracket
+     * @return index of the current closing bracket
+     */
+    public static int indexOfCurrentClosingBracket(char[] chars, int pos, char opener, char closer) {
+        if (ArrayUtils.isNullOrEmpty(chars)) return -1;
+
+        // Finds the current opening bracket.
+        char ch = chars[pos];
+        if (ch != opener) {
+            // Prevents this variable from increasing when start character is closer.
+            int depth = ch == closer ? 0 : 1;
+
+            for (int i = pos; i >= 0; i--) {
+                char c = chars[i];
+
+                if (c == closer) depth++;
+                if (c == opener) {
+                    depth--;
+                    if (depth == 0) {
+                        pos = i;
+                        ch = chars[pos];
+                        break;
+                    }
+                }
+            }
+
+            // When not found opening bracket in whole characters.
+            if (ch != opener) return -1;
+        }
+
+        // Since the opener is found, this variable will increase by 1 immediately.
+        int depth = 0;
+
+        for (int i = pos; i < chars.length; i++) {
+            char c = chars[i];
+
+            if (c == opener) depth++;
+            if (c == closer) {
+                depth--;
+                if (depth == 0) return i;
+            }
+        }
+
+        // When not found the current closing bracket.
+        return -1;
+    }
+
 }
