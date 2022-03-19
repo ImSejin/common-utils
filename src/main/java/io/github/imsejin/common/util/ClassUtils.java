@@ -273,7 +273,7 @@ public final class ClassUtils {
             clazz = superclass;
         } while (clazz != Object.class);
 
-        return new HashSet<>(classes);
+        return new LinkedHashSet<>(classes);
     }
 
     public static Graph<Class<?>> getAllExtendedOrImplementedTypesAsGraph(@Nullable Class<?> clazz) {

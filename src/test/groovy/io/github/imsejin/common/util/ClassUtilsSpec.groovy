@@ -272,23 +272,23 @@ class ClassUtilsSpec extends Specification {
     @SuppressWarnings("GroovyAccessibility")
     def "Gets all the types extended or implemented by the given class as a set"() {
         when:
-        def set = ClassUtils.getAllExtendedOrImplementedTypesAsSet clazz
+        def classes = ClassUtils.getAllExtendedOrImplementedTypesAsSet clazz
 
         then:
-        set == expected as Set
+        expected == classes as List
 
         where:
         clazz            | expected
         null             | []
         Object           | [clazz]
         Runnable         | [clazz]
-        List             | [Iterable, Collection, clazz]
-        ArrayList        | [Iterable, Collection, List, RandomAccess, Cloneable, Serializable, AbstractCollection, AbstractList, clazz]
-        TreeMap          | [Map, AbstractMap, SortedMap, NavigableMap, Cloneable, Serializable, clazz]
-        AES256           | [Crypto, AES, clazz]
-        ArrayAssert      | [Descriptor, AbstractObjectAssert, clazz]
-        StringAssert     | [Descriptor, AbstractObjectAssert, AbstractCharSequenceAssert, clazz]
-        BigDecimalAssert | [Descriptor, AbstractObjectAssert, NumberAssert, DecimalNumberAssertion, clazz]
+        List             | [clazz, Collection, Iterable]
+        ArrayList        | [clazz, List, RandomAccess, Cloneable, Serializable, Collection, Iterable, AbstractList, AbstractCollection]
+        TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
+        AES256           | [clazz, AES, Crypto]
+        ArrayAssert      | [clazz, AbstractObjectAssert, Descriptor]
+        StringAssert     | [clazz, AbstractCharSequenceAssert, AbstractObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertion, NumberAssert, AbstractObjectAssert, Descriptor]
     }
 
     @SuppressWarnings("GroovyAccessibility")
@@ -305,13 +305,13 @@ class ClassUtilsSpec extends Specification {
         null             | []
         Object           | [clazz]
         Runnable         | [clazz]
-        List             | [Iterable, Collection, clazz]
-        ArrayList        | [Iterable, Collection, List, RandomAccess, Cloneable, Serializable, AbstractCollection, AbstractList, clazz]
-        TreeMap          | [Map, AbstractMap, SortedMap, NavigableMap, Cloneable, Serializable, clazz]
-        AES256           | [Crypto, AES, clazz]
-        ArrayAssert      | [Descriptor, AbstractObjectAssert, clazz]
-        StringAssert     | [Descriptor, AbstractObjectAssert, AbstractCharSequenceAssert, clazz]
-        BigDecimalAssert | [Descriptor, AbstractObjectAssert, NumberAssert, DecimalNumberAssertion, clazz]
+        List             | [clazz, Collection, Iterable]
+        ArrayList        | [clazz, RandomAccess, List, Serializable, AbstractList, Cloneable, Collection, AbstractCollection, Iterable]
+        TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
+        AES256           | [clazz, AES, Crypto]
+        ArrayAssert      | [clazz, AbstractObjectAssert, Descriptor]
+        StringAssert     | [clazz, AbstractCharSequenceAssert, AbstractObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertion, NumberAssert, AbstractObjectAssert, Descriptor]
     }
 
 }
