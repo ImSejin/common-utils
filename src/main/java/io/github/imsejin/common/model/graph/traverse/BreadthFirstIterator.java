@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.model.graph.Graph;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class BreadthFirstIterator<E> implements Iterator<E> {
 
@@ -65,7 +66,7 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
         return vertex;
     }
 
-    public static <E> Set<E> traverse(Graph<E> graph, E root) {
+    public static <E> void traverse(Graph<E> graph, E root, Consumer<E> consumer) {
         Asserts.that(graph)
                 .as("BreadthFirstIterator.graph is not allowed to be null")
                 .isNotNull();
@@ -83,11 +84,14 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
             E vertex = queue.poll();
             if (visited.contains(vertex)) continue;
 
-            visited.add(vertex);
-            queue.addAll(graph.getAdjacentVertices(vertex));
-        }
+            consumer.accept(vertex);
 
-        return visited;
+            visited.add(vertex);
+            // queue.addAll(graph.getAdjacentVertices(vertex));
+            for (E v : graph.getAdjacentVertices(vertex)) {
+                if (!visited.contains(v)) queue.offer(v);
+            }
+        }
     }
 
 }

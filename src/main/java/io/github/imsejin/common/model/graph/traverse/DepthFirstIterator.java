@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.model.graph.Graph;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class DepthFirstIterator<E> implements Iterator<E> {
 
@@ -103,7 +104,7 @@ public class DepthFirstIterator<E> implements Iterator<E> {
         this.stack.push(this.graph.getAdjacentVertices(this.next).iterator());
     }
 
-    public static <E> Set<E> traverse(Graph<E> graph, E root) {
+    public static <E> void traverse(Graph<E> graph, E root, Consumer<E> consumer) {
         Asserts.that(graph)
                 .as("DepthFirstIterator.graph is not allowed to be null")
                 .isNotNull();
@@ -121,13 +122,13 @@ public class DepthFirstIterator<E> implements Iterator<E> {
             E vertex = stack.pop();
             if (visited.contains(vertex)) continue;
 
+            consumer.accept(vertex);
+
             visited.add(vertex);
             for (E v : graph.getAdjacentVertices(vertex)) {
                 stack.push(v);
             }
         }
-
-        return visited;
     }
 
 }
