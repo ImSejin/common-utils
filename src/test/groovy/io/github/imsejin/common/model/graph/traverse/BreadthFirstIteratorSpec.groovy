@@ -20,6 +20,10 @@ import io.github.imsejin.common.model.graph.Graph
 import io.github.imsejin.common.model.graph.UndirectedGraph
 import spock.lang.Specification
 
+import java.util.stream.StreamSupport
+
+import static java.util.stream.Collectors.toList
+
 class BreadthFirstIteratorSpec extends Specification {
 
     def "Iterate"() {
@@ -31,11 +35,9 @@ class BreadthFirstIteratorSpec extends Specification {
         edges.forEach(graph::addEdge)
 
         when:
-        def vertices = []
         def iterator = new BreadthFirstIterator<>(graph, root)
-        while (iterator.hasNext()) {
-            vertices.add iterator.next()
-        }
+        def vertices = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+                iterator, Spliterator.ORDERED), false).collect toList()
 
         then:
         graph.vertexSize == vertices.size()

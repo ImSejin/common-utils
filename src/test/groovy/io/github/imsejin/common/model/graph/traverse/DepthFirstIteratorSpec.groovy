@@ -20,6 +20,10 @@ import io.github.imsejin.common.model.graph.Graph
 import io.github.imsejin.common.model.graph.UndirectedGraph
 import spock.lang.Specification
 
+import java.util.stream.StreamSupport
+
+import static java.util.stream.Collectors.toList
+
 class DepthFirstIteratorSpec extends Specification {
 
     def "Iterate"() {
@@ -31,11 +35,9 @@ class DepthFirstIteratorSpec extends Specification {
         edges.forEach(graph::addEdge)
 
         when:
-        def vertices = []
         def iterator = new DepthFirstIterator<>(graph, root)
-        while (iterator.hasNext()) {
-            vertices.add iterator.next()
-        }
+        def vertices = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+                iterator, Spliterator.ORDERED), false).collect toList()
 
         then:
         graph.vertexSize == vertices.size()
@@ -47,10 +49,10 @@ class DepthFirstIteratorSpec extends Specification {
         root               | last
         ArrayList          | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
         AbstractList       | [Iterable, AbstractCollection, Cloneable, Serializable, RandomAccess]
-        AbstractCollection | [Iterable, Cloneable, Serializable, RandomAccess]
+        AbstractCollection | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
         List               | [Iterable, Cloneable, Serializable, RandomAccess]
-        Collection         | [Iterable, Cloneable, Serializable, RandomAccess]
-        Iterable           | [Cloneable, Serializable, RandomAccess, AbstractCollection]
+        Collection         | [Iterable, AbstractCollection, Cloneable, Serializable, RandomAccess]
+        Iterable           | [Cloneable, Serializable, RandomAccess, List, AbstractCollection]
         Cloneable          | [Iterable, List, AbstractList, Serializable, RandomAccess]
         Serializable       | [Iterable, List, AbstractList, Cloneable, RandomAccess]
         RandomAccess       | [Iterable, List, AbstractList, Cloneable, Serializable]
