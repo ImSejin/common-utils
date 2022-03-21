@@ -365,13 +365,14 @@ class StringUtilsSpec extends Specification {
 
     def "Gets index of the current closing bracket"() {
         when:
-        def actual = StringUtils.indexOfCurrentClosingBracket(src.toCharArray(), pos, opener as char, closer as char)
+        def actual = StringUtils.indexOfCurrentClosingBracket(src, pos, opener as char, closer as char)
 
         then:
         actual == expected
 
         where:
         src                         | pos | opener | closer || expected
+        null                        | 0   | '('    | ')'    || -1
         ""                          | 0   | '('    | ')'    || -1
         "(0"                        | 0   | '('    | ')'    || -1
         "0)"                        | 0   | '('    | ')'    || -1

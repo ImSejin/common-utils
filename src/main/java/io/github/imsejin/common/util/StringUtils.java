@@ -667,43 +667,43 @@ public final class StringUtils {
     }
 
     /**
-     * Returns index of the current closing bracket.
+     * Returns index of character as current closing bracket.
      *
      * <pre>
      *     String s0 = "{name: 'jeremy', age: 16}";
-     *     indexOfCurrentClosingBracket(s0.toCharArray(), 0, '{', '}');  // 24
+     *     indexOfCurrentClosingBracket(s0, 0, '{', '}');  // 24
      *
      *     String s1 = "[0, [1, 2], 3]";
-     *     indexOfCurrentClosingBracket(s1.toCharArray(), 0, '[', ']');  // 13
-     *     indexOfCurrentClosingBracket(s1.toCharArray(), 12, '[', ']'); // 13
-     *     indexOfCurrentClosingBracket(s1.toCharArray(), 4, '[', ']');  // 9
-     *     indexOfCurrentClosingBracket(s1.toCharArray(), 7, '[', ']');  // 9
+     *     indexOfCurrentClosingBracket(s1, 0, '[', ']');  // 13
+     *     indexOfCurrentClosingBracket(s1, 12, '[', ']'); // 13
+     *     indexOfCurrentClosingBracket(s1, 4, '[', ']');  // 9
+     *     indexOfCurrentClosingBracket(s1, 7, '[', ']');  // 9
      * </pre>
      *
-     * @param chars  characters
-     * @param pos    index of character in the current bracket
+     * @param str    string
+     * @param pos    index of character within the current bracket
      * @param opener character of opening bracket
      * @param closer character of closing bracket
      * @return index of the current closing bracket
      */
-    public static int indexOfCurrentClosingBracket(char[] chars, int pos, char opener, char closer) {
-        if (ArrayUtils.isNullOrEmpty(chars)) return -1;
+    public static int indexOfCurrentClosingBracket(@Nullable String str, int pos, char opener, char closer) {
+        if (isNullOrEmpty(str)) return -1;
 
         // Finds the current opening bracket.
-        char ch = chars[pos];
+        char ch = str.charAt(pos);
         if (ch != opener) {
             // Prevents this variable from increasing when start character is closer.
             int depth = ch == closer ? 0 : 1;
 
             for (int i = pos; i >= 0; i--) {
-                char c = chars[i];
+                char c = str.charAt(i);
 
                 if (c == closer) depth++;
                 if (c == opener) {
                     depth--;
                     if (depth == 0) {
                         pos = i;
-                        ch = chars[pos];
+                        ch = str.charAt(pos);
                         break;
                     }
                 }
@@ -716,8 +716,8 @@ public final class StringUtils {
         // Since the opener is found, this variable will increase by 1 immediately.
         int depth = 0;
 
-        for (int i = pos; i < chars.length; i++) {
-            char c = chars[i];
+        for (int i = pos; i < str.length(); i++) {
+            char c = str.charAt(i);
 
             if (c == opener) depth++;
             if (c == closer) {
