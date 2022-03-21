@@ -227,4 +227,14 @@ public final class ArrayUtils {
         }
     }
 
+    public static int dimensionOf(Class<?> type) {
+        int dimension = 0;
+        while (type.isArray()) {
+            type = type.getComponentType();
+            dimension++;
+        }
+
+        return dimension;
+    }
+
 }

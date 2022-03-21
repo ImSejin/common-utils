@@ -216,4 +216,34 @@ class ArrayUtilsSpec extends Specification {
         i << (0..2000)
     }
 
+    def "Gets dimension of array type"() {
+        when:
+        def actual = ArrayUtils.dimensionOf type
+
+        then:
+        actual == expected
+
+        where:
+        type                       | expected
+        boolean                    | 0
+        byte[]                     | 1
+        short[][]                  | 2
+        char[][][]                 | 3
+        int[][][][]                | 4
+        long[][][][][]             | 5
+        float[][][][][][]          | 6
+        double[][][][][][][]       | 7
+        Void                       | 0
+        Object[]                   | 1
+        Boolean[][]                | 2
+        Byte[][][]                 | 3
+        Short[][][][]              | 4
+        Character[][][][][]        | 5
+        Integer[][][][][][]        | 6
+        Long[][][][][][][]         | 7
+        Float[][][][][][][][]      | 8
+        Double[][][][][][][][][]   | 9
+        String[][][][][][][][][][] | 10
+    }
+
 }
