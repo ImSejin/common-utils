@@ -203,7 +203,7 @@ class ArrayUtilsSpec extends Specification {
                 [type: Float, dimension: 8, expected: Float[][][][][][][][]],
                 [type: Double, dimension: 9, expected: Double[][][][][][][][][]],
                 [type: String, dimension: 10, expected: String[][][][][][][][][][]],
-                [type: List, dimension: 11, expected: List[][][][][][][][][][][]],
+                [type: List[], dimension: 11, expected: List[][][][][][][][][][][][]],
         ]
 
         when:

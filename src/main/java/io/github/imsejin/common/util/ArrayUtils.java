@@ -207,18 +207,27 @@ public final class ArrayUtils {
         return array;
     }
 
+    /**
+     * Returns array type with the given dimension.
+     *
+     * @param type      type
+     * @param dimension dimension
+     * @return type of array
+     * @see Class#getName()
+     */
     public static Class<?> resolveArrayType(Class<?> type, int dimension) {
-        String arrayTypeName = null;
+        String arrayTypeName;
 
-        if (!type.isPrimitive()) arrayTypeName = 'L' + type.getName() + ';';
-        if (type == boolean.class) arrayTypeName = "Z";
-        if (type == byte.class) arrayTypeName = "B";
-        if (type == short.class) arrayTypeName = "S";
-        if (type == char.class) arrayTypeName = "C";
-        if (type == int.class) arrayTypeName = "I";
-        if (type == long.class) arrayTypeName = "J";
-        if (type == float.class) arrayTypeName = "F";
-        if (type == double.class) arrayTypeName = "D";
+        if (type.isArray()) arrayTypeName = type.getName();
+        else if (type == boolean.class) arrayTypeName = "Z";
+        else if (type == byte.class) arrayTypeName = "B";
+        else if (type == short.class) arrayTypeName = "S";
+        else if (type == char.class) arrayTypeName = "C";
+        else if (type == int.class) arrayTypeName = "I";
+        else if (type == long.class) arrayTypeName = "J";
+        else if (type == float.class) arrayTypeName = "F";
+        else if (type == double.class) arrayTypeName = "D";
+        else arrayTypeName = 'L' + type.getName() + ';';
 
         try {
             return Class.forName(StringUtils.repeat("[", dimension) + arrayTypeName);
