@@ -216,8 +216,9 @@ public final class ArrayUtils {
      * @see Class#getName()
      */
     public static Class<?> resolveArrayType(Class<?> type, int dimension) {
-        String arrayTypeName;
+        if (dimension <= 0) return type;
 
+        String arrayTypeName;
         if (type.isArray()) arrayTypeName = type.getName();
         else if (type == boolean.class) arrayTypeName = "Z";
         else if (type == byte.class) arrayTypeName = "B";

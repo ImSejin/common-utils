@@ -181,7 +181,7 @@ class ArrayUtilsSpec extends Specification {
     }
 
     @SuppressWarnings("GroovyAssignabilityCheck")
-    @Timeout(value = 15, unit = TimeUnit.MILLISECONDS)
+    @Timeout(value = 20, unit = TimeUnit.MILLISECONDS)
     def "Resolves array type in short-time"() {
         given:
         def data = [
@@ -193,17 +193,17 @@ class ArrayUtilsSpec extends Specification {
                 [type: long, dimension: 6, expected: long[][][][][][]],
                 [type: float, dimension: 7, expected: float[][][][][][][]],
                 [type: double, dimension: 8, expected: double[][][][][][][][]],
+                [type: Void, dimension: 0, expected: Void],
                 [type: Object, dimension: 1, expected: Object[]],
-                [type: Boolean, dimension: 2, expected: Boolean[][]],
-                [type: Byte, dimension: 3, expected: Byte[][][]],
-                [type: Short, dimension: 4, expected: Short[][][][]],
-                [type: Character, dimension: 5, expected: Character[][][][][]],
-                [type: Integer, dimension: 6, expected: Integer[][][][][][]],
-                [type: Long, dimension: 7, expected: Long[][][][][][][]],
-                [type: Float, dimension: 8, expected: Float[][][][][][][][]],
-                [type: Double, dimension: 9, expected: Double[][][][][][][][][]],
-                [type: String, dimension: 10, expected: String[][][][][][][][][][]],
-                [type: List[], dimension: 11, expected: List[][][][][][][][][][][][]],
+                [type: Boolean[], dimension: 1, expected: Boolean[][]],
+                [type: Byte[], dimension: 2, expected: Byte[][][]],
+                [type: Short[][], dimension: 2, expected: Short[][][][]],
+                [type: Character[][], dimension: 3, expected: Character[][][][][]],
+                [type: Integer[][][], dimension: 3, expected: Integer[][][][][][]],
+                [type: Long[][][], dimension: 4, expected: Long[][][][][][][]],
+                [type: Float[][][][], dimension: 4, expected: Float[][][][][][][][]],
+                [type: Double[][][][], dimension: 5, expected: Double[][][][][][][][][]],
+                [type: String[][][][][], dimension: 5, expected: String[][][][][][][][][][]],
         ]
 
         when:
