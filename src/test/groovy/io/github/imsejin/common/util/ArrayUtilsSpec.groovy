@@ -17,6 +17,9 @@
 package io.github.imsejin.common.util
 
 import spock.lang.Specification
+import spock.lang.Timeout
+
+import java.util.concurrent.TimeUnit
 
 class ArrayUtilsSpec extends Specification {
 
@@ -175,6 +178,42 @@ class ArrayUtilsSpec extends Specification {
         ['α', 'β', 'γ']            | ['δ', 'Ω']         || ['α', 'β', 'γ', 'δ', 'Ω']
         [0.0, 0.1, 0.2]            | [0.0F, 0.1F, 0.2F] || [0.0, 0.1, 0.2, 0.0F, 0.1F, 0.2F]
         ["alpha", "beta", "gamma"] | ['Y', 'Z']         || ["alpha", "beta", "gamma", 'Y', 'Z']
+    }
+
+    @SuppressWarnings("GroovyAssignabilityCheck")
+    @Timeout(value = 15, unit = TimeUnit.MILLISECONDS)
+    def "Resolves array type in short-time"() {
+        given:
+        def data = [
+                [type: boolean, dimension: 1, expected: boolean[]],
+                [type: byte, dimension: 2, expected: byte[][]],
+                [type: short, dimension: 3, expected: short[][][]],
+                [type: char, dimension: 4, expected: char[][][][]],
+                [type: int, dimension: 5, expected: int[][][][][]],
+                [type: long, dimension: 6, expected: long[][][][][][]],
+                [type: float, dimension: 7, expected: float[][][][][][][]],
+                [type: double, dimension: 8, expected: double[][][][][][][][]],
+                [type: Object, dimension: 1, expected: Object[]],
+                [type: Boolean, dimension: 2, expected: Boolean[][]],
+                [type: Byte, dimension: 3, expected: Byte[][][]],
+                [type: Short, dimension: 4, expected: Short[][][][]],
+                [type: Character, dimension: 5, expected: Character[][][][][]],
+                [type: Integer, dimension: 6, expected: Integer[][][][][][]],
+                [type: Long, dimension: 7, expected: Long[][][][][][][]],
+                [type: Float, dimension: 8, expected: Float[][][][][][][][]],
+                [type: Double, dimension: 9, expected: Double[][][][][][][][][]],
+                [type: String, dimension: 10, expected: String[][][][][][][][][][]],
+                [type: List, dimension: 11, expected: List[][][][][][][][][][][]],
+        ]
+
+        when:
+        def result = data.collect({ ArrayUtils.resolveArrayType(it.type, it.dimension) == it.expected })
+
+        then:
+        result.stream().reduce(Boolean.TRUE, { a, b -> a && b })
+
+        where:
+        i << (0..2000)
     }
 
 }

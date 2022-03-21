@@ -207,4 +207,24 @@ public final class ArrayUtils {
         return array;
     }
 
+    public static Class<?> resolveArrayType(Class<?> type, int dimension) {
+        String arrayTypeName = null;
+
+        if (!type.isPrimitive()) arrayTypeName = 'L' + type.getName() + ';';
+        if (type == boolean.class) arrayTypeName = "Z";
+        if (type == byte.class) arrayTypeName = "B";
+        if (type == short.class) arrayTypeName = "S";
+        if (type == char.class) arrayTypeName = "C";
+        if (type == int.class) arrayTypeName = "I";
+        if (type == long.class) arrayTypeName = "J";
+        if (type == float.class) arrayTypeName = "F";
+        if (type == double.class) arrayTypeName = "D";
+
+        try {
+            return Class.forName(StringUtils.repeat("[", dimension) + arrayTypeName);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
