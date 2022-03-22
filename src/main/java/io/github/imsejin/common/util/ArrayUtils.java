@@ -216,25 +216,11 @@ public final class ArrayUtils {
      * @see Class#getName()
      */
     public static Class<?> resolveArrayType(Class<?> type, int dimension) {
-        if (dimension <= 0) return type;
-
-        String arrayTypeName;
-        if (type.isArray()) arrayTypeName = type.getName();
-        else if (type == boolean.class) arrayTypeName = "Z";
-        else if (type == byte.class) arrayTypeName = "B";
-        else if (type == short.class) arrayTypeName = "S";
-        else if (type == char.class) arrayTypeName = "C";
-        else if (type == int.class) arrayTypeName = "I";
-        else if (type == long.class) arrayTypeName = "J";
-        else if (type == float.class) arrayTypeName = "F";
-        else if (type == double.class) arrayTypeName = "D";
-        else arrayTypeName = 'L' + type.getName() + ';';
-
-        try {
-            return Class.forName(StringUtils.repeat("[", dimension) + arrayTypeName);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        for (int i = 0; i < dimension; i++) {
+            type = Array.newInstance(type, 0).getClass();
         }
+
+        return type;
     }
 
     public static int dimensionOf(Class<?> type) {
