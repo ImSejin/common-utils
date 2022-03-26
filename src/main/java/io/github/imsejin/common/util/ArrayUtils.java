@@ -213,7 +213,6 @@ public final class ArrayUtils {
      * @param type      type
      * @param dimension dimension
      * @return type of array
-     * @see Class#getName()
      */
     public static Class<?> resolveArrayType(Class<?> type, int dimension) {
         for (int i = 0; i < dimension; i++) {
@@ -223,6 +222,12 @@ public final class ArrayUtils {
         return type;
     }
 
+    /**
+     * Returns dimension of the given array type.
+     *
+     * @param type array type
+     * @return dimension of array
+     */
     public static int dimensionOf(Class<?> type) {
         int dimension = 0;
         while (type.isArray()) {
