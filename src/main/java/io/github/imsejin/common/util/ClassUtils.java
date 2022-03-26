@@ -226,7 +226,7 @@ public final class ClassUtils {
     }
 
     /**
-     * Returns all the types extended or implemented by this class.
+     * Returns all the types extended or implemented by this class as a set.
      *
      * <p> There are 3 cases of return value.
      * <dl>
@@ -276,6 +276,26 @@ public final class ClassUtils {
         return new LinkedHashSet<>(classes);
     }
 
+    /**
+     * Returns all the types extended or implemented by this class as a graph.
+     *
+     * <p> There are 3 cases of return value.
+     * <dl>
+     *     <dt><b>case 1: {@code null}</b></dt>
+     *     <dd>Empty graph.</dd>
+     *
+     *     <dt><b>case 2: {@code java.lang.Object}</b></dt>
+     *     <dd>Graph that has one vertex.</dd>
+     *
+     *     <dt><b>case 3: other classes</b></dt>
+     *     <dd>Set that contains own class and all the types extended or implemented by that.</dd>
+     * </dl>
+     *
+     * @param clazz endpoint class
+     * @return all the types extended or implemented by this class
+     * @see <a href="https://stackoverflow.com/questions/22031207/find-all-classes-and-interfaces-a-class-extends-or-implements-recursively">
+     * Find all classes and interfaces a class extends or implements recursively</a>
+     */
     public static Graph<Class<?>> getAllExtendedOrImplementedTypesAsGraph(@Nullable Class<?> clazz) {
         if (clazz == null) return new DirectedGraph<>();
         Graph<Class<?>> graph = new DirectedGraph<>();
@@ -309,7 +329,43 @@ public final class ClassUtils {
         return graph;
     }
 
-    public static List<Class<?>> resolveActualTypes(Type type) {
+    /**
+     * Resolves the actual types.
+     *
+     * <p> There are some cases of return value by the given parameter.
+     * <dl>
+     *     <dt><b>case {@code null}:</b></dt>
+     *     <dd>[]</dd>
+     *
+     *     <dt><b>case Concrete type: {@code String}</b></dt>
+     *     <dd>[{@code String}]</dd>
+     *
+     *     <dt><b>case Raw type: {@code List}</b></dt>
+     *     <dd>[{@code List}]</dd>
+     *
+     *     <dt><b>case Type variable: {@code T}</b></dt>
+     *     <dd>[]</dd>
+     *
+     *     <dt><b>case Type variable array: {@code T[]}</b></dt>
+     *     <dd>[{@code Object[]}]</dd>
+     *
+     *     <dt><b>case Generic unknown: {@code List<?>}</b></dt>
+     *     <dd>[{@code Object}]</dd>
+     *
+     *     <dt><b>case Concrete type in generic: {@code Map<String, Integer>}</b></dt>
+     *     <dd>[{@code String}, {@code Integer}]</dd>
+     *
+     *     <dt><b>case Upper bound type in generic: {@code Class<? extends Number>}</b></dt>
+     *     <dd>[{@code Number}]</dd>
+     *
+     *     <dt><b>case Lower bound type in generic: {@code Class<? extends Number>}</b></dt>
+     *     <dd>[{@code Number}]</dd>
+     * </dl>
+     *
+     * @param type resolvable type
+     * @return actual type
+     */
+    public static List<Class<?>> resolveActualTypes(@Nullable Type type) {
         // When type is concrete type: java.lang.String
         if (type instanceof Class<?>) return Collections.singletonList((Class<?>) type);
 
@@ -332,7 +388,7 @@ public final class ClassUtils {
         // GenericArrayType: T[]
         if (type instanceof GenericArrayType) return Collections.singletonList(Object[].class);
 
-        // TypeVariable: T
+        // null, TypeVariable: T
         if (!(type instanceof ParameterizedType)) return Collections.emptyList();
 
         List<Class<?>> types = new ArrayList<>();
