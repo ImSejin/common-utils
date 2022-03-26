@@ -314,4 +314,58 @@ class ClassUtilsSpec extends Specification {
         BigDecimalAssert | [clazz, DecimalNumberAssertion, NumberAssert, AbstractObjectAssert, Descriptor]
     }
 
+    def "Resolves actual generic type"() {
+        given:
+        def field = Sample.declaredFields.find({ it.name == fieldName })
+        def genericType = field.genericType
+
+        when:
+        def actual = ClassUtils.resolveActualTypes genericType
+
+        then:
+        actual == expected
+
+        where:
+        fieldName                                          | expected
+        "concrete"                                         | [String]
+        "raw"                                              | [Sample]
+        "typeVar"                                          | []
+        "typeVarArray"                                     | [Object[]]
+        "generic_unknown"                                  | [Object]
+        "generic_concrete"                                 | [String]
+        "generic_raw"                                      | [Sample]
+        "generic_upperWildcard_concrete"                   | [String]
+        "generic_lowerWildcard_concrete"                   | [String]
+        "generic_typeVar"                                  | []
+        "generic_typeVarArray"                             | [Object[]]
+        "generic_upperWildcard_typeVar"                    | []
+        "generic_lowerWildcard_typeVar"                    | []
+        "generic_upperWildcard_typeVarArray"               | [Object[]]
+        "generic_lowerWildcard_typeVarArray"               | [Object[]]
+        "generic_generic_concrete"                         | [String]
+        "generic_generic_concrete_generic_typeVar_unknown" | [String, Object]
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    private static class Sample<T> extends HashMap<String, T> {
+        String concrete
+        Sample raw
+        T typeVar
+        T[] typeVarArray
+        List<?> generic_unknown
+        List<String> generic_concrete
+        List<Sample> generic_raw
+        List<? extends String> generic_upperWildcard_concrete
+        List<? super String> generic_lowerWildcard_concrete
+        List<T> generic_typeVar
+        List<T[]> generic_typeVarArray
+        List<? extends T> generic_upperWildcard_typeVar
+        List<? super T> generic_lowerWildcard_typeVar
+        List<? extends T[]> generic_upperWildcard_typeVarArray
+        List<? super T[]> generic_lowerWildcard_typeVarArray
+        List<Sample<String>> generic_generic_concrete
+        List<Map<String, Map<T, ?>>> generic_generic_concrete_generic_typeVar_unknown
+    }
+
 }
