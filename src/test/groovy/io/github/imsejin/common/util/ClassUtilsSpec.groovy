@@ -317,7 +317,7 @@ class ClassUtilsSpec extends Specification {
     def "Resolves actual generic type"() {
         given:
         def field = Sample.declaredFields.find({ it.name == fieldName })
-        def genericType = field.genericType
+        def genericType = field?.genericType
 
         when:
         def actual = ClassUtils.resolveActualTypes genericType
@@ -327,6 +327,7 @@ class ClassUtilsSpec extends Specification {
 
         where:
         fieldName                                          | expected
+        null                                               | []
         "concrete"                                         | [String]
         "raw"                                              | [Sample]
         "typeVar"                                          | []
