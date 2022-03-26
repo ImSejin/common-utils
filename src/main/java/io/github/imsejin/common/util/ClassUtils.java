@@ -358,7 +358,7 @@ public final class ClassUtils {
      *     <dt><b>case Upper bound type in generic: {@code Class<? extends Number>}</b></dt>
      *     <dd>[{@code Number}]</dd>
      *
-     *     <dt><b>case Lower bound type in generic: {@code Class<? extends Number>}</b></dt>
+     *     <dt><b>case Lower bound type in generic: {@code Class<? super Number>}</b></dt>
      *     <dd>[{@code Number}]</dd>
      * </dl>
      *
