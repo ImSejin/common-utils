@@ -21,7 +21,7 @@ import io.github.imsejin.common.model.graph.DirectedGraph;
 import io.github.imsejin.common.model.graph.Graph;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -307,6 +307,42 @@ public final class ClassUtils {
         } while (clazz != Object.class);
 
         return graph;
+    }
+
+    public static List<Class<?>> resolveActualTypes(Type type) {
+        // When type is concrete type: java.lang.String
+        if (type instanceof Class<?>) return Collections.singletonList((Class<?>) type);
+
+        // When type is wildcard type:
+        // java.util.List<? super java.lang.String>
+        // java.util.List<? extends java.lang.String>
+        if (type instanceof WildcardType) {
+            WildcardType wildcardType = (WildcardType) type;
+            Type[] lowerBounds = wildcardType.getLowerBounds();
+            Type t = ArrayUtils.exists(lowerBounds) ? lowerBounds[0] : wildcardType.getUpperBounds()[0];
+            if (t instanceof Class<?>) return Collections.singletonList((Class<?>) t);
+
+            // GenericArrayType: T[]
+            if (t instanceof GenericArrayType) return Collections.singletonList(Object[].class);
+
+            // TypeVariable: T
+            return Collections.emptyList();
+        }
+
+        // GenericArrayType: T[]
+        if (type instanceof GenericArrayType) return Collections.singletonList(Object[].class);
+
+        // TypeVariable: T
+        if (!(type instanceof ParameterizedType)) return Collections.emptyList();
+
+        List<Class<?>> types = new ArrayList<>();
+        ParameterizedType paramType = (ParameterizedType) type;
+        for (Type t : paramType.getActualTypeArguments()) {
+            List<Class<?>> list = resolveActualTypes(t);
+            if (!list.isEmpty()) types.addAll(list);
+        }
+
+        return types;
     }
 
 }
