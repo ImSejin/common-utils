@@ -9,7 +9,7 @@
     </a>
     -->
     <a href="https://github.com/ImSejin/common-utils/actions/workflows/maven-build.yml">
-        📝 Update: javadoc<img alt="GitHub Workflow" src="https://img.shields.io/github/workflow/status/ImSejin/common-utils/Java%20CI%20with%20Maven/release?style=flat-square">
+        <img alt="GitHub Workflow" src="https://img.shields.io/github/workflow/status/ImSejin/common-utils/Java%20CI%20with%20Maven/release?style=flat-square">
     </a>
     <a href="https://codecov.io/gh/ImSejin/common-utils">
         <img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/ImSejin/common-utils/release?label=code%20coverage&style=flat-square&token=F9DCS57CAN"/>
