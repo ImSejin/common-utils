@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.security
+package io.github.imsejin.common.security.model
 
 import spock.lang.Specification
 
