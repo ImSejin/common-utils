@@ -98,16 +98,17 @@ class ReflectionUtilsTest {
     void setFieldValue() throws NoSuchFieldException {
         // given: 1
         class Model {
-            private String name;
+            private int number;
         }
         Model model = new Model();
-        Field field0 = model.getClass().getDeclaredField("name");
-        assertThat(ReflectionUtils.getFieldValue(model, field0)).isNull();
+        Field field0 = model.getClass().getDeclaredField("number");
+        assertThat(ReflectionUtils.getFieldValue(model, field0))
+                .isEqualTo(ClassUtils.initialValueOf(field0.getType()));
         // when: 1
-        ReflectionUtils.setFieldValue(model, field0, UUID.randomUUID().toString());
+        ReflectionUtils.setFieldValue(model, field0, Math.abs(new Random().nextInt()));
         // then: 1
         assertThat(ReflectionUtils.getFieldValue(model, field0))
-                .isNotNull().isEqualTo(model.name);
+                .isNotNull().isEqualTo(model.number);
 
         // given: 2
         Field field1 = A.AA.class.getDeclaredField("name");

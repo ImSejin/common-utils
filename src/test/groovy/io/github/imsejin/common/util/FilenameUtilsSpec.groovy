@@ -20,6 +20,20 @@ import spock.lang.Specification
 
 class FilenameUtilsSpec extends Specification {
 
+    def "Gets file extension from filename"() {
+        expect:
+        FilenameUtils.getExtension(filename) == expected
+
+        where:
+        filename                 | expected
+        null                     | ""
+        ""                       | ""
+        ".git"                   | ""
+        "data.dat"               | "dat"
+        "Specification.groovy"   | "groovy"
+        "common-utils-0.1.0.jar" | "jar"
+    }
+
     def "Replaces unallowable characters"() {
         when:
         def actual = FilenameUtils.replaceUnallowables filename
