@@ -24,9 +24,9 @@ import io.github.imsejin.common.assertion.chars.StringAssert
 import io.github.imsejin.common.assertion.math.BigDecimalAssert
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert
 import io.github.imsejin.common.assertion.primitive.NumberAssert
-import io.github.imsejin.common.tool.crypto.AES
-import io.github.imsejin.common.tool.crypto.AES256
-import io.github.imsejin.common.tool.crypto.Crypto
+import io.github.imsejin.common.security.crypto.AES
+import io.github.imsejin.common.security.crypto.AES256
+import io.github.imsejin.common.security.crypto.Crypto
 import spock.lang.Specification
 
 class ClassUtilsSpec extends Specification {

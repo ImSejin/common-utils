@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.tool.crypto
+package io.github.imsejin.common.security.crypto
 
 import io.github.imsejin.common.util.ReflectionUtils
 import io.github.imsejin.common.util.StringUtils
