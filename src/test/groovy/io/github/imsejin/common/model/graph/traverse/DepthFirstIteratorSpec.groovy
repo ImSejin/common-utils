@@ -58,4 +58,35 @@ class DepthFirstIteratorSpec extends Specification {
         RandomAccess       | [Iterable, List, AbstractList, Cloneable, Serializable]
     }
 
+    def "Traverse"() {
+        given: "Add vertices and its edges"
+        def graph = new UndirectedGraph<>() as Graph<Class<?>>
+        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable].forEach(graph::addVertex)
+        def edges = [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList],
+                     [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
+        edges.forEach(graph::addEdge)
+
+        when:
+        def vertices = []
+        DepthFirstIterator.traverse(graph, root, vertices::add)
+
+        then:
+        graph.vertexSize == vertices.size()
+        graph.allVertices == vertices as Set
+        root == vertices.first()
+        last.contains vertices.last()
+
+        where:
+        root               | last
+        ArrayList          | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
+        AbstractList       | [Iterable, AbstractCollection, Cloneable, Serializable, RandomAccess]
+        AbstractCollection | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
+        List               | [Iterable, Cloneable, Serializable, RandomAccess]
+        Collection         | [Iterable, AbstractCollection, Cloneable, Serializable, RandomAccess]
+        Iterable           | [Cloneable, Serializable, RandomAccess, List, AbstractCollection]
+        Cloneable          | [Iterable, List, AbstractList, Serializable, RandomAccess]
+        Serializable       | [Iterable, List, AbstractList, Cloneable, RandomAccess]
+        RandomAccess       | [Iterable, List, AbstractList, Cloneable, Serializable]
+    }
+
 }

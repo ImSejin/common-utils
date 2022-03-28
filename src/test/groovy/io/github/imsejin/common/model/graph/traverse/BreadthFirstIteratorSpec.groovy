@@ -59,4 +59,36 @@ class BreadthFirstIteratorSpec extends Specification {
         RandomAccess       || [ArrayList]                                                 | [Iterable]
     }
 
+    def "Traverse"() {
+        given: "Add vertices and its edges"
+        def graph = new UndirectedGraph<>() as Graph<Class<?>>
+        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable].forEach(graph::addVertex)
+        def edges = [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList],
+                     [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
+        edges.forEach(graph::addEdge)
+
+        when:
+        def vertices = []
+        BreadthFirstIterator.traverse(graph, root, vertices::add)
+
+        then:
+        graph.vertexSize == vertices.size()
+        graph.allVertices == vertices as Set
+        root == vertices.first()
+        second.contains vertices[1]
+        last.contains vertices.last()
+
+        where:
+        root               || second                                                      | last
+        ArrayList          || [Cloneable, Serializable, RandomAccess, List, AbstractList] | [Iterable]
+        AbstractList       || [AbstractCollection, ArrayList]                             | [Iterable]
+        AbstractCollection || [Collection, AbstractList]                                  | [Cloneable, Serializable, RandomAccess]
+        List               || [Collection, ArrayList]                                     | [Cloneable, Serializable, RandomAccess, Iterable, AbstractCollection, AbstractList]
+        Collection         || [Iterable, List, AbstractCollection]                        | [Cloneable, Serializable, RandomAccess]
+        Iterable           || [Collection]                                                | [Cloneable, Serializable, RandomAccess]
+        Cloneable          || [ArrayList]                                                 | [Iterable]
+        Serializable       || [ArrayList]                                                 | [Iterable]
+        RandomAccess       || [ArrayList]                                                 | [Iterable]
+    }
+
 }
