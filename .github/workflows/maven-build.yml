@@ -40,5 +40,5 @@ jobs:
       with:
         # Not required for public repository.
         # token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: true
+        fail_ci_if_error: false
         verbose: true
