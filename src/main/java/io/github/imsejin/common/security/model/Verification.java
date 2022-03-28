@@ -18,7 +18,6 @@ package io.github.imsejin.common.security.model;
 
 import io.github.imsejin.common.assertion.Asserts;
 
-import javax.annotation.Nonnull;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -59,17 +58,14 @@ public class Verification {
         return duration.isNegative() || duration.getSeconds() > this.duration.getSeconds();
     }
 
-    @Nonnull
     public Object getCredentials() {
         return this.credentials;
     }
 
-    @Nonnull
     public Duration getDuration() {
         return this.duration;
     }
 
-    @Nonnull
     public LocalDateTime getCreatedDateTime() {
         return this.createdDateTime;
     }
