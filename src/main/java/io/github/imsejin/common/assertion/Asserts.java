@@ -43,19 +43,20 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Asserts
- * <p>
- * This is implemented similarly to AssertJ's API.
- * <p>
- * If you use the '{@code ACTUAL}' generic variable directly within an assertion class as a parameter,
- * user code that use the assertion class can't be compiled because its bound type does not match
- * the generic variable.
- * <p>
- * AssertJ solved this problem by <u>specifying the generic type of a class that inherited the assertion
- * class</u>. There is a difference between this and AssertJ. This solved the problem by <u>specifying
- * the generic type in method return type and instantiating an anonymous class that inherited
- * the assertion class <b>with raw type because the diamond operator is not supported on anonymous classes
- * until Java 8</b></u>.
+ * Asserts for fluent assertion not increasing branches in code coverage.
+ *
+ * <p> This is implemented similarly to AssertJ's API.
+ *
+ * <p> If you use the '{@code ACTUAL}' type variable directly within an assertion
+ * class as a parameter, user code that use the assertion class can't be compiled
+ * because its bound type does not match the type variable.
+ *
+ * <p> AssertJ solved this problem by <u>specifying the generic type of a class
+ * that extends the assertion class</u>. There is a difference between this
+ * and AssertJ. This solved the problem by <u>specifying the type variable in return
+ * type of method and instantiating an anonymous class that extends the assertion
+ * class <b>with raw type because the diamond operator is not supported on anonymous
+ * classes until Java 8</b></u>.
  *
  * @see <a href="https://assertj.github.io/doc/">AssertJ API document</a>
  */
