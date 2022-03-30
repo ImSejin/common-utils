@@ -179,17 +179,32 @@ public final class ReflectionUtils {
      * @param initArgs   initial arguments of constructor
      * @param <T>        type of instance
      * @return instance of type
-     * @throws RuntimeException if the type doesn't have default constructor
+     * @throws RuntimeException if the type doesn't have matched constructor
      * @throws RuntimeException if failed to instantiate
      */
     public static <T> T instantiate(Class<T> type, @Nullable Class<?>[] paramTypes, @Nullable Object[] initArgs) {
         Asserts.that(type).isNotNull();
         if (paramTypes != null) Asserts.that(initArgs).isNotNull().isSameLength(paramTypes);
-        if (initArgs != null) Asserts.that(paramTypes).isNotNull().isSameLength(initArgs);
 
         Constructor<T> constructor = getDeclaredConstructor(type, paramTypes);
-        boolean accessible = constructor.isAccessible();
+        return instantiate(constructor, initArgs);
+    }
 
+    /**
+     * Returns instance of type using the constructor.
+     *
+     * @param constructor constructor declared in type
+     * @param initArgs    initial arguments of constructor
+     * @param <T>         type of instance
+     * @return instance of type
+     * @throws RuntimeException if the type doesn't have matched constructor
+     * @throws RuntimeException if failed to instantiate
+     */
+    public static <T> T instantiate(Constructor<T> constructor, @Nullable Object... initArgs) {
+        Asserts.that(constructor).isNotNull();
+        if (initArgs != null) Asserts.that(constructor.getParameterTypes()).isSameLength(initArgs);
+
+        boolean accessible = constructor.isAccessible();
         constructor.setAccessible(true);
 
         // Instantiates new model and sets up data into the model's fields.
@@ -197,7 +212,7 @@ public final class ReflectionUtils {
             return constructor.newInstance(initArgs);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             String message = String.format("Failed to instantiate by constructor: %s(%s)",
-                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
+                    constructor.getDeclaringClass(), Arrays.toString(constructor.getParameterTypes()).replaceAll("[\\[\\]]", ""));
             throw new RuntimeException(message, e);
         } finally {
             // Rolls back the accessibility of the constructor as it was.
