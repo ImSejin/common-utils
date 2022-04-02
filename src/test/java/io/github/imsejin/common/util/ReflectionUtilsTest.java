@@ -18,17 +18,17 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
@@ -159,7 +159,8 @@ class ReflectionUtilsTest {
         }
 
         // when
-        Object instant = ReflectionUtils.instantiate(clazz, paramTypes, initArgs);
+        Constructor<?> constructor = ReflectionUtils.getDeclaredConstructor(clazz, paramTypes);
+        Object instant = ReflectionUtils.instantiate(constructor, initArgs);
 
         // then
         assertThat(instant)
@@ -177,17 +178,18 @@ class ReflectionUtilsTest {
         // then: 1
         assertThat(m0)
                 .isNotNull().returns(t0, Method::getDeclaringClass)
-                .returns(ClassAssert.class, it -> invokeMethod(it, null, Object.class).getClass());
+                .returns(ClassAssert.class, it -> ReflectionUtils.invoke(it, null, Object.class).getClass());
 
         // given: 2
         Class<?> t1 = Class.forName(Parent.class.getName() + "$Child");
         // when: 2
         Method m1 = ReflectionUtils.getDeclaredMethod(t1, "getId");
         // then: 2
-        Object instance = ReflectionUtils.instantiate(t1, new Class<?>[]{int.class, String.class}, new Object[]{256, "smith"});
+        Constructor<?> constructor = ReflectionUtils.getDeclaredConstructor(t1, int.class, String.class);
+        Object instance = ReflectionUtils.instantiate(constructor, 256, "smith");
         assertThat(m1)
                 .isNotNull().returns(t1, Method::getDeclaringClass)
-                .returns(256, it -> invokeMethod(it, instance));
+                .returns(256, it -> ReflectionUtils.invoke(it, instance));
     }
 
     @Test
@@ -195,34 +197,38 @@ class ReflectionUtilsTest {
     void invoke() {
         // given: 1
         List<Character> characters = Arrays.asList('0', '1', '2');
+        Method sizeMethod = ReflectionUtils.getDeclaredMethod(Collection.class, "size");
         // when: 1
-        Object size = ReflectionUtils.invoke(Collection.class, characters, "size", null, null);
+        Object size = ReflectionUtils.invoke(sizeMethod, characters);
         // then: 1
         assertThat(size)
                 .isNotNull().isExactlyInstanceOf(Integer.class)
                 .isEqualTo(characters.size());
 
         // given: 2
-        Class<?>[] paramTypes = {Object.class};
+        Method singletonListMethod = ReflectionUtils.getDeclaredMethod(Collections.class, "singletonList", Object.class);
         Object[] args = {"a element in singleton list"};
         // when: 2
-        Object singletonList = ReflectionUtils.invoke(Collections.class, null, "singletonList", paramTypes, args);
+        Object singletonList = ReflectionUtils.invoke(singletonListMethod, null, args);
         // then: 2
         assertThat(singletonList)
                 .isNotNull().returns(true, it -> List.class.isAssignableFrom(it.getClass()))
                 .isEqualTo(Collections.singletonList(args[0]));
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    @Test
+    @DisplayName("method 'execute'")
+    void execute() {
+        // given
+        Constructor<Parent> constructor = ReflectionUtils.getDeclaredConstructor(Parent.class);
+        Method method = ReflectionUtils.getDeclaredMethod(Parent.class, "newInstance");
 
-    private static Object invokeMethod(Method method, @Nullable Object instance, Object... args) {
-        try {
-            method.setAccessible(true);
-            return method.invoke(instance, args);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+        // expect
+        Stream.of(constructor, method).map(it -> ReflectionUtils.execute(it, null))
+                .forEach(it -> assertThat(it).isNotNull().isEqualTo(Parent.newInstance()));
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
 
     private static class A {
         private static Long id;
@@ -242,6 +248,8 @@ class ReflectionUtilsTest {
 
 }
 
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class Parent implements Serializable {
 
     private static final long serialVersionUID = 8099680797687427324L;
@@ -249,6 +257,10 @@ class Parent implements Serializable {
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    public static Parent newInstance() {
+        return new Parent();
+    }
 
     @Getter
     @SuppressWarnings("unused")

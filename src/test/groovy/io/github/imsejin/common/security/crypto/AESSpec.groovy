@@ -42,7 +42,8 @@ class AESSpec extends Specification {
         given:
         def keySource = UUID.randomUUID().toString().replace("-", "")
         def key = keySource.substring(0, length)
-        def aes = ReflectionUtils.instantiate(impl, [String] as Class<?>[], [key] as Object[])
+        def constructor = ReflectionUtils.getDeclaredConstructor(impl, String)
+        def aes = ReflectionUtils.instantiate(constructor, key)
 
         when:
         def encrypted = aes.encrypt TEXT
@@ -63,7 +64,8 @@ class AESSpec extends Specification {
         given:
         def keySource = UUID.randomUUID().toString().replace("-", "")
         def key = keySource.substring(0, length)
-        def aes = ReflectionUtils.instantiate(impl, [String] as Class<?>[], [key] as Object[])
+        def constructor = ReflectionUtils.getDeclaredConstructor(impl, String)
+        def aes = ReflectionUtils.instantiate(constructor, key)
         def encrypted = aes.encrypt TEXT
 
         when:
@@ -84,7 +86,8 @@ class AESSpec extends Specification {
         given:
         def keySource = UUID.randomUUID().toString().replace("-", "")
         def key = keySource.substring(0, length)
-        def aes = ReflectionUtils.instantiate(impl, [String] as Class<?>[], [key] as Object[])
+        def constructor = ReflectionUtils.getDeclaredConstructor(impl, String)
+        def aes = ReflectionUtils.instantiate(constructor, key)
 
         expect:
         key == aes.key
