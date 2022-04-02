@@ -170,25 +170,6 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Returns instance of type using the specific constructor.
-     *
-     * @param type       class
-     * @param paramTypes parameter types of constructor
-     * @param initArgs   initial arguments of constructor
-     * @param <T>        type of instance
-     * @return instance of type
-     * @throws RuntimeException if the type doesn't have matched constructor
-     * @throws RuntimeException if failed to instantiate
-     */
-    public static <T> T instantiate(Class<T> type, @Nullable Class<?>[] paramTypes, @Nullable Object[] initArgs) {
-        Asserts.that(type).isNotNull();
-        if (paramTypes != null) Asserts.that(initArgs).isNotNull().isSameLength(paramTypes);
-
-        Constructor<T> constructor = getDeclaredConstructor(type, paramTypes);
-        return instantiate(constructor, initArgs);
-    }
-
-    /**
      * Returns instance of type using the constructor.
      *
      * @param constructor constructor declared in type
