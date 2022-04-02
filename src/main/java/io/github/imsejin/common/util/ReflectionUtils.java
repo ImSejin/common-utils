@@ -218,30 +218,18 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Invokes the specific method and returns its result.
+     * Invokes the method and returns its result.
      *
-     * @param type       class
-     * @param instance   instance if method is static, null
-     * @param methodName name of method
-     * @param paramTypes parameter types of method
-     * @param args       arguments of method
+     * @param method   method
+     * @param instance instance of method if method is static, null
+     * @param args     arguments of method
      * @return result of method
      */
-    public static Object invoke(Class<?> type, @Nullable Object instance,
-                                String methodName, @Nullable Class<?>[] paramTypes, @Nullable Object[] args) {
-        Asserts.that(type).isNotNull();
-        Asserts.that(methodName).isNotNull().hasText();
-        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull().isSameLength(args);
-        if (args != null) Asserts.that(args).isSameLength(paramTypes);
-
-        Method method;
-        try {
-            method = type.getDeclaredMethod(methodName, paramTypes);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-
+    public static Object invoke(Method method, @Nullable Object instance, Object... args) {
+        Asserts.that(method).isNotNull();
         if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
+        if (args != null) Asserts.that(args).isSameLength(method.getParameterTypes());
+
         boolean accessible = method.isAccessible();
         if (!accessible) method.setAccessible(true);
 
