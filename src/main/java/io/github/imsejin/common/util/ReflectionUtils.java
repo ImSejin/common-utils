@@ -76,9 +76,9 @@ public final class ReflectionUtils {
      * Returns value of the field.
      *
      * @param instance instance if field is static, null
-     * @param field    targeted field
+     * @param field    field
      * @return field value
-     * @throws RuntimeException if get value from the field
+     * @throws RuntimeException if failed to get {@code value} from the {@code field}
      */
     @Nullable
     public static Object getFieldValue(@Nullable Object instance, Field field) {
@@ -106,9 +106,9 @@ public final class ReflectionUtils {
      * Sets up value into the field.
      *
      * @param instance instance if method is static, null
-     * @param field    targeted field
+     * @param field    field
      * @param value    value to be set into field
-     * @throws RuntimeException if failed to set value into the field
+     * @throws RuntimeException if failed to set {@code value} into the {@code field}
      */
     public static void setFieldValue(@Nullable Object instance, Field field, Object value) {
         Asserts.that(field).isNotNull();
@@ -150,8 +150,8 @@ public final class ReflectionUtils {
             // Gets constructor with the specific parameter types.
             return type.getDeclaredConstructor(paramTypes);
         } catch (NoSuchMethodException e) {
-            String message = String.format("Cannot find a constructor: %s(%s)",
-                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
+            String message = String.format("Not found constructor: %s(%s)",
+                    type, Arrays.toString(paramTypes).replaceAll("[\\[\\]]", ""));
             throw new RuntimeException(message, e);
         }
     }
