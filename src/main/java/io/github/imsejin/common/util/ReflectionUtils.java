@@ -139,7 +139,7 @@ public final class ReflectionUtils {
      *
      * @param type       class
      * @param paramTypes parameter types of constructor
-     * @param <T>        type of instance
+     * @param <T>        declaring class of constructor
      * @return constructor
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> type, @Nullable Class<?>... paramTypes) {
@@ -157,26 +157,27 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Returns instance of type using default constructor.
+     * Creates an instance of type using default constructor.
      *
      * @param type class
      * @param <T>  type of instance
      * @return instance of type
-     * @throws RuntimeException if the type doesn't have default constructor
+     * @throws RuntimeException if {@code type} doesn't have default constructor
      * @throws RuntimeException if failed to instantiate
      */
     public static <T> T instantiate(Class<T> type) {
-        return instantiate(type, null, null);
+        Constructor<T> constructor = getDeclaredConstructor(type);
+        return instantiate(constructor);
     }
 
     /**
-     * Returns instance of type using the constructor.
+     * Creates an instance of type using the constructor.
      *
      * @param constructor constructor declared in type
      * @param initArgs    initial arguments of constructor
      * @param <T>         type of instance
      * @return instance of type
-     * @throws RuntimeException if the type doesn't have matched constructor
+     * @throws RuntimeException if {@code initArgs} doesn't match with {@code constructor.parameterTypes}
      * @throws RuntimeException if failed to instantiate
      */
     public static <T> T instantiate(Constructor<T> constructor, @Nullable Object... initArgs) {
@@ -201,17 +202,17 @@ public final class ReflectionUtils {
      * Returns the specific method declared by given type.
      *
      * @param type       class
-     * @param methodName name of method
+     * @param name       method name
      * @param paramTypes parameter types of method
      * @return method
      */
-    public static Method getDeclaredMethod(Class<?> type, String methodName, @Nullable Class<?>... paramTypes) {
+    public static Method getDeclaredMethod(Class<?> type, String name, @Nullable Class<?>... paramTypes) {
         Asserts.that(type).isNotNull();
-        Asserts.that(methodName).isNotNull().hasText();
+        Asserts.that(name).isNotNull().hasText();
         if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
 
         try {
-            return type.getDeclaredMethod(methodName, paramTypes);
+            return type.getDeclaredMethod(name, paramTypes);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
