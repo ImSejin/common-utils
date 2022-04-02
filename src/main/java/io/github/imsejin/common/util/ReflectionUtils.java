@@ -85,10 +85,9 @@ public final class ReflectionUtils {
         Asserts.that(field).isNotNull();
         if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
 
-        boolean accessible = field.isAccessible();
-
         // Enables to have access to the field even private field.
-        field.setAccessible(true);
+        boolean accessible = field.isAccessible();
+        if (!accessible) field.setAccessible(true);
 
         try {
             // Returns value in the field.
@@ -118,13 +117,12 @@ public final class ReflectionUtils {
                 .as("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
                 .isNotNull();
 
-        boolean accessible = field.isAccessible();
-
         // Enables to have access to the field even private field.
-        field.setAccessible(true);
+        boolean accessible = field.isAccessible();
+        if (!accessible) field.setAccessible(true);
 
-        // Sets value into the field.
         try {
+            // Sets value into the field.
             field.set(instance, value);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to set value into the field(%s) of the class(%s)",
@@ -202,18 +200,16 @@ public final class ReflectionUtils {
      */
     public static <T> T instantiate(Constructor<T> constructor, @Nullable Object... initArgs) {
         Asserts.that(constructor).isNotNull();
-        if (initArgs != null) Asserts.that(constructor.getParameterTypes()).isSameLength(initArgs);
+        if (initArgs != null) Asserts.that(initArgs).isSameLength(constructor.getParameterTypes());
 
         boolean accessible = constructor.isAccessible();
-        constructor.setAccessible(true);
+        if (!accessible) constructor.setAccessible(true);
 
-        // Instantiates new model and sets up data into the model's fields.
         try {
+            // Creates an instance of the type.
             return constructor.newInstance(initArgs);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            String message = String.format("Failed to instantiate by constructor: %s(%s)",
-                    constructor.getDeclaringClass(), Arrays.toString(constructor.getParameterTypes()).replaceAll("[\\[\\]]", ""));
-            throw new RuntimeException(message, e);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException("Failed to instantiate by constructor: " + constructor, e);
         } finally {
             // Rolls back the accessibility of the constructor as it was.
             constructor.setAccessible(accessible);
@@ -266,11 +262,11 @@ public final class ReflectionUtils {
 
         if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
         boolean accessible = method.isAccessible();
-        method.setAccessible(true);
+        if (!accessible) method.setAccessible(true);
 
         try {
             return method.invoke(instance, args);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         } finally {
             // Rolls back the accessibility of the method as it was.
