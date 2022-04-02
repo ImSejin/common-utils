@@ -243,4 +243,26 @@ public final class ReflectionUtils {
         }
     }
 
+    /**
+     * Runs the executable and returns its result.
+     *
+     * @param executable constructor or method
+     * @param instance   instance if {@code executable} is not instance method, null
+     * @param args       arguments of the executable
+     * @return result of the executable
+     */
+    public static Object execute(Executable executable, @Nullable Object instance, Object... args) {
+        if (executable instanceof Method) {
+            Method method = (Method) executable;
+            return invoke(method, instance, args);
+
+        } else if (executable instanceof Constructor) {
+            Constructor<?> constructor = (Constructor<?>) executable;
+            return instantiate(constructor, args);
+
+        } else {
+            throw new UnsupportedOperationException("Unsupported implementation of Executable: " + executable);
+        }
+    }
+
 }
