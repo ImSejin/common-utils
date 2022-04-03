@@ -16,15 +16,15 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
 import io.github.imsejin.common.assertion.lang.*;
-import io.github.imsejin.common.assertion.map.AbstractMapAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 import io.github.imsejin.common.assertion.time.*;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
+import io.github.imsejin.common.assertion.util.CollectionAssert;
+import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
@@ -63,82 +63,47 @@ public abstract class Asserts {
     protected Asserts() {
     }
 
-    //////////////////////////////////////// Array ////////////////////////////////////////
-
-    public static ArrayAssert<?, Boolean> that(boolean[] array) {
-        return new ArrayAssert<>((Boolean[]) ArrayUtils.wrap(array));
-    }
-
-    public static ArrayAssert<?, Byte> that(byte[] array) {
-        return new ArrayAssert<>((Byte[]) ArrayUtils.wrap(array));
-    }
-
-    public static ArrayAssert<?, Short> that(short[] array) {
-        return new ArrayAssert<>((Short[]) ArrayUtils.wrap(array));
-    }
-
-    public static ArrayAssert<?, Character> that(char[] array) {
-        return new ArrayAssert<>((Character[]) ArrayUtils.wrap(array));
-    }
-
-    public static ArrayAssert<?, Integer> that(int[] array) {
-        return new ArrayAssert<>((Integer[]) ArrayUtils.wrap(array));
-    }
-
-    public static ArrayAssert<?, Long> that(long[] array) {
-        return new ArrayAssert<>((Long[]) ArrayUtils.wrap(array));
-    }
-
-    public static ArrayAssert<?, Float> that(float[] array) {
-        return new ArrayAssert<>((Float[]) ArrayUtils.wrap(array));
-    }
-
-    public static ArrayAssert<?, Double> that(double[] array) {
-        return new ArrayAssert<>((Double[]) ArrayUtils.wrap(array));
-    }
-
-    public static <T> ArrayAssert<?, T> that(T[] array) {
-        return new ArrayAssert<>(array);
-    }
-
-    ///////////////////////////////////// Characters //////////////////////////////////////
-
-    public static CharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
-        return new CharSequenceAssert<>(charSequence);
-    }
-
-    public static StringAssert<?> that(String string) {
-        return new StringAssert<>(string);
-    }
-
-    ///////////////////////////////////// Collection //////////////////////////////////////
-
-    public static <T> AbstractCollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
-        return new AbstractCollectionAssert(collection) {
-        };
-    }
-
-    //////////////////////////////////// Input/Output /////////////////////////////////////
-
-    public static AbstractFileAssert<?, File> that(File file) {
-        return new AbstractFileAssert(file) {
-        };
-    }
-
-    ///////////////////////////////////////// Map /////////////////////////////////////////
-
-    public static <K, V> AbstractMapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
-        return new AbstractMapAssert(map) {
-        };
-    }
-
-    /////////////////////////////////////// Object ////////////////////////////////////////
+    //////////////////////////////////////// java.lang ////////////////////////////////////////
 
     public static <T> ObjectAssert<?, T> that(T object) {
         return new ObjectAssert<>(object);
     }
 
-    ////////////////////////////////////// Primitive //////////////////////////////////////
+    public static ArrayAssert<?, Boolean> that(boolean[] array) {
+        return that((Boolean[]) ArrayUtils.wrap(array));
+    }
+
+    public static ArrayAssert<?, Byte> that(byte[] array) {
+        return that((Byte[]) ArrayUtils.wrap(array));
+    }
+
+    public static ArrayAssert<?, Short> that(short[] array) {
+        return that((Short[]) ArrayUtils.wrap(array));
+    }
+
+    public static ArrayAssert<?, Character> that(char[] array) {
+        return that((Character[]) ArrayUtils.wrap(array));
+    }
+
+    public static ArrayAssert<?, Integer> that(int[] array) {
+        return that((Integer[]) ArrayUtils.wrap(array));
+    }
+
+    public static ArrayAssert<?, Long> that(long[] array) {
+        return that((Long[]) ArrayUtils.wrap(array));
+    }
+
+    public static ArrayAssert<?, Float> that(float[] array) {
+        return that((Float[]) ArrayUtils.wrap(array));
+    }
+
+    public static ArrayAssert<?, Double> that(double[] array) {
+        return that((Double[]) ArrayUtils.wrap(array));
+    }
+
+    public static <T> ArrayAssert<?, T> that(T[] array) {
+        return new ArrayAssert<>(array);
+    }
 
     public static BooleanAssert<?> that(Boolean bool) {
         return new BooleanAssert<>(bool);
@@ -148,25 +113,25 @@ public abstract class Asserts {
         return new CharacterAssert<>(character);
     }
 
-    /////////////////////////////////////// Number ////////////////////////////////////////
-
-    public static BigDecimalAssert<?> that(BigDecimal number) {
-        return new BigDecimalAssert<>(number);
+    public static FloatAssert<?> that(Float number) {
+        return new FloatAssert<>(number);
     }
 
     public static DoubleAssert<?> that(Double number) {
         return new DoubleAssert<>(number);
     }
 
-    public static FloatAssert<?> that(Float number) {
-        return new FloatAssert<>(number);
-    }
-
     public static <NUMBER extends Number & Comparable<NUMBER>> NumberAssert<?, NUMBER> that(NUMBER number) {
         return new NumberAssert<>(number);
     }
 
-    ///////////////////////////////////// Reflection //////////////////////////////////////
+    public static CharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
+        return new CharSequenceAssert<>(charSequence);
+    }
+
+    public static StringAssert<?> that(String string) {
+        return new StringAssert<>(string);
+    }
 
     public static <T> ClassAssert<?, T> that(Class<T> type) {
         return new ClassAssert<>(type);
@@ -176,7 +141,31 @@ public abstract class Asserts {
         return new PackageAssert<>(pack);
     }
 
-    //////////////////////////////////////// Time /////////////////////////////////////////
+
+    ///////////////////////////////////// java.util //////////////////////////////////////
+
+    public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
+        return new CollectionAssert<>(collection);
+    }
+
+    public static <K, V> MapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
+        return new MapAssert<>(map);
+    }
+
+    //////////////////////////////////// java.io /////////////////////////////////////
+
+    public static AbstractFileAssert<?, File> that(File file) {
+        return new AbstractFileAssert(file) {
+        };
+    }
+
+    /////////////////////////////////////// java.math ////////////////////////////////////////
+
+    public static BigDecimalAssert<?> that(BigDecimal number) {
+        return new BigDecimalAssert<>(number);
+    }
+
+    //////////////////////////////////////// java.time /////////////////////////////////////////
 
     public static InstantAssert<?> that(Instant instant) {
         return new InstantAssert(instant);
@@ -189,6 +178,20 @@ public abstract class Asserts {
     public static YearMonthAssert<?> that(YearMonth yearMonth) {
         return new YearMonthAssert(yearMonth);
     }
+
+    public static LocalTimeAssert<?> that(LocalTime time) {
+        return new LocalTimeAssert<>(time);
+    }
+
+    public static OffsetDateTimeAssert<?> that(OffsetDateTime dateTime) {
+        return new OffsetDateTimeAssert<>(dateTime);
+    }
+
+    public static OffsetTimeAssert<?> that(OffsetTime time) {
+        return new OffsetTimeAssert<>(time);
+    }
+
+    //////////////////////////////////////// java.time.chrono /////////////////////////////////////////
 
     public static AbstractChronoLocalDateAssert<?> that(ChronoLocalDate date) {
         return new AbstractChronoLocalDateAssert(date) {
@@ -203,18 +206,6 @@ public abstract class Asserts {
     public static <DATE extends ChronoLocalDate> AbstractChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
         return new AbstractChronoZonedDateTimeAssert(dateTime) {
         };
-    }
-
-    public static LocalTimeAssert<?> that(LocalTime time) {
-        return new LocalTimeAssert<>(time);
-    }
-
-    public static OffsetDateTimeAssert<?> that(OffsetDateTime dateTime) {
-        return new OffsetDateTimeAssert<>(dateTime);
-    }
-
-    public static OffsetTimeAssert<?> that(OffsetTime time) {
-        return new OffsetTimeAssert<>(time);
     }
 
 }

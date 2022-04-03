@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.map;
+package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
@@ -26,14 +25,14 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractMapAssert<
-        SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>,
+public class MapAssert<
+        SELF extends MapAssert<SELF, ACTUAL, K, V>,
         ACTUAL extends Map<K, V>,
         K,
         V>
         extends ObjectAssert<SELF, ACTUAL> {
 
-    protected AbstractMapAssert(ACTUAL actual) {
+    public MapAssert(ACTUAL actual) {
         super(actual);
     }
 
@@ -139,15 +138,15 @@ public abstract class AbstractMapAssert<
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    public AbstractCollectionAssert<?, Collection<K>, K> asKeySet() {
-        AbstractCollectionAssert<?, Collection<K>, K> assertion = Asserts.that(actual.keySet());
+    public CollectionAssert<?, Collection<K>, K> asKeySet() {
+        CollectionAssert<?, Collection<K>, K> assertion = Asserts.that(actual.keySet());
         Descriptor.merge(this, assertion);
 
         return assertion;
     }
 
-    public AbstractCollectionAssert<?, Collection<V>, V> asValues() {
-        AbstractCollectionAssert<?, Collection<V>, V> assertion = Asserts.that(actual.values());
+    public CollectionAssert<?, Collection<V>, V> asValues() {
+        CollectionAssert<?, Collection<V>, V> assertion = Asserts.that(actual.values());
         Descriptor.merge(this, assertion);
 
         return assertion;

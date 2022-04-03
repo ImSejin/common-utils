@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.collection;
+package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
 import org.junit.jupiter.api.DisplayName;
@@ -26,8 +26,8 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-@DisplayName("AbstractCollectionAssert")
-class AbstractCollectionAssertTest {
+@DisplayName("CollectionAssert")
+class CollectionAssertTest {
 
     @Nested
     @DisplayName("method 'isEmpty'")
@@ -356,7 +356,7 @@ class AbstractCollectionAssertTest {
                 Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e')).containsAll(Arrays.asList('e', 'd', 'c', 'b', 'a'));
                 Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024)).containsAll(new ArrayList<>());
                 Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                        .containsAll(Arrays.asList("imsejin", "github", "common", "collection", "assertion", "io"));
+                        .containsAll(Arrays.asList("imsejin", "github", "common", "util", "assertion", "io"));
             });
         }
 

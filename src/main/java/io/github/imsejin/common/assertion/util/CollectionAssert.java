@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.collection;
+package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
@@ -27,14 +27,14 @@ import io.github.imsejin.common.util.CollectionUtils;
 
 import java.util.*;
 
-public class AbstractCollectionAssert<
-        SELF extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT>,
+public class CollectionAssert<
+        SELF extends CollectionAssert<SELF, ACTUAL, ELEMENT>,
         ACTUAL extends Collection<? extends ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ACTUAL>
         implements IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
-    public AbstractCollectionAssert(ACTUAL target) {
+    public CollectionAssert(ACTUAL target) {
         super(target);
     }
 

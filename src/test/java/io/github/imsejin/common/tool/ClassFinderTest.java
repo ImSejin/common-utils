@@ -17,16 +17,16 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
 import io.github.imsejin.common.assertion.lang.*;
-import io.github.imsejin.common.assertion.map.AbstractMapAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
+import io.github.imsejin.common.assertion.util.CollectionAssert;
+import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -92,7 +92,7 @@ class ClassFinderTest {
                     .isNotEmpty()
                     .doesNotContainNull()
                     .contains(ArrayAssert.class, CharSequenceAssert.class, StringAssert.class,
-                            AbstractCollectionAssert.class, AbstractFileAssert.class, AbstractMapAssert.class,
+                            CollectionAssert.class, AbstractFileAssert.class, MapAssert.class,
                             ObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
                             FloatAssert.class, NumberAssert.class, ClassAssert.class, PackageAssert.class,
                             AbstractChronoLocalDateAssert.class, AbstractChronoLocalDateTimeAssert.class,

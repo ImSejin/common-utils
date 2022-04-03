@@ -42,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 class ConversionTest {
 
     @Nested
-    class AbstractCollectionAssert {
+    class CollectionAssert {
         @Test
         @DisplayName("asArray(): Collection -> Array")
         void asArray() {
@@ -86,7 +86,7 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    class AbstractMapAssert {
+    class MapAssert {
         @Test
         @DisplayName("asKeySet(): Map -> Collection")
         void asKeySet() {
