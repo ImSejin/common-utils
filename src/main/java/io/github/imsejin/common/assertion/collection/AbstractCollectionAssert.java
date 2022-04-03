@@ -22,27 +22,26 @@ import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
+import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
-public abstract class AbstractCollectionAssert<
+public class AbstractCollectionAssert<
         SELF extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT>,
         ACTUAL extends Collection<? extends ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ACTUAL>
         implements IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
-    protected AbstractCollectionAssert(ACTUAL target) {
+    public AbstractCollectionAssert(ACTUAL target) {
         super(target);
     }
 
     @Override
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
@@ -52,7 +51,7 @@ public abstract class AbstractCollectionAssert<
     @Override
     public SELF hasElement() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to have element, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_ELEMENT, actual);
             throw getException();
         }
 
@@ -60,11 +59,21 @@ public abstract class AbstractCollectionAssert<
     }
 
     @Override
+    public SELF containsNull() {
+        for (ELEMENT element : actual) {
+            if (element == null) return self;
+        }
+
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, actual);
+        throw getException();
+    }
+
+    @Override
     public SELF doesNotContainNull() {
         for (ELEMENT element : actual) {
             if (element != null) continue;
 
-            setDefaultDescription("It is expected not to contain null, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, actual);
             throw getException();
         }
 
@@ -104,8 +113,7 @@ public abstract class AbstractCollectionAssert<
     @Override
     public SELF contains(ELEMENT expected) {
         if (!actual.contains(expected)) {
-            setDefaultDescription("It is expected to contain the given element, but it doesn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
             throw getException();
         }
 
@@ -113,8 +121,22 @@ public abstract class AbstractCollectionAssert<
     }
 
     @Override
-    public SELF containsAny(ELEMENT... expected) {
-        if (expected.length == 0) return self;
+    public SELF doesNotContain(ELEMENT expected) {
+        for (ELEMENT element : actual) {
+            if (Objects.deepEquals(element, expected)) {
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN,
+                        ArrayUtils.toString(expected), actual);
+                throw getException();
+            }
+        }
+
+        return self;
+    }
+
+    @Override
+    @SafeVarargs
+    public final SELF containsAny(ELEMENT... expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
 
         for (Object item : expected) {
             for (Object element : actual) {
@@ -133,6 +155,52 @@ public abstract class AbstractCollectionAssert<
         if (!actual.containsAll(expected)) {
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual);
             throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF doesNotContainAll(ACTUAL expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+
+        for (ELEMENT element : expected) {
+            doesNotContain(element);
+        }
+
+        return self;
+    }
+
+    @Override
+    @SafeVarargs
+    public final SELF containsOnly(ELEMENT... expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+
+        // To allow null element, use Set not Map.
+        Set<ELEMENT> expectedSet = new HashSet<>(Arrays.asList(expected));
+        for (ELEMENT element : actual) {
+            if (!expectedSet.contains(element)) {
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY,
+                        Arrays.deepToString(expected), actual);
+                throw getException();
+            }
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF containsOnlyNulls() {
+        if (CollectionUtils.isNullOrEmpty(actual)) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
+            throw getException();
+        }
+
+        for (ELEMENT element : actual) {
+            if (element != null) {
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
+                throw getException();
+            }
         }
 
         return self;

@@ -22,7 +22,9 @@ import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class ArrayAssert<
         SELF extends ArrayAssert<SELF, ELEMENT>,
@@ -77,8 +79,18 @@ public class ArrayAssert<
     }
 
     @Override
+    public SELF containsNull() {
+        for (ELEMENT element : actual) {
+            if (element == null) return self;
+        }
+
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, Arrays.deepToString(actual));
+        throw getException();
+    }
+
+    @Override
     public SELF doesNotContainNull() {
-        for (Object element : actual) {
+        for (ELEMENT element : actual) {
             if (element != null) continue;
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, Arrays.deepToString(actual));
@@ -120,7 +132,7 @@ public class ArrayAssert<
 
     @Override
     public SELF contains(ELEMENT expected) {
-        for (Object element : actual) {
+        for (ELEMENT element : actual) {
             if (Objects.deepEquals(element, expected)) return self;
         }
 
@@ -129,22 +141,34 @@ public class ArrayAssert<
         throw getException();
     }
 
+    @Override
+    public SELF doesNotContain(ELEMENT expected) {
+        for (ELEMENT element : actual) {
+            if (Objects.deepEquals(element, expected)) {
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN,
+                        ArrayUtils.toString(expected), Arrays.deepToString(actual));
+                throw getException();
+            }
+        }
+
+        return self;
+    }
+
     /**
      * Verifies this contains the given elements at least 1.
      * <p>
      * This is faster about 10% than the below code.
      *
-     * <pre><code>
+     * <pre>{@code
      *     if (expected.length == 0) return self;
-     *     if (actual.length == 0 &amp;&amp; expected.length == 0) return self;
      *
      *     if (!IntStream.range(0, Math.min(actual.length, expected.length))
-     *             .anyMatch(i -&gt; Objects.deepEquals(actual[i], expected[i]))) {
+     *             .anyMatch(i -> Objects.deepEquals(actual[i], expected[i]))) {
      *         throw getException();
      *     }
      *
      *     return self;
-     * </code></pre>
+     * }</pre>
      *
      * @param expected expected values
      * @return self
@@ -152,7 +176,7 @@ public class ArrayAssert<
     @Override
     @SafeVarargs
     public final SELF containsAny(ELEMENT... expected) {
-        if (expected.length == 0) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
 
         for (ELEMENT item : expected) {
             for (ELEMENT element : actual) {
@@ -171,6 +195,52 @@ public class ArrayAssert<
 
         for (ELEMENT element : expected) {
             contains(element);
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF doesNotContainAll(ELEMENT[] expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+
+        for (ELEMENT element : expected) {
+            doesNotContain(element);
+        }
+
+        return self;
+    }
+
+    @Override
+    @SafeVarargs
+    public final SELF containsOnly(ELEMENT... expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+
+        // To allow null element, use Set not Map.
+        Set<ELEMENT> expectedSet = new HashSet<>(Arrays.asList(expected));
+        for (ELEMENT element : actual) {
+            if (!expectedSet.contains(element)) {
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY,
+                        Arrays.deepToString(expected), Arrays.deepToString(actual));
+                throw getException();
+            }
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF containsOnlyNulls() {
+        if (ArrayUtils.isNullOrEmpty(actual)) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, Arrays.deepToString(actual));
+            throw getException();
+        }
+
+        for (ELEMENT element : actual) {
+            if (element != null) {
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, Arrays.deepToString(actual));
+                throw getException();
+            }
         }
 
         return self;
