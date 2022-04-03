@@ -25,8 +25,8 @@ import java.time.temporal.TemporalField;
 
 /**
  * Abstract temporal assertion
- * <p>
- * Unlike {@link io.github.imsejin.common.assertion.Asserts#that(Number)},
+ *
+ * <p> Unlike {@link io.github.imsejin.common.assertion.Asserts#that(Number)},
  * implementations of {@link Temporal} are limited to comparison by
  * {@link java.time.temporal.TemporalAccessor#isSupported(TemporalField)}.
  *

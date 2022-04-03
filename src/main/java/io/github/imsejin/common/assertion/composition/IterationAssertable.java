@@ -21,8 +21,8 @@ import io.github.imsejin.common.assertion.lang.ObjectAssert;
 /**
  * Composition of assertion for iteration.
  *
- * @param <SELF>    Assertion class
- * @param <ACTUAL>  instance that can iterate
+ * @param <SELF>    assertion class
+ * @param <ACTUAL>  type that can iterate
  * @param <ELEMENT> element that {@link ACTUAL} has
  * @see java.lang.reflect.Array
  * @see Iterable

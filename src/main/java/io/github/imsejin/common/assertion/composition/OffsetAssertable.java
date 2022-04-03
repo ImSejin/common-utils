@@ -26,7 +26,9 @@ import java.time.temporal.TemporalAdjuster;
 /**
  * Composition of assertion for offset.
  *
- * @param <SELF> Assertion class
+ * @param <SELF>   assertion class
+ * @param <ACTUAL> type that implements interfaces {@link Temporal},
+ *                 {@link TemporalAdjuster}, {@link Comparable} and {@link Serializable}
  */
 public interface OffsetAssertable<
         SELF extends ObjectAssert<SELF, ACTUAL>,

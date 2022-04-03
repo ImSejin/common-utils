@@ -24,7 +24,9 @@ import java.time.temporal.TemporalAdjuster;
 /**
  * Composition of assertion for year.
  *
- * @param <SELF> Assertion class
+ * @param <SELF>   assertion class
+ * @param <ACTUAL> type that implements interfaces {@link Temporal},
+ *                 {@link TemporalAdjuster} and {@link Comparable}
  */
 public interface YearAssertable<
         SELF extends AbstractTemporalAssert<SELF, ACTUAL>,
