@@ -25,14 +25,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 /**
  * Reflection utilities
  */
 public final class ReflectionUtils {
-
-    private static final Pattern OUTER_CLASS_REF_PATTERN = Pattern.compile("^this\\$[0-9]+$");
 
     @ExcludeFromGeneratedJacocoReport
     private ReflectionUtils() {
@@ -41,6 +38,8 @@ public final class ReflectionUtils {
 
     /**
      * Gets fields of the type including its inherited fields.
+     *
+     * <p> Excludes static fields and synthetic fields.
      *
      * @param type type of the object
      * @return inherited and own fields (non-static)
@@ -55,17 +54,13 @@ public final class ReflectionUtils {
             fields.addAll(0, Arrays.asList(clazz.getDeclaredFields()));
         }
 
-        // Removes static fields.
+        // Removes static fields; Static member is not a target of extension.
         Predicate<Field> filter = it -> Modifier.isStatic(it.getModifiers());
 
-        // Removes the fields for reference to outer class when a type is non-static.
-        // e.g. this$0, this$1, ...
-        filter = filter.or(it -> Modifier.isFinal(it.getModifiers()) &&
-                OUTER_CLASS_REF_PATTERN.matcher(it.getName()).matches());
-
-        // Removes internal field for meta-programming in groovy class.
-        filter = filter.or(it -> Modifier.isTransient(it.getModifiers()) &&
-                it.getType().getName().equals("groovy.lang.MetaClass"));
+        // Removes the synthetic fields; Only includes user-defined fields.
+        // 1. Reference in non-static nested class to its enclosing class. (this$0, this$1, ...)
+        // 2. Field(groovy.lang.MetaClass metaClass) for meta-programming in groovy class.
+        filter = filter.or(Field::isSynthetic);
 
         fields.removeIf(filter);
 
