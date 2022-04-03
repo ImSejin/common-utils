@@ -33,16 +33,16 @@ public class NumberAssert<
     @SuppressWarnings("unchecked")
     public NumberAssert(NUMBER actual) {
         super(actual);
-        this.zero = toNumber((NUMBER) Integer.valueOf(0), (Class<NUMBER>) actual.getClass());
+        this.zero = toNumber((NUMBER) BigInteger.ZERO, (Class<NUMBER>) actual.getClass());
     }
 
     /**
-     * Converts a number to the given type.
+     * Converts as instance whose type is subclass of {@link Number} to the given type.
      *
      * @param number     number to be converted
      * @param numberType type of number
      * @return converted number
-     * @throws UnsupportedOperationException if numberType is unsupported
+     * @throws UnsupportedOperationException if {@code numberType} is unsupported
      */
     @SuppressWarnings("unchecked")
     private static <N extends Number & Comparable<? extends Number>> N toNumber(N number, Class<N> numberType) {
