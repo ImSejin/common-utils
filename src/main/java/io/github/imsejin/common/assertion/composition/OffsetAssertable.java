@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.time;
+package io.github.imsejin.common.assertion.composition;
 
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
+import java.io.Serializable;
 import java.time.ZoneOffset;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAdjuster;
 
-public interface OffsetAssertion<SELF extends ObjectAssert<SELF, ?>> {
+/**
+ * Composition of assertion for offset.
+ *
+ * @param <SELF> Assertion class
+ */
+public interface OffsetAssertable<
+        SELF extends ObjectAssert<SELF, ACTUAL>,
+        ACTUAL extends Temporal & TemporalAdjuster & Comparable<ACTUAL> & Serializable> {
 
     SELF isSameOffset(ZoneOffset expected);
 

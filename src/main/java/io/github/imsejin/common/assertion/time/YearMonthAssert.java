@@ -16,13 +16,14 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import io.github.imsejin.common.assertion.composition.YearAssertable;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.YearMonth;
 
 public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
         extends AbstractTemporalAssert<SELF, YearMonth>
-        implements YearAssertion<SELF> {
+        implements YearAssertable<SELF, YearMonth> {
 
     public YearMonthAssert(YearMonth actual) {
         super(actual);
@@ -31,7 +32,7 @@ public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
     @Override
     public SELF isLeapYear() {
         if (!actual.isLeapYear()) {
-            setDefaultDescription(YearAssertion.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
             throw getException();
         }
 
@@ -41,7 +42,7 @@ public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
     @Override
     public SELF isNotLeapYear() {
         if (actual.isLeapYear()) {
-            setDefaultDescription(YearAssertion.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
             throw getException();
         }
 
