@@ -507,7 +507,7 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain all the given elements")
         void test1() {
-            String description = "It is expected to contain the given elements, but it doesn't.";
+            String description = "It is expected to contain at least one of the given element(s), but it doesn't.";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).containsAny(null, '\u0000'))

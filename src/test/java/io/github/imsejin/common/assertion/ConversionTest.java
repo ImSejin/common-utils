@@ -53,13 +53,14 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(collection).hasSizeOf(count)
-                    .asArray().hasElement().hasLengthOf(count).contains("github")
+                    .asArray().hasLengthOf(count).containsOnly(Arrays.stream(packageName.split("\\."))
+                            .sorted(Collections.reverseOrder()).toArray(String[]::new))
                     .containsAny("java", "lang", "imsejin").containsAll(new String[0]));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(collection)
                             .as("Description of assertion: {0}", collection)
                             .exception(RuntimeException::new).hasElement()
-                            .asArray().isEmpty())
+                            .asArray().isNotSameLength(new Object[0]).containsNull())
                     .withMessage("Description of assertion: " + collection);
         }
 
@@ -221,7 +222,7 @@ class ConversionTest {
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(clazz).isNotNull()
                     .asPackage().isNotNull().isSubPackageOf(Asserts.class.getPackage())
-                    .returns("io.github.imsejin.common.assertion.object", Package::getName));
+                    .returns("io.github.imsejin.common.assertion.lang", Package::getName));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(clazz)
                             .as("Description of assertion")
@@ -243,7 +244,7 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(pack).isNotNull()
-                    .asName().returns("io/github/imsejin/common/assertion/reflect", it -> it.replace('.', '/')));
+                    .asName().returns("io/github/imsejin/common/assertion/lang", it -> it.replace('.', '/')));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(pack)
                             .as("Description of assertion: {0}", pack)
@@ -540,7 +541,8 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(array)
-                    .isNotNull().doesNotContainNull().hasElement()
+                    .isNotNull().doesNotContainNull().hasElement().doesNotContainAll(new String[]{"A", "B", "C", "D"})
+                    .predicate(them -> Arrays.stream(them).allMatch(it -> Character.isLowerCase(it.charAt(0))))
                     .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(4));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(array)
