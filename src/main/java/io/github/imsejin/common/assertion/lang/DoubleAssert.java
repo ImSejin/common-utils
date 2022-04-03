@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.primitive;
+package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
-public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SELF, Float>
-        implements DecimalNumberAssertable<SELF, Float> {
+public class DoubleAssert<SELF extends DoubleAssert<SELF>> extends NumberAssert<SELF, Double>
+        implements DecimalNumberAssertable<SELF, Double> {
 
-    public FloatAssert(Float actual) {
+    public DoubleAssert(Double actual) {
         super(actual);
     }
 

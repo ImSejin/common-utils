@@ -18,7 +18,6 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.util.ClassUtils;
 
 import java.util.Objects;

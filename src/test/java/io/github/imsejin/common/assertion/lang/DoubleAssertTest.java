@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.primitive;
+package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import org.junit.jupiter.api.DisplayName;
@@ -34,10 +34,10 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("FloatAssert")
-class FloatAssertTest {
+@DisplayName("DoubleAssert")
+class DoubleAssertTest {
 
-    private static final String FQCN = "io.github.imsejin.common.assertion.primitive.FloatAssertTest";
+    private static final String FQCN = "io.github.imsejin.common.assertion.lang.DoubleAssertTest";
     private static final String EQUALITY = FQCN + "#equality";
     private static final String NON_EQUALITY = FQCN + "#nonEquality";
 
@@ -47,7 +47,7 @@ class FloatAssertTest {
         @ParameterizedTest
         @MethodSource(EQUALITY)
         @DisplayName("passes, when actual is equal to other")
-        void test0(float actual, float expected) {
+        void test0(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .doesNotThrowAnyException();
         }
@@ -55,7 +55,7 @@ class FloatAssertTest {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
         @DisplayName("throws exception, when actual is not equal to other")
-        void test1(float actual, float expected) {
+        void test1(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -69,7 +69,7 @@ class FloatAssertTest {
         @ParameterizedTest
         @MethodSource(NON_EQUALITY)
         @DisplayName("passes, when actual is not equal to other")
-        void test0(float actual, float expected) {
+        void test0(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .doesNotThrowAnyException();
         }
@@ -77,7 +77,7 @@ class FloatAssertTest {
         @ParameterizedTest
         @MethodSource(EQUALITY)
         @DisplayName("throws exception, when actual is equal to other")
-        void test1(float actual, float expected) {
+        void test1(double actual, double expected) {
             assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -92,12 +92,12 @@ class FloatAssertTest {
         @DisplayName("passes, when actual is greater than other")
         void test0() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put(1.1F, (float) Character.valueOf('\u0000'));
-            map.put(1.024F, -1.024F);
-            map.put(Float.valueOf(32), 31F);
-            map.put(Float.MAX_VALUE, 0F);
-            map.put(0F, -Float.MAX_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(1.1D, (double) Character.valueOf('\u0000'));
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(32), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
@@ -108,12 +108,12 @@ class FloatAssertTest {
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put((float) Character.valueOf('\u0000'), 0F);
-            map.put(-1.024F, 1.024F);
-            map.put(31F, Float.valueOf(31));
-            map.put(0F, Float.MAX_VALUE);
-            map.put(-Float.MAX_VALUE, 0F);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), 0D);
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(31));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
@@ -130,12 +130,12 @@ class FloatAssertTest {
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put(1.14F, (float) Character.valueOf('\u0000'));
-            map.put(1.024F, -1.024F);
-            map.put(Float.valueOf(31), 31F);
-            map.put(Float.MAX_VALUE, 0F);
-            map.put(0F, -Float.MAX_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(1.14D, (double) Character.valueOf('\u0000'));
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(31), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
@@ -146,12 +146,12 @@ class FloatAssertTest {
         @DisplayName("throws exception, when actual is less than other")
         void test1() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put(-1.16F, (float) Character.valueOf('\u0000'));
-            map.put(-1.024F, 1.024F);
-            map.put(31F, Float.valueOf(32));
-            map.put(0F, Float.MAX_VALUE);
-            map.put(-Float.MAX_VALUE, 0F);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(-1.16D, (double) Character.valueOf('\u0000'));
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(32));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
@@ -168,12 +168,12 @@ class FloatAssertTest {
         @DisplayName("passes, when actual is less than other")
         void test0() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put((float) Character.valueOf('\u0000'), 1.141F);
-            map.put(-1.024F, 1.024F);
-            map.put(31F, Float.valueOf(32));
-            map.put(0F, Float.MAX_VALUE);
-            map.put(-Float.MAX_VALUE, 0F);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), 1.141D);
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(32));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
@@ -184,12 +184,12 @@ class FloatAssertTest {
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put(1.99F, (float) Character.valueOf('\u0000'));
-            map.put(1.024F, -1.024F);
-            map.put(Float.valueOf(31), 31F);
-            map.put(Float.MAX_VALUE, 0F);
-            map.put(0F, -Float.MAX_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put(1.99D, (double) Character.valueOf('\u0000'));
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(31), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
@@ -206,12 +206,12 @@ class FloatAssertTest {
         @DisplayName("passes, when actual is less than or equal to other")
         void test0() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put((float) Character.valueOf('\u0000'), 1.0F);
-            map.put(-1.024F, 1.024F);
-            map.put(31F, Float.valueOf(31));
-            map.put(0F, Float.MAX_VALUE);
-            map.put(-Float.MAX_VALUE, 0F);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), 1.0D);
+            map.put(-1.024D, 1.024D);
+            map.put(31D, Double.valueOf(31));
+            map.put(0D, Double.MAX_VALUE);
+            map.put(-Double.MAX_VALUE, 0D);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
@@ -222,12 +222,12 @@ class FloatAssertTest {
         @DisplayName("throws exception, when actual is greater than other")
         void test1() {
             // given
-            Map<Float, Float> map = new HashMap<>();
-            map.put((float) Character.valueOf('\u0000'), -1.001F);
-            map.put(1.024F, -1.024F);
-            map.put(Float.valueOf(32), 31F);
-            map.put(Float.MAX_VALUE, 0F);
-            map.put(0F, -Float.MAX_VALUE);
+            Map<Double, Double> map = new HashMap<>();
+            map.put((double) Character.valueOf('\u0000'), -1.001D);
+            map.put(1.024D, -1.024D);
+            map.put(Double.valueOf(32), 31D);
+            map.put(Double.MAX_VALUE, 0D);
+            map.put(0D, -Double.MAX_VALUE);
 
             // except
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
@@ -241,17 +241,17 @@ class FloatAssertTest {
     @DisplayName("method 'isPositive'")
     class IsPositive {
         @ParameterizedTest
-        @ValueSource(floats = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
+        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("passes, when actual is positive")
-        void test0(float actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(floats = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
+        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is zero or negative")
-        void test1(float actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -263,17 +263,17 @@ class FloatAssertTest {
     @DisplayName("method 'isZeroOrPositive'")
     class IsZeroOrPositive {
         @ParameterizedTest
-        @ValueSource(floats = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
+        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("passes, when actual is zero or positive")
-        void test0(float actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(floats = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
+        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is negative")
-        void test1(float actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -285,17 +285,17 @@ class FloatAssertTest {
     @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
-        @ValueSource(floats = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
+        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("passes, when actual is negative")
-        void test0(float actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(floats = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
+        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is zero or positive")
-        void test1(float actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -307,17 +307,17 @@ class FloatAssertTest {
     @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
-        @ValueSource(floats = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE})
+        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
         @DisplayName("passes, when actual is zero or negative")
-        void test0(float actual) {
+        void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .doesNotThrowAnyException();
         }
 
         @ParameterizedTest
-        @ValueSource(floats = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE})
+        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is positive")
-        void test1(float actual) {
+        void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }
@@ -331,29 +331,30 @@ class FloatAssertTest {
         @Test
         @DisplayName("passes, when actual is between x and y inclusively")
         void test0() {
-            new Random().doubles(-100, 50).limit(10_000).mapToObj(n -> (float) n)
+            new Random().doubles(-100, 50).limit(10_000)
                     .forEach(n -> assertThatNoException().isThrownBy(() -> {
                         Asserts.that(n).isBetween(n, n);
-                        Asserts.that(n).isBetween(n, n + 0.1F);
-                        Asserts.that(n).isBetween(n - 0.1F, n);
-                        Asserts.that(n).isBetween(n - 0.1F, n + 0.1F);
+                        Asserts.that(n).isBetween(n, n + 0.1);
+                        Asserts.that(n).isBetween(n - 0.1, n);
+                        Asserts.that(n).isBetween(n - 0.1, n + 0.1);
                     }));
         }
+
 
         @Test
         @DisplayName("throws exception, when actual is not between x and y inclusively")
         void test1() {
             // given
-            List<Float> floats = new Random().doubles(-100, 50)
-                    .limit(10_000).mapToObj(n -> (float) n).collect(toList());
+            List<Double> doubles = new Random().doubles(-100, 50)
+                    .limit(10_000).boxed().collect(toList());
 
             // except
-            floats.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1F)));
-            floats.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1F, n)));
-            floats.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1F, n - 0.1F)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1, n)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isBetween(n + 0.1, n - 0.1)));
         }
     }
 
@@ -366,26 +367,26 @@ class FloatAssertTest {
         @DisplayName("passes, when actual is between x and y exclusively")
         void test0() {
             new Random().doubles(-100, 50)
-                    .limit(10_000).mapToObj(n -> (float) n).forEach(n -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n + 0.1F)));
+                    .limit(10_000).forEach(n -> assertThatNoException()
+                            .isThrownBy(() -> Asserts.that(n).as("{0} < {1} < {2}", n - 1, n, n + 1).isStrictlyBetween(n - 1, n + 1)));
         }
 
         @Test
         @DisplayName("throws exception, when actual is not between x and y exclusively")
         void test1() {
             // given
-            List<Float> floats = new Random().doubles(-100, 50)
-                    .limit(10_000).mapToObj(n -> (float) n).collect(toList());
+            List<Double> doubles = new Random().doubles(-100, 50)
+                    .limit(10_000).boxed().collect(toList());
 
             // except
-            floats.forEach(n -> assertThatIllegalArgumentException()
+            doubles.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
-            floats.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n + 0.1F)));
-            floats.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n)));
-            floats.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n + 0.1F, n - 0.1F)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n + 0.1)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1, n)));
+            doubles.forEach(n -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n + 0.1, n - 0.1)));
         }
     }
 
@@ -398,24 +399,24 @@ class FloatAssertTest {
         @DisplayName("passes, when actual is close to other")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MAX_VALUE, 0);
-                Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MAX_VALUE * 0.9F, 10.001);
-                Asserts.that(123_456_789.012F).isCloseTo(98_765.432F, 99.93);
-                Asserts.that(1024.0F).isCloseTo(32.0F, 96.875);
-                Asserts.that(100.05F).isCloseTo(93.99F, 7.01);
-                Asserts.that(64.0F).isCloseTo(16.0F, 75);
-                Asserts.that(5.0F).isCloseTo(4.5F, 12.5);
-                Asserts.that((float) Math.PI).isCloseTo((float) Math.PI, Float.MIN_VALUE);
-                Asserts.that((float) Math.sqrt(2)).isCloseTo(1.414213F, 4.3E-5);
-                Asserts.that((float) -Math.PI).isCloseTo(-3.141592F, 2.3E-5);
-                Asserts.that(-5.0F).isCloseTo(-4.0F, 20);
-                Asserts.that(-5.0F).isCloseTo(-4.5F, 10);
-                Asserts.that(-33.701F).isCloseTo(-3.64F, 90.91);
-                Asserts.that(-100.0F).isCloseTo(-125.0F, 25);
-                Asserts.that(-500.0F).isCloseTo(-499.3F, 0.2);
-                Asserts.that(-87_654_321.098F).isCloseTo(-12_345.678F, 99.986);
-                Asserts.that(4.9E-30F).isCloseTo(4.8E-30F, 2.05);
-                Asserts.that(Float.MIN_VALUE).isCloseTo(Float.MIN_VALUE, 0);
+                Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MAX_VALUE, 0);
+                Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MAX_VALUE * 0.9, 10);
+                Asserts.that(123_456_789.012).isCloseTo(98_765.432, 99.93);
+                Asserts.that(1024.0).isCloseTo(32.0, 96.875);
+                Asserts.that(100.05).isCloseTo(93.99, 7.01);
+                Asserts.that(64.0).isCloseTo(16.0, 75);
+                Asserts.that(5.0).isCloseTo(4.5, 12.5);
+                Asserts.that(Math.PI).isCloseTo(Math.PI, Double.MIN_VALUE);
+                Asserts.that(Math.sqrt(2)).isCloseTo(1.414213, 4.0E-5);
+                Asserts.that(-Math.PI).isCloseTo(-3.141592, 2.1E-5);
+                Asserts.that(-5.0).isCloseTo(-4.0, 20);
+                Asserts.that(-5.0).isCloseTo(-4.5, 10);
+                Asserts.that(-33.701).isCloseTo(-3.64, 90.91);
+                Asserts.that(-100.0).isCloseTo(-125.0, 25);
+                Asserts.that(-500.0).isCloseTo(-499.3, 0.2);
+                Asserts.that(-87_654_321.098).isCloseTo(-12_345.678, 99.986);
+                Asserts.that(4.9E-200).isCloseTo(4.8E-200, 2.05);
+                Asserts.that(Double.MIN_VALUE).isCloseTo(Double.MIN_VALUE, 0);
             });
         }
 
@@ -425,46 +426,46 @@ class FloatAssertTest {
             String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
 
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(36.5F).isCloseTo(null, 15))
+                    .isThrownBy(() -> Asserts.that(36.5).isCloseTo(null, 15))
                     .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MAX_VALUE * 0.9F, 10))
+                    .isThrownBy(() -> Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MAX_VALUE * 0.9, 9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Float.MAX_VALUE).isCloseTo(Float.MIN_VALUE, 99.9))
+                    .isThrownBy(() -> Asserts.that(Double.MAX_VALUE).isCloseTo(Double.MIN_VALUE, 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(64.01F).isCloseTo(32.01F, 49.9))
+                    .isThrownBy(() -> Asserts.that(64.01).isCloseTo(32.01, 49.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(1.0F).isCloseTo(0.0F, 99.9))
+                    .isThrownBy(() -> Asserts.that(1.0).isCloseTo(0.0, 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(-1.0F).isCloseTo(0.0F, 99.9))
+                    .isThrownBy(() -> Asserts.that(-1.0).isCloseTo(0.0, 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(-20.6F).isCloseTo(-15.0F, 10))
+                    .isThrownBy(() -> Asserts.that(-20.6).isCloseTo(-15.0, 10))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(4.9E-30F).isCloseTo(4.8E-30F, 2))
+                    .isThrownBy(() -> Asserts.that(4.9E-200).isCloseTo(4.8E-200, 2))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Float.NaN).isCloseTo(0.0F, 99.9))
+                    .isThrownBy(() -> Asserts.that(Double.NaN).isCloseTo(0.0, 99.9))
                     .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: 'NaN')");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Float.NEGATIVE_INFINITY).isCloseTo(0.0F, 99.9))
+                    .isThrownBy(() -> Asserts.that(Double.NEGATIVE_INFINITY).isCloseTo(0.0, 99.9))
                     .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: '-Infinity')");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Float.POSITIVE_INFINITY).isCloseTo(0.1F, 99.9))
+                    .isThrownBy(() -> Asserts.that(Double.POSITIVE_INFINITY).isCloseTo(0.1, 99.9))
                     .withMessage("It is expected to close to other, but it isn't. (expected: '0.1', actual: 'Infinity')");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Float.MIN_VALUE).isCloseTo(Float.MAX_VALUE, 99.9))
-                    .withMessageMatching(regex);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(1.0F, 99.9))
+                    .isThrownBy(() -> Asserts.that(Double.MIN_VALUE).isCloseTo(Double.MAX_VALUE, 99.9))
                     .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(-1.0F, 99.9))
+                    .isThrownBy(() -> Asserts.that(0.0).isCloseTo(1.0, 99.9))
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(0.0).isCloseTo(-1.0, 99.9))
                     .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
         }
     }
@@ -475,20 +476,22 @@ class FloatAssertTest {
     @DisplayName("method 'hasDecimalPart'")
     class HasDecimalPart {
         @ParameterizedTest
-        @ValueSource(floats = {
-                -123.456F, -0.123456F, -Float.MIN_VALUE, Float.MIN_VALUE, 0.123456F, 123.456F
+        @ValueSource(doubles = {
+                -123.456, -0.123456, -Float.MIN_VALUE, -Double.MIN_VALUE,
+                Double.MIN_VALUE, Float.MIN_VALUE, 0.123456, 123.456,
         })
         @DisplayName("passes, when actual has decimal part")
-        void test0(float actual) {
+        void test0(double actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).hasDecimalPart());
         }
 
         @ParameterizedTest
-        @ValueSource(floats = {
-                -123456.0F, -Float.MAX_VALUE, 0, Float.MAX_VALUE, 1.0F, 123456.0F
+        @ValueSource(doubles = {
+                -123456.0, -Float.MAX_VALUE, -Double.MAX_VALUE, 0,
+                Double.MAX_VALUE, Float.MAX_VALUE, 1.0, 123456.0,
         })
         @DisplayName("throws exception, when actual doesn't have decimal part")
-        void test1(float actual) {
+        void test1(double actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).hasDecimalPart())
                     .withMessageStartingWith("It is expected to have decimal part, but it isn't.");
@@ -498,23 +501,23 @@ class FloatAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     private static Stream<Arguments> equality() {
-        Map<Float, Float> map = new HashMap<>();
-        map.put((float) Character.valueOf('\u0000'), 0F);
-        map.put(-1.024F, 1.024F * -1);
-        map.put(31F, Float.valueOf(31));
-        map.put(Float.MIN_VALUE, Float.MIN_VALUE);
-        map.put(Float.MAX_VALUE, Float.MAX_VALUE);
+        Map<Double, Double> map = new HashMap<>();
+        map.put((double) Character.valueOf('\u0000'), 0D);
+        map.put(-1.024D, 1.024D * -1);
+        map.put(31D, Double.valueOf(31));
+        map.put(Double.MIN_VALUE, Double.MIN_VALUE);
+        map.put(Double.MAX_VALUE, Double.MAX_VALUE);
 
         return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }
 
     private static Stream<Arguments> nonEquality() {
-        Map<Float, Float> map = new HashMap<>();
-        map.put((float) Character.valueOf('a'), 0F);
-        map.put(1.024F, -1.024F);
-        map.put(31F, (float) (31 >> 7));
-        map.put(Float.MIN_VALUE, -3.4028235E38F);
-        map.put(Float.MAX_VALUE, 1.4E-45F);
+        Map<Double, Double> map = new HashMap<>();
+        map.put((double) Character.valueOf('a'), 0D);
+        map.put(1.024D, -1.024D);
+        map.put(31D, (double) (31 >> 7));
+        map.put(Double.MIN_VALUE, -1.7976931348623157E308D);
+        map.put(Double.MAX_VALUE, 4.9E-324D);
 
         return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }

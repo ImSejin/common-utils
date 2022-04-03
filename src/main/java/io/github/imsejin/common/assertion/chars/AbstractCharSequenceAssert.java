@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.chars;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
-import io.github.imsejin.common.assertion.primitive.NumberAssert;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 
 public abstract class AbstractCharSequenceAssert<
         SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>,

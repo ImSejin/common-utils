@@ -19,8 +19,8 @@ package io.github.imsejin.common.assertion.map;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
-import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
 import java.util.Collection;
 import java.util.Map;

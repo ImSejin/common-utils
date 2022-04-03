@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.math;
 
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
-import io.github.imsejin.common.assertion.primitive.NumberAssert;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.util.NumberUtils;
 
 import java.math.BigDecimal;

@@ -18,9 +18,9 @@ package io.github.imsejin.common.assertion.collection;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.array.ArrayAssert;
+import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
-import io.github.imsejin.common.assertion.primitive.NumberAssert;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 

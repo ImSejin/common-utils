@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.primitive;
+package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayName("CharacterAssert")
 class CharacterAssertTest {
 
-    private static final String FQCN = "io.github.imsejin.common.assertion.primitive.CharacterAssertTest";
+    private static final String FQCN = "io.github.imsejin.common.assertion.lang.CharacterAssertTest";
     private static final String EQUALITY = FQCN + "#equality";
     private static final String NON_EQUALITY = FQCN + "#nonEquality";
 
