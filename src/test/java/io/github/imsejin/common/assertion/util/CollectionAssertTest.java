@@ -341,7 +341,7 @@ class CollectionAssertTest {
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                            .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect"))
+                            .containsAny("java", "net", "concurrent", "atomic", "lang", "reflect"))
                     .withMessageStartingWith(description);
         }
     }
