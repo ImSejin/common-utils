@@ -17,7 +17,7 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.reflect.ClassAssert;
+import io.github.imsejin.common.assertion.lang.ClassAssert;
 import lombok.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

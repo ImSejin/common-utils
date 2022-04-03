@@ -239,7 +239,7 @@ class ConversionTest {
         @DisplayName("asName(): Package -> String")
         void asName() {
             // given
-            Package pack = io.github.imsejin.common.assertion.reflect.ClassAssert.class.getPackage();
+            Package pack = io.github.imsejin.common.assertion.lang.ClassAssert.class.getPackage();
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(pack).isNotNull()
