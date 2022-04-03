@@ -16,6 +16,9 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.LocalTime;
@@ -65,6 +68,22 @@ public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
 
     public SELF isAfterOrEqualToNoon() {
         return isAfterOrEqualTo(LocalTime.NOON);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public NumberAssert<?, Integer> asSecondOfDay() {
+        NumberAssert<?, Integer> assertion = Asserts.that(actual.toSecondOfDay());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
+    }
+
+    public NumberAssert<?, Long> asNanoOfDay() {
+        NumberAssert<?, Long> assertion = Asserts.that(actual.toNanoOfDay());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }
