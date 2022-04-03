@@ -474,7 +474,7 @@ class ArrayAssertTest {
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).contains('f'))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).contains(1024L))
+                    .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).contains(1023))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\.")).contains(""))
@@ -495,12 +495,12 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual contains the given elements at least 1")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new Character[]{'a', 'b', 'c', 'd', 'e', null}).containsAny(null);
-                Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAny(null, 1024L, -1);
+                Asserts.that(new Character[]{'a', 'b', 'c', 'd', 'e', null}).containsAny();
+                Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAny(null, 1023, -1);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect", "common");
                 Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                        .containsAny("c", new String[]{"n"}, "ut", new String[]{"ti", "s"});
+                        .containsAny(new String[]{"c"}, new String[]{"n"}, new String[]{"ut"}, new String[]{"ti", "s"});
             });
         }
 
@@ -513,15 +513,15 @@ class ArrayAssertTest {
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).containsAny(null, '\u0000'))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAny(0L))
+                    .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAny(10))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                            .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect"))
+                            .containsAny("java", "util", "concurrent", "atomic", "package", "reflect"))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                            .containsAny(new String[]{"c"}, new String[]{"n", "ut"}, "tie", "s"))
+                            .containsAny(new String[]{"c"}, new String[]{"n", "ut"}, new String[]{"tie"}, new String[]{"s"}))
                     .withMessageStartingWith(description);
         }
     }
@@ -538,7 +538,7 @@ class ArrayAssertTest {
                 Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).containsAll(new Character[]{'e', 'd', 'c', 'b', 'a'});
                 Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAll(new Integer[0]);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
-                        .containsAll(new String[]{"imsejin", "github", "common", "array", "assertion", "io"});
+                        .containsAll(new String[]{"imsejin", "github", "common", "assertion", "lang"});
                 Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
                         .containsAll(new String[][]{{"n"}, {"ut", "i", "li"}, {"tie", "s"}});
             });
@@ -555,7 +555,7 @@ class ArrayAssertTest {
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
-                            .containsAll(new Long[]{-1024L, -1L, 0L, 1L, 1024L}))
+                            .containsAll(new Integer[]{-1024, -1, 0, 1, 1023}))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))

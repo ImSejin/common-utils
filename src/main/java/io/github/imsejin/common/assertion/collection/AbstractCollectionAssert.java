@@ -18,10 +18,10 @@ package io.github.imsejin.common.assertion.collection;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
-import io.github.imsejin.common.util.ArrayUtils;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.CollectionUtils;
 
 import java.util.Arrays;
@@ -29,15 +29,17 @@ import java.util.Collection;
 import java.util.Objects;
 
 public abstract class AbstractCollectionAssert<
-        SELF extends AbstractCollectionAssert<SELF, ACTUAL, T>,
-        ACTUAL extends Collection<T>,
-        T>
-        extends ObjectAssert<SELF, ACTUAL> {
+        SELF extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT>,
+        ACTUAL extends Collection<? extends ELEMENT>,
+        ELEMENT>
+        extends ObjectAssert<SELF, ACTUAL>
+        implements IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
     protected AbstractCollectionAssert(ACTUAL target) {
         super(target);
     }
 
+    @Override
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
             setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')", actual);
@@ -47,6 +49,7 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
+    @Override
     public SELF hasElement() {
         if (actual.isEmpty()) {
             setDefaultDescription("It is expected to have element, but it isn't. (actual: '{0}')", actual);
@@ -56,8 +59,9 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
+    @Override
     public SELF doesNotContainNull() {
-        for (T element : actual) {
+        for (ELEMENT element : actual) {
             if (element != null) continue;
 
             setDefaultDescription("It is expected not to contain null, but it isn't. (actual: '{0}')", actual);
@@ -97,7 +101,8 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
-    public SELF contains(T expected) {
+    @Override
+    public SELF contains(ELEMENT expected) {
         if (!actual.contains(expected)) {
             setDefaultDescription("It is expected to contain the given element, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
@@ -107,8 +112,9 @@ public abstract class AbstractCollectionAssert<
         return self;
     }
 
-    public SELF containsAny(T first, T... others) {
-        Object[] expected = ArrayUtils.prepend(others, first);
+    @Override
+    public SELF containsAny(ELEMENT... expected) {
+        if (expected.length == 0) return self;
 
         for (Object item : expected) {
             for (Object element : actual) {
@@ -116,17 +122,16 @@ public abstract class AbstractCollectionAssert<
             }
         }
 
-        setDefaultDescription("It is expected to contain the given elements, but it doesn't. (expected: '{0}', actual: '{1}')",
-                Arrays.deepToString(expected), actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY, Arrays.deepToString(expected), actual);
         throw getException();
     }
 
-    public SELF containsAll(Collection<? extends T> expected) {
+    @Override
+    public SELF containsAll(ACTUAL expected) {
         if (CollectionUtils.isNullOrEmpty(expected)) return self;
 
         if (!actual.containsAll(expected)) {
-            setDefaultDescription("It is expected to contain the given collection, but it doesn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual);
             throw getException();
         }
 
@@ -136,8 +141,8 @@ public abstract class AbstractCollectionAssert<
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @SuppressWarnings("unchecked")
-    public ArrayAssert<?, T> asArray() {
-        ArrayAssert<?, T> assertion = Asserts.that((T[]) actual.toArray());
+    public ArrayAssert<?, ELEMENT> asArray() {
+        ArrayAssert<?, ELEMENT> assertion = Asserts.that((ELEMENT[]) actual.toArray());
         Descriptor.merge(this, assertion);
 
         return assertion;

@@ -18,14 +18,19 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends ObjectAssert<SELF, T[]> {
+public class ArrayAssert<
+        SELF extends ArrayAssert<SELF, ELEMENT>,
+        ELEMENT>
+        extends ObjectAssert<SELF, ELEMENT[]>
+        implements IterationAssertable<SELF, ELEMENT[], ELEMENT> {
 
-    public ArrayAssert(T[] actual) {
+    public ArrayAssert(ELEMENT[] actual) {
         super(actual);
     }
 
@@ -51,31 +56,32 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends ObjectAss
         return self;
     }
 
+    @Override
     public SELF isEmpty() {
         if (actual.length > 0) {
-            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')",
-                    Arrays.deepToString(actual));
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, Arrays.deepToString(actual));
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF hasElement() {
         if (actual.length == 0) {
-            setDefaultDescription("It is expected to have element, but it isn't. (actual: '[]')");
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_ELEMENT, Arrays.deepToString(actual));
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF doesNotContainNull() {
         for (Object element : actual) {
             if (element != null) continue;
 
-            setDefaultDescription("It is expected not to contain null, but it isn't. (actual: '{0}')",
-                    Arrays.deepToString(actual));
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, Arrays.deepToString(actual));
             throw getException();
         }
 
@@ -112,12 +118,13 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends ObjectAss
         return self;
     }
 
-    public SELF contains(Object expected) {
+    @Override
+    public SELF contains(ELEMENT expected) {
         for (Object element : actual) {
             if (Objects.deepEquals(element, expected)) return self;
         }
 
-        setDefaultDescription("It is expected to contain the given element, but it doesn't. (expected: '{0}', actual: '{1}')",
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS,
                 ArrayUtils.toString(expected), Arrays.deepToString(actual));
         throw getException();
     }
@@ -139,28 +146,30 @@ public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends ObjectAss
      *     return self;
      * </code></pre>
      *
-     * @param first  expected first value
-     * @param others expected other values
+     * @param expected expected values
      * @return self
      */
-    public SELF containsAny(Object first, Object... others) {
-        Object[] expected = ArrayUtils.prepend(others, first);
+    @Override
+    @SafeVarargs
+    public final SELF containsAny(ELEMENT... expected) {
+        if (expected.length == 0) return self;
 
-        for (Object item : expected) {
-            for (Object element : actual) {
+        for (ELEMENT item : expected) {
+            for (ELEMENT element : actual) {
                 if (Objects.deepEquals(element, item)) return self;
             }
         }
 
-        setDefaultDescription("It is expected to contain the given elements, but it doesn't. (expected: '{0}', actual: '{1}')",
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY,
                 Arrays.deepToString(expected), Arrays.deepToString(actual));
         throw getException();
     }
 
-    public SELF containsAll(Object[] expected) {
+    @Override
+    public SELF containsAll(ELEMENT[] expected) {
         if (ArrayUtils.isNullOrEmpty(expected)) return self;
 
-        for (Object element : expected) {
+        for (ELEMENT element : expected) {
             contains(element);
         }
 

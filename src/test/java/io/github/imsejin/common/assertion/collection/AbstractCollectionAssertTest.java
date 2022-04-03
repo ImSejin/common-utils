@@ -320,7 +320,7 @@ class AbstractCollectionAssertTest {
         @DisplayName("passes, when actual contains the given elements at least 1")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e', null)).containsAny(null);
+                Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e', null)).containsAny();
                 Asserts.that(Collections.singletonList(false)).containsAny(false, null, null);
                 Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024)).containsAny(1024, null, -1);
                 Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
