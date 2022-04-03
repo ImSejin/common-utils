@@ -16,7 +16,10 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.Year;
@@ -47,6 +50,22 @@ public class YearAssert<SELF extends YearAssert<SELF>>
         }
 
         return self;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public NumberAssert<?, Integer> asValue() {
+        NumberAssert<?, Integer> assertion = Asserts.that(actual.getValue());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
+    }
+
+    public NumberAssert<?, Integer> asLength() {
+        NumberAssert<?, Integer> assertion = Asserts.that(actual.length());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }
