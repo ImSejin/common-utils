@@ -554,7 +554,7 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    class AbstractCharSequenceAssert {
+    class CharSequenceAssert {
         @Test
         @DisplayName("asLength(): CharSequence -> int")
         void asLength() {

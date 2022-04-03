@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.chars;
+package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
 
-public abstract class AbstractCharSequenceAssert<
-        SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>,
+public class CharSequenceAssert<
+        SELF extends CharSequenceAssert<SELF, ACTUAL>,
         ACTUAL extends CharSequence>
         extends ObjectAssert<SELF, ACTUAL> {
 
-    protected AbstractCharSequenceAssert(ACTUAL actual) {
+    public CharSequenceAssert(ACTUAL actual) {
         super(actual);
     }
 

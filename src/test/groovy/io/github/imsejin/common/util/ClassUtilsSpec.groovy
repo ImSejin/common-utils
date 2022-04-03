@@ -17,12 +17,8 @@
 package io.github.imsejin.common.util
 
 import io.github.imsejin.common.assertion.Descriptor
-import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable
-import io.github.imsejin.common.assertion.lang.ArrayAssert
-import io.github.imsejin.common.assertion.lang.NumberAssert
-import io.github.imsejin.common.assertion.lang.ObjectAssert
-import io.github.imsejin.common.assertion.lang.StringAssert
+import io.github.imsejin.common.assertion.lang.*
 import io.github.imsejin.common.assertion.math.BigDecimalAssert
 import io.github.imsejin.common.security.crypto.AES
 import io.github.imsejin.common.security.crypto.AES256
@@ -287,7 +283,7 @@ class ClassUtilsSpec extends Specification {
         TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
         AES256           | [clazz, AES, Crypto]
         ArrayAssert      | [clazz, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, AbstractCharSequenceAssert, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, ObjectAssert, Descriptor]
     }
 
@@ -310,7 +306,7 @@ class ClassUtilsSpec extends Specification {
         TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
         AES256           | [clazz, AES, Crypto]
         ArrayAssert      | [clazz, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, AbstractCharSequenceAssert, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, ObjectAssert, Descriptor]
     }
 

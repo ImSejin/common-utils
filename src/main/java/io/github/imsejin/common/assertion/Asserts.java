@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
 import io.github.imsejin.common.assertion.lang.*;
@@ -104,9 +103,8 @@ public abstract class Asserts {
 
     ///////////////////////////////////// Characters //////////////////////////////////////
 
-    public static AbstractCharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
-        return new AbstractCharSequenceAssert(charSequence) {
-        };
+    public static CharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
+        return new CharSequenceAssert<>(charSequence);
     }
 
     public static StringAssert<?> that(String string) {

@@ -16,11 +16,9 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert;
-
 import java.util.regex.Pattern;
 
-public class StringAssert<SELF extends StringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
+public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceAssert<SELF, String> {
 
     public StringAssert(String actual) {
         super(actual);
