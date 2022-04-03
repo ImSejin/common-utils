@@ -23,7 +23,7 @@ import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
 import io.github.imsejin.common.assertion.map.AbstractMapAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.assertion.reflect.PackageAssert;
@@ -141,9 +141,8 @@ public abstract class Asserts {
 
     /////////////////////////////////////// Object ////////////////////////////////////////
 
-    public static <T> AbstractObjectAssert<?, T> that(T object) {
-        return new AbstractObjectAssert(object) {
-        };
+    public static <T> ObjectAssert<?, T> that(T object) {
+        return new ObjectAssert<>(object);
     }
 
     ////////////////////////////////////// Primitive //////////////////////////////////////

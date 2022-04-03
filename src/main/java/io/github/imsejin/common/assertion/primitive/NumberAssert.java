@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.primitive;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class NumberAssert<
         SELF extends NumberAssert<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>>
-        extends AbstractObjectAssert<SELF, NUMBER> {
+        extends ObjectAssert<SELF, NUMBER> {
 
     private final NUMBER zero;
 

@@ -23,7 +23,7 @@ import io.github.imsejin.common.assertion.chars.StringAssert;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
 import io.github.imsejin.common.assertion.map.AbstractMapAssert;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.primitive.*;
 import io.github.imsejin.common.assertion.reflect.ClassAssert;
 import io.github.imsejin.common.assertion.reflect.PackageAssert;
@@ -99,7 +99,7 @@ class ClassFinderTest {
                     .doesNotContainNull()
                     .contains(ArrayAssert.class, AbstractCharSequenceAssert.class, StringAssert.class,
                             AbstractCollectionAssert.class, AbstractFileAssert.class, AbstractMapAssert.class,
-                            AbstractObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
+                            ObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
                             FloatAssert.class, NumberAssert.class, ClassAssert.class, PackageAssert.class,
                             AbstractChronoLocalDateAssert.class, AbstractChronoLocalDateTimeAssert.class,
                             AbstractChronoZonedDateTimeAssert.class, LocalTimeAssert.class,

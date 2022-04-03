@@ -18,13 +18,13 @@ package io.github.imsejin.common.assertion.chars;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
 public abstract class AbstractCharSequenceAssert<
         SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>,
         ACTUAL extends CharSequence>
-        extends AbstractObjectAssert<SELF, ACTUAL> {
+        extends ObjectAssert<SELF, ACTUAL> {
 
     protected AbstractCharSequenceAssert(ACTUAL actual) {
         super(actual);

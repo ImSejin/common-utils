@@ -22,7 +22,7 @@ import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert
 import io.github.imsejin.common.assertion.chars.StringAssert
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable
 import io.github.imsejin.common.assertion.math.BigDecimalAssert
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert
+import io.github.imsejin.common.assertion.lang.ObjectAssert
 import io.github.imsejin.common.assertion.primitive.NumberAssert
 import io.github.imsejin.common.security.crypto.AES
 import io.github.imsejin.common.security.crypto.AES256
@@ -286,9 +286,9 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, List, RandomAccess, Cloneable, Serializable, Collection, Iterable, AbstractList, AbstractCollection]
         TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, AbstractObjectAssert, Descriptor]
-        StringAssert     | [clazz, AbstractCharSequenceAssert, AbstractObjectAssert, Descriptor]
-        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, AbstractObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, AbstractCharSequenceAssert, ObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, ObjectAssert, Descriptor]
     }
 
     @SuppressWarnings("GroovyAccessibility")
@@ -309,9 +309,9 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, RandomAccess, List, Serializable, AbstractList, Cloneable, Collection, AbstractCollection, Iterable]
         TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, AbstractObjectAssert, Descriptor]
-        StringAssert     | [clazz, AbstractCharSequenceAssert, AbstractObjectAssert, Descriptor]
-        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, AbstractObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, AbstractCharSequenceAssert, ObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, ObjectAssert, Descriptor]
     }
 
     def "Resolves actual generic type"() {

@@ -16,9 +16,9 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
-public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends AbstractObjectAssert<SELF, Boolean> {
+public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAssert<SELF, Boolean> {
 
     public BooleanAssert(Boolean actual) {
         super(actual);

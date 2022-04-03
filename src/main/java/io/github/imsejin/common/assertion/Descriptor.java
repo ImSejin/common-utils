@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.StringUtils;
 
 import java.text.MessageFormat;
@@ -79,7 +79,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     /**
      * {@inheritDoc}
      *
-     * <p> Deprecated not to be confused with {@link AbstractObjectAssert#isEqualTo(Object)}.
+     * <p> Deprecated not to be confused with {@link ObjectAssert#isEqualTo(Object)}.
      */
     @Override
     @Deprecated

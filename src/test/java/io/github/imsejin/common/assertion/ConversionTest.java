@@ -148,7 +148,7 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    class AbstractObjectAssert {
+    class ObjectAssert {
         @Test
         @DisplayName("asString(): Object -> String")
         void asString() {
@@ -171,7 +171,7 @@ class ConversionTest {
         @DisplayName("asClass(): Object -> Class")
         void asClass() {
             // given
-            String text = "AbstractObjectAssert";
+            String text = "ObjectAssert";
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(text).isNotNull().hasText()
@@ -216,7 +216,7 @@ class ConversionTest {
         @DisplayName("asPackage(): Class -> Package")
         void asPackage() {
             // given
-            Class<?> clazz = io.github.imsejin.common.assertion.object.AbstractObjectAssert.class;
+            Class<?> clazz = io.github.imsejin.common.assertion.lang.ObjectAssert.class;
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(clazz).isNotNull()

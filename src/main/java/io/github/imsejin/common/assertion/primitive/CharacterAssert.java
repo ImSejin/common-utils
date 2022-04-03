@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.Objects;
 
-public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends AbstractObjectAssert<SELF, Character> {
+public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends ObjectAssert<SELF, Character> {
 
     private static final Character NULL_CHARACTER = '\u0000';
 

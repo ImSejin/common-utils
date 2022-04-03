@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.io;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.chars.StringAssert;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 import io.github.imsejin.common.util.FilenameUtils;
 
@@ -28,7 +28,7 @@ import java.io.File;
 public abstract class AbstractFileAssert<
         SELF extends AbstractFileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
-        extends AbstractObjectAssert<SELF, ACTUAL> {
+        extends ObjectAssert<SELF, ACTUAL> {
 
     protected AbstractFileAssert(ACTUAL actual) {
         super(actual);

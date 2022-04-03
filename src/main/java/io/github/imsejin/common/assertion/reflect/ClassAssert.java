@@ -18,10 +18,10 @@ package io.github.imsejin.common.assertion.reflect;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ClassUtils;
 
-public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends AbstractObjectAssert<SELF, Class<?>> {
+public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAssert<SELF, Class<?>> {
 
     public ClassAssert(Class<T> actual) {
         super(actual);

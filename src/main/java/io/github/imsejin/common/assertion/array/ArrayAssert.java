@@ -18,14 +18,14 @@ package io.github.imsejin.common.assertion.array;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends AbstractObjectAssert<SELF, T[]> {
+public class ArrayAssert<SELF extends ArrayAssert<SELF, T>, T> extends ObjectAssert<SELF, T[]> {
 
     public ArrayAssert(T[] actual) {
         super(actual);

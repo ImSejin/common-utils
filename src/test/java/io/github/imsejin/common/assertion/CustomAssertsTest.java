@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.StringUtils;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -60,7 +60,7 @@ public class CustomAssertsTest {
         }
     }
 
-    private static class KanCodeAssert<SELF extends KanCodeAssert<SELF>> extends AbstractObjectAssert<SELF, KanCode> {
+    private static class KanCodeAssert<SELF extends KanCodeAssert<SELF>> extends ObjectAssert<SELF, KanCode> {
         public KanCodeAssert(KanCode kanCode) {
             super(kanCode);
         }

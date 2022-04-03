@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.ZoneOffset;
 
-public interface OffsetAssertion<SELF extends AbstractObjectAssert<SELF, ?>> {
+public interface OffsetAssertion<SELF extends ObjectAssert<SELF, ?>> {
 
     SELF isSameOffset(ZoneOffset expected);
 

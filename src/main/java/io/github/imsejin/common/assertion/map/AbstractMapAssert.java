@@ -19,7 +19,7 @@ package io.github.imsejin.common.assertion.map;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ public abstract class AbstractMapAssert<
         ACTUAL extends Map<K, V>,
         K,
         V>
-        extends AbstractObjectAssert<SELF, ACTUAL> {
+        extends ObjectAssert<SELF, ACTUAL> {
 
     protected AbstractMapAssert(ACTUAL actual) {
         super(actual);

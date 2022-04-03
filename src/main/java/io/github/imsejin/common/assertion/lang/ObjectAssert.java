@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion.object;
+package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
@@ -26,19 +26,22 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL> extends Descriptor<SELF> {
+public class ObjectAssert<
+        SELF extends ObjectAssert<SELF, ACTUAL>,
+        ACTUAL>
+        extends Descriptor<SELF> {
 
     /**
      * Actual value or something to be validated.
-     * <p>
-     * We shouldn't check if it is null in any assertion classes.
+     *
+     * <p> We shouldn't check if it is null in any assertion classes.
      * The user is responsible for checking that. If you want to avoid
      * {@link NullPointerException}, you check if it is null explicitly
      * using {@link #isNotNull()}.
      */
     protected final ACTUAL actual;
 
-    protected AbstractObjectAssert(ACTUAL actual) {
+    public ObjectAssert(ACTUAL actual) {
         this.actual = actual;
     }
 
