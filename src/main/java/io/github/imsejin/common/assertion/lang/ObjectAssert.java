@@ -24,10 +24,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class ObjectAssert<
-        SELF extends ObjectAssert<SELF, ACTUAL>,
-        ACTUAL>
-        extends Descriptor<SELF> {
+public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> extends Descriptor<SELF> {
 
     /**
      * Actual value or something to be validated.
