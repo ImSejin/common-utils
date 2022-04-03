@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.util
 
-import io.github.imsejin.common.assertion.DecimalNumberAssertion
 import io.github.imsejin.common.assertion.Descriptor
 import io.github.imsejin.common.assertion.array.ArrayAssert
 import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert
 import io.github.imsejin.common.assertion.chars.StringAssert
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable
 import io.github.imsejin.common.assertion.math.BigDecimalAssert
 import io.github.imsejin.common.assertion.object.AbstractObjectAssert
 import io.github.imsejin.common.assertion.primitive.NumberAssert
@@ -288,7 +288,7 @@ class ClassUtilsSpec extends Specification {
         AES256           | [clazz, AES, Crypto]
         ArrayAssert      | [clazz, AbstractObjectAssert, Descriptor]
         StringAssert     | [clazz, AbstractCharSequenceAssert, AbstractObjectAssert, Descriptor]
-        BigDecimalAssert | [clazz, DecimalNumberAssertion, NumberAssert, AbstractObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, AbstractObjectAssert, Descriptor]
     }
 
     @SuppressWarnings("GroovyAccessibility")
@@ -311,7 +311,7 @@ class ClassUtilsSpec extends Specification {
         AES256           | [clazz, AES, Crypto]
         ArrayAssert      | [clazz, AbstractObjectAssert, Descriptor]
         StringAssert     | [clazz, AbstractCharSequenceAssert, AbstractObjectAssert, Descriptor]
-        BigDecimalAssert | [clazz, DecimalNumberAssertion, NumberAssert, AbstractObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, AbstractObjectAssert, Descriptor]
     }
 
     def "Resolves actual generic type"() {

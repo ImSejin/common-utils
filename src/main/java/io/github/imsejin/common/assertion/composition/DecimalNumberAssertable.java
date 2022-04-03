@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.assertion;
+package io.github.imsejin.common.assertion.composition;
 
 import io.github.imsejin.common.assertion.primitive.NumberAssert;
 
+import java.math.BigDecimal;
+
 /**
- * Assertion for decimal number
+ * Composition of assertion for decimal number.
+ *
+ * @see Float
+ * @see Double
+ * @see BigDecimal
  */
-public interface DecimalNumberAssertion<
-        SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertion<SELF, NUMBER>,
+public interface DecimalNumberAssertable<
+        SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertable<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>> {
 
     String DEFAULT_DESCRIPTION_HAS_DECIMAL_PART = "It is expected to have decimal part, but it isn't. (actual: '{0}')";

@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.assertion.primitive;
 
-import io.github.imsejin.common.assertion.DecimalNumberAssertion;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
 public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SELF, Float>
-        implements DecimalNumberAssertion<SELF, Float> {
+        implements DecimalNumberAssertable<SELF, Float> {
 
     public FloatAssert(Float actual) {
         super(actual);
@@ -29,7 +29,7 @@ public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SE
     @Override
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
-            setDefaultDescription(DecimalNumberAssertion.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
+            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
             throw getException();
         }
 
