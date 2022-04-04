@@ -172,11 +172,12 @@ public final class ClassUtils {
     /**
      * Makes the primitive type boxed.
      *
-     * <p> If the type is not primitive, returns as it is.
+     * <p> If the type is array whose component's type is primitive,
+     * this also makes it boxed. If not primitive, returns as it is.
      *
      * @param type primitive type
      * @param <T>  type
-     * @return wrapper class
+     * @return boxed type
      */
     @Nullable
     @SuppressWarnings("unchecked")
@@ -206,11 +207,12 @@ public final class ClassUtils {
     }
 
     /**
-     * Makes the wrapper class unboxed.
+     * Makes the boxed type unboxed.
      *
-     * <p> If the type is not wrapper class, returns as it is.
+     * <p> If the type is array whose component's type is wrapper class,
+     * this also makes it unboxed. If primitive, returns as it is.
      *
-     * @param type wrapper class
+     * @param type boxed type
      * @param <T>  type
      * @return primitive type
      */

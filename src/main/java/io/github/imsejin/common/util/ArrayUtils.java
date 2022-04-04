@@ -223,7 +223,7 @@ public final class ArrayUtils {
      *
      * @param type      type
      * @param dimension dimension
-     * @return type of array
+     * @return type of array that has the given dimension
      */
     public static Class<?> resolveArrayType(Class<?> type, int dimension) {
         for (int i = 0; i < dimension; i++) {

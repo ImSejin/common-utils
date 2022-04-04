@@ -59,7 +59,7 @@ public final class ReflectionUtils {
 
         // Removes the synthetic fields; Only includes user-defined fields.
         // 1. Reference in non-static nested class to its enclosing class. (this$0, this$1, ...)
-        // 2. Field(groovy.lang.MetaClass metaClass) for meta-programming in groovy class.
+        // 2. Field(groovy.lang.MetaClass metaClass) for meta-programming on groovy class.
         filter = filter.or(Field::isSynthetic);
 
         fields.removeIf(filter);
