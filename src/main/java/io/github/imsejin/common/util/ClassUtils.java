@@ -181,7 +181,7 @@ public final class ClassUtils {
     @Nullable
     @SuppressWarnings("unchecked")
     public static <T> Class<T> wrap(@Nullable Class<T> type) {
-        if (type == null || !type.isPrimitive()) return type;
+        if (type == null) return null;
 
         Class<?> clazz = type;
         if (clazz == void.class) clazz = Void.class;
@@ -193,6 +193,14 @@ public final class ClassUtils {
         if (clazz == long.class) clazz = Long.class;
         if (clazz == float.class) clazz = Float.class;
         if (clazz == double.class) clazz = Double.class;
+
+        if (clazz.isArray()) {
+            Class<?> componentType = ArrayUtils.resolveActualComponentType(clazz);
+            if (!componentType.isPrimitive()) return type;
+
+            int dimension = ArrayUtils.dimensionOf(clazz);
+            return (Class<T>) ArrayUtils.resolveArrayType(wrap(componentType), dimension);
+        }
 
         return (Class<T>) clazz;
     }
@@ -209,7 +217,7 @@ public final class ClassUtils {
     @Nullable
     @SuppressWarnings("unchecked")
     public static <T> Class<T> unwrap(@Nullable Class<T> type) {
-        if (type == null || type.isPrimitive()) return type;
+        if (type == null) return null;
 
         Class<?> clazz = type;
         if (clazz == Void.class) clazz = void.class;
@@ -221,6 +229,14 @@ public final class ClassUtils {
         if (clazz == Long.class) clazz = long.class;
         if (clazz == Float.class) clazz = float.class;
         if (clazz == Double.class) clazz = double.class;
+
+        if (clazz.isArray()) {
+            Class<?> componentType = ArrayUtils.resolveActualComponentType(clazz);
+            if (componentType.isPrimitive()) return type;
+
+            int dimension = ArrayUtils.dimensionOf(clazz);
+            return (Class<T>) ArrayUtils.resolveArrayType(unwrap(componentType), dimension);
+        }
 
         return (Class<T>) clazz;
     }

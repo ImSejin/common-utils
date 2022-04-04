@@ -78,23 +78,28 @@ public final class ArrayUtils {
     public static Object wrap(@Nullable Object array) {
         if (array == null) return null;
 
-        int length = Array.getLength(array);
+        // When parameter is not array, returns as it is.
         Class<?> componentType = array.getClass().getComponentType();
+        if (componentType == null) return array;
 
-        // When array is not primitive, doesn't need to wrap.
-        if (length == 0 && !componentType.isPrimitive()) return array;
-
-        // To save memory, returns cached empty array.
+        int length = Array.getLength(array);
         Class<?> wrapped = ClassUtils.wrap(componentType);
-        if (length == 0) return EMPTY_ARRAY_MAP.get(wrapped);
+        Object wrappedArray = Array.newInstance(wrapped, length);
 
-        Object instance = Array.newInstance(wrapped, length);
         for (int i = 0; i < length; i++) {
-            Object value = Array.get(array, i);
-            Array.set(instance, i, value);
+            // If element is primitive, it is already auto-boxed by Array.get(Object, int).
+            Object element = Array.get(array, i);
+
+            // Primitive value is not allowed to be null, so the element is considered as Array.
+            // When element is array, do again recursively.
+            if (element == null || element.getClass().isArray()) {
+                element = wrap(element);
+            }
+
+            Array.set(wrappedArray, i, element);
         }
 
-        return instance;
+        return wrappedArray;
     }
 
     /**
@@ -107,23 +112,29 @@ public final class ArrayUtils {
     public static Object unwrap(@Nullable Object array) {
         if (array == null) return null;
 
-        int length = Array.getLength(array);
+        // When parameter is not array, returns as it is.
         Class<?> componentType = array.getClass().getComponentType();
+        if (componentType == null) return array;
 
-        // When array is primitive, doesn't need to unwrap.
-        if (length == 0 && componentType.isPrimitive()) return array;
-
-        // To save memory, returns cached empty array.
+        int length = Array.getLength(array);
         Class<?> primitive = ClassUtils.unwrap(componentType);
-        if (length == 0 && ClassUtils.isWrapper(componentType)) return EMPTY_ARRAY_MAP.get(primitive);
+        Object primitiveArray = Array.newInstance(primitive, length);
 
-        Object instance = Array.newInstance(primitive, length);
         for (int i = 0; i < length; i++) {
-            Object value = Array.get(array, i);
-            Array.set(instance, i, value);
+            Object element = Array.get(array, i);
+
+            // Primitive value is not allowed to be null, so the element is considered as Array.
+            // When element is array, do again recursively.
+            if (element == null || element.getClass().isArray()) {
+                element = unwrap(element);
+            }
+
+            // If component type of array is primitive,
+            // the element will be auto-unboxed by Array.set(Object, int, Object).
+            Array.set(primitiveArray, i, element);
         }
 
-        return instance;
+        return primitiveArray;
     }
 
     /**
