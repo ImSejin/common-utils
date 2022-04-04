@@ -19,7 +19,6 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.Asserts;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -70,7 +69,7 @@ public final class CollectionUtils {
         return isNullOrEmpty(collection) ? defaultList : collection;
     }
 
-    public static <E> Collection<E> ifNullOrEmpty(Collection<E> collection, @Nonnull Supplier<Collection<E>> supplier) {
+    public static <E> Collection<E> ifNullOrEmpty(Collection<E> collection, Supplier<Collection<E>> supplier) {
         return isNullOrEmpty(collection) ? supplier.get() : collection;
     }
 
@@ -78,7 +77,7 @@ public final class CollectionUtils {
         return isNullOrEmpty(list) ? defaultList : list;
     }
 
-    public static <E> List<E> ifNullOrEmpty(List<E> list, @Nonnull Supplier<List<E>> supplier) {
+    public static <E> List<E> ifNullOrEmpty(List<E> list, Supplier<List<E>> supplier) {
         return isNullOrEmpty(list) ? supplier.get() : list;
     }
 
@@ -86,7 +85,7 @@ public final class CollectionUtils {
         return isNullOrEmpty(set) ? defaultSet : set;
     }
 
-    public static <E> Set<E> ifNullOrEmpty(Set<E> set, @Nonnull Supplier<Set<E>> supplier) {
+    public static <E> Set<E> ifNullOrEmpty(Set<E> set, Supplier<Set<E>> supplier) {
         return isNullOrEmpty(set) ? supplier.get() : set;
     }
 
@@ -94,7 +93,7 @@ public final class CollectionUtils {
         return isNullOrEmpty(map) ? defaultMap : map;
     }
 
-    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, @Nonnull Supplier<Map<K, V>> supplier) {
+    public static <K, V> Map<K, V> ifNullOrEmpty(Map<K, V> map, Supplier<Map<K, V>> supplier) {
         return isNullOrEmpty(map) ? supplier.get() : map;
     }
 
@@ -142,17 +141,17 @@ public final class CollectionUtils {
      * @param <E>        type of element
      * @return map with index as key and element
      */
-    public static <E> Map<Integer, E> toMap(@Nonnull Collection<E> collection) {
+    public static <E> Map<Integer, E> toMap(Collection<E> collection) {
         return collection.stream().collect(HashMap::new,
                 (map, streamValue) -> map.put(map.size(), streamValue),
                 Map::putAll);
     }
 
-    public static long findMax(@Nonnull Collection<Long> collection) {
+    public static long findMax(Collection<Long> collection) {
         return collection.stream().reduce(Long.MIN_VALUE, Math::max);
     }
 
-    public static <E> Optional<E> findElement(@Nonnull Collection<E> collection, @Nonnull Predicate<E> predicate) {
+    public static <E> Optional<E> findElement(Collection<E> collection, Predicate<E> predicate) {
         return collection.stream().filter(predicate).findFirst();
     }
 
@@ -172,7 +171,7 @@ public final class CollectionUtils {
      * @return lists partitioned by size
      * @throws IllegalArgumentException if size is non-positive
      */
-    public static <E> List<List<E>> partitionBySize(@Nonnull List<E> list, int chunkSize) {
+    public static <E> List<List<E>> partitionBySize(List<E> list, int chunkSize) {
         Asserts.that(chunkSize)
                 .as("Size of each list must be greater than 0")
                 .isGreaterThan(0);
@@ -216,7 +215,7 @@ public final class CollectionUtils {
      * @return lists partitioned by count
      * @throws IllegalArgumentException if count is non-positive or list's size is less than count
      */
-    public static <E> List<List<E>> partitionByCount(@Nonnull List<E> list, int count) {
+    public static <E> List<List<E>> partitionByCount(List<E> list, int count) {
         Asserts.that(count)
                 .as("The number of lists must be greater than 0")
                 .isGreaterThan(0)
@@ -245,7 +244,7 @@ public final class CollectionUtils {
      * @return median value
      * @throws ArrayIndexOutOfBoundsException if array is empty
      */
-    public static double median(@Nonnull long... numbers) {
+    public static double median(long... numbers) {
         long[] longs = Arrays.copyOf(numbers, numbers.length);
         Arrays.sort(longs);
 
@@ -266,7 +265,7 @@ public final class CollectionUtils {
      * @return median value
      * @throws ArrayIndexOutOfBoundsException if array is empty
      */
-    public static double median(@Nonnull int... numbers) {
+    public static double median(int... numbers) {
         int[] ints = Arrays.copyOf(numbers, numbers.length);
         Arrays.sort(ints);
 

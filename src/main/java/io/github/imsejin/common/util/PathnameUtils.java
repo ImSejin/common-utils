@@ -20,7 +20,6 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.constant.OS;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -77,7 +76,7 @@ public final class PathnameUtils {
      * @param pathname pathname
      * @return pathname removed all the path separators
      */
-    public static String removeSeparators(@Nonnull String pathname) {
+    public static String removeSeparators(String pathname) {
         return pathname.replaceAll(WINDOWS_SEPARATOR, "").replaceAll(UNIX_SEPARATOR, "");
     }
 
@@ -100,7 +99,7 @@ public final class PathnameUtils {
      * @param pathname pathname
      * @return correct pathname
      */
-    public static String correct(boolean absolute, @Nonnull String pathname) {
+    public static String correct(boolean absolute, String pathname) {
         String trimmed = Arrays.stream(pathname.split(WINDOWS_SEPARATOR)) // split with Windows separators.
                 .map(p -> String.join("", p.split(UNIX_SEPARATOR))) // split with Unix separators.
                 .filter(p -> !StringUtils.isNullOrBlank(p))
@@ -125,7 +124,7 @@ public final class PathnameUtils {
      * @param pathnames pathnames
      * @return concatenated pathname
      */
-    public static String concat(boolean absolute, @Nonnull String... pathnames) {
+    public static String concat(boolean absolute, String... pathnames) {
         return correct(absolute, String.join(File.separator, pathnames));
     }
 

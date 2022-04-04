@@ -20,7 +20,7 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.util.ClassUtils;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -173,7 +173,7 @@ public final class ClassFinder {
          */
         CLASS {
             @Override
-            public boolean search(@Nonnull Class<?> superclass, Class<?> subclass) {
+            public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
                 return ClassUtils.isSuperclass(superclass, subclass);
             }
         },
@@ -183,7 +183,7 @@ public final class ClassFinder {
          */
         ALL {
             @Override
-            public boolean search(@Nonnull Class<?> superclass, Class<?> subclass) {
+            public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
                 Asserts.that(superclass).isNotNull();
                 if (subclass == null || superclass == subclass) return false;
 
@@ -191,7 +191,7 @@ public final class ClassFinder {
             }
         };
 
-        public abstract boolean search(@Nonnull Class<?> superclass, Class<?> subclass);
+        public abstract boolean search(Class<?> superclass, @Nullable Class<?> subclass);
     }
 
 }
