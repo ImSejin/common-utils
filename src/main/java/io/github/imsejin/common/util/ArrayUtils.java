@@ -223,6 +223,26 @@ public final class ArrayUtils {
     }
 
     /**
+     * Returns the actual component type of array.
+     *
+     * <pre>
+     *     resolveActualComponentType(char.class);       // char.class
+     *     resolveActualComponentType(int[].class);      // int.class
+     *     resolveActualComponentType(Double[][].class); // Double.class
+     * </pre>
+     *
+     * @param type array type
+     * @return actual component type
+     */
+    public static Class<?> resolveActualComponentType(Class<?> type) {
+        while (type.isArray()) {
+            type = type.getComponentType();
+        }
+
+        return type;
+    }
+
+    /**
      * Returns dimension of the given array type.
      *
      * @param type array type
