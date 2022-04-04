@@ -213,19 +213,19 @@ class ClassUtilsSpec extends Specification {
         byte       | Byte
         short      | Short
         char       | Character
-        int        | Integer
-        long       | Long
-        float      | Float
-        double     | Double
+        int[]      | Integer[]
+        long[]     | Long[]
+        float[]    | Float[]
+        double[]   | Double[]
         Void       | type
         Boolean    | type
         Byte       | type
         Short      | type
         Character  | type
-        Integer    | type
-        Long       | type
-        Float      | type
-        Double     | type
+        Integer[]  | type
+        Long[]     | type
+        Float[]    | type
+        Double[]   | type
         BigInteger | type
         BigDecimal | type
         Object     | type
@@ -247,19 +247,19 @@ class ClassUtilsSpec extends Specification {
         byte       | type
         short      | type
         char       | type
-        int        | type
-        long       | type
-        float      | type
-        double     | type
+        int[]      | type
+        long[]     | type
+        float[]    | type
+        double[]   | type
         Void       | void
         Boolean    | boolean
         Byte       | byte
         Short      | short
         Character  | char
-        Integer    | int
-        Long       | long
-        Float      | float
-        Double     | double
+        Integer[]  | int[]
+        Long[]     | long[]
+        Float[]    | float[]
+        Double[]   | double[]
         BigInteger | type
         BigDecimal | type
         Object     | type

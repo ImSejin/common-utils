@@ -47,7 +47,7 @@ class DepthFirstIteratorSpec extends Specification {
 
         where:
         root               | last
-        ArrayList          | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
+        ArrayList          | [Iterable, List, AbstractList, Cloneable, Serializable, RandomAccess]
         AbstractList       | [Iterable, AbstractCollection, Cloneable, Serializable, RandomAccess]
         AbstractCollection | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
         List               | [Iterable, Cloneable, Serializable, RandomAccess]
@@ -78,7 +78,7 @@ class DepthFirstIteratorSpec extends Specification {
 
         where:
         root               | last
-        ArrayList          | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
+        ArrayList          | [Iterable, List, AbstractList, Cloneable, Serializable, RandomAccess]
         AbstractList       | [Iterable, AbstractCollection, Cloneable, Serializable, RandomAccess]
         AbstractCollection | [Iterable, AbstractList, Cloneable, Serializable, RandomAccess]
         List               | [Iterable, Cloneable, Serializable, RandomAccess]

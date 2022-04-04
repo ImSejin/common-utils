@@ -70,26 +70,28 @@ class ArrayUtilsSpec extends Specification {
         actual == expected
 
         where:
-        array                      | expected
-        null                       | array
-        [] as Object[]             | array
-        [new Object()] as Object[] | array
-        [] as boolean[]            | [] as Boolean[]
-        [false, true] as boolean[] | [false, true] as Boolean[]
-        [] as byte[]               | [] as Byte[]
-        [-1, 0, 1] as byte[]       | [-1, 0, 1] as Byte[]
-        [] as short[]              | [] as Short[]
-        [-1, 0, 1] as short[]      | [-1, 0, 1] as Short[]
-        [] as char[]               | [] as Character[]
-        ['a', 'b', 'c'] as char[]  | ['a', 'b', 'c'] as Character[]
-        [] as int[]                | [] as Integer[]
-        [-1, 0, 1] as int[]        | [-1, 0, 1] as Integer[]
-        [] as long[]               | [] as Long[]
-        [-1, 0, 1] as long[]       | [-1, 0, 1] as Long[]
-        [] as float[]              | [] as Float[]
-        [-1, 0, 1] as float[]      | [-1, 0, 1] as Float[]
-        [] as double[]             | [] as Double[]
-        [-1, 0, 1] as double[]     | [-1, 0, 1] as Double[]
+        array                                                  | expected
+        null                                                   | array
+        String                                                 | array
+        [] as Object[]                                         | array
+        [new Object()] as Object[]                             | array
+        [null, ["alpha"], [], ["beta"]] as String[][]          | array
+        [] as boolean[]                                        | [] as Boolean[]
+        [false, true] as boolean[]                             | [false, true] as Boolean[]
+        [] as byte[][]                                         | [] as Byte[][]
+        [[], null, [-1, 0], [1]] as byte[][]                   | [[], null, [-1, 0], [1]] as Byte[][]
+        [] as short[][][]                                      | [] as Short[][][]
+        [[], [[-1]], [[0], null, [1]], null] as short[][][]    | [[], [[-1]], [[0], null, [1]], null] as Short[][][]
+        [] as char[][][][]                                     | [] as Character[][][][]
+        [[[['a']]], [], [[['b'], ['c']]]] as char[][][][]      | [[[['a']]], [], [[['b'], ['c']]]] as Character[][][][]
+        [] as int[][][][][]                                    | [] as Integer[][][][][]
+        [[[[[-1, 0]]]], [[null, [[1]]]]] as int[][][][][]      | [[[[[-1, 0]]]], [[null, [[1]]]]] as Integer[][][][][]
+        [] as long[][][][][][]                                 | [] as Long[][][][][][]
+        [[[], [[[[-1, 0, 1], []]]]]] as long[][][][][][]       | [[[], [[[[-1, 0, 1], []]]]]] as Long[][][][][][]
+        [] as float[][][][][][][]                              | [] as Float[][][][][][][]
+        [[[[[[], [[-1, 0, 1]], []]]]]] as float[][][][][][][]  | [[[[[[], [[-1, 0, 1]], []]]]]] as Float[][][][][][][]
+        [] as double[][][][][][][][]                           | [] as Double[][][][][][][][]
+        [[[[[[[[-1], [0], [1]]]]]]]] as double[][][][][][][][] | [[[[[[[[-1], [0], [1]]]]]]]] as Double[][][][][][][][]
     }
 
     def "Makes wrapper array unboxed"() {
@@ -101,26 +103,28 @@ class ArrayUtilsSpec extends Specification {
         actual == expected
 
         where:
-        array                          | expected
-        null                           | array
-        [] as Object[]                 | array
-        [new Object()] as Object[]     | array
-        [] as Boolean[]                | [] as boolean[]
-        [false, true] as Boolean[]     | [false, true] as boolean[]
-        [] as Byte[]                   | [] as byte[]
-        [-1, 0, 1] as Byte[]           | [-1, 0, 1] as byte[]
-        [] as Short[]                  | [] as short[]
-        [-1, 0, 1] as Short[]          | [-1, 0, 1] as short[]
-        [] as Character[]              | [] as char[]
-        ['a', 'b', 'c'] as Character[] | ['a', 'b', 'c'] as char[]
-        [] as Integer[]                | [] as int[]
-        [-1, 0, 1] as Integer[]        | [-1, 0, 1] as int[]
-        [] as Long[]                   | [] as long[]
-        [-1, 0, 1] as Long[]           | [-1, 0, 1] as long[]
-        [] as Double[]                 | [] as double[]
-        [-1, 0, 1] as Double[]         | [-1, 0, 1] as double[]
-        [] as Float[]                  | [] as float[]
-        [-1, 0, 1] as Float[]          | [-1, 0, 1] as float[]
+        array                                                  | expected
+        null                                                   | array
+        String                                                 | array
+        [] as Object[]                                         | array
+        [new Object()] as Object[]                             | array
+        [null, ["alpha"], [], ["beta"]] as String[][]          | array
+        [] as Boolean[]                                        | [] as boolean[]
+        [false, true] as Boolean[]                             | [false, true] as boolean[]
+        [] as Byte[][]                                         | [] as byte[][]
+        [[], null, [-1, 0], [1]] as Byte[][]                   | [[], null, [-1, 0], [1]] as byte[][]
+        [] as Short[][][]                                      | [] as short[][][]
+        [[], [[-1]], [[0], null, [1]], null] as Short[][][]    | [[], [[-1]], [[0], null, [1]], null] as short[][][]
+        [] as Character[][][][]                                | [] as char[][][][]
+        [[[['a']]], [], [[['b'], ['c']]]] as Character[][][][] | [[[['a']]], [], [[['b'], ['c']]]] as char[][][][]
+        [] as Integer[][][][][]                                | [] as int[][][][][]
+        [[[[[-1, 0]]]], [[null, [[1]]]]] as Integer[][][][][]  | [[[[[-1, 0]]]], [[null, [[1]]]]] as int[][][][][]
+        [] as Long[][][][][][]                                 | [] as long[][][][][][]
+        [[[], [[[[-1, 0, 1], []]]]]] as Long[][][][][][]       | [[[], [[[[-1, 0, 1], []]]]]] as long[][][][][][]
+        [] as Float[][][][][][][]                              | [] as float[][][][][][][]
+        [[[[[[], [[-1, 0, 1]], []]]]]] as Float[][][][][][][]  | [[[[[[], [[-1, 0, 1]], []]]]]] as float[][][][][][][]
+        [] as Double[][][][][][][][]                           | [] as double[][][][][][][][]
+        [[[[[[[[-1], [0], [1]]]]]]]] as Double[][][][][][][][] | [[[[[[[[-1], [0], [1]]]]]]]] as double[][][][][][][][]
     }
 
     def "Converts array to string"() {
@@ -214,6 +218,38 @@ class ArrayUtilsSpec extends Specification {
 
         where:
         i << (0..2000)
+    }
+
+    def "Resolves the actual component type of array"() {
+        when:
+        def actual = ArrayUtils.resolveActualComponentType type
+
+        then:
+        actual == expected
+
+        where:
+        type                       | expected
+        void                       | type
+        Object                     | type
+        Void[]                     | Void
+        boolean[]                  | boolean
+        byte[][]                   | byte
+        short[][][]                | short
+        char[][][][]               | char
+        int[][][][][]              | int
+        long[][][][][][]           | long
+        float[][][][][][][]        | float
+        double[][][][][][][][]     | double
+        Object[]                   | Object
+        Boolean[][]                | Boolean
+        Byte[][][]                 | Byte
+        Short[][][][]              | Short
+        Character[][][][][]        | Character
+        Integer[][][][][][]        | Integer
+        Long[][][][][][][]         | Long
+        Float[][][][][][][][]      | Float
+        Double[][][][][][][][][]   | Double
+        String[][][][][][][][][][] | String
     }
 
     def "Gets dimension of array type"() {
