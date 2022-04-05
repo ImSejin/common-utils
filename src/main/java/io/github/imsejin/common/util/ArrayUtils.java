@@ -71,7 +71,7 @@ public final class ArrayUtils {
     /**
      * Makes primitive array boxed.
      *
-     * @param array primitive array
+     * @param array primitive array or {@code null} if {@code array} is {@code null}
      * @return boxed array
      */
     @Nullable
@@ -105,7 +105,7 @@ public final class ArrayUtils {
     /**
      * Makes boxed array unboxed.
      *
-     * @param array boxed array
+     * @param array boxed array or {@code null} if {@code array} is {@code null}
      * @return primitive array
      */
     @Nullable

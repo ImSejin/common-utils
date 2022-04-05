@@ -70,10 +70,20 @@ public final class ReflectionUtils {
     /**
      * Returns value of the field.
      *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Field} instance that is not accessible on multi-threaded environment,
+     * sometimes you fail to get value of the {@code field} and get an exception.
+     * If you don't have access to that {@code field}, this enables you to do temporarily.
+     * After all the work is done, this turns back its accessibility as it was.
+     * On multi-threaded environment, this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Field} instance, before invoking this method.
+     *
      * @param instance instance if field is static, null
      * @param field    field
      * @return field value
-     * @throws RuntimeException if failed to get {@code value} from the {@code field}
+     * @throws RuntimeException if failed to get value from the field
      */
     @Nullable
     public static Object getFieldValue(@Nullable Object instance, Field field) {
@@ -85,20 +95,30 @@ public final class ReflectionUtils {
         if (!accessible) field.setAccessible(true);
 
         try {
-            // Returns value in the field.
+            // Returns value of the field.
             return field.get(instance);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to get value from the field(%s) of the class(%s)",
                     field.getName(), field.getDeclaringClass().getName());
             throw new RuntimeException(message, e);
         } finally {
-            // Rolls back the accessibility of the field as it was.
-            field.setAccessible(accessible);
+            // Turns back the accessibility of the field as it was.
+            if (!accessible) field.setAccessible(false);
         }
     }
 
     /**
      * Sets up value into the field.
+     *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Field} instance that is not accessible on multi-threaded environment,
+     * sometimes you fail to set value of the {@code field} and get an exception.
+     * If you don't have access to that {@code field}, this enables you to do temporarily.
+     * After all the work is done, this turns back its accessibility as it was.
+     * On multi-threaded environment, this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Field} instance, before invoking this method.
      *
      * @param instance instance if method is static, null
      * @param field    field
@@ -117,15 +137,15 @@ public final class ReflectionUtils {
         if (!accessible) field.setAccessible(true);
 
         try {
-            // Sets value into the field.
+            // Sets value to the field.
             field.set(instance, value);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to set value into the field(%s) of the class(%s)",
                     field.getName(), field.getDeclaringClass().getName());
             throw new RuntimeException(message, e);
         } finally {
-            // Rolls back the accessibility of the field as it was.
-            field.setAccessible(accessible);
+            // Turns back the accessibility of the field as it was.
+            if (!accessible) field.setAccessible(false);
         }
     }
 
@@ -168,6 +188,17 @@ public final class ReflectionUtils {
     /**
      * Creates an instance of type using the constructor.
      *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Constructor} instance that is not accessible on multi-threaded
+     * environment, sometimes you fail to instantiate and get an exception.
+     * If you don't have access to that {@code constructor}, this enables you
+     * to do temporarily. After all the work is done, this turns back its
+     * accessibility as it was. On multi-threaded environment, this makes you
+     * encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Constructor} instance, before invoking this method.
+     *
      * @param constructor constructor declared in type
      * @param initArgs    initial arguments of constructor
      * @param <T>         type of instance
@@ -188,8 +219,8 @@ public final class ReflectionUtils {
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException("Failed to instantiate by constructor: " + constructor, e);
         } finally {
-            // Rolls back the accessibility of the constructor as it was.
-            constructor.setAccessible(accessible);
+            // Turns back the accessibility of the constructor as it was.
+            if (!accessible) constructor.setAccessible(false);
         }
     }
 
@@ -216,6 +247,16 @@ public final class ReflectionUtils {
     /**
      * Invokes the method and returns its result.
      *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Method} instance that is not accessible on multi-threaded
+     * environment, sometimes you fail to invoke the {@code method} and get an exception.
+     * If you don't have access to that {@code method}, this enables you to do temporarily.
+     * After all the work is done, this turns back its accessibility as it was.
+     * On multi-threaded environment, this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Method} instance, before invoking this method.
+     *
      * @param method   method
      * @param instance instance of method if method is static, null
      * @param args     arguments of method
@@ -234,13 +275,24 @@ public final class ReflectionUtils {
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         } finally {
-            // Rolls back the accessibility of the method as it was.
-            method.setAccessible(accessible);
+            // Turns back the accessibility of the method as it was.
+            if (!accessible) method.setAccessible(false);
         }
     }
 
     /**
      * Runs the executable and returns its result.
+     *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Executable} instance that is not accessible on multi-threaded
+     * environment, sometimes you fail to execute the {@code executable} and
+     * get an exception. If you don't have access to that {@code executable},
+     * this enables you to do temporarily. After all the work is done,
+     * this turns back its accessibility as it was. On multi-threaded environment,
+     * this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Executable} instance, before invoking this method.
      *
      * @param executable constructor or method
      * @param instance   instance if {@code executable} is not instance method, null

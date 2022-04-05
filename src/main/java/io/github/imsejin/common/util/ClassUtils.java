@@ -175,7 +175,7 @@ public final class ClassUtils {
      * <p> If the type is array whose component's type is primitive,
      * this also makes it boxed. If not primitive, returns as it is.
      *
-     * @param type primitive type
+     * @param type primitive type or {@code null} if {@code type} is {@code null}
      * @param <T>  type
      * @return boxed type
      */
@@ -196,11 +196,11 @@ public final class ClassUtils {
         if (clazz == double.class) clazz = Double.class;
 
         if (clazz.isArray()) {
-            Class<?> componentType = ArrayUtils.resolveActualComponentType(clazz);
-            if (!componentType.isPrimitive()) return type;
+            Class<?> actualType = ArrayUtils.resolveActualComponentType(clazz);
+            if (!actualType.isPrimitive()) return type;
 
             int dimension = ArrayUtils.dimensionOf(clazz);
-            return (Class<T>) ArrayUtils.resolveArrayType(wrap(componentType), dimension);
+            return (Class<T>) ArrayUtils.resolveArrayType(wrap(actualType), dimension);
         }
 
         return (Class<T>) clazz;
@@ -212,7 +212,7 @@ public final class ClassUtils {
      * <p> If the type is array whose component's type is wrapper class,
      * this also makes it unboxed. If primitive, returns as it is.
      *
-     * @param type boxed type
+     * @param type boxed type or {@code null} if {@code type} is {@code null}
      * @param <T>  type
      * @return primitive type
      */
@@ -233,11 +233,11 @@ public final class ClassUtils {
         if (clazz == Double.class) clazz = double.class;
 
         if (clazz.isArray()) {
-            Class<?> componentType = ArrayUtils.resolveActualComponentType(clazz);
-            if (componentType.isPrimitive()) return type;
+            Class<?> actualType = ArrayUtils.resolveActualComponentType(clazz);
+            if (actualType.isPrimitive()) return type;
 
             int dimension = ArrayUtils.dimensionOf(clazz);
-            return (Class<T>) ArrayUtils.resolveArrayType(unwrap(componentType), dimension);
+            return (Class<T>) ArrayUtils.resolveArrayType(unwrap(actualType), dimension);
         }
 
         return (Class<T>) clazz;
