@@ -298,6 +298,8 @@ public final class ReflectionUtils {
      * @param instance   instance if {@code executable} is not instance method, null
      * @param args       arguments of the executable
      * @return result of the executable
+     * @see #invoke(Method, Object, Object...)
+     * @see #instantiate(Constructor, Object...)
      */
     public static Object execute(Executable executable, @Nullable Object instance, Object... args) {
         if (executable instanceof Method) {
