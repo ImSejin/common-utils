@@ -141,7 +141,6 @@ public abstract class Asserts {
         return new PackageAssert<>(pack);
     }
 
-
     ///////////////////////////////////// java.util //////////////////////////////////////
 
     public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
