@@ -20,10 +20,8 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Array utilities
@@ -141,10 +139,12 @@ public final class ArrayUtils {
      * Returns stringified object regardless of whether it is null or array.
      *
      * <pre><code>
-     *     toString(null);                          // "null"
-     *     toString(new int[] {0, 1, 2});           // "[0, 1, 2]"
-     *     toString(new Object());                  // "java.lang.Object@28c97a5"
-     *     toString(Arrays.asList("io", "github")); // "[io, github]"
+     *     toString(null);                                                  // "null"
+     *     toString(new Object());                                          // "java.lang.Object@28c97a5"
+     *     toString(new int[] {0, 1, 2});                                   // "[0, 1, 2]"
+     *     toString(Arrays.asList("io", "github"));                         // "[io, github]"
+     *     toString(Arrays.asList(new String[] {"a"}, new String[] {"b"})); // "[[a], [b]]"
+     *     toString(Collections.singletonMap('a', new int[][] {{1}, {2}})); // "{a=[[1], [2]]}"
      * </code></pre>
      *
      * @param array maybe array
@@ -168,6 +168,38 @@ public final class ArrayUtils {
             if (componentType == long.class) return Arrays.toString((long[]) array);
             if (componentType == float.class) return Arrays.toString((float[]) array);
             if (componentType == double.class) return Arrays.toString((double[]) array);
+
+        } else if (Iterable.class.isAssignableFrom(clazz)) {
+            Iterator<?> iterator = ((Iterable<?>) array).iterator();
+
+            StringBuilder sb = new StringBuilder("[");
+            if (iterator.hasNext()) {
+                sb.append(toString(iterator.next()));
+
+                while (iterator.hasNext()) {
+                    sb.append(", ").append(toString(iterator.next()));
+                }
+            }
+            sb.append("]");
+
+            return sb.toString();
+
+        } else if (Map.class.isAssignableFrom(clazz)) {
+            Iterator<? extends Entry<?, ?>> iterator = ((Map<?, ?>) array).entrySet().iterator();
+
+            StringBuilder sb = new StringBuilder("{");
+            if (iterator.hasNext()) {
+                Entry<?, ?> e0 = iterator.next();
+                sb.append(toString(e0.getKey())).append('=').append(toString(e0.getValue()));
+
+                while (iterator.hasNext()) {
+                    Entry<?, ?> e1 = iterator.next();
+                    sb.append(", ").append(toString(e1.getKey())).append('=').append(toString(e1.getValue()));
+                }
+            }
+            sb.append("}");
+
+            return sb.toString();
         }
 
         // Others.
