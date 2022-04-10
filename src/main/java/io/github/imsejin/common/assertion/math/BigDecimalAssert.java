@@ -16,14 +16,14 @@
 
 package io.github.imsejin.common.assertion.math;
 
-import io.github.imsejin.common.assertion.DecimalNumberAssertion;
-import io.github.imsejin.common.assertion.primitive.NumberAssert;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.util.NumberUtils;
 
 import java.math.BigDecimal;
 
 public class BigDecimalAssert<SELF extends BigDecimalAssert<SELF>> extends NumberAssert<SELF, BigDecimal>
-        implements DecimalNumberAssertion<SELF, BigDecimal> {
+        implements DecimalNumberAssertable<SELF, BigDecimal> {
 
     public BigDecimalAssert(BigDecimal actual) {
         super(actual);
@@ -70,7 +70,7 @@ public class BigDecimalAssert<SELF extends BigDecimalAssert<SELF>> extends Numbe
     @Override
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
-            setDefaultDescription(DecimalNumberAssertion.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
+            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
             throw getException();
         }
 

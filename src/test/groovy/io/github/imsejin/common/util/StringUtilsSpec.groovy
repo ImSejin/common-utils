@@ -363,4 +363,34 @@ class StringUtilsSpec extends Specification {
         "a,b,c"            | ';'       | -2      || -1
     }
 
+    def "Gets index of the current closing bracket"() {
+        when:
+        def actual = StringUtils.indexOfCurrentClosingBracket(src, pos, opener as char, closer as char)
+
+        then:
+        actual == expected
+
+        where:
+        src                         | pos | opener | closer || expected
+        null                        | 0   | '('    | ')'    || -1
+        ""                          | 0   | '('    | ')'    || -1
+        "(0"                        | 0   | '('    | ')'    || -1
+        "0)"                        | 0   | '('    | ')'    || -1
+        "[0, [1]"                   | 0   | '['    | ']'    || -1
+        "[0], 1]"                   | 0   | '['    | ']'    || 2
+        "{name: 'jeremy', age: 16}" | 0   | '{'    | '}'    || 24
+        "{name: 'jeremy', age: 16}" | 12  | '{'    | '}'    || 24
+        "{name: 'jeremy', age: 16}" | 24  | '{'    | '}'    || 24
+        "[0, [1, 2], 3]"            | 0   | '['    | ']'    || 13
+        "[0, [1, 2], 3]"            | 12  | '['    | ']'    || 13
+        "[0, [1, 2], 3]"            | 4   | '['    | ']'    || 9
+        "[0, [1, 2], 3]"            | 7   | '['    | ']'    || 9
+        "<<1>, <>, <1, 2, 3>>"      | 0   | '<'    | '>'    || 19
+        "<<1>, <>, <1, 2, 3>>"      | 2   | '<'    | '>'    || 3
+        "<<1>, <>, <1, 2, 3>>"      | 7   | '<'    | '>'    || 7
+        "<<1>, <>, <1, 2, 3>>"      | 10  | '<'    | '>'    || 18
+        "<<1>, <>, <1, 2, 3>>"      | 18  | '<'    | '>'    || 18
+        "<<1>, <>, <1, 2, 3>>"      | 19  | '<'    | '>'    || 19
+    }
+
 }

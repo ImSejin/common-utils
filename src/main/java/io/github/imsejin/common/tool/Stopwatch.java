@@ -20,7 +20,6 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
 
-import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +73,7 @@ public final class Stopwatch {
      *
      * @param timeUnit time unit
      */
-    public Stopwatch(@Nonnull TimeUnit timeUnit) {
+    public Stopwatch(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
                 .as("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
@@ -123,7 +122,7 @@ public final class Stopwatch {
      *
      * @param timeUnit time unit
      */
-    public void setTimeUnit(@Nonnull TimeUnit timeUnit) {
+    public void setTimeUnit(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
                 .as("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
@@ -148,7 +147,7 @@ public final class Stopwatch {
      * @param taskName current task name
      * @throws UnsupportedOperationException if stopwatch is running
      */
-    public void start(@Nonnull String taskName) {
+    public void start(String taskName) {
         Asserts.that(taskName)
                 .as("Task name cannot be null")
                 .isNotNull();
@@ -171,7 +170,7 @@ public final class Stopwatch {
      * @throws IllegalArgumentException      if format is null
      * @throws UnsupportedOperationException if stopwatch is running
      */
-    public void start(@Nonnull String format, Object... args) {
+    public void start(String format, Object... args) {
         Asserts.that(format)
                 .as("Task name cannot be null")
                 .isNotNull();

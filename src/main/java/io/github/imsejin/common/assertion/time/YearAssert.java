@@ -16,13 +16,17 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.YearAssertable;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.Year;
 
 public class YearAssert<SELF extends YearAssert<SELF>>
         extends AbstractTemporalAssert<SELF, Year>
-        implements YearAssertion<SELF> {
+        implements YearAssertable<SELF, Year> {
 
     public YearAssert(Year actual) {
         super(actual);
@@ -31,7 +35,7 @@ public class YearAssert<SELF extends YearAssert<SELF>>
     @Override
     public SELF isLeapYear() {
         if (!actual.isLeap()) {
-            setDefaultDescription(YearAssertion.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
             throw getException();
         }
 
@@ -41,11 +45,27 @@ public class YearAssert<SELF extends YearAssert<SELF>>
     @Override
     public SELF isNotLeapYear() {
         if (actual.isLeap()) {
-            setDefaultDescription(YearAssertion.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
             throw getException();
         }
 
         return self;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public NumberAssert<?, Integer> asValue() {
+        NumberAssert<?, Integer> assertion = Asserts.that(actual.getValue());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
+    }
+
+    public NumberAssert<?, Integer> asLength() {
+        NumberAssert<?, Integer> assertion = Asserts.that(actual.length());
+        Descriptor.merge(this, assertion);
+
+        return assertion;
     }
 
 }

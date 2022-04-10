@@ -18,7 +18,6 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
-import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
@@ -257,7 +256,7 @@ public final class NumberUtils {
      * @param bigInt number
      * @return the number of places
      */
-    public static int getNumOfPlaces(@Nonnull BigInteger bigInt) {
+    public static int getNumOfPlaces(BigInteger bigInt) {
         return bigInt.abs().toString().length();
     }
 
@@ -344,7 +343,7 @@ public final class NumberUtils {
      * @param bigInt big integer
      * @return reversed big integer
      */
-    public static BigInteger reverse(@Nonnull BigInteger bigInt) {
+    public static BigInteger reverse(BigInteger bigInt) {
         BigInteger reversed = BigInteger.ZERO;
 
         // Runs loop until number becomes 0.

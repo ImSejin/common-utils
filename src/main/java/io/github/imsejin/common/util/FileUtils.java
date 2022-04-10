@@ -18,7 +18,6 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -59,7 +58,7 @@ public final class FileUtils {
      * @param file file
      * @return file's creation time
      */
-    public static LocalDateTime getCreationTime(@Nonnull File file) {
+    public static LocalDateTime getCreationTime(File file) {
         FileTime time = getFileAttributes(file).creationTime();
         return LocalDateTime.ofInstant(time.toInstant(), ZoneId.systemDefault());
     }
@@ -70,7 +69,7 @@ public final class FileUtils {
      * @param file file
      * @return file's attributes
      */
-    public static BasicFileAttributes getFileAttributes(@Nonnull File file) {
+    public static BasicFileAttributes getFileAttributes(File file) {
         try {
             return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
         } catch (IOException e) {
@@ -89,7 +88,7 @@ public final class FileUtils {
      * @param file file
      * @return directory whose name is the same name as the filename in the same path
      */
-    public static File mkdirAsOwnName(@Nonnull File file) {
+    public static File mkdirAsOwnName(File file) {
         String dirName = FilenameUtils.getBaseName(file.getName());
 
         File dir = new File(file.getParentFile(), dirName);

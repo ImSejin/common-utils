@@ -19,7 +19,6 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.constant.DateType;
 
-import javax.annotation.Nonnull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -89,7 +88,7 @@ public final class DateTimeUtils {
      * @param type type of the date
      * @return today's datetime formatted with pattern
      */
-    public static String today(@Nonnull DateType type) {
+    public static String today(DateType type) {
         return LocalDateTime.now().format(type.getFormatter());
     }
 
@@ -121,7 +120,7 @@ public final class DateTimeUtils {
      * @param type type of the date
      * @return yesterday's datetime formatted with pattern
      */
-    public static String yesterday(@Nonnull DateType type) {
+    public static String yesterday(DateType type) {
         return LocalDateTime.now().minusDays(1).format(type.getFormatter());
     }
 
@@ -153,7 +152,7 @@ public final class DateTimeUtils {
      * @param date date
      * @return whether the date is valid
      */
-    public static boolean validate(@Nonnull String date) {
+    public static boolean validate(String date) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DateType.DATE.getPattern(), Locale.getDefault());
             dateFormat.setLenient(false);
@@ -181,14 +180,14 @@ public final class DateTimeUtils {
      * @param dayOfWeek day of week
      * @return whether the date is valid
      */
-    public static boolean validate(@Nonnull String date, DayOfWeek dayOfWeek) {
-        // 유효한 날짜인지 확인한다
+    public static boolean validate(String date, DayOfWeek dayOfWeek) {
+        // Checks if date is valid.
         if (!validate(date)) return false;
 
         date = date.replace("-", "");
         LocalDate localDate = LocalDate.parse(date, DateType.DATE.getFormatter());
 
-        // 유효한 요일인지 확인한다
+        // Checks if day of week is valid.
         return localDate.getDayOfWeek().equals(dayOfWeek);
     }
 
@@ -221,7 +220,7 @@ public final class DateTimeUtils {
      * @param month month
      * @return last date of the year and month
      */
-    public static String getLastDateOfMonth(int year, @Nonnull Month month) {
+    public static String getLastDateOfMonth(int year, Month month) {
         LocalDate lastDate = YearMonth.of(year, month).atEndOfMonth();
         return lastDate.format(DateType.DATE.getFormatter());
     }
@@ -238,7 +237,7 @@ public final class DateTimeUtils {
      * @param month month
      * @return last date of the year and month
      */
-    public static String getLastDateOfMonth(@Nonnull String year, @Nonnull String month) {
+    public static String getLastDateOfMonth(String year, String month) {
         LocalDate lastDate = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month)).atEndOfMonth();
         return lastDate.format(DateType.DATE.getFormatter());
     }
@@ -255,7 +254,7 @@ public final class DateTimeUtils {
      * @param month month
      * @return last date of the year and month
      */
-    public static String getLastDateOfMonth(@Nonnull String year, @Nonnull Month month) {
+    public static String getLastDateOfMonth(String year, Month month) {
         LocalDate lastDate = YearMonth.of(Integer.parseInt(year), month).atEndOfMonth();
         return lastDate.format(DateType.DATE.getFormatter());
     }
@@ -306,9 +305,7 @@ public final class DateTimeUtils {
 
         public LocalDateTime nextDateTime(ChronoLocalDateTime<? extends ChronoLocalDate> start,
                                           ChronoLocalDateTime<? extends ChronoLocalDate> end) {
-            ZoneOffset offset = getSystemDefaultZoneOffset();
-            long randomSeconds = this.random.nextLong(start.toEpochSecond(offset), end.toEpochSecond(offset));
-            return LocalDateTime.ofInstant(Instant.ofEpochSecond(randomSeconds), ZoneId.systemDefault());
+            return nextDateTime(start, end, getSystemDefaultZoneOffset());
         }
 
         public LocalDateTime nextDateTime(ChronoLocalDateTime<? extends ChronoLocalDate> start,

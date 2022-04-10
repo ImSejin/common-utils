@@ -25,14 +25,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 /**
  * Reflection utilities
  */
 public final class ReflectionUtils {
-
-    private static final Pattern OUTER_CLASS_REF_PATTERN = Pattern.compile("^this\\$[0-9]+$");
 
     @ExcludeFromGeneratedJacocoReport
     private ReflectionUtils() {
@@ -41,6 +38,8 @@ public final class ReflectionUtils {
 
     /**
      * Gets fields of the type including its inherited fields.
+     *
+     * <p> Excludes static fields and synthetic fields.
      *
      * @param type type of the object
      * @return inherited and own fields (non-static)
@@ -55,17 +54,13 @@ public final class ReflectionUtils {
             fields.addAll(0, Arrays.asList(clazz.getDeclaredFields()));
         }
 
-        // Removes static fields.
+        // Removes static fields; Static member is not a target of extension.
         Predicate<Field> filter = it -> Modifier.isStatic(it.getModifiers());
 
-        // Removes the fields for reference to outer class when a type is non-static.
-        // e.g. this$0, this$1, ...
-        filter = filter.or(it -> Modifier.isFinal(it.getModifiers()) &&
-                OUTER_CLASS_REF_PATTERN.matcher(it.getName()).matches());
-
-        // Removes internal field for meta-programming in groovy class.
-        filter = filter.or(it -> Modifier.isTransient(it.getModifiers()) &&
-                it.getType().getName().equals("groovy.lang.MetaClass"));
+        // Removes the synthetic fields; Only includes user-defined fields.
+        // 1. Reference in non-static nested class to its enclosing class. (this$0, this$1, ...)
+        // 2. Field(groovy.lang.MetaClass metaClass) for meta-programming on groovy class.
+        filter = filter.or(Field::isSynthetic);
 
         fields.removeIf(filter);
 
@@ -75,10 +70,20 @@ public final class ReflectionUtils {
     /**
      * Returns value of the field.
      *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Field} instance that is not accessible on multi-threaded environment,
+     * sometimes you fail to get value of the {@code field} and get an exception.
+     * If you don't have access to that {@code field}, this enables you to do temporarily.
+     * After all the work is done, this turns back its accessibility as it was.
+     * On multi-threaded environment, this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Field} instance, before invoking this method.
+     *
      * @param instance instance if field is static, null
-     * @param field    targeted field
+     * @param field    field
      * @return field value
-     * @throws RuntimeException if get value from the field
+     * @throws RuntimeException if failed to get value from the field
      */
     @Nullable
     public static Object getFieldValue(@Nullable Object instance, Field field) {
@@ -86,25 +91,39 @@ public final class ReflectionUtils {
         if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
 
         // Enables to have access to the field even private field.
-        field.setAccessible(true);
+        boolean accessible = field.isAccessible();
+        if (!accessible) field.setAccessible(true);
 
         try {
-            // Returns value in the field.
+            // Returns value of the field.
             return field.get(instance);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to get value from the field(%s) of the class(%s)",
-                    field.getName(), instance.getClass().getName());
+                    field.getName(), field.getDeclaringClass().getName());
             throw new RuntimeException(message, e);
+        } finally {
+            // Turns back the accessibility of the field as it was.
+            if (!accessible) field.setAccessible(false);
         }
     }
 
     /**
      * Sets up value into the field.
      *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Field} instance that is not accessible on multi-threaded environment,
+     * sometimes you fail to set value of the {@code field} and get an exception.
+     * If you don't have access to that {@code field}, this enables you to do temporarily.
+     * After all the work is done, this turns back its accessibility as it was.
+     * On multi-threaded environment, this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Field} instance, before invoking this method.
+     *
      * @param instance instance if method is static, null
-     * @param field    targeted field
+     * @param field    field
      * @param value    value to be set into field
-     * @throws RuntimeException if failed to set value into the field
+     * @throws RuntimeException if failed to set {@code value} into the {@code field}
      */
     public static void setFieldValue(@Nullable Object instance, Field field, Object value) {
         Asserts.that(field).isNotNull();
@@ -114,15 +133,19 @@ public final class ReflectionUtils {
                 .isNotNull();
 
         // Enables to have access to the field even private field.
-        field.setAccessible(true);
+        boolean accessible = field.isAccessible();
+        if (!accessible) field.setAccessible(true);
 
-        // Sets value into the field.
         try {
+            // Sets value to the field.
             field.set(instance, value);
         } catch (IllegalAccessException e) {
             String message = String.format("Failed to set value into the field(%s) of the class(%s)",
-                    field.getName(), instance.getClass().getName());
+                    field.getName(), field.getDeclaringClass().getName());
             throw new RuntimeException(message, e);
+        } finally {
+            // Turns back the accessibility of the field as it was.
+            if (!accessible) field.setAccessible(false);
         }
     }
 
@@ -131,7 +154,7 @@ public final class ReflectionUtils {
      *
      * @param type       class
      * @param paramTypes parameter types of constructor
-     * @param <T>        type of instance
+     * @param <T>        declaring class of constructor
      * @return constructor
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> type, @Nullable Class<?>... paramTypes) {
@@ -142,59 +165,62 @@ public final class ReflectionUtils {
             // Gets constructor with the specific parameter types.
             return type.getDeclaredConstructor(paramTypes);
         } catch (NoSuchMethodException e) {
-            String message = String.format("Cannot find a constructor: %s(%s)",
-                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
+            String message = String.format("Not found constructor: %s(%s)",
+                    type, Arrays.toString(paramTypes).replaceAll("[\\[\\]]", ""));
             throw new RuntimeException(message, e);
         }
     }
 
     /**
-     * Returns instance of type using default constructor.
+     * Creates an instance of type using default constructor.
      *
      * @param type class
      * @param <T>  type of instance
      * @return instance of type
-     * @throws RuntimeException if the type doesn't have default constructor
+     * @throws RuntimeException if {@code type} doesn't have default constructor
      * @throws RuntimeException if failed to instantiate
      */
     public static <T> T instantiate(Class<T> type) {
-        return instantiate(type, null, null);
+        Constructor<T> constructor = getDeclaredConstructor(type);
+        return instantiate(constructor);
     }
 
     /**
-     * Returns instance of type using the specific constructor.
+     * Creates an instance of type using the constructor.
      *
-     * @param type       class
-     * @param paramTypes parameter types of constructor
-     * @param initArgs   initial arguments of constructor
-     * @param <T>        type of instance
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Constructor} instance that is not accessible on multi-threaded
+     * environment, sometimes you fail to instantiate and get an exception.
+     * If you don't have access to that {@code constructor}, this enables you
+     * to do temporarily. After all the work is done, this turns back its
+     * accessibility as it was. On multi-threaded environment, this makes you
+     * encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Constructor} instance, before invoking this method.
+     *
+     * @param constructor constructor declared in type
+     * @param initArgs    initial arguments of constructor
+     * @param <T>         type of instance
      * @return instance of type
-     * @throws RuntimeException if the type doesn't have default constructor
+     * @throws RuntimeException if {@code initArgs} doesn't match with {@code constructor.parameterTypes}
      * @throws RuntimeException if failed to instantiate
      */
-    public static <T> T instantiate(Class<T> type, @Nullable Class<?>[] paramTypes, @Nullable Object[] initArgs) {
-        Asserts.that(type).isNotNull();
-        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull().isSameLength(initArgs);
-        if (initArgs != null) Asserts.that(initArgs).isSameLength(paramTypes);
+    public static <T> T instantiate(Constructor<T> constructor, @Nullable Object... initArgs) {
+        Asserts.that(constructor).isNotNull();
+        if (initArgs != null) Asserts.that(initArgs).isSameLength(constructor.getParameterTypes());
 
-        Constructor<T> constructor;
-        try {
-            // Gets constructor with the specific parameter types.
-            constructor = type.getDeclaredConstructor(paramTypes);
-        } catch (NoSuchMethodException e) {
-            String message = String.format("Cannot find a constructor: %s(%s)",
-                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
-            throw new RuntimeException(message, e);
-        }
-        constructor.setAccessible(true);
+        boolean accessible = constructor.isAccessible();
+        if (!accessible) constructor.setAccessible(true);
 
-        // Instantiates new model and sets up data into the model's fields.
         try {
+            // Creates an instance of the type.
             return constructor.newInstance(initArgs);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            String message = String.format("Failed to instantiate by constructor: %s(%s)",
-                    type, Arrays.toString(paramTypes).replaceAll("\\[|]", ""));
-            throw new RuntimeException(message, e);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException("Failed to instantiate by constructor: " + constructor, e);
+        } finally {
+            // Turns back the accessibility of the constructor as it was.
+            if (!accessible) constructor.setAccessible(false);
         }
     }
 
@@ -202,53 +228,90 @@ public final class ReflectionUtils {
      * Returns the specific method declared by given type.
      *
      * @param type       class
-     * @param methodName name of method
+     * @param name       method name
      * @param paramTypes parameter types of method
      * @return method
      */
-    public static Method getDeclaredMethod(Class<?> type, String methodName, @Nullable Class<?>... paramTypes) {
+    public static Method getDeclaredMethod(Class<?> type, String name, @Nullable Class<?>... paramTypes) {
         Asserts.that(type).isNotNull();
-        Asserts.that(methodName).isNotNull().hasText();
+        Asserts.that(name).isNotNull().hasText();
         if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
 
         try {
-            return type.getDeclaredMethod(methodName, paramTypes);
+            return type.getDeclaredMethod(name, paramTypes);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Invokes the specific method and returns its result.
+     * Invokes the method and returns its result.
      *
-     * @param type       class
-     * @param instance   instance if method is static, null
-     * @param methodName name of method
-     * @param paramTypes parameter types of method
-     * @param args       arguments of method
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Method} instance that is not accessible on multi-threaded
+     * environment, sometimes you fail to invoke the {@code method} and get an exception.
+     * If you don't have access to that {@code method}, this enables you to do temporarily.
+     * After all the work is done, this turns back its accessibility as it was.
+     * On multi-threaded environment, this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Method} instance, before invoking this method.
+     *
+     * @param method   method
+     * @param instance instance of method if method is static, null
+     * @param args     arguments of method
      * @return result of method
      */
-    public static Object invoke(Class<?> type, @Nullable Object instance,
-                                String methodName, @Nullable Class<?>[] paramTypes, @Nullable Object[] args) {
-        Asserts.that(type).isNotNull();
-        Asserts.that(methodName).isNotNull().hasText();
-        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull().isSameLength(args);
-        if (args != null) Asserts.that(args).isSameLength(paramTypes);
-
-        Method method;
-        try {
-            method = type.getDeclaredMethod(methodName, paramTypes);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-
+    public static Object invoke(Method method, @Nullable Object instance, Object... args) {
+        Asserts.that(method).isNotNull();
         if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
-        method.setAccessible(true);
+        if (args != null) Asserts.that(args).isSameLength(method.getParameterTypes());
+
+        boolean accessible = method.isAccessible();
+        if (!accessible) method.setAccessible(true);
 
         try {
             return method.invoke(instance, args);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
+        } finally {
+            // Turns back the accessibility of the method as it was.
+            if (!accessible) method.setAccessible(false);
+        }
+    }
+
+    /**
+     * Runs the executable and returns its result.
+     *
+     * <p> Be aware of that when you invoke this method reusing
+     * a {@link Executable} instance that is not accessible on multi-threaded
+     * environment, sometimes you fail to execute the {@code executable} and
+     * get an exception. If you don't have access to that {@code executable},
+     * this enables you to do temporarily. After all the work is done,
+     * this turns back its accessibility as it was. On multi-threaded environment,
+     * this makes you encounter an exception.
+     *
+     * <p> It is recommended on the situation, that you should set {@code true} to the
+     * accessibility of {@link Executable} instance, before invoking this method.
+     *
+     * @param executable constructor or method
+     * @param instance   instance if {@code executable} is not instance method, null
+     * @param args       arguments of the executable
+     * @return result of the executable
+     * @see #invoke(Method, Object, Object...)
+     * @see #instantiate(Constructor, Object...)
+     */
+    public static Object execute(Executable executable, @Nullable Object instance, Object... args) {
+        if (executable instanceof Method) {
+            Method method = (Method) executable;
+            return invoke(method, instance, args);
+
+        } else if (executable instanceof Constructor) {
+            Constructor<?> constructor = (Constructor<?>) executable;
+            return instantiate(constructor, args);
+
+        } else {
+            throw new UnsupportedOperationException("Unsupported implementation of Executable: " + executable);
         }
     }
 

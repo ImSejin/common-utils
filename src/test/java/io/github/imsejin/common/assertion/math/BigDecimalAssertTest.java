@@ -397,10 +397,10 @@ class BigDecimalAssertTest {
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigDecimal.ZERO).isCloseTo(BigDecimal.ONE, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigDecimal.ZERO).isCloseTo(BigDecimal.ONE.negate(), 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 

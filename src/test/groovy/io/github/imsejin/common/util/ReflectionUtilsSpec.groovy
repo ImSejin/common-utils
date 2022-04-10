@@ -16,6 +16,10 @@
 
 package io.github.imsejin.common.util
 
+import io.github.imsejin.common.util.ReflectionUtilsSpec.A.AA
+import io.github.imsejin.common.util.ReflectionUtilsSpec.A.AB
+import io.github.imsejin.common.util.ReflectionUtilsSpec.B.BA
+import io.github.imsejin.common.util.ReflectionUtilsSpec.Parent.Child
 import lombok.AccessLevel
 import lombok.Getter
 import lombok.RequiredArgsConstructor
@@ -36,14 +40,14 @@ class ReflectionUtilsSpec extends Specification {
         fieldNames == expected
 
         where:
-        type         | expected
-        Parent       | ["id", "name", "createdAt", "modifiedAt"]
-        Parent.Child | ["id", "name", "createdAt", "modifiedAt", "id", "title"]
-        A            | []
-        A.AA         | []
-        A.AB         | []
-        B            | []
-        B.BA         | []
+        type   | expected
+        Parent | ["id", "name", "createdAt", "modifiedAt"]
+        Child  | ["id", "name", "createdAt", "modifiedAt", "id", "title"]
+        A      | []
+        AA     | []
+        AB     | []
+        B      | []
+        BA     | []
     }
 
     def "GetFieldValue"() {
@@ -86,7 +90,6 @@ class ReflectionUtilsSpec extends Specification {
     }
 
     class Parent implements Serializable {
-
         static final long serialVersionUID = 8099680797687427324L
         long id
         String name
@@ -99,7 +102,6 @@ class ReflectionUtilsSpec extends Specification {
             private final int id
             final String title
         }
-
     }
 
 }

@@ -17,22 +17,16 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.array.ArrayAssert;
-import io.github.imsejin.common.assertion.chars.AbstractCharSequenceAssert;
-import io.github.imsejin.common.assertion.chars.StringAssert;
-import io.github.imsejin.common.assertion.collection.AbstractCollectionAssert;
 import io.github.imsejin.common.assertion.io.AbstractFileAssert;
-import io.github.imsejin.common.assertion.map.AbstractMapAssert;
-import io.github.imsejin.common.assertion.object.AbstractObjectAssert;
-import io.github.imsejin.common.assertion.primitive.*;
-import io.github.imsejin.common.assertion.reflect.ClassAssert;
-import io.github.imsejin.common.assertion.reflect.PackageAssert;
+import io.github.imsejin.common.assertion.lang.*;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
+import io.github.imsejin.common.assertion.util.CollectionAssert;
+import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -97,9 +91,9 @@ class ClassFinderTest {
             assertThat(subclasses)
                     .isNotEmpty()
                     .doesNotContainNull()
-                    .contains(ArrayAssert.class, AbstractCharSequenceAssert.class, StringAssert.class,
-                            AbstractCollectionAssert.class, AbstractFileAssert.class, AbstractMapAssert.class,
-                            AbstractObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
+                    .contains(ArrayAssert.class, CharSequenceAssert.class, StringAssert.class,
+                            CollectionAssert.class, AbstractFileAssert.class, MapAssert.class,
+                            ObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
                             FloatAssert.class, NumberAssert.class, ClassAssert.class, PackageAssert.class,
                             AbstractChronoLocalDateAssert.class, AbstractChronoLocalDateTimeAssert.class,
                             AbstractChronoZonedDateTimeAssert.class, LocalTimeAssert.class,

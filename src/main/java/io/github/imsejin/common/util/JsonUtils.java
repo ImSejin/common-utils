@@ -22,7 +22,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
-import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -61,7 +60,7 @@ public final class JsonUtils {
      * @param url URL
      * @return JSON object
      */
-    public static JsonObject readJsonFromUrl(@Nonnull URL url) {
+    public static JsonObject readJsonFromUrl(URL url) {
         String jsonText;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -80,7 +79,7 @@ public final class JsonUtils {
      * @param reader reader
      * @return JSON string
      */
-    private static String readAllLines(@Nonnull Reader reader) {
+    private static String readAllLines(Reader reader) {
         BufferedReader bufferedReader;
         if (reader instanceof BufferedReader) {
             bufferedReader = (BufferedReader) reader;
@@ -102,7 +101,7 @@ public final class JsonUtils {
      * @param jsonText JSON string
      * @param clazz    type
      * @param <T>      any type
-     * @return type casted instance
+     * @return type cast instance
      */
     public static <T> T toObject(String jsonText, Class<T> clazz) {
         return gson.fromJson(jsonText, clazz);
@@ -122,9 +121,9 @@ public final class JsonUtils {
      * @param jsonArray JSON array
      * @param clazz     type
      * @param <T>       any type
-     * @return list that has type casted instances
+     * @return list that has type cast instances
      */
-    public static <T> List<T> toList(@Nonnull JsonArray jsonArray, Class<T> clazz) {
+    public static <T> List<T> toList(JsonArray jsonArray, Class<T> clazz) {
         return StreamUtils.toStream(jsonArray.iterator())
                 .map(jsonElement -> gson.fromJson(jsonElement, clazz))
                 .collect(Collectors.toList());

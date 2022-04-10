@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.OffsetAssertable;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
@@ -29,7 +30,7 @@ import java.time.ZoneOffset;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
         extends AbstractTemporalAssert<SELF, OffsetDateTime>
-        implements OffsetAssertion<SELF> {
+        implements OffsetAssertable<SELF, OffsetDateTime> {
 
     public OffsetDateTimeAssert(OffsetDateTime actual) {
         super(actual);

@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
+import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.StringUtils;
 
 import java.text.MessageFormat;
@@ -53,17 +55,6 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         return this.self;
     }
 
-    protected final String getMessage() {
-        // Prevent NPE.
-        if (StringUtils.isNullOrEmpty(this.description)) return "";
-
-        // Escapes single quotation marks.
-        String pattern = this.description.replace("'", "''");
-        MessageFormat messageFormat = new MessageFormat(pattern);
-
-        return messageFormat.format(this.arguments);
-    }
-
     protected final RuntimeException getException() {
         return this.function.apply(getMessage());
     }
@@ -73,6 +64,35 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
         this.description = description;
         this.arguments = args;
+    }
+
+    private String getMessage() {
+        // Prevent NPE.
+        if (StringUtils.isNullOrEmpty(this.description)) return "";
+
+        // Escapes single quotation marks.
+        String pattern = this.description.replace("'", "''");
+        MessageFormat messageFormat = new MessageFormat(pattern);
+
+        // Stringifies array in the arguments.
+        String[] strings = new String[this.arguments.length];
+        for (int i = 0; i < this.arguments.length; i++) {
+            Object argument = this.arguments[i];
+            strings[i] = ArrayUtils.toString(argument);
+        }
+
+        return messageFormat.format(strings);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p> Deprecated not to be confused with {@link ObjectAssert#isEqualTo(Object)}.
+     */
+    @Override
+    @Deprecated
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
 }
