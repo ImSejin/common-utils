@@ -207,6 +207,35 @@ public final class ArrayUtils {
     }
 
     /**
+     * Returns hash code of array.
+     *
+     * @param array array
+     * @return hash code of array
+     */
+    public static int hashCode(@Nullable Object array) {
+        if (array == null) return 0;
+
+        Class<?> clazz = array.getClass();
+        if (clazz.isArray()) {
+            // One dimensional object array or multi-dimensional array.
+            if (array instanceof Object[]) return Arrays.deepHashCode((Object[]) array);
+
+            // One dimensional primitive array.
+            Class<?> componentType = clazz.getComponentType();
+            if (componentType == boolean.class) return Arrays.hashCode((boolean[]) array);
+            if (componentType == byte.class) return Arrays.hashCode((byte[]) array);
+            if (componentType == short.class) return Arrays.hashCode((short[]) array);
+            if (componentType == char.class) return Arrays.hashCode((char[]) array);
+            if (componentType == int.class) return Arrays.hashCode((int[]) array);
+            if (componentType == long.class) return Arrays.hashCode((long[]) array);
+            if (componentType == float.class) return Arrays.hashCode((float[]) array);
+            if (componentType == double.class) return Arrays.hashCode((double[]) array);
+        }
+
+        return array.hashCode();
+    }
+
+    /**
      * Prepends elements to array.
      *
      * <pre><code>

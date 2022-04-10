@@ -151,6 +151,17 @@ class ArrayUtilsSpec extends Specification {
         [alpha: new Object[0], beta: new String[]{"a", "b", "c"}] | "{alpha=[], beta=[a, b, c]}"
     }
 
+    def "Gets hash code of array"() {
+        when:
+        ArrayUtils.hashCode(array)
+
+        then:
+        noExceptionThrown()
+
+        where:
+        array << [null, 10, -1.14, "", "alpha", [] as char[], [null, [1, 2], [], [3, 4]] as int[][]]
+    }
+
     def "Prepends elements to array"() {
         when:
         def actual = ArrayUtils.prepend(src.toArray(), elements?.toArray())
