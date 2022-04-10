@@ -25,7 +25,11 @@ import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Predicate;
 
 public class CollectionAssert<
         SELF extends CollectionAssert<SELF, ACTUAL, ELEMENT>,
@@ -52,28 +56,6 @@ public class CollectionAssert<
     public SELF hasElement() {
         if (actual.isEmpty()) {
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_ELEMENT, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    @Override
-    public SELF containsNull() {
-        for (ELEMENT element : actual) {
-            if (element == null) return self;
-        }
-
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, actual);
-        throw getException();
-    }
-
-    @Override
-    public SELF doesNotContainNull() {
-        for (ELEMENT element : actual) {
-            if (element != null) continue;
-
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, actual);
             throw getException();
         }
 
@@ -112,8 +94,20 @@ public class CollectionAssert<
 
     @Override
     public SELF contains(ELEMENT expected) {
-        if (!actual.contains(expected)) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
+        for (ELEMENT element : actual) {
+            if (Objects.deepEquals(element, expected)) return self;
+        }
+
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
+        throw getException();
+    }
+
+    @Override
+    public SELF doesNotContain(ELEMENT expected) {
+        for (ELEMENT element : actual) {
+            if (!Objects.deepEquals(element, expected)) continue;
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN, expected, actual, element);
             throw getException();
         }
 
@@ -121,13 +115,22 @@ public class CollectionAssert<
     }
 
     @Override
-    public SELF doesNotContain(ELEMENT expected) {
+    public SELF containsNull() {
         for (ELEMENT element : actual) {
-            if (Objects.deepEquals(element, expected)) {
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN,
-                        ArrayUtils.toString(expected), actual);
-                throw getException();
-            }
+            if (element == null) return self;
+        }
+
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, actual);
+        throw getException();
+    }
+
+    @Override
+    public SELF doesNotContainNull() {
+        for (ELEMENT element : actual) {
+            if (element != null) continue;
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, actual);
+            throw getException();
         }
 
         return self;
@@ -144,7 +147,7 @@ public class CollectionAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY, Arrays.deepToString(expected), actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY, expected, actual);
         throw getException();
     }
 
@@ -152,8 +155,13 @@ public class CollectionAssert<
     public SELF containsAll(ACTUAL expected) {
         if (CollectionUtils.isNullOrEmpty(expected)) return self;
 
-        if (!actual.containsAll(expected)) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual);
+        outer:
+        for (ELEMENT item : expected) {
+            for (ELEMENT element : actual) {
+                if (Objects.deepEquals(element, item)) continue outer;
+            }
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual, item);
             throw getException();
         }
 
@@ -162,28 +170,48 @@ public class CollectionAssert<
 
     @Override
     public SELF doesNotContainAll(ACTUAL expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (actual.isEmpty() || CollectionUtils.isNullOrEmpty(expected)) return self;
 
-        for (ELEMENT element : expected) {
-            doesNotContain(element);
+        for (ELEMENT item : expected) {
+            for (ELEMENT element : actual) {
+                if (!Objects.deepEquals(element, item)) continue;
+
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL, expected, actual);
+                throw getException();
+            }
         }
 
         return self;
     }
 
+    /**
+     * @see #containsAll(Collection)
+     */
     @Override
     @SafeVarargs
     public final SELF containsOnly(ELEMENT... expected) {
         if (ArrayUtils.isNullOrEmpty(expected)) return self;
 
-        // To allow null element, use Set not Map.
-        Set<ELEMENT> expectedSet = new HashSet<>(Arrays.asList(expected));
-        for (ELEMENT element : actual) {
-            if (!expectedSet.contains(element)) {
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY,
-                        Arrays.deepToString(expected), actual);
-                throw getException();
+        // Checks if the actual collection contains all the given elements.
+        outer:
+        for (ELEMENT item : expected) {
+            for (ELEMENT element : actual) {
+                if (Objects.deepEquals(element, item)) continue outer;
             }
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING, expected, actual, item);
+            throw getException();
+        }
+
+        // Checks if the actual collection doesn't contain elements that are not given.
+        outer:
+        for (ELEMENT element : actual) {
+            for (ELEMENT item : expected) {
+                if (Objects.deepEquals(element, item)) continue outer;
+            }
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED, expected, actual, element);
+            throw getException();
         }
 
         return self;
@@ -191,16 +219,76 @@ public class CollectionAssert<
 
     @Override
     public SELF containsOnlyNulls() {
-        if (CollectionUtils.isNullOrEmpty(actual)) {
+        if (actual.isEmpty()) {
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
             throw getException();
         }
 
         for (ELEMENT element : actual) {
-            if (element != null) {
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
+            if (element == null) continue;
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF doesNotHaveDuplicates() {
+        if (actual.isEmpty() || actual.size() == 1) return self;
+
+        Set<ELEMENT> noDuplicates = new TreeSet<>((o1, o2) -> {
+            if (Objects.deepEquals(o1, o2)) return 0;
+            return ArrayUtils.hashCode(o1) < ArrayUtils.hashCode(o2) ? -1 : 1;
+        });
+
+        for (ELEMENT element : actual) {
+            if (noDuplicates.contains(element)) {
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES, actual, element);
                 throw getException();
             }
+
+            noDuplicates.add(element);
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF anyMatch(Predicate<ELEMENT> expected) {
+        for (ELEMENT element : actual) {
+            if (expected.test(element)) return self;
+        }
+
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH, actual);
+        throw getException();
+    }
+
+    @Override
+    public SELF allMatch(Predicate<ELEMENT> expected) {
+        if (actual.isEmpty()) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, "");
+            throw getException();
+        }
+
+        for (ELEMENT element : actual) {
+            if (expected.test(element)) continue;
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, element);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF noneMatch(Predicate<ELEMENT> expected) {
+        for (ELEMENT element : actual) {
+            if (!expected.test(element)) continue;
+
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH, actual, element);
+            throw getException();
         }
 
         return self;
