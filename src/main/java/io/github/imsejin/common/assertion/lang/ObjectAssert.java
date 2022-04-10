@@ -60,8 +60,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
 
     public SELF isSameAs(ACTUAL expected) {
         if (actual != expected) {
-            setDefaultDescription("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -70,8 +69,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
 
     public SELF isNotSameAs(ACTUAL expected) {
         if (actual == expected) {
-            setDefaultDescription("They are expected to be not the same, but they are. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("They are expected to be not the same, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -80,8 +78,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
 
     public SELF isEqualTo(ACTUAL expected) {
         if (!Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -90,8 +87,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
 
     public SELF isNotEqualTo(ACTUAL expected) {
         if (Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -110,8 +106,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isInstanceOf(Class<?> expected) {
         if (!ClassUtils.wrap(expected).isInstance(actual)) {
-            setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
@@ -131,8 +126,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         T actual = Objects.requireNonNull(from.apply(this.actual), "Function is not allowed to be null");
 
         if (!Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }
 
