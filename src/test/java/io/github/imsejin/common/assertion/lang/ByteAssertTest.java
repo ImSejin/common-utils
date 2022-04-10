@@ -444,10 +444,10 @@ class ByteAssertTest {
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that((byte) 0).isCloseTo((byte) 1, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that((byte) 0).isCloseTo((byte) -1, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 

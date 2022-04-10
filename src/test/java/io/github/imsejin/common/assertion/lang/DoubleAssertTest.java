@@ -460,13 +460,13 @@ class DoubleAssertTest {
                     .withMessage("It is expected to close to other, but it isn't. (expected: '0.1', actual: 'Infinity')");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Double.MIN_VALUE).isCloseTo(Double.MAX_VALUE, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0).isCloseTo(1.0, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0).isCloseTo(-1.0, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 

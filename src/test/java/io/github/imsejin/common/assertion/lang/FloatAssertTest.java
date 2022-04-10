@@ -462,10 +462,10 @@ class FloatAssertTest {
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(1.0F, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(-1.0F, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was ∞%.");
+                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 
