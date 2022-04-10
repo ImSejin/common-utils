@@ -159,7 +159,18 @@ class ArrayUtilsSpec extends Specification {
         noExceptionThrown()
 
         where:
-        array << [null, 10, -1.14, "", "alpha", [] as char[], [null, [1, 2], [], [3, 4]] as int[][]]
+        array << [
+                null, 10, -1.14, "", "alpha",
+                [false, true] as boolean[],
+                [Byte.MIN_VALUE, 0, Byte.MAX_VALUE] as byte[],
+                [Short.MIN_VALUE, 0, Short.MAX_VALUE] as short[],
+                [Character.MIN_VALUE, 955, Character.MAX_VALUE] as char[],
+                [Integer.MIN_VALUE, 0, Integer.MAX_VALUE] as int[],
+                [Long.MIN_VALUE, 0, Long.MAX_VALUE] as long[],
+                [-1.141F, 0, 1.141F] as float[],
+                [-3.141592D, 0, 3.141592D] as double[],
+                [null, [1, 2], [], [3, 4]] as int[][],
+        ]
     }
 
     def "Prepends elements to array"() {
