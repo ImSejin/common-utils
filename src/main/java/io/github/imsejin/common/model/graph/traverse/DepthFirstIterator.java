@@ -19,7 +19,12 @@ package io.github.imsejin.common.model.graph.traverse;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.model.graph.Graph;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.Stack;
 import java.util.function.Consumer;
 
 public class DepthFirstIterator<E> implements Iterator<E> {
@@ -30,7 +35,7 @@ public class DepthFirstIterator<E> implements Iterator<E> {
 
     private final Graph<E> graph;
 
-    private Stack<Iterator<E>> stack = new Stack<>();
+    private final Stack<Iterator<E>> stack = new Stack<>();
 
     private E next;
 

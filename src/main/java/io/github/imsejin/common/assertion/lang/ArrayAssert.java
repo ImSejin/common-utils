@@ -21,7 +21,9 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 
 public class ArrayAssert<
