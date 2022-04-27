@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.security.crypto
+package io.github.imsejin.common.security.crypto.aes
 
+import io.github.imsejin.common.security.crypto.aes.AES128
+import io.github.imsejin.common.security.crypto.aes.AES192
+import io.github.imsejin.common.security.crypto.aes.AES256
 import io.github.imsejin.common.util.ReflectionUtils
 import io.github.imsejin.common.util.StringUtils
 import spock.lang.Specification

@@ -21,9 +21,9 @@ import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable
 import io.github.imsejin.common.assertion.composition.IterationAssertable
 import io.github.imsejin.common.assertion.lang.*
 import io.github.imsejin.common.assertion.math.BigDecimalAssert
-import io.github.imsejin.common.security.crypto.AES
-import io.github.imsejin.common.security.crypto.AES256
 import io.github.imsejin.common.security.crypto.Crypto
+import io.github.imsejin.common.security.crypto.aes.AES
+import io.github.imsejin.common.security.crypto.aes.AES256
 import spock.lang.Specification
 
 class ClassUtilsSpec extends Specification {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.security.crypto;
+package io.github.imsejin.common.security.crypto.aes;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Implementation of {@link AES} using algorithm AES128.
+ * Implementation of {@link AES} using algorithm AES192.
  */
-public class AES128 extends AES {
+public class AES192 extends AES {
 
-    public AES128(String key) {
+    public AES192(String key) {
         this(key, StandardCharsets.UTF_8);
     }
 
-    public AES128(String key, Charset charset) {
-        super(key, 16, charset);
+    public AES192(String key, Charset charset) {
+        super(key, 24, charset);
     }
 
 }
