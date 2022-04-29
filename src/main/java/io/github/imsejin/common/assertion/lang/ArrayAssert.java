@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
+import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.Objects;
@@ -30,7 +31,8 @@ public class ArrayAssert<
         SELF extends ArrayAssert<SELF, ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ELEMENT[]>
-        implements IterationAssertable<SELF, ELEMENT[], ELEMENT> {
+        implements IterationAssertable<SELF, ELEMENT[], ELEMENT>,
+        RandomAccessIterationAssertable<SELF, ELEMENT[], ELEMENT> {
 
     public ArrayAssert(ELEMENT[] actual) {
         super(actual);
@@ -304,6 +306,50 @@ public class ArrayAssert<
         }
 
         return self;
+    }
+
+    @Override
+    @SafeVarargs
+    public final SELF startsWith(ELEMENT... expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+
+        if (actual.length < expected.length) {
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            throw getException();
+        }
+
+        for (int i = 0; i < expected.length; i++) {
+            ELEMENT element = actual[i];
+            ELEMENT item = expected[i];
+            if (Objects.deepEquals(element, item)) continue;
+
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            throw getException();
+        }
+
+        return null;
+    }
+
+    @Override
+    @SafeVarargs
+    public final SELF endsWith(ELEMENT... expected) {
+        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+
+        if (actual.length < expected.length) {
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            throw getException();
+        }
+
+        for (int i = 0; i < expected.length; i++) {
+            ELEMENT element = actual[actual.length - expected.length + i];
+            ELEMENT item = expected[i];
+            if (Objects.deepEquals(element, item)) continue;
+
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            throw getException();
+        }
+
+        return null;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////

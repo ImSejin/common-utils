@@ -39,6 +39,7 @@ import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAss
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.util.CollectionAssert;
+import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
@@ -54,6 +55,7 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -165,6 +167,10 @@ public abstract class Asserts {
 
     public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
         return new CollectionAssert<>(collection);
+    }
+
+    public static <T> ListAssert<?, List<T>, T> that(List<T> list) {
+        return new ListAssert<>(list);
     }
 
     public static <K, V> MapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
