@@ -291,7 +291,6 @@ class AbstractFileAssertTest {
     @DisplayName("method 'isNotHidden'")
     class IsNotHidden {
         @Test
-        @EnabledOnOs(OS.WINDOWS)
         @DisplayName("passes, when actual is not hidden")
         void test0(@TempDir Path path) throws IOException {
             File file = new File(path.toFile(), "temp.txt");
