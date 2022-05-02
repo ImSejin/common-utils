@@ -19,6 +19,7 @@ package io.github.imsejin.common.util
 import io.github.imsejin.common.assertion.Descriptor
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable
 import io.github.imsejin.common.assertion.composition.IterationAssertable
+import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable
 import io.github.imsejin.common.assertion.lang.*
 import io.github.imsejin.common.assertion.math.BigDecimalAssert
 import io.github.imsejin.common.security.crypto.Crypto
@@ -269,10 +270,10 @@ class ClassUtilsSpec extends Specification {
     @SuppressWarnings("GroovyAccessibility")
     def "Gets all the types extended or implemented by the given class as a set"() {
         when:
-        def classes = ClassUtils.getAllExtendedOrImplementedTypesAsSet clazz
+        def set = ClassUtils.getAllExtendedOrImplementedTypesAsSet clazz
 
         then:
-        expected == classes as List
+        expected == set as List
 
         where:
         clazz            | expected
@@ -283,7 +284,7 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, List, RandomAccess, Cloneable, Serializable, Collection, Iterable, AbstractList, AbstractCollection]
         TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, IterationAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, ObjectAssert, Descriptor]
         StringAssert     | [clazz, CharSequenceAssert, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, ObjectAssert, Descriptor]
     }
@@ -306,7 +307,7 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, RandomAccess, List, Serializable, AbstractList, Cloneable, Collection, AbstractCollection, Iterable]
         TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, IterationAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, ObjectAssert, Descriptor]
         StringAssert     | [clazz, CharSequenceAssert, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, ObjectAssert, Descriptor]
     }

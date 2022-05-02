@@ -544,7 +544,7 @@ class CollectionAssertTest {
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
-                            .doesNotContainAll(Collections.singleton(1)))
+                            .doesNotContainAll(Collections.singletonList(1)))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
