@@ -1002,4 +1002,108 @@ class ArrayAssertTest {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'startsWith'")
+    class StartsWith {
+        @Test
+        @DisplayName("passes, when actual starts with the given element(s)")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new Object[0])
+                        .startsWith((Object[]) null);
+                Asserts.that((Object[]) null)
+                        .startsWith();
+                Asserts.that(IntStream.range(0, 10).toArray())
+                        .startsWith(0);
+                Asserts.that(new char[]{'a', 'b', 'c', 'd'})
+                        .startsWith('a', 'b', 'c', 'd');
+                Asserts.that(getClass().getPackage().getName().split("\\."))
+                        .startsWith("io.github.imsejin.common".split("\\."));
+                Asserts.that(new String[][]{{null}, {"alpha"}, {"beta"}, {"gamma"}})
+                        .startsWith(new String[]{null}, new String[]{"alpha"});
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual doesn't start with the given element(s)")
+        void test1() {
+            String description = "It is expected to start with the given element(s), but it isn't.";
+
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
+                            .startsWith(null, new Object()))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
+                            .startsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
+                            .startsWith('a', 'b', 'c', 'd'))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                            .startsWith("io", "github", "common", "imsejin"))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
+                            .startsWith(new String[]{null}, new String[]{}))
+                    .withMessageStartingWith(description);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'endsWith'")
+    class EndsWith {
+        @Test
+        @DisplayName("passes, when actual ends with the given element(s)")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new Object[0])
+                        .endsWith((Object[]) null);
+                Asserts.that((Object[]) null)
+                        .endsWith();
+                Asserts.that(IntStream.range(0, 10).toArray())
+                        .endsWith(9);
+                Asserts.that(new char[]{'a', 'b', 'c', 'd'})
+                        .endsWith('a', 'b', 'c', 'd');
+                Asserts.that(getClass().getPackage().getName().split("\\."))
+                        .endsWith("assertion", "lang");
+                Asserts.that(new String[][]{{null}, {"alpha"}, {"beta"}, {"gamma"}})
+                        .endsWith(new String[]{"beta"}, new String[]{"gamma"});
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual doesn't end with the given element(s)")
+        void test1() {
+            String description = "It is expected to end with the given element(s), but it isn't.";
+
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
+                            .endsWith(new Object(), null))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
+                            .endsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
+                            .endsWith('a', 'b', 'c', 'd'))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                            .endsWith("lang", "assertion"))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
+                            .endsWith(new String[]{"alpha"}, new String[]{"beta"}))
+                    .withMessageStartingWith(description);
+        }
+    }
+
 }
