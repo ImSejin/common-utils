@@ -314,7 +314,7 @@ public class ArrayAssert<
         if (ArrayUtils.isNullOrEmpty(expected)) return self;
 
         if (actual.length < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
             throw getException();
         }
 
@@ -323,7 +323,7 @@ public class ArrayAssert<
             ELEMENT item = expected[i];
             if (Objects.deepEquals(element, item)) continue;
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
             throw getException();
         }
 
@@ -336,7 +336,7 @@ public class ArrayAssert<
         if (ArrayUtils.isNullOrEmpty(expected)) return self;
 
         if (actual.length < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
             throw getException();
         }
 
@@ -345,7 +345,7 @@ public class ArrayAssert<
             ELEMENT item = expected[i];
             if (Objects.deepEquals(element, item)) continue;
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
             throw getException();
         }
 
