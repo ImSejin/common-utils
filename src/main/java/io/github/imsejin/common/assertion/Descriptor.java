@@ -60,6 +60,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     }
 
     protected final void setDefaultDescription(String description, Object... args) {
+        // If description is set already by user, ignores default description.
         if (!StringUtils.isNullOrEmpty(this.description)) return;
 
         this.description = description;
