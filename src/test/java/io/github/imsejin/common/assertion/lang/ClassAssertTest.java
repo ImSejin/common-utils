@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.constant.DateType;
+import io.github.imsejin.common.tool.Stopwatch;
 import io.github.imsejin.common.tool.TypeClassifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -356,7 +357,7 @@ class ClassAssertTest {
         void test0() {
             // given
             List<Class<?>> classes = Arrays.asList(String.class, Double.class, int.class,
-                    LocalDate.class, TimeUnit.class, AccessMode.READ.getClass());
+                    LocalDate.class, Stopwatch.class, AccessMode.READ.getClass());
 
             assertThatNoException().isThrownBy(() -> classes
                     .forEach(actual -> Asserts.that(actual).isFinalClass()));
