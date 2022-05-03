@@ -29,8 +29,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
+import java.nio.file.AccessMode;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.Month;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -340,6 +343,36 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAnnotation())
                     .withMessageStartingWith("It is expected to be annotation, but it isn't."));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    @DisplayName("method 'isFinalClass()'")
+    class isFinalClass {
+        @Test
+        @DisplayName("passes, when actual is final class")
+        void test0() {
+            // given
+            List<Class<?>> classes = Arrays.asList(String.class, Double.class, int.class,
+                    LocalDate.class, TimeUnit.HOURS.getClass(), AccessMode.class);
+
+            assertThatNoException().isThrownBy(() -> classes
+                    .forEach(actual -> Asserts.that(actual).isFinalClass()));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not final class")
+        void test1() {
+            // given
+            List<Class<?>> classes = Arrays.asList(CharSequence.class, Number.class, Object.class,
+                    ChronoLocalDate.class, Enum.class, Asserts.class);
+
+            // except
+            classes.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isFinalClass())
+                    .withMessageStartingWith("It is expected to be final class, but it isn't."));
         }
     }
 

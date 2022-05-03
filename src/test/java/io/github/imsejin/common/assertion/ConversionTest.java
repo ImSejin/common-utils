@@ -545,6 +545,29 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
+    class InstantAssert {
+        @Test
+        @DisplayName("asEpochMilli(): Instant -> Long")
+        void asEpochMilli() {
+            // given
+            Instant instant = Instant.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(instant)
+                    .isNotNull().isAfter(Instant.from(instant.minusSeconds(10)))
+                    .asEpochMilli().isLessThanOrEqualTo(Instant.now().toEpochMilli()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(instant)
+                            .as("Description of assertion: {0}", instant)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asEpochMilli().isEqualTo(Long.MAX_VALUE))
+                    .withMessage("Description of assertion: " + instant);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
     class ArrayAssert {
         @Test
         @DisplayName("asLength(): Array -> int")
