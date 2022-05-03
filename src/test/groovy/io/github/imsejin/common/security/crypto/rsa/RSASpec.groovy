@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.security.crypto.rsa
 
-import io.github.imsejin.common.security.crypto.rsa.RSA
 import spock.lang.Specification
 
 import javax.crypto.BadPaddingException
