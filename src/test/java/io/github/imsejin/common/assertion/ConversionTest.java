@@ -270,7 +270,7 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    class AbstractChronoLocalDateTimeAssert {
+    class ChronoLocalDateTimeAssert {
         @Test
         @DisplayName("asLocalDate(): ChronoLocalDateTime -> ChronoLocalDate")
         void asLocalDate() {

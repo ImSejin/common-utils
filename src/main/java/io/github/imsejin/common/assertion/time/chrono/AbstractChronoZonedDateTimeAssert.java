@@ -53,7 +53,7 @@ public abstract class AbstractChronoZonedDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalDate()
+     * @see ChronoLocalDateTimeAssert#asLocalDate()
      * @see OffsetDateTimeAssert#asLocalDate()
      */
     public ChronoLocalDateAssert<?> asLocalDate() {
@@ -68,8 +68,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
      * @see OffsetDateTimeAssert#asLocalDateTime()
      */
     @SuppressWarnings("unchecked")
-    public AbstractChronoLocalDateTimeAssert<?, DATE> asLocalDateTime() {
-        AbstractChronoLocalDateTimeAssert<?, DATE> assertion = (AbstractChronoLocalDateTimeAssert<?, DATE>) Asserts.that(actual.toLocalDateTime());
+    public ChronoLocalDateTimeAssert<?, DATE> asLocalDateTime() {
+        ChronoLocalDateTimeAssert<?, DATE> assertion = (ChronoLocalDateTimeAssert<?, DATE>) Asserts.that(actual.toLocalDateTime());
         Descriptor.merge(this, assertion);
 
         return assertion;
@@ -77,7 +77,7 @@ public abstract class AbstractChronoZonedDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalTime()
+     * @see ChronoLocalDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {

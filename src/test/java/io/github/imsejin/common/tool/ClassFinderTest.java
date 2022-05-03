@@ -32,9 +32,9 @@ import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.util.CollectionAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.FileUtils;
@@ -115,7 +115,7 @@ class ClassFinderTest {
                             CollectionAssert.class, AbstractFileAssert.class, MapAssert.class,
                             ObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
                             FloatAssert.class, NumberAssert.class, ClassAssert.class, PackageAssert.class,
-                            ChronoLocalDateAssert.class, AbstractChronoLocalDateTimeAssert.class,
+                            ChronoLocalDateAssert.class, ChronoLocalDateTimeAssert.class,
                             AbstractChronoZonedDateTimeAssert.class, LocalTimeAssert.class,
                             OffsetDateTimeAssert.class, OffsetTimeAssert.class);
         }

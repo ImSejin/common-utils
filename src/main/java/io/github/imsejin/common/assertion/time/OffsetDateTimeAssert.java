@@ -19,9 +19,9 @@ package io.github.imsejin.common.assertion.time;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.OffsetAssertable;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.LocalDate;
@@ -60,7 +60,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalDate()
+     * @see ChronoLocalDateTimeAssert#asLocalDate()
      * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
      */
     public ChronoLocalDateAssert<?> asLocalDate() {
@@ -74,8 +74,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      * @return another assertion
      * @see AbstractChronoZonedDateTimeAssert#asLocalDateTime()
      */
-    public AbstractChronoLocalDateTimeAssert<?, LocalDate> asLocalDateTime() {
-        AbstractChronoLocalDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toLocalDateTime());
+    public ChronoLocalDateTimeAssert<?, LocalDate> asLocalDateTime() {
+        ChronoLocalDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toLocalDateTime());
         Descriptor.merge(this, assertion);
 
         return assertion;
@@ -90,7 +90,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalTime()
+     * @see ChronoLocalDateTimeAssert#asLocalTime()
      * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {

@@ -27,12 +27,12 @@ import io.github.imsejin.common.util.DateTimeUtils;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 
-public abstract class AbstractChronoLocalDateTimeAssert<
-        SELF extends AbstractChronoLocalDateTimeAssert<SELF, DATE>,
+public class ChronoLocalDateTimeAssert<
+        SELF extends ChronoLocalDateTimeAssert<SELF, DATE>,
         DATE extends ChronoLocalDate>
         extends AbstractTemporalAssert<SELF, ChronoLocalDateTime<?>> {
 
-    protected AbstractChronoLocalDateTimeAssert(ChronoLocalDateTime<DATE> actual) {
+    public ChronoLocalDateTimeAssert(ChronoLocalDateTime<DATE> actual) {
         super(actual);
     }
 
