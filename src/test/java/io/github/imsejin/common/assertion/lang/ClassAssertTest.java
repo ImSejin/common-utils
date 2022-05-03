@@ -356,7 +356,7 @@ class ClassAssertTest {
         void test0() {
             // given
             List<Class<?>> classes = Arrays.asList(String.class, Double.class, int.class,
-                    LocalDate.class, TimeUnit.HOURS.getClass(), AccessMode.class);
+                    LocalDate.class, TimeUnit.class, AccessMode.READ.getClass());
 
             assertThatNoException().isThrownBy(() -> classes
                     .forEach(actual -> Asserts.that(actual).isFinalClass()));
