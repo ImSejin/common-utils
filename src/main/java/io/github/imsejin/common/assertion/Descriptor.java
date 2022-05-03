@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.StringUtils;
@@ -92,6 +93,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
      */
     @Override
     @Deprecated
+    @ExcludeFromGeneratedJacocoReport
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
