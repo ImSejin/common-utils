@@ -299,7 +299,7 @@ class ConversionTest {
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(dateTime)
                     .isNotNull().isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
-                    .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
+                    .asLocalTime().isEqualTo(LocalTime.MIN).isBeforeNoon().isMidnight());
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(dateTime)
                             .as("Description of assertion: {0}", dateTime)
@@ -378,7 +378,7 @@ class ConversionTest {
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
                     .isNotNull().isEqualTo(ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneId.systemDefault()))
-                    .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
+                    .asLocalTime().isEqualTo(LocalTime.MIN).isBeforeNoon().isMidnight());
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .as("Description of assertion: {0}", zonedDateTime)
@@ -495,12 +495,12 @@ class ConversionTest {
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(offsetDateTime)
                     .isNotNull().isEqualTo(OffsetDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneOffset.UTC))
-                    .asLocalTime().isAfterOrEqualToMidnight().isBeforeNoon().isMidnight());
+                    .asLocalTime().isEqualTo(LocalTime.MIN).isBeforeNoon().isMidnight());
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .as("Description of assertion: {0}", offsetDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asLocalTime().isAfterMidnight())
+                            .asLocalTime().isEqualTo(LocalTime.MIN).isNoon())
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
 

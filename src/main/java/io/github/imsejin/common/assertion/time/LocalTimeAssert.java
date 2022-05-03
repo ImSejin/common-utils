@@ -34,22 +34,6 @@ public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
         return super.isEqualTo(LocalTime.MIDNIGHT);
     }
 
-    public SELF isBeforeMidnight() {
-        return isBefore(LocalTime.MIDNIGHT);
-    }
-
-    public SELF isBeforeOrEqualToMidnight() {
-        return isBeforeOrEqualTo(LocalTime.MIDNIGHT);
-    }
-
-    public SELF isAfterMidnight() {
-        return isAfter(LocalTime.MIDNIGHT);
-    }
-
-    public SELF isAfterOrEqualToMidnight() {
-        return isAfterOrEqualTo(LocalTime.MIDNIGHT);
-    }
-
     public SELF isNoon() {
         return super.isEqualTo(LocalTime.NOON);
     }
