@@ -19,9 +19,9 @@ package io.github.imsejin.common.assertion.time;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.OffsetAssertable;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.LocalDate;
@@ -63,8 +63,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      * @see AbstractChronoLocalDateTimeAssert#asLocalDate()
      * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
      */
-    public AbstractChronoLocalDateAssert<?> asLocalDate() {
-        AbstractChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
+    public ChronoLocalDateAssert<?> asLocalDate() {
+        ChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
         Descriptor.merge(this, assertion);
 
         return assertion;

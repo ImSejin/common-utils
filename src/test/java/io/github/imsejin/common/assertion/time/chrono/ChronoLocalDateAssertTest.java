@@ -35,10 +35,10 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-@DisplayName("AbstractChronoLocalDateAssert")
-class AbstractChronoLocalDateAssertTest {
+@DisplayName("ChronoLocalDateAssert")
+class ChronoLocalDateAssertTest {
 
-    private static final String FQCN = "io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssertTest";
+    private static final String FQCN = "io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssertTest";
     private static final String IS_EQUAL_TO = FQCN + "#isEqualTo";
     private static final String IS_NOT_EQUAL_TO = FQCN + "#isNotEqualTo";
     private static final String IS_BEFORE = FQCN + "#isBefore";

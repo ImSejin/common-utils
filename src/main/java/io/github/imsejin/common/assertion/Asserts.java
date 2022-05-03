@@ -35,9 +35,9 @@ import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
 import io.github.imsejin.common.assertion.time.YearAssert;
 import io.github.imsejin.common.assertion.time.YearMonthAssert;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.util.CollectionAssert;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
@@ -218,9 +218,8 @@ public abstract class Asserts {
 
     //////////////////////////////////////// java.time.chrono /////////////////////////////////////////
 
-    public static AbstractChronoLocalDateAssert<?> that(ChronoLocalDate date) {
-        return new AbstractChronoLocalDateAssert(date) {
-        };
+    public static ChronoLocalDateAssert<?> that(ChronoLocalDate date) {
+        return new ChronoLocalDateAssert<>(date);
     }
 
     public static <DATE extends ChronoLocalDate> AbstractChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> dateTime) {

@@ -21,11 +21,11 @@ import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
 
 import java.time.chrono.ChronoLocalDate;
 
-public abstract class AbstractChronoLocalDateAssert<SELF extends AbstractChronoLocalDateAssert<SELF>>
+public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
         extends AbstractTemporalAssert<SELF, ChronoLocalDate>
         implements YearAssertable<SELF, ChronoLocalDate> {
 
-    protected AbstractChronoLocalDateAssert(ChronoLocalDate actual) {
+    public ChronoLocalDateAssert(ChronoLocalDate actual) {
         super(actual);
     }
 
