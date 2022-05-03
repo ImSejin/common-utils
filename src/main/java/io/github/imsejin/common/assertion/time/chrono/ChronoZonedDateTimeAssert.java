@@ -30,12 +30,12 @@ import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoZonedDateTime;
 
-public abstract class AbstractChronoZonedDateTimeAssert<
-        SELF extends AbstractChronoZonedDateTimeAssert<SELF, DATE>,
+public class ChronoZonedDateTimeAssert<
+        SELF extends ChronoZonedDateTimeAssert<SELF, DATE>,
         DATE extends ChronoLocalDate>
         extends AbstractTemporalAssert<SELF, ChronoZonedDateTime<?>> {
 
-    protected AbstractChronoZonedDateTimeAssert(ChronoZonedDateTime<DATE> actual) {
+    public ChronoZonedDateTimeAssert(ChronoZonedDateTime<DATE> actual) {
         super(actual);
     }
 

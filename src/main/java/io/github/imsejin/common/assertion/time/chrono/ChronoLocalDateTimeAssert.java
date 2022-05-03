@@ -40,7 +40,7 @@ public class ChronoLocalDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
+     * @see ChronoZonedDateTimeAssert#asLocalDate()
      * @see OffsetDateTimeAssert#asLocalDate()
      */
     public ChronoLocalDateAssert<?> asLocalDate() {
@@ -52,7 +52,7 @@ public class ChronoLocalDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
+     * @see ChronoZonedDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {
