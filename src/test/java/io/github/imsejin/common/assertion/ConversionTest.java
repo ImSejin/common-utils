@@ -270,6 +270,72 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
+    class InstantAssert {
+        @Test
+        @DisplayName("asEpochMilli(): Instant -> Long")
+        void asEpochMilli() {
+            // given
+            Instant instant = Instant.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(instant)
+                    .isNotNull().isAfter(Instant.from(instant.minusSeconds(10)))
+                    .asEpochMilli().isLessThanOrEqualTo(Instant.now().toEpochMilli()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(instant)
+                            .as("Description of assertion: {0}", instant)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asEpochMilli().isEqualTo(Long.MAX_VALUE))
+                    .withMessage("Description of assertion: " + instant);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class LocalTimeAssert {
+        @Test
+        @DisplayName("asSecondOfDay(): LocalTime -> int")
+        void asSecondOfDay() {
+            // given
+            LocalTime time = LocalTime.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(time)
+                    .isNotNull().isBefore(time.plusSeconds(1))
+                    .asSecondOfDay().isBetween(0, Integer.MAX_VALUE)
+                    .predicate(it -> it == time.toSecondOfDay()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(time)
+                            .as("Description of assertion: {0}", time)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asSecondOfDay().isGreaterThan(LocalTime.now().toSecondOfDay()))
+                    .withMessage("Description of assertion: " + time);
+        }
+
+        @Test
+        @DisplayName("asNanoOfDay(): LocalTime -> long")
+        void asNanoOfDay() {
+            // given
+            LocalTime time = LocalTime.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(time)
+                    .isNotNull().isBefore(time.plusSeconds(1))
+                    .asNanoOfDay().isBetween(0L, Long.MAX_VALUE)
+                    .predicate(it -> it == time.toNanoOfDay()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(time)
+                            .as("Description of assertion: {0}", time)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asNanoOfDay().isGreaterThan(LocalTime.now().toNanoOfDay()))
+                    .withMessage("Description of assertion: " + time);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
     class ChronoLocalDateTimeAssert {
         @Test
         @DisplayName("asLocalDate(): ChronoLocalDateTime -> ChronoLocalDate")
@@ -545,23 +611,24 @@ class ConversionTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    class InstantAssert {
+    class OffsetTimeAssert {
         @Test
-        @DisplayName("asEpochMilli(): Instant -> Long")
-        void asEpochMilli() {
+        @DisplayName("asLocalTime(): OffsetTime -> ChronoLocalDate")
+        void asLocalTime() {
             // given
-            Instant instant = Instant.now();
+            OffsetTime offsetTime = OffsetTime.now();
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(instant)
-                    .isNotNull().isAfter(Instant.from(instant.minusSeconds(10)))
-                    .asEpochMilli().isLessThanOrEqualTo(Instant.now().toEpochMilli()));
+            assertThatNoException().isThrownBy(() -> Asserts.that(offsetTime)
+                    .isNotNull().isBefore(offsetTime.plusSeconds(1))
+                    .asLocalTime().isBeforeOrEqualTo(LocalTime.now())
+                    .isInstanceOf(LocalTime.class));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(instant)
-                            .as("Description of assertion: {0}", instant)
+                    .isThrownBy(() -> Asserts.that(offsetTime)
+                            .as("Description of assertion: {0}", offsetTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asEpochMilli().isEqualTo(Long.MAX_VALUE))
-                    .withMessage("Description of assertion: " + instant);
+                            .asLocalTime().isAfter(LocalTime.now()))
+                    .withMessage("Description of assertion: " + offsetTime);
         }
     }
 
