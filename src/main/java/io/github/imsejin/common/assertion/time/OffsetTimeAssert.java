@@ -21,13 +21,13 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.OffsetAssertable;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
-        extends AbstractTemporalAssert<SELF, OffsetTime>
+        extends AbstractTemporalAccessorAssert<SELF, OffsetTime>
         implements OffsetAssertable<SELF, OffsetTime> {
 
     public OffsetTimeAssert(OffsetTime actual) {

@@ -22,14 +22,14 @@ import io.github.imsejin.common.assertion.composition.OffsetAssertable;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
-        extends AbstractTemporalAssert<SELF, OffsetDateTime>
+        extends AbstractTemporalAccessorAssert<SELF, OffsetDateTime>
         implements OffsetAssertable<SELF, OffsetDateTime> {
 
     public OffsetDateTimeAssert(OffsetDateTime actual) {

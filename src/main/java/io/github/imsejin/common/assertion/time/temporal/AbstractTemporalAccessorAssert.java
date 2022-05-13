@@ -20,25 +20,25 @@ import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
-import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
 
 /**
- * Abstract temporal assertion
+ * Abstract temporal accessor assertion
  *
  * <p> Unlike {@link io.github.imsejin.common.assertion.Asserts#that(Number)},
- * implementations of {@link Temporal} are limited to comparison by
+ * implementations of {@link TemporalAccessor} are limited to comparison by
  * {@link java.time.temporal.TemporalAccessor#isSupported(TemporalField)}.
  *
- * @param <SELF>   assertion class that extends {@link AbstractTemporalAssert}
- * @param <ACTUAL> type that implements interfaces {@link Temporal} and {@link Comparable}
+ * @param <SELF>   assertion class that extends {@link AbstractTemporalAccessorAssert}
+ * @param <ACTUAL> type that implements interfaces {@link TemporalAccessor} and {@link Comparable}
  */
-public abstract class AbstractTemporalAssert<
-        SELF extends AbstractTemporalAssert<SELF, ACTUAL>,
-        ACTUAL extends Temporal & Comparable<ACTUAL>>
+public abstract class AbstractTemporalAccessorAssert<
+        SELF extends AbstractTemporalAccessorAssert<SELF, ACTUAL>,
+        ACTUAL extends TemporalAccessor & Comparable<ACTUAL>>
         extends ObjectAssert<SELF, ACTUAL> {
 
-    protected AbstractTemporalAssert(ACTUAL actual) {
+    protected AbstractTemporalAccessorAssert(ACTUAL actual) {
         super(actual);
     }
 

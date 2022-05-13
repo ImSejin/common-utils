@@ -19,12 +19,12 @@ package io.github.imsejin.common.assertion.time;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.LocalTime;
 
 public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
-        extends AbstractTemporalAssert<SELF, LocalTime> {
+        extends AbstractTemporalAccessorAssert<SELF, LocalTime> {
 
     public LocalTimeAssert(LocalTime actual) {
         super(actual);

@@ -21,7 +21,7 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -33,7 +33,7 @@ import java.time.chrono.ChronoZonedDateTime;
 public class ChronoZonedDateTimeAssert<
         SELF extends ChronoZonedDateTimeAssert<SELF, DATE>,
         DATE extends ChronoLocalDate>
-        extends AbstractTemporalAssert<SELF, ChronoZonedDateTime<?>> {
+        extends AbstractTemporalAccessorAssert<SELF, ChronoZonedDateTime<?>> {
 
     public ChronoZonedDateTimeAssert(ChronoZonedDateTime<DATE> actual) {
         super(actual);
