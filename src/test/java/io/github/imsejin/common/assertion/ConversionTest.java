@@ -36,6 +36,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.MonthDay;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Year;
@@ -742,6 +743,49 @@ class ConversionTest {
                             .exception(RuntimeException::new).isNotNull()
                             .asValue().isEqualTo(month.ordinal()))
                     .withMessage("Description of assertion: " + month);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class MonthDayAssert {
+        @Test
+        @DisplayName("asMonth(): MonthDay -> Month")
+        void asMonth() {
+            // given
+            MonthDay monthDay = MonthDay.of(Month.SEPTEMBER, 11);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(monthDay)
+                    .isNotNull().isBefore(monthDay.withDayOfMonth(12))
+                    .asMonth().isEqualTo(monthDay.getMonth())
+                    .isInstanceOf(Month.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(monthDay)
+                            .as("Description of assertion: {0}", monthDay)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asMonth().isBefore(monthDay.with(Month.JUNE).getMonth()))
+                    .withMessage("Description of assertion: " + monthDay);
+        }
+
+        @Test
+        @DisplayName("asDayOfMonth(): MonthDay -> Integer")
+        void asDayOfMonth() {
+            // given
+            MonthDay monthDay = MonthDay.of(Month.SEPTEMBER, 11);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(monthDay)
+                    .isNotNull().isEqualTo(monthDay.withDayOfMonth(11))
+                    .asDayOfMonth().isBetween(1, 31)
+                    .isInstanceOf(Integer.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(monthDay)
+                            .as("Description of assertion: {0}", monthDay)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asDayOfMonth().isLessThan(monthDay.getDayOfMonth()))
+                    .withMessage("Description of assertion: " + monthDay);
         }
     }
 
