@@ -31,6 +31,7 @@ import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
+import io.github.imsejin.common.assertion.time.MonthAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
 import io.github.imsejin.common.assertion.time.YearAssert;
@@ -47,6 +48,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Year;
@@ -198,6 +200,10 @@ public abstract class Asserts {
 
     public static YearAssert<?> that(Year year) {
         return new YearAssert(year);
+    }
+
+    public static MonthAssert<?> that(Month month) {
+        return new MonthAssert(month);
     }
 
     public static YearMonthAssert<?> that(YearMonth yearMonth) {
