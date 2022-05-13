@@ -35,8 +35,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Year;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -629,6 +632,116 @@ class ConversionTest {
                             .exception(RuntimeException::new).isNotNull()
                             .asLocalTime().isAfter(LocalTime.now()))
                     .withMessage("Description of assertion: " + offsetTime);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class YearAssert {
+        @Test
+        @DisplayName("asValue(): Year -> Integer")
+        void asValue() {
+            // given
+            Year year = Year.of(2022);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(year)
+                    .isNotNull().isBefore(year.plusYears(1))
+                    .asValue().isGreaterThan(year.getValue() - 1)
+                    .isInstanceOf(Integer.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(year)
+                            .as("Description of assertion: {0}", year)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asValue().isZeroOrNegative())
+                    .withMessage("Description of assertion: " + year);
+        }
+
+        @Test
+        @DisplayName("asLength(): Year -> Integer")
+        void asLength() {
+            // given
+            Year year = Year.of(2020);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(year)
+                    .isNotNull().isBefore(year.plusYears(1))
+                    .asLength().isGreaterThan(year.plusYears(1).length())
+                    .isInstanceOf(Integer.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(year)
+                            .as("Description of assertion: {0}", year)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asLength().isEqualTo(365))
+                    .withMessage("Description of assertion: " + year);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class YearMonthAssert {
+        @Test
+        @DisplayName("asYear(): YearMonth -> Year")
+        void asYear() {
+            // given
+            YearMonth yearMonth = YearMonth.of(2022, Month.JANUARY);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(yearMonth)
+                    .isNotNull().isBefore(yearMonth.plusMonths(1))
+                    .asYear().isAfter(Year.of(yearMonth.minusYears(1).getYear()))
+                    .isInstanceOf(Year.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(yearMonth)
+                            .as("Description of assertion: {0}", yearMonth)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asYear().isLeapYear())
+                    .withMessage("Description of assertion: " + yearMonth);
+        }
+
+        @Test
+        @DisplayName("asMonth(): YearMonth -> Month")
+        void asMonth() {
+            // given
+            YearMonth yearMonth = YearMonth.of(2020, Month.SEPTEMBER);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(yearMonth)
+                    .isNotNull().isBefore(yearMonth.plusYears(1))
+                    .asMonth().isAfter(Month.AUGUST)
+                    .isInstanceOf(Month.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(yearMonth)
+                            .as("Description of assertion: {0}", yearMonth)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asMonth().predicate(it -> it.ordinal() == 9))
+                    .withMessage("Description of assertion: " + yearMonth);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class MonthAssert {
+        @Test
+        @DisplayName("asValue(): Month -> Integer")
+        void asValue() {
+            // given
+            Month month = Month.SEPTEMBER;
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(month)
+                    .isNotNull().isBefore(month.plus(1))
+                    .asValue().isEqualTo(9)
+                    .isInstanceOf(Integer.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(month)
+                            .as("Description of assertion: {0}", month)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asValue().isEqualTo(month.ordinal()))
+                    .withMessage("Description of assertion: " + month);
         }
     }
 
