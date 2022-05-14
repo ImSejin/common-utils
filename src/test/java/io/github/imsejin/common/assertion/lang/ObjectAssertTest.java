@@ -93,7 +93,7 @@ class ObjectAssertTest {
         @DisplayName("passes, when actual and other are the same instance")
         void test0() {
             // given
-            List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
+            List<Object> list = Arrays.asList(null, new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
             // except
             list.forEach(actual -> assertThatNoException()
@@ -141,7 +141,7 @@ class ObjectAssertTest {
         @DisplayName("throws exception, when actual and other are not the same instance")
         void test1() {
             // given
-            List<Object> list = Arrays.asList(new Object(), "", 'a', 3.14, IllegalArgumentException.class);
+            List<Object> list = Arrays.asList(null, new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
             // except
             list.forEach(actual -> assertThatIllegalArgumentException()
