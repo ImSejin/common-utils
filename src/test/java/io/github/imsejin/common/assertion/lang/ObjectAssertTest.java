@@ -95,7 +95,7 @@ class ObjectAssertTest {
             // given
             List<Object> params = Arrays.asList(null, new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            // except
+            // expect
             params.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isSameAs(actual)));
         }
@@ -110,7 +110,7 @@ class ObjectAssertTest {
             params.put('b', 3.14);
             params.put(3.14, null);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isSameAs(expected))
                     .withMessageStartingWith("They are expected to be the same, but they aren't."));
@@ -132,7 +132,7 @@ class ObjectAssertTest {
             params.put('b', 3.14);
             params.put(3.14, null);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameAs(expected)));
         }
@@ -143,7 +143,7 @@ class ObjectAssertTest {
             // given
             List<Object> params = Arrays.asList(null, new Object(), "", 'a', 3.14, IllegalArgumentException.class);
 
-            // except
+            // expect
             params.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameAs(actual))
                     .withMessageStartingWith("They are expected to be not the same, but they are."));
@@ -165,7 +165,7 @@ class ObjectAssertTest {
             params.put(3.14, 3.14);
             params.put(BigInteger.valueOf(1000), BigInteger.valueOf(1000));
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isEqualTo(expected)));
         }
@@ -180,7 +180,7 @@ class ObjectAssertTest {
             params.put('b', 'c');
             params.put(3.14, 3.141592);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEqualTo(expected))
                     .withMessageStartingWith("They are expected to be equal, but they aren't."));
@@ -202,7 +202,7 @@ class ObjectAssertTest {
             params.put('b', 'c');
             params.put(3.14, 3.141592);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected)));
         }
 
@@ -216,7 +216,7 @@ class ObjectAssertTest {
             params.put(3.14, 3.14);
             params.put(BigInteger.valueOf(1000), BigInteger.valueOf(1000));
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected))
                     .withMessageStartingWith("They are expected to be not equal, but they are."));
@@ -240,7 +240,7 @@ class ObjectAssertTest {
             params.put(3.14, double.class);
             params.put(3.141592, Double.class);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isInstanceOf(expected)));
         }
@@ -255,7 +255,7 @@ class ObjectAssertTest {
             params.put(3.14, float.class);
             params.put(BigInteger.valueOf(1000), BigDecimal.class);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isInstanceOf(expected))
                     .withMessageStartingWith("It is expected to be instance of the type, but it isn't."));
@@ -278,7 +278,7 @@ class ObjectAssertTest {
             params.put(3.14F, Float.valueOf("3.14"));
             params.put(3.141592, Double.valueOf("3.141592"));
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals)));
         }
@@ -294,7 +294,7 @@ class ObjectAssertTest {
             params.put(3.14F, 3.14);
             params.put(3.141592, 3.141592F);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals))
                     .withMessageStartingWith("It is expected to be true, but it isn't."));
@@ -317,7 +317,7 @@ class ObjectAssertTest {
             params.put(3.14F, it -> Float.valueOf("3.14"));
             params.put(3.141592, it -> Double.valueOf("3.141592"));
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).returns(actual, expected)));
         }
@@ -329,7 +329,7 @@ class ObjectAssertTest {
             Map<String, String> params = IntStream.range(0, 10).mapToObj(n -> UUID.randomUUID().toString())
                     .collect(HashMap::new, (m, it) -> m.put(it, it.replace("-", "")), Map::putAll);
 
-            // except
+            // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).returns(actual, it -> it.replace('-', '_')))
                     .withMessageStartingWith("They are expected to be equal, but they aren't."));

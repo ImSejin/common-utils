@@ -55,7 +55,7 @@ class CollectionAssertTest {
             List<Collection<?>> list = Arrays.asList(
                     Collections.emptyList(), new ArrayList<>(), new HashSet<>(), new Stack<>(), new PriorityQueue<>());
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty()));
         }
@@ -76,7 +76,7 @@ class CollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.singletonList(""), set, stack, queue);
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
                     .withMessageStartingWith("It is expected to be empty, but it isn't."));
@@ -104,7 +104,7 @@ class CollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.singletonList(""), set, stack, queue);
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).hasElement()));
         }
@@ -141,7 +141,7 @@ class CollectionAssertTest {
                 queue.add("new");
                 queue.add("queue");
 
-                // except
+                // expect
                 Asserts.that(Collections.emptyList()).hasSizeOf(0);
                 Asserts.that(Collections.singletonList(null)).hasSizeOf(1);
                 Asserts.that(set).hasSizeOf(set.size());
@@ -234,7 +234,7 @@ class CollectionAssertTest {
                 queue.add("new");
                 queue.add("queue");
 
-                // except
+                // expect
                 Asserts.that(Collections.emptyList()).isNotSameSize(set);
                 Asserts.that(Collections.singletonList(null)).isNotSameSize(new HashSet<>());
                 Asserts.that(set).isNotSameSize(stack);
@@ -404,7 +404,7 @@ class CollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.emptyList(), set, stack, queue);
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).doesNotContainNull()));
         }
@@ -422,7 +422,7 @@ class CollectionAssertTest {
 
             List<Collection<?>> list = Arrays.asList(Collections.singletonList(null), set, stack);
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).doesNotContainNull())
                     .withMessageStartingWith("It is expected not to contain null, but it is."));

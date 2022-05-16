@@ -148,7 +148,7 @@ class StopwatchTest {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.start();
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(stopwatch::forceClear);
             assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
         }

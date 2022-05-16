@@ -92,7 +92,7 @@ class ClassAssertTest {
             map.put(Member.class, String.class.getDeclaredField("value"));
             map.put(Descriptor.class, Asserts.that(new Object()));
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> map
                     .forEach((actual, expected) -> Asserts.that(actual).isTypeOf(expected)));
         }
@@ -110,7 +110,7 @@ class ClassAssertTest {
             map.put(Constructor.class, String.class.getDeclaredField("value"));
             map.put(ClassAssert.class, Asserts.that(new Object()));
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isTypeOf(expected))
                     .withMessageStartingWith("It is expected to be type of the instance, but it isn't."));
@@ -136,7 +136,7 @@ class ClassAssertTest {
             map.put(Constructor.class, String.class.getDeclaredField("value"));
             map.put(ClassAssert.class, Asserts.that(new Object()));
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> map
                     .forEach((actual, expected) -> Asserts.that(actual).isNotTypeOf(expected)));
         }
@@ -155,7 +155,7 @@ class ClassAssertTest {
             map.put(Member.class, String.class.getDeclaredField("value"));
             map.put(Descriptor.class, Asserts.that(new Object()));
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotTypeOf(expected))
                     .withMessageStartingWith("It is expected not to be type of the instance, but it is."));
@@ -180,7 +180,7 @@ class ClassAssertTest {
             map.put(Member.class, Field.class);
             map.put(Descriptor.class, ClassAssert.class);
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> map
                     .forEach((actual, expected) -> Asserts.that(actual).isAssignableFrom(expected)));
         }
@@ -198,7 +198,7 @@ class ClassAssertTest {
             map.put(Field.class, Member.class);
             map.put(ClassAssert.class, Descriptor.class);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAssignableFrom(expected))
                     .withMessageStartingWith("It is expected to be assignable from the given type, but it isn't."));
@@ -298,7 +298,7 @@ class ClassAssertTest {
             List<Class<?>> classes = Stream.of(INTERFACES, ANNOTATIONS)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> classes
                     .forEach(actual -> Asserts.that(actual).isInterface()));
         }
@@ -312,7 +312,7 @@ class ClassAssertTest {
                             ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isInterface())
                     .withMessageStartingWith("It is expected to be interface, but it isn't."));
@@ -340,7 +340,7 @@ class ClassAssertTest {
                             ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAnnotation())
                     .withMessageStartingWith("It is expected to be annotation, but it isn't."));
@@ -370,7 +370,7 @@ class ClassAssertTest {
             List<Class<?>> classes = Arrays.asList(CharSequence.class, Number.class, Object.class,
                     ChronoLocalDate.class, Enum.class, Asserts.class);
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isFinalClass())
                     .withMessageStartingWith("It is expected to be final class, but it isn't."));
@@ -398,7 +398,7 @@ class ClassAssertTest {
                             ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAbstractClass())
                     .withMessageStartingWith("It is expected to be abstract class, but it isn't."));
@@ -431,7 +431,7 @@ class ClassAssertTest {
             System.out.printf("Enum constant that has a body is anonymous class? %s%n",
                     TimeUnit.DAYS.getClass().isAnonymousClass());
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAnonymousClass())
                     .withMessageStartingWith("It is expected to be anonymous class, but it isn't."));
@@ -450,7 +450,7 @@ class ClassAssertTest {
             List<Class<?>> classes = Stream.of(ENUMS, ENUM_CONSTANTS)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> classes
                     .forEach(actual -> Asserts.that(actual).isEnum()));
         }
@@ -464,7 +464,7 @@ class ClassAssertTest {
                             ANNOTATIONS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEnum())
                     .withMessageStartingWith("It is expected to be enum, but it isn't."));
@@ -492,7 +492,7 @@ class ClassAssertTest {
                             ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isArray())
                     .withMessageStartingWith("It is expected to be array, but it isn't."));
@@ -510,7 +510,7 @@ class ClassAssertTest {
             // given
             List<Class<?>> memberClasses = Arrays.asList(ClassAssertTest.class.getDeclaredClasses());
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> memberClasses
                     .forEach(actual -> Asserts.that(actual).isMemberClass()));
         }
@@ -526,7 +526,7 @@ class ClassAssertTest {
                             ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
-            // except
+            // expect
             classes.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isMemberClass())
                     .withMessageStartingWith("It is expected to be member class, but it isn't."));
@@ -553,7 +553,7 @@ class ClassAssertTest {
 
             List<Class<?>> localClasses = Arrays.asList(A.class, B.class);
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> localClasses
                     .forEach(actual -> Asserts.that(actual).isLocalClass()));
         }
@@ -564,7 +564,7 @@ class ClassAssertTest {
             // given
             List<Class<?>> memberClasses = Arrays.asList(ClassAssertTest.class.getDeclaredClasses());
 
-            // except
+            // expect
             memberClasses.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLocalClass())
                     .withMessageStartingWith("It is expected to be local class, but it isn't."));

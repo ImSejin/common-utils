@@ -101,7 +101,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -117,7 +117,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -139,7 +139,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -155,7 +155,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -177,7 +177,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -193,7 +193,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -215,7 +215,7 @@ class FloatAssertTest {
             map.put(0F, Float.MAX_VALUE);
             map.put(-Float.MAX_VALUE, 0F);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -231,7 +231,7 @@ class FloatAssertTest {
             map.put(Float.MAX_VALUE, 0F);
             map.put(0F, -Float.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -349,7 +349,7 @@ class FloatAssertTest {
             List<Float> floats = new Random().doubles(-100, 50)
                     .limit(10_000).mapToObj(n -> (float) n).collect(toList());
 
-            // except
+            // expect
             floats.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1F)));
             floats.forEach(n -> assertThatIllegalArgumentException()
@@ -379,7 +379,7 @@ class FloatAssertTest {
             List<Float> floats = new Random().doubles(-100, 50)
                     .limit(10_000).mapToObj(n -> (float) n).collect(toList());
 
-            // except
+            // expect
             floats.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             floats.forEach(n -> assertThatIllegalArgumentException()

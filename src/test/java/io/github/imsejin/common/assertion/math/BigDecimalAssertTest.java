@@ -295,7 +295,7 @@ class BigDecimalAssertTest {
             List<BigDecimal> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(BigDecimal::valueOf).collect(toList());
 
-            // except
+            // expect
             bigInts.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n.subtract(BigDecimal.ONE))));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
@@ -327,7 +327,7 @@ class BigDecimalAssertTest {
             List<BigDecimal> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(BigDecimal::valueOf).collect(toList());
 
-            // except
+            // expect
             bigInts.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             bigInts.forEach(n -> assertThatIllegalArgumentException()

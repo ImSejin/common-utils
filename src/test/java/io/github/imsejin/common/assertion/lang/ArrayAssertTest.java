@@ -223,7 +223,7 @@ class ArrayAssertTest {
             // given
             List<char[]> list = Arrays.asList(new char[]{1, 2}, new char[]{'0', '1', '2'}, new char[]{' ', 'F'});
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
                     .withMessageStartingWith("It is expected to be empty, but it isn't."));
@@ -241,7 +241,7 @@ class ArrayAssertTest {
             // given
             List<byte[]> list = Arrays.asList(new byte[]{1, 2}, new byte[]{'0', '1', '2'}, new byte[]{' ', 'F'});
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).hasElement()));
         }
@@ -518,7 +518,7 @@ class ArrayAssertTest {
                     new String[]{"", null, "alpha"}
             );
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).containsNull()));
         }
@@ -555,7 +555,7 @@ class ArrayAssertTest {
                     new Integer[]{0, Integer.MIN_VALUE, Integer.MAX_VALUE}
             );
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).doesNotContainNull()));
         }
