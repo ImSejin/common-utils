@@ -239,62 +239,6 @@ class CharacterAssertTest {
     ///////////////////////////////////////////////////////////////////////////////////////
 
     @Nested
-    @DisplayName("method 'isZero'")
-    class IsZero {
-        @Test
-        @DisplayName("passes, when actual is null-character")
-        void test0() {
-            // given
-            List<Character> characters = Arrays.asList('\u0000', (char) 0);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isZero())
-                    .doesNotThrowAnyException());
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is not null-character")
-        void test1() {
-            // given
-            List<Character> characters = Arrays.asList('\u0001', '0', 'a', null);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isZero())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @Nested
-    @DisplayName("method 'isNotZero'")
-    class IsNotZero {
-        @Test
-        @DisplayName("passes, when actual is null-character")
-        void test0() {
-            // given
-            List<Character> characters = Arrays.asList('\u0001', '0', 'a', null);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotZero())
-                    .doesNotThrowAnyException());
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is not null-character")
-        void test1() {
-            // given
-            List<Character> characters = Arrays.asList('\u0000', (char) 0);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotZero())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @Nested
     @DisplayName("method 'isDigit'")
     class IsDigit {
         @ParameterizedTest
