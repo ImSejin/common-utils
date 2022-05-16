@@ -21,16 +21,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -38,27 +34,41 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayName("CharacterAssert")
 class CharacterAssertTest {
 
-    private static final String FQCN = "io.github.imsejin.common.assertion.lang.CharacterAssertTest";
-    private static final String EQUALITY = FQCN + "#equality";
-    private static final String NON_EQUALITY = FQCN + "#nonEquality";
-
     @Nested
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
-        @ParameterizedTest
-        @MethodSource(EQUALITY)
+        @Test
         @DisplayName("passes, when actual is equal to other")
-        void test0(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
-                    .doesNotThrowAnyException();
+        void test0() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('\u0000', Character.MIN_VALUE);
+            params.put('\u0020', ' ');
+            params.put('0', (char) 48);
+            params.put(Character.MAX_VALUE, '\uffff');
+            params.put((char) 122, 'z');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isEqualTo(expected))
+                    .doesNotThrowAnyException());
         }
 
-        @ParameterizedTest
-        @MethodSource(NON_EQUALITY)
+        @Test
         @DisplayName("throws exception, when actual is not equal to other")
-        void test1(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        void test1() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('a', '\u0001');
+            params.put((char) 1024, (char) (512 / 2));
+            params.put((char) 31, (char) (31 >> 7));
+            params.put(Character.MIN_VALUE, '\uffff');
+            params.put(Character.MAX_VALUE, '\u0000');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isEqualTo(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -67,20 +77,38 @@ class CharacterAssertTest {
     @Nested
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
-        @ParameterizedTest
-        @MethodSource(NON_EQUALITY)
+        @Test
         @DisplayName("passes, when actual is not equal to other")
-        void test0(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .doesNotThrowAnyException();
+        void test0() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('a', '\u0001');
+            params.put((char) 1024, (char) (512 / 2));
+            params.put((char) 31, (char) (31 >> 7));
+            params.put(Character.MIN_VALUE, '\uffff');
+            params.put(Character.MAX_VALUE, '\u0000');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isNotEqualTo(expected))
+                    .doesNotThrowAnyException());
         }
 
-        @ParameterizedTest
-        @MethodSource(EQUALITY)
+        @Test
         @DisplayName("throws exception, when actual is equal to other")
-        void test1(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        void test1() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('\u0000', Character.MIN_VALUE);
+            params.put('\u0020', ' ');
+            params.put('0', (char) 48);
+            params.put(Character.MAX_VALUE, '\uffff');
+            params.put((char) 122, 'z');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isNotEqualTo(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -474,30 +502,6 @@ class CharacterAssertTest {
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isWhitespace())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    private static Stream<Arguments> equality() {
-        Map<Character, Character> map = new HashMap<>();
-        map.put(Character.valueOf('\u0001'), '\u0001');
-        map.put((char) 1024, (char) (512 * 2));
-        map.put((char) 31, Character.valueOf((char) 31));
-        map.put(Character.MIN_VALUE, '\u0000');
-        map.put(Character.MAX_VALUE, '\uFFFF');
-
-        return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
-    }
-
-    private static Stream<Arguments> nonEquality() {
-        Map<Character, Character> map = new HashMap<>();
-        map.put(Character.valueOf('a'), '\u0001');
-        map.put((char) 1024, (char) (512 / 2));
-        map.put((char) 31, (char) (31 >> 7));
-        map.put(Character.MIN_VALUE, '\uFFFF');
-        map.put(Character.MAX_VALUE, '\u0000');
-
-        return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }
 
 }
