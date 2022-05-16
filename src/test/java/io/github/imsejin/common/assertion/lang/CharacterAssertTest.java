@@ -122,9 +122,9 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put((char) 2, Character.valueOf('\u0000'));
+            map.put((char) 2, Character.MIN_VALUE);
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 32), (char) 31);
+            map.put((char) 32, (char) 31);
             map.put(Character.MAX_VALUE, (char) 1);
             map.put('\u0001', Character.MIN_VALUE);
 
@@ -138,15 +138,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0000'), (char) 1);
+            map.put('\u0002', (char) 3);
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 31));
+            map.put((char) 31, (char) 31);
             map.put((char) 1, Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0000');
 
             // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be greater than the other, but it isn't."));
         }
     }
 
@@ -160,9 +161,9 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put((char) 2, Character.valueOf('\u0000'));
+            map.put((char) 2, '\u0000');
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 31), (char) 31);
+            map.put((char) 31, (char) 31);
             map.put(Character.MAX_VALUE, '\u0001');
             map.put('\u0001', Character.MIN_VALUE);
 
@@ -176,15 +177,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put('\u0002', Character.valueOf('\u0003'));
+            map.put('\u0002', '\u0003');
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 32));
+            map.put((char) 31, (char) 32);
             map.put('\u0001', Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0001');
 
             // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be greater than or equal to the other, but it isn't."));
         }
     }
 
@@ -198,9 +200,9 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0002'), '\u0003');
+            map.put('\u0002', '\u0003');
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 32));
+            map.put((char) 31, (char) 32);
             map.put('\u0001', Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0001');
 
@@ -214,15 +216,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put((char) 2, Character.valueOf('\u0000'));
+            map.put((char) 2, '\u0000');
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 31), (char) 31);
+            map.put((char) 31, (char) 31);
             map.put(Character.MAX_VALUE, '\u0001');
             map.put('\u0001', Character.MIN_VALUE);
 
             // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be less than the other, but it isn't."));
         }
     }
 
@@ -236,9 +239,9 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0002'), '\u0003');
+            map.put('\u0002', '\u0003');
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 31));
+            map.put((char) 31, (char) 31);
             map.put('\u0001', Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0001');
 
@@ -252,15 +255,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0002'), '\u0000');
+            map.put('\u0002', '\u0000');
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 32), (char) 31);
+            map.put((char) 32, (char) 31);
             map.put(Character.MAX_VALUE, '\u0001');
             map.put('\u0001', Character.MIN_VALUE);
 
             // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be less than or equal to the other, but it isn't."));
         }
     }
 
