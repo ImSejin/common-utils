@@ -17,16 +17,15 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.util.DateTimeUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ConvertDateTime;
+import org.junit.jupiter.params.provider.LeapYearDateTimeSource;
+import org.junit.jupiter.params.provider.NonLeapYearDateTimeSource;
 
 import java.time.Year;
-import java.util.List;
-import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
@@ -36,29 +35,20 @@ class YearAssertTest {
     @Nested
     @DisplayName("method 'isLeapYear'")
     class IsLeapYear {
-        @Test
+        @ParameterizedTest
+        @LeapYearDateTimeSource
         @DisplayName("passes, when actual is leap year")
-        void test0() {
-            // given
-            List<Year> leapYears = IntStream.range(0, 10000)
-                    .filter(DateTimeUtils::isLeapYear).mapToObj(Year::of).collect(toList());
-
-            // expect
-            leapYears.forEach(actual -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).isLeapYear()));
+        void test0(@ConvertDateTime Year actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
 
-        @Test
+        @ParameterizedTest
+        @NonLeapYearDateTimeSource
         @DisplayName("throws exception, when actual is not leap year")
-        void test1() {
-            // given
-            List<Year> nonLeapYears = IntStream.range(0, 10000)
-                    .filter(n -> !DateTimeUtils.isLeapYear(n)).mapToObj(Year::of).collect(toList());
-
-            // expect
-            nonLeapYears.forEach(actual -> assertThatIllegalArgumentException()
+        void test1(@ConvertDateTime Year actual) {
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLeapYear())
-                    .withMessageStartingWith("It is expected to be leap year, but it isn't."));
+                    .withMessageStartingWith("It is expected to be leap year, but it isn't.");
         }
     }
 
@@ -67,29 +57,20 @@ class YearAssertTest {
     @Nested
     @DisplayName("method 'isNotLeapYear'")
     class IsNotLeapYear {
-        @Test
+        @ParameterizedTest
+        @NonLeapYearDateTimeSource
         @DisplayName("passes, when actual is not leap year")
-        void test0() {
-            // given
-            List<Year> nonLeapYears = IntStream.range(0, 10000)
-                    .filter(n -> !DateTimeUtils.isLeapYear(n)).mapToObj(Year::of).collect(toList());
-
-            // expect
-            nonLeapYears.forEach(actual -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).isNotLeapYear()));
+        void test0(@ConvertDateTime Year actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
 
-        @Test
+        @ParameterizedTest
+        @LeapYearDateTimeSource
         @DisplayName("throws exception, when actual is leap year")
-        void test1() {
-            // given
-            List<Year> leapYears = IntStream.range(0, 10000)
-                    .filter(DateTimeUtils::isLeapYear).mapToObj(Year::of).collect(toList());
-
-            // expect
-            leapYears.forEach(actual -> assertThatIllegalArgumentException()
+        void test1(@ConvertDateTime Year actual) {
+            assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotLeapYear())
-                    .withMessageStartingWith("It is expected not to be leap year, but it is."));
+                    .withMessageStartingWith("It is expected not to be leap year, but it is.");
         }
     }
 
