@@ -22,11 +22,13 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.MonthDay;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,18 +40,19 @@ public class ChronoLocalDateTimeDynamicConverter implements ArgumentConverter {
     @SuppressWarnings("rawtypes")
     private static final Class<ChronoLocalDateTime> SOURCE_TYPE = ChronoLocalDateTime.class;
 
-    private static final Map<Class<?>, Function<LocalDateTime, ?>> CONVERTERS;
+    private static final Map<Class<? extends TemporalAccessor>, Function<LocalDateTime, TemporalAccessor>> CONVERTERS;
 
     static {
-        Map<Class<?>, Function<LocalDateTime, ?>> converters = new HashMap<>();
+        Map<Class<? extends TemporalAccessor>, Function<LocalDateTime, TemporalAccessor>> converters = new HashMap<>();
         converters.put(Year.class, it -> Year.of(it.getYear()));
         converters.put(YearMonth.class, it -> YearMonth.of(it.getYear(), it.getMonth()));
+        converters.put(Month.class, LocalDateTime::getMonth);
         converters.put(MonthDay.class, it -> MonthDay.of(it.toLocalDate().getMonth(), it.toLocalDate().getDayOfMonth()));
         converters.put(LocalDate.class, LocalDateTime::toLocalDate);
         converters.put(ChronoLocalDate.class, LocalDateTime::toLocalDate);
         converters.put(LocalTime.class, LocalDateTime::toLocalTime);
-        converters.put(LocalDateTime.class, Function.identity());
-        converters.put(ChronoLocalDateTime.class, Function.identity());
+        converters.put(LocalDateTime.class, it -> it);
+        converters.put(ChronoLocalDateTime.class, it -> it);
 
         CONVERTERS = Collections.unmodifiableMap(converters);
     }
