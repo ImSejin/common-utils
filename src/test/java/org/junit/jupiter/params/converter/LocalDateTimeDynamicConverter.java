@@ -35,10 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class ChronoLocalDateTimeDynamicConverter implements ArgumentConverter {
+public class LocalDateTimeDynamicConverter implements ArgumentConverter {
 
-    @SuppressWarnings("rawtypes")
-    private static final Class<ChronoLocalDateTime> SOURCE_TYPE = ChronoLocalDateTime.class;
+    private static final Class<LocalDateTime> SOURCE_TYPE = LocalDateTime.class;
 
     private static final Map<Class<? extends TemporalAccessor>, Function<LocalDateTime, TemporalAccessor>> CONVERTERS;
 

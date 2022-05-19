@@ -23,6 +23,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@ConvertWith(ChronoLocalDateTimeDynamicConverter.class)
+@ConvertWith(LocalDateTimeDynamicConverter.class)
 public @interface ConvertDateTime {
 }
