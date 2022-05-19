@@ -40,12 +40,24 @@ public class ChronoZonedDateTimeAssert<
     }
 
     public SELF isSameZone(ZoneId expected) {
-        if (!actual.getZone().equals(expected)) throw getException();
+        ZoneId zone = actual.getZone();
+
+        if (!zone.equals(expected)) {
+            setDefaultDescription("They are expected to have the same zone, but they aren't. (expected: '{0}', actual: '{1}')", expected, zone);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotSameZone(ZoneId expected) {
-        if (actual.getZone().equals(expected)) throw getException();
+        ZoneId zone = actual.getZone();
+
+        if (zone.equals(expected)) {
+            setDefaultDescription("They are expected not to have the same zone, but they are. (expected: '{0}', actual: '{1}')", expected, zone);
+            throw getException();
+        }
+
         return self;
     }
 
