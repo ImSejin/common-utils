@@ -16,17 +16,24 @@
 
 package org.junit.jupiter.params.provider;
 
+import io.github.imsejin.common.util.CollectionUtils;
 import io.github.imsejin.common.util.DateTimeUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.converter.ConvertJavaTime;
+import org.junit.jupiter.params.converter.VariousJavaTimeArgumentConverter;
 
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @see ConvertJavaTime
@@ -36,8 +43,8 @@ public class RandomJavaTimeArgumentsProvider implements ArgumentsProvider {
 
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-        RandomJavaTimeSource annotation = Objects.requireNonNull(
-                context.getRequiredTestMethod().getAnnotation(RandomJavaTimeSource.class),
+        Method testMethod = context.getRequiredTestMethod();
+        RandomJavaTimeSource annotation = Objects.requireNonNull(testMethod.getAnnotation(RandomJavaTimeSource.class),
                 "RandomDateTimeArgumentsProvider required @RandomDateTimeSource; you must annotate it to method");
 
         LocalDateTime start = LocalDateTime.parse(annotation.start());
@@ -59,8 +66,14 @@ public class RandomJavaTimeArgumentsProvider implements ArgumentsProvider {
                 predicate = it -> true;
         }
 
+        long argumentCount = Arrays.stream(testMethod.getParameterTypes())
+                .filter(VariousJavaTimeArgumentConverter.SOURCE_TYPE::isAssignableFrom).count();
+
+        // Provides each test case with instances of ZonedDateTime as a pair of arguments.
         return IntStream.generate(() -> 0).mapToObj(n -> DateTimeUtils.random(start, end).atZone(timezone))
-                .filter(predicate).limit(annotation.count()).map(Arguments::of);
+                .filter(predicate).limit(annotation.count() * argumentCount)
+                .collect(collectingAndThen(toList(), them -> CollectionUtils.partitionBySize(them, (int) argumentCount)))
+                .stream().map(them -> Arguments.of(them.toArray()));
     }
 
 }

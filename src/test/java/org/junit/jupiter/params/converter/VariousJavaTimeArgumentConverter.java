@@ -47,25 +47,25 @@ import java.util.function.Function;
  */
 public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
 
-    private static final Class<ZonedDateTime> SOURCE_TYPE = ZonedDateTime.class;
+    public static final Class<TemporalAccessor> SOURCE_TYPE = TemporalAccessor.class;
 
-    private static final Map<Class<? extends TemporalAccessor>, Function<ZonedDateTime, TemporalAccessor>> CONVERTERS;
+    private static final Map<Class<? extends TemporalAccessor>, Function<TemporalAccessor, TemporalAccessor>> CONVERTERS;
 
     static {
-        Map<Class<? extends TemporalAccessor>, Function<ZonedDateTime, TemporalAccessor>> converters = new HashMap<>();
+        Map<Class<? extends TemporalAccessor>, Function<TemporalAccessor, TemporalAccessor>> converters = new HashMap<>();
         converters.put(Year.class, Year::from);
         converters.put(YearMonth.class, YearMonth::from);
-        converters.put(Month.class, ZonedDateTime::getMonth);
+        converters.put(Month.class, Month::from);
         converters.put(MonthDay.class, MonthDay::from);
-        converters.put(LocalDate.class, ZonedDateTime::toLocalDate);
-        converters.put(ChronoLocalDate.class, ZonedDateTime::toLocalDate);
-        converters.put(LocalTime.class, ZonedDateTime::toLocalTime);
-        converters.put(LocalDateTime.class, ZonedDateTime::toLocalDateTime);
-        converters.put(ChronoLocalDateTime.class, ZonedDateTime::toLocalDateTime);
-        converters.put(OffsetDateTime.class, ZonedDateTime::toOffsetDateTime);
+        converters.put(LocalDate.class, LocalDate::from);
+        converters.put(ChronoLocalDate.class, ChronoLocalDate::from);
+        converters.put(LocalTime.class, LocalTime::from);
+        converters.put(LocalDateTime.class, LocalDateTime::from);
+        converters.put(ChronoLocalDateTime.class, ChronoLocalDateTime::from);
+        converters.put(OffsetDateTime.class, OffsetDateTime::from);
         converters.put(OffsetTime.class, OffsetTime::from);
-        converters.put(ZonedDateTime.class, it -> it);
-        converters.put(ChronoZonedDateTime.class, it -> it);
+        converters.put(ZonedDateTime.class, ZonedDateTime::from);
+        converters.put(ChronoZonedDateTime.class, ChronoZonedDateTime::from);
 
         CONVERTERS = Collections.unmodifiableMap(converters);
     }
@@ -87,7 +87,7 @@ public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
         Class<?> paramType = context.getParameter().getType();
         for (Class<?> targetType : CONVERTERS.keySet()) {
             if (ReflectionUtils.isAssignableTo(targetType, paramType)) {
-                return CONVERTERS.get(targetType).apply((ZonedDateTime) source);
+                return CONVERTERS.get(targetType).apply((TemporalAccessor) source);
             }
         }
 
