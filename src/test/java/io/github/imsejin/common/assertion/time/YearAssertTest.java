@@ -20,9 +20,9 @@ import io.github.imsejin.common.assertion.Asserts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.common.Switch;
 import org.junit.jupiter.params.converter.ConvertDateTime;
-import org.junit.jupiter.params.provider.LeapYearDateTimeSource;
-import org.junit.jupiter.params.provider.NonLeapYearDateTimeSource;
+import org.junit.jupiter.params.provider.RandomDateTimeSource;
 
 import java.time.Year;
 
@@ -36,14 +36,14 @@ class YearAssertTest {
     @DisplayName("method 'isLeapYear'")
     class IsLeapYear {
         @ParameterizedTest
-        @LeapYearDateTimeSource
+        @RandomDateTimeSource(leapYear = Switch.ON)
         @DisplayName("passes, when actual is leap year")
         void test0(@ConvertDateTime Year actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
 
         @ParameterizedTest
-        @NonLeapYearDateTimeSource
+        @RandomDateTimeSource(leapYear = Switch.OFF)
         @DisplayName("throws exception, when actual is not leap year")
         void test1(@ConvertDateTime Year actual) {
             assertThatIllegalArgumentException()
@@ -58,14 +58,14 @@ class YearAssertTest {
     @DisplayName("method 'isNotLeapYear'")
     class IsNotLeapYear {
         @ParameterizedTest
-        @NonLeapYearDateTimeSource
+        @RandomDateTimeSource(leapYear = Switch.OFF)
         @DisplayName("passes, when actual is not leap year")
         void test0(@ConvertDateTime Year actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
 
         @ParameterizedTest
-        @LeapYearDateTimeSource
+        @RandomDateTimeSource(leapYear = Switch.ON)
         @DisplayName("throws exception, when actual is leap year")
         void test1(@ConvertDateTime Year actual) {
             assertThatIllegalArgumentException()

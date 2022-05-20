@@ -16,6 +16,8 @@
 
 package org.junit.jupiter.params.provider;
 
+import org.junit.jupiter.params.common.Switch;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,14 +25,28 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@ArgumentsSource(LeapYearDateTimeArgumentsProvider.class)
-public @interface LeapYearDateTimeSource {
+@ArgumentsSource(RandomDateTimeArgumentsProvider.class)
+public @interface RandomDateTimeSource {
 
     /**
      * The number of sources.
      *
      * @return the number of sources
      */
-    int value() default 10;
+    int count() default 10;
+
+    /**
+     * Timezone.
+     *
+     * @return timezone of source
+     */
+    String timezone() default "UTC";
+
+    /**
+     * Whether source is leap year or not.
+     *
+     * @return whether source is leap year or not.
+     */
+    Switch leapYear() default Switch.NEUTRAL;
 
 }

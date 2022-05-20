@@ -26,8 +26,10 @@ import java.time.Month;
 import java.time.MonthDay;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,23 +37,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class LocalDateTimeDynamicConverter implements ArgumentConverter {
+/**
+ * @see ConvertDateTime
+ */
+public class DateTimeDynamicConverter implements ArgumentConverter {
 
-    private static final Class<LocalDateTime> SOURCE_TYPE = LocalDateTime.class;
+    private static final Class<ZonedDateTime> SOURCE_TYPE = ZonedDateTime.class;
 
-    private static final Map<Class<? extends TemporalAccessor>, Function<LocalDateTime, TemporalAccessor>> CONVERTERS;
+    private static final Map<Class<? extends TemporalAccessor>, Function<ZonedDateTime, TemporalAccessor>> CONVERTERS;
 
     static {
-        Map<Class<? extends TemporalAccessor>, Function<LocalDateTime, TemporalAccessor>> converters = new HashMap<>();
+        Map<Class<? extends TemporalAccessor>, Function<ZonedDateTime, TemporalAccessor>> converters = new HashMap<>();
         converters.put(Year.class, it -> Year.of(it.getYear()));
         converters.put(YearMonth.class, it -> YearMonth.of(it.getYear(), it.getMonth()));
-        converters.put(Month.class, LocalDateTime::getMonth);
+        converters.put(Month.class, ZonedDateTime::getMonth);
         converters.put(MonthDay.class, it -> MonthDay.of(it.toLocalDate().getMonth(), it.toLocalDate().getDayOfMonth()));
-        converters.put(LocalDate.class, LocalDateTime::toLocalDate);
-        converters.put(ChronoLocalDate.class, LocalDateTime::toLocalDate);
-        converters.put(LocalTime.class, LocalDateTime::toLocalTime);
-        converters.put(LocalDateTime.class, it -> it);
-        converters.put(ChronoLocalDateTime.class, it -> it);
+        converters.put(LocalDate.class, ZonedDateTime::toLocalDate);
+        converters.put(ChronoLocalDate.class, ZonedDateTime::toLocalDate);
+        converters.put(LocalTime.class, ZonedDateTime::toLocalTime);
+        converters.put(LocalDateTime.class, ZonedDateTime::toLocalDateTime);
+        converters.put(ChronoLocalDateTime.class, ZonedDateTime::toLocalDateTime);
+        converters.put(ZonedDateTime.class, it -> it);
+        converters.put(ChronoZonedDateTime.class, it -> it);
 
         CONVERTERS = Collections.unmodifiableMap(converters);
     }
@@ -73,7 +80,7 @@ public class LocalDateTimeDynamicConverter implements ArgumentConverter {
         Class<?> paramType = context.getParameter().getType();
         for (Class<?> targetType : CONVERTERS.keySet()) {
             if (ReflectionUtils.isAssignableTo(targetType, paramType)) {
-                return CONVERTERS.get(targetType).apply((LocalDateTime) source);
+                return CONVERTERS.get(targetType).apply((ZonedDateTime) source);
             }
         }
 

@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-package org.junit.jupiter.params.provider;
+package org.junit.jupiter.params.common;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public enum Switch {
 
-@Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@ArgumentsSource(NonLeapYearDateTimeArgumentsProvider.class)
-public @interface NonLeapYearDateTimeSource {
-
-    /**
-     * The number of sources.
-     *
-     * @return the number of sources
-     */
-    int value() default 10;
+    ON, NEUTRAL, OFF
 
 }
