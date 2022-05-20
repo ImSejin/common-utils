@@ -36,6 +36,20 @@ public @interface RandomDateTimeSource {
     int count() default 10;
 
     /**
+     * Start datetime.
+     *
+     * @return start datetime
+     */
+    String start() default "0000-01-01T00:00:00.000000000";
+
+    /**
+     * End datetime.
+     *
+     * @return end datetime
+     */
+    String end() default "9999-12-31T23:59:59.999999999";
+
+    /**
      * Timezone.
      *
      * @return timezone of source

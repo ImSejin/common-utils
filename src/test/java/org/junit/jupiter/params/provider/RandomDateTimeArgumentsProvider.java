@@ -18,12 +18,8 @@ package org.junit.jupiter.params.provider;
 
 import io.github.imsejin.common.util.DateTimeUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.common.Switch;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -42,8 +38,8 @@ public class RandomDateTimeArgumentsProvider implements ArgumentsProvider {
                 context.getRequiredTestMethod().getAnnotation(RandomDateTimeSource.class),
                 "RandomDateTimeArgumentsProvider required @RandomDateTimeSource; you must annotate it to method");
 
-        LocalDateTime start = LocalDate.of(0, Month.JANUARY, 1).atTime(LocalTime.MIN);
-        LocalDateTime end = LocalDateTime.of(LocalDate.MAX, LocalTime.MIN);
+        LocalDateTime start = LocalDateTime.parse(annotation.start());
+        LocalDateTime end = LocalDateTime.parse(annotation.end());
 
         ZoneId timezone = ZoneId.of(annotation.timezone());
 
