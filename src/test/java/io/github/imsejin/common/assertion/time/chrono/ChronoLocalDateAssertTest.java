@@ -38,9 +38,9 @@ class ChronoLocalDateAssertTest {
     class IsEqualTo {
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1592-05-23",
-                "1918-12-31,1918-12-31",
-                "2022-05-19,2022-05-19",
+                "1592-05-23, 1592-05-23",
+                "1918-12-31, 1918-12-31",
+                "2022-05-19, 2022-05-19",
         })
         @DisplayName("passes, when actual is equal to other")
         void test0(LocalDate actual, LocalDate expected) {
@@ -49,9 +49,9 @@ class ChronoLocalDateAssertTest {
 
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1918-12-31",
-                "2022-05-19,1592-05-23",
-                "1918-12-31,2022-05-19",
+                "1592-05-23, 1918-12-31",
+                "2022-05-19, 1592-05-23",
+                "1918-12-31, 2022-05-19",
         })
         @DisplayName("throws exception, when actual is not equal to other")
         void test1(LocalDate actual, LocalDate expected) {
@@ -69,9 +69,9 @@ class ChronoLocalDateAssertTest {
     class IsNotEqualTo {
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1918-12-31",
-                "2022-05-19,1592-05-23",
-                "1918-12-31,2022-05-19",
+                "1592-05-23, 1918-12-31",
+                "2022-05-19, 1592-05-23",
+                "1918-12-31, 2022-05-19",
         })
         @DisplayName("passes, when actual is not equal to other")
         void test0(LocalDate actual, LocalDate expected) {
@@ -80,9 +80,9 @@ class ChronoLocalDateAssertTest {
 
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1592-05-23",
-                "1918-12-31,1918-12-31",
-                "2022-05-19,2022-05-19",
+                "1592-05-23, 1592-05-23",
+                "1918-12-31, 1918-12-31",
+                "2022-05-19, 2022-05-19",
         })
         @DisplayName("throws exception, when actual is equal to other")
         void test1(LocalDate actual, LocalDate expected) {
@@ -99,9 +99,9 @@ class ChronoLocalDateAssertTest {
     class IsBefore {
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1592-05-24",
-                "1918-12-31,1919-01-01",
-                "1918-12-31,2022-05-19",
+                "1592-05-23, 1592-05-24",
+                "1918-12-31, 1919-01-01",
+                "1918-12-31, 2022-05-19",
         })
         @DisplayName("passes, when actual is before than other")
         void test0(LocalDate actual, LocalDate expected) {
@@ -110,9 +110,9 @@ class ChronoLocalDateAssertTest {
 
         @ParameterizedTest
         @CsvSource({
-                "1592-05-24,1592-05-23",
-                "1918-12-31,1918-12-31",
-                "2022-05-19,1918-12-31",
+                "1592-05-24, 1592-05-23",
+                "1918-12-31, 1918-12-31",
+                "2022-05-19, 1918-12-31",
         })
         @DisplayName("throws exception, when actual is after than or equal to other")
         void test1(LocalDate actual, LocalDate expected) {
@@ -129,9 +129,9 @@ class ChronoLocalDateAssertTest {
     class IsBeforeOrEqualTo {
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1592-05-24",
-                "1918-12-31,1918-12-31",
-                "1919-01-01,2022-05-19",
+                "1592-05-23, 1592-05-24",
+                "1918-12-31, 1918-12-31",
+                "1919-01-01, 2022-05-19",
         })
         @DisplayName("passes, when actual is before than or equal to other")
         void test0(LocalDate actual, LocalDate expected) {
@@ -140,9 +140,9 @@ class ChronoLocalDateAssertTest {
 
         @ParameterizedTest
         @CsvSource({
-                "1592-05-24,1592-05-23",
-                "1919-01-01,1918-12-31",
-                "2022-05-19,1918-12-31",
+                "1592-05-24, 1592-05-23",
+                "1919-01-01, 1918-12-31",
+                "2022-05-19, 1918-12-31",
         })
         @DisplayName("throws exception, when actual is after than other")
         void test1(LocalDate actual, LocalDate expected) {
@@ -159,9 +159,9 @@ class ChronoLocalDateAssertTest {
     class IsAfter {
         @ParameterizedTest
         @CsvSource({
-                "1592-05-24,1592-05-23",
-                "1919-01-01,1918-12-31",
-                "2022-05-19,1918-12-31",
+                "1592-05-24, 1592-05-23",
+                "1919-01-01, 1918-12-31",
+                "2022-05-19, 1918-12-31",
         })
         @DisplayName("passes, when actual is after than other")
         void test0(LocalDate actual, LocalDate expected) {
@@ -170,9 +170,9 @@ class ChronoLocalDateAssertTest {
 
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1592-05-24",
-                "1918-12-31,1918-12-31",
-                "1919-01-01,2022-05-19",
+                "1592-05-23, 1592-05-24",
+                "1918-12-31, 1918-12-31",
+                "1919-01-01, 2022-05-19",
         })
         @DisplayName("throws exception, when actual is before than or equal to other")
         void test1(LocalDate actual, LocalDate expected) {
@@ -189,9 +189,9 @@ class ChronoLocalDateAssertTest {
     class IsAfterOrEqualTo {
         @ParameterizedTest
         @CsvSource({
-                "1592-05-24,1592-05-23",
-                "1918-12-31,1918-12-31",
-                "2022-05-19,1918-12-31",
+                "1592-05-24, 1592-05-23",
+                "1918-12-31, 1918-12-31",
+                "2022-05-19, 1918-12-31",
         })
         @DisplayName("passes, when actual is after than or equal to other")
         void test0(LocalDate actual, LocalDate expected) {
@@ -200,9 +200,9 @@ class ChronoLocalDateAssertTest {
 
         @ParameterizedTest
         @CsvSource({
-                "1592-05-23,1592-05-24",
-                "1918-12-31,1919-01-01",
-                "1918-12-31,2022-05-19",
+                "1592-05-23, 1592-05-24",
+                "1918-12-31, 1919-01-01",
+                "1918-12-31, 2022-05-19",
         })
         @DisplayName("throws exception, when actual is before than other")
         void test1(LocalDate actual, LocalDate expected) {
