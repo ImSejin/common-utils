@@ -17,6 +17,7 @@
 package org.junit.jupiter.params.converter;
 
 import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.params.provider.RandomDateTimeSource;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import java.time.LocalDate;
@@ -24,6 +25,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.MonthDay;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
@@ -38,9 +41,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * @see ConvertDateTime
+ * @see ConvertJavaTime
+ * @see RandomDateTimeSource
+ * @see JavaTimeArgumentConverter
  */
-public class DateTimeDynamicConverter implements ArgumentConverter {
+public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
 
     private static final Class<ZonedDateTime> SOURCE_TYPE = ZonedDateTime.class;
 
@@ -48,15 +53,17 @@ public class DateTimeDynamicConverter implements ArgumentConverter {
 
     static {
         Map<Class<? extends TemporalAccessor>, Function<ZonedDateTime, TemporalAccessor>> converters = new HashMap<>();
-        converters.put(Year.class, it -> Year.of(it.getYear()));
-        converters.put(YearMonth.class, it -> YearMonth.of(it.getYear(), it.getMonth()));
+        converters.put(Year.class, Year::from);
+        converters.put(YearMonth.class, YearMonth::from);
         converters.put(Month.class, ZonedDateTime::getMonth);
-        converters.put(MonthDay.class, it -> MonthDay.of(it.toLocalDate().getMonth(), it.toLocalDate().getDayOfMonth()));
+        converters.put(MonthDay.class, MonthDay::from);
         converters.put(LocalDate.class, ZonedDateTime::toLocalDate);
         converters.put(ChronoLocalDate.class, ZonedDateTime::toLocalDate);
         converters.put(LocalTime.class, ZonedDateTime::toLocalTime);
         converters.put(LocalDateTime.class, ZonedDateTime::toLocalDateTime);
         converters.put(ChronoLocalDateTime.class, ZonedDateTime::toLocalDateTime);
+        converters.put(OffsetDateTime.class, ZonedDateTime::toOffsetDateTime);
+        converters.put(OffsetTime.class, OffsetTime::from);
         converters.put(ZonedDateTime.class, it -> it);
         converters.put(ChronoZonedDateTime.class, it -> it);
 

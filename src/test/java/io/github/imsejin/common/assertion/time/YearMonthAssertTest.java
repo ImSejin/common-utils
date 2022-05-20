@@ -21,7 +21,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.common.Switch;
-import org.junit.jupiter.params.converter.ConvertDateTime;
+import org.junit.jupiter.params.converter.ConvertJavaTime;
 import org.junit.jupiter.params.provider.RandomDateTimeSource;
 
 import java.time.YearMonth;
@@ -38,7 +38,7 @@ class YearMonthAssertTest {
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.ON)
         @DisplayName("passes, when actual is leap year")
-        void test0(@ConvertDateTime YearMonth actual) {
+        void test0(@ConvertJavaTime YearMonth actual) {
             assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
@@ -46,7 +46,7 @@ class YearMonthAssertTest {
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.OFF)
         @DisplayName("throws exception, when actual is not leap year")
-        void test1(@ConvertDateTime YearMonth actual) {
+        void test1(@ConvertJavaTime YearMonth actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLeapYear())
                     .withMessageStartingWith("It is expected to be leap year, but it isn't.");
@@ -61,7 +61,7 @@ class YearMonthAssertTest {
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.OFF)
         @DisplayName("passes, when actual is not leap year")
-        void test0(@ConvertDateTime YearMonth actual) {
+        void test0(@ConvertJavaTime YearMonth actual) {
             assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
@@ -69,7 +69,7 @@ class YearMonthAssertTest {
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.ON)
         @DisplayName("throws exception, when actual is leap year")
-        void test1(@ConvertDateTime YearMonth actual) {
+        void test1(@ConvertJavaTime YearMonth actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotLeapYear())
                     .withMessageStartingWith("It is expected not to be leap year, but it is.");

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.common.Switch;
-import org.junit.jupiter.params.converter.ConvertDateTime;
+import org.junit.jupiter.params.converter.ConvertJavaTime;
 import org.junit.jupiter.params.provider.RandomDateTimeSource;
 
 import java.time.Year;
@@ -38,14 +38,14 @@ class YearAssertTest {
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.ON)
         @DisplayName("passes, when actual is leap year")
-        void test0(@ConvertDateTime Year actual) {
+        void test0(@ConvertJavaTime Year actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
 
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.OFF)
         @DisplayName("throws exception, when actual is not leap year")
-        void test1(@ConvertDateTime Year actual) {
+        void test1(@ConvertJavaTime Year actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLeapYear())
                     .withMessageStartingWith("It is expected to be leap year, but it isn't.");
@@ -60,14 +60,14 @@ class YearAssertTest {
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.OFF)
         @DisplayName("passes, when actual is not leap year")
-        void test0(@ConvertDateTime Year actual) {
+        void test0(@ConvertJavaTime Year actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
 
         @ParameterizedTest
         @RandomDateTimeSource(leapYear = Switch.ON)
         @DisplayName("throws exception, when actual is leap year")
-        void test1(@ConvertDateTime Year actual) {
+        void test1(@ConvertJavaTime Year actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotLeapYear())
                     .withMessageStartingWith("It is expected not to be leap year, but it is.");

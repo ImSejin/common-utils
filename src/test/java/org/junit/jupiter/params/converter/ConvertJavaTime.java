@@ -16,13 +16,18 @@
 
 package org.junit.jupiter.params.converter;
 
+import org.junit.jupiter.params.provider.RandomDateTimeSource;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * @see RandomDateTimeSource
+ */
 @Target({ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@ConvertWith(DateTimeDynamicConverter.class)
-public @interface ConvertDateTime {
+@ConvertWith(VariousJavaTimeArgumentConverter.class)
+public @interface ConvertJavaTime {
 }

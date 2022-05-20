@@ -18,6 +18,7 @@ package org.junit.jupiter.params.provider;
 
 import io.github.imsejin.common.util.DateTimeUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.converter.ConvertJavaTime;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -28,6 +29,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
+ * @see ConvertJavaTime
  * @see RandomDateTimeSource
  */
 public class RandomDateTimeArgumentsProvider implements ArgumentsProvider {
@@ -49,14 +51,12 @@ public class RandomDateTimeArgumentsProvider implements ArgumentsProvider {
             case ON:
                 predicate = it -> it.toLocalDate().isLeapYear();
                 break;
-            case NEUTRAL:
-                predicate = it -> true;
-                break;
             case OFF:
                 predicate = it -> !it.toLocalDate().isLeapYear();
                 break;
+            case NEUTRAL:
             default:
-                throw new IllegalStateException("Unexpected value: " + annotation.leapYear());
+                predicate = it -> true;
         }
 
         return IntStream.generate(() -> 0).mapToObj(n -> DateTimeUtils.random(start, end).atZone(timezone))
