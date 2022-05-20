@@ -30,14 +30,14 @@ import java.util.stream.Stream;
 
 /**
  * @see ConvertJavaTime
- * @see RandomDateTimeSource
+ * @see RandomJavaTimeSource
  */
-public class RandomDateTimeArgumentsProvider implements ArgumentsProvider {
+public class RandomJavaTimeArgumentsProvider implements ArgumentsProvider {
 
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-        RandomDateTimeSource annotation = Objects.requireNonNull(
-                context.getRequiredTestMethod().getAnnotation(RandomDateTimeSource.class),
+        RandomJavaTimeSource annotation = Objects.requireNonNull(
+                context.getRequiredTestMethod().getAnnotation(RandomJavaTimeSource.class),
                 "RandomDateTimeArgumentsProvider required @RandomDateTimeSource; you must annotate it to method");
 
         LocalDateTime start = LocalDateTime.parse(annotation.start());

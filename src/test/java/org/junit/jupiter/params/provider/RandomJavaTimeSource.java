@@ -25,8 +25,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@ArgumentsSource(RandomDateTimeArgumentsProvider.class)
-public @interface RandomDateTimeSource {
+@ArgumentsSource(RandomJavaTimeArgumentsProvider.class)
+public @interface RandomJavaTimeSource {
 
     /**
      * The number of sources.

@@ -23,7 +23,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.common.Switch;
 import org.junit.jupiter.params.converter.ConvertJavaTime;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.RandomDateTimeSource;
+import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
 import java.time.LocalDate;
 
@@ -218,14 +218,14 @@ class ChronoLocalDateAssertTest {
     @DisplayName("method 'isLeapYear'")
     class IsLeapYear {
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.ON)
+        @RandomJavaTimeSource(leapYear = Switch.ON)
         @DisplayName("passes, when actual is leap year")
         void test0(@ConvertJavaTime LocalDate actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
 
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.OFF)
+        @RandomJavaTimeSource(leapYear = Switch.OFF)
         @DisplayName("throws exception, when actual is not leap year")
         void test1(@ConvertJavaTime LocalDate actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isLeapYear())
@@ -239,14 +239,14 @@ class ChronoLocalDateAssertTest {
     @DisplayName("method 'isNotLeapYear'")
     class IsNotLeapYear {
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.OFF)
+        @RandomJavaTimeSource(leapYear = Switch.OFF)
         @DisplayName("passes, when actual is not leap year")
         void test0(@ConvertJavaTime LocalDate actual) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
 
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.ON)
+        @RandomJavaTimeSource(leapYear = Switch.ON)
         @DisplayName("throws exception, when actual is leap year")
         void test1(@ConvertJavaTime LocalDate actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear())

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.common.Switch;
 import org.junit.jupiter.params.converter.ConvertJavaTime;
-import org.junit.jupiter.params.provider.RandomDateTimeSource;
+import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
 import java.time.YearMonth;
 
@@ -36,7 +36,7 @@ class YearMonthAssertTest {
     @DisplayName("method 'isLeapYear'")
     class IsLeapYear {
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.ON)
+        @RandomJavaTimeSource(leapYear = Switch.ON)
         @DisplayName("passes, when actual is leap year")
         void test0(@ConvertJavaTime YearMonth actual) {
             assertThatNoException()
@@ -44,7 +44,7 @@ class YearMonthAssertTest {
         }
 
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.OFF)
+        @RandomJavaTimeSource(leapYear = Switch.OFF)
         @DisplayName("throws exception, when actual is not leap year")
         void test1(@ConvertJavaTime YearMonth actual) {
             assertThatIllegalArgumentException()
@@ -59,7 +59,7 @@ class YearMonthAssertTest {
     @DisplayName("method 'isNotLeapYear'")
     class IsNotLeapYear {
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.OFF)
+        @RandomJavaTimeSource(leapYear = Switch.OFF)
         @DisplayName("passes, when actual is not leap year")
         void test0(@ConvertJavaTime YearMonth actual) {
             assertThatNoException()
@@ -67,7 +67,7 @@ class YearMonthAssertTest {
         }
 
         @ParameterizedTest
-        @RandomDateTimeSource(leapYear = Switch.ON)
+        @RandomJavaTimeSource(leapYear = Switch.ON)
         @DisplayName("throws exception, when actual is leap year")
         void test1(@ConvertJavaTime YearMonth actual) {
             assertThatIllegalArgumentException()

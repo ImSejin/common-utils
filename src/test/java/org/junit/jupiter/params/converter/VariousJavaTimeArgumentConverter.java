@@ -17,7 +17,7 @@
 package org.junit.jupiter.params.converter;
 
 import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.params.provider.RandomDateTimeSource;
+import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import java.time.LocalDate;
@@ -42,7 +42,7 @@ import java.util.function.Function;
 
 /**
  * @see ConvertJavaTime
- * @see RandomDateTimeSource
+ * @see RandomJavaTimeSource
  * @see JavaTimeArgumentConverter
  */
 public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
