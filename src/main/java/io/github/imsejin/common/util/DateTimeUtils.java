@@ -156,7 +156,7 @@ public final class DateTimeUtils {
                                           ChronoLocalDateTime<? extends ChronoLocalDate> end,
                                           ZoneOffset offset) {
             long randomSeconds = this.random.nextLong(start.toEpochSecond(offset), end.toEpochSecond(offset));
-            return LocalDateTime.ofInstant(Instant.ofEpochSecond(randomSeconds), ZoneId.systemDefault());
+            return LocalDateTime.ofInstant(Instant.ofEpochSecond(randomSeconds), offset);
         }
     }
 
