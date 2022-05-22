@@ -61,12 +61,15 @@ public final class MathUtils {
     }
 
     public static boolean isPrime(int number) {
-        if (number < 3) return true;
+        // Checks if it is greater than 1.
+        if (number < 2) return false;
 
-        // check if n is a multiple of 2
+        if (number == 2) return true;
+
+        // Checks if n is a multiple of 2.
         if (number % 2 == 0) return false;
 
-        // if not, then just check the odds
+        // if not, then just checks the odds.
         for (int i = 3; i * i <= number; i += 2) {
             if (number % i == 0) return false;
         }
