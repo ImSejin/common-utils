@@ -100,7 +100,7 @@ public final class DateTimeUtils {
         LocalDate localDate = LocalDate.parse(date, DateType.DATE.getFormatter());
 
         // Checks if day of week is valid.
-        return localDate.getDayOfWeek().equals(dayOfWeek);
+        return localDate.getDayOfWeek() == dayOfWeek;
     }
 
     /**
