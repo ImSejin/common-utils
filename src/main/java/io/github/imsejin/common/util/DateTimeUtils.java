@@ -55,10 +55,10 @@ public final class DateTimeUtils {
      * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
      *
      * <pre><code>
-     *     validate("2019-02-28");  // true
-     *     validate("20190229");    // false
-     *     validate("20200229");    // true
-     *     validate("2020-02-29");  // true
+     *     validate("2019-02-28"); // true
+     *     validate("20190229");   // false
+     *     validate("20200229");   // true
+     *     validate("2020-02-29"); // true
      * </code></pre>
      *
      * @param date date
@@ -81,11 +81,11 @@ public final class DateTimeUtils {
      * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
      *
      * <pre><code>
-     *     validate("20190228", DayOfWeek.THURSDAY);    // true
-     *     validate("2019-02-28", DayOfWeek.THURSDAY);  // true
-     *     validate("20190229", DayOfWeek.FRIDAY);      // false
-     *     validate("20200229", DayOfWeek.SATURDAY);    // true
-     *     validate("2020-02-29", DayOfWeek.SATURDAY);  // true
+     *     validate("20190228", DayOfWeek.THURSDAY);   // true
+     *     validate("2019-02-29", DayOfWeek.FRIDAY);   // false
+     *     validate("20200228", DayOfWeek.SATURDAY);   // false
+     *     validate("20200229", DayOfWeek.SATURDAY);   // true
+     *     validate("2020-02-29", DayOfWeek.SATURDAY); // true
      * </code></pre>
      *
      * @param date      date
