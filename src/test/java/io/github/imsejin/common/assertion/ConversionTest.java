@@ -16,10 +16,10 @@
 
 package io.github.imsejin.common.assertion;
 
+import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.constant.OS;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
-import io.github.imsejin.common.util.DateTimeUtils;
 import io.github.imsejin.common.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -844,7 +844,8 @@ class ConversionTest {
         @DisplayName("asLength(): File -> long")
         void asLength(@TempDir Path path) throws IOException {
             // given
-            File file = new File(path.toFile(), DateTimeUtils.now());
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = new File(path.toFile(), filename);
             String content = getClass().getPackage().getName();
             Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
 

@@ -16,87 +16,13 @@
 
 package io.github.imsejin.common.util
 
-import io.github.imsejin.common.constant.DateType
 import spock.lang.Specification
 
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.Month
-import java.time.YearMonth
 import java.time.ZoneOffset
 
 class DateTimeUtilsSpec extends Specification {
-
-    def "Checks if it is leap-year"() {
-        given:
-        def yearMonth = YearMonth.of(year, Month.FEBRUARY)
-        def numOfDays = yearMonth.lengthOfMonth()
-
-        when:
-        def leapYear = DateTimeUtils.isLeapYear year
-
-        then:
-        leapYear ? numOfDays == 29 : numOfDays == 28
-
-        where:
-        year << (0..3072)
-    }
-
-    def "Returns formatted today"() {
-        when:
-        def actual = dateType == null ? DateTimeUtils.today() : DateTimeUtils.today(dateType)
-
-        then:
-        actual.length() == formatter.format(new Date()).length()
-
-        where:
-        dateType             | formatter
-        null                 | new SimpleDateFormat(DateType.DATE.pattern)
-        DateType.YEAR        | new SimpleDateFormat(dateType.pattern)
-        DateType.MONTH       | new SimpleDateFormat(dateType.pattern)
-        DateType.DAY         | new SimpleDateFormat(dateType.pattern)
-        DateType.HOUR        | new SimpleDateFormat(dateType.pattern)
-        DateType.MINUTE      | new SimpleDateFormat(dateType.pattern)
-        DateType.SECOND      | new SimpleDateFormat(dateType.pattern)
-        DateType.YEAR_MONTH  | new SimpleDateFormat(dateType.pattern)
-        DateType.DATE        | new SimpleDateFormat(dateType.pattern)
-        DateType.DATE_TIME   | new SimpleDateFormat(dateType.pattern)
-        DateType.TIME        | new SimpleDateFormat(dateType.pattern)
-        DateType.F_DATE      | new SimpleDateFormat(dateType.pattern)
-        DateType.F_TIME      | new SimpleDateFormat(dateType.pattern)
-        DateType.F_DATE_TIME | new SimpleDateFormat(dateType.pattern)
-    }
-
-    def "Returns formatted yesterday"() {
-        given:
-        def calendar = Calendar.instance
-        calendar.setTime new Date()
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
-        def yesterday = formatter.format new Date(calendar.timeInMillis)
-
-        when:
-        def actual = dateType == null ? DateTimeUtils.yesterday() : DateTimeUtils.yesterday(dateType)
-
-        then:
-        actual.length() == yesterday.length()
-
-        where:
-        dateType             | formatter
-        null                 | new SimpleDateFormat(DateType.DATE.pattern)
-        DateType.YEAR        | new SimpleDateFormat(dateType.pattern)
-        DateType.MONTH       | new SimpleDateFormat(dateType.pattern)
-        DateType.DAY         | new SimpleDateFormat(dateType.pattern)
-        DateType.HOUR        | new SimpleDateFormat(dateType.pattern)
-        DateType.MINUTE      | new SimpleDateFormat(dateType.pattern)
-        DateType.SECOND      | new SimpleDateFormat(dateType.pattern)
-        DateType.YEAR_MONTH  | new SimpleDateFormat(dateType.pattern)
-        DateType.DATE        | new SimpleDateFormat(dateType.pattern)
-        DateType.DATE_TIME   | new SimpleDateFormat(dateType.pattern)
-        DateType.TIME        | new SimpleDateFormat(dateType.pattern)
-        DateType.F_DATE      | new SimpleDateFormat(dateType.pattern)
-        DateType.F_TIME      | new SimpleDateFormat(dateType.pattern)
-        DateType.F_DATE_TIME | new SimpleDateFormat(dateType.pattern)
-    }
 
     def "Generates randomized LocalDateTime"() {
         given:

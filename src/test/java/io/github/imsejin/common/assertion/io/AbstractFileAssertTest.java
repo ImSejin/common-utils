@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.util.DateTimeUtils;
+import io.github.imsejin.common.constant.DateType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -44,7 +45,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("passes, when actual exists")
         void test0(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
 
             assertThatCode(() -> Asserts.that(file).exists())
                     .doesNotThrowAnyException();
@@ -53,7 +55,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't exist")
         void test1(@TempDir Path path) {
-            File file = new File(path.toFile(), "temp" + DateTimeUtils.now());
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = new File(path.toFile(), "temp" + filename);
 
             assertThatCode(() -> Asserts.that(file).exists())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -68,7 +71,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("passes, when actual is empty")
         void test0(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
 
             assertThatCode(() -> Asserts.that(file).isEmpty())
                     .doesNotThrowAnyException();
@@ -77,7 +81,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not empty")
         void test1(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
             Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
 
             assertThatCode(() -> Asserts.that(file).isEmpty())
@@ -93,7 +98,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("passes, when actual is not empty")
         void test0(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
             Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
 
             assertThatCode(() -> Asserts.that(file).isNotEmpty())
@@ -103,7 +109,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("throws exception, when actual is empty")
         void test1(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
 
             assertThatCode(() -> Asserts.that(file).isNotEmpty())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -118,7 +125,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("passes, when actual is file")
         void test0(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
 
             assertThatCode(() -> Asserts.that(file).isFile())
                     .doesNotThrowAnyException();
@@ -147,7 +155,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("throws exception, when actual is file")
         void test1(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
 
             assertThatCode(() -> Asserts.that(file).isNotFile())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -169,7 +178,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not directory")
         void test1(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
 
             assertThatCode(() -> Asserts.that(file).isDirectory())
                     .isExactlyInstanceOf(IllegalArgumentException.class);
@@ -184,7 +194,8 @@ class AbstractFileAssertTest {
         @Test
         @DisplayName("passes, when actual is not directory")
         void test0(@TempDir Path path) throws IOException {
-            File file = Files.createTempFile(path, "temp", DateTimeUtils.now()).toFile();
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
 
             assertThatCode(() -> Asserts.that(file).isNotDirectory())
                     .doesNotThrowAnyException();
