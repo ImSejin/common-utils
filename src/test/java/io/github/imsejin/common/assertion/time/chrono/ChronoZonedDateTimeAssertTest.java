@@ -170,7 +170,7 @@ class ChronoZonedDateTimeAssertTest {
         @CsvSource({
                 "1592-05-23T00:00:01Z,                         1592-05-23T00:00:00Z",
                 "0912-04-23T05:15:43Z[UTC],                    0912-04-23T05:15:43Z[UTC]",
-                "1999-01-01T08:30:21+09:00[GMT],               1999-01-01T08:30:21Z[Asia/Seoul]",
+                "1999-01-01T08:30:21Z[GMT],                    1999-01-01T08:30:21+09:00[Asia/Seoul]",
                 "2148-03-02T20:00:05-08:00[America/Vancouver], 2148-03-03T04:00:04+01:00[Europe/London]",
         })
         @DisplayName("throws exception, when actual is after than or equal to other")
@@ -202,7 +202,7 @@ class ChronoZonedDateTimeAssertTest {
         @CsvSource({
                 "1592-05-23T00:00:01Z,                         1592-05-23T00:00:00Z",
                 "0912-04-24T05:15:43Z[UTC],                    0912-04-23T05:15:43Z[UTC]",
-                "1999-01-01T08:30:21+09:00[GMT],               1999-01-01T08:30:21Z[Asia/Seoul]",
+                "1999-01-01T08:30:21Z[GMT],                    1999-01-01T08:30:21+09:00[Asia/Seoul]",
                 "2148-03-02T20:00:05-08:00[America/Vancouver], 2148-03-03T04:00:04+01:00[Europe/London]",
         })
         @DisplayName("throws exception, when actual is after than other")
@@ -222,7 +222,7 @@ class ChronoZonedDateTimeAssertTest {
         @CsvSource({
                 "1592-05-23T00:00:01Z,                         1592-05-23T00:00:00Z",
                 "0912-04-24T05:15:43Z[UTC],                    0912-04-23T05:15:43Z[UTC]",
-                "1999-01-01T08:30:21+09:00[GMT],               1999-01-01T08:30:21Z[Asia/Seoul]",
+                "1999-01-01T08:30:21Z[GMT],                    1999-01-01T08:30:21+09:00[Asia/Seoul]",
                 "2148-03-02T20:00:05-08:00[America/Vancouver], 2148-03-03T04:00:04+01:00[Europe/London]",
         })
         @DisplayName("passes, when actual is after than other")
@@ -254,7 +254,7 @@ class ChronoZonedDateTimeAssertTest {
         @CsvSource({
                 "1592-05-23T00:00:01Z,                         1592-05-23T00:00:00Z",
                 "0912-04-23T05:15:43Z[UTC],                    0912-04-23T05:15:43Z[UTC]",
-                "1999-01-01T08:30:21+09:00[GMT],               1999-01-01T08:30:21Z[Asia/Seoul]",
+                "1999-01-01T08:30:21Z[GMT],                    1999-01-01T08:30:21+09:00[Asia/Seoul]",
                 "2148-03-02T20:00:05-08:00[America/Vancouver], 2148-03-03T04:00:04+01:00[Europe/London]",
         })
         @DisplayName("passes, when actual is after than or equal to other")
