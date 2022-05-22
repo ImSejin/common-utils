@@ -18,11 +18,31 @@ package io.github.imsejin.common.util
 
 import spock.lang.Specification
 
+import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.ZoneOffset
 
 class DateTimeUtilsSpec extends Specification {
+
+    def "Validates stringified date"() {
+        when:
+        def actual = dayOfWeek ? DateTimeUtils.validate(date, dayOfWeek) : DateTimeUtils.validate(date)
+
+        then:
+        actual == expected
+
+        where:
+        date         | dayOfWeek          || expected
+        "20190229"   | null               || false
+        "2019-02-29" | null               || false
+        "20200229"   | null               || true
+        "2020-02-29" | null               || true
+        "20190228"   | DayOfWeek.THURSDAY || true
+        "2019-02-29" | DayOfWeek.FRIDAY   || false
+        "20200228"   | DayOfWeek.SATURDAY || false
+        "2020-02-29" | DayOfWeek.SATURDAY || true
+    }
 
     def "Generates randomized LocalDateTime"() {
         given:
