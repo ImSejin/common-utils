@@ -42,7 +42,13 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      */
     @Override
     public SELF isSameOffset(ZoneOffset expected) {
-        if (!actual.getOffset().equals(expected)) throw getException();
+        ZoneOffset offset = actual.getOffset();
+
+        if (!offset.equals(expected)) {
+            setDefaultDescription("They are expected to have the same offset, but they aren't. (expected: '{0}', actual: '{1}')", expected, offset);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -52,7 +58,13 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      */
     @Override
     public SELF isNotSameOffset(ZoneOffset expected) {
-        if (actual.getOffset().equals(expected)) throw getException();
+        ZoneOffset offset = actual.getOffset();
+
+        if (offset.equals(expected)) {
+            setDefaultDescription("They are expected not to have the same offset, but they are. (expected: '{0}', actual: '{1}')", expected, offset);
+            throw getException();
+        }
+
         return self;
     }
 
