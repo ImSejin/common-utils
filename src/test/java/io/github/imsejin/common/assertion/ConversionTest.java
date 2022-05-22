@@ -435,7 +435,7 @@ class ConversionTest {
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .as("Description of assertion: {0}", zonedDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asLocalDateTime().isAfter(LocalDateTime.now()))
+                            .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
 
@@ -472,7 +472,7 @@ class ConversionTest {
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .as("Description of assertion: {0}", zonedDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asOffsetDateTime().isAfter(OffsetDateTime.now()))
+                            .asOffsetDateTime().isAfter(OffsetDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
 
@@ -490,7 +490,7 @@ class ConversionTest {
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .as("Description of assertion: {0}", zonedDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asInstant().isAfter(Instant.now()))
+                            .asInstant().isAfter(Instant.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
     }
@@ -533,7 +533,7 @@ class ConversionTest {
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .as("Description of assertion: {0}", offsetDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asLocalDateTime().isAfter(LocalDateTime.now()))
+                            .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
 
@@ -552,7 +552,7 @@ class ConversionTest {
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .as("Description of assertion: {0}", offsetDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asZonedDateTime().isAfter(ZonedDateTime.now()))
+                            .asZonedDateTime().isAfter(ZonedDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
 
@@ -607,7 +607,7 @@ class ConversionTest {
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .as("Description of assertion: {0}", offsetDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asInstant().isAfter(Instant.now()))
+                            .asInstant().isAfter(Instant.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
     }
@@ -631,7 +631,7 @@ class ConversionTest {
                     .isThrownBy(() -> Asserts.that(offsetTime)
                             .as("Description of assertion: {0}", offsetTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asLocalTime().isAfter(LocalTime.now()))
+                            .asLocalTime().isAfter(LocalTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetTime);
         }
     }
