@@ -60,7 +60,7 @@ public final class MathUtils {
         return gcd(b, Math.floorMod(a, b));
     }
 
-    public static boolean isPrime(int number) {
+    public static boolean isPrime(long number) {
         // Checks if it is greater than 1.
         if (number < 2) return false;
 
@@ -70,7 +70,7 @@ public final class MathUtils {
         if (number % 2 == 0) return false;
 
         // if not, then just checks the odds.
-        for (int i = 3; i * i <= number; i += 2) {
+        for (long i = 3; i * i <= number; i += 2) {
             if (number % i == 0) return false;
         }
 
