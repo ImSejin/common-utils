@@ -94,9 +94,10 @@ stopwatch.getTotalTime(); // About 2000.0 ms
 ### Utilities
 
 ```java
-int[] ints = {0, 1, 2, 3, 4};
-Integer[] integers = (Integer[]) ArrayUtils.wrap(ints);
-assert Objects.deepEquals(ints, integers);
+int[][] numbers = {{0, 1}, null, {2}, {}, {3, 4, 5}};
+Integer[] integers = (Integer[]) ArrayUtils.wrap(numbers);
+int[] ints = (int[]) ArrayUtils.unwrap(integers);
+assert Objects.deepEquals(ints, numbers);
 
 List<Character> greekAlphabets = Arrays.asList('Α', 'Β', 'Γ', 'Δ', 'Ε', 'Ζ');
 // [['Α', 'Β', 'Γ'], ['Δ', 'Ε', 'Ζ']]
