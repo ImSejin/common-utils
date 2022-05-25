@@ -94,11 +94,17 @@ assert formatted.equals("2000-01-01 12:34:56");
 ```java
 Stopwatch stopwatch = new Stopwatch(TimeUnit.MILLISECONDS);
 
-stopwatch.start("Job starts!");
+stopwatch.start("First task");
 TimeUnit.SECONDS.sleep(2);
 stopwatch.stop();
 
-stopwatch.getTotalTime(); // About 2000.0 ms
+stopwatch.start("Second task");
+TimeUnit.SECONDS.sleep(1);
+stopwatch.stop();
+
+stopwatch.getTotalTime(); // About 3000.0 ms
+stopwatch.setTimeUnit(TimeUnit.SECONDS);
+stopwatch.getTotalTime(); // About 3.0 sec
 ```
 
 ### Utilities
