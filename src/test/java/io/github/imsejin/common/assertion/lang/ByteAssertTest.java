@@ -32,7 +32,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @DisplayName("ByteAssert")
 class ByteAssertTest {
@@ -99,7 +101,7 @@ class ByteAssertTest {
             map.put(Byte.MAX_VALUE, (byte) 1);
             map.put((byte) -1, Byte.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -115,7 +117,7 @@ class ByteAssertTest {
             map.put((byte) 1, Byte.MAX_VALUE);
             map.put(Byte.MIN_VALUE, (byte) -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -137,7 +139,7 @@ class ByteAssertTest {
             map.put(Byte.MAX_VALUE, (byte) 1);
             map.put((byte) -1, Byte.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -153,7 +155,7 @@ class ByteAssertTest {
             map.put((byte) 1, Byte.MAX_VALUE);
             map.put(Byte.MIN_VALUE, (byte) -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -175,7 +177,7 @@ class ByteAssertTest {
             map.put((byte) 1, Byte.MAX_VALUE);
             map.put(Byte.MIN_VALUE, (byte) -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -191,7 +193,7 @@ class ByteAssertTest {
             map.put(Byte.MAX_VALUE, (byte) 1);
             map.put((byte) -1, Byte.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -213,7 +215,7 @@ class ByteAssertTest {
             map.put((byte) 1, Byte.MAX_VALUE);
             map.put(Byte.MIN_VALUE, (byte) -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -229,7 +231,7 @@ class ByteAssertTest {
             map.put(Byte.MAX_VALUE, (byte) 1);
             map.put((byte) -1, Byte.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -348,7 +350,7 @@ class ByteAssertTest {
             List<Byte> bytes = IntStream.rangeClosed(Byte.MIN_VALUE + 1, Byte.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(n -> (byte) n).collect(toList());
 
-            // except
+            // expect
             bytes.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, (byte) (n - 1))));
             bytes.forEach(n -> assertThatIllegalArgumentException()
@@ -378,7 +380,7 @@ class ByteAssertTest {
             List<Byte> bytes = IntStream.rangeClosed(Byte.MIN_VALUE + 1, Byte.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(n -> (byte) n).collect(toList());
 
-            // except
+            // expect
             bytes.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             bytes.forEach(n -> assertThatIllegalArgumentException()

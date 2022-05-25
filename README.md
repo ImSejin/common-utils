@@ -47,7 +47,81 @@ implementation group: "io.github.imsejin", name: "common-utils", version: "$comm
 
 # What's inside
 
-- assertions
-- constants
-- tools
-- utilities
+### Assertions
+
+```java
+List<LocalDate> dates = Arrays.asList(
+        LocalDate.of(1999, 12, 31), LocalDate.of(2000, 1, 1), LocalDate.of(2001, 1, 2));
+
+Asserts.that(dates)
+        // You can set message on error.
+        .as("dates should not be null or empty")
+        // You can set any sub type of RuntimeException on error.
+        .exception(IllegalStateException::new)
+        // First of all, you have to make sure that variable to be asserted is not null,
+        // before call the other assertion methods. Otherwise, it might throw NullPointerException.
+        .isNotNull()
+        .hasElement()
+        .hasSizeOf(3)
+        .as("dates should not have duplicated elements: '{0}'", dates)
+        .doesNotHaveDuplicates()
+        .as("dates should contain '2001-01-01' or '2000-01-02': '{0}'", dates)
+        .containsAny(LocalDate.of(2001, 1, 1), LocalDate.of(2000, 1, 2))
+        .as("dates should not have date in leap year: '{0}'", dates)
+        // Assertion will fail and throw IllegalStateException on this step.
+        .noneMatch(LocalDate::isLeapYear);
+```
+
+### Constants
+
+```java
+// OS[LINUX, MAC, AIX, SOLARIS, WINDOWS, OTHER]
+OS os = OS.getCurrentOS();
+
+assert os.isCurrentOS();
+
+////////////////////////////////////////////////////////////////////////////////
+
+// DateType[DATE, TIME, DATE_TIME, ALL, F_DATE, F_TIME, ...]
+LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2000, 1, 1), LocalTime.of(12, 34, 56))
+String formatted = dateTime.format(DateType.DATE_TIME.getFormatter());
+
+assert formatted.equals("2000-01-01 12:34:56");
+```
+
+### Tools
+
+```java
+Stopwatch stopwatch = new Stopwatch(TimeUnit.MILLISECONDS);
+
+stopwatch.start("First task");
+TimeUnit.SECONDS.sleep(2);
+stopwatch.stop();
+
+stopwatch.start("Second task");
+TimeUnit.SECONDS.sleep(1);
+stopwatch.stop();
+
+stopwatch.getTotalTime(); // About 3000.0 ms
+stopwatch.setTimeUnit(TimeUnit.SECONDS);
+stopwatch.getTotalTime(); // About 3.0 sec
+```
+
+### Utilities
+
+```java
+int[][] numbers = {{0, 1}, null, {2}, {}, {3, 4, 5}};
+Integer[][] integers = (Integer[][]) ArrayUtils.wrap(numbers);
+int[][] ints = (int[][]) ArrayUtils.unwrap(integers);
+
+assert Objects.deepEquals(ints, numbers);
+
+////////////////////////////////////////////////////////////////////////////////
+
+List<Character> greekAlphabets = Arrays.asList('Α', 'Β', 'Γ', 'Δ', 'Ε', 'Ζ');
+
+// [['Α', 'Β', 'Γ'], ['Δ', 'Ε', 'Ζ']]
+List<List<Character>> bySize = CollectionUtils.partitionBySize(greekAlphabets, 3);
+// [['Α', 'Β'], ['Γ', 'Δ'], ['Ε', 'Ζ']]
+List<List<Character>> byCount = CollectionUtils.partitionByCount(greekAlphabets, 3);
+```

@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toMap;
@@ -204,7 +205,7 @@ public enum DateType {
     private final DateTimeFormatter formatter;
 
     private static final Map<String, DateType> $CODE_LOOKUP = Arrays.stream(values())
-            .collect(collectingAndThen(toMap(it -> it.pattern, it -> it), Collections::unmodifiableMap));
+            .collect(collectingAndThen(toMap(it -> it.pattern, Function.identity()), Collections::unmodifiableMap));
 
     DateType(String pattern) {
         this.pattern = pattern;
@@ -222,9 +223,10 @@ public enum DateType {
      * @return constant of {@link DateType} matched given pattern
      */
     public static DateType from(String pattern) {
-        Asserts.that(contains(pattern))
+        Asserts.that($CODE_LOOKUP)
                 .as("Enumeration 'DateType' has no value: '{0}'", pattern)
-                .isTrue();
+                .containsKey(pattern);
+
         return $CODE_LOOKUP.get(pattern);
     }
 

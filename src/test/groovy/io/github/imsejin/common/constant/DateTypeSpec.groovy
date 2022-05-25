@@ -18,6 +18,8 @@ package io.github.imsejin.common.constant
 
 import spock.lang.Specification
 
+import java.time.format.DateTimeFormatter
+
 class DateTypeSpec extends Specification {
 
     def "contains"() {
@@ -37,6 +39,7 @@ class DateTypeSpec extends Specification {
         then:
         dateType != null
         dateType.pattern == pattern
+        dateType.formatter.toString() == DateTimeFormatter.ofPattern(pattern).toString()
 
         where:
         pattern << ['yyyy', 'MM', 'dd', 'HH', 'mm', 'ss', 'SSS',

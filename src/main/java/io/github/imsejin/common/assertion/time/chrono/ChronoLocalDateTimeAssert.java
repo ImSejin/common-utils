@@ -21,18 +21,18 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 import io.github.imsejin.common.util.DateTimeUtils;
 
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 
-public abstract class AbstractChronoLocalDateTimeAssert<
-        SELF extends AbstractChronoLocalDateTimeAssert<SELF, DATE>,
+public class ChronoLocalDateTimeAssert<
+        SELF extends ChronoLocalDateTimeAssert<SELF, DATE>,
         DATE extends ChronoLocalDate>
-        extends AbstractTemporalAssert<SELF, ChronoLocalDateTime<?>> {
+        extends AbstractTemporalAccessorAssert<SELF, ChronoLocalDateTime<?>> {
 
-    protected AbstractChronoLocalDateTimeAssert(ChronoLocalDateTime<DATE> actual) {
+    public ChronoLocalDateTimeAssert(ChronoLocalDateTime<DATE> actual) {
         super(actual);
     }
 
@@ -40,11 +40,11 @@ public abstract class AbstractChronoLocalDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
+     * @see ChronoZonedDateTimeAssert#asLocalDate()
      * @see OffsetDateTimeAssert#asLocalDate()
      */
-    public AbstractChronoLocalDateAssert<?> asLocalDate() {
-        AbstractChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
+    public ChronoLocalDateAssert<?> asLocalDate() {
+        ChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
         Descriptor.merge(this, assertion);
 
         return assertion;
@@ -52,7 +52,7 @@ public abstract class AbstractChronoLocalDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
+     * @see ChronoZonedDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {

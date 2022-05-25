@@ -32,7 +32,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @DisplayName("IntegerAssert")
 class IntegerAssertTest {
@@ -99,7 +101,7 @@ class IntegerAssertTest {
             map.put(Integer.MAX_VALUE, 1);
             map.put(-1, Integer.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -115,7 +117,7 @@ class IntegerAssertTest {
             map.put(1, Integer.MAX_VALUE);
             map.put(Integer.MIN_VALUE, -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -137,7 +139,7 @@ class IntegerAssertTest {
             map.put(Integer.MAX_VALUE, 1);
             map.put(-1, Integer.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -153,7 +155,7 @@ class IntegerAssertTest {
             map.put(1, Integer.MAX_VALUE);
             map.put(Integer.MIN_VALUE, -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -175,7 +177,7 @@ class IntegerAssertTest {
             map.put(1, Integer.MAX_VALUE);
             map.put(Integer.MIN_VALUE, -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -191,7 +193,7 @@ class IntegerAssertTest {
             map.put(Integer.MAX_VALUE, 1);
             map.put(-1, Integer.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -213,7 +215,7 @@ class IntegerAssertTest {
             map.put(1, Integer.MAX_VALUE);
             map.put(Integer.MIN_VALUE, -1);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -229,7 +231,7 @@ class IntegerAssertTest {
             map.put(Integer.MAX_VALUE, 1);
             map.put(-1, Integer.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -347,7 +349,7 @@ class IntegerAssertTest {
             List<Integer> integers = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
                     .limit(10_000).boxed().collect(toList());
 
-            // except
+            // expect
             integers.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 1)));
             integers.forEach(n -> assertThatIllegalArgumentException()
@@ -377,7 +379,7 @@ class IntegerAssertTest {
             List<Integer> integers = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
                     .limit(10_000).boxed().collect(toList());
 
-            // except
+            // expect
             integers.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             integers.forEach(n -> assertThatIllegalArgumentException()

@@ -23,10 +23,9 @@ import io.github.imsejin.common.constant.OS;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import static io.github.imsejin.common.util.DateTimeUtils.today;
 
 /**
  * Pathname utilities
@@ -140,7 +139,8 @@ public final class PathnameUtils {
      * @return pathname appended the current year and month
      */
     public static String appendYearMonth(String pathname) {
-        return concat(false, pathname, today(DateType.YEAR), today(DateType.MONTH));
+        LocalDateTime now = LocalDateTime.now();
+        return concat(false, pathname, now.format(DateType.YEAR.getFormatter()), now.format(DateType.MONTH.getFormatter()));
     }
 
     /**
@@ -155,7 +155,8 @@ public final class PathnameUtils {
      * @return pathname appended the current year, month and day
      */
     public static String appendDate(String pathname) {
-        return concat(false, pathname, today(DateType.YEAR), today(DateType.MONTH), today(DateType.DAY));
+        LocalDateTime now = LocalDateTime.now();
+        return concat(false, pathname, now.format(DateType.YEAR.getFormatter()), now.format(DateType.MONTH.getFormatter()), now.format(DateType.DAY.getFormatter()));
     }
 
 }

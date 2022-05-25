@@ -19,15 +19,15 @@ package io.github.imsejin.common.assertion.time;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.OffsetAssertable;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
-        extends AbstractTemporalAssert<SELF, OffsetTime>
+        extends AbstractTemporalAccessorAssert<SELF, OffsetTime>
         implements OffsetAssertable<SELF, OffsetTime> {
 
     public OffsetTimeAssert(OffsetTime actual) {
@@ -40,7 +40,13 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
      */
     @Override
     public SELF isSameOffset(ZoneOffset expected) {
-        if (!actual.getOffset().equals(expected)) throw getException();
+        ZoneOffset offset = actual.getOffset();
+
+        if (!offset.equals(expected)) {
+            setDefaultDescription("They are expected to have the same offset, but they aren't. (expected: '{0}', actual: '{1}')", expected, offset);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -50,7 +56,13 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
      */
     @Override
     public SELF isNotSameOffset(ZoneOffset expected) {
-        if (actual.getOffset().equals(expected)) throw getException();
+        ZoneOffset offset = actual.getOffset();
+
+        if (offset.equals(expected)) {
+            setDefaultDescription("They are expected not to have the same offset, but they are. (expected: '{0}', actual: '{1}')", expected, offset);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -58,8 +70,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalTime()
-     * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
+     * @see ChronoLocalDateTimeAssert#asLocalTime()
+     * @see ChronoZonedDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {

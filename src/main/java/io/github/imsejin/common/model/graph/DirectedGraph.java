@@ -16,8 +16,12 @@
 
 package io.github.imsejin.common.model.graph;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
 
 public class DirectedGraph<E> implements Graph<E> {
 
@@ -186,7 +190,7 @@ public class DirectedGraph<E> implements Graph<E> {
 
     /**
      * Edge for directed graph.
-     *
+     * <p>
      * {@link #equals(Object)}
      *
      * @param <E> element

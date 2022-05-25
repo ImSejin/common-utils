@@ -21,12 +21,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -34,27 +34,41 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayName("CharacterAssert")
 class CharacterAssertTest {
 
-    private static final String FQCN = "io.github.imsejin.common.assertion.lang.CharacterAssertTest";
-    private static final String EQUALITY = FQCN + "#equality";
-    private static final String NON_EQUALITY = FQCN + "#nonEquality";
-
     @Nested
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
-        @ParameterizedTest
-        @MethodSource(EQUALITY)
+        @Test
         @DisplayName("passes, when actual is equal to other")
-        void test0(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
-                    .doesNotThrowAnyException();
+        void test0() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('\u0000', Character.MIN_VALUE);
+            params.put('\u0020', ' ');
+            params.put('0', (char) 48);
+            params.put(Character.MAX_VALUE, '\uffff');
+            params.put((char) 122, 'z');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isEqualTo(expected))
+                    .doesNotThrowAnyException());
         }
 
-        @ParameterizedTest
-        @MethodSource(NON_EQUALITY)
+        @Test
         @DisplayName("throws exception, when actual is not equal to other")
-        void test1(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        void test1() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('a', '\u0001');
+            params.put((char) 1024, (char) (512 / 2));
+            params.put((char) 31, (char) (31 >> 7));
+            params.put(Character.MIN_VALUE, '\uffff');
+            params.put(Character.MAX_VALUE, '\u0000');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isEqualTo(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -63,20 +77,38 @@ class CharacterAssertTest {
     @Nested
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
-        @ParameterizedTest
-        @MethodSource(NON_EQUALITY)
+        @Test
         @DisplayName("passes, when actual is not equal to other")
-        void test0(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .doesNotThrowAnyException();
+        void test0() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('a', '\u0001');
+            params.put((char) 1024, (char) (512 / 2));
+            params.put((char) 31, (char) (31 >> 7));
+            params.put(Character.MIN_VALUE, '\uffff');
+            params.put(Character.MAX_VALUE, '\u0000');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isNotEqualTo(expected))
+                    .doesNotThrowAnyException());
         }
 
-        @ParameterizedTest
-        @MethodSource(EQUALITY)
+        @Test
         @DisplayName("throws exception, when actual is equal to other")
-        void test1(char actual, char expected) {
-            assertThatCode(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        void test1() {
+            // given
+            Map<Character, Character> params = new HashMap<>();
+            params.put('\u0000', Character.MIN_VALUE);
+            params.put('\u0020', ' ');
+            params.put('0', (char) 48);
+            params.put(Character.MAX_VALUE, '\uffff');
+            params.put((char) 122, 'z');
+
+            // expect
+            params.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual)
+                    .isNotEqualTo(expected))
+                    .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -90,13 +122,13 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put((char) 2, Character.valueOf('\u0000'));
+            map.put((char) 2, Character.MIN_VALUE);
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 32), (char) 31);
+            map.put((char) 32, (char) 31);
             map.put(Character.MAX_VALUE, (char) 1);
             map.put('\u0001', Character.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -106,15 +138,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0000'), (char) 1);
+            map.put('\u0002', (char) 3);
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 31));
+            map.put((char) 31, (char) 31);
             map.put((char) 1, Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0000');
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be greater than the other, but it isn't."));
         }
     }
 
@@ -128,13 +161,13 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put((char) 2, Character.valueOf('\u0000'));
+            map.put((char) 2, '\u0000');
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 31), (char) 31);
+            map.put((char) 31, (char) 31);
             map.put(Character.MAX_VALUE, '\u0001');
             map.put('\u0001', Character.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -144,15 +177,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put('\u0002', Character.valueOf('\u0003'));
+            map.put('\u0002', '\u0003');
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 32));
+            map.put((char) 31, (char) 32);
             map.put('\u0001', Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0001');
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be greater than or equal to the other, but it isn't."));
         }
     }
 
@@ -166,13 +200,13 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0002'), '\u0003');
+            map.put('\u0002', '\u0003');
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 32));
+            map.put((char) 31, (char) 32);
             map.put('\u0001', Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0001');
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -182,15 +216,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put((char) 2, Character.valueOf('\u0000'));
+            map.put((char) 2, '\u0000');
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 31), (char) 31);
+            map.put((char) 31, (char) 31);
             map.put(Character.MAX_VALUE, '\u0001');
             map.put('\u0001', Character.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be less than the other, but it isn't."));
         }
     }
 
@@ -204,13 +239,13 @@ class CharacterAssertTest {
         void test0() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0002'), '\u0003');
+            map.put('\u0002', '\u0003');
             map.put((char) 512, (char) 1024);
-            map.put((char) 31, Character.valueOf((char) 31));
+            map.put((char) 31, (char) 31);
             map.put('\u0001', Character.MAX_VALUE);
             map.put(Character.MIN_VALUE, '\u0001');
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -220,71 +255,16 @@ class CharacterAssertTest {
         void test1() {
             // given
             Map<Character, Character> map = new HashMap<>();
-            map.put(Character.valueOf('\u0002'), '\u0000');
+            map.put('\u0002', '\u0000');
             map.put((char) 1024, (char) 512);
-            map.put(Character.valueOf((char) 32), (char) 31);
+            map.put((char) 32, (char) 31);
             map.put(Character.MAX_VALUE, '\u0001');
             map.put('\u0001', Character.MIN_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @Nested
-    @DisplayName("method 'isZero'")
-    class IsZero {
-        @Test
-        @DisplayName("passes, when actual is null-character")
-        void test0() {
-            // given
-            List<Character> characters = Arrays.asList('\u0000', (char) 0);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isZero())
-                    .doesNotThrowAnyException());
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is not null-character")
-        void test1() {
-            // given
-            List<Character> characters = Arrays.asList('\u0001', '0', 'a', null);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isZero())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    @Nested
-    @DisplayName("method 'isNotZero'")
-    class IsNotZero {
-        @Test
-        @DisplayName("passes, when actual is null-character")
-        void test0() {
-            // given
-            List<Character> characters = Arrays.asList('\u0001', '0', 'a', null);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotZero())
-                    .doesNotThrowAnyException());
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is not null-character")
-        void test1() {
-            // given
-            List<Character> characters = Arrays.asList('\u0000', (char) 0);
-
-            // except
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isNotZero())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("It is expected to be less than or equal to the other, but it isn't."));
         }
     }
 
@@ -319,7 +299,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isDigit(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isDigit())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -337,7 +317,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(Character::isLetter).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetter())
                     .doesNotThrowAnyException());
         }
@@ -349,7 +329,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isLetter(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetter())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -367,7 +347,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(Character::isLetterOrDigit).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetterOrDigit())
                     .doesNotThrowAnyException());
         }
@@ -379,7 +359,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isLetterOrDigit(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetterOrDigit())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -408,7 +388,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isUpperCase(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isUpperCase())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -437,7 +417,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isLowerCase(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLowerCase())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -455,7 +435,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(Character::isAlphabetic).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isAlphabetic())
                     .doesNotThrowAnyException());
         }
@@ -467,7 +447,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isAlphabetic(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isAlphabetic())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -493,7 +473,7 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isSpaceChar(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isSpaceChar())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -522,34 +502,10 @@ class CharacterAssertTest {
             List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
                     .filter(it -> !Character.isWhitespace(it)).collect(toList());
 
-            // except
+            // expect
             characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isWhitespace())
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    private static Stream<Arguments> equality() {
-        Map<Character, Character> map = new HashMap<>();
-        map.put(Character.valueOf('\u0001'), '\u0001');
-        map.put((char) 1024, (char) (512 * 2));
-        map.put((char) 31, Character.valueOf((char) 31));
-        map.put(Character.MIN_VALUE, '\u0000');
-        map.put(Character.MAX_VALUE, '\uFFFF');
-
-        return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
-    }
-
-    private static Stream<Arguments> nonEquality() {
-        Map<Character, Character> map = new HashMap<>();
-        map.put(Character.valueOf('a'), '\u0001');
-        map.put((char) 1024, (char) (512 / 2));
-        map.put((char) 31, (char) (31 >> 7));
-        map.put(Character.MIN_VALUE, '\uFFFF');
-        map.put(Character.MAX_VALUE, '\u0000');
-
-        return map.entrySet().stream().map(entry -> Arguments.of(entry.getKey(), entry.getValue()));
     }
 
 }

@@ -32,7 +32,9 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @DisplayName("DoubleAssert")
 class DoubleAssertTest {
@@ -99,7 +101,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -115,7 +117,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -137,7 +139,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -153,7 +155,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -175,7 +177,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .doesNotThrowAnyException());
         }
@@ -191,7 +193,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThan(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -213,7 +215,7 @@ class DoubleAssertTest {
             map.put(0D, Double.MAX_VALUE);
             map.put(-Double.MAX_VALUE, 0D);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .doesNotThrowAnyException());
         }
@@ -229,7 +231,7 @@ class DoubleAssertTest {
             map.put(Double.MAX_VALUE, 0D);
             map.put(0D, -Double.MAX_VALUE);
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isLessThanOrEqualTo(expected))
                     .isExactlyInstanceOf(IllegalArgumentException.class));
         }
@@ -348,7 +350,7 @@ class DoubleAssertTest {
             List<Double> doubles = new Random().doubles(-100, 50)
                     .limit(10_000).boxed().collect(toList());
 
-            // except
+            // expect
             doubles.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n - 0.1)));
             doubles.forEach(n -> assertThatIllegalArgumentException()
@@ -378,7 +380,7 @@ class DoubleAssertTest {
             List<Double> doubles = new Random().doubles(-100, 50)
                     .limit(10_000).boxed().collect(toList());
 
-            // except
+            // expect
             doubles.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             doubles.forEach(n -> assertThatIllegalArgumentException()

@@ -17,15 +17,15 @@
 package io.github.imsejin.common.assertion.time.chrono;
 
 import io.github.imsejin.common.assertion.composition.YearAssertable;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.chrono.ChronoLocalDate;
 
-public abstract class AbstractChronoLocalDateAssert<SELF extends AbstractChronoLocalDateAssert<SELF>>
-        extends AbstractTemporalAssert<SELF, ChronoLocalDate>
+public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
+        extends AbstractTemporalAccessorAssert<SELF, ChronoLocalDate>
         implements YearAssertable<SELF, ChronoLocalDate> {
 
-    protected AbstractChronoLocalDateAssert(ChronoLocalDate actual) {
+    public ChronoLocalDateAssert(ChronoLocalDate actual) {
         super(actual);
     }
 

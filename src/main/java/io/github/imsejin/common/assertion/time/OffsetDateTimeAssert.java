@@ -19,17 +19,17 @@ package io.github.imsejin.common.assertion.time;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.OffsetAssertable;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateAssert;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoLocalDateTimeAssert;
-import io.github.imsejin.common.assertion.time.chrono.AbstractChronoZonedDateTimeAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
+import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
-        extends AbstractTemporalAssert<SELF, OffsetDateTime>
+        extends AbstractTemporalAccessorAssert<SELF, OffsetDateTime>
         implements OffsetAssertable<SELF, OffsetDateTime> {
 
     public OffsetDateTimeAssert(OffsetDateTime actual) {
@@ -42,7 +42,13 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      */
     @Override
     public SELF isSameOffset(ZoneOffset expected) {
-        if (!actual.getOffset().equals(expected)) throw getException();
+        ZoneOffset offset = actual.getOffset();
+
+        if (!offset.equals(expected)) {
+            setDefaultDescription("They are expected to have the same offset, but they aren't. (expected: '{0}', actual: '{1}')", expected, offset);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -52,7 +58,13 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      */
     @Override
     public SELF isNotSameOffset(ZoneOffset expected) {
-        if (actual.getOffset().equals(expected)) throw getException();
+        ZoneOffset offset = actual.getOffset();
+
+        if (offset.equals(expected)) {
+            setDefaultDescription("They are expected not to have the same offset, but they are. (expected: '{0}', actual: '{1}')", expected, offset);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -60,11 +72,11 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalDate()
-     * @see AbstractChronoZonedDateTimeAssert#asLocalDate()
+     * @see ChronoLocalDateTimeAssert#asLocalDate()
+     * @see ChronoZonedDateTimeAssert#asLocalDate()
      */
-    public AbstractChronoLocalDateAssert<?> asLocalDate() {
-        AbstractChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
+    public ChronoLocalDateAssert<?> asLocalDate() {
+        ChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
         Descriptor.merge(this, assertion);
 
         return assertion;
@@ -72,17 +84,17 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     /**
      * @return another assertion
-     * @see AbstractChronoZonedDateTimeAssert#asLocalDateTime()
+     * @see ChronoZonedDateTimeAssert#asLocalDateTime()
      */
-    public AbstractChronoLocalDateTimeAssert<?, LocalDate> asLocalDateTime() {
-        AbstractChronoLocalDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toLocalDateTime());
+    public ChronoLocalDateTimeAssert<?, LocalDate> asLocalDateTime() {
+        ChronoLocalDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toLocalDateTime());
         Descriptor.merge(this, assertion);
 
         return assertion;
     }
 
-    public AbstractChronoZonedDateTimeAssert<?, LocalDate> asZonedDateTime() {
-        AbstractChronoZonedDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toZonedDateTime());
+    public ChronoZonedDateTimeAssert<?, LocalDate> asZonedDateTime() {
+        ChronoZonedDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toZonedDateTime());
         Descriptor.merge(this, assertion);
 
         return assertion;
@@ -90,8 +102,8 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalTime()
-     * @see AbstractChronoZonedDateTimeAssert#asLocalTime()
+     * @see ChronoLocalDateTimeAssert#asLocalTime()
+     * @see ChronoZonedDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {
         LocalTimeAssert<?> assertion = Asserts.that(actual.toLocalTime());

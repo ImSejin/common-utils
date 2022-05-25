@@ -3,7 +3,11 @@ package io.github.imsejin.common.tool;
 import io.github.imsejin.common.util.ReflectionUtils;
 import lombok.SneakyThrows;
 import org.assertj.core.data.Percentage;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -12,7 +16,10 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.DoubleFunction;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Stopwatch")
 class StopwatchTest {
@@ -141,7 +148,7 @@ class StopwatchTest {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.start();
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(stopwatch::forceClear);
             assertThat(stopwatch.hasNeverBeenStopped()).isTrue();
         }

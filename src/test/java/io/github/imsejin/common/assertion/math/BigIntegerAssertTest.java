@@ -294,7 +294,7 @@ class BigIntegerAssertTest {
             List<BigInteger> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(BigInteger::valueOf).collect(toList());
 
-            // except
+            // expect
             bigInts.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isBetween(n, n.subtract(BigInteger.ONE))));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
@@ -326,7 +326,7 @@ class BigIntegerAssertTest {
             List<BigInteger> bigInts = IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(BigInteger::valueOf).collect(toList());
 
-            // except
+            // expect
             bigInts.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n, n)));
             bigInts.forEach(n -> assertThatIllegalArgumentException()

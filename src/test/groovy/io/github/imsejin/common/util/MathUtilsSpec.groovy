@@ -62,6 +62,54 @@ class MathUtilsSpec extends Specification {
         25    | "15511210043330985984000000"
     }
 
+    @Unroll("MathUtils.gcd(#a, #b) == #expected")
+    def "The greatest common divisor"() {
+        expect:
+        MathUtils.gcd(a, b) == expected
+
+        where:
+        a   | b   || expected
+        10  | 0   || 10
+        5   | 1   || 1
+        6   | 2   || 2
+        54  | 198 || 18
+        272 | 164 || 4
+    }
+
+    @Unroll("MathUtils.isPrime(#number) == #expected")
+    def "prime number"() {
+        expect:
+        MathUtils.isPrime(number) == expected
+
+        where:
+        number | expected
+        0      | false
+        1      | false
+        2      | true
+        3      | true
+        4      | false
+        5      | true
+        6      | false
+        7      | true
+        8      | false
+        9      | false
+        10     | false
+        11     | true
+        12     | false
+        13     | true
+        14     | false
+        17     | true
+        18     | false
+        19     | true
+        21     | false
+        23     | true
+        27     | false
+        29     | true
+        30     | false
+        31     | true
+        32     | false
+    }
+
     @Unroll("MathUtils.ceil(#amount, #len) == #expected")
     def "ceil"() {
         expect:

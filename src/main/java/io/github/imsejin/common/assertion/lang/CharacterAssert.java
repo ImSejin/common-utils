@@ -16,43 +16,49 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import java.util.Objects;
-
 public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends ObjectAssert<SELF, Character> {
-
-    private static final Character NULL_CHARACTER = '\u0000';
 
     public CharacterAssert(Character actual) {
         super(actual);
     }
 
     public SELF isGreaterThan(Character expected) {
-        if (actual <= expected) throw getException();
+        if (actual <= expected) {
+            setDefaultDescription("It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isGreaterThanOrEqualTo(Character expected) {
-        if (actual < expected) throw getException();
+        if (actual < expected) {
+            setDefaultDescription("It is expected to be greater than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLessThan(Character expected) {
-        if (actual >= expected) throw getException();
+        if (actual >= expected) {
+            setDefaultDescription("It is expected to be less than the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLessThanOrEqualTo(Character expected) {
-        if (actual > expected) throw getException();
-        return self;
-    }
+        if (actual > expected) {
+            setDefaultDescription("It is expected to be less than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual);
+            throw getException();
+        }
 
-    public SELF isZero() {
-        if (!Objects.equals(actual, NULL_CHARACTER)) throw getException();
-        return self;
-    }
-
-    public SELF isNotZero() {
-        if (Objects.equals(actual, NULL_CHARACTER)) throw getException();
         return self;
     }
 

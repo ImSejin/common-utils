@@ -21,7 +21,7 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAssert;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -30,22 +30,34 @@ import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoZonedDateTime;
 
-public abstract class AbstractChronoZonedDateTimeAssert<
-        SELF extends AbstractChronoZonedDateTimeAssert<SELF, DATE>,
+public class ChronoZonedDateTimeAssert<
+        SELF extends ChronoZonedDateTimeAssert<SELF, DATE>,
         DATE extends ChronoLocalDate>
-        extends AbstractTemporalAssert<SELF, ChronoZonedDateTime<?>> {
+        extends AbstractTemporalAccessorAssert<SELF, ChronoZonedDateTime<?>> {
 
-    protected AbstractChronoZonedDateTimeAssert(ChronoZonedDateTime<DATE> actual) {
+    public ChronoZonedDateTimeAssert(ChronoZonedDateTime<DATE> actual) {
         super(actual);
     }
 
     public SELF isSameZone(ZoneId expected) {
-        if (!actual.getZone().equals(expected)) throw getException();
+        ZoneId zone = actual.getZone();
+
+        if (!zone.equals(expected)) {
+            setDefaultDescription("They are expected to have the same zone, but they aren't. (expected: '{0}', actual: '{1}')", expected, zone);
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotSameZone(ZoneId expected) {
-        if (actual.getZone().equals(expected)) throw getException();
+        ZoneId zone = actual.getZone();
+
+        if (zone.equals(expected)) {
+            setDefaultDescription("They are expected not to have the same zone, but they are. (expected: '{0}', actual: '{1}')", expected, zone);
+            throw getException();
+        }
+
         return self;
     }
 
@@ -53,11 +65,11 @@ public abstract class AbstractChronoZonedDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalDate()
+     * @see ChronoLocalDateTimeAssert#asLocalDate()
      * @see OffsetDateTimeAssert#asLocalDate()
      */
-    public AbstractChronoLocalDateAssert<?> asLocalDate() {
-        AbstractChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
+    public ChronoLocalDateAssert<?> asLocalDate() {
+        ChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
         Descriptor.merge(this, assertion);
 
         return assertion;
@@ -68,8 +80,8 @@ public abstract class AbstractChronoZonedDateTimeAssert<
      * @see OffsetDateTimeAssert#asLocalDateTime()
      */
     @SuppressWarnings("unchecked")
-    public AbstractChronoLocalDateTimeAssert<?, DATE> asLocalDateTime() {
-        AbstractChronoLocalDateTimeAssert<?, DATE> assertion = (AbstractChronoLocalDateTimeAssert<?, DATE>) Asserts.that(actual.toLocalDateTime());
+    public ChronoLocalDateTimeAssert<?, DATE> asLocalDateTime() {
+        ChronoLocalDateTimeAssert<?, DATE> assertion = (ChronoLocalDateTimeAssert<?, DATE>) Asserts.that(actual.toLocalDateTime());
         Descriptor.merge(this, assertion);
 
         return assertion;
@@ -77,7 +89,7 @@ public abstract class AbstractChronoZonedDateTimeAssert<
 
     /**
      * @return another assertion
-     * @see AbstractChronoLocalDateTimeAssert#asLocalTime()
+     * @see ChronoLocalDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {

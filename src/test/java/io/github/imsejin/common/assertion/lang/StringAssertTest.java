@@ -70,7 +70,7 @@ class StringAssertTest {
             // given
             String actual = UUID.randomUUID().toString().replaceAll("[^\\d]", "");
 
-            // except
+            // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNumeric());
         }
 
@@ -97,7 +97,7 @@ class StringAssertTest {
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isLetter()));
         }
@@ -111,7 +111,7 @@ class StringAssertTest {
                     .collect(toList());
             list.add("");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetter())
                     .withMessageStartingWith("It is expected to be letter, but it isn't."));
@@ -130,7 +130,7 @@ class StringAssertTest {
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isLetterOrDigit()));
         }
@@ -144,7 +144,7 @@ class StringAssertTest {
                     .collect(toList());
             list.add("");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetterOrDigit())
                     .withMessageStartingWith("It is expected to be letter or digit, but it isn't."));
@@ -163,7 +163,7 @@ class StringAssertTest {
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isUpperCase()));
         }
@@ -177,7 +177,7 @@ class StringAssertTest {
                     .collect(toList());
             list.add("");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isUpperCase())
                     .withMessageStartingWith("It is expected to have only uppercase letter(s), but it isn't."));
@@ -196,7 +196,7 @@ class StringAssertTest {
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isLowerCase()));
         }
@@ -210,7 +210,7 @@ class StringAssertTest {
                     .collect(toList());
             list.add("");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLowerCase())
                     .withMessageStartingWith("It is expected to have only lowercase letter(s), but it isn't."));
@@ -229,7 +229,7 @@ class StringAssertTest {
                     .mapToObj(n -> String.valueOf((char) n))
                     .collect(toList());
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isAlphabetic()));
         }
@@ -243,7 +243,7 @@ class StringAssertTest {
                     .collect(toList());
             list.add("");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAlphabetic())
                     .withMessageStartingWith("It is expected to be alphabetic, but it isn't."));

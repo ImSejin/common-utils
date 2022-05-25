@@ -16,86 +16,32 @@
 
 package io.github.imsejin.common.util
 
-import io.github.imsejin.common.constant.DateType
 import spock.lang.Specification
 
-import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.Month
-import java.time.YearMonth
 import java.time.ZoneOffset
 
 class DateTimeUtilsSpec extends Specification {
 
-    def "Checks if it is leap-year"() {
-        given:
-        def yearMonth = YearMonth.of(year, Month.FEBRUARY)
-        def numOfDays = yearMonth.lengthOfMonth()
-
+    def "Validates stringified date"() {
         when:
-        def leapYear = DateTimeUtils.isLeapYear year
-
-        then:
-        leapYear ? numOfDays == 29 : numOfDays == 28
-
-        where:
-        year << (0..2400)
-    }
-
-    def "Returns formatted today"() {
-        when:
-        def actual = dateType == null ? DateTimeUtils.today() : DateTimeUtils.today(dateType)
+        def actual = dayOfWeek ? DateTimeUtils.validate(date, dayOfWeek) : DateTimeUtils.validate(date)
 
         then:
         actual == expected
 
         where:
-        dateType             | expected
-        null                 | new SimpleDateFormat(DateType.DATE.pattern).format(new Date())
-        DateType.YEAR        | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.MONTH       | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.DAY         | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.HOUR        | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.MINUTE      | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.SECOND      | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.YEAR_MONTH  | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.DATE        | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.DATE_TIME   | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.TIME        | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.F_DATE      | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.F_TIME      | new SimpleDateFormat(dateType.pattern).format(new Date())
-        DateType.F_DATE_TIME | new SimpleDateFormat(dateType.pattern).format(new Date())
-    }
-
-    def "Returns formatted yesterday"() {
-        given:
-        def calendar = Calendar.instance
-        calendar.setTime new Date()
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
-        def yesterday = formatter.format new Date(calendar.timeInMillis)
-
-        when:
-        def actual = dateType == null ? DateTimeUtils.yesterday() : DateTimeUtils.yesterday(dateType)
-
-        then:
-        actual == yesterday
-
-        where:
-        dateType             | formatter
-        null                 | new SimpleDateFormat(DateType.DATE.pattern)
-        DateType.YEAR        | new SimpleDateFormat(dateType.pattern)
-        DateType.MONTH       | new SimpleDateFormat(dateType.pattern)
-        DateType.DAY         | new SimpleDateFormat(dateType.pattern)
-        DateType.HOUR        | new SimpleDateFormat(dateType.pattern)
-        DateType.MINUTE      | new SimpleDateFormat(dateType.pattern)
-        DateType.SECOND      | new SimpleDateFormat(dateType.pattern)
-        DateType.YEAR_MONTH  | new SimpleDateFormat(dateType.pattern)
-        DateType.DATE        | new SimpleDateFormat(dateType.pattern)
-        DateType.DATE_TIME   | new SimpleDateFormat(dateType.pattern)
-        DateType.TIME        | new SimpleDateFormat(dateType.pattern)
-        DateType.F_DATE      | new SimpleDateFormat(dateType.pattern)
-        DateType.F_TIME      | new SimpleDateFormat(dateType.pattern)
-        DateType.F_DATE_TIME | new SimpleDateFormat(dateType.pattern)
+        date         | dayOfWeek          || expected
+        "20190229"   | null               || false
+        "2019-02-29" | null               || false
+        "20200229"   | null               || true
+        "2020-02-29" | null               || true
+        "20190228"   | DayOfWeek.THURSDAY || true
+        "2019-02-29" | DayOfWeek.FRIDAY   || false
+        "20200228"   | DayOfWeek.SATURDAY || false
+        "2020-02-29" | DayOfWeek.SATURDAY || true
     }
 
     def "Generates randomized LocalDateTime"() {
@@ -112,7 +58,7 @@ class DateTimeUtilsSpec extends Specification {
         randomTime.isBefore endTime
 
         where:
-        i << (1..10_000)
+        i << (1..4096)
     }
 
     def "Generates randomized LocalDateTime with ZoneOffset"() {

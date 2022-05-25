@@ -20,6 +20,8 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.util.ClassUtils;
 
+import java.lang.reflect.Modifier;
+
 public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAssert<SELF, Class<?>> {
 
     public ClassAssert(Class<T> actual) {
@@ -153,6 +155,20 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     public SELF isAnnotation() {
         if (!actual.isAnnotation()) {
             setDefaultDescription("It is expected to be annotation, but it isn't. (actual: '{0}')", actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Verifies this is final class.
+     *
+     * @return whether this is final class.
+     */
+    public SELF isFinalClass() {
+        if (!Modifier.isFinal(actual.getModifiers())) {
+            setDefaultDescription("It is expected to be final class, but it isn't. (actual: '{0}')", actual);
             throw getException();
         }
 

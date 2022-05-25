@@ -22,7 +22,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -39,7 +43,7 @@ class CharSequenceAssertTest {
             // given
             List<? extends CharSequence> list = Arrays.asList(new StringBuilder(), new StringBuffer(10), "");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty()));
         }
@@ -50,7 +54,7 @@ class CharSequenceAssertTest {
             // given
             List<? extends CharSequence> list = Arrays.asList(new StringBuilder(" "), new StringBuffer("alpha"), " ");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
                     .withMessageStartingWith("It is expected to be empty, but it isn't."));
@@ -67,7 +71,7 @@ class CharSequenceAssertTest {
             List<? extends CharSequence> list = Arrays.asList(
                     new StringBuilder(" "), new StringBuffer("string"), " ", "\n\r\t");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEmpty()));
         }
@@ -78,7 +82,7 @@ class CharSequenceAssertTest {
             // given
             List<? extends CharSequence> list = Arrays.asList(new StringBuilder(), new StringBuffer(10), "");
 
-            // except
+            // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEmpty())
                     .withMessageStartingWith("It is expected to be not empty, but it is."));
@@ -97,7 +101,7 @@ class CharSequenceAssertTest {
             map.put(UUID.randomUUID().toString().replace("-", ""), 32);
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").length());
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).hasLengthOf(expected)));
         }
@@ -111,7 +115,7 @@ class CharSequenceAssertTest {
             map.put(UUID.randomUUID().toString(), 32);
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3).length());
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).hasLengthOf(expected))
                     .withMessageStartingWith("It is expected to have the same length, but it isn't."));
@@ -130,7 +134,7 @@ class CharSequenceAssertTest {
             map.put(UUID.randomUUID().toString().replace("-", ""), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng"));
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isSameLength(expected)));
         }
@@ -145,7 +149,7 @@ class CharSequenceAssertTest {
             map.put(UUID.randomUUID().toString(), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3));
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isSameLength(expected))
                     .withMessageStartingWith("It is expected to have the same length, but it isn't."));
@@ -164,7 +168,7 @@ class CharSequenceAssertTest {
             map.put(UUID.randomUUID().toString(), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3));
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatNoException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameLength(expected)));
         }
@@ -179,7 +183,7 @@ class CharSequenceAssertTest {
             map.put(UUID.randomUUID().toString().replace("-", ""), StringUtils.repeat('.', 32));
             map.put(new StringBuffer("java"), new StringBuffer("la").append("ng"));
 
-            // except
+            // expect
             map.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameLength(expected))
                     .withMessageStartingWith("It is expected not to have the same length, but it is."));

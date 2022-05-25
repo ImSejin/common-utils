@@ -60,14 +60,17 @@ public final class MathUtils {
         return gcd(b, Math.floorMod(a, b));
     }
 
-    public static boolean isPrime(int number) {
-        if (number < 3) return true;
+    public static boolean isPrime(long number) {
+        // Checks if it is greater than 1.
+        if (number < 2) return false;
 
-        // check if n is a multiple of 2
+        if (number == 2) return true;
+
+        // Checks if n is a multiple of 2.
         if (number % 2 == 0) return false;
 
-        // if not, then just check the odds
-        for (int i = 3; i * i <= number; i += 2) {
+        // if not, then just checks the odds.
+        for (long i = 3; i * i <= number; i += 2) {
             if (number % i == 0) return false;
         }
 
