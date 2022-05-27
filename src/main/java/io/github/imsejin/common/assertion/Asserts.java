@@ -198,10 +198,6 @@ public abstract class Asserts {
 
     //////////////////////////////////////// java.time ////////////////////////////////////////
 
-    public static InstantAssert<?> that(Instant instant) {
-        return new InstantAssert(instant);
-    }
-
     public static YearAssert<?> that(Year year) {
         return new YearAssert(year);
     }
@@ -222,12 +218,16 @@ public abstract class Asserts {
         return new LocalTimeAssert<>(time);
     }
 
-    public static OffsetDateTimeAssert<?> that(OffsetDateTime dateTime) {
-        return new OffsetDateTimeAssert<>(dateTime);
-    }
-
     public static OffsetTimeAssert<?> that(OffsetTime time) {
         return new OffsetTimeAssert<>(time);
+    }
+
+    public static InstantAssert<?> that(Instant instant) {
+        return new InstantAssert(instant);
+    }
+
+    public static OffsetDateTimeAssert<?> that(OffsetDateTime dateTime) {
+        return new OffsetDateTimeAssert<>(dateTime);
     }
 
     public static DurationAssert<?> that(Duration dateTime) {
