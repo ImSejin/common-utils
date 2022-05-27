@@ -38,7 +38,7 @@ public class Verification {
                 .as("Verification.duration is allowed to be null")
                 .isNotNull()
                 .as("Verification.duration must be zero or positive, but it is not: '{0}'", duration)
-                .returns(false, Duration::isNegative);
+                .isZeroOrPositive();
 
         this.credentials = credentials;
         this.duration = duration;
