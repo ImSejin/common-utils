@@ -105,10 +105,10 @@ public class DurationAssert<SELF extends DurationAssert<SELF>> extends ObjectAss
     ///////////////////////////////////////////////////////////////////////////////////////
 
 //  public NumberAssert<?, Long> asEpochMilli() {
-//    NumberAssert<?, Long> assertion = Asserts.that(actual.toEpochMilli());
-//    Descriptor.merge(this, assertion);
+//      NumberAssert<?, Long> assertion = Asserts.that(actual.toEpochMilli());
+//      Descriptor.merge(this, assertion);
 //
-//    return assertion;
+//      return assertion;
 //  }
 
 }
