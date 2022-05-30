@@ -36,6 +36,7 @@ import io.github.imsejin.common.assertion.time.MonthAssert;
 import io.github.imsejin.common.assertion.time.MonthDayAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
+import io.github.imsejin.common.assertion.time.PeriodAssert;
 import io.github.imsejin.common.assertion.time.YearAssert;
 import io.github.imsejin.common.assertion.time.YearMonthAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
@@ -55,6 +56,7 @@ import java.time.Month;
 import java.time.MonthDay;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.chrono.ChronoLocalDate;
@@ -232,6 +234,10 @@ public abstract class Asserts {
 
     public static DurationAssert<?> that(Duration dateTime) {
         return new DurationAssert<>(dateTime);
+    }
+
+    public static PeriodAssert<?> that(Period period) {
+        return new PeriodAssert<>(period);
     }
 
     //////////////////////////////////////// java.time.chrono ////////////////////////////////////////
