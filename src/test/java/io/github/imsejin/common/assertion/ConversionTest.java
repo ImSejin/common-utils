@@ -28,9 +28,11 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -786,6 +788,30 @@ class ConversionTest {
                             .exception(RuntimeException::new).isNotNull()
                             .asDayOfMonth().isLessThan(monthDay.getDayOfMonth()))
                     .withMessage("Description of assertion: " + monthDay);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class DurationAssert {
+        @Test
+        @DisplayName("asTotalSeconds(): Duration -> BigDecimal")
+        void asTotalSeconds() {
+            // given
+            Duration duration = Duration.ofHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(duration)
+                    .isNotNull().isLessThan(Duration.ofHours(24))
+                    .asTotalSeconds().isStrictlyBetween(BigDecimal.valueOf(0), BigDecimal.valueOf(LocalTime.MAX.toSecondOfDay() + 1))
+                    .isInstanceOf(BigDecimal.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(duration)
+                            .as("Description of assertion: {0}", duration)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asTotalSeconds().isEqualTo(new BigDecimal(LocalTime.MAX.toSecondOfDay() + ".999999998")))
+                    .withMessage("Description of assertion: " + duration);
         }
     }
 
