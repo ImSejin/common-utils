@@ -41,6 +41,7 @@ import java.time.Month;
 import java.time.MonthDay;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -812,6 +813,30 @@ class ConversionTest {
                             .exception(RuntimeException::new).isNotNull()
                             .asTotalSeconds().isEqualTo(new BigDecimal(LocalTime.MAX.toSecondOfDay() + ".999999998")))
                     .withMessage("Description of assertion: " + duration);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class PeriodAssert {
+        @Test
+        @DisplayName("asTotalDays(): Period -> Integer")
+        void asTotalDays() {
+            // given
+            Period period = Period.of(2, 60, 32);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(period)
+                    .isNotNull().isGreaterThan(Period.ofYears(7))
+                    .asTotalDays().isEqualTo(2552)
+                    .isInstanceOf(int.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(period)
+                            .as("Description of assertion: {0}", period)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asTotalDays().isEqualTo(period.getDays()))
+                    .withMessage("Description of assertion: " + period);
         }
     }
 

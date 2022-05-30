@@ -16,6 +16,9 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.Period;
@@ -112,11 +115,12 @@ public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-//    public NumberAssert<?, Long> asEpochMilli() {
-//        NumberAssert<?, Long> assertion = Asserts.that(actual.toEpochMilli());
-//        Descriptor.merge(this, assertion);
-//
-//        return assertion;
-//    }
+    public NumberAssert<?, Integer> asTotalDays() {
+        int totalDays = (((actual.getYears() * 12) + actual.getMonths()) * 30) + actual.getDays();
+        NumberAssert<?, Integer> assertion = Asserts.that(totalDays);
+        Descriptor.merge(this, assertion);
+
+        return assertion;
+    }
 
 }
