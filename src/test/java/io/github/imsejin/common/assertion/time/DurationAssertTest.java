@@ -165,7 +165,7 @@ class DurationAssertTest {
                 "PT0.000000007S, PT0.000000008S",
                 "PT6H29M59S,     PT6H30M59S",
                 "PT-2M-43S,      PT-1M-42S",
-                "PT5M13.0075S,    PT5M13.075S",
+                "PT5M13.0075S,   PT5M13.075S",
         })
         @DisplayName("throws exception, when actual is less than other")
         void test1(Duration actual, Duration expected) {
@@ -186,7 +186,7 @@ class DurationAssertTest {
                 "PT0.000000007S, PT0.000000008S",
                 "PT6H29M59S,     PT6H30M59S",
                 "PT-2M-43S,      PT-1M-42S",
-                "PT5M13.0075S,    PT5M13.075S",
+                "PT5M13.0075S,   PT5M13.075S",
         })
         @DisplayName("passes, when actual is less than other")
         void test0(Duration actual, Duration expected) {
