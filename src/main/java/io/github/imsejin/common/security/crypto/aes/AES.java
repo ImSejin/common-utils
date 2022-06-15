@@ -18,6 +18,7 @@ package io.github.imsejin.common.security.crypto.aes;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.security.crypto.Crypto;
+import org.intellij.lang.annotations.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -42,7 +43,7 @@ abstract class AES implements Crypto {
 
     private final Charset charset;
 
-    protected AES(String key, int length, Charset charset) {
+    protected AES(@Pattern(".+") String key, int length, Charset charset) {
         Asserts.that(key)
                 .as("{0}.key must have {1} characters, but it isn't: '{2}'", getClass().getSimpleName(), length, key)
                 .isNotNull().hasText().hasLengthOf(length);
