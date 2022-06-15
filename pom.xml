@@ -111,7 +111,7 @@
            AssertJ
 
            Dependencies for using fluent assertions.
-       -->
+        -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -124,7 +124,7 @@
 
            Mandatory dependencies for using Spock.
            This starts to support 'maven-surefire' since 2.0.
-       -->
+        -->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
