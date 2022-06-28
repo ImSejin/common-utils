@@ -208,7 +208,7 @@ class ArrayUtilsSpec extends Specification {
     }
 
     @SuppressWarnings("GroovyAssignabilityCheck")
-    @Timeout(value = 20, unit = TimeUnit.MILLISECONDS)
+    @Timeout(value = 100, unit = TimeUnit.MILLISECONDS)
     def "Resolves array type in short-time"() {
         given:
         def data = [
