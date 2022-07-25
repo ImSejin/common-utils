@@ -29,6 +29,7 @@ import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.PackageAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
+import io.github.imsejin.common.assertion.net.UrlAssert;
 import io.github.imsejin.common.assertion.time.DurationAssert;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
@@ -49,6 +50,7 @@ import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -67,7 +69,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Asserts for fluent assertion not increasing branches in code coverage.
+ * Asserts for fluent assertion not increasing branches on code coverage.
  *
  * <p> This is implemented similarly to AssertJ's API.
  *
@@ -190,6 +192,12 @@ public abstract class Asserts {
     public static AbstractFileAssert<?, File> that(File file) {
         return new AbstractFileAssert(file) {
         };
+    }
+
+    //////////////////////////////////////// java.net ////////////////////////////////////////
+
+    public static UrlAssert<?> that(URL url) {
+        return new UrlAssert<>(url);
     }
 
     //////////////////////////////////////// java.math ////////////////////////////////////////

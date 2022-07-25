@@ -29,6 +29,8 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -931,6 +933,65 @@ class ConversionTest {
                             .exception(RuntimeException::new).isNotNull()
                             .asName().isUpperCase())
                     .withMessage("Description of assertion: " + file);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Nested
+    class UrlAssert {
+        @Test
+        @DisplayName("asHost(): URL -> String")
+        void asHost() throws MalformedURLException {
+            // given
+            URL url = new URL("https://www.github.com/");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("https://www.github.com/"))
+                    .asHost().startsWith("www.github"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asHost().startsWith("github.com"))
+                    .withMessage("Description of assertion: " + url);
+        }
+
+        @Test
+        @DisplayName("asPort(): URL -> Integer")
+        void asPort() throws MalformedURLException {
+            // given
+            URL url = new URL("http://www.github.com/");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("http://www.github.com/"))
+                    .asPort().isEqualTo(80));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asPort().isNegative())
+                    .withMessage("Description of assertion: " + url);
+        }
+
+        @Test
+        @DisplayName("asPath(): URL -> String")
+        void asPath() throws MalformedURLException {
+            // given
+            URL url = new URL("https://www.github.com/imsejin/common-utils");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("https://www.github.com/imsejin/common-utils"))
+                    .asPath().isEqualTo("/imsejin/common-utils"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asPath().isUpperCase())
+                    .withMessage("Description of assertion: " + url);
         }
     }
 
