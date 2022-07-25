@@ -694,7 +694,7 @@ public final class StringUtils {
     public static int indexOfCurrentClosingBracket(@Nullable String str, int pos, char opener, char closer) {
         if (isNullOrEmpty(str)) return -1;
 
-        // Finds the current opening bracket.
+        // Finds the opening bracket in the current context.
         char ch = str.charAt(pos);
         if (ch != opener) {
             // Prevents this variable from increasing when start character is closer.
