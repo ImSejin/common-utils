@@ -20,6 +20,26 @@ import spock.lang.Specification
 
 class FilenameUtilsSpec extends Specification {
 
+    def "Gets name from path"() {
+        expect:
+        FilenameUtils.getName(path) == expected
+
+        where:
+        path                                                       | expected
+        null                                                       | ""
+        ""                                                         | ""
+        ".git"                                                     | ".git"
+        "data.dat"                                                 | "data.dat"
+        "../data"                                                  | "data"
+        "/data.dat"                                                | "data.dat"
+        "spock/lang/Specification.groovy"                          | "Specification.groovy"
+        "/var/lib/jdk_1.8.0_202/jre/lib/rt.jar"                    | "rt.jar"
+        "/var/lib/apache/"                                         | "apache"
+        "spock\\lang\\Specification.groovy"                        | "Specification.groovy"
+        "C:\\Program Files\\Java\\jdk_1.8.0_202\\jre\\lib\\rt.jar" | "rt.jar"
+        "C:\\Program Files\\Apache\\"                              | "Apache"
+    }
+
     def "Gets file extension from filename"() {
         expect:
         FilenameUtils.getExtension(filename) == expected
