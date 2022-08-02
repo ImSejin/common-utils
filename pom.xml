@@ -65,6 +65,7 @@
         <assertj.version>3.23.1</assertj.version>
         <spock.version>2.1-groovy-3.0</spock.version>
         <lombok.version>1.18.24</lombok.version>
+        <memory-file-system.version>2.3.0</memory-file-system.version>
     </properties>
 
     <dependencies>
@@ -145,6 +146,18 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+            Memory Files System
+
+            In memory implementation of a JSR-203 file system.
+        -->
+        <dependency>
+            <groupId>com.github.marschall</groupId>
+            <artifactId>memoryfilesystem</artifactId>
+            <version>${memory-file-system.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
