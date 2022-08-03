@@ -53,6 +53,7 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 stream = Files.walk(path);
             } else {
                 stream = Files.list(path);
+                stream = Stream.concat(Stream.of(path), stream);
             }
         } catch (NotDirectoryException e) {
             // Only if you call Files.list
