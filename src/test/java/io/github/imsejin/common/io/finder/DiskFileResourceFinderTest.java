@@ -5,7 +5,9 @@ import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.util.FilenameUtils;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.FileSystemSource;
 import org.junit.jupiter.api.extension.Memory;
 import org.junit.jupiter.api.io.TempDir;
@@ -25,129 +27,176 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatException;
 
 @FileSystemSource
 @DisplayName("DiskFileResourceFinder")
 class DiskFileResourceFinderTest {
 
-    @RepeatedTest(10)
-    @DisplayName("gets resources non-recursively with default constructor on memory file system")
-    void test0(@Memory FileSystem fileSystem) throws IOException {
-        // given
-        Path path = fileSystem.getPath("/");
-        Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
+    @Nested
+    @DisplayName("when method 'getResources' is done successfully")
+    class Success {
+        @RepeatedTest(10)
+        @DisplayName("gets resources non-recursively with default constructor on memory file system")
+        void test0(@Memory FileSystem fileSystem) throws IOException {
+            // given
+            Path path = fileSystem.getPath("/");
+            Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
 
-        // when
-        ResourceFinder resourceFinder = new DiskFileResourceFinder(false);
-        List<Resource> resources = resourceFinder.getResources(path);
+            // when
+            ResourceFinder resourceFinder = new DiskFileResourceFinder(false);
+            List<Resource> resources = resourceFinder.getResources(path);
 
-        // then
-        assertThat(resources)
-                .isNotNull()
-                .isNotEmpty()
-                .as("Contains only one root directory")
-                .containsOnlyOnce(new DiskFileResource(path, "/", "", null, -1, true))
-                .doesNotHaveDuplicates();
-        assertThat(resources)
-                .filteredOn(Resource::isDirectory)
-                .doesNotContainNull()
-                .hasSameSizeAs(pathMap.get("directories"))
-                .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() == null)
-                .allMatch(resource -> resource.getSize() == -1);
-        assertThat(resources)
-                .filteredOn(resource -> !resource.isDirectory())
-                .doesNotContainNull()
-                .hasSameSizeAs(pathMap.get("files"))
-                .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() != null)
-                .allMatch(resource -> resource.getSize() >= 0)
-                .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
+            // then
+            assertThat(resources)
+                    .isNotNull()
+                    .isNotEmpty()
+                    .as("Contains only one root directory")
+                    .containsOnlyOnce(new DiskFileResource(path, "/", "", null, -1, true))
+                    .doesNotHaveDuplicates();
+            assertThat(resources)
+                    .filteredOn(Resource::isDirectory)
+                    .doesNotContainNull()
+                    .hasSameSizeAs(pathMap.get("directories"))
+                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
+                    .allMatch(resource -> resource.getInputStream() == null)
+                    .allMatch(resource -> resource.getSize() == -1);
+            assertThat(resources)
+                    .filteredOn(resource -> !resource.isDirectory())
+                    .doesNotContainNull()
+                    .hasSameSizeAs(pathMap.get("files"))
+                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
+                    .allMatch(resource -> resource.getInputStream() != null)
+                    .allMatch(resource -> resource.getSize() >= 0)
+                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
+        }
+
+        @RepeatedTest(10)
+        @DisplayName("gets resources recursively with default constructor on memory file system")
+        void test1(@Memory FileSystem fileSystem) throws IOException {
+            // given
+            Path path = fileSystem.getPath("/");
+            Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
+
+            // when
+            ResourceFinder resourceFinder = new DiskFileResourceFinder(true);
+            List<Resource> resources = resourceFinder.getResources(path);
+
+            // then
+            assertThat(resources)
+                    .isNotNull()
+                    .isNotEmpty()
+                    .as("Contains only one root directory")
+                    .containsOnlyOnce(new DiskFileResource(path, "/", "", null, -1, true))
+                    .doesNotHaveDuplicates();
+            assertThat(resources)
+                    .filteredOn(Resource::isDirectory)
+                    .doesNotContainNull()
+                    .hasSameSizeAs(pathMap.get("directories"))
+                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
+                    .allMatch(resource -> resource.getInputStream() == null)
+                    .allMatch(resource -> resource.getSize() == -1);
+            assertThat(resources)
+                    .filteredOn(resource -> !resource.isDirectory())
+                    .doesNotContainNull()
+                    .hasSize(pathMap.get("files").size() + pathMap.get("directories/files").size())
+                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
+                    .allMatch(resource -> resource.getInputStream() != null)
+                    .allMatch(resource -> resource.getSize() >= 0)
+                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
+        }
+
+        @RepeatedTest(10)
+        @DisplayName("gets resources non-recursively with another constructor on default file system")
+        void test2(@TempDir Path path) throws IOException {
+            // given
+            Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
+
+            // when
+            ResourceFinder resourceFinder = new DiskFileResourceFinder(false,
+                    _path -> _path.toString().endsWith(".log") || _path.toString().endsWith(".txt"));
+            List<Resource> resources = resourceFinder.getResources(path);
+
+            // then
+            assertThat(resources)
+                    .isNotNull()
+                    .doesNotContainNull()
+                    .doesNotHaveDuplicates()
+                    .noneMatch(Resource::isDirectory)
+                    .hasSameSizeAs(pathMap.get("files").stream().map(Path::toString)
+                            .filter(it -> it.endsWith(".log") || it.endsWith(".txt")).toArray())
+                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
+                    .allMatch(resource -> resource.getInputStream() != null)
+                    .allMatch(resource -> resource.getSize() >= 0)
+                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt"));
+        }
+
+        @RepeatedTest(10)
+        @DisplayName("gets resources recursively with another constructor on default file system")
+        void test3(@TempDir Path path) throws IOException {
+            // given
+            Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
+
+            // when
+            ResourceFinder resourceFinder = new DiskFileResourceFinder(true,
+                    _path -> _path.toString().endsWith(".dat"));
+            List<Resource> resources = resourceFinder.getResources(path);
+
+            // then
+            assertThat(resources)
+                    .isNotNull()
+                    .doesNotContainNull()
+                    .doesNotHaveDuplicates()
+                    .noneMatch(Resource::isDirectory)
+                    .hasSameSizeAs(Stream.concat(pathMap.get("files").stream(), pathMap.get("directories/files").stream())
+                            .map(Path::toString).filter(it -> it.endsWith(".dat")).toArray())
+                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
+                    .allMatch(resource -> resource.getInputStream() != null)
+                    .allMatch(resource -> resource.getSize() >= 0)
+                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).equals("dat"));
+        }
+
+        @Test
+        @DisplayName("gets a resource with file path on memory file system")
+        void test4(@Memory FileSystem fileSystem) throws IOException {
+            // given
+            Path filePath = Files.createFile(fileSystem.getPath("/", "dummy.txt"));
+
+            // when
+            ResourceFinder resourceFinder = new DiskFileResourceFinder(true);
+            List<Resource> resources = resourceFinder.getResources(filePath);
+
+            // then
+            assertThat(resources)
+                    .isNotNull()
+                    .doesNotContainNull()
+                    .hasSize(1)
+                    .noneMatch(Resource::isDirectory)
+                    .allMatch(resource -> resource.getPath().equals("/dummy.txt"))
+                    .allMatch(resource -> resource.getName().equals("dummy.txt"))
+                    .allMatch(resource -> resource.getSize() == 0);
+        }
     }
 
-    @RepeatedTest(10)
-    @DisplayName("gets resources recursively with default constructor on memory file system")
-    void test1(@Memory FileSystem fileSystem) throws IOException {
-        // given
-        Path path = fileSystem.getPath("/");
-        Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
+    // ----------------------------------------------------------------------------------------------------
 
-        // when
-        ResourceFinder resourceFinder = new DiskFileResourceFinder(true);
-        List<Resource> resources = resourceFinder.getResources(path);
+    @Nested
+    @DisplayName("when method 'getResources' is failed")
+    class Failure {
+        @Test
+        @DisplayName("failed to get resources with non-existent path on memory file system")
+        void test0(@Memory FileSystem fileSystem) {
+            // given
+            Path path = fileSystem.getPath("/", "usr", "bin");
 
-        // then
-        assertThat(resources)
-                .isNotNull()
-                .isNotEmpty()
-                .as("Contains only one root directory")
-                .containsOnlyOnce(new DiskFileResource(path, "/", "", null, -1, true))
-                .doesNotHaveDuplicates();
-        assertThat(resources)
-                .filteredOn(Resource::isDirectory)
-                .doesNotContainNull()
-                .hasSameSizeAs(pathMap.get("directories"))
-                .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() == null)
-                .allMatch(resource -> resource.getSize() == -1);
-        assertThat(resources)
-                .filteredOn(resource -> !resource.isDirectory())
-                .doesNotContainNull()
-                .hasSize(pathMap.get("files").size() + pathMap.get("directories/files").size())
-                .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() != null)
-                .allMatch(resource -> resource.getSize() >= 0)
-                .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
-    }
+            // when
+            ResourceFinder resourceFinder = new DiskFileResourceFinder(false);
 
-    @RepeatedTest(10)
-    @DisplayName("gets resources non-recursively with another constructor on default file system")
-    void test2(@TempDir Path path) throws IOException {
-        // given
-        Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
-
-        // when
-        ResourceFinder resourceFinder = new DiskFileResourceFinder(false,
-                _path -> _path.toString().endsWith(".log") || _path.toString().endsWith(".txt"));
-        List<Resource> resources = resourceFinder.getResources(path);
-
-        // then
-        assertThat(resources)
-                .isNotNull()
-                .doesNotContainNull()
-                .doesNotHaveDuplicates()
-                .noneMatch(Resource::isDirectory)
-                .hasSameSizeAs(pathMap.get("files").stream().map(Path::toString)
-                        .filter(it -> it.endsWith(".log") || it.endsWith(".txt")).toArray())
-                .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() != null)
-                .allMatch(resource -> resource.getSize() >= 0)
-                .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt"));
-    }
-
-    @RepeatedTest(10)
-    @DisplayName("gets resources recursively with another constructor on default file system")
-    void test3(@TempDir Path path) throws IOException {
-        // given
-        Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
-
-        // when
-        ResourceFinder resourceFinder = new DiskFileResourceFinder(true,
-                _path -> _path.toString().endsWith(".dat"));
-        List<Resource> resources = resourceFinder.getResources(path);
-
-        // then
-        assertThat(resources)
-                .isNotNull()
-                .doesNotContainNull()
-                .doesNotHaveDuplicates()
-                .noneMatch(Resource::isDirectory)
-                .hasSameSizeAs(Stream.concat(pathMap.get("files").stream(), pathMap.get("directories/files").stream())
-                        .map(Path::toString).filter(it -> it.endsWith(".dat")).toArray())
-                .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() != null)
-                .allMatch(resource -> resource.getSize() >= 0)
-                .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).equals("dat"));
+            // then
+            assertThatException().isThrownBy(() -> resourceFinder.getResources(path))
+                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .withMessage("No such path exists: " + path);
+        }
     }
 
     // ----------------------------------------------------------------------------------------------------
