@@ -46,7 +46,7 @@ class DiskFileResourceFinderTest {
                 .isNotNull()
                 .isNotEmpty()
                 .as("Contains only one root directory")
-                .containsOnlyOnce(new DiskFileResource("/", "", null, -1, true))
+                .containsOnlyOnce(new DiskFileResource(path, "/", "", null, -1, true))
                 .doesNotHaveDuplicates();
         assertThat(resources)
                 .filteredOn(Resource::isDirectory)
@@ -81,7 +81,7 @@ class DiskFileResourceFinderTest {
                 .isNotNull()
                 .isNotEmpty()
                 .as("Contains only one root directory")
-                .containsOnlyOnce(new DiskFileResource("/", "", null, -1, true))
+                .containsOnlyOnce(new DiskFileResource(path, "/", "", null, -1, true))
                 .doesNotHaveDuplicates();
         assertThat(resources)
                 .filteredOn(Resource::isDirectory)

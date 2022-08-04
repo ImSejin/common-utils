@@ -5,9 +5,6 @@ import io.github.imsejin.common.io.DiskFileResource;
 import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.util.FilenameUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
@@ -73,19 +70,10 @@ public class DiskFileResourceFinder implements ResourceFinder {
             String pathString = path.toString();
             boolean directory = Files.isDirectory(path);
 
-            return new DiskFileResource(pathString, FilenameUtils.getName(pathString),
+            return new DiskFileResource(path, pathString, FilenameUtils.getName(pathString),
                     directory ? null : Files.newInputStream(path), Files.size(path), directory);
         } catch (IOException e) {
             throw new IllegalStateException("Path doesn't exist: " + path, e);
-        }
-    }
-
-    private static DiskFileResource toResource(File file) {
-        try {
-            return new DiskFileResource(file.getPath(), file.getName(),
-                    new FileInputStream(file), file.length(), file.isDirectory());
-        } catch (FileNotFoundException e) {
-            throw new IllegalStateException("File doesn't exist: " + file, e);
         }
     }
 
