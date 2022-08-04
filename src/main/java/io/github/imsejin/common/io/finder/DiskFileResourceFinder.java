@@ -3,7 +3,6 @@ package io.github.imsejin.common.io.finder;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.DiskFileResource;
 import io.github.imsejin.common.io.Resource;
-import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,7 +40,7 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 .predicate(Files::exists);
 
         if (!Files.isDirectory(path)) {
-            return Collections.singletonList(toResource(path));
+            return Collections.singletonList(DiskFileResource.from(path));
         }
 
         Stream<Path> stream;
@@ -59,22 +58,8 @@ public class DiskFileResourceFinder implements ResourceFinder {
             throw new IllegalStateException("Failed to visit location: " + path, e);
         }
 
-        return stream.filter(this.filter).map(DiskFileResourceFinder::toResource)
+        return stream.filter(this.filter).map(DiskFileResource::from)
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    private static DiskFileResource toResource(Path path) {
-        try {
-            String pathString = path.toString();
-            boolean directory = Files.isDirectory(path);
-
-            return new DiskFileResource(path, pathString, FilenameUtils.getName(pathString),
-                    directory ? null : Files.newInputStream(path), Files.size(path), directory);
-        } catch (IOException e) {
-            throw new IllegalStateException("Path doesn't exist: " + path, e);
-        }
     }
 
 }
