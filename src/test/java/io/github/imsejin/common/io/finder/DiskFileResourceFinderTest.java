@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DiskFileResourceFinderTest {
 
     @RepeatedTest(10)
-    @DisplayName("gets resources non-recursively for location with default constructor")
+    @DisplayName("gets resources non-recursively with default constructor on memory file system")
     void test0(@Memory FileSystem fileSystem) throws IOException {
         // given
         Path path = fileSystem.getPath("/");
@@ -65,7 +66,7 @@ class DiskFileResourceFinderTest {
     }
 
     @RepeatedTest(10)
-    @DisplayName("gets resources recursively for location with default constructor")
+    @DisplayName("gets resources recursively with default constructor on memory file system")
     void test1(@Memory FileSystem fileSystem) throws IOException {
         // given
         Path path = fileSystem.getPath("/");
@@ -100,14 +101,14 @@ class DiskFileResourceFinderTest {
     }
 
     @RepeatedTest(10)
-    @DisplayName("gets resources non-recursively for location with another constructor")
+    @DisplayName("gets resources non-recursively with another constructor on default file system")
     void test2(@TempDir Path path) throws IOException {
         // given
         Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
 
         // when
         ResourceFinder resourceFinder = new DiskFileResourceFinder(false,
-                $path -> $path.toString().endsWith(".log") || $path.toString().endsWith(".txt"));
+                _path -> _path.toString().endsWith(".log") || _path.toString().endsWith(".txt"));
         List<Resource> resources = resourceFinder.getResources(path);
 
         // then
@@ -125,13 +126,14 @@ class DiskFileResourceFinderTest {
     }
 
     @RepeatedTest(10)
-    @DisplayName("gets resources recursively for location with another constructor")
+    @DisplayName("gets resources recursively with another constructor on default file system")
     void test3(@TempDir Path path) throws IOException {
         // given
         Map<String, List<Path>> pathMap = createRandomFileSystemEnvironment(path);
 
         // when
-        ResourceFinder resourceFinder = new DiskFileResourceFinder(true, Files::isDirectory);
+        ResourceFinder resourceFinder = new DiskFileResourceFinder(true,
+                _path -> _path.toString().endsWith(".dat"));
         List<Resource> resources = resourceFinder.getResources(path);
 
         // then
@@ -139,11 +141,13 @@ class DiskFileResourceFinderTest {
                 .isNotNull()
                 .doesNotContainNull()
                 .doesNotHaveDuplicates()
-                .allMatch(Resource::isDirectory)
-                .hasSameSizeAs(pathMap.get("directories"))
+                .noneMatch(Resource::isDirectory)
+                .hasSameSizeAs(Stream.concat(pathMap.get("files").stream(), pathMap.get("directories/files").stream())
+                        .map(Path::toString).filter(it -> it.endsWith(".dat")).toArray())
                 .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() == null)
-                .allMatch(resource -> resource.getSize() == 4096);
+                .allMatch(resource -> resource.getInputStream() != null)
+                .allMatch(resource -> resource.getSize() >= 0)
+                .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).equals("dat"));
     }
 
     // ----------------------------------------------------------------------------------------------------
