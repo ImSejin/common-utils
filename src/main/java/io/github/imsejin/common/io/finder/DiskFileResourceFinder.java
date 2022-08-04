@@ -40,7 +40,8 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 .predicate(Files::exists);
 
         if (!Files.isDirectory(path)) {
-            return Collections.singletonList(DiskFileResource.from(path));
+            Resource resource = DiskFileResource.from(path);
+            return Collections.singletonList(resource);
         }
 
         Stream<Path> stream;
