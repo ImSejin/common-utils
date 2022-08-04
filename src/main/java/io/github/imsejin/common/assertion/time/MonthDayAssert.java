@@ -30,7 +30,7 @@ public class MonthDayAssert<SELF extends MonthDayAssert<SELF>>
         super(actual);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public MonthAssert<?> asMonth() {
         MonthAssert<?> assertion = Asserts.that(actual.getMonth());

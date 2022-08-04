@@ -94,7 +94,7 @@ public class UrlAssert<
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public StringAssert<?> asHost() {
         StringAssert<?> assertion = Asserts.that(actual.getHost());

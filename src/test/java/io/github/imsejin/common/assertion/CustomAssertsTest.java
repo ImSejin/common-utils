@@ -52,7 +52,7 @@ public class CustomAssertsTest {
                 .isParentOf(new KanCode("01020304")));
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     private static class MyAsserts extends Asserts {
         public static KanCodeAssert<?> that(KanCode kanCode) {

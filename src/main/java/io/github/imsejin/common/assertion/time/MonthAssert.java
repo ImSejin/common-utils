@@ -30,7 +30,7 @@ public class MonthAssert<SELF extends MonthAssert<SELF>>
         super(actual);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asValue() {
         NumberAssert<?, Integer> assertion = Asserts.that(actual.getValue());

@@ -178,7 +178,7 @@ class DiskFileResourceFinderTest {
         }
     }
 
-    // ----------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("when method 'getResources' is failed")
@@ -199,7 +199,7 @@ class DiskFileResourceFinderTest {
         }
     }
 
-    // ----------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------
 
     private static Map<String, List<Path>> createRandomFileSystemEnvironment(Path rootPath) throws IOException {
         Random random = new Random();

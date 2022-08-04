@@ -76,7 +76,7 @@ public class CharSequenceAssert<
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asLength() {
         NumberAssert<?, Integer> assertion = Asserts.that(actual.length());

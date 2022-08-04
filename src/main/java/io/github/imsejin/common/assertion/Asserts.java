@@ -95,7 +95,7 @@ public abstract class Asserts {
     protected Asserts() {
     }
 
-    //////////////////////////////////////// java.lang ////////////////////////////////////////
+    // java.lang ---------------------------------------------------------------------------------------
 
     public static <T> ObjectAssert<?, T> that(T object) {
         return new ObjectAssert<>(object);
@@ -173,7 +173,7 @@ public abstract class Asserts {
         return new PackageAssert<>(pack);
     }
 
-    //////////////////////////////////////// java.util ////////////////////////////////////////
+    // java.util ---------------------------------------------------------------------------------------
 
     public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
         return new CollectionAssert<>(collection);
@@ -187,26 +187,26 @@ public abstract class Asserts {
         return new MapAssert<>(map);
     }
 
-    //////////////////////////////////////// java.io ////////////////////////////////////////
+    // java.io -----------------------------------------------------------------------------------------
 
     public static AbstractFileAssert<?, File> that(File file) {
         return new AbstractFileAssert(file) {
         };
     }
 
-    //////////////////////////////////////// java.net ////////////////////////////////////////
+    // java.net ----------------------------------------------------------------------------------------
 
     public static UrlAssert<?> that(URL url) {
         return new UrlAssert<>(url);
     }
 
-    //////////////////////////////////////// java.math ////////////////////////////////////////
+    // java.math ---------------------------------------------------------------------------------------
 
     public static BigDecimalAssert<?> that(BigDecimal bigDecimal) {
         return new BigDecimalAssert<>(bigDecimal);
     }
 
-    //////////////////////////////////////// java.time ////////////////////////////////////////
+    // java.time ---------------------------------------------------------------------------------------
 
     public static YearAssert<?> that(Year year) {
         return new YearAssert(year);
@@ -248,7 +248,7 @@ public abstract class Asserts {
         return new PeriodAssert<>(period);
     }
 
-    //////////////////////////////////////// java.time.chrono ////////////////////////////////////////
+    // java.time.chrono --------------------------------------------------------------------------------
 
     public static ChronoLocalDateAssert<?> that(ChronoLocalDate localDate) {
         return new ChronoLocalDateAssert<>(localDate);

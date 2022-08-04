@@ -63,7 +63,7 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
-    // ----------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------
 
     private static DiskFileResource toResource(Path path) {
         try {

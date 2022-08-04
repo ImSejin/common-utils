@@ -113,7 +113,7 @@ public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asTotalDays() {
         int totalDays = (((actual.getYears() * 12) + actual.getMonths()) * 30) + actual.getDays();

@@ -106,7 +106,7 @@ public class DurationAssert<SELF extends DurationAssert<SELF>> extends ObjectAss
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public BigDecimalAssert<?> asTotalSeconds() {
         BigDecimalAssert<?> assertion = Asserts.that(new BigDecimal(actual.getSeconds() + "." + actual.getNano()));

@@ -53,7 +53,7 @@ public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public YearAssert<?> asYear() {
         YearAssert<?> assertion = Asserts.that(Year.of(actual.getYear()));

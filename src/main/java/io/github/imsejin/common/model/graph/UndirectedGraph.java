@@ -188,7 +188,7 @@ public class UndirectedGraph<E> implements Graph<E> {
         return this.adjacentVertexMap.equals(that.adjacentVertexMap);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     private static class Edge<E> {
         private final E vertex1;

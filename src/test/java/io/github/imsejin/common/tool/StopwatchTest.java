@@ -289,7 +289,7 @@ class StopwatchTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @SneakyThrows
     private static void assertThatConversionFromNanoseconds(Method convertTimeUnit, double amount) {

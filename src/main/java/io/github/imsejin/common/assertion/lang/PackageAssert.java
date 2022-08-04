@@ -41,7 +41,7 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public StringAssert<?> asName() {
         StringAssert<?> assertion = Asserts.that(actual.getName());

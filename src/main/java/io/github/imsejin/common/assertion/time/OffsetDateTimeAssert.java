@@ -68,7 +68,7 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     /**
      * @return another assertion
