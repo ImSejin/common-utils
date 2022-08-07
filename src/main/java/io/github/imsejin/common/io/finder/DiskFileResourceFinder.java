@@ -6,7 +6,6 @@ import io.github.imsejin.common.io.Resource;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
@@ -52,9 +51,6 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 stream = Files.list(path);
                 stream = Stream.concat(Stream.of(path), stream);
             }
-        } catch (NotDirectoryException e) {
-            // Only if you call Files.list
-            throw new IllegalArgumentException("Location is not a directory: " + path);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to visit location: " + path, e);
         }
