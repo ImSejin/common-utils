@@ -44,13 +44,15 @@ public class GzipResourceFinder implements ResourceFinder {
         try (GzipCompressorInputStream in = new GzipCompressorInputStream(Files.newInputStream(path))) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buffer = new byte[16384];
-            while (in.read(buffer) != -1) {
-                out.write(buffer);
+            int offset;
+            while ((offset = in.read(buffer)) != -1) {
+                out.write(buffer, 0, offset);
             }
 
             String fileName = in.getMetaData().getFilename();
             if (StringUtils.isNullOrEmpty(fileName)) {
-                fileName = FilenameUtils.getName(path.toString());
+                String name = FilenameUtils.getName(path.toString());
+                fileName = FilenameUtils.getBaseName(name);
             }
 
             long modifiedMilliTime = in.getMetaData().getModificationTime();

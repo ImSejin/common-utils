@@ -24,8 +24,8 @@ import java.io.InputStream;
 public final class TestUtils {
 
     public static byte[] readAllBytes(InputStream in) {
-        try {
-            return IOUtils.readRange(in, Integer.MAX_VALUE);
+        try (InputStream inputStream = in) {
+            return IOUtils.readRange(inputStream, Integer.MAX_VALUE);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

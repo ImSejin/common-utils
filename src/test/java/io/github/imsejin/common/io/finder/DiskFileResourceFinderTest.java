@@ -2,7 +2,6 @@ package io.github.imsejin.common.io.finder;
 
 import io.github.imsejin.common.internal.TestUtils;
 import io.github.imsejin.common.io.DiskFileResource;
-import io.github.imsejin.common.io.GzipResource;
 import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.util.FilenameUtils;
 import net.bytebuddy.utility.RandomString;

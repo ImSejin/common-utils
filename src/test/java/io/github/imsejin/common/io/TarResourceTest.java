@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.io;
 
+import io.github.imsejin.common.util.FilenameUtils;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,37 +30,37 @@ import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("GzipResource")
-class GzipResourceTest {
+@DisplayName("TarResource")
+class TarResourceTest {
 
     @Test
     void test() {
         // given
-        String fileName = "temp-file.log";
+        String path = "usr/bin/temp-file.log";
+        String fileName = FilenameUtils.getName(path);
         byte[] bytes = RandomString.make(new Random().nextInt((int) Math.pow(2, 20))).getBytes(StandardCharsets.UTF_8);
         long modifiedTime = System.currentTimeMillis();
 
         // when
-        GzipResource resource = new GzipResource(fileName, new ByteArrayInputStream(bytes),
-                bytes.length, bytes.length / 2, modifiedTime);
+        TarResource resource = new TarResource(path, fileName, new ByteArrayInputStream(bytes),
+                bytes.length, false, modifiedTime);
 
         // then
-        GzipResource expected = new GzipResource(fileName, new ByteArrayInputStream(bytes),
-                bytes.length, bytes.length / 2, modifiedTime);
+        TarResource expected = new TarResource(path, fileName, new ByteArrayInputStream(bytes),
+                bytes.length, false, modifiedTime);
         assertThat(resource)
                 .isNotNull()
                 .isEqualTo(expected)
-                .returns(fileName, Resource::getPath)
+                .returns(path, Resource::getPath)
                 .returns(fileName, Resource::getName)
                 .returns((long) bytes.length, Resource::getSize)
                 .returns(false, Resource::isDirectory)
-                .returns((long) bytes.length / 2, GzipResource::getCompressedSize)
-                .returns(Instant.ofEpochMilli(modifiedTime), GzipResource::getLastModifiedTime)
-                .returns(String.format("%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, compressedSize=%d, lastModifiedTime=%s)",
+                .returns(Instant.ofEpochMilli(modifiedTime), TarResource::getLastModifiedTime)
+                .returns(String.format("%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, lastModifiedTime=%s)",
                         resource.getClass().getName(), resource.getPath(), resource.getName(),
                         resource.getInputStream(), resource.getSize(), resource.isDirectory(),
-                        resource.getCompressedSize(), resource.getLastModifiedTime()),
-                        GzipResource::toString);
+                        resource.getLastModifiedTime()),
+                        TarResource::toString);
         assertThat(resource.getInputStream())
                 .isNotNull()
                 .hasSameContentAs(new ByteArrayInputStream(bytes));
