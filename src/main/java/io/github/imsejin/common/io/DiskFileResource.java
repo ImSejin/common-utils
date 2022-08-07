@@ -23,10 +23,9 @@ public class DiskFileResource extends AbstractResource {
             String path = realPath.toString();
             String name = FilenameUtils.getName(path);
             boolean directory = Files.isDirectory(realPath);
-            InputStream inputStream = directory ? null : Files.newInputStream(realPath);
             long size = Files.size(realPath);
 
-            return new DiskFileResource(path, name, inputStream, size, directory, realPath);
+            return new DiskFileResource(path, name, null, size, directory, realPath);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to instantiate DiskFileResource from path: " + realPath, e);
         }
@@ -34,18 +33,33 @@ public class DiskFileResource extends AbstractResource {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         DiskFileResource that = (DiskFileResource) o;
-        return getSize() == that.getSize() && isDirectory() == that.isDirectory()
-                && Objects.equals(this.realPath, that.realPath)
-                && Objects.equals(getPath(), that.getPath()) && Objects.equals(getName(), that.getName());
+        return Objects.equals(this.realPath, that.realPath);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), this.realPath);
+    }
+
+    // Lazy loading
+    @Override
+    public InputStream getInputStream() {
+        if (isDirectory()) {
+            return null;
+        }
+
+        try {
+            return Files.newInputStream(this.realPath);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to get InputStream from path: " + this.realPath, e);
+        }
+    }
+
+    public Path getRealPath() {
+        return this.realPath;
     }
 
 }
