@@ -28,6 +28,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,18 +50,27 @@ class DiskFileResourceTest {
         DiskFileResource resource = DiskFileResource.from(filePath);
 
         // then
+        DiskFileResource expected = DiskFileResource.from(filePath);
         assertThat(resource)
                 .isNotNull()
-                .returns(filePath.toString(), DiskFileResource::getPath)
-                .returns("temp-text.txt", DiskFileResource::getName)
-                .returns((long) bytes.length, DiskFileResource::getSize)
+                .isEqualTo(expected)
+                .returns(filePath.toString(), Resource::getPath)
+                .returns("temp-text.txt", Resource::getName)
+                .returns((long) bytes.length, Resource::getSize)
                 .returns(filePath, DiskFileResource::getRealPath)
                 .returns(String.format("%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s)",
-                        resource.getClass().getName(), resource.getPath(), resource.getName(), null, resource.getSize(), resource.isDirectory()),
+                        resource.getClass().getName(), resource.getPath(), resource.getName(),
+                        null, resource.getSize(), resource.isDirectory()),
                         DiskFileResource::toString);
         assertThat(resource.getInputStream())
                 .isNotNull()
                 .hasSameContentAs(new ByteArrayInputStream(bytes));
+        assertThat(new HashSet<>(Arrays.asList(resource, expected)))
+                .as("Test identity and equality")
+                .isNotNull()
+                .isNotEmpty()
+                .hasSize(1)
+                .doesNotHaveDuplicates();
     }
 
 }

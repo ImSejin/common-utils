@@ -1,10 +1,11 @@
 package io.github.imsejin.common.io.finder;
 
+import io.github.imsejin.common.internal.TestUtils;
 import io.github.imsejin.common.io.DiskFileResource;
+import io.github.imsejin.common.io.GzipResource;
 import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.util.FilenameUtils;
 import net.bytebuddy.utility.RandomString;
-import org.apache.commons.compress.utils.IOUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -56,7 +56,8 @@ class DiskFileResourceFinderTest {
                     .isNotEmpty()
                     .as("Contains only one root directory")
                     .containsOnlyOnce(DiskFileResource.from(path))
-                    .doesNotHaveDuplicates();
+                    .doesNotHaveDuplicates()
+                    .allMatch(resource -> resource instanceof DiskFileResource);
             assertThat(resources)
                     .filteredOn(Resource::isDirectory)
                     .doesNotContainNull()
@@ -69,7 +70,7 @@ class DiskFileResourceFinderTest {
                     .doesNotContainNull()
                     .hasSameSizeAs(pathMap.get("files"))
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> readAllBytes(resource.getInputStream()).length == resource.getSize())
+                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
                     .allMatch(resource -> resource.getSize() >= 0)
                     .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
         }
@@ -91,7 +92,8 @@ class DiskFileResourceFinderTest {
                     .isNotEmpty()
                     .as("Contains only one root directory")
                     .containsOnlyOnce(DiskFileResource.from(path))
-                    .doesNotHaveDuplicates();
+                    .doesNotHaveDuplicates()
+                    .allMatch(resource -> resource instanceof DiskFileResource);
             assertThat(resources)
                     .filteredOn(Resource::isDirectory)
                     .doesNotContainNull()
@@ -104,7 +106,7 @@ class DiskFileResourceFinderTest {
                     .doesNotContainNull()
                     .hasSize(pathMap.get("files").size() + pathMap.get("directories/files").size())
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> readAllBytes(resource.getInputStream()).length == resource.getSize())
+                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
                     .allMatch(resource -> resource.getInputStream() != null)
                     .allMatch(resource -> resource.getSize() >= 0)
                     .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
@@ -126,11 +128,12 @@ class DiskFileResourceFinderTest {
                     .isNotNull()
                     .doesNotContainNull()
                     .doesNotHaveDuplicates()
+                    .allMatch(resource -> resource instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
                     .hasSameSizeAs(pathMap.get("files").stream().map(Path::toString)
                             .filter(it -> it.endsWith(".log") || it.endsWith(".txt")).toArray())
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> readAllBytes(resource.getInputStream()).length == resource.getSize())
+                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
                     .allMatch(resource -> resource.getSize() >= 0)
                     .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt"));
         }
@@ -151,11 +154,12 @@ class DiskFileResourceFinderTest {
                     .isNotNull()
                     .doesNotContainNull()
                     .doesNotHaveDuplicates()
+                    .allMatch(resource -> resource instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
                     .hasSameSizeAs(Stream.concat(pathMap.get("files").stream(), pathMap.get("directories/files").stream())
                             .map(Path::toString).filter(it -> it.endsWith(".dat")).toArray())
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> readAllBytes(resource.getInputStream()).length == resource.getSize())
+                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
                     .allMatch(resource -> resource.getSize() >= 0)
                     .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).equals("dat"));
         }
@@ -177,10 +181,11 @@ class DiskFileResourceFinderTest {
                     .isNotNull()
                     .doesNotContainNull()
                     .hasSize(1)
+                    .allMatch(resource -> resource instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
                     .allMatch(resource -> resource.getPath().equals("/dummy.txt"))
                     .allMatch(resource -> resource.getName().equals("dummy.txt"))
-                    .allMatch(resource -> readAllBytes(resource.getInputStream()).length == resource.getSize())
+                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
                     .allMatch(resource -> resource.getSize() == bytes.length);
         }
     }
@@ -273,14 +278,6 @@ class DiskFileResourceFinderTest {
         }
 
         return files;
-    }
-
-    private static byte[] readAllBytes(InputStream in) {
-        try {
-            return IOUtils.readRange(in, Integer.MAX_VALUE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }
