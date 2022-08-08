@@ -21,7 +21,7 @@ import io.github.imsejin.common.io.GzipResource;
 import io.github.imsejin.common.io.Resource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -34,11 +34,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GzipResourceFinderTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "ubuntu-18.04.1.gz", "ubuntu-18.04.1.tar.gz", "ubuntu-18.04.1.tgz",
-            "windows10-pro.gz", "windows10-pro.tar.gz", "windows10-pro.tgz",
-    })
-    void test(String fileName) throws URISyntaxException {
+    @CsvSource(value = {
+            "ubuntu-18.04.1.gz     | catalina.out-20210123",
+            "ubuntu-18.04.1.tar.gz | ubuntu-18.04.1.tar",
+            "ubuntu-18.04.1.tgz    | ubuntu-18.04.1",
+            "windows10-pro.gz      | windows10-pro",
+            "windows10-pro.tar.gz  | windows10-pro.tar",
+            "windows10-pro.tgz     | windows10-pro",
+    }, delimiterString = "|")
+    void test(String fileName, String resourceName) throws URISyntaxException {
         // given
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Path path = Paths.get(classLoader.getResource("archiver/gzip/" + fileName).toURI());
@@ -63,6 +67,7 @@ class GzipResourceFinderTest {
         assertThat(gzipResource)
                 .matches(it -> it.getLastModifiedTime() != null)
                 .matches(it -> it.getSize() >= it.getCompressedSize())
+                .returns(resourceName, Resource::getName)
                 .returns((long) TestUtils.readAllBytes(gzipResource.getInputStream()).length, Resource::getSize);
     }
 
