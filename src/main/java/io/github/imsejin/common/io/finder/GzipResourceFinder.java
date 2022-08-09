@@ -39,7 +39,11 @@ public class GzipResourceFinder implements ResourceFinder {
                 .as("Invalid path to find resources: {0}", path)
                 .isNotNull()
                 .as("No such path exists: {0}", path)
-                .predicate(Files::exists);
+                .predicate(Files::exists)
+                .as("It is not a regular file: {0}", path)
+                .predicate(Files::isRegularFile)
+                .as("Cannot read file: {0}", path)
+                .predicate(Files::isReadable);
 
         try (GzipCompressorInputStream in = new GzipCompressorInputStream(Files.newInputStream(path))) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
