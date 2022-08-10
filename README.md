@@ -68,8 +68,11 @@ Asserts.that(dates)
         .as("dates should contain '2001-01-01' or '2000-01-02': '{0}'", dates)
         .containsAny(LocalDate.of(2001, 1, 1), LocalDate.of(2000, 1, 2))
         .as("dates should not have date in leap year: '{0}'", dates)
+        .anyMatch(LocalDate::isLeapYear)
+        // Target of assertion is changed from List to Integer.
+        .asSize()
         // Assertion will fail and throw IllegalStateException on this step.
-        .noneMatch(LocalDate::isLeapYear);
+        .isGreaterThan(3);
 ```
 
 ### Constants
