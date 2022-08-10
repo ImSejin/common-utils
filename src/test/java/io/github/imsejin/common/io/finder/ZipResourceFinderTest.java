@@ -18,7 +18,7 @@ package io.github.imsejin.common.io.finder;
 
 import io.github.imsejin.common.internal.TestUtils;
 import io.github.imsejin.common.io.Resource;
-import io.github.imsejin.common.io.TarResource;
+import io.github.imsejin.common.io.ZipResource;
 import io.github.imsejin.common.util.FilenameUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,23 +31,21 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("TarGzipResourceFinder")
-class TarGzipResourceFinderTest {
+@DisplayName("ZipResourceFinder")
+class ZipResourceFinderTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "ubuntu-18.04.1.tar.gz | tar  | 1",
-            "ubuntu-18.04.1.tgz    | c    | 373",
-            "windows10-pro.tar.gz  | xfdl | 221",
-            "windows10-pro.tgz     | js   | 80",
+            "ubuntu-18.04.3.zip | java | 64",
+            "windows10-pro.zip  | json | 548",
     }, delimiterString = "|")
     void test0(String fileName, String extension, int resourceCount) throws URISyntaxException {
         // given
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        Path path = Paths.get(classLoader.getResource("archiver/gzip/" + fileName).toURI());
+        Path path = Paths.get(classLoader.getResource("archiver/zip/" + fileName).toURI());
 
         // when
-        ResourceFinder resourceFinder = new TarGzipResourceFinder(false);
+        ResourceFinder resourceFinder = new ZipResourceFinder(false);
         List<Resource> resources = resourceFinder.getResources(path);
 
         // then
@@ -56,7 +54,7 @@ class TarGzipResourceFinderTest {
                 .isNotEmpty()
                 .doesNotContainNull()
                 .doesNotHaveDuplicates()
-                .allMatch(resource -> resource instanceof TarResource)
+                .allMatch(resource -> resource instanceof ZipResource)
                 .allMatch(resource -> resource.isDirectory()
                         ? resource.getPath().endsWith(resource.getName() + '/')
                         : resource.getPath().endsWith(resource.getName()));
