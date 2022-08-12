@@ -19,6 +19,7 @@ package io.github.imsejin.common.io.finder;
 import io.github.imsejin.common.io.TarResource;
 import io.github.imsejin.common.util.FilenameUtils;
 import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
 import java.io.ByteArrayInputStream;
@@ -29,7 +30,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Predicate;
 
-public class TarResourceFinder extends ArchiveResourceFinder<TarResource, TarArchiveInputStream> {
+public class TarResourceFinder extends ArchiveResourceFinder<TarResource, TarArchiveEntry, TarArchiveInputStream> {
 
     protected final boolean recursive;
 
@@ -52,7 +53,12 @@ public class TarResourceFinder extends ArchiveResourceFinder<TarResource, TarArc
     }
 
     @Override
-    protected TarResource getArchiveResource(ArchiveEntry entry, TarArchiveInputStream in) throws IOException {
+    protected TarArchiveEntry getNextArchiveEntry(TarArchiveInputStream in) throws IOException {
+        return in.getNextTarEntry();
+    }
+
+    @Override
+    protected TarResource getArchiveResource(TarArchiveEntry entry, TarArchiveInputStream in) throws IOException {
         if (!this.filter.test(entry)) {
             return null;
         }

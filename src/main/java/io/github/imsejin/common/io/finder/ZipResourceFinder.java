@@ -19,7 +19,10 @@ package io.github.imsejin.common.io.finder;
 import io.github.imsejin.common.io.ZipResource;
 import io.github.imsejin.common.util.FilenameUtils;
 import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,7 +32,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Predicate;
 
-public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArchiveInputStream> {
+public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArchiveEntry, ZipArchiveInputStream> {
 
     protected final boolean recursive;
 
@@ -52,7 +55,12 @@ public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArc
     }
 
     @Override
-    protected ZipResource getArchiveResource(ArchiveEntry entry, ZipArchiveInputStream in) throws IOException {
+    protected ZipArchiveEntry getNextArchiveEntry(ZipArchiveInputStream in) throws IOException {
+        return in.getNextZipEntry();
+    }
+
+    @Override
+    protected ZipResource getArchiveResource(ZipArchiveEntry entry, ZipArchiveInputStream in) throws IOException {
         if (!this.filter.test(entry)) {
             return null;
         }

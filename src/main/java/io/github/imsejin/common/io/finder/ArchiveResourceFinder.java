@@ -30,7 +30,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ArchiveResourceFinder<R extends ArchiveResource, I extends ArchiveInputStream>
+public abstract class ArchiveResourceFinder<
+        R extends ArchiveResource,
+        E extends ArchiveEntry,
+        I extends ArchiveInputStream>
         implements ResourceFinder {
 
     @Override
@@ -48,10 +51,10 @@ public abstract class ArchiveResourceFinder<R extends ArchiveResource, I extends
         try (I in = getArchiveInputStream(Files.newInputStream(path))) {
             List<Resource> resources = new ArrayList<>();
 
-            ArchiveEntry entry;
+            E entry;
             // java.nio.charset.MalformedInputException: Input length = 1
             // java.nio.charset.CharsetDecoder.decode
-            while ((entry = in.getNextEntry()) != null) {
+            while ((entry = getNextArchiveEntry(in)) != null) {
                 R resource = getArchiveResource(entry, in);
                 if (resource == null) continue;
 
@@ -66,8 +69,10 @@ public abstract class ArchiveResourceFinder<R extends ArchiveResource, I extends
         }
     }
 
+    protected abstract E getNextArchiveEntry(I in) throws IOException;
+
     @Nullable
-    protected abstract R getArchiveResource(ArchiveEntry entry, I in) throws IOException;
+    protected abstract R getArchiveResource(E entry, I in) throws IOException;
 
     protected abstract I getArchiveInputStream(InputStream in) throws IOException;
 
