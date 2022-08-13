@@ -3,8 +3,8 @@ package io.github.imsejin.common.io.finder;
 import io.github.imsejin.common.internal.TestUtils;
 import io.github.imsejin.common.io.DiskFileResource;
 import io.github.imsejin.common.io.Resource;
+import io.github.imsejin.common.tool.RandomString;
 import io.github.imsejin.common.util.FilenameUtils;
-import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
@@ -168,7 +168,7 @@ class DiskFileResourceFinderTest {
         void test4(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path filePath = Files.createFile(fileSystem.getPath("/", "dummy.txt"));
-            byte[] bytes = RandomString.make(new Random().nextInt(1024)).getBytes(StandardCharsets.UTF_8);
+            byte[] bytes = new RandomString().nextString(new Random().nextInt(1024)).getBytes(StandardCharsets.UTF_8);
             Files.write(filePath, bytes);
 
             // when
@@ -214,12 +214,12 @@ class DiskFileResourceFinderTest {
 
     private static Map<String, List<Path>> createRandomFileSystemEnvironment(Path rootPath) throws IOException {
         Random random = new Random();
-        RandomString randomNameString = new RandomString(random.nextInt(10) + 1, random);
+        RandomString randomNameString = new RandomString(random);
 
         // Creates directories in root directory.
         List<Path> directories = new ArrayList<>();
         for (int i = 0; i < random.nextInt(10); i++) {
-            String directoryName = String.format("%s-%d", randomNameString.nextString(), System.nanoTime());
+            String directoryName = String.format("%s-%d", randomNameString.nextString(random.nextInt(10) + 1), System.nanoTime());
             Path directoryPath = Files.createDirectory(rootPath.resolve(directoryName));
 
             directories.add(directoryPath);
@@ -246,7 +246,7 @@ class DiskFileResourceFinderTest {
     }
 
     private static List<Path> createFiles(Path path, Random random) throws IOException {
-        RandomString randomNameString = new RandomString(random.nextInt(10) + 1, random);
+        RandomString randomNameString = new RandomString(random);
 
         List<String> extensions = Arrays.asList("log", "txt", "tmp", "dat");
         List<Path> files = new ArrayList<>();
@@ -254,16 +254,16 @@ class DiskFileResourceFinderTest {
         // Creates files in directory.
         for (int i = 0; i < random.nextInt(10); i++) {
             int fileLength = random.nextInt((int) Math.pow(2, 13)) + 1;
-            RandomString randomContentString = new RandomString(fileLength, random);
+            RandomString randomContentString = new RandomString(random);
 
-            String baseName = randomNameString.nextString();
+            String baseName = randomNameString.nextString(random.nextInt(10) + 1);
             String extension = extensions.get(random.nextInt(extensions.size()));
             String fileName = String.format("%s-%d.%s", baseName, System.nanoTime(), extension);
 
             Path filePath = Files.createFile(path.resolve(fileName));
 
             // Write content into file.
-            String content = randomContentString.nextString();
+            String content = randomContentString.nextString(fileLength);
             try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
                 int lineWidth = Math.min(100, random.nextInt(20) + 80); // min: 80, max: 100
                 String[] lines = content.split("(?<=\\G.{" + lineWidth + "})");

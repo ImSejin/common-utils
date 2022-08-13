@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.io;
 
-import net.bytebuddy.utility.RandomString;
+import io.github.imsejin.common.tool.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +36,8 @@ class GzipResourceTest {
     void test() {
         // given
         String fileName = "temp-file.log";
-        byte[] bytes = RandomString.make(new Random().nextInt((int) Math.pow(2, 20))).getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = new RandomString().nextString(new Random()
+                .nextInt((int) Math.pow(2, 20))).getBytes(StandardCharsets.UTF_8);
         long modifiedTime = System.currentTimeMillis();
 
         // when

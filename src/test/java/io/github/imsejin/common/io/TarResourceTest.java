@@ -16,8 +16,8 @@
 
 package io.github.imsejin.common.io;
 
+import io.github.imsejin.common.tool.RandomString;
 import io.github.imsejin.common.util.FilenameUtils;
-import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +38,8 @@ class TarResourceTest {
         // given
         String path = "usr/bin/temp-file.log";
         String fileName = FilenameUtils.getName(path);
-        byte[] bytes = RandomString.make(new Random().nextInt((int) Math.pow(2, 20))).getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = new RandomString().nextString(new Random()
+                .nextInt((int) Math.pow(2, 20))).getBytes(StandardCharsets.UTF_8);
         long modifiedTime = System.currentTimeMillis();
 
         // when

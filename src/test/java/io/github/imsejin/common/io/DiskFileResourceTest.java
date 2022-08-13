@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.io;
 
-import net.bytebuddy.utility.RandomString;
+import io.github.imsejin.common.tool.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.FileSystemSource;
@@ -43,7 +43,8 @@ class DiskFileResourceTest {
         // given
         Path filePath = fileSystem.getPath("/", "temp-text.txt");
         Files.createFile(filePath);
-        byte[] bytes = RandomString.make(new Random().nextInt(1024)).getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = new RandomString().nextString(new Random()
+                .nextInt(1024)).getBytes(StandardCharsets.UTF_8);
         Files.write(filePath, bytes);
 
         // when
