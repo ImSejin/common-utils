@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [v0.9.1](#v091):
+- [v0.10.0](#v0100):
 - [v0.9.0](#v090): 2022-05-26
 - [v0.8.0](#v080): 2022-04-10
 - [v0.7.1](#v071): 2022-02-20
@@ -26,7 +26,7 @@
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
 
-# v0.9.1
+# v0.10.0
 
 ### Modification
 
@@ -34,14 +34,20 @@
 
 ### New features
 
-- ✨ Add: assertion classes `DurationAssert`, `PeriodAssert`
+- 📦️ Add: module `io`
+- ✨ Add: tool `RandomString`
+- ✨ Add: assertion classes `DurationAssert`, `PeriodAssert`, `UrlAssert`
+- ✨ Add: method `getName(String)` in `FilenameUtils`
 
 ### Troubleshooting
-- 
+
+- 🐞 Fix: StackOverflowException on `ArrayUtils.toString(Object)`
 
 ### Dependencies
 
-- ➕ Add: dependency `annotations`
+- ➕ Add: dependencies `annotations`, `common-compress`
+- ➕ Add: test dependency `memoryfilesystem`
+- ⬆️ Upgrade: test dependency `assert-core` from `3.22.0` to `3.23.1`
 
 # v0.9.0
 
