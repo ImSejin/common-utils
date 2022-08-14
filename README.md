@@ -33,16 +33,16 @@
 
 ```xml
 <dependency>
-  <groupId>io.github.imsejin</groupId>
-  <artifactId>common-utils</artifactId>
-  <version>${common-utils.version}</version>
+    <groupId>io.github.imsejin</groupId>
+    <artifactId>common-utils</artifactId>
+    <version>x.y.z</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation group: "io.github.imsejin", name: "common-utils", version: "$commonUtilsVersion"
+implementation 'io.github.imsejin:common-utils:x.y.z'
 ```
 
 # What's inside
@@ -83,7 +83,7 @@ OS os = OS.getCurrentOS();
 
 assert os.isCurrentOS();
 
-////////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------------------------------
 
 // DateType[DATE, TIME, DATE_TIME, ALL, F_DATE, F_TIME, ...]
 LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2000, 1, 1), LocalTime.of(12, 34, 56))
@@ -119,7 +119,7 @@ int[][] ints = (int[][]) ArrayUtils.unwrap(integers);
 
 assert Objects.deepEquals(ints, numbers);
 
-////////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------------------------------
 
 List<Character> greekAlphabets = Arrays.asList('Α', 'Β', 'Γ', 'Δ', 'Ε', 'Ζ');
 
