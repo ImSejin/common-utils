@@ -84,11 +84,13 @@ class RandomStringSpec extends Specification {
 
         then:
         ranges != null
-        ranges.size() > 0
+        ranges.size() == expected.size()
         ranges == expected
 
         where:
         integers                                         | expected
+        []                                               | []
+        [0]                                              | ["0"]
         [1, 2, 6, 7, 9, 10, 105, 109]                    | ["1-2", "6-7", "9-10", "105", "109"]
         [2, 4, 8, 16, 32, 64, 128]                       | ["2", "4", "8", "16", "32", "64", "128"]
         [51, 52, 53, 54, 55, 56, 57]                     | ["51-57"]
