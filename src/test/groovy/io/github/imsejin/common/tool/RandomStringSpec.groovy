@@ -33,7 +33,7 @@ class RandomStringSpec extends Specification {
         actual.matches("[A-Za-z]{$length}")
 
         where:
-        length << [1, 2, 8, 32, 128, 512, 2048, 8192, 65_536, 1_048_576, 4_194_304, 16_777_216]
+        length << (1..1024)
     }
 
     def "Generates a random string of locale with random length"() {
@@ -52,10 +52,11 @@ class RandomStringSpec extends Specification {
 
         where:
         locale           | regex
-        Locale.ENGLISH   | "[A-Za-z]+"
         Locale.CHINESE   | "[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+"
+        Locale.ENGLISH   | "[A-Za-z]+"
+        new Locale("iw") | "[\u0590-\u05FF]+"
         new Locale("hi") | "[\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F]+"
-        Locale.JAPANESE  | "[\u3041-\u3096\u30A0-\u30FF\u3400-\u4DB5\u4E00-\u9FCB\uF900-\uFA6A]+"
+        Locale.JAPANESE  | "[\u3041-\u3096\u30A1-\u30FA]+"
         Locale.KOREAN    | "[\uAC00-\uD7A3]+"
     }
 
@@ -72,6 +73,26 @@ class RandomStringSpec extends Specification {
 
         where:
         length << [-1, 0]
+    }
+
+    def "Converts integers as ranges of code point"() {
+        given:
+        integers = integers.sort()
+
+        when:
+        List<String> ranges = RandomString.convertAsRanges(integers)
+
+        then:
+        ranges != null
+        ranges.size() > 0
+        ranges == expected
+
+        where:
+        integers                                         | expected
+        [1, 2, 6, 7, 9, 10, 105, 109]                    | ["1-2", "6-7", "9-10", "105", "109"]
+        [2, 4, 8, 16, 32, 64, 128]                       | ["2", "4", "8", "16", "32", "64", "128"]
+        [51, 52, 53, 54, 55, 56, 57]                     | ["51-57"]
+        [6480, 6481, 6482, 6483, 6488, 6490, 6491, 6492] | ["6480-6483", "6488", "6490-6492"]
     }
 
 }
