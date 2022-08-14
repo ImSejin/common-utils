@@ -63,17 +63,8 @@ public class RandomString {
         // Hebrew: U+0590..U+05FF
         languageUnicodeRangeMap.put("iw", Collections.singletonList("1424-1535"));
 
-        // Hindi: U+0900..U+097F, U+0980..U+09FF, U+0A00..U+0A7F, U+0A80..U+0AFF,
-        // U+0B00..U+0B7F, U+0B80..U+0BFF, U+0C00..U+0C7F, U+0C80..U+0CFF, U+0D00..U+0D7F
-        List<Integer> hindiCodePoints = new ArrayList<>(unicodeMap.get(UnicodeScript.DEVANAGARI));
-        hindiCodePoints.addAll(unicodeMap.get(UnicodeScript.BENGALI));
-        hindiCodePoints.addAll(unicodeMap.get(UnicodeScript.GURMUKHI));
-        hindiCodePoints.addAll(unicodeMap.get(UnicodeScript.GUJARATI));
-        hindiCodePoints.addAll(unicodeMap.get(UnicodeScript.ORIYA));
-        hindiCodePoints.addAll(unicodeMap.get(UnicodeScript.TAMIL));
-        hindiCodePoints.addAll(unicodeMap.get(UnicodeScript.TELUGU));
-        hindiCodePoints.sort(Integer::compare);
-        languageUnicodeRangeMap.put("hi", convertAsRanges(hindiCodePoints));
+        // Hindi: U+0900..U+0D7F
+        languageUnicodeRangeMap.put("hi", Collections.singletonList("2304-3455"));
 
         // Japanese: U+3041..U+3096, U+30A1..U+30FA
         languageUnicodeRangeMap.put(Locale.JAPANESE.getLanguage(), Arrays.asList("12353-12438", "12449-12538"));
