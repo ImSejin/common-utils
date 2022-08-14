@@ -65,7 +65,7 @@ public final class Stopwatch {
      * <p> Default time unit is {@link TimeUnit#NANOSECONDS}.
      */
     public Stopwatch() {
-        this.timeUnit = TimeUnit.NANOSECONDS;
+        this(TimeUnit.NANOSECONDS);
     }
 
     /**
