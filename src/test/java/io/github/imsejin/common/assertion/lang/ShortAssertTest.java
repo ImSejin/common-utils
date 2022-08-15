@@ -370,7 +370,7 @@ class ShortAssertTest {
         void test0() {
             IntStream.rangeClosed(Short.MIN_VALUE + 1, Short.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(n -> (short) n).forEach(n -> assertThatNoException()
-                            .isThrownBy(() -> Asserts.that(n).isStrictlyBetween((short) (n - 1), (short) (n + 1))));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween((short) (n - 1), (short) (n + 1))));
         }
 
         @Test

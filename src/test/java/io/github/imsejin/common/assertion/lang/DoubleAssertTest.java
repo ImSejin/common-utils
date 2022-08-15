@@ -370,7 +370,7 @@ class DoubleAssertTest {
         void test0() {
             new Random().doubles(-100, 50)
                     .limit(10_000).forEach(n -> assertThatNoException()
-                            .isThrownBy(() -> Asserts.that(n).as("{0} < {1} < {2}", n - 1, n, n + 1).isStrictlyBetween(n - 1, n + 1)));
+                    .isThrownBy(() -> Asserts.that(n).as("{0} < {1} < {2}", n - 1, n, n + 1).isStrictlyBetween(n - 1, n + 1)));
         }
 
         @Test

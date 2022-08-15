@@ -369,7 +369,7 @@ class LongAssertTest {
         void test0() {
             LongStream.rangeClosed(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1)
                     .limit(10_000).forEach(n -> assertThatNoException()
-                            .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 1, n + 1)));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 1, n + 1)));
         }
 
         @Test

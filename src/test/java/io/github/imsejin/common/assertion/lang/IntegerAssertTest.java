@@ -369,7 +369,7 @@ class IntegerAssertTest {
         void test0() {
             IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
                     .limit(10_000).forEach(n -> assertThatNoException()
-                            .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 1, n + 1)));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 1, n + 1)));
         }
 
         @Test

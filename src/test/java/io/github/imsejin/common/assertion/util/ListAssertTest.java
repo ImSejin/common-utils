@@ -36,7 +36,7 @@ class ListAssertTest {
                 Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\.")).collect(toList()))
                         .startsWith("io.github.imsejin.common".split("\\."));
                 Asserts.that(Stream.of(null, "alpha", null, "beta")
-                                .map(it -> it == null ? null : Collections.singletonList(it)).collect(toList()))
+                        .map(it -> it == null ? null : Collections.singletonList(it)).collect(toList()))
                         .startsWith(null, Collections.singletonList("alpha"));
             });
         }
@@ -64,7 +64,7 @@ class ListAssertTest {
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Stream.of(null, "alpha", null, "beta")
-                                    .map(Collections::singletonList).collect(toList()))
+                            .map(Collections::singletonList).collect(toList()))
                             .startsWith(Collections.emptyList(), Collections.singletonList("alpha")))
                     .withMessageStartingWith(description);
         }
@@ -90,7 +90,7 @@ class ListAssertTest {
                 Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\.")).collect(toList()))
                         .endsWith("assertion", "util");
                 Asserts.that(Stream.of(null, "alpha", null, "beta")
-                                .map(it -> it == null ? null : Collections.singletonList(it)).collect(toList()))
+                        .map(it -> it == null ? null : Collections.singletonList(it)).collect(toList()))
                         .endsWith(null, Collections.singletonList("beta"));
             });
         }
@@ -118,7 +118,7 @@ class ListAssertTest {
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Stream.of(null, "alpha", null, "beta")
-                                    .map(Collections::singletonList).collect(toList()))
+                            .map(Collections::singletonList).collect(toList()))
                             .endsWith(Collections.emptyList(), Collections.singletonList("beta")))
                     .withMessageStartingWith(description);
         }

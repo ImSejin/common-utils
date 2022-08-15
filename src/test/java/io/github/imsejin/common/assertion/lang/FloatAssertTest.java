@@ -369,7 +369,7 @@ class FloatAssertTest {
         void test0() {
             new Random().doubles(-100, 50)
                     .limit(10_000).mapToObj(n -> (float) n).forEach(n -> assertThatNoException()
-                            .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n + 0.1F)));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n + 0.1F)));
         }
 
         @Test

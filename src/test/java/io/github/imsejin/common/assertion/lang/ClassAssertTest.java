@@ -63,7 +63,7 @@ class ClassAssertTest {
     private static final List<Class<?>> ENUMS = Arrays.asList(
             TimeUnit.class, DateType.class, DayOfWeek.class, Month.class);
     private static final List<Class<?>> ENUM_CONSTANTS = Stream.concat(
-                    EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream())
+            EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream())
             .map(Object::getClass).collect(toList());
     private static final List<Class<?>> ABSTRACT_CLASSES = Arrays.asList(
             OutputStream.class, EnumSet.class, Asserts.class, Number.class);
@@ -308,8 +308,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), ENUMS,
-                            ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), ENUMS,
+                    ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -336,8 +336,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES, ENUMS,
-                            ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES, ENUMS,
+                    ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -394,8 +394,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -422,8 +422,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ENUMS, ABSTRACT_CLASSES, ARRAYS)
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ENUMS, ABSTRACT_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
             System.out.printf("Enum constant that has no body is anonymous class? %s%n",
@@ -460,8 +460,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -488,8 +488,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES)
+                    TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
+                    ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES)
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -520,10 +520,10 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(),
-                            TypeClassifier.Types.WRAPPER.getClasses(),
-                            INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS,
-                            ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                    TypeClassifier.Types.PRIMITIVE.getClasses(),
+                    TypeClassifier.Types.WRAPPER.getClasses(),
+                    INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS,
+                    ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
                     .flatMap(Collection::stream).collect(toList());
 
             // expect

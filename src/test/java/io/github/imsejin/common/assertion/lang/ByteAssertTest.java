@@ -370,7 +370,7 @@ class ByteAssertTest {
         void test0() {
             IntStream.rangeClosed(Byte.MIN_VALUE + 1, Byte.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(n -> (byte) n).forEach(n -> assertThatNoException()
-                            .isThrownBy(() -> Asserts.that(n).isStrictlyBetween((byte) (n - 1), (byte) (n + 1))));
+                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween((byte) (n - 1), (byte) (n + 1))));
         }
 
         @Test

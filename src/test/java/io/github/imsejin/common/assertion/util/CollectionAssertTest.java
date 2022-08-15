@@ -479,7 +479,7 @@ class CollectionAssertTest {
                 Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
                         .containsAll(Arrays.asList("imsejin", "github", "common", "util", "assertion", "io"));
                 Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\."))
-                                .map(it -> new String[]{it}).collect(toList()))
+                        .map(it -> new String[]{it}).collect(toList()))
                         .containsAll(Stream.of("imsejin", "github", "common", "io")
                                 .map(it -> new String[]{it}).collect(toList()));
             });
@@ -504,7 +504,7 @@ class CollectionAssertTest {
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\."))
-                                    .map(it -> new String[]{it}).collect(toList()))
+                            .map(it -> new String[]{it}).collect(toList()))
                             .containsAll(Stream.of("imsejin", "github", "common", "IO")
                                     .map(it -> new String[]{it}).collect(toList())))
                     .withMessageStartingWith(description);
