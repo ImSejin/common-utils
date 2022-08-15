@@ -17,9 +17,9 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.constant.Locales;
 import org.jetbrains.annotations.VisibleForTesting;
 
-import java.lang.Character.UnicodeScript;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,29 +30,26 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toMap;
 
 /**
  * Generator of randomized {@link String} by the specific language.
  *
- * @see <a href="https://www.oracle.com/java/technologies/javase/jdk8-jre8-suported-locales.html">
- * Java Supported Locales</a>
+ * @see Locales
  */
 public class RandomString {
 
     private static final Map<String, List<String>> LANGUAGE_UNICODE_POINT_MAP;
 
     static {
-        Map<UnicodeScript, List<Integer>> unicodeMap = IntStream.rangeClosed(Character.MIN_VALUE, Character.MAX_VALUE)
-                .boxed().collect(groupingBy(UnicodeScript::of));
+//        Map<UnicodeScript, List<Integer>> unicodeMap = IntStream.rangeClosed(Character.MIN_VALUE, Character.MAX_VALUE)
+//                .boxed().collect(groupingBy(UnicodeScript::of));
         Map<String, List<String>> languageUnicodeRangeMap = new HashMap<>();
 
         // Arabic: U+0600..U+06FF
-        languageUnicodeRangeMap.put("ar", Collections.singletonList("1536-1791"));
+        languageUnicodeRangeMap.put(Locales.ARABIC.getLanguage(), Collections.singletonList("1536-1791"));
 
         // Chinese: U+4E00..U+9FCC (CJK Unified Ideographs)
         languageUnicodeRangeMap.put(Locale.CHINESE.getLanguage(), Collections.singletonList("19968-40908"));
@@ -61,10 +58,10 @@ public class RandomString {
         languageUnicodeRangeMap.put(Locale.ENGLISH.getLanguage(), Arrays.asList("65-90", "97-122"));
 
         // Hebrew: U+0590..U+05FF
-        languageUnicodeRangeMap.put("iw", Collections.singletonList("1424-1535"));
+        languageUnicodeRangeMap.put(Locales.HEBREW.getLanguage(), Collections.singletonList("1424-1535"));
 
         // Hindi: U+0900..U+0D7F
-        languageUnicodeRangeMap.put("hi", Collections.singletonList("2304-3455"));
+        languageUnicodeRangeMap.put(Locales.HINDI.getLanguage(), Collections.singletonList("2304-3455"));
 
         // Japanese: U+3041..U+3096, U+30A1..U+30FA
         languageUnicodeRangeMap.put(Locale.JAPANESE.getLanguage(), Arrays.asList("12353-12438", "12449-12538"));
@@ -100,58 +97,17 @@ public class RandomString {
     /**
      * Creates with custom {@link Random} and characters of the specific language.
      *
-     * <h2>Chinese</h2>
+     * <p> These are supported languages of {@link Locale#getLanguage()}.
      *
-     * <dl>
-     *     <dt><b>U+4E00..U+9FCC</b></dt>
-     *     <dd>CJK Unified Ideographs is a Unicode block containing the most common CJK ideographs
-     *     used in modern Chinese and Japanese.</dd>
-     * </dl>
-     *
-     * <hr>
-     *
-     * <h2>Hindi</h2>
-     *
-     * <dl>
-     *     <dt><b>U+0900..U+097F</b></dt>
-     *     <dd>Devanagari</dd>
-     *
-     *     <dt><b>U+0980..U+09FF</b></dt>
-     *     <dd>Bengali</dd>
-     *
-     *     <dt><b>U+0A00..U+0A7F</b></dt>
-     *     <dd>Gurmukhi</dd>
-     *
-     *     <dt><b>U+0A80..U+0AFF</b></dt>
-     *     <dd>Gujarati</dd>
-     *
-     *     <dt><b>U+0B00..U+0B7F</b></dt>
-     *     <dd>Odia</dd>
-     *
-     *     <dt><b>U+0B80..U+0BFF</b></dt>
-     *     <dd>Tamil</dd>
-     *
-     *     <dt><b>U+0C00..U+0C7F</b></dt>
-     *     <dd>Telugu</dd>
-     *
-     *     <dt><b>U+0C80..U+0CFF</b></dt>
-     *     <dd>Kannada</dd>
-     *
-     *     <dt><b>U+0D00..U+0D7F</b></dt>
-     *     <dd>Malayalam</dd>
-     * </dl>
-     *
-     * <hr>
-     *
-     * <h2>Japanese</h2>
-     *
-     * <dl>
-     *     <dt><b>U+3041..U+3096</b></dt>
-     *     <dd>Hiragana</dd>
-     *
-     *     <dt><b>U+30A1..U+30FA</b></dt>
-     *     <dd>Katakana</dd>
-     * </dl>
+     * <ul>
+     *     <li>ar</li>
+     *     <li>en</li>
+     *     <li>hi</li>
+     *     <li>iw</li>
+     *     <li>ja</li>
+     *     <li>ko</li>
+     *     <li>zh</li>
+     * </ul>
      *
      * @param random instance of custom random
      * @param locale language to use in
