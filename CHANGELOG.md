@@ -35,6 +35,7 @@
 ### New features
 
 - 📦️ Add: module `io`
+- ✨ Add: constant `Locales`
 - ✨ Add: tool `RandomString`
 - ✨ Add: assertion classes `DurationAssert`, `PeriodAssert`, `UrlAssert`
 - ✨ Add: method `getName(String)` in `FilenameUtils`
