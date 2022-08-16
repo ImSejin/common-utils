@@ -52,14 +52,14 @@ class RandomStringSpec extends Specification {
         actual.matches(regex)
 
         where:
-        locale          | regex
-        Locales.ARABIC  | "[\u0600-\u06FF]+"
-        Locale.CHINESE  | "[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+"
-        Locale.ENGLISH  | "[A-Za-z]+"
-        Locales.HEBREW  | "[\u0590-\u05FF]+"
-        Locales.HINDI   | "[\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F]+"
-        Locale.JAPANESE | "[\u3041-\u3096\u30A1-\u30FA]+"
-        Locale.KOREAN   | "[\uAC00-\uD7A3]+"
+        locale           | regex
+        Locales.ARABIC   | "[\u0600-\u06FF]+"
+        Locales.CHINESE  | "[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+"
+        Locales.ENGLISH  | "[A-Za-z]+"
+        Locales.HEBREW   | "[\u0590-\u05FF]+"
+        Locales.HINDI    | "[\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F]+"
+        Locales.JAPANESE | "[\u3041-\u3096\u30A1-\u30FA]+"
+        Locales.KOREAN   | "[\uAC00-\uD7A3]+"
     }
 
     def "Failed to generate a random string"() {
