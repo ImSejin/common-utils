@@ -110,7 +110,7 @@ class StopwatchTest {
             // expect
             assertThatExceptionOfType(UnsupportedOperationException.class)
                     .isThrownBy(stopwatch::clear)
-                    .withMessage("Stopwatch is running. To clear, stop it first");
+                    .withMessage("Stopwatch is running; stop it first to clear");
         }
     }
 

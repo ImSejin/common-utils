@@ -17,8 +17,10 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
+import org.jetbrains.annotations.VisibleForTesting;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -81,33 +83,6 @@ public final class Stopwatch {
         this.timeUnit = timeUnit;
     }
 
-    static double convertTimeUnit(double amount, TimeUnit from, TimeUnit to) {
-        return from.ordinal() < to.ordinal()
-                ? amount / from.convert(1, to)
-                : amount * to.convert(1, from);
-    }
-
-    static String getTimeUnitAbbreviation(TimeUnit timeUnit) {
-        switch (timeUnit) {
-            case NANOSECONDS:
-                return "ns";
-            case MICROSECONDS:
-                return "μs";
-            case MILLISECONDS:
-                return "ms";
-            case SECONDS:
-                return "sec";
-            case MINUTES:
-                return "min";
-            case HOURS:
-                return "hrs";
-            case DAYS:
-                return "days";
-            default:
-                throw new IllegalArgumentException("No TimeUnit equivalent for " + timeUnit);
-        }
-    }
-
     /**
      * Returns time unit of stopwatch.
      *
@@ -148,16 +123,7 @@ public final class Stopwatch {
      * @throws UnsupportedOperationException if stopwatch is running
      */
     public void start(String taskName) {
-        Asserts.that(taskName)
-                .as("Task name cannot be null")
-                .isNotNull();
-        Asserts.that(isRunning())
-                .as("Stopwatch cannot start, when it is already running")
-                .exception(UnsupportedOperationException::new)
-                .isFalse();
-
-        this.currentTaskName = taskName;
-        this.startNanoTime = System.nanoTime();
+        start(taskName, (Object[]) null);
     }
 
     /**
@@ -172,14 +138,14 @@ public final class Stopwatch {
      */
     public void start(String format, Object... args) {
         Asserts.that(format)
-                .as("Task name cannot be null")
+                .as("Stopwatch.taskName cannot be null")
                 .isNotNull();
         Asserts.that(isRunning())
-                .as("Stopwatch cannot start, when it is already running")
+                .as("Stopwatch cannot start while running")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
-        this.currentTaskName = String.format(format, args);
+        this.currentTaskName = ArrayUtils.isNullOrEmpty(args) ? format : String.format(format, args);
         this.startNanoTime = System.nanoTime();
     }
 
@@ -192,7 +158,7 @@ public final class Stopwatch {
      */
     public void stop() {
         Asserts.that(isRunning())
-                .as("Stopwatch cannot stop, when it is not running")
+                .as("Stopwatch cannot stop while not running")
                 .exception(UnsupportedOperationException::new)
                 .isTrue();
 
@@ -225,7 +191,7 @@ public final class Stopwatch {
      */
     public void clear() {
         Asserts.that(isRunning())
-                .as("Stopwatch is running. To clear, stop it first")
+                .as("Stopwatch is running; stop it first to clear")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
@@ -284,6 +250,37 @@ public final class Stopwatch {
      */
     public String getStatistics() {
         return getSummary() + this.tasks;
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @VisibleForTesting
+    static double convertTimeUnit(double amount, TimeUnit from, TimeUnit to) {
+        return from.ordinal() < to.ordinal()
+                ? amount / from.convert(1, to)
+                : amount * to.convert(1, from);
+    }
+
+    @VisibleForTesting
+    static String getTimeUnitAbbreviation(TimeUnit timeUnit) {
+        switch (timeUnit) {
+            case NANOSECONDS:
+                return "ns";
+            case MICROSECONDS:
+                return "μs";
+            case MILLISECONDS:
+                return "ms";
+            case SECONDS:
+                return "sec";
+            case MINUTES:
+                return "min";
+            case HOURS:
+                return "hrs";
+            case DAYS:
+                return "days";
+            default:
+                throw new IllegalArgumentException("No TimeUnit equivalent for " + timeUnit);
+        }
     }
 
 }
