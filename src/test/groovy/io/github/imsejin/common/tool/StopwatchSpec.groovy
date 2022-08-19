@@ -217,7 +217,7 @@ class StopwatchSpec extends Specification {
         def time = Stopwatch.convertTimeUnit(amount, from, to)
 
         then:
-        time == expected.setScale(16, RoundingMode.HALF_UP)
+        time == expected.setScale(8, RoundingMode.HALF_UP)
 
         where:
         amount                    | from                  | to                    || expected

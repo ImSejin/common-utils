@@ -207,15 +207,15 @@ class StopwatchTest {
             stopwatch.stop();
 
             // then
-            double ns = stopwatch.getTotalTime();
+            BigDecimal ns = stopwatch.getTotalTime();
             for (TimeUnit timeUnit : TimeUnit.values()) {
                 stopwatch.setTimeUnit(timeUnit);
-                double actual = stopwatch.getTotalTime();
+                BigDecimal actual = stopwatch.getTotalTime();
 
-                assertThat(actual)
+                assertThat(actual.doubleValue())
                         .as("Total time with %s unit", timeUnit.name().toLowerCase())
-                        .isCloseTo(units.get(timeUnit).apply(ns), Percentage.withPercentage(1.0E-10));
-                System.out.printf("%s %s%n", BigDecimal.valueOf(actual).stripTrailingZeros().toPlainString(),
+                        .isCloseTo(units.get(timeUnit).apply(ns.doubleValue()), Percentage.withPercentage(1.0E-10));
+                System.out.printf("%s %s%n", BigDecimal.valueOf(actual.doubleValue()).stripTrailingZeros().toPlainString(),
                         timeUnit.name().toLowerCase());
             }
             System.out.println("---");
@@ -227,7 +227,7 @@ class StopwatchTest {
     void convertTimeUnit() {
         // given
         Method method = ReflectionUtils.getDeclaredMethod(Stopwatch.class, "convertTimeUnit",
-                double.class, TimeUnit.class, TimeUnit.class);
+                BigDecimal.class, TimeUnit.class, TimeUnit.class);
         method.setAccessible(true);
 
         // expect
@@ -305,7 +305,7 @@ class StopwatchTest {
         for (TimeUnit timeUnit : TimeUnit.values()) {
             DoubleFunction<Double> compensate = compensators.get(timeUnit);
 
-            double converted = (double) convertTimeUnit.invoke(null, amount, TimeUnit.NANOSECONDS, timeUnit);
+            double converted = (double) convertTimeUnit.invoke(null, BigDecimal.valueOf(amount), TimeUnit.NANOSECONDS, timeUnit);
             assertThat(compensate.apply(amount)).isCloseTo(converted, Percentage.withPercentage(1.0E-10));
         }
     }
