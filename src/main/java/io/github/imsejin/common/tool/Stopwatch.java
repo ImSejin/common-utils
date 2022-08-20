@@ -239,8 +239,9 @@ public final class Stopwatch {
         BigDecimal totalTime = getTotalTime();
         String runningTime = totalTime.setScale(DECIMAL_PLACE, RoundingMode.HALF_UP)
                 .stripTrailingZeros().toPlainString();
+        String abbreviation = getTimeUnitAbbreviation(this.timeUnit);
 
-        return "Stopwatch: RUNNING_TIME = " + runningTime + ' ' + getTimeUnitAbbreviation(this.timeUnit);
+        return String.format("Stopwatch: RUNNING_TIME = %s %s", runningTime, abbreviation);
     }
 
     /**
@@ -263,7 +264,7 @@ public final class Stopwatch {
             return amount;
         } else if (from.ordinal() < to.ordinal()) {
             BigDecimal divisor = BigDecimal.valueOf(from.convert(1, to));
-            return amount.divide(divisor, 8, RoundingMode.HALF_UP);
+            return amount.divide(divisor, 10, RoundingMode.HALF_UP);
         } else {
             BigDecimal multiplicand = BigDecimal.valueOf(to.convert(1, from));
             return amount.multiply(multiplicand);

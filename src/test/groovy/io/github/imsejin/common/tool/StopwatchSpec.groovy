@@ -20,6 +20,7 @@ import spock.lang.Specification
 
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 
 class StopwatchSpec extends Specification {
 
@@ -212,64 +213,111 @@ class StopwatchSpec extends Specification {
         noExceptionThrown()
     }
 
-    def "Converts timeUnit to other"() {
-        when:
-        def time = Stopwatch.convertTimeUnit(amount, from, to)
+    def "Gets total time"() {
+        given:
+        def stopwatch = new Stopwatch(timeUnit)
+        def timeoutMillis = 100
 
-        then:
-        time == expected.setScale(8, RoundingMode.HALF_UP)
+        when:
+        stopwatch.start()
+        TimeUnit.MILLISECONDS.sleep(timeoutMillis)
+        stopwatch.stop()
+        def totalTime = stopwatch.totalTime
+
+        then: """
+            Stopwatch.totalTime is equal to expected within 0.00000001% error.
+        """
+        totalTime * 0.9999999999 < expected || expected < totalTime * 1.0000000001
 
         where:
-        amount                    | from                  | to                    || expected
-        40.765387 as BigDecimal   | TimeUnit.NANOSECONDS  | TimeUnit.NANOSECONDS  || amount
-        0.247772 as BigDecimal    | TimeUnit.NANOSECONDS  | TimeUnit.MICROSECONDS || amount / 1_000
-        707.886497 as BigDecimal  | TimeUnit.NANOSECONDS  | TimeUnit.MILLISECONDS || amount / 1_000_000
-        586.047980 as BigDecimal  | TimeUnit.NANOSECONDS  | TimeUnit.SECONDS      || amount / 1_000_000_000
-        4390.779972 as BigDecimal | TimeUnit.NANOSECONDS  | TimeUnit.MINUTES      || amount / 1_000_000_000 / 60
-        4.935103 as BigDecimal    | TimeUnit.NANOSECONDS  | TimeUnit.HOURS        || amount / 1_000_000_000 / 60 / 60
-        2759.818836 as BigDecimal | TimeUnit.NANOSECONDS  | TimeUnit.DAYS         || amount / 1_000_000_000 / 60 / 60 / 24
-        193.212629 as BigDecimal  | TimeUnit.MICROSECONDS | TimeUnit.NANOSECONDS  || amount * 1_000
-        807.799758 as BigDecimal  | TimeUnit.MICROSECONDS | TimeUnit.MICROSECONDS || amount
-        2.027992 as BigDecimal    | TimeUnit.MICROSECONDS | TimeUnit.MILLISECONDS || amount / 1_000
-        6012.986905 as BigDecimal | TimeUnit.MICROSECONDS | TimeUnit.SECONDS      || amount / 1_000_000
-        397.256432 as BigDecimal  | TimeUnit.MICROSECONDS | TimeUnit.MINUTES      || amount / 1_000_000 / 60
-        10.871100 as BigDecimal   | TimeUnit.MICROSECONDS | TimeUnit.HOURS        || amount / 1_000_000 / 60 / 60
-        0.751938 as BigDecimal    | TimeUnit.MICROSECONDS | TimeUnit.DAYS         || amount / 1_000_000 / 60 / 60 / 24
-        672.348680 as BigDecimal  | TimeUnit.MILLISECONDS | TimeUnit.NANOSECONDS  || amount * 1_000_000
-        512.769583 as BigDecimal  | TimeUnit.MILLISECONDS | TimeUnit.MICROSECONDS || amount * 1_000
-        46.998484 as BigDecimal   | TimeUnit.MILLISECONDS | TimeUnit.MILLISECONDS || amount
-        7.699957 as BigDecimal    | TimeUnit.MILLISECONDS | TimeUnit.SECONDS      || amount / 1_000
-        3202.994308 as BigDecimal | TimeUnit.MILLISECONDS | TimeUnit.MINUTES      || amount / 1_000 / 60
-        0.860134 as BigDecimal    | TimeUnit.MILLISECONDS | TimeUnit.HOURS        || amount / 1_000 / 60 / 60
-        76.511044 as BigDecimal   | TimeUnit.MILLISECONDS | TimeUnit.DAYS         || amount / 1_000 / 60 / 60 / 24
-        495.158337 as BigDecimal  | TimeUnit.SECONDS      | TimeUnit.NANOSECONDS  || amount * 1_000_000_000
-        0.776571 as BigDecimal    | TimeUnit.SECONDS      | TimeUnit.MICROSECONDS || amount * 1_000_000
-        1586.363102 as BigDecimal | TimeUnit.SECONDS      | TimeUnit.MILLISECONDS || amount * 1_000
-        40.303662 as BigDecimal   | TimeUnit.SECONDS      | TimeUnit.SECONDS      || amount
-        522.872456 as BigDecimal  | TimeUnit.SECONDS      | TimeUnit.MINUTES      || amount / 60
-        4.203538 as BigDecimal    | TimeUnit.SECONDS      | TimeUnit.HOURS        || amount / 60 / 60
-        33.678104 as BigDecimal   | TimeUnit.SECONDS      | TimeUnit.DAYS         || amount / 60 / 60 / 24
-        57.463286 as BigDecimal   | TimeUnit.MINUTES      | TimeUnit.NANOSECONDS  || amount * 1_000_000_000 * 60
-        258.330397 as BigDecimal  | TimeUnit.MINUTES      | TimeUnit.MICROSECONDS || amount * 1_000_000 * 60
-        7258.939255 as BigDecimal | TimeUnit.MINUTES      | TimeUnit.MILLISECONDS || amount * 1_000 * 60
-        314.186997 as BigDecimal  | TimeUnit.MINUTES      | TimeUnit.SECONDS      || amount * 60
-        23.641139 as BigDecimal   | TimeUnit.MINUTES      | TimeUnit.MINUTES      || amount
-        0.535965 as BigDecimal    | TimeUnit.MINUTES      | TimeUnit.HOURS        || amount / 60
-        192.511682 as BigDecimal  | TimeUnit.MINUTES      | TimeUnit.DAYS         || amount / 60 / 24
-        93.416033 as BigDecimal   | TimeUnit.HOURS        | TimeUnit.NANOSECONDS  || amount * 1_000_000_000 * 60 * 60
-        467.008415 as BigDecimal  | TimeUnit.HOURS        | TimeUnit.MICROSECONDS || amount * 1_000_000 * 60 * 60
-        29.966516 as BigDecimal   | TimeUnit.HOURS        | TimeUnit.MILLISECONDS || amount * 1_000 * 60 * 60
-        1826.635020 as BigDecimal | TimeUnit.HOURS        | TimeUnit.SECONDS      || amount * 60 * 60
-        911.746857 as BigDecimal  | TimeUnit.HOURS        | TimeUnit.MINUTES      || amount * 60
-        0.544947 as BigDecimal    | TimeUnit.HOURS        | TimeUnit.HOURS        || amount
-        710.017145 as BigDecimal  | TimeUnit.HOURS        | TimeUnit.DAYS         || amount / 24
-        0.237530 as BigDecimal    | TimeUnit.DAYS         | TimeUnit.NANOSECONDS  || amount * 1_000_000_000 * 60 * 60 * 24
-        653.095051 as BigDecimal  | TimeUnit.DAYS         | TimeUnit.MICROSECONDS || amount * 1_000_000 * 60 * 60 * 24
-        31.316865 as BigDecimal   | TimeUnit.DAYS         | TimeUnit.MILLISECONDS || amount * 1_000 * 60 * 60 * 24
-        66.350011 as BigDecimal   | TimeUnit.DAYS         | TimeUnit.SECONDS      || amount * 60 * 60 * 24
-        2030.887603 as BigDecimal | TimeUnit.DAYS         | TimeUnit.MINUTES      || amount * 60 * 24
-        372.505049 as BigDecimal  | TimeUnit.DAYS         | TimeUnit.HOURS        || amount * 24
-        74.652235 as BigDecimal   | TimeUnit.DAYS         | TimeUnit.DAYS         || amount
+        timeUnit              | expected
+        TimeUnit.NANOSECONDS  | (100 as BigDecimal) * 1_000_000
+        TimeUnit.MICROSECONDS | (100 as BigDecimal) * 1_000
+        TimeUnit.MILLISECONDS | (100 as BigDecimal)
+        TimeUnit.SECONDS      | (100 as BigDecimal) / 1_000
+        TimeUnit.MINUTES      | (100 as BigDecimal) / 1_000 / 60
+        TimeUnit.HOURS        | (100 as BigDecimal) / 1_000 / 60 / 60
+        TimeUnit.DAYS         | (100 as BigDecimal) / 1_000 / 60 / 60 / 24
+    }
+
+    def "Gets summary of stopwatch"() {
+        given:
+        def stopwatch = new Stopwatch(timeUnit as TimeUnit)
+        def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
+        def pattern = Pattern.compile("^Stopwatch: RUNNING_TIME = \\d+(\\.\\d{1,$Stopwatch.DECIMAL_PLACE})? $abbreviation\$")
+
+        when:
+        stopwatch.start()
+        TimeUnit.MILLISECONDS.sleep(50)
+        stopwatch.stop()
+        def summary = stopwatch.summary
+
+        then:
+        summary != null
+        summary.matches(pattern)
+
+        where:
+        timeUnit << TimeUnit.values()
+    }
+
+    def "Converts timeUnit to other"() {
+        when:
+        def time = Stopwatch.convertTimeUnit(amount as BigDecimal, from, to)
+
+        then:
+        time == expected.setScale(10, RoundingMode.HALF_UP)
+
+        where:
+        amount        | from                  | to                    || expected
+        "40.765387"   | TimeUnit.NANOSECONDS  | TimeUnit.NANOSECONDS  || new BigDecimal(amount)
+        "0.247772"    | TimeUnit.NANOSECONDS  | TimeUnit.MICROSECONDS || new BigDecimal(amount) / 1_000
+        "707.886497"  | TimeUnit.NANOSECONDS  | TimeUnit.MILLISECONDS || new BigDecimal(amount) / 1_000_000
+        "586.047980"  | TimeUnit.NANOSECONDS  | TimeUnit.SECONDS      || new BigDecimal(amount) / 1_000_000_000
+        "4390.779972" | TimeUnit.NANOSECONDS  | TimeUnit.MINUTES      || new BigDecimal(amount) / 1_000_000_000 / 60
+        "4.935103"    | TimeUnit.NANOSECONDS  | TimeUnit.HOURS        || new BigDecimal(amount) / 1_000_000_000 / 60 / 60
+        "2759.818836" | TimeUnit.NANOSECONDS  | TimeUnit.DAYS         || new BigDecimal(amount) / 1_000_000_000 / 60 / 60 / 24
+        "193.212629"  | TimeUnit.MICROSECONDS | TimeUnit.NANOSECONDS  || new BigDecimal(amount) * 1_000
+        "807.799758"  | TimeUnit.MICROSECONDS | TimeUnit.MICROSECONDS || new BigDecimal(amount)
+        "2.027992"    | TimeUnit.MICROSECONDS | TimeUnit.MILLISECONDS || new BigDecimal(amount) / 1_000
+        "6012.986905" | TimeUnit.MICROSECONDS | TimeUnit.SECONDS      || new BigDecimal(amount) / 1_000_000
+        "397.256432"  | TimeUnit.MICROSECONDS | TimeUnit.MINUTES      || new BigDecimal(amount) / 1_000_000 / 60
+        "10.871100"   | TimeUnit.MICROSECONDS | TimeUnit.HOURS        || new BigDecimal(amount) / 1_000_000 / 60 / 60
+        "0.751938"    | TimeUnit.MICROSECONDS | TimeUnit.DAYS         || new BigDecimal(amount) / 1_000_000 / 60 / 60 / 24
+        "672.348680"  | TimeUnit.MILLISECONDS | TimeUnit.NANOSECONDS  || new BigDecimal(amount) * 1_000_000
+        "512.769583"  | TimeUnit.MILLISECONDS | TimeUnit.MICROSECONDS || new BigDecimal(amount) * 1_000
+        "46.998484"   | TimeUnit.MILLISECONDS | TimeUnit.MILLISECONDS || new BigDecimal(amount)
+        "7.699957"    | TimeUnit.MILLISECONDS | TimeUnit.SECONDS      || new BigDecimal(amount) / 1_000
+        "3202.994308" | TimeUnit.MILLISECONDS | TimeUnit.MINUTES      || new BigDecimal(amount) / 1_000 / 60
+        "0.860134"    | TimeUnit.MILLISECONDS | TimeUnit.HOURS        || new BigDecimal(amount) / 1_000 / 60 / 60
+        "76.511044"   | TimeUnit.MILLISECONDS | TimeUnit.DAYS         || new BigDecimal(amount) / 1_000 / 60 / 60 / 24
+        "495.158337"  | TimeUnit.SECONDS      | TimeUnit.NANOSECONDS  || new BigDecimal(amount) * 1_000_000_000
+        "0.776571"    | TimeUnit.SECONDS      | TimeUnit.MICROSECONDS || new BigDecimal(amount) * 1_000_000
+        "1586.363102" | TimeUnit.SECONDS      | TimeUnit.MILLISECONDS || new BigDecimal(amount) * 1_000
+        "40.303662"   | TimeUnit.SECONDS      | TimeUnit.SECONDS      || new BigDecimal(amount)
+        "522.872456"  | TimeUnit.SECONDS      | TimeUnit.MINUTES      || new BigDecimal(amount) / 60
+        "4.203538"    | TimeUnit.SECONDS      | TimeUnit.HOURS        || new BigDecimal(amount) / 60 / 60
+        "33.678104"   | TimeUnit.SECONDS      | TimeUnit.DAYS         || new BigDecimal(amount) / 60 / 60 / 24
+        "57.463286"   | TimeUnit.MINUTES      | TimeUnit.NANOSECONDS  || new BigDecimal(amount) * 1_000_000_000 * 60
+        "258.330397"  | TimeUnit.MINUTES      | TimeUnit.MICROSECONDS || new BigDecimal(amount) * 1_000_000 * 60
+        "7258.939255" | TimeUnit.MINUTES      | TimeUnit.MILLISECONDS || new BigDecimal(amount) * 1_000 * 60
+        "314.186997"  | TimeUnit.MINUTES      | TimeUnit.SECONDS      || new BigDecimal(amount) * 60
+        "23.641139"   | TimeUnit.MINUTES      | TimeUnit.MINUTES      || new BigDecimal(amount)
+        "0.535965"    | TimeUnit.MINUTES      | TimeUnit.HOURS        || new BigDecimal(amount) / 60
+        "192.511682"  | TimeUnit.MINUTES      | TimeUnit.DAYS         || new BigDecimal(amount) / 60 / 24
+        "93.416033"   | TimeUnit.HOURS        | TimeUnit.NANOSECONDS  || new BigDecimal(amount) * 1_000_000_000 * 60 * 60
+        "467.008415"  | TimeUnit.HOURS        | TimeUnit.MICROSECONDS || new BigDecimal(amount) * 1_000_000 * 60 * 60
+        "29.966516"   | TimeUnit.HOURS        | TimeUnit.MILLISECONDS || new BigDecimal(amount) * 1_000 * 60 * 60
+        "1826.635020" | TimeUnit.HOURS        | TimeUnit.SECONDS      || new BigDecimal(amount) * 60 * 60
+        "911.746857"  | TimeUnit.HOURS        | TimeUnit.MINUTES      || new BigDecimal(amount) * 60
+        "0.544947"    | TimeUnit.HOURS        | TimeUnit.HOURS        || new BigDecimal(amount)
+        "710.017145"  | TimeUnit.HOURS        | TimeUnit.DAYS         || new BigDecimal(amount) / 24
+        "0.237530"    | TimeUnit.DAYS         | TimeUnit.NANOSECONDS  || new BigDecimal(amount) * 1_000_000_000 * 60 * 60 * 24
+        "653.095051"  | TimeUnit.DAYS         | TimeUnit.MICROSECONDS || new BigDecimal(amount) * 1_000_000 * 60 * 60 * 24
+        "31.316865"   | TimeUnit.DAYS         | TimeUnit.MILLISECONDS || new BigDecimal(amount) * 1_000 * 60 * 60 * 24
+        "66.350011"   | TimeUnit.DAYS         | TimeUnit.SECONDS      || new BigDecimal(amount) * 60 * 60 * 24
+        "2030.887603" | TimeUnit.DAYS         | TimeUnit.MINUTES      || new BigDecimal(amount) * 60 * 24
+        "372.505049"  | TimeUnit.DAYS         | TimeUnit.HOURS        || new BigDecimal(amount) * 24
+        "74.652235"   | TimeUnit.DAYS         | TimeUnit.DAYS         || new BigDecimal(amount)
     }
 
     def "Converts timeUnit to abbreviation"() {
