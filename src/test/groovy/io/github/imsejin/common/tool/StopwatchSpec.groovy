@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.tool
 
+import io.github.imsejin.common.tool.Stopwatch.Task
 import spock.lang.Specification
 
 import java.math.RoundingMode
@@ -213,6 +214,39 @@ class StopwatchSpec extends Specification {
         noExceptionThrown()
     }
 
+    def "Gets all the tasks"() {
+        given:
+        def stopwatch = new Stopwatch()
+        def taskCount = 10
+
+        expect:
+        stopwatch.tasks.isEmpty()
+
+        when:
+        (0..<taskCount).each {
+            stopwatch.start("task-$it")
+            stopwatch.stop()
+        }
+
+        then:
+        stopwatch.tasks.size() == taskCount
+        for (i in 0..<taskCount) {
+            def task = stopwatch.tasks[i]
+            assert task.elapsedNanoTime > 0
+            assert task.name == "task-$i"
+            assert task.order == i
+        }
+
+        when:
+        stopwatch.tasks << new Task(0, "new task", stopwatch.tasks.size())
+
+        then: """
+            Stopwatch.tasks are unmodifiable.
+        """
+        thrown UnsupportedOperationException
+        stopwatch.tasks.size() == taskCount
+    }
+
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
@@ -225,9 +259,9 @@ class StopwatchSpec extends Specification {
         def totalTime = stopwatch.totalTime
 
         then: """
-            Stopwatch.totalTime is equal to expected within 0.00000001% error.
+            Stopwatch.totalTime is equal to expected within 1.0E-9998% error.
         """
-        totalTime * 0.9999999999 < expected || expected < totalTime * 1.0000000001
+        totalTime * (1.0 - 1.0E-10000) < expected || expected < totalTime * (1.0 + 1.0E-10000)
 
         where:
         timeUnit              | expected
@@ -244,7 +278,7 @@ class StopwatchSpec extends Specification {
         given:
         def stopwatch = new Stopwatch(timeUnit as TimeUnit)
         def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
-        def pattern = Pattern.compile("^Stopwatch: RUNNING_TIME = \\d+(\\.\\d{1,$Stopwatch.DECIMAL_PLACE})? $abbreviation\$")
+        def pattern = Pattern.compile("^Stopwatch: TOTAL_TIME = \\d+(\\.\\d{1,$Stopwatch.DECIMAL_PLACE})? $abbreviation\$")
 
         when:
         stopwatch.start()
@@ -253,8 +287,33 @@ class StopwatchSpec extends Specification {
         def summary = stopwatch.summary
 
         then:
-        summary != null
         summary.matches(pattern)
+
+        where:
+        timeUnit << TimeUnit.values()
+    }
+
+    def "Gets statistics of stopwatch"() {
+        given:
+        def stopwatch = new Stopwatch(timeUnit as TimeUnit)
+        def randomString = new RandomString()
+        def taskCount = 3
+
+        when:
+        (0..<taskCount).each {
+            stopwatch.start("task-$it: ${randomString.nextString(8)}")
+            stopwatch.stop()
+        }
+
+        then:
+        def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
+        def pattern = Pattern.compile("^${stopwatch.summary.replace(".", "\\.")}\n"
+                + "-{40}\n"
+                + "${abbreviation} {2,}% {2,}TASK_NAME\n"
+                + "-{40}\n"
+                + "(\\d+(?:\\.\\d+)? {2,}\\d{3} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
+                Pattern.DOTALL)
+        stopwatch.statistics.matches(pattern)
 
         where:
         timeUnit << TimeUnit.values()
