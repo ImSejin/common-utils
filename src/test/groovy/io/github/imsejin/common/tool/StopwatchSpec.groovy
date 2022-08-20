@@ -301,7 +301,7 @@ class StopwatchSpec extends Specification {
 
         when:
         (0..<taskCount).each {
-            stopwatch.start("task-$it: ${randomString.nextString(8)}")
+            stopwatch.start("task-$it: %s", randomString.nextString(8))
             stopwatch.stop()
         }
 
