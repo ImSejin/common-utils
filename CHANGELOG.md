@@ -30,6 +30,7 @@
 
 ### Modification
 
+- ♻️ Refactor: tool `Stopwatch` 
 - ⚡️ Improve: static code analysis on IntelliJ IDEA
 
 ### New features
