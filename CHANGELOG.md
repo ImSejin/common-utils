@@ -31,6 +31,7 @@
 ### Modification
 
 - ♻️ Refactor: tool `Stopwatch` 
+- ⚡️ Improve: security.model `Verification`
 - ⚡️ Improve: static code analysis on IntelliJ IDEA
 
 ### New features
