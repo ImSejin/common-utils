@@ -55,7 +55,7 @@ class VerificationSpec extends Specification {
     def "Verifies"() {
         given:
         def credentials = "873481"
-        def milliseconds = 500
+        def milliseconds = 1000
         def duration = Duration.ofMillis milliseconds
 
         when: "Create an instance of Verification"
@@ -71,7 +71,7 @@ class VerificationSpec extends Specification {
         !verification.verify(873481)
 
         when: "Expire duration of verification"
-        sleep(milliseconds * 2)
+        sleep(milliseconds * 1.5 as long)
 
         then: """
             1. Failed to verify credentials out of the duration
