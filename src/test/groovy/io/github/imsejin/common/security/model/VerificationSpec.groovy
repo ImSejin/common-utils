@@ -34,7 +34,7 @@ class VerificationSpec extends Specification {
         then:
         verification.credentials == credentials
         verification.duration == duration
-        verification.createdDateTime < LocalDateTime.now()
+        verification.createdDateTime <= LocalDateTime.now()
     }
 
     def "Failed to instantiate"() {
