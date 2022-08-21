@@ -73,6 +73,9 @@ public class RSA implements Crypto {
      * public key and private key.
      * <p>
      * These key might be not pair.
+     *
+     * @param publicKey  public key
+     * @param privateKey private key
      */
     public RSA(String publicKey, String privateKey) {
         this.publicKey = getPublicKeyFrom(publicKey);
