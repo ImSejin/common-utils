@@ -29,7 +29,7 @@ public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTem
         super(actual);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Long> asEpochMilli() {
         NumberAssert<?, Long> assertion = Asserts.that(actual.toEpochMilli());

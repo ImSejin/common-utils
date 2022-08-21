@@ -238,8 +238,8 @@ class StringUtilsSpec extends Specification {
         reversed == new String(expected)
 
         where:
-        text << Arrays.stream(LOREM_IPSUM.split(" "))
-                .map(String::trim).filter(it -> it.length() > 0).collect(toList())
+        text << Arrays.stream(LOREM_IPSUM.split(" ")).map({ it.trim() })
+                .filter({ it.length() > 0 }).collect(toList())
     }
 
     def "Replaces the last string with other string"() {

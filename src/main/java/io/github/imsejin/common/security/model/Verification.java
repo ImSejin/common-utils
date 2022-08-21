@@ -18,6 +18,7 @@ package io.github.imsejin.common.security.model;
 
 import io.github.imsejin.common.assertion.Asserts;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -38,7 +39,7 @@ public class Verification {
                 .as("Verification.duration is allowed to be null")
                 .isNotNull()
                 .as("Verification.duration must be zero or positive, but it is not: '{0}'", duration)
-                .returns(false, Duration::isNegative);
+                .isZeroOrPositive();
 
         this.credentials = credentials;
         this.duration = duration;
@@ -48,14 +49,23 @@ public class Verification {
         // We determine that the cost of comparing credentials is cheaper
         // than the cost of comparing whether the verification time has expired,
         // so compare credentials first.
-        if (!Objects.equals(this.credentials, credentials)) return false;
+        if (!Objects.deepEquals(this.credentials, credentials)) return false;
 
         return !isExpired();
     }
 
     public boolean isExpired() {
         Duration duration = Duration.between(this.createdDateTime, LocalDateTime.now());
-        return duration.isNegative() || duration.getSeconds() > this.duration.getSeconds();
+
+        if (duration.isNegative()) {
+            return true;
+        }
+
+        // Makes comparison precise.
+        BigDecimal thatDuration = new BigDecimal(duration.getSeconds() + "." + duration.getNano());
+        BigDecimal thisDuration = new BigDecimal(this.duration.getSeconds() + "." + this.duration.getNano());
+
+        return thatDuration.compareTo(thisDuration) > 0;
     }
 
     public Object getCredentials() {

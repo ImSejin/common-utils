@@ -28,9 +28,13 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +43,7 @@ import java.time.Month;
 import java.time.MonthDay;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -100,7 +105,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class MapAssert {
@@ -163,7 +168,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class ObjectAssert {
@@ -204,7 +209,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class ClassAssert {
@@ -249,7 +254,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class PackageAssert {
@@ -271,7 +276,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class InstantAssert {
@@ -294,7 +299,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class LocalTimeAssert {
@@ -337,7 +342,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class ChronoLocalDateTimeAssert {
@@ -397,7 +402,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class ChronoZonedDateTimeAssert {
@@ -495,7 +500,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class OffsetDateTimeAssert {
@@ -612,7 +617,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class OffsetTimeAssert {
@@ -636,7 +641,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class YearAssert {
@@ -679,7 +684,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class YearMonthAssert {
@@ -722,7 +727,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class MonthAssert {
@@ -746,7 +751,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class MonthDayAssert {
@@ -789,7 +794,55 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    class DurationAssert {
+        @Test
+        @DisplayName("asTotalSeconds(): Duration -> BigDecimal")
+        void asTotalSeconds() {
+            // given
+            Duration duration = Duration.ofHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(duration)
+                    .isNotNull().isLessThan(Duration.ofHours(24))
+                    .asTotalSeconds().isStrictlyBetween(BigDecimal.valueOf(0), BigDecimal.valueOf(LocalTime.MAX.toSecondOfDay() + 1))
+                    .isInstanceOf(BigDecimal.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(duration)
+                            .as("Description of assertion: {0}", duration)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asTotalSeconds().isEqualTo(new BigDecimal(LocalTime.MAX.toSecondOfDay() + ".999999998")))
+                    .withMessage("Description of assertion: " + duration);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    class PeriodAssert {
+        @Test
+        @DisplayName("asTotalDays(): Period -> Integer")
+        void asTotalDays() {
+            // given
+            Period period = Period.of(2, 60, 32);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(period)
+                    .isNotNull().isGreaterThan(Period.ofYears(7))
+                    .asTotalDays().isEqualTo(2552)
+                    .isInstanceOf(int.class));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(period)
+                            .as("Description of assertion: {0}", period)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asTotalDays().isEqualTo(period.getDays()))
+                    .withMessage("Description of assertion: " + period);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class ArrayAssert {
@@ -813,7 +866,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class CharSequenceAssert {
@@ -836,7 +889,7 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class AbstractFileAssert {
@@ -883,6 +936,65 @@ class ConversionTest {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    class UrlAssert {
+        @Test
+        @DisplayName("asHost(): URL -> String")
+        void asHost() throws MalformedURLException {
+            // given
+            URL url = new URL("https://www.github.com/");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("https://www.github.com/"))
+                    .asHost().startsWith("www.github"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asHost().startsWith("github.com"))
+                    .withMessage("Description of assertion: " + url);
+        }
+
+        @Test
+        @DisplayName("asPort(): URL -> Integer")
+        void asPort() throws MalformedURLException {
+            // given
+            URL url = new URL("http://www.github.com/");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("http://www.github.com/"))
+                    .asPort().isEqualTo(80));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asPort().isNegative())
+                    .withMessage("Description of assertion: " + url);
+        }
+
+        @Test
+        @DisplayName("asPath(): URL -> String")
+        void asPath() throws MalformedURLException {
+            // given
+            URL url = new URL("https://www.github.com/imsejin/common-utils");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("https://www.github.com/imsejin/common-utils"))
+                    .asPath().isEqualTo("/imsejin/common-utils"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asPath().isUpperCase())
+                    .withMessage("Description of assertion: " + url);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
 
 }

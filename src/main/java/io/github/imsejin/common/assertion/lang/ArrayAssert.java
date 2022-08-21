@@ -352,7 +352,7 @@ public class ArrayAssert<
         return null;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asLength() {
         NumberAssert<?, Integer> assertion = Asserts.that(actual.length);

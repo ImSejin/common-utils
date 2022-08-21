@@ -52,7 +52,7 @@ public class YearAssert<SELF extends YearAssert<SELF>>
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asValue() {
         NumberAssert<?, Integer> assertion = Asserts.that(actual.getValue());

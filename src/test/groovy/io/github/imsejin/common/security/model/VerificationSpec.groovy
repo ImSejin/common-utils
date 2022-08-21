@@ -19,31 +19,46 @@ package io.github.imsejin.common.security.model
 import spock.lang.Specification
 
 import java.time.Duration
+import java.time.LocalDateTime
 
 class VerificationSpec extends Specification {
 
-    def "instantiate"() {
+    def "Instantiates"() {
+        given:
+        def credentials = UUID.randomUUID()
+        def duration = Duration.ofSeconds(5)
+
+        when:
+        def verification = new Verification(credentials, duration)
+
+        then:
+        verification.credentials == credentials
+        verification.duration == duration
+        verification.createdDateTime < LocalDateTime.now()
+    }
+
+    def "Failed to instantiate"() {
         when:
         new Verification(credentials, duration)
 
         then:
         def e = thrown IllegalArgumentException
-        e.message.startsWith(message)
+        e.message == message
 
         where:
         credentials | duration                      || message
-        null        | Duration.ofMillis(500)        || "Verification.credentials"
-        "02b23a"    | null                          || "Verification.duration"
-        0x4a232f    | Duration.ZERO.minusSeconds(1) || "Verification.duration"
+        null        | Duration.ofMillis(500)        || "Verification.credentials is allowed to be null"
+        "02b23a"    | null                          || "Verification.duration is allowed to be null"
+        0x4a232f    | Duration.ZERO.minusSeconds(1) || "Verification.duration must be zero or positive, but it is not: '$duration'"
     }
 
-    def "verify"() {
+    def "Verifies"() {
         given:
         def credentials = "873481"
         def milliseconds = 500
         def duration = Duration.ofMillis milliseconds
 
-        when: "Create a instance of Verification"
+        when: "Create an instance of Verification"
         def verification = new Verification(credentials, duration)
 
         then: """

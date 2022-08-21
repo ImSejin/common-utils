@@ -17,6 +17,7 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import org.intellij.lang.annotations.Language;
 
 import javax.annotation.Nullable;
 import java.text.NumberFormat;
@@ -381,7 +382,7 @@ public final class StringUtils {
      * @param replacement replacement string
      * @return string replaced with replacement by last replacer
      */
-    public static String replaceLast(String text, String regex, String replacement) {
+    public static String replaceLast(String text, @Language("RegExp") String regex, String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
     }
 
@@ -521,7 +522,7 @@ public final class StringUtils {
      * @return captured string
      */
     @Nullable
-    public static String find(String src, String regex, int group) {
+    public static String find(String src, @Language("RegExp") String regex, int group) {
         return find(src, Pattern.compile(regex), group);
     }
 
@@ -563,7 +564,7 @@ public final class StringUtils {
      * @param groups group numbers you want to get value of
      * @return map whose key is group number and whose value is a captured string.
      */
-    public static Map<Integer, String> find(String src, String regex, int flags, int... groups) {
+    public static Map<Integer, String> find(String src, @Language("RegExp") String regex, int flags, int... groups) {
         return find(src, Pattern.compile(regex, flags), groups);
     }
 
@@ -693,7 +694,7 @@ public final class StringUtils {
     public static int indexOfCurrentClosingBracket(@Nullable String str, int pos, char opener, char closer) {
         if (isNullOrEmpty(str)) return -1;
 
-        // Finds the current opening bracket.
+        // Finds the opening bracket in the current context.
         char ch = str.charAt(pos);
         if (ch != opener) {
             // Prevents this variable from increasing when start character is closer.

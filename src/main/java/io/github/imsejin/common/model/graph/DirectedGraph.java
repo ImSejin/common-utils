@@ -186,7 +186,7 @@ public class DirectedGraph<E> implements Graph<E> {
         return this.adjacentVertexMap.equals(that.adjacentVertexMap);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     /**
      * Edge for directed graph.

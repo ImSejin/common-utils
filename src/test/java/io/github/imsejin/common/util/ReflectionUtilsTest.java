@@ -237,7 +237,7 @@ class ReflectionUtilsTest {
                 .forEach(it -> assertThat(it).isNotNull().isEqualTo(Parent.newInstance()));
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     private static class A {
         private static Long id;

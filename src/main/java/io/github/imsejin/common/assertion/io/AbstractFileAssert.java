@@ -161,7 +161,7 @@ public abstract class AbstractFileAssert<
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Long> asLength() {
         NumberAssert<?, Long> assertion = Asserts.that(actual.length());

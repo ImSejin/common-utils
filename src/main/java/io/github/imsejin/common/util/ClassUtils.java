@@ -101,16 +101,6 @@ public final class ClassUtils {
                 !clazz.isArray() && !clazz.isPrimitive() && !clazz.isInterface() && !isEnumOrEnumConstant(clazz);
     }
 
-    public static boolean isSuperclass(Class<?> superclass, @Nullable Class<?> subclass) {
-        if (subclass == null || superclass == subclass) return false;
-
-        for (Class<?> c = subclass.getSuperclass(); c != null; c = c.getSuperclass()) {
-            if (c == superclass) return true;
-        }
-
-        return false;
-    }
-
     /**
      * Checks if type is wrapper class.
      *

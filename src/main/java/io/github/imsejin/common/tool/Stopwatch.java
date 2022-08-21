@@ -17,11 +17,17 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.util.MathUtils;
+import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
+import org.jetbrains.annotations.VisibleForTesting;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -32,12 +38,13 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Stopwatch {
 
+    @VisibleForTesting
     static final int DECIMAL_PLACE = 6;
 
     /**
      * Recorded tasks.
      */
-    private final Tasks tasks = new Tasks(this);
+    private final List<Task> tasks = new ArrayList<>();
 
     /**
      * Start nano time for a task.
@@ -65,7 +72,7 @@ public final class Stopwatch {
      * <p> Default time unit is {@link TimeUnit#NANOSECONDS}.
      */
     public Stopwatch() {
-        this.timeUnit = TimeUnit.NANOSECONDS;
+        this(TimeUnit.NANOSECONDS);
     }
 
     /**
@@ -79,33 +86,6 @@ public final class Stopwatch {
                 .isNotNull();
 
         this.timeUnit = timeUnit;
-    }
-
-    static double convertTimeUnit(double amount, TimeUnit from, TimeUnit to) {
-        return from.ordinal() < to.ordinal()
-                ? amount / from.convert(1, to)
-                : amount * to.convert(1, from);
-    }
-
-    static String getTimeUnitAbbreviation(TimeUnit timeUnit) {
-        switch (timeUnit) {
-            case NANOSECONDS:
-                return "ns";
-            case MICROSECONDS:
-                return "μs";
-            case MILLISECONDS:
-                return "ms";
-            case SECONDS:
-                return "sec";
-            case MINUTES:
-                return "min";
-            case HOURS:
-                return "hrs";
-            case DAYS:
-                return "days";
-            default:
-                throw new IllegalArgumentException("No TimeUnit equivalent for " + timeUnit);
-        }
     }
 
     /**
@@ -148,16 +128,7 @@ public final class Stopwatch {
      * @throws UnsupportedOperationException if stopwatch is running
      */
     public void start(String taskName) {
-        Asserts.that(taskName)
-                .as("Task name cannot be null")
-                .isNotNull();
-        Asserts.that(isRunning())
-                .as("Stopwatch cannot start, when it is already running")
-                .exception(UnsupportedOperationException::new)
-                .isFalse();
-
-        this.currentTaskName = taskName;
-        this.startNanoTime = System.nanoTime();
+        start(taskName, (Object[]) null);
     }
 
     /**
@@ -172,14 +143,14 @@ public final class Stopwatch {
      */
     public void start(String format, Object... args) {
         Asserts.that(format)
-                .as("Task name cannot be null")
+                .as("Stopwatch.taskName cannot be null")
                 .isNotNull();
         Asserts.that(isRunning())
-                .as("Stopwatch cannot start, when it is already running")
+                .as("Stopwatch cannot start while running")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
-        this.currentTaskName = String.format(format, args);
+        this.currentTaskName = ArrayUtils.isNullOrEmpty(args) ? format : String.format(format, args);
         this.startNanoTime = System.nanoTime();
     }
 
@@ -192,13 +163,16 @@ public final class Stopwatch {
      */
     public void stop() {
         Asserts.that(isRunning())
-                .as("Stopwatch cannot stop, when it is not running")
+                .as("Stopwatch cannot stop while not running")
                 .exception(UnsupportedOperationException::new)
                 .isTrue();
 
         long elapsedNanoTime = System.nanoTime() - this.startNanoTime;
         this.totalNanoTime += elapsedNanoTime;
-        this.tasks.add(elapsedNanoTime, this.currentTaskName);
+
+        Task task = new Task(elapsedNanoTime, this.currentTaskName, this.tasks.size());
+        this.tasks.add(task);
+
         this.currentTaskName = null;
     }
 
@@ -225,7 +199,7 @@ public final class Stopwatch {
      */
     public void clear() {
         Asserts.that(isRunning())
-                .as("Stopwatch is running. To clear, stop it first")
+                .as("Stopwatch is running; stop it first to clear")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
@@ -243,6 +217,15 @@ public final class Stopwatch {
     }
 
     /**
+     * Returns all the tasks of stopwatch.
+     *
+     * @return tasks
+     */
+    public List<Task> getTasks() {
+        return Collections.unmodifiableList(this.tasks);
+    }
+
+    /**
      * Returns the sum of the elapsed time of all saved tasks.
      *
      * <p> This total time will be converted with {@link Stopwatch#timeUnit}
@@ -250,15 +233,15 @@ public final class Stopwatch {
      *
      * @return the sum of task times
      * @throws UnsupportedOperationException if stopwatch has never been stopped
-     * @see MathUtils#floor(double, int)
      */
-    public double getTotalTime() {
+    public BigDecimal getTotalTime() {
         Asserts.that(hasNeverBeenStopped())
                 .as("Stopwatch has no total time, because it has never been stopped")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
-        return convertTimeUnit(this.totalNanoTime, TimeUnit.NANOSECONDS, this.timeUnit);
+        BigDecimal amount = BigDecimal.valueOf(this.totalNanoTime);
+        return convertTimeUnit(amount, TimeUnit.NANOSECONDS, this.timeUnit);
     }
 
     /**
@@ -268,10 +251,12 @@ public final class Stopwatch {
      * @see #getTotalTime()
      */
     public String getSummary() {
-        double totalTime = MathUtils.floor(getTotalTime(), DECIMAL_PLACE);
-        String runningTime = BigDecimal.valueOf(totalTime).stripTrailingZeros().toPlainString();
+        BigDecimal totalTime = getTotalTime();
+        String displayTotalTime = totalTime.setScale(DECIMAL_PLACE, RoundingMode.HALF_UP)
+                .stripTrailingZeros().toPlainString();
+        String abbreviation = getTimeUnitAbbreviation(this.timeUnit);
 
-        return "Stopwatch: RUNNING_TIME = " + runningTime + ' ' + getTimeUnitAbbreviation(this.timeUnit);
+        return String.format("Stopwatch: TOTAL_TIME = %s %s", displayTotalTime, abbreviation);
     }
 
     /**
@@ -281,120 +266,139 @@ public final class Stopwatch {
      * and how much time it took up in total time.
      *
      * @return statistics of stopwatch
+     * @see #getSummary()
      */
     public String getStatistics() {
-        return getSummary() + this.tasks;
-    }
+        BigDecimal totalTime = getTotalTime().setScale(DECIMAL_PLACE, RoundingMode.HALF_UP);
 
-}
-
-/**
- * Stopwatch's tasks that support addition and clearance.
- * <p>
- * This can only add or clear, but not set, sort, remove, retain, replace.
- */
-class Tasks {
-
-    private final Stopwatch stopwatch;
-
-    private final List<Task> list = new ArrayList<>();
-
-    Tasks(Stopwatch stopwatch) {
-        this.stopwatch = stopwatch;
-    }
-
-    public boolean add(long totalNanoTime, String name) {
-        return this.list.add(new Task(totalNanoTime, name));
-    }
-
-    public void clear() {
-        this.list.clear();
-    }
-
-    public boolean isEmpty() {
-        return this.list.isEmpty();
-    }
-
-    @Override
-    public String toString() {
-        double totalTime = MathUtils.floor(this.stopwatch.getTotalTime(), Stopwatch.DECIMAL_PLACE);
-        TimeUnit timeUnit = this.stopwatch.getTimeUnit();
-
-        // Sets up task time and percentage to each task.
-        for (Task task : this.list) {
-            double taskTime = Stopwatch.convertTimeUnit(task.getTotalNanoTime(), TimeUnit.NANOSECONDS, timeUnit);
-            task.setTaskTime(taskTime);
-            task.setTotalTime(taskTime, timeUnit);
-
-            int percentage = (int) Math.round(taskTime / totalTime * 100);
-            task.setPercentage(percentage);
-        }
-
-        final int timeUnitIndex = this.list.stream()
-                .map(task -> task.getTotalTime().length())
-                .reduce(0, Math::max);
-        String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", Stopwatch.getTimeUnitAbbreviation(timeUnit));
-
-        for (Task task : this.list) {
-            task.setTotalTime(task.getTaskTime(), timeUnit, timeUnitIndex);
-        }
+        final int timeUnitIndex = this.tasks.stream()
+                .mapToInt(task -> task.getDisplayTime(this.timeUnit).length())
+                .max().orElse(0);
+        String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", getTimeUnitAbbreviation(this.timeUnit));
 
         StringBuilder sb = new StringBuilder();
+        sb.append(getSummary());
         sb.append("\n----------------------------------------\n");
         sb.append(timeUnitColumn).append("  ").append(String.format("%-3c", '%')).append("  ").append("TASK_NAME");
         sb.append("\n----------------------------------------\n");
-        for (Task task : this.list) {
-            sb.append(task).append('\n');
+
+        for (Task task : this.tasks) {
+            String displayTime = task.getDisplayTime(this.timeUnit);
+            displayTime = StringUtils.padEnd(timeUnitIndex, displayTime);
+            sb.append(displayTime).append("  ");
+
+            BigInteger percentage = task.getPercentage(totalTime, this.timeUnit);
+            sb.append(String.format("%03d", percentage)).append("  ");
+
+            sb.append(task.name).append('\n');
         }
 
         return sb.toString();
     }
 
-    private static final class Task {
-        private final long totalNanoTime;
+    // -------------------------------------------------------------------------------------------------
+
+    @VisibleForTesting
+    static BigDecimal convertTimeUnit(BigDecimal amount, TimeUnit from, TimeUnit to) {
+        if (from == to) {
+            return amount;
+        } else if (from.ordinal() < to.ordinal()) {
+            BigDecimal divisor = BigDecimal.valueOf(from.convert(1, to));
+            return amount.divide(divisor, 10, RoundingMode.HALF_UP);
+        } else {
+            BigDecimal multiplicand = BigDecimal.valueOf(to.convert(1, from));
+            return amount.multiply(multiplicand);
+        }
+    }
+
+    @VisibleForTesting
+    static String getTimeUnitAbbreviation(TimeUnit timeUnit) {
+        switch (timeUnit) {
+            case NANOSECONDS:
+                return "ns";
+            case MICROSECONDS:
+                return "μs";
+            case MILLISECONDS:
+                return "ms";
+            case SECONDS:
+                return "sec";
+            case MINUTES:
+                return "min";
+            case HOURS:
+                return "hrs";
+            case DAYS:
+                return "days";
+            default:
+                throw new IllegalArgumentException("No TimeUnit equivalent for " + timeUnit);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    /**
+     * Task of stopwatch
+     */
+    public static final class Task {
+        private final long elapsedNanoTime;
         private final String name;
-        private double taskTime;
-        private String totalTime;
-        private String percentage;
+        private final int order;
 
-        private Task(long totalNanoTime, String name) {
-            this.totalNanoTime = totalNanoTime;
+        @VisibleForTesting
+        Task(@Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime, @NotNull String name,
+             @Range(from = 0, to = Integer.MAX_VALUE) int order) {
+            this.elapsedNanoTime = elapsedNanoTime;
             this.name = name;
+            this.order = order;
         }
 
-        public long getTotalNanoTime() {
-            return this.totalNanoTime;
+        /**
+         * Returns task time with nanoseconds.
+         *
+         * @return task time
+         */
+        public long getElapsedNanoTime() {
+            return this.elapsedNanoTime;
         }
 
-        public double getTaskTime() {
-            return this.taskTime;
+        /**
+         * Returns task name.
+         *
+         * @return task name
+         */
+        public String getName() {
+            return this.name;
         }
 
-        public void setTaskTime(double taskTime) {
-            this.taskTime = taskTime;
+        /**
+         * Returns the order of task in {@link Stopwatch#tasks}.
+         *
+         * @return task order
+         */
+        public int getOrder() {
+            return this.order;
         }
 
-        public String getTotalTime() {
-            return this.totalTime;
+        @VisibleForTesting
+        String getDisplayTime(TimeUnit timeUnit) {
+            BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
+            BigDecimal taskTime = convertTimeUnit(elapsedNanoTime, TimeUnit.NANOSECONDS, timeUnit);
+            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%." + DECIMAL_PLACE + "f";
+
+            return String.format(format, taskTime);
         }
 
-        public void setTotalTime(double totalTime, TimeUnit timeUnit) {
-            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%." + Stopwatch.DECIMAL_PLACE + "f";
-            this.totalTime = String.format(format, totalTime);
-        }
+        @VisibleForTesting
+        BigInteger getPercentage(BigDecimal totalTime, TimeUnit timeUnit) {
+            // Prevents ArithmeticException: Division by zero.
+            if (totalTime.compareTo(BigDecimal.ZERO) == 0) {
+                return BigInteger.ZERO;
+            }
 
-        public void setTotalTime(double totalTime, TimeUnit timeUnit, int len) {
-            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%." + Stopwatch.DECIMAL_PLACE + "f";
-            this.totalTime = StringUtils.padEnd(len, String.format(format, totalTime));
-        }
+            BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
+            BigDecimal taskTime = convertTimeUnit(elapsedNanoTime, TimeUnit.NANOSECONDS, timeUnit);
+            BigDecimal percentage = taskTime.divide(totalTime, 0, RoundingMode.HALF_UP);
 
-        public void setPercentage(int percentage) {
-            this.percentage = String.format("%03d", percentage);
-        }
-
-        @Override
-        public String toString() {
-            return this.totalTime + "  " + this.percentage + "  " + this.name;
+            return percentage.toBigIntegerExact();
         }
     }
 

@@ -54,7 +54,7 @@ public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
         return isAfterOrEqualTo(LocalTime.NOON);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asSecondOfDay() {
         NumberAssert<?, Integer> assertion = Asserts.that(actual.toSecondOfDay());

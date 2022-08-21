@@ -20,6 +20,7 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Array;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -172,6 +173,12 @@ public final class ArrayUtils {
             if (componentType == long.class) return Arrays.toString((long[]) array);
             if (componentType == float.class) return Arrays.toString((float[]) array);
             if (componentType == double.class) return Arrays.toString((double[]) array);
+
+        } else if (Path.class.isAssignableFrom(clazz)) {
+            // Must check it is implementation of Path before Iterable, or StackOverflowError is thrown.
+            // Implementation of Iterable like Path returns true as the result of Iterable.hasNext()
+            // even though it reaches to the end of elements.
+            return array.toString();
 
         } else if (Iterable.class.isAssignableFrom(clazz)) {
             Iterator<?> iterator = ((Iterable<?>) array).iterator();

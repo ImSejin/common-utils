@@ -29,12 +29,15 @@ import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.PackageAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
+import io.github.imsejin.common.assertion.net.UrlAssert;
+import io.github.imsejin.common.assertion.time.DurationAssert;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
 import io.github.imsejin.common.assertion.time.MonthAssert;
 import io.github.imsejin.common.assertion.time.MonthDayAssert;
 import io.github.imsejin.common.assertion.time.OffsetDateTimeAssert;
 import io.github.imsejin.common.assertion.time.OffsetTimeAssert;
+import io.github.imsejin.common.assertion.time.PeriodAssert;
 import io.github.imsejin.common.assertion.time.YearAssert;
 import io.github.imsejin.common.assertion.time.YearMonthAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
@@ -47,12 +50,15 @@ import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.MonthDay;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.chrono.ChronoLocalDate;
@@ -63,7 +69,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Asserts for fluent assertion not increasing branches in code coverage.
+ * Asserts for fluent assertion not increasing branches on code coverage.
  *
  * <p> This is implemented similarly to AssertJ's API.
  *
@@ -89,7 +95,7 @@ public abstract class Asserts {
     protected Asserts() {
     }
 
-    //////////////////////////////////////// java.lang ////////////////////////////////////////
+    // java.lang ---------------------------------------------------------------------------------------
 
     public static <T> ObjectAssert<?, T> that(T object) {
         return new ObjectAssert<>(object);
@@ -159,15 +165,15 @@ public abstract class Asserts {
         return new StringAssert<>(string);
     }
 
-    public static <T> ClassAssert<?, T> that(Class<T> type) {
-        return new ClassAssert<>(type);
+    public static <T> ClassAssert<?, T> that(Class<T> clazz) {
+        return new ClassAssert<>(clazz);
     }
 
     public static PackageAssert<?> that(Package pack) {
         return new PackageAssert<>(pack);
     }
 
-    //////////////////////////////////////// java.util ////////////////////////////////////////
+    // java.util ---------------------------------------------------------------------------------------
 
     public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
         return new CollectionAssert<>(collection);
@@ -181,24 +187,26 @@ public abstract class Asserts {
         return new MapAssert<>(map);
     }
 
-    //////////////////////////////////////// java.io ////////////////////////////////////////
+    // java.io -----------------------------------------------------------------------------------------
 
     public static AbstractFileAssert<?, File> that(File file) {
         return new AbstractFileAssert(file) {
         };
     }
 
-    //////////////////////////////////////// java.math ////////////////////////////////////////
+    // java.net ----------------------------------------------------------------------------------------
 
-    public static BigDecimalAssert<?> that(BigDecimal number) {
-        return new BigDecimalAssert<>(number);
+    public static UrlAssert<?> that(URL url) {
+        return new UrlAssert<>(url);
     }
 
-    //////////////////////////////////////// java.time ////////////////////////////////////////
+    // java.math ---------------------------------------------------------------------------------------
 
-    public static InstantAssert<?> that(Instant instant) {
-        return new InstantAssert(instant);
+    public static BigDecimalAssert<?> that(BigDecimal bigDecimal) {
+        return new BigDecimalAssert<>(bigDecimal);
     }
+
+    // java.time ---------------------------------------------------------------------------------------
 
     public static YearAssert<?> that(Year year) {
         return new YearAssert(year);
@@ -216,30 +224,42 @@ public abstract class Asserts {
         return new MonthDayAssert(monthDay);
     }
 
-    public static LocalTimeAssert<?> that(LocalTime time) {
-        return new LocalTimeAssert<>(time);
+    public static LocalTimeAssert<?> that(LocalTime localTime) {
+        return new LocalTimeAssert<>(localTime);
     }
 
-    public static OffsetDateTimeAssert<?> that(OffsetDateTime dateTime) {
-        return new OffsetDateTimeAssert<>(dateTime);
+    public static OffsetTimeAssert<?> that(OffsetTime offsetTime) {
+        return new OffsetTimeAssert<>(offsetTime);
     }
 
-    public static OffsetTimeAssert<?> that(OffsetTime time) {
-        return new OffsetTimeAssert<>(time);
+    public static InstantAssert<?> that(Instant instant) {
+        return new InstantAssert(instant);
     }
 
-    //////////////////////////////////////// java.time.chrono ////////////////////////////////////////
-
-    public static ChronoLocalDateAssert<?> that(ChronoLocalDate date) {
-        return new ChronoLocalDateAssert<>(date);
+    public static OffsetDateTimeAssert<?> that(OffsetDateTime offsetDateTime) {
+        return new OffsetDateTimeAssert<>(offsetDateTime);
     }
 
-    public static <DATE extends ChronoLocalDate> ChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> dateTime) {
-        return new ChronoLocalDateTimeAssert(dateTime);
+    public static DurationAssert<?> that(Duration duration) {
+        return new DurationAssert<>(duration);
     }
 
-    public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> dateTime) {
-        return new ChronoZonedDateTimeAssert(dateTime);
+    public static PeriodAssert<?> that(Period period) {
+        return new PeriodAssert<>(period);
+    }
+
+    // java.time.chrono --------------------------------------------------------------------------------
+
+    public static ChronoLocalDateAssert<?> that(ChronoLocalDate localDate) {
+        return new ChronoLocalDateAssert<>(localDate);
+    }
+
+    public static <DATE extends ChronoLocalDate> ChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> localDateTime) {
+        return new ChronoLocalDateTimeAssert(localDateTime);
+    }
+
+    public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> zonedDateTime) {
+        return new ChronoZonedDateTimeAssert(zonedDateTime);
     }
 
 }

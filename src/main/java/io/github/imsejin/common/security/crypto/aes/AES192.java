@@ -16,6 +16,9 @@
 
 package io.github.imsejin.common.security.crypto.aes;
 
+import org.intellij.lang.annotations.Pattern;
+import org.intellij.lang.annotations.Subst;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -24,11 +27,11 @@ import java.nio.charset.StandardCharsets;
  */
 public class AES192 extends AES {
 
-    public AES192(String key) {
+    public AES192(@Subst("c05b07aae16341429539e261") @Pattern(".{24}") String key) {
         this(key, StandardCharsets.UTF_8);
     }
 
-    public AES192(String key, Charset charset) {
+    public AES192(@Subst("c05b07aae16341429539e261") @Pattern(".{24}") String key, Charset charset) {
         super(key, 24, charset);
     }
 

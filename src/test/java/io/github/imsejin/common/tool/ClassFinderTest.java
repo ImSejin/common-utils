@@ -38,6 +38,7 @@ import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.util.CollectionAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.FileUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -69,6 +70,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ClassFinderTest {
 
     @Nested
+    @Disabled // java.lang.NoClassDefFoundError: org/eclipse/swt/dnd/ByteArrayTransfer
     @DisplayName("method 'getAllSubtypes'")
     class GetAllSubtypes {
         @Test

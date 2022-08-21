@@ -259,7 +259,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public ClassAssert<?, ?> asSuperclass() {
         ClassAssert<?, ?> assertion = Asserts.that(actual.getSuperclass());

@@ -133,7 +133,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     @SuppressWarnings("unchecked")
     public ClassAssert<?, ACTUAL> asClass() {

@@ -58,6 +58,38 @@ public final class FilenameUtils {
     }
 
     /**
+     * Returns the name including the extension.
+     * <p> If file is null, returns empty string.
+     *
+     * <pre><code>
+     *     getName("D:\\Program Files\\Java\\README.md"); // "README.md"
+     *     getName("/var/lib/java/"); // "java"
+     *     getName("/var/lib/java/LICENSE"); // "LICENSE"
+     * </code></pre>
+     *
+     * @param path path to the directory or file
+     * @return name
+     */
+    public static String getName(String path) {
+        if (StringUtils.isNullOrEmpty(path)) return "";
+
+        path = path.trim();
+
+        int index = path.lastIndexOf('\\');
+        if (index == -1) index = path.lastIndexOf('/');
+
+        if (index == -1) {
+            return path;
+        } else if (index == path.length() - 1) {
+            // When path has a trailing separator.
+            String chopped = StringUtils.chop(path);
+            return getName(chopped);
+        }
+
+        return path.substring(index + 1);
+    }
+
+    /**
      * Returns the filename excluding the extension.
      * <p> If file is null, returns empty string.
      *

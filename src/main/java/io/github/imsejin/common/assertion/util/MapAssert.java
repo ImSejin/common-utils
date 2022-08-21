@@ -136,7 +136,7 @@ public class MapAssert<
         return self;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     public CollectionAssert<?, Collection<K>, K> asKeySet() {
         CollectionAssert<?, Collection<K>, K> assertion = Asserts.that(actual.keySet());

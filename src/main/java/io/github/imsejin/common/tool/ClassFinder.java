@@ -18,7 +18,6 @@ package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.util.ClassUtils;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -178,7 +177,13 @@ public final class ClassFinder {
         CLASS {
             @Override
             public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
-                return ClassUtils.isSuperclass(superclass, subclass);
+                if (subclass == null || superclass == subclass) return false;
+
+                for (Class<?> c = subclass.getSuperclass(); c != null; c = c.getSuperclass()) {
+                    if (c == superclass) return true;
+                }
+
+                return false;
             }
         },
 
