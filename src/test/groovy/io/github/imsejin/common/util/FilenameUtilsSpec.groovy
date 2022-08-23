@@ -106,7 +106,8 @@ class FilenameUtilsSpec extends Specification {
         where:
         filename                                        | expected
         'where he is gone..'                            | 'where he is gone…'
-        'I feel happy when coding.'                     | 'I feel happy when coding．'
+        'I feel like... happy when coding.'             | 'I feel like... happy when coding．'
+        'How am I supposed to live without you?'        | 'How am I supposed to live without you？'
         '** <happy/\\new year> **:"john" -> |"jeremy"|' | '＊＊ ＜happy／＼new year＞ ＊＊：＂john＂ -＞ ｜＂jeremy＂｜'
     }
 
