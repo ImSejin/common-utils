@@ -25,9 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -156,10 +154,6 @@ public final class CollectionUtils {
 
     public static long findMax(Collection<Long> collection) {
         return collection.stream().reduce(Long.MIN_VALUE, Math::max);
-    }
-
-    public static <E> Optional<E> findElement(Collection<E> collection, Predicate<E> predicate) {
-        return collection.stream().filter(predicate).findFirst();
     }
 
     /**
