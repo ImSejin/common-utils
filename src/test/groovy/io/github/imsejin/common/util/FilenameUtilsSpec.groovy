@@ -20,9 +20,31 @@ import spock.lang.Specification
 
 class FilenameUtilsSpec extends Specification {
 
+    def "Gets index of file extension"() {
+        when:
+        def actual = FilenameUtils.indexOfExtension filename
+
+        then:
+        actual == expected
+
+        where:
+        filename               | expected
+        null                   | -1
+        ""                     | -1
+        ".git"                 | -1
+        "data"                 | -1
+        "rt.jar"               | 2
+        "data.dat"             | 4
+        "Specification.groovy" | 13
+        "jdk_1.8.0_202.txt"    | 13
+    }
+
     def "Gets name from path"() {
-        expect:
-        FilenameUtils.getName(path) == expected
+        when:
+        def actual = FilenameUtils.getName path
+
+        then:
+        actual == expected
 
         where:
         path                                                       | expected
@@ -40,9 +62,29 @@ class FilenameUtilsSpec extends Specification {
         "C:\\Program Files\\Apache\\"                              | "Apache"
     }
 
+    def "Gets base name from filename"() {
+        when:
+        def actual = FilenameUtils.getBaseName filename
+
+        then:
+        actual == expected
+
+        where:
+        filename                 | expected
+        null                     | ""
+        ""                       | filename
+        ".git"                   | filename
+        "data.dat"               | "data"
+        "Specification.groovy"   | "Specification"
+        "common-utils-0.1.0.jar" | "common-utils-0.1.0"
+    }
+
     def "Gets file extension from filename"() {
-        expect:
-        FilenameUtils.getExtension(filename) == expected
+        when:
+        def actual = FilenameUtils.getExtension filename
+
+        then:
+        actual == expected
 
         where:
         filename                 | expected
