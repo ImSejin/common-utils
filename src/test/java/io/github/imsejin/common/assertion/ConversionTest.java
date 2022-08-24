@@ -63,112 +63,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 class ConversionTest {
 
-    @Nested
-    class CollectionAssert {
-        @Test
-        @DisplayName("asArray(): Collection -> Array")
-        void asArray() {
-            // given
-            String packageName = getClass().getPackage().getName();
-            int count = StringUtils.countOf(packageName, ".") + 1;
-            Collection<String> collection = Arrays.stream(packageName.split("\\.")).collect(toList());
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(collection).hasSizeOf(count)
-                    .asArray().hasLengthOf(count).containsOnly(Arrays.stream(packageName.split("\\."))
-                            .sorted(Collections.reverseOrder()).toArray(String[]::new))
-                    .containsAny("java", "lang", "imsejin").containsAll(new String[0]));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(collection)
-                            .as("Description of assertion: {0}", collection)
-                            .exception(RuntimeException::new).hasElement()
-                            .asArray().isNotSameLength(new Object[0]).containsNull())
-                    .withMessage("Description of assertion: " + collection);
-        }
-
-        @Test
-        @DisplayName("asSize(): Collection -> int")
-        void asSize() {
-            // given
-            List<String> collection = Arrays.asList("A", "B", "C", "D", "E", "F");
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(collection)
-                    .isNotNull().doesNotContainNull().hasElement()
-                    .asSize().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(collection.size()));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(collection)
-                            .as("Description of assertion: {0}", collection)
-                            .exception(RuntimeException::new).hasElement()
-                            .asSize().isZeroOrNegative())
-                    .withMessage("Description of assertion: " + collection);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    class MapAssert {
-        @Test
-        @DisplayName("asKeySet(): Map -> Collection")
-        void asKeySet() {
-            // given
-            String packageName = getClass().getPackage().getName();
-            int count = StringUtils.countOf(packageName, ".") + 1;
-            Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
-                    .asKeySet().hasElement().hasSizeOf(count).contains(0)
-                    .containsAll(IntStream.range(0, count).boxed().collect(toList())));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(map)
-                            .as("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).hasEntry()
-                            .asKeySet().isEmpty())
-                    .withMessage("Description of assertion: " + map);
-        }
-
-        @Test
-        @DisplayName("asValues(): Map -> Collection")
-        void asValues() {
-            // given
-            String packageName = getClass().getPackage().getName();
-            int count = StringUtils.countOf(packageName, ".") + 1;
-            Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
-                    .asValues().hasElement().hasSizeOf(count).contains("common")
-                    .isSameSize(Arrays.asList(packageName.split("\\."))));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(map)
-                            .as("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).hasEntry()
-                            .asValues().isEmpty())
-                    .withMessage("Description of assertion: " + map);
-        }
-
-        @Test
-        @DisplayName("asSize(): Map -> int")
-        void asSize() {
-            // given
-            Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList("A", "B", "C"));
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(map)
-                    .isNotNull().hasEntry()
-                    .asSize().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(map.size()));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(map)
-                            .as("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).hasEntry()
-                            .asSize().isBetween(-1, 0))
-                    .withMessage("Description of assertion: " + map);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
+    // java.lang ---------------------------------------------------------------------------------------
 
     @Nested
     class ObjectAssert {
@@ -206,6 +101,53 @@ class ConversionTest {
                             .exception(RuntimeException::new).isNotNull()
                             .asClass().isAnonymousClass())
                     .withMessage("Description of assertion: " + text);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    class ArrayAssert {
+        @Test
+        @DisplayName("asLength(): Array -> int")
+        void asLength() {
+            // given
+            String[] array = {"a", "b", "c", "d"};
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(array)
+                    .isNotNull().doesNotContainNull().hasElement().doesNotContainAll(new String[]{"A", "B", "C", "D"})
+                    .predicate(them -> Arrays.stream(them).allMatch(it -> Character.isLowerCase(it.charAt(0))))
+                    .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(4));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(array)
+                            .as("Description of assertion: {0}", ArrayUtils.toString(array))
+                            .exception(RuntimeException::new).isNotNull()
+                            .asLength().isEqualTo(array.length - 1))
+                    .withMessage("Description of assertion: " + ArrayUtils.toString(array));
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    class CharSequenceAssert {
+        @Test
+        @DisplayName("asLength(): CharSequence -> int")
+        void asLength() {
+            // given
+            CharSequence charSequence = getClass().getPackage().getName();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(charSequence)
+                    .isNotNull().isNotEmpty().isNotSameLength(new StringBuilder())
+                    .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(charSequence.length()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(charSequence)
+                            .as("Description of assertion: {0}", charSequence)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asLength().isCloseTo(charSequence.length() + 1, 0))
+                    .withMessage("Description of assertion: " + charSequence);
         }
     }
 
@@ -276,7 +218,113 @@ class ConversionTest {
         }
     }
 
-    // -------------------------------------------------------------------------------------------------
+    // java.io -----------------------------------------------------------------------------------------
+
+    @Nested
+    class AbstractFileAssert {
+        @Test
+        @DisplayName("asLength(): File -> long")
+        void asLength(@TempDir Path path) throws IOException {
+            // given
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = new File(path.toFile(), filename);
+            String content = getClass().getPackage().getName();
+            Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isNotNull().exists().canRead()
+                    .asLength().isGreaterThan(1L).isLessThan(Long.MAX_VALUE).isEqualTo((long) content.length()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(file)
+                            .as("Description of assertion: {0}", file)
+                            .exception(RuntimeException::new).exists()
+                            .asLength().isZeroOrNegative())
+                    .withMessage("Description of assertion: " + file);
+        }
+
+        @Test
+        @DisplayName("asName(): File -> String")
+        void asName(@TempDir Path path) throws IOException {
+            // given
+            String filename = "content.txt";
+            File file = new File(path.toFile(), filename);
+            String content = getClass().getPackage().getName();
+            Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isNotNull().exists().canRead().canWrite().isNotEmpty()
+                    .asName().hasText().contains("content").endsWith("txt"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(file)
+                            .as("Description of assertion: {0}", file)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asName().isUpperCase())
+                    .withMessage("Description of assertion: " + file);
+        }
+    }
+
+    // java.net ----------------------------------------------------------------------------------------
+
+    @Nested
+    class UrlAssert {
+        @Test
+        @DisplayName("asHost(): URL -> String")
+        void asHost() throws MalformedURLException {
+            // given
+            URL url = new URL("https://www.github.com/");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("https://www.github.com/"))
+                    .asHost().startsWith("www.github"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asHost().startsWith("github.com"))
+                    .withMessage("Description of assertion: " + url);
+        }
+
+        @Test
+        @DisplayName("asPort(): URL -> Integer")
+        void asPort() throws MalformedURLException {
+            // given
+            URL url = new URL("http://www.github.com/");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("http://www.github.com/"))
+                    .asPort().isEqualTo(80));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asPort().isNegative())
+                    .withMessage("Description of assertion: " + url);
+        }
+
+        @Test
+        @DisplayName("asPath(): URL -> String")
+        void asPath() throws MalformedURLException {
+            // given
+            URL url = new URL("https://www.github.com/imsejin/common-utils");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(url)
+                    .isNotNull().isEqualTo(new URL("https://www.github.com/imsejin/common-utils"))
+                    .asPath().isEqualTo("/imsejin/common-utils"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(url)
+                            .as("Description of assertion: {0}", url)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asPath().isUpperCase())
+                    .withMessage("Description of assertion: " + url);
+        }
+    }
+
+    // java.time ---------------------------------------------------------------------------------------
 
     @Nested
     class InstantAssert {
@@ -339,164 +387,6 @@ class ConversionTest {
                             .exception(RuntimeException::new).isNotNull()
                             .asNanoOfDay().isGreaterThan(LocalTime.now().toNanoOfDay()))
                     .withMessage("Description of assertion: " + time);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    class ChronoLocalDateTimeAssert {
-        @Test
-        @DisplayName("asLocalDate(): ChronoLocalDateTime -> ChronoLocalDate")
-        void asLocalDate() {
-            // given
-            LocalDateTime dateTime = LocalDateTime.now();
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(dateTime)
-                    .isNotNull().isBefore(dateTime.plusSeconds(1))
-                    .asLocalDate().isBeforeOrEqualTo(LocalDate.now())
-                    .predicate(it -> it.getChronology().isLeapYear(2020)));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(dateTime)
-                            .as("Description of assertion: {0}", dateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asLocalDate().isAfter(LocalDate.now()))
-                    .withMessage("Description of assertion: " + dateTime);
-        }
-
-        @Test
-        @DisplayName("asLocalTime(): ChronoLocalDateTime -> LocalTime")
-        void asLocalTime() {
-            // given
-            LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(dateTime)
-                    .isNotNull().isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
-                    .asLocalTime().isEqualTo(LocalTime.MIN).isBeforeNoon().isMidnight());
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(dateTime)
-                            .as("Description of assertion: {0}", dateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asLocalTime().isAfter(LocalTime.MAX))
-                    .withMessage("Description of assertion: " + dateTime);
-        }
-
-        @Test
-        @DisplayName("asInstant(): ChronoLocalDateTime -> Instant")
-        void asInstant() {
-            // given
-            LocalDateTime dateTime = LocalDateTime.now().withNano(0);
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(dateTime)
-                    .isNotNull().isAfter(LocalDateTime.from(LocalDate.MIN.atTime(LocalTime.MAX)))
-                    .asInstant().isBeforeOrEqualTo(Instant.now()));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(dateTime)
-                            .as("Description of assertion: {0}", dateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asInstant().isEqualTo(Instant.now()))
-                    .withMessage("Description of assertion: " + dateTime);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    class ChronoZonedDateTimeAssert {
-        @Test
-        @DisplayName("asLocalDate(): ChronoZonedDateTime -> ChronoLocalDate")
-        void asLocalDate() {
-            // given
-            ZonedDateTime zonedDateTime = ZonedDateTime.now().withNano(0);
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
-                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
-                    .asLocalDate().isBeforeOrEqualTo(LocalDate.now())
-                    .predicate(it -> it.getChronology().isLeapYear(2020)));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(zonedDateTime)
-                            .as("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asLocalDate().isBefore(LocalDate.now()))
-                    .withMessage("Description of assertion: " + zonedDateTime);
-        }
-
-        @Test
-        @DisplayName("asLocalDateTime(): ChronoZonedDateTime -> ChronoLocalDateTime")
-        void asLocalDateTime() {
-            // given
-            ZonedDateTime zonedDateTime = ZonedDateTime.now();
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
-                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
-                    .asLocalDateTime().isBeforeOrEqualTo(LocalDateTime.now())
-                    .predicate(it -> it.getChronology().isLeapYear(2020)));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(zonedDateTime)
-                            .as("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + zonedDateTime);
-        }
-
-        @Test
-        @DisplayName("asLocalTime(): ChronoZonedDateTime -> LocalTime")
-        void asLocalTime() {
-            // given
-            ZonedDateTime zonedDateTime = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN, ZoneId.systemDefault());
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
-                    .isNotNull().isEqualTo(ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneId.systemDefault()))
-                    .asLocalTime().isEqualTo(LocalTime.MIN).isBeforeNoon().isMidnight());
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(zonedDateTime)
-                            .as("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asLocalTime().isEqualTo(LocalTime.now()))
-                    .withMessage("Description of assertion: " + zonedDateTime);
-        }
-
-        @Test
-        @DisplayName("asOffsetDateTime(): ChronoZonedDateTime -> OffsetDateTime")
-        void asOffsetDateTime() {
-            // given
-            ZonedDateTime zonedDateTime = ZonedDateTime.now();
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
-                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
-                    .asOffsetDateTime().isBeforeOrEqualTo(OffsetDateTime.now())
-                    .predicate(it -> it.isAfter(OffsetDateTime.MIN)));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(zonedDateTime)
-                            .as("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asOffsetDateTime().isAfter(OffsetDateTime.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + zonedDateTime);
-        }
-
-        @Test
-        @DisplayName("asInstant(): ChronoZonedDateTime -> Instant")
-        void asInstant() {
-            // given
-            ZonedDateTime zonedDateTime = ZonedDateTime.now();
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
-                    .isNotNull().isAfter(ZonedDateTime.from(LocalDate.MIN.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault())))
-                    .asInstant().isBeforeOrEqualTo(Instant.now()));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(zonedDateTime)
-                            .as("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asInstant().isAfter(Instant.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + zonedDateTime);
         }
     }
 
@@ -842,156 +732,268 @@ class ConversionTest {
         }
     }
 
-    // -------------------------------------------------------------------------------------------------
+    // java.time.chrono --------------------------------------------------------------------------------
 
     @Nested
-    class ArrayAssert {
+    class ChronoLocalDateTimeAssert {
         @Test
-        @DisplayName("asLength(): Array -> int")
-        void asLength() {
+        @DisplayName("asLocalDate(): ChronoLocalDateTime -> ChronoLocalDate")
+        void asLocalDate() {
             // given
-            String[] array = {"a", "b", "c", "d"};
+            LocalDateTime dateTime = LocalDateTime.now();
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(array)
-                    .isNotNull().doesNotContainNull().hasElement().doesNotContainAll(new String[]{"A", "B", "C", "D"})
-                    .predicate(them -> Arrays.stream(them).allMatch(it -> Character.isLowerCase(it.charAt(0))))
-                    .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(4));
+            assertThatNoException().isThrownBy(() -> Asserts.that(dateTime)
+                    .isNotNull().isBefore(dateTime.plusSeconds(1))
+                    .asLocalDate().isBeforeOrEqualTo(LocalDate.now())
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(array)
-                            .as("Description of assertion: {0}", ArrayUtils.toString(array))
+                    .isThrownBy(() -> Asserts.that(dateTime)
+                            .as("Description of assertion: {0}", dateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asLength().isEqualTo(array.length - 1))
-                    .withMessage("Description of assertion: " + ArrayUtils.toString(array));
+                            .asLocalDate().isAfter(LocalDate.now()))
+                    .withMessage("Description of assertion: " + dateTime);
+        }
+
+        @Test
+        @DisplayName("asLocalTime(): ChronoLocalDateTime -> LocalTime")
+        void asLocalTime() {
+            // given
+            LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(dateTime)
+                    .isNotNull().isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
+                    .asLocalTime().isEqualTo(LocalTime.MIN).isBeforeNoon().isMidnight());
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(dateTime)
+                            .as("Description of assertion: {0}", dateTime)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asLocalTime().isAfter(LocalTime.MAX))
+                    .withMessage("Description of assertion: " + dateTime);
+        }
+
+        @Test
+        @DisplayName("asInstant(): ChronoLocalDateTime -> Instant")
+        void asInstant() {
+            // given
+            LocalDateTime dateTime = LocalDateTime.now().withNano(0);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(dateTime)
+                    .isNotNull().isAfter(LocalDateTime.from(LocalDate.MIN.atTime(LocalTime.MAX)))
+                    .asInstant().isBeforeOrEqualTo(Instant.now()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(dateTime)
+                            .as("Description of assertion: {0}", dateTime)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asInstant().isEqualTo(Instant.now()))
+                    .withMessage("Description of assertion: " + dateTime);
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    class CharSequenceAssert {
+    class ChronoZonedDateTimeAssert {
         @Test
-        @DisplayName("asLength(): CharSequence -> int")
-        void asLength() {
+        @DisplayName("asLocalDate(): ChronoZonedDateTime -> ChronoLocalDate")
+        void asLocalDate() {
             // given
-            CharSequence charSequence = getClass().getPackage().getName();
+            ZonedDateTime zonedDateTime = ZonedDateTime.now().withNano(0);
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(charSequence)
-                    .isNotNull().isNotEmpty().isNotSameLength(new StringBuilder())
-                    .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(charSequence.length()));
+            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
+                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
+                    .asLocalDate().isBeforeOrEqualTo(LocalDate.now())
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(charSequence)
-                            .as("Description of assertion: {0}", charSequence)
+                    .isThrownBy(() -> Asserts.that(zonedDateTime)
+                            .as("Description of assertion: {0}", zonedDateTime)
                             .exception(RuntimeException::new).isNotNull()
-                            .asLength().isCloseTo(charSequence.length() + 1, 0))
-                    .withMessage("Description of assertion: " + charSequence);
+                            .asLocalDate().isBefore(LocalDate.now()))
+                    .withMessage("Description of assertion: " + zonedDateTime);
+        }
+
+        @Test
+        @DisplayName("asLocalDateTime(): ChronoZonedDateTime -> ChronoLocalDateTime")
+        void asLocalDateTime() {
+            // given
+            ZonedDateTime zonedDateTime = ZonedDateTime.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
+                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
+                    .asLocalDateTime().isBeforeOrEqualTo(LocalDateTime.now())
+                    .predicate(it -> it.getChronology().isLeapYear(2020)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(zonedDateTime)
+                            .as("Description of assertion: {0}", zonedDateTime)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
+                    .withMessage("Description of assertion: " + zonedDateTime);
+        }
+
+        @Test
+        @DisplayName("asLocalTime(): ChronoZonedDateTime -> LocalTime")
+        void asLocalTime() {
+            // given
+            ZonedDateTime zonedDateTime = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN, ZoneId.systemDefault());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
+                    .isNotNull().isEqualTo(ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneId.systemDefault()))
+                    .asLocalTime().isEqualTo(LocalTime.MIN).isBeforeNoon().isMidnight());
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(zonedDateTime)
+                            .as("Description of assertion: {0}", zonedDateTime)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asLocalTime().isEqualTo(LocalTime.now()))
+                    .withMessage("Description of assertion: " + zonedDateTime);
+        }
+
+        @Test
+        @DisplayName("asOffsetDateTime(): ChronoZonedDateTime -> OffsetDateTime")
+        void asOffsetDateTime() {
+            // given
+            ZonedDateTime zonedDateTime = ZonedDateTime.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
+                    .isNotNull().isBefore(ZonedDateTime.now().plusSeconds(1))
+                    .asOffsetDateTime().isBeforeOrEqualTo(OffsetDateTime.now())
+                    .predicate(it -> it.isAfter(OffsetDateTime.MIN)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(zonedDateTime)
+                            .as("Description of assertion: {0}", zonedDateTime)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asOffsetDateTime().isAfter(OffsetDateTime.now().plusSeconds(1)))
+                    .withMessage("Description of assertion: " + zonedDateTime);
+        }
+
+        @Test
+        @DisplayName("asInstant(): ChronoZonedDateTime -> Instant")
+        void asInstant() {
+            // given
+            ZonedDateTime zonedDateTime = ZonedDateTime.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(zonedDateTime)
+                    .isNotNull().isAfter(ZonedDateTime.from(LocalDate.MIN.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault())))
+                    .asInstant().isBeforeOrEqualTo(Instant.now()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(zonedDateTime)
+                            .as("Description of assertion: {0}", zonedDateTime)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asInstant().isAfter(Instant.now().plusSeconds(1)))
+                    .withMessage("Description of assertion: " + zonedDateTime);
+        }
+    }
+
+    // java.util ---------------------------------------------------------------------------------------
+
+    @Nested
+    class CollectionAssert {
+        @Test
+        @DisplayName("asArray(): Collection -> Array")
+        void asArray() {
+            // given
+            String packageName = getClass().getPackage().getName();
+            int count = StringUtils.countOf(packageName, ".") + 1;
+            Collection<String> collection = Arrays.stream(packageName.split("\\.")).collect(toList());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(collection).hasSizeOf(count)
+                    .asArray().hasLengthOf(count).containsOnly(Arrays.stream(packageName.split("\\."))
+                            .sorted(Collections.reverseOrder()).toArray(String[]::new))
+                    .containsAny("java", "lang", "imsejin").containsAll(new String[0]));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(collection)
+                            .as("Description of assertion: {0}", collection)
+                            .exception(RuntimeException::new).hasElement()
+                            .asArray().isNotSameLength(new Object[0]).containsNull())
+                    .withMessage("Description of assertion: " + collection);
+        }
+
+        @Test
+        @DisplayName("asSize(): Collection -> int")
+        void asSize() {
+            // given
+            List<String> collection = Arrays.asList("A", "B", "C", "D", "E", "F");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(collection)
+                    .isNotNull().doesNotContainNull().hasElement()
+                    .asSize().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(collection.size()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(collection)
+                            .as("Description of assertion: {0}", collection)
+                            .exception(RuntimeException::new).hasElement()
+                            .asSize().isZeroOrNegative())
+                    .withMessage("Description of assertion: " + collection);
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    class AbstractFileAssert {
+    class MapAssert {
         @Test
-        @DisplayName("asLength(): File -> long")
-        void asLength(@TempDir Path path) throws IOException {
+        @DisplayName("asKeySet(): Map -> Collection")
+        void asKeySet() {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = new File(path.toFile(), filename);
-            String content = getClass().getPackage().getName();
-            Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
+            String packageName = getClass().getPackage().getName();
+            int count = StringUtils.countOf(packageName, ".") + 1;
+            Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isNotNull().exists().canRead()
-                    .asLength().isGreaterThan(1L).isLessThan(Long.MAX_VALUE).isEqualTo((long) content.length()));
+            assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
+                    .asKeySet().hasElement().hasSizeOf(count).contains(0)
+                    .containsAll(IntStream.range(0, count).boxed().collect(toList())));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(file)
-                            .as("Description of assertion: {0}", file)
-                            .exception(RuntimeException::new).exists()
-                            .asLength().isZeroOrNegative())
-                    .withMessage("Description of assertion: " + file);
+                    .isThrownBy(() -> Asserts.that(map)
+                            .as("Description of assertion: {0}", map)
+                            .exception(RuntimeException::new).hasEntry()
+                            .asKeySet().isEmpty())
+                    .withMessage("Description of assertion: " + map);
         }
 
         @Test
-        @DisplayName("asName(): File -> String")
-        void asName(@TempDir Path path) throws IOException {
+        @DisplayName("asValues(): Map -> Collection")
+        void asValues() {
             // given
-            String filename = "content.txt";
-            File file = new File(path.toFile(), filename);
-            String content = getClass().getPackage().getName();
-            Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
+            String packageName = getClass().getPackage().getName();
+            int count = StringUtils.countOf(packageName, ".") + 1;
+            Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isNotNull().exists().canRead().canWrite().isNotEmpty()
-                    .asName().hasText().contains("content").endsWith("txt"));
+            assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
+                    .asValues().hasElement().hasSizeOf(count).contains("common")
+                    .isSameSize(Arrays.asList(packageName.split("\\."))));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(file)
-                            .as("Description of assertion: {0}", file)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asName().isUpperCase())
-                    .withMessage("Description of assertion: " + file);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    class UrlAssert {
-        @Test
-        @DisplayName("asHost(): URL -> String")
-        void asHost() throws MalformedURLException {
-            // given
-            URL url = new URL("https://www.github.com/");
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(url)
-                    .isNotNull().isEqualTo(new URL("https://www.github.com/"))
-                    .asHost().startsWith("www.github"));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(url)
-                            .as("Description of assertion: {0}", url)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asHost().startsWith("github.com"))
-                    .withMessage("Description of assertion: " + url);
+                    .isThrownBy(() -> Asserts.that(map)
+                            .as("Description of assertion: {0}", map)
+                            .exception(RuntimeException::new).hasEntry()
+                            .asValues().isEmpty())
+                    .withMessage("Description of assertion: " + map);
         }
 
         @Test
-        @DisplayName("asPort(): URL -> Integer")
-        void asPort() throws MalformedURLException {
+        @DisplayName("asSize(): Map -> int")
+        void asSize() {
             // given
-            URL url = new URL("http://www.github.com/");
+            Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList("A", "B", "C"));
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(url)
-                    .isNotNull().isEqualTo(new URL("http://www.github.com/"))
-                    .asPort().isEqualTo(80));
+            assertThatNoException().isThrownBy(() -> Asserts.that(map)
+                    .isNotNull().hasEntry()
+                    .asSize().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(map.size()));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(url)
-                            .as("Description of assertion: {0}", url)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asPort().isNegative())
-                    .withMessage("Description of assertion: " + url);
-        }
-
-        @Test
-        @DisplayName("asPath(): URL -> String")
-        void asPath() throws MalformedURLException {
-            // given
-            URL url = new URL("https://www.github.com/imsejin/common-utils");
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(url)
-                    .isNotNull().isEqualTo(new URL("https://www.github.com/imsejin/common-utils"))
-                    .asPath().isEqualTo("/imsejin/common-utils"));
-            assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(url)
-                            .as("Description of assertion: {0}", url)
-                            .exception(RuntimeException::new).isNotNull()
-                            .asPath().isUpperCase())
-                    .withMessage("Description of assertion: " + url);
+                    .isThrownBy(() -> Asserts.that(map)
+                            .as("Description of assertion: {0}", map)
+                            .exception(RuntimeException::new).hasEntry()
+                            .asSize().isBetween(-1, 0))
+                    .withMessage("Description of assertion: " + map);
         }
     }
 
