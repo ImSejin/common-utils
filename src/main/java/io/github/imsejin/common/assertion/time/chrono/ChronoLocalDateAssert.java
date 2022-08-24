@@ -18,8 +18,12 @@ package io.github.imsejin.common.assertion.time.chrono;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
+import io.github.imsejin.common.assertion.time.MonthDayAssert;
+import io.github.imsejin.common.assertion.time.YearMonthAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
+import java.time.MonthDay;
+import java.time.YearMonth;
 import java.time.chrono.ChronoLocalDate;
 
 public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
@@ -52,6 +56,22 @@ public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
         }
 
         return self;
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public YearMonthAssert<?> asYearMonth() {
+        YearMonth yearMonth = YearMonth.from(actual);
+        return new YearMonthAssert(this, yearMonth) {
+        };
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public MonthDayAssert<?> asMonthDay() {
+        MonthDay yearMonth = MonthDay.from(actual);
+        return new MonthDayAssert(this, yearMonth) {
+        };
     }
 
 }

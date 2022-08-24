@@ -735,6 +735,54 @@ class ConversionTest {
     // java.time.chrono --------------------------------------------------------------------------------
 
     @Nested
+    class ChronoLocalDateAssert {
+        @Test
+        @DisplayName("asYearMonth(): ChronoLocalDate -> YearMonth")
+        void asYearMonth() {
+            // given
+            LocalDate localDate = LocalDate.of(2000, 8, 31);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(localDate)
+                    .isNotNull().isBefore(localDate.plusDays(1))
+                    .asYearMonth().isEqualTo(YearMonth.from(localDate))
+                    .predicate(it -> it.atDay(localDate.getDayOfMonth()).equals(localDate))
+                    .isLeapYear());
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(localDate)
+                            .as("Description of assertion: {0}", localDate)
+                            .exception(RuntimeException::new).isNotNull()
+                            .isNotNull().isAfter(localDate.minusDays(1))
+                            .asYearMonth().isEqualTo(YearMonth.from(localDate))
+                            .isNotLeapYear())
+                    .withMessage("Description of assertion: " + localDate);
+        }
+
+        @Test
+        @DisplayName("asMonthDay(): ChronoLocalDate -> MonthDay")
+        void asMonthDay() {
+            // given
+            LocalDate localDate = LocalDate.of(2015, 5, 5);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(localDate)
+                    .isNotNull().isEqualTo(YearMonth.from(localDate).atDay(5))
+                    .asMonthDay().isAfter(MonthDay.from(localDate).withDayOfMonth(1))
+                    .predicate(it -> it.atYear(localDate.getYear()).equals(localDate))
+                    .isEqualTo(MonthDay.from(localDate)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(localDate)
+                            .as("Description of assertion: {0}", localDate)
+                            .exception(RuntimeException::new).isNotNull()
+                            .isNotNull().isBefore(YearMonth.from(localDate).atEndOfMonth())
+                            .asMonthDay().isNotEqualTo(MonthDay.from(localDate)))
+                    .withMessage("Description of assertion: " + localDate);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     class ChronoLocalDateTimeAssert {
         @Test
         @DisplayName("asLocalDate(): ChronoLocalDateTime -> ChronoLocalDate")
