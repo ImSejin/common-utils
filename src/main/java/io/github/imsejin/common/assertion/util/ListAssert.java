@@ -29,8 +29,8 @@ public class ListAssert<
         extends CollectionAssert<SELF, ACTUAL, ELEMENT>
         implements RandomAccessIterationAssertable<SELF, ACTUAL, ELEMENT> {
 
-    public ListAssert(ACTUAL target) {
-        super(target);
+    public ListAssert(ACTUAL actual) {
+        super(actual);
     }
 
     @Override

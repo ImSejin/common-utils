@@ -38,8 +38,8 @@ public class CollectionAssert<
         extends ObjectAssert<SELF, ACTUAL>
         implements IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
-    public CollectionAssert(ACTUAL target) {
-        super(target);
+    public CollectionAssert(ACTUAL actual) {
+        super(actual);
     }
 
     @Override
