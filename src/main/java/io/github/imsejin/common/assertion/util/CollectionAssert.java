@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.util;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
@@ -40,6 +39,10 @@ public class CollectionAssert<
 
     public CollectionAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    protected CollectionAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
     }
 
     @Override
@@ -296,19 +299,16 @@ public class CollectionAssert<
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public ArrayAssert<?, ELEMENT> asArray() {
-        ArrayAssert<?, ELEMENT> assertion = Asserts.that((ELEMENT[]) actual.toArray());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new ArrayAssert(this, actual.toArray()) {
+        };
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asSize() {
-        NumberAssert<?, Integer> assertion = Asserts.that(actual.size());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new NumberAssert(this, actual.size()) {
+        };
     }
 
 }

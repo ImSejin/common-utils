@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.util;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 
@@ -31,6 +32,10 @@ public class ListAssert<
 
     public ListAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    protected ListAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
     }
 
     @Override

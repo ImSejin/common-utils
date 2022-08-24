@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.math;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.util.NumberUtils;
@@ -27,6 +28,10 @@ public class BigDecimalAssert<SELF extends BigDecimalAssert<SELF>> extends Numbe
 
     public BigDecimalAssert(BigDecimal actual) {
         super(actual);
+    }
+
+    protected BigDecimalAssert(Descriptor<?> descriptor, BigDecimal actual) {
+        super(descriptor, actual);
     }
 
     /**

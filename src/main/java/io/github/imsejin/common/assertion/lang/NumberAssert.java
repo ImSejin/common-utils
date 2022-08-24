@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -32,6 +33,12 @@ public class NumberAssert<
     @SuppressWarnings("unchecked")
     public NumberAssert(NUMBER actual) {
         super(actual);
+        this.zero = toNumber((NUMBER) BigInteger.ZERO, (Class<NUMBER>) actual.getClass());
+    }
+
+    @SuppressWarnings("unchecked")
+    protected NumberAssert(Descriptor<?> descriptor, NUMBER actual) {
+        super(descriptor, actual);
         this.zero = toNumber((NUMBER) BigInteger.ZERO, (Class<NUMBER>) actual.getClass());
     }
 

@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
@@ -36,6 +35,10 @@ public class ArrayAssert<
 
     public ArrayAssert(ELEMENT[] actual) {
         super(actual);
+    }
+
+    protected ArrayAssert(Descriptor<?> descriptor, ELEMENT[] elements) {
+        super(descriptor, elements);
     }
 
     @Override
@@ -355,10 +358,7 @@ public class ArrayAssert<
     // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asLength() {
-        NumberAssert<?, Integer> assertion = Asserts.that(actual.length);
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new NumberAssert<>(this, actual.length);
     }
 
 }

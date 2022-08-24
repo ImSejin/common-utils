@@ -16,10 +16,16 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import io.github.imsejin.common.assertion.Descriptor;
+
 public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAssert<SELF, Boolean> {
 
     public BooleanAssert(Boolean actual) {
         super(actual);
+    }
+
+    protected BooleanAssert(Descriptor<?> descriptor, Boolean actual) {
+        super(descriptor, actual);
     }
 
     public SELF isTrue() {

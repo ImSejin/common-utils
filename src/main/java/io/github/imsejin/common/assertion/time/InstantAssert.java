@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
@@ -29,13 +28,17 @@ public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTem
         super(actual);
     }
 
+    protected InstantAssert(Descriptor<?> descriptor, Instant actual) {
+        super(descriptor, actual);
+    }
+
     // -------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Long> asEpochMilli() {
-        NumberAssert<?, Long> assertion = Asserts.that(actual.toEpochMilli());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        long epochMilli = actual.toEpochMilli();
+        return new NumberAssert(this, epochMilli) {
+        };
     }
 
 }

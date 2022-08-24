@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.io;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -25,13 +24,17 @@ import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
 
-public abstract class AbstractFileAssert<
+public class AbstractFileAssert<
         SELF extends AbstractFileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
         extends ObjectAssert<SELF, ACTUAL> {
 
-    protected AbstractFileAssert(ACTUAL actual) {
+    public AbstractFileAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    protected AbstractFileAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
     }
 
     public SELF exists() {
@@ -163,18 +166,16 @@ public abstract class AbstractFileAssert<
 
     // -------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Long> asLength() {
-        NumberAssert<?, Long> assertion = Asserts.that(actual.length());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new NumberAssert(this, actual.length()) {
+        };
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public StringAssert<?> asName() {
-        StringAssert<?> assertion = Asserts.that(actual.getName());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new StringAssert(this, actual.getName()) {
+        };
     }
 
 }

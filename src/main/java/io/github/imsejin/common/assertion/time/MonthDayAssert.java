@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
+import java.time.Month;
 import java.time.MonthDay;
 
 public class MonthDayAssert<SELF extends MonthDayAssert<SELF>>
@@ -30,20 +30,22 @@ public class MonthDayAssert<SELF extends MonthDayAssert<SELF>>
         super(actual);
     }
 
+    protected MonthDayAssert(Descriptor<?> descriptor, MonthDay actual) {
+        super(descriptor, actual);
+    }
+
     // -------------------------------------------------------------------------------------------------
 
     public MonthAssert<?> asMonth() {
-        MonthAssert<?> assertion = Asserts.that(actual.getMonth());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Month month = actual.getMonth();
+        return new MonthAssert<>(this, month);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asDayOfMonth() {
-        NumberAssert<?, Integer> assertion = Asserts.that(actual.getDayOfMonth());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        int dayOfMonth = actual.getDayOfMonth();
+        return new NumberAssert(this, dayOfMonth) {
+        };
     }
 
 }

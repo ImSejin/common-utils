@@ -16,13 +16,16 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 
 public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAssert<SELF, Package> {
 
     public PackageAssert(Package actual) {
         super(actual);
+    }
+
+    protected PackageAssert(Descriptor<?> descriptor, Package actual) {
+        super(descriptor, actual);
     }
 
     public SELF isSuperPackageOf(Package expected) {
@@ -44,10 +47,8 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
     // -------------------------------------------------------------------------------------------------
 
     public StringAssert<?> asName() {
-        StringAssert<?> assertion = Asserts.that(actual.getName());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        String name = actual.getName();
+        return new StringAssert<>(this, name);
     }
 
 }

@@ -22,6 +22,7 @@ import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.StringUtils;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
@@ -32,17 +33,17 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     private Object[] arguments;
 
-    private Function<String, ? extends RuntimeException> function = IllegalArgumentException::new;
+    private Function<String, ? extends RuntimeException> exception = IllegalArgumentException::new;
 
     @SuppressWarnings("unchecked")
     protected Descriptor() {
         this.self = (SELF) this;
     }
 
-    protected static void merge(Descriptor<?> source, Descriptor<?> target) {
-        target.description = source.description;
-        target.arguments = source.arguments;
-        target.function = source.function;
+    @SuppressWarnings("CopyConstructorMissesField")
+    protected Descriptor(Descriptor<?> descriptor) {
+        this();
+        merge(descriptor, this);
     }
 
     public final SELF as(String description, Object... args) {
@@ -52,25 +53,40 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     }
 
     public final SELF exception(Function<String, ? extends RuntimeException> function) {
-        this.function = function;
+        this.exception = Objects.requireNonNull(function, "Descriptor.exception cannot be null");
         return this.self;
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     protected final RuntimeException getException() {
-        return this.function.apply(getMessage());
+        String message = getMessage();
+        return this.exception.apply(message);
     }
 
     protected final void setDefaultDescription(String description, Object... args) {
         // If description is set already by user, ignores default description.
-        if (!StringUtils.isNullOrEmpty(this.description)) return;
+        if (!StringUtils.isNullOrEmpty(this.description)) {
+            return;
+        }
 
         this.description = description;
         this.arguments = args;
     }
 
+    // -------------------------------------------------------------------------------------------------
+
+    private static void merge(Descriptor<?> source, Descriptor<?> target) {
+        target.description = source.description;
+        target.arguments = source.arguments;
+        target.exception = source.exception;
+    }
+
     private String getMessage() {
         // Prevent NPE.
-        if (StringUtils.isNullOrEmpty(this.description)) return "";
+        if (StringUtils.isNullOrEmpty(this.description)) {
+            return "";
+        }
 
         // Escapes single quotation marks.
         String pattern = this.description.replace("'", "''");
@@ -85,6 +101,8 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
         return messageFormat.format(strings);
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}

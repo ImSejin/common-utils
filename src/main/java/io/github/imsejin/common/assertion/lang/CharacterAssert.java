@@ -16,10 +16,16 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import io.github.imsejin.common.assertion.Descriptor;
+
 public class CharacterAssert<SELF extends CharacterAssert<SELF>> extends ObjectAssert<SELF, Character> {
 
     public CharacterAssert(Character actual) {
         super(actual);
+    }
+
+    protected CharacterAssert(Descriptor<?> descriptor, Character actual) {
+        super(descriptor, actual);
     }
 
     public SELF isGreaterThan(Character expected) {

@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
@@ -24,6 +25,10 @@ public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SE
 
     public FloatAssert(Float actual) {
         super(actual);
+    }
+
+    protected FloatAssert(Descriptor<?> descriptor, Float actual) {
+        super(descriptor, actual);
     }
 
     @Override

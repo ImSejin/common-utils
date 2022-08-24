@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.time.chrono;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
@@ -27,6 +28,10 @@ public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
 
     public ChronoLocalDateAssert(ChronoLocalDate actual) {
         super(actual);
+    }
+
+    protected ChronoLocalDateAssert(Descriptor<?> descriptor, ChronoLocalDate actual) {
+        super(descriptor, actual);
     }
 
     @Override

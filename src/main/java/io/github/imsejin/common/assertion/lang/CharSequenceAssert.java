@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 
 public class CharSequenceAssert<
@@ -26,6 +25,10 @@ public class CharSequenceAssert<
 
     public CharSequenceAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    protected CharSequenceAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
     }
 
     public SELF isEmpty() {
@@ -79,10 +82,8 @@ public class CharSequenceAssert<
     // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asLength() {
-        NumberAssert<?, Integer> assertion = Asserts.that(actual.length());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        int length = actual.length();
+        return new NumberAssert<>(this, length);
     }
 
 }

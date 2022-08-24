@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
@@ -28,6 +27,10 @@ public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
 
     public LocalTimeAssert(LocalTime actual) {
         super(actual);
+    }
+
+    protected LocalTimeAssert(Descriptor<?> descriptor, LocalTime actual) {
+        super(descriptor, actual);
     }
 
     public SELF isMidnight() {
@@ -56,18 +59,18 @@ public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asSecondOfDay() {
-        NumberAssert<?, Integer> assertion = Asserts.that(actual.toSecondOfDay());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        int secondOfDay = actual.toSecondOfDay();
+        return new NumberAssert(this, secondOfDay) {
+        };
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Long> asNanoOfDay() {
-        NumberAssert<?, Long> assertion = Asserts.that(actual.toNanoOfDay());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        long nanoOfDay = actual.toNanoOfDay();
+        return new NumberAssert(this, nanoOfDay) {
+        };
     }
 
 }

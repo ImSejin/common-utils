@@ -16,12 +16,18 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import io.github.imsejin.common.assertion.Descriptor;
+
 import java.util.regex.Pattern;
 
 public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceAssert<SELF, String> {
 
     public StringAssert(String actual) {
         super(actual);
+    }
+
+    protected StringAssert(Descriptor<?> descriptor, String actual) {
+        super(descriptor, actual);
     }
 
     public SELF hasText() {

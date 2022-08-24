@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
@@ -31,6 +30,10 @@ public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
 
     public YearMonthAssert(YearMonth actual) {
         super(actual);
+    }
+
+    protected YearMonthAssert(Descriptor<?> descriptor, YearMonth actual) {
+        super(descriptor, actual);
     }
 
     @Override
@@ -56,17 +59,13 @@ public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
     // -------------------------------------------------------------------------------------------------
 
     public YearAssert<?> asYear() {
-        YearAssert<?> assertion = Asserts.that(Year.of(actual.getYear()));
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Year year = Year.of(actual.getYear());
+        return new YearAssert<>(this, year);
     }
 
     public MonthAssert<?> asMonth() {
-        MonthAssert<?> assertion = Asserts.that(Month.of(actual.getMonthValue()));
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Month month = Month.of(actual.getMonthValue());
+        return new MonthAssert<>(this, month);
     }
 
 }

@@ -29,14 +29,36 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
     /**
      * Actual value or something to be validated.
      *
-     * <p> We shouldn't check if it is null in any assertion classes.
-     * The user is responsible for checking that. If you want to avoid
-     * {@link NullPointerException}, you check if it is null explicitly
-     * using {@link #isNotNull()}.
+     * <p> We shouldn't check if it is null in any assertion classes. The user is responsible for checking that.
+     * If you want to avoid {@link NullPointerException}, you check if it is null explicitly using {@link #isNotNull()}.
      */
     protected final ACTUAL actual;
 
+    /**
+     * Creates an instance.
+     *
+     * <p> We recommend that invoking through {@link Asserts} than invoking through this.
+     * If you follow the recommendation, you don't need to know and import the specific assertion classes.
+     *
+     * @param actual actual value or something to be validated
+     */
     public ObjectAssert(ACTUAL actual) {
+        this.actual = actual;
+    }
+
+    /**
+     * Creates an instance and merges all the properties of {@link Descriptor} from parameter into this instance.
+     *
+     * <p> This constructor should be only used on conversion method whose name is like 'asXXX' of assertion classes.
+     * That is why the modifier of constructor is {@code protected}. All subclasses override this constructor
+     * as protected to be used on conversion methods and to avoid use by users. <b>The key is, if you want to allow
+     * other assertion classes to use on conversion methods, override this. If you don't, don't override.</b>
+     *
+     * @param descriptor assertion class to merge into this
+     * @param actual     actual value or something to be validated
+     */
+    protected ObjectAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor);
         this.actual = actual;
     }
 
@@ -135,19 +157,14 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
     public ClassAssert<?, ACTUAL> asClass() {
-        ClassAssert<?, ACTUAL> assertion = (ClassAssert<?, ACTUAL>) Asserts.that(actual.getClass());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Class<?> clazz = actual.getClass();
+        return new ClassAssert<>(this, clazz);
     }
 
     public StringAssert<?> asString() {
-        StringAssert<?> assertion = Asserts.that(actual.toString());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        String string = this.actual.toString();
+        return new StringAssert<>(this, string);
     }
 
 }

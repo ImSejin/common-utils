@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.time.temporal;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.chrono.ChronoLocalDate;
@@ -40,6 +41,10 @@ public abstract class AbstractTemporalAccessorAssert<
 
     protected AbstractTemporalAccessorAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    protected AbstractTemporalAccessorAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
     }
 
     /**

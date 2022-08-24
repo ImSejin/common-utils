@@ -37,6 +37,10 @@ public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<
         super(actual);
     }
 
+    protected PeriodAssert(Descriptor<?> descriptor, Period actual) {
+        super(descriptor, actual);
+    }
+
     public SELF isGreaterThan(Period expected) {
         if (COMPARATOR.compare(actual, expected) <= 0) {
             setDefaultDescription("It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')",
@@ -115,12 +119,11 @@ public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<
 
     // -------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asTotalDays() {
         int totalDays = (((actual.getYears() * 12) + actual.getMonths()) * 30) + actual.getDays();
-        NumberAssert<?, Integer> assertion = Asserts.that(totalDays);
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new NumberAssert(this, totalDays) {
+        };
     }
 
 }

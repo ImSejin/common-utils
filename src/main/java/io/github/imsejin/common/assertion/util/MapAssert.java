@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.util;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -34,6 +33,10 @@ public class MapAssert<
 
     public MapAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    protected MapAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
     }
 
     public SELF isEmpty() {
@@ -139,24 +142,17 @@ public class MapAssert<
     // -------------------------------------------------------------------------------------------------
 
     public CollectionAssert<?, Collection<K>, K> asKeySet() {
-        CollectionAssert<?, Collection<K>, K> assertion = Asserts.that(actual.keySet());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new CollectionAssert<>(this, actual.keySet());
     }
 
     public CollectionAssert<?, Collection<V>, V> asValues() {
-        CollectionAssert<?, Collection<V>, V> assertion = Asserts.that(actual.values());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new CollectionAssert<>(this, actual.values());
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asSize() {
-        NumberAssert<?, Integer> assertion = Asserts.that(actual.size());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        return new NumberAssert(this, actual.size()) {
+        };
     }
 
 }

@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
@@ -28,6 +27,10 @@ public class DurationAssert<SELF extends DurationAssert<SELF>> extends ObjectAss
 
     public DurationAssert(Duration actual) {
         super(actual);
+    }
+
+    protected DurationAssert(Descriptor<?> descriptor, Duration actual) {
+        super(descriptor, actual);
     }
 
     public SELF isGreaterThan(Duration expected) {
@@ -108,11 +111,11 @@ public class DurationAssert<SELF extends DurationAssert<SELF>> extends ObjectAss
 
     // -------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public BigDecimalAssert<?> asTotalSeconds() {
-        BigDecimalAssert<?> assertion = Asserts.that(new BigDecimal(actual.getSeconds() + "." + actual.getNano()));
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        BigDecimal totalSeconds = new BigDecimal(actual.getSeconds() + "." + actual.getNano());
+        return new BigDecimalAssert(this, totalSeconds) {
+        };
     }
 
 }

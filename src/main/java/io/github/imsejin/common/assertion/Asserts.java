@@ -190,8 +190,7 @@ public abstract class Asserts {
     // java.io -----------------------------------------------------------------------------------------
 
     public static AbstractFileAssert<?, File> that(File file) {
-        return new AbstractFileAssert(file) {
-        };
+        return new AbstractFileAssert<>(file);
     }
 
     // java.net ----------------------------------------------------------------------------------------

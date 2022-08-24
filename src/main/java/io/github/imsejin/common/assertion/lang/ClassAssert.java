@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.util.ClassUtils;
 
@@ -26,6 +25,10 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
 
     public ClassAssert(Class<T> actual) {
         super(actual);
+    }
+
+    protected ClassAssert(Descriptor<?> descriptor, Class<?> actual) {
+        super(descriptor, actual);
     }
 
     /**
@@ -262,17 +265,13 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     // -------------------------------------------------------------------------------------------------
 
     public ClassAssert<?, ?> asSuperclass() {
-        ClassAssert<?, ?> assertion = Asserts.that(actual.getSuperclass());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Class<?> superclass = actual.getSuperclass();
+        return new ClassAssert<>(this, superclass);
     }
 
     public PackageAssert<?> asPackage() {
-        PackageAssert<?> assertion = Asserts.that(actual.getPackage());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Package pack = actual.getPackage();
+        return new PackageAssert<>(this, pack);
     }
 
 }
