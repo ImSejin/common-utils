@@ -1002,7 +1002,7 @@ class ConversionTest {
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(date)
                     .isNotNull().isEqualTo(new java.sql.Timestamp(date.getTime())).isAfter(new java.sql.Date(0))
-                    .asYearMonth().isAfter(YearMonth.of(2013, 8))
+                    .asYearMonth().isEqualTo(YearMonth.of(2013, 9))
                     .isNotLeapYear().predicate(it -> it.withYear(2004).isLeapYear()));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(date)
