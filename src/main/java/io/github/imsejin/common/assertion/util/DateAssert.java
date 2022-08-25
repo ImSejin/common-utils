@@ -91,23 +91,31 @@ public class DateAssert<SELF extends DateAssert<SELF, ACTUAL>, ACTUAL extends Da
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public InstantAssert<?> asInstant() {
+        class InstantAssertImpl extends InstantAssert<InstantAssertImpl> {
+            InstantAssertImpl(Descriptor<?> descriptor, Instant actual) {
+                super(descriptor, actual);
+            }
+        }
+
         Instant instant = actual.toInstant();
-        return new InstantAssert(this, instant) {
-        };
+        return new InstantAssertImpl(this, instant);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public YearMonthAssert<?> asYearMonth() {
+        class YearMonthAssertImpl extends YearMonthAssert<YearMonthAssertImpl> {
+            YearMonthAssertImpl(Descriptor<?> descriptor, YearMonth actual) {
+                super(descriptor, actual);
+            }
+        }
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(actual);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
 
         YearMonth yearMonth = YearMonth.of(year, month);
-        return new YearMonthAssert(this, yearMonth) {
-        };
+        return new YearMonthAssertImpl(this, yearMonth);
     }
 
 }
