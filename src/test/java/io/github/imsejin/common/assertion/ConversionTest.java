@@ -35,6 +35,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -53,6 +55,7 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -962,6 +965,50 @@ class ConversionTest {
     }
 
     // java.util ---------------------------------------------------------------------------------------
+
+    @Nested
+    class DateAssert {
+        @Test
+        @DisplayName("asInstant(): Date -> Instant")
+        void asInstant() {
+            // given
+            Date date = new Date(0);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(date)
+                    .isNotNull().isEqualTo(new java.sql.Date(date.getTime())).isBefore(new java.sql.Time(1))
+                    .asInstant().isEqualTo(Instant.EPOCH)
+                    .predicate(it -> it.toEpochMilli() == date.getTime()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(date)
+                            .as("Description of assertion: {0}", date)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asInstant().isAfter(date.toInstant().plusSeconds(1)))
+                    .withMessage("Description of assertion: " + date);
+        }
+
+        @Test
+        @DisplayName("asYearMonth(): Date -> YearMonth")
+        void asYearMonth() throws ParseException {
+            // given
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            Date date = format.parse("2013-09-01T08:00:10.543");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(date)
+                    .isNotNull().isEqualTo(new java.sql.Timestamp(date.getTime())).isAfter(new java.sql.Date(0))
+                    .asYearMonth().isAfter(YearMonth.of(2013, 8))
+                    .isNotLeapYear().predicate(it -> it.withYear(2004).isLeapYear()));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(date)
+                            .as("Description of assertion: {0}", date)
+                            .exception(RuntimeException::new).isNotNull()
+                            .asYearMonth().isLeapYear())
+                    .withMessage("Description of assertion: " + date);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     class CollectionAssert {
