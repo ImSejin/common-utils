@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import org.intellij.lang.annotations.Language;
 
 import java.util.regex.Pattern;
 
@@ -165,7 +166,7 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceA
         return self;
     }
 
-    public SELF matches(String expected) {
+    public SELF matches(@Language("RegExp") String expected) {
         if (!actual.matches(expected)) {
             setDefaultDescription("It is expected to match the given regular expression, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
@@ -177,7 +178,7 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceA
 
     public SELF matches(Pattern expected) {
         if (!expected.matcher(actual).matches()) {
-            setDefaultDescription("It is expected to match the given regular expression, but it isn't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription("It is expected to match the given pattern, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }
