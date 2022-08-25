@@ -34,11 +34,15 @@ public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTem
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Long> asEpochMilli() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
+            NumberAssertImpl(Descriptor<?> descriptor, Long actual) {
+                super(descriptor, actual);
+            }
+        }
+
         long epochMilli = actual.toEpochMilli();
-        return new NumberAssert(this, epochMilli) {
-        };
+        return new NumberAssertImpl(this, epochMilli);
     }
 
 }

@@ -35,11 +35,15 @@ public class MonthAssert<SELF extends MonthAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asValue() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
         int value = actual.getValue();
-        return new NumberAssert(this, value) {
-        };
+        return new NumberAssertImpl(this, value);
     }
 
 }

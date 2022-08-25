@@ -149,10 +149,15 @@ public class MapAssert<
         return new CollectionAssert<>(this, actual.values());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asSize() {
-        return new NumberAssert(this, actual.size()) {
-        };
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        int size = actual.size();
+        return new NumberAssertImpl(this, size);
     }
 
 }

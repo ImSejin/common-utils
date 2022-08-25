@@ -86,7 +86,6 @@ import java.util.Map;
  *
  * @see <a href="https://assertj.github.io/doc/">AssertJ API document</a>
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class Asserts {
 
     /**
@@ -208,19 +207,19 @@ public abstract class Asserts {
     // java.time ---------------------------------------------------------------------------------------
 
     public static YearAssert<?> that(Year year) {
-        return new YearAssert(year);
+        return new YearAssert<>(year);
     }
 
     public static MonthAssert<?> that(Month month) {
-        return new MonthAssert(month);
+        return new MonthAssert<>(month);
     }
 
     public static YearMonthAssert<?> that(YearMonth yearMonth) {
-        return new YearMonthAssert(yearMonth);
+        return new YearMonthAssert<>(yearMonth);
     }
 
     public static MonthDayAssert<?> that(MonthDay monthDay) {
-        return new MonthDayAssert(monthDay);
+        return new MonthDayAssert<>(monthDay);
     }
 
     public static LocalTimeAssert<?> that(LocalTime localTime) {
@@ -232,7 +231,7 @@ public abstract class Asserts {
     }
 
     public static InstantAssert<?> that(Instant instant) {
-        return new InstantAssert(instant);
+        return new InstantAssert<>(instant);
     }
 
     public static OffsetDateTimeAssert<?> that(OffsetDateTime offsetDateTime) {
@@ -254,11 +253,11 @@ public abstract class Asserts {
     }
 
     public static <DATE extends ChronoLocalDate> ChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> localDateTime) {
-        return new ChronoLocalDateTimeAssert(localDateTime);
+        return new ChronoLocalDateTimeAssert<>(localDateTime);
     }
 
     public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> zonedDateTime) {
-        return new ChronoZonedDateTimeAssert(zonedDateTime);
+        return new ChronoZonedDateTimeAssert<>(zonedDateTime);
     }
 
 }

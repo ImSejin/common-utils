@@ -364,11 +364,15 @@ public class ArrayAssert<
         return new NumberAssert<>(this, actual.length);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public ListAssert<?, List<ELEMENT>, ELEMENT> asList() {
+        class ListAssertImpl extends ListAssert<ListAssertImpl, List<ELEMENT>, ELEMENT> {
+            ListAssertImpl(Descriptor<?> descriptor, List<ELEMENT> actual) {
+                super(descriptor, actual);
+            }
+        }
+
         List<ELEMENT> list = Arrays.asList(actual);
-        return new ListAssert(this, list) {
-        };
+        return new ListAssertImpl(this, list);
     }
 
 }

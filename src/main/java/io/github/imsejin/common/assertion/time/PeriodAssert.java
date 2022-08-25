@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -119,11 +118,15 @@ public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asTotalDays() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
         int totalDays = (((actual.getYears() * 12) + actual.getMonths()) * 30) + actual.getDays();
-        return new NumberAssert(this, totalDays) {
-        };
+        return new NumberAssertImpl(this, totalDays);
     }
 
 }

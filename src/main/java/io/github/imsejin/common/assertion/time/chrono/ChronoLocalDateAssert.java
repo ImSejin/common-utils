@@ -60,18 +60,26 @@ public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public YearMonthAssert<?> asYearMonth() {
+        class YearMonthAssertImpl extends YearMonthAssert<YearMonthAssertImpl> {
+            YearMonthAssertImpl(Descriptor<?> descriptor, YearMonth actual) {
+                super(descriptor, actual);
+            }
+        }
+
         YearMonth yearMonth = YearMonth.from(actual);
-        return new YearMonthAssert(this, yearMonth) {
-        };
+        return new YearMonthAssertImpl(this, yearMonth);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public MonthDayAssert<?> asMonthDay() {
-        MonthDay yearMonth = MonthDay.from(actual);
-        return new MonthDayAssert(this, yearMonth) {
-        };
+        class MonthDayAssertImpl extends MonthDayAssert<MonthDayAssertImpl> {
+            MonthDayAssertImpl(Descriptor<?> descriptor, MonthDay actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        MonthDay monthDay = MonthDay.from(actual);
+        return new MonthDayAssertImpl(this, monthDay);
     }
 
 }

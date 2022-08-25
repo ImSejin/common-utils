@@ -41,11 +41,15 @@ public class MonthDayAssert<SELF extends MonthDayAssert<SELF>>
         return new MonthAssert<>(this, month);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asDayOfMonth() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
         int dayOfMonth = actual.getDayOfMonth();
-        return new NumberAssert(this, dayOfMonth) {
-        };
+        return new NumberAssertImpl(this, dayOfMonth);
     }
 
 }

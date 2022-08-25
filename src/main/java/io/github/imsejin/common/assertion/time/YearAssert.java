@@ -57,18 +57,26 @@ public class YearAssert<SELF extends YearAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asValue() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
         int value = actual.getValue();
-        return new NumberAssert(this, value) {
-        };
+        return new NumberAssertImpl(this, value);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asLength() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
         int length = actual.length();
-        return new NumberAssert(this, length) {
-        };
+        return new NumberAssertImpl(this, length);
     }
 
 }

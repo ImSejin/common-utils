@@ -299,16 +299,44 @@ public class CollectionAssert<
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings("unchecked")
     public ArrayAssert<?, ELEMENT> asArray() {
-        return new ArrayAssert(this, actual.toArray()) {
-        };
+        // You can meet this exception by local anonymous class like this code
+        // return new ArrayAssert(this, actual.toArray()) {};
+        //
+        // To prevent that, we use local class instead of anonymous class.
+        // This is all parts of exception message.
+        //
+        //   java.lang.VerifyError: Bad type on operand stack
+        // Exception Details:
+        //   Location:
+        //     io/github/imsejin/common/assertion/util/CollectionAssert$1.containsAll(Ljava/lang/Object;)Lio/github/imsejin/common/assertion/lang/ObjectAssert; @6: invokespecial
+        //   Reason:
+        //     Type 'java/lang/Object' (current frame, stack[1]) is not assignable to '[Ljava/lang/Object;'
+        //   Current Frame:
+        //     bci: @6
+        //     flags: { }
+        //     locals: { 'io/github/imsejin/common/assertion/util/CollectionAssert$1', 'java/lang/Object', '[Z' }
+        //     stack: { 'io/github/imsejin/common/assertion/util/CollectionAssert$1', 'java/lang/Object' }
+        class ArrayAssertImpl extends ArrayAssert<ArrayAssertImpl, ELEMENT> {
+            ArrayAssertImpl(Descriptor<?> descriptor, ELEMENT[] actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        ELEMENT[] elements = (ELEMENT[]) this.actual.toArray();
+        return new ArrayAssertImpl(this, elements);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asSize() {
-        return new NumberAssert(this, actual.size()) {
-        };
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        int size = actual.size();
+        return new NumberAssertImpl(this, size);
     }
 
 }

@@ -59,19 +59,27 @@ public class ChronoLocalDateTimeAssert<
      * @see ChronoZonedDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public LocalTimeAssert<?> asLocalTime() {
+        class LocalTimeAssertImpl extends LocalTimeAssert<LocalTimeAssertImpl> {
+            LocalTimeAssertImpl(Descriptor<?> descriptor, LocalTime actual) {
+                super(descriptor, actual);
+            }
+        }
+
         LocalTime localTime = actual.toLocalTime();
-        return new LocalTimeAssert(this, localTime) {
-        };
+        return new LocalTimeAssertImpl(this, localTime);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public InstantAssert<?> asInstant() {
+        class InstantAssertImpl extends InstantAssert<InstantAssertImpl> {
+            InstantAssertImpl(Descriptor<?> descriptor, Instant actual) {
+                super(descriptor, actual);
+            }
+        }
+
         ZoneOffset zoneOffset = DateTimeUtils.getSystemDefaultZoneOffset();
         Instant instant = actual.toInstant(zoneOffset);
-        return new InstantAssert(this, instant) {
-        };
+        return new InstantAssertImpl(this, instant);
     }
 
 }

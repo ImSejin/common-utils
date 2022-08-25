@@ -111,11 +111,15 @@ public class DurationAssert<SELF extends DurationAssert<SELF>> extends ObjectAss
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public BigDecimalAssert<?> asTotalSeconds() {
+        class BigDecimalAssertImpl extends BigDecimalAssert<BigDecimalAssertImpl> {
+            BigDecimalAssertImpl(Descriptor<?> descriptor, BigDecimal actual) {
+                super(descriptor, actual);
+            }
+        }
+
         BigDecimal totalSeconds = new BigDecimal(actual.getSeconds() + "." + actual.getNano());
-        return new BigDecimalAssert(this, totalSeconds) {
-        };
+        return new BigDecimalAssertImpl(this, totalSeconds);
     }
 
 }

@@ -93,28 +93,39 @@ public class ChronoZonedDateTimeAssert<
      * @see ChronoLocalDateTimeAssert#asLocalTime()
      * @see OffsetDateTimeAssert#asLocalTime()
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public LocalTimeAssert<?> asLocalTime() {
+        class LocalTimeAssertImpl extends LocalTimeAssert<LocalTimeAssertImpl> {
+            LocalTimeAssertImpl(Descriptor<?> descriptor, LocalTime actual) {
+                super(descriptor, actual);
+            }
+        }
+
         LocalTime localTime = actual.toLocalTime();
-        return new LocalTimeAssert(this, localTime) {
-        };
+        return new LocalTimeAssertImpl(this, localTime);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public OffsetDateTimeAssert<?> asOffsetDateTime() {
+        class OffsetDateTimeAssertImpl extends OffsetDateTimeAssert<OffsetDateTimeAssertImpl> {
+            OffsetDateTimeAssertImpl(Descriptor<?> descriptor, OffsetDateTime actual) {
+                super(descriptor, actual);
+            }
+        }
+
         LocalDateTime dateTime = LocalDateTime.ofInstant(actual.toInstant(), actual.getZone());
         ZoneOffset offset = actual.getOffset();
         OffsetDateTime offsetDateTime = OffsetDateTime.of(dateTime, offset);
-
-        return new OffsetDateTimeAssert(this, offsetDateTime) {
-        };
+        return new OffsetDateTimeAssertImpl(this, offsetDateTime);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public InstantAssert<?> asInstant() {
+        class InstantAssertImpl extends InstantAssert<InstantAssertImpl> {
+            InstantAssertImpl(Descriptor<?> descriptor, Instant actual) {
+                super(descriptor, actual);
+            }
+        }
+
         Instant instant = actual.toInstant();
-        return new InstantAssert(this, instant) {
-        };
+        return new InstantAssertImpl(this, instant);
     }
 
 }

@@ -166,16 +166,26 @@ public class AbstractFileAssert<
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Long> asLength() {
-        return new NumberAssert(this, actual.length()) {
-        };
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
+            NumberAssertImpl(Descriptor<?> descriptor, Long actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        long length = actual.length();
+        return new NumberAssertImpl(this, length);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public StringAssert<?> asName() {
-        return new StringAssert(this, actual.getName()) {
-        };
+        class StringAssertImpl extends StringAssert<StringAssertImpl> {
+            StringAssertImpl(Descriptor<?> descriptor, String actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        String name = actual.getName();
+        return new StringAssertImpl(this, name);
     }
 
 }

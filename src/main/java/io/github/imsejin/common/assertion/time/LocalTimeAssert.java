@@ -59,18 +59,26 @@ public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asSecondOfDay() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
         int secondOfDay = actual.toSecondOfDay();
-        return new NumberAssert(this, secondOfDay) {
-        };
+        return new NumberAssertImpl(this, secondOfDay);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Long> asNanoOfDay() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
+            NumberAssertImpl(Descriptor<?> descriptor, Long actual) {
+                super(descriptor, actual);
+            }
+        }
+
         long nanoOfDay = actual.toNanoOfDay();
-        return new NumberAssert(this, nanoOfDay) {
-        };
+        return new NumberAssertImpl(this, nanoOfDay);
     }
 
 }

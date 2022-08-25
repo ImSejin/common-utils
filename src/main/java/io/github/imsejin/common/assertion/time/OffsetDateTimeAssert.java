@@ -31,6 +31,9 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, OffsetDateTime>
@@ -83,29 +86,41 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      * @see ChronoLocalDateTimeAssert#asLocalDate()
      * @see ChronoZonedDateTimeAssert#asLocalDate()
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public ChronoLocalDateAssert<?> asLocalDate() {
+        class ChronoLocalDateAssertImpl extends ChronoLocalDateAssert<ChronoLocalDateAssertImpl> {
+            ChronoLocalDateAssertImpl(Descriptor<?> descriptor, ChronoLocalDate actual) {
+                super(descriptor, actual);
+            }
+        }
+
         LocalDate localDate = actual.toLocalDate();
-        return new ChronoLocalDateAssert(this, localDate) {
-        };
+        return new ChronoLocalDateAssertImpl(this, localDate);
     }
 
     /**
      * @return another assertion
      * @see ChronoZonedDateTimeAssert#asLocalDateTime()
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public ChronoLocalDateTimeAssert<?, LocalDate> asLocalDateTime() {
+        class ChronoLocalDateTimeAssertImpl extends ChronoLocalDateTimeAssert<ChronoLocalDateTimeAssertImpl, LocalDate> {
+            protected ChronoLocalDateTimeAssertImpl(Descriptor<?> descriptor, ChronoLocalDateTime<?> actual) {
+                super(descriptor, actual);
+            }
+        }
+
         LocalDateTime localDateTime = actual.toLocalDateTime();
-        return new ChronoLocalDateTimeAssert(this, localDateTime) {
-        };
+        return new ChronoLocalDateTimeAssertImpl(this, localDateTime);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public ChronoZonedDateTimeAssert<?, LocalDate> asZonedDateTime() {
+        class ChronoZonedDateTimeAssertImpl extends ChronoZonedDateTimeAssert<ChronoZonedDateTimeAssertImpl, LocalDate> {
+            ChronoZonedDateTimeAssertImpl(Descriptor<?> descriptor, ChronoZonedDateTime<?> actual) {
+                super(descriptor, actual);
+            }
+        }
+
         ZonedDateTime zonedDateTime = actual.toZonedDateTime();
-        return new ChronoZonedDateTimeAssert(this, zonedDateTime) {
-        };
+        return new ChronoZonedDateTimeAssertImpl(this, zonedDateTime);
     }
 
     /**

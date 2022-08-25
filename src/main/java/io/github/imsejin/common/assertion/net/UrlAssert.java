@@ -99,25 +99,37 @@ public class UrlAssert<
 
     // -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public StringAssert<?> asHost() {
+        class StringAssertImpl extends StringAssert<StringAssertImpl> {
+            StringAssertImpl(Descriptor<?> descriptor, String actual) {
+                super(descriptor, actual);
+            }
+        }
+
         String host = actual.getHost();
-        return new StringAssert(this, host) {
-        };
+        return new StringAssertImpl(this, host);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public NumberAssert<?, Integer> asPort() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
+
         int port = actual.getPort() == -1 ? actual.getDefaultPort() : actual.getPort();
-        return new NumberAssert(this, port) {
-        };
+        return new NumberAssertImpl(this, port);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public StringAssert<?> asPath() {
+        class StringAssertImpl extends StringAssert<StringAssertImpl> {
+            StringAssertImpl(Descriptor<?> descriptor, String actual) {
+                super(descriptor, actual);
+            }
+        }
+
         String path = actual.getPath();
-        return new StringAssert(this, path) {
-        };
+        return new StringAssertImpl(this, path);
     }
 
 }
