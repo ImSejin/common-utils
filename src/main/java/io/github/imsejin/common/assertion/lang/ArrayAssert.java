@@ -19,8 +19,11 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
+import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -359,6 +362,13 @@ public class ArrayAssert<
 
     public NumberAssert<?, Integer> asLength() {
         return new NumberAssert<>(this, actual.length);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public ListAssert<?, List<ELEMENT>, ELEMENT> asList() {
+        List<ELEMENT> list = Arrays.asList(actual);
+        return new ListAssert(this, list) {
+        };
     }
 
 }

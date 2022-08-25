@@ -20,6 +20,7 @@ import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.constant.OS;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
+import io.github.imsejin.common.util.MathUtils;
 import io.github.imsejin.common.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -109,7 +110,7 @@ class ConversionTest {
     @Nested
     class ArrayAssert {
         @Test
-        @DisplayName("asLength(): Array -> int")
+        @DisplayName("asLength(): Array -> Integer")
         void asLength() {
             // given
             String[] array = {"a", "b", "c", "d"};
@@ -126,6 +127,28 @@ class ConversionTest {
                             .asLength().isEqualTo(array.length - 1))
                     .withMessage("Description of assertion: " + ArrayUtils.toString(array));
         }
+
+        @Test
+        @DisplayName("asList(): Array -> List")
+        void asList() {
+            // given
+            Integer[] array = {0, 2, 4, 8, 16, 32, 64, 128};
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(array)
+                    .isNotNull().doesNotContainNull().hasElement().doesNotHaveDuplicates()
+                    .doesNotContainAll(new Integer[]{3, 9, 27, 81, 243, 1029, 3087, 10261})
+                    .predicate(them -> Arrays.stream(them).noneMatch(MathUtils::isOdd))
+                    .asList().doesNotContainNull().hasSizeOf(array.length).doesNotHaveDuplicates()
+                    .doesNotContainAll(Arrays.asList(3, 9, 27, 81, 243, 1029, 3087, 10261))
+                    .predicate(them -> them.stream().noneMatch(MathUtils::isOdd)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(array)
+                            .as("Description of assertion: {0}", ArrayUtils.toString(array))
+                            .exception(RuntimeException::new).isNotNull()
+                            .asList().hasSizeOf(array.length).doesNotContainAll(Arrays.asList(0, 3, 9, 27, 81, 243)))
+                    .withMessage("Description of assertion: " + ArrayUtils.toString(array));
+        }
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -133,7 +156,7 @@ class ConversionTest {
     @Nested
     class CharSequenceAssert {
         @Test
-        @DisplayName("asLength(): CharSequence -> int")
+        @DisplayName("asLength(): CharSequence -> Integer")
         void asLength() {
             // given
             CharSequence charSequence = getClass().getPackage().getName();
@@ -223,7 +246,7 @@ class ConversionTest {
     @Nested
     class AbstractFileAssert {
         @Test
-        @DisplayName("asLength(): File -> long")
+        @DisplayName("asLength(): File -> Long")
         void asLength(@TempDir Path path) throws IOException {
             // given
             String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
@@ -352,7 +375,7 @@ class ConversionTest {
     @Nested
     class LocalTimeAssert {
         @Test
-        @DisplayName("asSecondOfDay(): LocalTime -> int")
+        @DisplayName("asSecondOfDay(): LocalTime -> Integer")
         void asSecondOfDay() {
             // given
             LocalTime time = LocalTime.now();
@@ -371,7 +394,7 @@ class ConversionTest {
         }
 
         @Test
-        @DisplayName("asNanoOfDay(): LocalTime -> long")
+        @DisplayName("asNanoOfDay(): LocalTime -> Long")
         void asNanoOfDay() {
             // given
             LocalTime time = LocalTime.now();
@@ -964,7 +987,7 @@ class ConversionTest {
         }
 
         @Test
-        @DisplayName("asSize(): Collection -> int")
+        @DisplayName("asSize(): Collection -> Integer")
         void asSize() {
             // given
             List<String> collection = Arrays.asList("A", "B", "C", "D", "E", "F");
@@ -1027,7 +1050,7 @@ class ConversionTest {
         }
 
         @Test
-        @DisplayName("asSize(): Map -> int")
+        @DisplayName("asSize(): Map -> Integer")
         void asSize() {
             // given
             Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList("A", "B", "C"));
