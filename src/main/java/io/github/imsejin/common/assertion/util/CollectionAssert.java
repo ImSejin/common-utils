@@ -56,9 +56,9 @@ public class CollectionAssert<
     }
 
     @Override
-    public SELF hasElement() {
+    public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_ELEMENT, actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 

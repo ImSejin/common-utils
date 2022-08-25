@@ -233,8 +233,8 @@ class ArrayAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'hasElement'")
-    class HasElement {
+    @DisplayName("method 'isNotEmpty'")
+    class IsNotEmpty {
         @Test
         @DisplayName("passes, when actual has element")
         void test0() {
@@ -243,32 +243,32 @@ class ArrayAssertTest {
 
             // expect
             list.forEach(actual -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).hasElement()));
+                    .isThrownBy(() -> Asserts.that(actual).isNotEmpty()));
         }
 
         @Test
         @DisplayName("throws exception, when actual is empty")
         void test1() {
-            String description = "It is expected to have element, but it isn't.";
+            String description = "It is expected not to be empty, but it is.";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[0])
-                    .hasElement()).withMessageStartingWith(description);
+                    .isNotEmpty()).withMessageStartingWith(description);
         }
     }
 

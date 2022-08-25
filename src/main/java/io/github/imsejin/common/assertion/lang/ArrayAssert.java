@@ -55,9 +55,9 @@ public class ArrayAssert<
     }
 
     @Override
-    public SELF hasElement() {
+    public SELF isNotEmpty() {
         if (actual.length == 0) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_ELEMENT, (Object) actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, (Object) actual);
             throw getException();
         }
 

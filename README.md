@@ -61,7 +61,7 @@ Asserts.that(dates)
         // First of all, you have to make sure that variable to be asserted is not null,
         // before call the other assertion methods. Otherwise, it might throw NullPointerException.
         .isNotNull()
-        .hasElement()
+        .isNotEmpty()
         .hasSizeOf(3)
         .as("dates should not have duplicated elements: '{0}'", dates)
         .doesNotHaveDuplicates()

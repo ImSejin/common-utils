@@ -32,7 +32,7 @@ import java.util.function.Predicate;
 public interface IterationAssertable<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL, ELEMENT> {
 
     String DEFAULT_DESCRIPTION_IS_EMPTY = "It is expected to be empty, but it isn't. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_HAS_ELEMENT = "It is expected to have element, but it isn't. (actual: '{0}')";
+    String DEFAULT_DESCRIPTION_IS_NOT_EMPTY = "It is expected not to be empty, but it is. (actual: '{0}')";
     String DEFAULT_DESCRIPTION_CONTAINS_NULL = "It is expected to contain null, but it isn't. (actual: '{0}')";
     String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL = "It is expected not to contain null, but it is. (actual: '{0}')";
     String DEFAULT_DESCRIPTION_CONTAINS = "It is expected to contain the given element, but it isn't. (expected: '{0}', actual: '{1}')";
@@ -50,7 +50,7 @@ public interface IterationAssertable<SELF extends ObjectAssert<SELF, ACTUAL>, AC
 
     SELF isEmpty();
 
-    SELF hasElement();
+    SELF isNotEmpty();
 
     SELF contains(ELEMENT expected);
 

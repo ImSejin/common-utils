@@ -86,8 +86,8 @@ class CollectionAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'hasElement'")
-    class HasElement {
+    @DisplayName("method 'isNotEmpty'")
+    class IsNotEmpty {
         @Test
         @DisplayName("passes, when actual has element")
         void test0() {
@@ -106,7 +106,7 @@ class CollectionAssertTest {
 
             // expect
             list.forEach(actual -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).hasElement()));
+                    .isThrownBy(() -> Asserts.that(actual).isNotEmpty()));
         }
 
         @Test
@@ -116,8 +116,8 @@ class CollectionAssertTest {
                     Collections.emptyList(), new ArrayList<>(), new HashSet<>(), new Stack<>(), new PriorityQueue<>());
 
             list.forEach(actual -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).hasElement())
-                    .withMessageStartingWith("It is expected to have element, but it isn't."));
+                    .isThrownBy(() -> Asserts.that(actual).isNotEmpty())
+                    .withMessageStartingWith("It is expected not to be empty, but it is."));
         }
     }
 
