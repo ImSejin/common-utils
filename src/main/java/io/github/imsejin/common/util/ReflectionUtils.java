@@ -212,7 +212,7 @@ public final class ReflectionUtils {
      */
     public static <T> T instantiate(Constructor<T> constructor, @Nullable Object... initArgs) {
         Asserts.that(constructor).isNotNull();
-        if (initArgs != null) Asserts.that(initArgs).isSameLength(constructor.getParameterTypes());
+        if (initArgs != null) Asserts.that(initArgs).hasSameSizeAs(constructor.getParameterTypes());
 
         boolean accessible = constructor.isAccessible();
         if (!accessible) constructor.setAccessible(true);
@@ -269,7 +269,7 @@ public final class ReflectionUtils {
     public static Object invoke(Method method, @Nullable Object instance, Object... args) {
         Asserts.that(method).isNotNull();
         if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
-        if (args != null) Asserts.that(args).isSameLength(method.getParameterTypes());
+        if (args != null) Asserts.that(args).hasSameSizeAs(method.getParameterTypes());
 
         boolean accessible = method.isAccessible();
         if (!accessible) method.setAccessible(true);

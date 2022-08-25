@@ -275,145 +275,192 @@ class ArrayAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'hasLengthOf'")
-    class HasLengthOf {
+    @DisplayName("method 'hasSize'")
+    class HasSize {
         @Test
-        @DisplayName("passes, when actual has the given length")
+        @DisplayName("passes, when actual has the given size")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new boolean[0]).hasLengthOf(0);
-                Asserts.that(new byte[1]).hasLengthOf(1);
-                Asserts.that(new char[2]).hasLengthOf(2);
-                Asserts.that(new double[4]).hasLengthOf(4);
-                Asserts.that(new float[8]).hasLengthOf(8);
-                Asserts.that(new int[16]).hasLengthOf(16);
-                Asserts.that(new long[32]).hasLengthOf(32);
-                Asserts.that(new short[64]).hasLengthOf(64);
-                Asserts.that(new String[128]).hasLengthOf(128);
+                Asserts.that(new boolean[0]).hasSize(0);
+                Asserts.that(new byte[1]).hasSize(1);
+                Asserts.that(new char[2]).hasSize(2);
+                Asserts.that(new double[4]).hasSize(4);
+                Asserts.that(new float[8]).hasSize(8);
+                Asserts.that(new int[16]).hasSize(16);
+                Asserts.that(new long[32]).hasSize(32);
+                Asserts.that(new short[64]).hasSize(64);
+                Asserts.that(new String[128]).hasSize(128);
             });
         }
 
         @Test
-        @DisplayName("throws exception, when actual doesn't have the given length")
+        @DisplayName("throws exception, when actual doesn't have the given size")
         void test1() {
-            String description = "It is expected to be the same length, but it isn't.";
+            String description = "It is expected to have the given size, but it isn't.";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasLengthOf(128)).withMessageStartingWith(description);
+                    .hasSize(128)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .hasLengthOf(64)).withMessageStartingWith(description);
+                    .hasSize(64)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .hasLengthOf(32)).withMessageStartingWith(description);
+                    .hasSize(32)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .hasLengthOf(16)).withMessageStartingWith(description);
+                    .hasSize(16)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .hasLengthOf(-1)).withMessageStartingWith(description);
+                    .hasSize(-1)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .hasLengthOf(4)).withMessageStartingWith(description);
+                    .hasSize(4)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .hasLengthOf(2)).withMessageStartingWith(description);
+                    .hasSize(2)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .hasLengthOf(1)).withMessageStartingWith(description);
+                    .hasSize(1)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .hasLengthOf(0)).withMessageStartingWith(description);
+                    .hasSize(0)).withMessageStartingWith(description);
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'isSameLength'")
-    class IsSameLength {
+    @DisplayName("method 'doesNotHaveSize()'")
+    class DoesNotHaveSize {
         @Test
-        @DisplayName("passes, when actual and other have the same length")
+        @DisplayName("passes, when actual doesn't have the given size")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new boolean[0]).isSameLength(new Object[0]);
-                Asserts.that(new byte[1]).isSameLength(new StringBuilder[1]);
-                Asserts.that(new char[2]).isSameLength(new Character[2]);
-                Asserts.that(new double[4]).isSameLength(new Double[4]);
-                Asserts.that(new float[8]).isSameLength(new Field[8]);
-                Asserts.that(new int[16]).isSameLength(new Constructor[16]);
-                Asserts.that(new long[32]).isSameLength(new Class<?>[32]);
-                Asserts.that(new short[64]).isSameLength(new Stopwatch[64]);
-                Asserts.that(new String[128]).isSameLength(new String[128]);
+                Asserts.that(new boolean[0]).doesNotHaveSize(128);
+                Asserts.that(new byte[1]).doesNotHaveSize(64);
+                Asserts.that(new char[2]).doesNotHaveSize(32);
+                Asserts.that(new double[4]).doesNotHaveSize(16);
+                Asserts.that(new float[8]).doesNotHaveSize(-8);
+                Asserts.that(new int[16]).doesNotHaveSize(4);
+                Asserts.that(new long[32]).doesNotHaveSize(2);
+                Asserts.that(new short[64]).doesNotHaveSize(1);
+                Asserts.that(new String[128]).doesNotHaveSize(0);
             });
         }
 
         @Test
-        @DisplayName("throws exception, when actual and other have a difference with length")
+        @DisplayName("throws exception, when actual has the given size")
         void test1() {
-            String description = "They are expected to be the same length, but they aren't.";
+            String description = "It is expected not to have the given size, but it is.";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .isSameLength(new Object[1])).withMessageStartingWith(description);
+                    .doesNotHaveSize(0)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .isSameLength(new StringBuilder[2])).withMessageStartingWith(description);
+                    .doesNotHaveSize(1)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .isSameLength(new Character[3])).withMessageStartingWith(description);
+                    .doesNotHaveSize(2)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .isSameLength(new Double[3])).withMessageStartingWith(description);
+                    .doesNotHaveSize(4)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .isSameLength(new Field[10])).withMessageStartingWith(description);
+                    .doesNotHaveSize(8)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .isSameLength(new Constructor[32])).withMessageStartingWith(description);
+                    .doesNotHaveSize(16)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .isSameLength(new Class<?>[5])).withMessageStartingWith(description);
+                    .doesNotHaveSize(32)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .isSameLength(new Array[128])).withMessageStartingWith(description);
+                    .doesNotHaveSize(64)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .isSameLength(new String[256])).withMessageStartingWith(description);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .isSameLength(null)).withMessageStartingWith(description);
+                    .doesNotHaveSize(128)).withMessageStartingWith(description);
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'isNotSameLength'")
-    class IsNotSameLength {
+    @DisplayName("method 'hasSameSizeAs'")
+    class HasSameSizeAs {
         @Test
-        @DisplayName("passes, when actual and other have a difference with length")
+        @DisplayName("passes, when actual and other have the same size")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new boolean[0]).isNotSameLength(new Object[1]);
-                Asserts.that(new byte[1]).isNotSameLength(new StringBuilder[2]);
-                Asserts.that(new char[2]).isNotSameLength(new Character[3]);
-                Asserts.that(new double[4]).isNotSameLength(new Double[3]);
-                Asserts.that(new float[8]).isNotSameLength(new Field[10]);
-                Asserts.that(new int[16]).isNotSameLength(new Constructor[32]);
-                Asserts.that(new long[32]).isNotSameLength(new Class<?>[5]);
-                Asserts.that(new short[64]).isNotSameLength(new Array[128]);
-                Asserts.that(new String[128]).isNotSameLength(new String[256]);
+                Asserts.that(new boolean[0]).hasSameSizeAs(new Object[0]);
+                Asserts.that(new byte[1]).hasSameSizeAs(new StringBuilder[1]);
+                Asserts.that(new char[2]).hasSameSizeAs(new Character[2]);
+                Asserts.that(new double[4]).hasSameSizeAs(new Double[4]);
+                Asserts.that(new float[8]).hasSameSizeAs(new Field[8]);
+                Asserts.that(new int[16]).hasSameSizeAs(new Constructor[16]);
+                Asserts.that(new long[32]).hasSameSizeAs(new Class<?>[32]);
+                Asserts.that(new short[64]).hasSameSizeAs(new Stopwatch[64]);
+                Asserts.that(new String[128]).hasSameSizeAs(new String[128]);
             });
         }
 
         @Test
-        @DisplayName("throws exception, when actual and other have the same length")
+        @DisplayName("throws exception, when actual and other have a difference with size")
         void test1() {
-            String description = "They are expected to be not the same length, but they are.";
+            String description = "They are expected to have the same size, but they aren't.";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .isNotSameLength(new Object[0])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new Object[1])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .isNotSameLength(new StringBuilder[1])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new StringBuilder[2])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .isNotSameLength(new Character[2])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new Character[3])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .isNotSameLength(new Double[4])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new Double[3])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .isNotSameLength(new Field[8])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new Field[10])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .isNotSameLength(new Constructor[16])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new Constructor[32])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .isNotSameLength(new Class<?>[32])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new Class<?>[5])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .isNotSameLength(new Stopwatch[64])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new Array[128])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .isNotSameLength(new String[128])).withMessageStartingWith(description);
+                    .hasSameSizeAs(new String[256])).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .isNotSameLength(null)).withMessageStartingWith(description);
+                    .hasSameSizeAs(null)).withMessageStartingWith(description);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'doesNotHaveSameSizeAs'")
+    class DoesNotHaveSameSizeAs {
+        @Test
+        @DisplayName("passes, when actual and other have a difference with size")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new boolean[0]).doesNotHaveSameSizeAs(new Object[1]);
+                Asserts.that(new byte[1]).doesNotHaveSameSizeAs(new StringBuilder[2]);
+                Asserts.that(new char[2]).doesNotHaveSameSizeAs(new Character[3]);
+                Asserts.that(new double[4]).doesNotHaveSameSizeAs(new Double[3]);
+                Asserts.that(new float[8]).doesNotHaveSameSizeAs(new Field[10]);
+                Asserts.that(new int[16]).doesNotHaveSameSizeAs(new Constructor[32]);
+                Asserts.that(new long[32]).doesNotHaveSameSizeAs(new Class<?>[5]);
+                Asserts.that(new short[64]).doesNotHaveSameSizeAs(new Array[128]);
+                Asserts.that(new String[128]).doesNotHaveSameSizeAs(new String[256]);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual and other have the same size")
+        void test1() {
+            String description = "They are expected not to have the same size, but they are.";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .doesNotHaveSameSizeAs(new Object[0])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .doesNotHaveSameSizeAs(new StringBuilder[1])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .doesNotHaveSameSizeAs(new Character[2])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .doesNotHaveSameSizeAs(new Double[4])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .doesNotHaveSameSizeAs(new Field[8])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .doesNotHaveSameSizeAs(new Constructor[16])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .doesNotHaveSameSizeAs(new Class<?>[32])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .doesNotHaveSameSizeAs(new Stopwatch[64])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .doesNotHaveSameSizeAs(new String[128])).withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
+                    .doesNotHaveSameSizeAs(null)).withMessageStartingWith(description);
         }
     }
 

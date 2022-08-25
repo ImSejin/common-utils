@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
@@ -41,35 +42,34 @@ public class MapAssert<
 
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription("It is expected to be empty, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
         return self;
     }
 
-    public SELF hasEntry() {
+    public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to have entry, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 
         return self;
     }
 
-    public SELF hasSizeOf(int expected) {
+    public SELF hasSize(int expected) {
         if (actual.size() != expected) {
-            setDefaultDescription("It is expected to be the same size, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.size());
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
             throw getException();
         }
 
         return self;
     }
 
-    public SELF isSameSize(Map<?, ?> expected) {
+    public SELF hasSameSizeAs(Map<?, ?> expected) {
         if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription("They are expected to be the same size, but they aren't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -77,9 +77,9 @@ public class MapAssert<
         return self;
     }
 
-    public SELF isNotSameSize(Map<?, ?> expected) {
+    public SELF doesNotHaveSameSizeAs(Map<?, ?> expected) {
         if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription("They are expected to be not the same size, but they are. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }

@@ -33,6 +33,10 @@ public interface IterationAssertable<SELF extends ObjectAssert<SELF, ACTUAL>, AC
 
     String DEFAULT_DESCRIPTION_IS_EMPTY = "It is expected to be empty, but it isn't. (actual: '{0}')";
     String DEFAULT_DESCRIPTION_IS_NOT_EMPTY = "It is expected not to be empty, but it is. (actual: '{0}')";
+    String DEFAULT_DESCRIPTION_HAS_SIZE = "It is expected to have the given size, but it isn't. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE = "It is expected not to have the given size, but it is. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS = "They are expected to have the same size, but they aren't. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS = "They are expected not to have the same size, but they are. (expected: '{0}', actual: '{1}')";
     String DEFAULT_DESCRIPTION_CONTAINS_NULL = "It is expected to contain null, but it isn't. (actual: '{0}')";
     String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL = "It is expected not to contain null, but it is. (actual: '{0}')";
     String DEFAULT_DESCRIPTION_CONTAINS = "It is expected to contain the given element, but it isn't. (expected: '{0}', actual: '{1}')";
@@ -51,6 +55,14 @@ public interface IterationAssertable<SELF extends ObjectAssert<SELF, ACTUAL>, AC
     SELF isEmpty();
 
     SELF isNotEmpty();
+
+    SELF hasSize(int expected);
+
+    SELF doesNotHaveSize(int expected);
+
+    SELF hasSameSizeAs(ACTUAL expected);
+
+    SELF doesNotHaveSameSizeAs(ACTUAL expected);
 
     SELF contains(ELEMENT expected);
 

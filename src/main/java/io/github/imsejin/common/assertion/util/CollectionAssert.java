@@ -65,19 +65,31 @@ public class CollectionAssert<
         return self;
     }
 
-    public SELF hasSizeOf(int expected) {
+    @Override
+    public SELF hasSize(int expected) {
         if (actual.size() != expected) {
-            setDefaultDescription("It is expected to be the same size, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.size());
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
             throw getException();
         }
 
         return self;
     }
 
-    public SELF isSameSize(Collection<?> expected) {
+    @Override
+    public SELF doesNotHaveSize(int expected) {
+        if (actual.size() == expected) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.size());
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
+    public SELF hasSameSizeAs(Collection expected) {
         if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription("They are expected to be the same size, but they aren't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -85,9 +97,11 @@ public class CollectionAssert<
         return self;
     }
 
-    public SELF isNotSameSize(Collection<?> expected) {
+    @Override
+    @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
+    public SELF doesNotHaveSameSizeAs(Collection expected) {
         if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription("They are expected to be not the same size, but they are. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }

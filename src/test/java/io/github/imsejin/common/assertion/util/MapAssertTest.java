@@ -77,8 +77,8 @@ class MapAssertTest {
     }
 
     @Nested
-    @DisplayName("method 'hasEntry'")
-    class HasEntry {
+    @DisplayName("method 'isNotEmpty'")
+    class IsNotEmpty {
         @Test
         @DisplayName("passes, when actual has entry")
         void test0() {
@@ -97,7 +97,7 @@ class MapAssertTest {
 
             // when & then
             list.forEach(actual -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).hasEntry()));
+                    .isThrownBy(() -> Asserts.that(actual).isNotEmpty()));
         }
 
         @Test
@@ -108,14 +108,14 @@ class MapAssertTest {
                     new HashMap<>(), new TreeMap<>(), new Properties(), new ConcurrentHashMap<>());
 
             list.forEach(actual -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).hasEntry())
-                    .withMessageStartingWith("It is expected to have entry, but it isn't."));
+                    .isThrownBy(() -> Asserts.that(actual).isNotEmpty())
+                    .withMessageStartingWith("It is expected not to be empty, but it is."));
         }
     }
 
     @Nested
-    @DisplayName("method 'hasSizeOf'")
-    class HasSizeOf {
+    @DisplayName("method 'hasSize'")
+    class HasSize {
         @Test
         @DisplayName("passes, when actual has the given size")
         void test0() {
@@ -132,11 +132,11 @@ class MapAssertTest {
                 props.setProperty("news", "properties");
 
                 // expect
-                Asserts.that(Collections.emptyMap()).hasSizeOf(0);
-                Asserts.that(Collections.singletonMap("foo", "bar")).hasSizeOf(1);
-                Asserts.that(hashMap).hasSizeOf(hashMap.size());
-                Asserts.that(treeMap).hasSizeOf(treeMap.size());
-                Asserts.that(props).hasSizeOf(props.size());
+                Asserts.that(Collections.emptyMap()).hasSize(0);
+                Asserts.that(Collections.singletonMap("foo", "bar")).hasSize(1);
+                Asserts.that(hashMap).hasSize(hashMap.size());
+                Asserts.that(treeMap).hasSize(treeMap.size());
+                Asserts.that(props).hasSize(props.size());
             });
         }
 
@@ -144,27 +144,27 @@ class MapAssertTest {
         @DisplayName("throws exception, when actual doesn't have the given size")
         void test1() {
             // given
-            String description = "It is expected to be the same size, but it isn't.";
+            String description = "It is expected to have the given size, but it isn't.";
             Map<Object, Object> hashMap = new HashMap<>();
             hashMap.put('a', new Object());
             hashMap.put('b', new Object());
             hashMap.put('c', new Object());
 
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).hasSizeOf(1))
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).hasSize(1))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).hasSizeOf(0))
+                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).hasSize(0))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(hashMap).hasSizeOf(4))
+                    .isThrownBy(() -> Asserts.that(hashMap).hasSize(4))
                     .withMessageStartingWith(description);
         }
     }
 
     @Nested
-    @DisplayName("method 'isSameSize'")
-    class IsSameSize {
+    @DisplayName("method 'hasSameSizeAs'")
+    class HasSameSizeAs {
         @Test
         @DisplayName("passes, when actual and other have the same size")
         void test0() {
@@ -180,11 +180,11 @@ class MapAssertTest {
                 props.setProperty("news", "properties");
 
                 // expect
-                Asserts.that(Collections.emptyMap()).isSameSize(new LinkedHashMap<>());
-                Asserts.that(Collections.singletonMap("foo", "bar")).isSameSize(hashMap);
-                Asserts.that(hashMap).isSameSize(Collections.singletonMap(null, null));
-                Asserts.that(treeMap).isSameSize(props);
-                Asserts.that(props).isSameSize(treeMap);
+                Asserts.that(Collections.emptyMap()).hasSameSizeAs(new LinkedHashMap<>());
+                Asserts.that(Collections.singletonMap("foo", "bar")).hasSameSizeAs(hashMap);
+                Asserts.that(hashMap).hasSameSizeAs(Collections.singletonMap(null, null));
+                Asserts.that(treeMap).hasSameSizeAs(props);
+                Asserts.that(props).hasSameSizeAs(treeMap);
             });
         }
 
@@ -192,7 +192,7 @@ class MapAssertTest {
         @DisplayName("throws exception, when actual and other have a difference with size")
         void test1() {
             // given
-            String description = "They are expected to be the same size, but they aren't.";
+            String description = "They are expected to have the same size, but they aren't.";
             Map<Object, Object> hashMap = new HashMap<>();
             hashMap.put('a', new Object());
             hashMap.put('b', new Object());
@@ -200,23 +200,23 @@ class MapAssertTest {
 
             // expect
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isSameSize(null))
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).hasSameSizeAs(null))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isSameSize(Collections.singletonMap(null, null)))
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).hasSameSizeAs(Collections.singletonMap(null, null)))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).isSameSize(Collections.emptyMap()))
+                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).hasSameSizeAs(Collections.emptyMap()))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(hashMap).isSameSize(CollectionUtils.toMap(Arrays.asList(1, 2, 3, 4))))
+                    .isThrownBy(() -> Asserts.that(hashMap).hasSameSizeAs(CollectionUtils.toMap(Arrays.asList(1, 2, 3, 4))))
                     .withMessageStartingWith(description);
         }
     }
 
     @Nested
-    @DisplayName("method 'isNotSameSize'")
-    class IsNotSameSize {
+    @DisplayName("method 'doesNotHaveSameSizeAs'")
+    class DoesNotHaveSameSizeAs {
         @Test
         @DisplayName("passes, when actual and other have a difference with size")
         void test0() {
@@ -232,11 +232,11 @@ class MapAssertTest {
                 props.setProperty("news", "properties");
 
                 // expect
-                Asserts.that(Collections.emptyMap()).isNotSameSize(hashMap);
-                Asserts.that(Collections.singletonMap(null, null)).isNotSameSize(new Properties());
-                Asserts.that(hashMap).isNotSameSize(treeMap);
-                Asserts.that(treeMap).isNotSameSize(hashMap);
-                Asserts.that(props).isNotSameSize(Collections.singletonMap("foo", "bar"));
+                Asserts.that(Collections.emptyMap()).doesNotHaveSameSizeAs(hashMap);
+                Asserts.that(Collections.singletonMap(null, null)).doesNotHaveSameSizeAs(new Properties());
+                Asserts.that(hashMap).doesNotHaveSameSizeAs(treeMap);
+                Asserts.that(treeMap).doesNotHaveSameSizeAs(hashMap);
+                Asserts.that(props).doesNotHaveSameSizeAs(Collections.singletonMap("foo", "bar"));
             });
         }
 
@@ -244,7 +244,7 @@ class MapAssertTest {
         @DisplayName("throws exception, when actual and other have the same size")
         void test1() {
             // given
-            String description = "They are expected to be not the same size, but they are.";
+            String description = "They are expected not to have the same size, but they are.";
             Map<Object, Object> hashMap = new HashMap<>();
             hashMap.put('a', new Object());
             hashMap.put('b', new Object());
@@ -252,16 +252,16 @@ class MapAssertTest {
 
             // expect
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isNotSameSize(null))
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).doesNotHaveSameSizeAs(null))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).isNotSameSize(new Properties()))
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).doesNotHaveSameSizeAs(new Properties()))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).isNotSameSize(Collections.singletonMap("foo", "bar")))
+                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).doesNotHaveSameSizeAs(Collections.singletonMap("foo", "bar")))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(hashMap).isNotSameSize(CollectionUtils.toMap(Arrays.asList(0, 1, 2))))
+                    .isThrownBy(() -> Asserts.that(hashMap).doesNotHaveSameSizeAs(CollectionUtils.toMap(Arrays.asList(0, 1, 2))))
                     .withMessageStartingWith(description);
         }
     }

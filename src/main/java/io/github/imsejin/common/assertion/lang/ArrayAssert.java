@@ -64,18 +64,30 @@ public class ArrayAssert<
         return self;
     }
 
-    public SELF hasLengthOf(int expected) {
+    @Override
+    public SELF hasSize(int expected) {
         if (actual.length != expected) {
-            setDefaultDescription("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.length);
             throw getException();
         }
 
         return self;
     }
 
-    public SELF isSameLength(Object[] expected) {
+    @Override
+    public SELF doesNotHaveSize(int expected) {
+        if (actual.length == expected) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.length);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF hasSameSizeAs(Object[] expected) {
         if (expected == null || actual.length != expected.length) {
-            setDefaultDescription("They are expected to be the same length, but they aren't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }
@@ -83,9 +95,10 @@ public class ArrayAssert<
         return self;
     }
 
-    public SELF isNotSameLength(Object[] expected) {
+    @Override
+    public SELF doesNotHaveSameSizeAs(Object[] expected) {
         if (expected == null || actual.length == expected.length) {
-            setDefaultDescription("They are expected to be not the same length, but they are. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }

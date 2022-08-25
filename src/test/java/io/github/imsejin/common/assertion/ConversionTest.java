@@ -139,14 +139,14 @@ class ConversionTest {
                     .isNotNull().doesNotContainNull().isNotEmpty().doesNotHaveDuplicates()
                     .doesNotContainAll(new Integer[]{3, 9, 27, 81, 243, 1029, 3087, 10261})
                     .predicate(them -> Arrays.stream(them).noneMatch(MathUtils::isOdd))
-                    .asList().doesNotContainNull().hasSizeOf(array.length).doesNotHaveDuplicates()
+                    .asList().doesNotContainNull().hasSize(array.length).doesNotHaveDuplicates()
                     .doesNotContainAll(Arrays.asList(3, 9, 27, 81, 243, 1029, 3087, 10261))
                     .predicate(them -> them.stream().noneMatch(MathUtils::isOdd)));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(array)
                             .as("Description of assertion: {0}", ArrayUtils.toString(array))
                             .exception(RuntimeException::new).isNotNull()
-                            .asList().hasSizeOf(array.length).doesNotContainAll(Arrays.asList(0, 3, 9, 27, 81, 243)))
+                            .asList().hasSize(array.length).doesNotContainAll(Arrays.asList(0, 3, 9, 27, 81, 243)))
                     .withMessage("Description of assertion: " + ArrayUtils.toString(array));
         }
     }
@@ -974,15 +974,15 @@ class ConversionTest {
             Collection<String> collection = Arrays.stream(packageName.split("\\.")).collect(toList());
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(collection).hasSizeOf(count)
-                    .asArray().hasLengthOf(count).containsOnly(Arrays.stream(packageName.split("\\."))
+            assertThatNoException().isThrownBy(() -> Asserts.that(collection).hasSize(count)
+                    .asArray().hasSize(count).containsOnly(Arrays.stream(packageName.split("\\."))
                             .sorted(Collections.reverseOrder()).toArray(String[]::new))
                     .containsAny("java", "lang", "imsejin").containsAll(new String[0]));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(collection)
                             .as("Description of assertion: {0}", collection)
                             .exception(RuntimeException::new).isNotEmpty()
-                            .asArray().isNotSameLength(new Object[0]).containsNull())
+                            .asArray().doesNotHaveSameSizeAs(new Object[0]).containsNull())
                     .withMessage("Description of assertion: " + collection);
         }
 
@@ -1018,13 +1018,13 @@ class ConversionTest {
             Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
-                    .asKeySet().isNotEmpty().hasSizeOf(count).contains(0)
+            assertThatNoException().isThrownBy(() -> Asserts.that(map).isNotEmpty().hasSize(count)
+                    .asKeySet().isNotEmpty().hasSize(count).contains(0)
                     .containsAll(IntStream.range(0, count).boxed().collect(toList())));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(map)
                             .as("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).hasEntry()
+                            .exception(RuntimeException::new).isNotEmpty()
                             .asKeySet().isEmpty())
                     .withMessage("Description of assertion: " + map);
         }
@@ -1038,13 +1038,13 @@ class ConversionTest {
             Map<Integer, String> map = CollectionUtils.toMap(Arrays.asList(packageName.split("\\.")));
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(map).hasEntry().hasSizeOf(count)
-                    .asValues().isNotEmpty().hasSizeOf(count).contains("common")
-                    .isSameSize(Arrays.asList(packageName.split("\\."))));
+            assertThatNoException().isThrownBy(() -> Asserts.that(map).isNotEmpty().hasSize(count)
+                    .asValues().isNotEmpty().hasSize(count).contains("common")
+                    .hasSameSizeAs(Arrays.asList(packageName.split("\\."))));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(map)
                             .as("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).hasEntry()
+                            .exception(RuntimeException::new).isNotEmpty()
                             .asValues().isEmpty())
                     .withMessage("Description of assertion: " + map);
         }
@@ -1057,12 +1057,12 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(map)
-                    .isNotNull().hasEntry()
+                    .isNotNull().isNotEmpty()
                     .asSize().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(map.size()));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(map)
                             .as("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).hasEntry()
+                            .exception(RuntimeException::new).isNotEmpty()
                             .asSize().isBetween(-1, 0))
                     .withMessage("Description of assertion: " + map);
         }
