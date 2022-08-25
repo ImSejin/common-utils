@@ -39,42 +39,42 @@ class OffsetTimeAssertTest {
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:00Z",
-                "12:34:56-18:00, 12:34:56-18:00",
-                "05:15:43-15:30, 05:15:43-15:30",
-                "02:25:52-12:00, 02:25:52-12:00",
-                "19:39:07-10:00, 19:39:07-10:00",
-                "04:04:16-07:00, 04:04:16-07:00",
-                "06:36:50-00:00, 06:36:50-00:00",
-                "04:52:25+00:00, 04:52:25+00:00",
-                "04:00:04+01:00, 04:00:04+01:00",
-                "17:22:16+03:00, 17:22:16+03:00",
-                "08:30:21+09:00, 08:30:21+09:00",
-                "11:19:43+10:00, 11:19:43+10:00",
-                "23:59:59+18:00, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z",
+                "12:34:56-18:00 | 12:34:56-18:00",
+                "05:15:43-15:30 | 05:15:43-15:30",
+                "02:25:52-12:00 | 02:25:52-12:00",
+                "19:39:07-10:00 | 19:39:07-10:00",
+                "04:04:16-07:00 | 04:04:16-07:00",
+                "06:36:50-00:00 | 06:36:50-00:00",
+                "04:52:25+00:00 | 04:52:25+00:00",
+                "04:00:04+01:00 | 04:00:04+01:00",
+                "17:22:16+03:00 | 17:22:16+03:00",
+                "08:30:21+09:00 | 08:30:21+09:00",
+                "11:19:43+10:00 | 11:19:43+10:00",
+                "23:59:59+18:00 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is equal to other")
         void test0(OffsetTime actual, OffsetTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:01Z",
-                "12:34:56-18:00, 12:34:56+18:00",
-                "05:15:43-15:30, 05:15:43-15:00",
-                "02:25:52-11:00, 02:25:52-12:00",
-                "19:39:07-10:00, 19:39:08-10:00",
-                "04:04:17-07:00, 04:04:16-07:00",
-                "06:36:50-00:00, 07:36:50-00:00",
-                "04:52:35+00:00, 04:52:25+00:00",
-                "04:00:04+01:00, 04:04:04+01:00",
-                "17:22:16+03:30, 17:22:16+03:00",
-                "08:30:21+09:00, 08:30:21+08:00",
-                "11:19:43+10:00, 11:19:43+11:00",
-                "23:59:59-18:00, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:01Z",
+                "12:34:56-18:00 | 12:34:56+18:00",
+                "05:15:43-15:30 | 05:15:43-15:00",
+                "02:25:52-11:00 | 02:25:52-12:00",
+                "19:39:07-10:00 | 19:39:08-10:00",
+                "04:04:17-07:00 | 04:04:16-07:00",
+                "06:36:50-00:00 | 07:36:50-00:00",
+                "04:52:35+00:00 | 04:52:25+00:00",
+                "04:00:04+01:00 | 04:04:04+01:00",
+                "17:22:16+03:30 | 17:22:16+03:00",
+                "08:30:21+09:00 | 08:30:21+08:00",
+                "11:19:43+10:00 | 11:19:43+11:00",
+                "23:59:59-18:00 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is not equal to other")
         void test1(OffsetTime actual, OffsetTime expected) {
             assertThatIllegalArgumentException()
@@ -89,42 +89,42 @@ class OffsetTimeAssertTest {
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:01Z",
-                "12:34:56-18:00, 12:34:56+18:00",
-                "05:15:43-15:30, 05:15:43-15:00",
-                "02:25:52-11:00, 02:25:52-12:00",
-                "19:39:07-10:00, 19:39:08-10:00",
-                "04:04:17-07:00, 04:04:16-07:00",
-                "06:36:50-00:00, 07:36:50-00:00",
-                "04:52:35+00:00, 04:52:25+00:00",
-                "04:00:04+01:00, 04:04:04+01:00",
-                "17:22:16+03:30, 17:22:16+03:00",
-                "08:30:21+09:00, 08:30:21+08:00",
-                "11:19:43+10:00, 11:19:43+11:00",
-                "23:59:59-18:00, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:01Z",
+                "12:34:56-18:00 | 12:34:56+18:00",
+                "05:15:43-15:30 | 05:15:43-15:00",
+                "02:25:52-11:00 | 02:25:52-12:00",
+                "19:39:07-10:00 | 19:39:08-10:00",
+                "04:04:17-07:00 | 04:04:16-07:00",
+                "06:36:50-00:00 | 07:36:50-00:00",
+                "04:52:35+00:00 | 04:52:25+00:00",
+                "04:00:04+01:00 | 04:04:04+01:00",
+                "17:22:16+03:30 | 17:22:16+03:00",
+                "08:30:21+09:00 | 08:30:21+08:00",
+                "11:19:43+10:00 | 11:19:43+11:00",
+                "23:59:59-18:00 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is not equal to other")
         void test0(OffsetTime actual, OffsetTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:00Z",
-                "12:34:56-18:00, 12:34:56-18:00",
-                "05:15:43-15:30, 05:15:43-15:30",
-                "02:25:52-12:00, 02:25:52-12:00",
-                "19:39:07-10:00, 19:39:07-10:00",
-                "04:04:16-07:00, 04:04:16-07:00",
-                "06:36:50-00:00, 06:36:50-00:00",
-                "04:52:25+00:00, 04:52:25+00:00",
-                "04:00:04+01:00, 04:00:04+01:00",
-                "17:22:16+03:00, 17:22:16+03:00",
-                "08:30:21+09:00, 08:30:21+09:00",
-                "11:19:43+10:00, 11:19:43+10:00",
-                "23:59:59+18:00, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z",
+                "12:34:56-18:00 | 12:34:56-18:00",
+                "05:15:43-15:30 | 05:15:43-15:30",
+                "02:25:52-12:00 | 02:25:52-12:00",
+                "19:39:07-10:00 | 19:39:07-10:00",
+                "04:04:16-07:00 | 04:04:16-07:00",
+                "06:36:50-00:00 | 06:36:50-00:00",
+                "04:52:25+00:00 | 04:52:25+00:00",
+                "04:00:04+01:00 | 04:00:04+01:00",
+                "17:22:16+03:00 | 17:22:16+03:00",
+                "08:30:21+09:00 | 08:30:21+09:00",
+                "11:19:43+10:00 | 11:19:43+10:00",
+                "23:59:59+18:00 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is equal to other")
         void test1(OffsetTime actual, OffsetTime expected) {
             assertThatIllegalArgumentException()
@@ -139,26 +139,26 @@ class OffsetTimeAssertTest {
     @DisplayName("method 'isBefore'")
     class IsBefore {
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:01Z",
-                "12:34:56-17:30, 12:34:56-18:00",
-                "20:39:06-09:00, 19:39:07-10:00",
-                "09:30:20+09:00, 08:30:21+08:00",
-                "23:59:59+18:00, 23:59:59+17:30",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:01Z",
+                "12:34:56-17:30 | 12:34:56-18:00",
+                "20:39:06-09:00 | 19:39:07-10:00",
+                "09:30:20+09:00 | 08:30:21+08:00",
+                "23:59:59+18:00 | 23:59:59+17:30",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is before than other")
         void test0(OffsetTime actual, OffsetTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBefore(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:00Z",
-                "12:34:56-18:00, 12:34:56-17:30",
-                "20:39:07-09:00, 19:39:06-10:00",
-                "09:30:22+09:00, 08:30:21+08:00",
-                "23:59:59+17:30, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z",
+                "12:34:56-18:00 | 12:34:56-17:30",
+                "20:39:07-09:00 | 19:39:06-10:00",
+                "09:30:22+09:00 | 08:30:21+08:00",
+                "23:59:59+17:30 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is after than or equal to other")
         void test1(OffsetTime actual, OffsetTime expected) {
             assertThatIllegalArgumentException()
@@ -173,26 +173,26 @@ class OffsetTimeAssertTest {
     @DisplayName("method 'isBeforeOrEqualTo'")
     class IsBeforeOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:00Z",
-                "12:34:56-17:30, 12:34:56-18:00",
-                "20:39:06-09:00, 19:39:07-10:00",
-                "09:30:20+09:00, 08:30:21+08:00",
-                "23:59:59+18:00, 23:59:59+17:30",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z",
+                "12:34:56-17:30 | 12:34:56-18:00",
+                "20:39:06-09:00 | 19:39:07-10:00",
+                "09:30:20+09:00 | 08:30:21+08:00",
+                "23:59:59+18:00 | 23:59:59+17:30",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is before than or equal to other")
         void test0(OffsetTime actual, OffsetTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBeforeOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "00:00:01Z,      00:00:00Z",
-                "12:34:56-18:00, 12:34:56-17:30",
-                "20:39:07-09:00, 19:39:06-10:00",
-                "09:30:22+09:00, 08:30:21+08:00",
-                "23:59:59+17:30, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:01Z      | 00:00:00Z",
+                "12:34:56-18:00 | 12:34:56-17:30",
+                "20:39:07-09:00 | 19:39:06-10:00",
+                "09:30:22+09:00 | 08:30:21+08:00",
+                "23:59:59+17:30 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is after than other")
         void test1(OffsetTime actual, OffsetTime expected) {
             assertThatIllegalArgumentException()
@@ -207,26 +207,26 @@ class OffsetTimeAssertTest {
     @DisplayName("method 'isAfter'")
     class IsAfter {
         @ParameterizedTest
-        @CsvSource({
-                "00:00:01Z,      00:00:00Z",
-                "12:34:56-18:00, 12:34:56-17:30",
-                "20:39:07-09:00, 19:39:06-10:00",
-                "09:30:22+09:00, 08:30:21+08:00",
-                "23:59:59+17:30, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:01Z      | 00:00:00Z",
+                "12:34:56-18:00 | 12:34:56-17:30",
+                "20:39:07-09:00 | 19:39:06-10:00",
+                "09:30:22+09:00 | 08:30:21+08:00",
+                "23:59:59+17:30 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is after than other")
         void test0(OffsetTime actual, OffsetTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfter(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:00Z",
-                "12:34:56-17:30, 12:34:56-18:00",
-                "20:39:06-09:00, 19:39:07-10:00",
-                "09:30:20+09:00, 08:30:21+08:00",
-                "23:59:59+18:00, 23:59:59+17:30",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z",
+                "12:34:56-17:30 | 12:34:56-18:00",
+                "20:39:06-09:00 | 19:39:07-10:00",
+                "09:30:20+09:00 | 08:30:21+08:00",
+                "23:59:59+18:00 | 23:59:59+17:30",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is before than or equal to other")
         void test1(OffsetTime actual, OffsetTime expected) {
             assertThatIllegalArgumentException()
@@ -241,26 +241,26 @@ class OffsetTimeAssertTest {
     @DisplayName("method 'isAfterOrEqualTo'")
     class IsAfterOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:00Z",
-                "12:34:56-18:00, 12:34:56-17:30",
-                "20:39:07-09:00, 19:39:06-10:00",
-                "09:30:22+09:00, 08:30:21+08:00",
-                "23:59:59+17:30, 23:59:59+18:00",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z",
+                "12:34:56-18:00 | 12:34:56-17:30",
+                "20:39:07-09:00 | 19:39:06-10:00",
+                "09:30:22+09:00 | 08:30:21+08:00",
+                "23:59:59+17:30 | 23:59:59+18:00",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is after than or equal to other")
         void test0(OffsetTime actual, OffsetTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfterOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "00:00:00Z,      00:00:01Z",
-                "12:34:56-17:30, 12:34:56-18:00",
-                "20:39:06-09:00, 19:39:07-10:00",
-                "09:30:20+09:00, 08:30:21+08:00",
-                "23:59:59+18:00, 23:59:59+17:30",
-        })
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:01Z",
+                "12:34:56-17:30 | 12:34:56-18:00",
+                "20:39:06-09:00 | 19:39:07-10:00",
+                "09:30:20+09:00 | 08:30:21+08:00",
+                "23:59:59+18:00 | 23:59:59+17:30",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is before than other")
         void test1(OffsetTime actual, OffsetTime expected) {
             assertThatIllegalArgumentException()

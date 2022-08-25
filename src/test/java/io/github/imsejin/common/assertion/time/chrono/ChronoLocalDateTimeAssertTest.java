@@ -34,22 +34,22 @@ class ChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 1592-05-23T00:00:00.000000000",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012345",
-                "2022-05-19T23:59:59.999999999, 2022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000000",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012345",
+                "2022-05-19T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 2022-05-19T23:59:59.999999999",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012346",
-                "2022-05-19T23:59:59.999999999, 1592-05-23T00:00:00.000000000",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 2022-05-19T23:59:59.999999999",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012346",
+                "2022-05-19T23:59:59.999999999 | 1592-05-23T00:00:00.000000000",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is not equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -64,22 +64,22 @@ class ChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 2022-05-19T23:59:59.999999999",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012346",
-                "2022-05-19T23:59:59.999999999, 1592-05-23T00:00:00.000000000",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 2022-05-19T23:59:59.999999999",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012346",
+                "2022-05-19T23:59:59.999999999 | 1592-05-23T00:00:00.000000000",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is not equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 1592-05-23T00:00:00.000000000",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012345",
-                "2022-05-19T23:59:59.999999999, 2022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000000",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012345",
+                "2022-05-19T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -94,22 +94,22 @@ class ChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isBefore'")
     class IsBefore {
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 1592-05-23T00:00:00.000000001",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:57.789012345",
-                "2022-05-19T23:59:59.999999999, 3022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000001",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:57.789012345",
+                "2022-05-19T23:59:59.999999999 | 3022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is before than other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBefore(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000001, 1592-05-23T00:00:00.000000000",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012345",
-                "3022-05-19T23:59:59.999999999, 2022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000001 | 1592-05-23T00:00:00.000000000",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012345",
+                "3022-05-19T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is after than or equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -124,22 +124,22 @@ class ChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isBeforeOrEqualTo'")
     class IsBeforeOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 1592-05-23T00:00:00.000000001",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012345",
-                "2022-05-19T23:59:59.999999999, 3022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000001",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012345",
+                "2022-05-19T23:59:59.999999999 | 3022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is before than or equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBeforeOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000001, 1592-05-23T00:00:00.000000000",
-                "1918-12-31T12:34:57.789012345, 1918-12-31T12:34:56.789012345",
-                "3022-05-19T23:59:59.999999999, 2022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000001 | 1592-05-23T00:00:00.000000000",
+                "1918-12-31T12:34:57.789012345 | 1918-12-31T12:34:56.789012345",
+                "3022-05-19T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is after than other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -154,22 +154,22 @@ class ChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isAfter'")
     class IsAfter {
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000001, 1592-05-23T00:00:00.000000000",
-                "1918-12-31T12:34:57.789012345, 1918-12-31T12:34:56.789012345",
-                "3022-05-19T23:59:59.999999999, 2022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000001 | 1592-05-23T00:00:00.000000000",
+                "1918-12-31T12:34:57.789012345 | 1918-12-31T12:34:56.789012345",
+                "3022-05-19T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is after than other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfter(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 1592-05-23T00:00:00.000000001",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012345",
-                "2022-05-19T23:59:59.999999999, 3022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000001",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012345",
+                "2022-05-19T23:59:59.999999999 | 3022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is before than or equal to other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
@@ -184,22 +184,22 @@ class ChronoLocalDateTimeAssertTest {
     @DisplayName("method 'isAfterOrEqualTo'")
     class IsAfterOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000001, 1592-05-23T00:00:00.000000000",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:56.789012345",
-                "3022-05-19T23:59:59.999999999, 2022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000001 | 1592-05-23T00:00:00.000000000",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:56.789012345",
+                "3022-05-19T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is after than or equal to other")
         void test0(LocalDateTime actual, LocalDateTime expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isAfterOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "1592-05-23T00:00:00.000000000, 1592-05-23T00:00:00.000000001",
-                "1918-12-31T12:34:56.789012345, 1918-12-31T12:34:57.789012345",
-                "2022-05-19T23:59:59.999999999, 3022-05-19T23:59:59.999999999",
-        })
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000001",
+                "1918-12-31T12:34:56.789012345 | 1918-12-31T12:34:57.789012345",
+                "2022-05-19T23:59:59.999999999 | 3022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is before than other")
         void test1(LocalDateTime actual, LocalDateTime expected) {
             assertThatIllegalArgumentException()
