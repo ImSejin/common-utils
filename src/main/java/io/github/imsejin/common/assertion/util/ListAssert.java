@@ -41,7 +41,9 @@ public class ListAssert<
     @Override
     @SafeVarargs
     public final SELF startsWith(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         if (actual.size() < expected.length) {
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
@@ -51,7 +53,9 @@ public class ListAssert<
         for (int i = 0; i < expected.length; i++) {
             ELEMENT element = actual.get(i);
             ELEMENT item = expected[i];
-            if (Objects.deepEquals(element, item)) continue;
+            if (Objects.deepEquals(element, item)) {
+                continue;
+            }
 
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
             throw getException();
@@ -63,7 +67,9 @@ public class ListAssert<
     @Override
     @SafeVarargs
     public final SELF endsWith(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         if (actual.size() < expected.length) {
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
@@ -73,7 +79,9 @@ public class ListAssert<
         for (int i = 0; i < expected.length; i++) {
             ELEMENT element = actual.get(actual.size() - expected.length + i);
             ELEMENT item = expected[i];
-            if (Objects.deepEquals(element, item)) continue;
+            if (Objects.deepEquals(element, item)) {
+                continue;
+            }
 
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
             throw getException();

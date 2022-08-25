@@ -112,7 +112,9 @@ public class CollectionAssert<
     @Override
     public SELF contains(ELEMENT expected) {
         for (ELEMENT element : actual) {
-            if (Objects.deepEquals(element, expected)) return self;
+            if (Objects.deepEquals(element, expected)) {
+                return self;
+            }
         }
 
         setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
@@ -122,7 +124,9 @@ public class CollectionAssert<
     @Override
     public SELF doesNotContain(ELEMENT expected) {
         for (ELEMENT element : actual) {
-            if (!Objects.deepEquals(element, expected)) continue;
+            if (!Objects.deepEquals(element, expected)) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN, expected, actual, element);
             throw getException();
@@ -134,7 +138,9 @@ public class CollectionAssert<
     @Override
     public SELF containsNull() {
         for (ELEMENT element : actual) {
-            if (element == null) return self;
+            if (element == null) {
+                return self;
+            }
         }
 
         setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, actual);
@@ -144,7 +150,9 @@ public class CollectionAssert<
     @Override
     public SELF doesNotContainNull() {
         for (ELEMENT element : actual) {
-            if (element != null) continue;
+            if (element != null) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, actual);
             throw getException();
@@ -156,11 +164,15 @@ public class CollectionAssert<
     @Override
     @SafeVarargs
     public final SELF containsAny(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         for (Object item : expected) {
             for (Object element : actual) {
-                if (Objects.deepEquals(element, item)) return self;
+                if (Objects.deepEquals(element, item)) {
+                    return self;
+                }
             }
         }
 
@@ -170,12 +182,16 @@ public class CollectionAssert<
 
     @Override
     public SELF containsAll(ACTUAL expected) {
-        if (CollectionUtils.isNullOrEmpty(expected)) return self;
+        if (CollectionUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         outer:
         for (ELEMENT item : expected) {
             for (ELEMENT element : actual) {
-                if (Objects.deepEquals(element, item)) continue outer;
+                if (Objects.deepEquals(element, item)) {
+                    continue outer;
+                }
             }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual, item);
@@ -187,11 +203,15 @@ public class CollectionAssert<
 
     @Override
     public SELF doesNotContainAll(ACTUAL expected) {
-        if (actual.isEmpty() || CollectionUtils.isNullOrEmpty(expected)) return self;
+        if (actual.isEmpty() || CollectionUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         for (ELEMENT item : expected) {
             for (ELEMENT element : actual) {
-                if (!Objects.deepEquals(element, item)) continue;
+                if (!Objects.deepEquals(element, item)) {
+                    continue;
+                }
 
                 setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL, expected, actual);
                 throw getException();
@@ -207,13 +227,17 @@ public class CollectionAssert<
     @Override
     @SafeVarargs
     public final SELF containsOnly(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         // Checks if the actual collection contains all the given elements.
         outer:
         for (ELEMENT item : expected) {
             for (ELEMENT element : actual) {
-                if (Objects.deepEquals(element, item)) continue outer;
+                if (Objects.deepEquals(element, item)) {
+                    continue outer;
+                }
             }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING, expected, actual, item);
@@ -224,7 +248,9 @@ public class CollectionAssert<
         outer:
         for (ELEMENT element : actual) {
             for (ELEMENT item : expected) {
-                if (Objects.deepEquals(element, item)) continue outer;
+                if (Objects.deepEquals(element, item)) {
+                    continue outer;
+                }
             }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED, expected, actual, element);
@@ -242,7 +268,9 @@ public class CollectionAssert<
         }
 
         for (ELEMENT element : actual) {
-            if (element == null) continue;
+            if (element == null) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
             throw getException();
@@ -253,7 +281,9 @@ public class CollectionAssert<
 
     @Override
     public SELF doesNotHaveDuplicates() {
-        if (actual.isEmpty() || actual.size() == 1) return self;
+        if (actual.isEmpty() || actual.size() == 1) {
+            return self;
+        }
 
         Set<ELEMENT> noDuplicates = new TreeSet<>((o1, o2) -> {
             if (Objects.deepEquals(o1, o2)) return 0;
@@ -275,7 +305,9 @@ public class CollectionAssert<
     @Override
     public SELF anyMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {
-            if (expected.test(element)) return self;
+            if (expected.test(element)) {
+                return self;
+            }
         }
 
         setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH, actual);
@@ -290,7 +322,9 @@ public class CollectionAssert<
         }
 
         for (ELEMENT element : actual) {
-            if (expected.test(element)) continue;
+            if (expected.test(element)) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, element);
             throw getException();
@@ -302,7 +336,9 @@ public class CollectionAssert<
     @Override
     public SELF noneMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {
-            if (!expected.test(element)) continue;
+            if (!expected.test(element)) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH, actual, element);
             throw getException();
