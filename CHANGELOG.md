@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [v0.11.0](#v0110):
 - [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
 - [v0.8.0](#v080): 2022-04-10
@@ -26,11 +27,47 @@
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
 
+# v0.11.0
+
+### Modification
+
+- 🔥 Remove: method `findElement(Collection, Predicate)` in `CollectionUtils`
+- ♻️ Change: modifier of `Descriptor.merge(Descriptor, Descriptor)` from protected to private
+- 🚚 Rename: method `hasElement()` to `isNotEmpty()` in `IterationAssertable`
+- 🚚 Rename: method `hasLengthOf(int)` to `hasLength(int)` in `ArrayAssert`
+- 🚚 Rename: method `isSameLength(Object[])` to `hasSameSizeAs(Object[])` in `ArrayAssert`
+- 🚚 Rename: method `isNotSameLength(Object[])` to `doesNotHaveSameSizeAs(Object[])` in `ArrayAssert`
+- 🚚 Rename: method `hasSizeOf(int)` to `hasSize(int)` in `CollectionAssert`
+- 🚚 Rename: method `isSameSize(Collection)` to `hasSameSizeAs(Collection)` in `CollectionAssert`
+- 🚚 Rename: method `isNotSameSize(Collection)` to `doesNotHaveSameSizeAs(Collection)` in `CollectionAssert`
+- 🚚 Rename: method `hasEntry()` to `isNotEmpty()` in `MapAssert`
+- 🚚 Rename: method `hasSizeOf(int)` to `hasSize(int)` in `MapAssert`
+- 🚚 Rename: method `isSameSize(Map)` to `hasSameSizeAs(Map)` in `MapAssert`
+- 🚚 Rename: method `isNotSameSize(Map)` to `doesNotHaveSameSizeAs(Map)` in `MapAssert`
+
+### New features
+
+- ✨ Add: assertion class `DateAssert`
+- ✨ Add: protected constructor in assertion classes
+- ✨ Add: method `doesNotHaveSize(int)` in `IterationAssertable`
+- ✨ Add: method `asList()` in `ArrayAssert`
+- ✨ Add: methods `asYearMonth()`, `asMonthDay()` in `ChronoLocalDateAssert`
+
+### Troubleshooting
+
+- 🐞 Fix:
+
+### Dependencies
+
+- ➕ Add: dependencies ``
+- ➕ Add: test dependency ``
+- ⬆️ Upgrade: test dependency `` from `` to ``
+
 # v0.10.0
 
 ### Modification
 
-- ♻️ Refactor: tool `Stopwatch` 
+- ♻️ Refactor: tool `Stopwatch`
 - ⚡️ Improve: security.model `Verification`
 - ⚡️ Improve: static code analysis on IntelliJ IDEA
 
