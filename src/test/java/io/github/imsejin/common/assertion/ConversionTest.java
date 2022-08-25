@@ -66,7 +66,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 /**
- * Test method named 'asXXX' in assertion classes.
+ * Test methods named 'asXXX' in assertion class.
  */
 class ConversionTest {
 
@@ -81,7 +81,8 @@ class ConversionTest {
             UUID uuid = UUID.randomUUID();
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(uuid).isNotNull().isEqualTo(UUID.fromString(uuid.toString()))
+            assertThatNoException().isThrownBy(() -> Asserts.that(uuid)
+                    .isNotNull().isEqualTo(UUID.fromString(uuid.toString()))
                     .asString().matches("[\\da-z]{8}-([\\da-z]{4}-){3}[\\da-z]{12}")
                     .isEqualTo(uuid.toString()));
             assertThatExceptionOfType(RuntimeException.class)
@@ -96,18 +97,19 @@ class ConversionTest {
         @DisplayName("asClass(): Object -> Class")
         void asClass() {
             // given
-            String text = "ObjectAssert";
+            Object object = new Object();
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(text).isNotNull().hasText()
-                    .asClass().isSameAs(String.class).isEqualTo(text.getClass())
-                    .asClass().isSameAs(Class.class).isEqualTo(text.getClass().getClass()));
+            assertThatNoException().isThrownBy(() -> Asserts.that(object)
+                    .isNotNull().isSameAs(object).isNotEqualTo(new Object())
+                    .asClass().isSameAs(Object.class).isEqualTo(object.getClass())
+                    .asClass().isSameAs(Class.class).isEqualTo(object.getClass().getClass()));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(text)
-                            .as("Description of assertion: {0}", text)
+                    .isThrownBy(() -> Asserts.that(object)
+                            .as("Description of assertion: {0}", object)
                             .exception(RuntimeException::new).isNotNull()
                             .asClass().isAnonymousClass())
-                    .withMessage("Description of assertion: " + text);
+                    .withMessage("Description of assertion: " + object);
         }
     }
 
