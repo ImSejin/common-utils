@@ -65,6 +65,9 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
+/**
+ * Test method named 'asXXX' in assertion classes.
+ */
 class ConversionTest {
 
     // java.lang ---------------------------------------------------------------------------------------
@@ -79,7 +82,7 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(uuid).isNotNull().isEqualTo(UUID.fromString(uuid.toString()))
-                    .asString().matches("[\\da-z]{8}-[\\da-z]{4}-[\\da-z]{4}-[\\da-z]{4}-[\\da-z]{12}")
+                    .asString().matches("[\\da-z]{8}-([\\da-z]{4}-){3}[\\da-z]{12}")
                     .isEqualTo(uuid.toString()));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(uuid)

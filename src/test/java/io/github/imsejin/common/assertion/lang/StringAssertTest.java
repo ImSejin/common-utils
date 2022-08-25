@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
@@ -254,26 +255,26 @@ class StringAssertTest {
     @DisplayName("method 'startsWith'")
     class StartsWith {
         @ParameterizedTest
-        @CsvSource({
-                "io.github.imsejin.common.assertion.chars,io.github.imsejin.common",
-                "Lorem Ipsum is simply dummy text,Lorem Ipsum",
-                "It is a long established fact that a reader will be distracted,It ",
-                "Contrary to popular belief; Lorem Ipsum is not simply random text.,C",
-                "There are many variations of passages of Lorem Ipsum available,There are",
-        })
+        @CsvSource(value = {
+                "io.github.imsejin.common.assertion.chars                           | io.github.imsejin.common",
+                "Lorem Ipsum is simply dummy text                                   | Lorem Ipsum",
+                "It is a long established fact that a reader will be distracted     | It ",
+                "Contrary to popular belief; Lorem Ipsum is not simply random text. | C",
+                "There are many variations of passages of Lorem Ipsum available     | There are",
+        }, delimiter = '|')
         @DisplayName("passes, when actual starts with the given string")
         void test0(String actual, String expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).startsWith(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "io.github.imsejin.common.assertion.chars,o.github.imsejin.common",
-                "Lorem Ipsum is simply dummy text,",
-                "It is a long established fact that a reader will be distracted,it is",
-                "Contrary to popular belief; Lorem Ipsum is not simply random text.,const",
-                "There are many variations of passages of Lorem Ipsum available,THERE IS",
-        })
+        @CsvSource(value = {
+                "io.github.imsejin.common.assertion.chars                           | o.github.imsejin.common",
+                "Lorem Ipsum is simply dummy text                                   | ",
+                "It is a long established fact that a reader will be distracted     | it is",
+                "Contrary to popular belief; Lorem Ipsum is not simply random text. | const",
+                "There are many variations of passages of Lorem Ipsum available     | THERE IS",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't start with the given string")
         void test1(String actual, String expected) {
             assertThatIllegalArgumentException()
@@ -286,26 +287,26 @@ class StringAssertTest {
     @DisplayName("method 'endsWith'")
     class EndsWith {
         @ParameterizedTest
-        @CsvSource({
-                "io.github.imsejin.common.assertion.chars,common.assertion.chars",
-                "Lorem Ipsum is simply dummy text,simply dummy text",
-                "It is a long established fact that a reader will be distracted,distracted",
-                "Contrary to popular belief; Lorem Ipsum is not simply random text.,.",
-                "There are many variations of passages of Lorem Ipsum available,available",
-        })
+        @CsvSource(value = {
+                "io.github.imsejin.common.assertion.chars                           | common.assertion.chars",
+                "Lorem Ipsum is simply dummy text                                   | simply dummy text",
+                "It is a long established fact that a reader will be distracted     | distracted",
+                "Contrary to popular belief; Lorem Ipsum is not simply random text. | .",
+                "There are many variations of passages of Lorem Ipsum available     | available",
+        }, delimiter = '|')
         @DisplayName("passes, when actual ends with the given string")
         void test0(String actual, String expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).endsWith(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "io.github.imsejin.common.assertion.chars,common.assertion.char",
-                "Lorem Ipsum is simply dummy text,",
-                "It is a long established fact that a reader will be distracted,be  distracted",
-                "Contrary to popular belief; Lorem Ipsum is not simply random text.,Text.",
-                "There are many variations of passages of Lorem Ipsum available,AVAILABLE",
-        })
+        @CsvSource(value = {
+                "io.github.imsejin.common.assertion.chars                           | common.assertion.char",
+                "Lorem Ipsum is simply dummy text                                   | ",
+                "It is a long established fact that a reader will be distracted     | be  distracted",
+                "Contrary to popular belief; Lorem Ipsum is not simply random text. | Text.",
+                "There are many variations of passages of Lorem Ipsum available     | AVAILABLE",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't end with the given string")
         void test1(String actual, String expected) {
             assertThatIllegalArgumentException()
@@ -318,26 +319,26 @@ class StringAssertTest {
     @DisplayName("method 'contains'")
     class Contains {
         @ParameterizedTest
-        @CsvSource({
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry,ing",
-                "It is a long established fact that a reader will be distracted,be distracted",
-                "Lorem Ipsum is not simply random text.,Lorem Ipsum",
-                "There are many variations of passages of Lorem Ipsum available,are",
-                "All the Lorem Ipsum generators tend to repeat predefined chunks,k",
-        })
+        @CsvSource(value = {
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry | ing",
+                "It is a long established fact that a reader will be distracted            | be distracted",
+                "Lorem Ipsum is not simply random text.                                    | Lorem Ipsum",
+                "There are many variations of passages of Lorem Ipsum available            | are",
+                "All the Lorem Ipsum generators tend to repeat predefined chunks           | k",
+        }, delimiter = '|')
         @DisplayName("passes, when actual contains the given string")
         void test0(String actual, String expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).contains(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry,industries",
-                "It is a long established fact that a reader will be distracted,",
-                "Lorem Ipsum is not simply random text.,LoremIpsum",
-                "There are many variations of passages of Lorem Ipsum available,is",
-                "All the Lorem Ipsum generators tend to repeat predefined chunks,CHUNK",
-        })
+        @CsvSource(value = {
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry | industries",
+                "It is a long established fact that a reader will be distracted            | ",
+                "Lorem Ipsum is not simply random text.                                    | LoremIpsum",
+                "There are many variations of passages of Lorem Ipsum available            | is",
+                "All the Lorem Ipsum generators tend to repeat predefined chunks           | CHUNK",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't contain the given string")
         void test1(String actual, String expected) {
             assertThatIllegalArgumentException()
@@ -351,32 +352,32 @@ class StringAssertTest {
     class Matches {
         @ParameterizedTest
         @CsvSource(value = {
-                "843e4377-4222-416f-96dd-badfe606baae;^[a-z\\d]{8}-[a-z\\d]{4}-[a-z\\d]{4}-[a-z\\d]{4}-[a-z\\d]{12}$",
-                "991231-1234567;^\\d{2}(?:0[1-9]|1[0-2])(?:[0-2]\\d|3[0-1])-[1-4]\\d{6}$",
-                "sample@paper.com;^[\\w-]+(?:.[\\w-]+)*@(?:\\w+\\.)+\\w+$",
-                "010-123-4567;^01(?:0|1|[6-9])-\\d{3,4}-\\d{4}$",
+                "843e4377-4222-416f-96dd-badfe606baae ; ^[a-z\\d]{8}-[a-z\\d]{4}-[a-z\\d]{4}-[a-z\\d]{4}-[a-z\\d]{12}$",
+                "991231-1234567                       ; ^\\d{2}(?:0[1-9]|1[0-2])(?:[0-2]\\d|3[0-1])-[1-4]\\d{6}$",
+                "sample@paper.com                     ; ^[\\w-]+(?:.[\\w-]+)*@(?:\\w+\\.)+\\w+$",
+                "010-123-4567                         ; ^01(?:0|1|[6-9])-\\d{3,4}-\\d{4}$",
         }, delimiter = ';')
         @DisplayName("passes, when actual matches the given regular expression")
-        void test0(String actual, String expected) {
+        void test0(String actual, @Language("RegExp") String expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).matches(expected));
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).matches(Pattern.compile(expected)));
         }
 
         @ParameterizedTest
         @CsvSource(value = {
-                "843e4377-4222-416f-96dd-badfe606baae;^\\d{8}-\\d{4}-\\d{4}-\\d{4}-\\d{12}$",
-                "991301-1234567;\\d{2}(?:0[1-9]|1[0-2])(?:[0-2]\\d|3[0-1])-[1-4]\\d{6}",
-                "sample-company@paper.com;^\\w+@(?:\\w+\\.)+\\w+$",
-                "02-1234-5678;^01(?:0|1|[6-9])-\\d{3,4}-\\d{4}$",
+                "843e4377-4222-416f-96dd-badfe606baae ; ^\\d{8}-\\d{4}-\\d{4}-\\d{4}-\\d{12}$",
+                "991301-1234567                       ; \\d{2}(?:0[1-9]|1[0-2])(?:[0-2]\\d|3[0-1])-[1-4]\\d{6}",
+                "sample-company@paper.com             ; ^\\w+@(?:\\w+\\.)+\\w+$",
+                "02-1234-5678                         ; ^01(?:0|1|[6-9])-\\d{3,4}-\\d{4}$",
         }, delimiter = ';')
         @DisplayName("throws exception, when actual doesn't match the given regular expression")
-        void test1(String actual, String expected) {
+        void test1(String actual, @Language("RegExp") String expected) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).matches(expected))
                     .withMessageStartingWith("It is expected to match the given regular expression, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).matches(Pattern.compile(expected)))
-                    .withMessageStartingWith("It is expected to match the given regular expression, but it isn't.");
+                    .withMessageStartingWith("It is expected to match the given pattern, but it isn't.");
         }
     }
 
