@@ -44,6 +44,7 @@ import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.util.CollectionAssert;
+import io.github.imsejin.common.assertion.util.DateAssert;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.ArrayUtils;
@@ -65,6 +66,7 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -136,12 +138,24 @@ public abstract class Asserts {
         return new ArrayAssert<>(array);
     }
 
+    public static <T> ClassAssert<?, T> that(Class<T> clazz) {
+        return new ClassAssert<>(clazz);
+    }
+
+    public static PackageAssert<?> that(Package pack) {
+        return new PackageAssert<>(pack);
+    }
+
     public static BooleanAssert<?> that(Boolean bool) {
         return new BooleanAssert<>(bool);
     }
 
     public static CharacterAssert<?> that(Character character) {
         return new CharacterAssert<>(character);
+    }
+
+    public static <NUMBER extends Number & Comparable<NUMBER>> NumberAssert<?, NUMBER> that(NUMBER number) {
+        return new NumberAssert<>(number);
     }
 
     public static FloatAssert<?> that(Float number) {
@@ -152,10 +166,6 @@ public abstract class Asserts {
         return new DoubleAssert<>(number);
     }
 
-    public static <NUMBER extends Number & Comparable<NUMBER>> NumberAssert<?, NUMBER> that(NUMBER number) {
-        return new NumberAssert<>(number);
-    }
-
     public static CharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
         return new CharSequenceAssert<>(charSequence);
     }
@@ -164,44 +174,22 @@ public abstract class Asserts {
         return new StringAssert<>(string);
     }
 
-    public static <T> ClassAssert<?, T> that(Class<T> clazz) {
-        return new ClassAssert<>(clazz);
-    }
-
-    public static PackageAssert<?> that(Package pack) {
-        return new PackageAssert<>(pack);
-    }
-
-    // java.util ---------------------------------------------------------------------------------------
-
-    public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
-        return new CollectionAssert<>(collection);
-    }
-
-    public static <T> ListAssert<?, List<T>, T> that(List<T> list) {
-        return new ListAssert<>(list);
-    }
-
-    public static <K, V> MapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
-        return new MapAssert<>(map);
-    }
-
     // java.io -----------------------------------------------------------------------------------------
 
     public static AbstractFileAssert<?, File> that(File file) {
         return new AbstractFileAssert<>(file);
     }
 
-    // java.net ----------------------------------------------------------------------------------------
-
-    public static UrlAssert<?> that(URL url) {
-        return new UrlAssert<>(url);
-    }
-
     // java.math ---------------------------------------------------------------------------------------
 
     public static BigDecimalAssert<?> that(BigDecimal bigDecimal) {
         return new BigDecimalAssert<>(bigDecimal);
+    }
+
+    // java.net ----------------------------------------------------------------------------------------
+
+    public static UrlAssert<?> that(URL url) {
+        return new UrlAssert<>(url);
     }
 
     // java.time ---------------------------------------------------------------------------------------
@@ -258,6 +246,24 @@ public abstract class Asserts {
 
     public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> zonedDateTime) {
         return new ChronoZonedDateTimeAssert<>(zonedDateTime);
+    }
+
+    // java.util ---------------------------------------------------------------------------------------
+
+    public static DateAssert<?, Date> that(Date date) {
+        return new DateAssert<>(date);
+    }
+
+    public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
+        return new CollectionAssert<>(collection);
+    }
+
+    public static <T> ListAssert<?, List<T>, T> that(List<T> list) {
+        return new ListAssert<>(list);
+    }
+
+    public static <K, V> MapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
+        return new MapAssert<>(map);
     }
 
 }
