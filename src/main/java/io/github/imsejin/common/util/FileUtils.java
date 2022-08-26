@@ -73,7 +73,7 @@ public final class FileUtils {
         try {
             return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -143,7 +143,7 @@ public final class FileUtils {
             return Files.find(path, Integer.MAX_VALUE, (p, bfa) -> bfa.isRegularFile())
                     .map(Path::toFile).collect(toSet());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -167,7 +167,7 @@ public final class FileUtils {
                 Files.delete(p);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

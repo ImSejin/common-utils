@@ -54,7 +54,7 @@ public class RSA implements Crypto {
         try {
             keyFactory = KeyFactory.getInstance(ALGORITHM);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -93,7 +93,7 @@ public class RSA implements Crypto {
 
             return generator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -104,7 +104,7 @@ public class RSA implements Crypto {
         try {
             return keyFactory.generatePublic(keySpec);
         } catch (InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -115,7 +115,7 @@ public class RSA implements Crypto {
         try {
             return keyFactory.generatePrivate(keySpec);
         } catch (InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -134,7 +134,7 @@ public class RSA implements Crypto {
 
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -148,7 +148,7 @@ public class RSA implements Crypto {
 
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -168,7 +168,7 @@ public class RSA implements Crypto {
 
             return new String(decrypted, StandardCharsets.UTF_8);
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -183,7 +183,7 @@ public class RSA implements Crypto {
 
             return new String(decrypted, StandardCharsets.UTF_8);
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

@@ -94,7 +94,7 @@ public final class ClassFinder {
 
                 return subclasses.add(Class.forName(name, false, classLoader));
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(e.getMessage(), e);
             }
         });
 

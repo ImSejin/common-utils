@@ -67,7 +67,7 @@ abstract class AES implements Crypto {
 
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -82,7 +82,7 @@ abstract class AES implements Crypto {
 
             return new String(decrypted, this.charset);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

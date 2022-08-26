@@ -244,7 +244,7 @@ public final class ReflectionUtils {
         try {
             return type.getDeclaredMethod(name, paramTypes);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -277,7 +277,7 @@ public final class ReflectionUtils {
         try {
             return method.invoke(instance, args);
         } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             // Turns back the accessibility of the method as it was.
             if (!accessible) method.setAccessible(false);
