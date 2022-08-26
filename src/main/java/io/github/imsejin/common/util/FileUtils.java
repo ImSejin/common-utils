@@ -32,9 +32,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Comparator;
 import java.util.Set;
 
+import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toSet;
 
 /**
@@ -151,13 +151,21 @@ public final class FileUtils {
      * Deletes all directories and files recursively.
      *
      * @param path    path
-     * @param options options for visiting files
+     * @param options options for visiting paths
      */
     public static void deleteRecursively(Path path, FileVisitOption... options) {
         try {
-            Files.walk(path, options).map(Path::toFile).filter(File::exists)
-                    .sorted(Comparator.reverseOrder()) // To delete directories that contain files.
-                    .forEach(File::delete);
+            if (!Files.isDirectory(path)) {
+                Files.delete(path);
+                return;
+            }
+
+            // Sorts as reverse order to delete directory that contains file.
+            Path[] paths = Files.walk(path, options).sorted(reverseOrder()).toArray(Path[]::new);
+
+            for (Path p : paths) {
+                Files.delete(p);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
