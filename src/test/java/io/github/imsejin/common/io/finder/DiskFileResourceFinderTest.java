@@ -41,8 +41,8 @@ class DiskFileResourceFinderTest {
         void test0(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(
-                    path, null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
+                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(false);
@@ -78,8 +78,8 @@ class DiskFileResourceFinderTest {
         void test1(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(
-                    path, null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
+                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(true);
@@ -115,8 +115,8 @@ class DiskFileResourceFinderTest {
         @DisplayName("gets resources non-recursively with another constructor on default file system")
         void test2(@TempDir Path path) throws IOException {
             // given
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(
-                    path, null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
+                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(false,
@@ -142,8 +142,8 @@ class DiskFileResourceFinderTest {
         @DisplayName("gets resources recursively with another constructor on default file system")
         void test3(@TempDir Path path) throws IOException {
             // given
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(
-                    path, null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
+                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(true,
