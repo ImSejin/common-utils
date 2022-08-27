@@ -19,19 +19,17 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Set;
 
 import static java.util.Comparator.reverseOrder;
@@ -47,16 +45,15 @@ public final class FileUtils {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
-
     /**
-     * Returns attributes of file.
+     * Returns attributes of path.
      *
-     * @param file file
-     * @return file's attributes
+     * @param path path
+     * @return path's attributes
      */
-    public static BasicFileAttributes getFileAttributes(File file) {
+    public static BasicFileAttributes getFileAttributes(Path path) {
         try {
-            return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            return Files.readAttributes(path, BasicFileAttributes.class);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -86,10 +83,10 @@ public final class FileUtils {
      * Downloads a file with URL.
      *
      * @param url  URL
-     * @param dest file for destination
+     * @param dest destination for file
      * @return whether success to download file or not
      */
-    public static boolean download(URL url, File dest) {
+    public static boolean download(URL url, Path dest) {
         try {
             return download(url.openStream(), dest);
         } catch (IOException e) {
@@ -101,13 +98,15 @@ public final class FileUtils {
      * Downloads a file.
      *
      * @param in   input stream
-     * @param dest file for destination
+     * @param dest destination for file
      * @return whether success to download file or not
      */
-    public static boolean download(InputStream in, File dest) {
-        try (FileOutputStream out = new FileOutputStream(dest);
-             ReadableByteChannel readChannel = Channels.newChannel(in)) {
-            out.getChannel().transferFrom(readChannel, 0, Long.MAX_VALUE);
+    public static boolean download(InputStream in, Path dest) {
+        try (
+                ReadableByteChannel readChannel = Channels.newChannel(in);
+                FileChannel channel = FileChannel.open(dest, StandardOpenOption.WRITE, StandardOpenOption.CREATE)
+        ) {
+            channel.transferFrom(readChannel, 0, Long.MAX_VALUE);
 
             // Success
             return true;
