@@ -24,24 +24,11 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.DirectoryNotEmptyException
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
-import java.time.LocalDateTime
 
 class FileUtilsSpec extends Specification {
 
     @TempDir
     private Path tempPath
-
-    def "Gets creation time of a file"() {
-        given:
-        def file = Paths.get("./src/main/java/io/github/imsejin/common/util", "FileUtils.java").toRealPath().toFile()
-
-        when:
-        def creationTime = FileUtils.getCreationTime file
-
-        then:
-        creationTime.isBefore(LocalDateTime.now())
-    }
 
     def "Makes a directory as own name"() {
         given:

@@ -47,21 +47,6 @@ public final class FileUtils {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
-    /**
-     * Returns creation time of the file.
-     *
-     * <pre><code>
-     *     File file = new File("C:\\Program Files\\Java", "README.md");
-     *     getCreationTime(file); // 2020-02-29 23:06:34
-     * </code></pre>
-     *
-     * @param file file
-     * @return file's creation time
-     */
-    public static LocalDateTime getCreationTime(File file) {
-        FileTime time = getFileAttributes(file).creationTime();
-        return LocalDateTime.ofInstant(time.toInstant(), ZoneId.systemDefault());
-    }
 
     /**
      * Returns attributes of file.
