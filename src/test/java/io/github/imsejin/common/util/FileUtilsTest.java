@@ -21,6 +21,7 @@ import io.github.imsejin.common.internal.TestFileSystemCreator.PathType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.FileSystemSource;
 import org.junit.jupiter.api.extension.Memory;
 
@@ -28,18 +29,64 @@ import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIOException;
+import static org.assertj.core.api.Assertions.assertThatRuntimeException;
 
 @FileSystemSource
 @DisplayName("FileUtils")
 class FileUtilsTest {
+
+    @Nested
+    @DisplayName("method 'getFileAttributes'")
+    class GetFileAttributes {
+        @Test
+        @DisplayName("succeeds in getting attributes of file")
+        void test0(@Memory FileSystem fileSystem) throws IOException {
+            // given
+            Path path = fileSystem.getPath("/");
+            List<Path> randomFilePaths = TestFileSystemCreator.createRandomFiles(path, new Random(),
+                    null, Arrays.asList(".alp", ".bet", ".gam", ".del"));
+
+            // when
+            List<BasicFileAttributes> attributes = Files.list(path)
+                    .map(FileUtils::getFileAttributes).collect(toList());
+
+            // then
+            assertThat(attributes)
+                    .isNotNull()
+                    .isNotEmpty()
+                    .hasSameSizeAs(randomFilePaths)
+                    .doesNotContainNull()
+                    .doesNotHaveDuplicates()
+                    .allMatch(BasicFileAttributes::isRegularFile)
+                    .allMatch(attribute -> attribute.size() > 0)
+                    .allMatch(attribute -> attribute.creationTime().toMillis() <= System.currentTimeMillis());
+        }
+
+        @Test
+        @DisplayName("fails to get attributes of non-existent file")
+        void test1(@Memory FileSystem fileSystem) {
+            // given
+            Path path = fileSystem.getPath("/", "temp-file.txt");
+
+            // expect
+            assertThatRuntimeException()
+                    .isThrownBy(() -> FileUtils.getFileAttributes(path))
+                    .withCauseExactlyInstanceOf(NoSuchFileException.class)
+                    .withMessage(path.toString());
+        }
+    }
 
     // -------------------------------------------------------------------------------------------------
 
@@ -47,12 +94,12 @@ class FileUtilsTest {
     @DisplayName("method 'deleteRecursively'")
     class DeleteRecursively {
         @RepeatedTest(10)
-        @DisplayName("passes")
+        @DisplayName("succeeds in deleting files and directories in recursive way")
         void test0(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(
-                    path, Arrays.asList("alpha-", "beta-", "gamma-", "delta-"), null);
+            TestFileSystemCreator.createRandomEnvironment(path,
+                    Arrays.asList("alpha-", "beta-", "gamma-", "delta-"), null);
 
             // when
             Path[] paths = Files.list(path).toArray(Path[]::new);
@@ -66,13 +113,26 @@ class FileUtilsTest {
                     .isEmpty();
         }
 
+        @Test
+        @DisplayName("fails to delete non-existent directory in recursive way")
+        void test1(@Memory FileSystem fileSystem) {
+            // given
+            Path path = fileSystem.getPath("/", "temp");
+
+            // expect
+            assertThatRuntimeException()
+                    .isThrownBy(() -> FileUtils.deleteRecursively(path))
+                    .withCauseExactlyInstanceOf(NoSuchFileException.class)
+                    .withMessage(path.toString());
+        }
+
         @RepeatedTest(10)
-        @DisplayName("failed")
-        void test1(@Memory FileSystem fileSystem) throws IOException {
+        @DisplayName("fails to delete directory that has file in common way")
+        void test2(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(
-                    path, Arrays.asList("alpha-", "beta-", "gamma-", "delta-"), null);
+            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
+                    Arrays.asList("alpha-", "beta-", "gamma-", "delta-"), null);
 
             // when
             assertThatIOException().isThrownBy(() -> {

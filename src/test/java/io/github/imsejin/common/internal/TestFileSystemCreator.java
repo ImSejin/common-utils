@@ -55,12 +55,12 @@ public final class TestFileSystemCreator {
         }
 
         // Creates files in root directory.
-        List<Path> files = createFiles(basePath, random, prefixes, suffixes);
+        List<Path> files = createRandomFiles(basePath, random, prefixes, suffixes);
 
         // Creates files in each directory.
         List<Path> dirFiles = new ArrayList<>();
         for (Path directory : directories) {
-            List<Path> list = createFiles(directory, random, prefixes, suffixes);
+            List<Path> list = createRandomFiles(directory, random, prefixes, suffixes);
             dirFiles.addAll(list);
         }
 
@@ -74,7 +74,7 @@ public final class TestFileSystemCreator {
         return Collections.unmodifiableMap(map);
     }
 
-    private static List<Path> createFiles(Path path, Random random, List<String> prefixes, List<String> suffixes) throws IOException {
+    public static List<Path> createRandomFiles(Path path, Random random, List<String> prefixes, List<String> suffixes) throws IOException {
         RandomString randomNameString = new RandomString(random);
         List<Path> files = new ArrayList<>();
 
