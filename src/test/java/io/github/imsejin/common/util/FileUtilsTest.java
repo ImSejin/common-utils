@@ -24,8 +24,10 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.FileSystemSource;
 import org.junit.jupiter.api.extension.Memory;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -85,6 +87,37 @@ class FileUtilsTest {
                     .isThrownBy(() -> FileUtils.getFileAttributes(path))
                     .withCauseExactlyInstanceOf(NoSuchFileException.class)
                     .withMessage(path.toString());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'download'")
+    class Download {
+        @Test
+        @DisplayName("succeeds in downloading data in input stream as a file")
+        void test0(@TempDir Path tempPath) throws IOException {
+            // given
+            Map<PathType, List<Path>> pathTypeMap = TestFileSystemCreator.builder()
+                    .minimumFileCount(1)
+                    .maximumFileCount(1)
+                    .minimumFileLength(2)
+                    .maximumFileLength(8192)
+                    .build().create(tempPath);
+            Path filePath = pathTypeMap.get(PathType.FILE).get(0);
+
+            // when
+            URL url = filePath.toUri().toURL();
+            Path path = tempPath.resolve(filePath.getFileName().toString() + ".bak");
+            FileUtils.download(url, path);
+
+            // then
+            assertThat(path)
+                    .isNotNull()
+                    .exists()
+                    .isNotEmptyFile()
+                    .hasSameBinaryContentAs(filePath);
         }
     }
 
