@@ -52,18 +52,17 @@ class FileUtilsSpec extends Specification {
 
         when: "Tries to download with valid URL."
         def validUrl = path.toUri().toURL()
-        def successful = FileUtils.download(validUrl, dest)
+        FileUtils.download(validUrl, dest)
 
         then: "Successfully downloaded with valid URL."
-        successful
         content == Files.readAllBytes(dest)
 
         when: "Tries to download with invalid URL."
         def invalidUrl = path.resolve(UUID.randomUUID().toString()).toUri().toURL()
-        def failed = FileUtils.download(invalidUrl, dest)
+        FileUtils.download(invalidUrl, dest)
 
-        then: "Failed to download with valid URL."
-        !failed
+        then: "Failed to download with invalid URL."
+        thrown RuntimeException
     }
 
     def "Finds all files in the path"() {

@@ -84,13 +84,12 @@ public final class FileUtils {
      *
      * @param url  URL
      * @param dest destination for file
-     * @return whether success to download file or not
      */
-    public static boolean download(URL url, Path dest) {
+    public static void download(URL url, Path dest) {
         try {
-            return download(url.openStream(), dest);
+            download(url.openStream(), dest);
         } catch (IOException e) {
-            return false;
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -99,20 +98,15 @@ public final class FileUtils {
      *
      * @param in   input stream
      * @param dest destination for file
-     * @return whether success to download file or not
      */
-    public static boolean download(InputStream in, Path dest) {
+    public static void download(InputStream in, Path dest) {
         try (
                 ReadableByteChannel readChannel = Channels.newChannel(in);
                 FileChannel channel = FileChannel.open(dest, StandardOpenOption.WRITE, StandardOpenOption.CREATE)
         ) {
             channel.transferFrom(readChannel, 0, Long.MAX_VALUE);
-
-            // Success
-            return true;
         } catch (IOException e) {
-            // Fail
-            return false;
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
