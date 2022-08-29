@@ -60,26 +60,6 @@ public final class FileUtils {
     }
 
     /**
-     * Creates a directory whose name is the same name as the filename in the same path.
-     *
-     * <pre><code>
-     *     File file = new File("/usr/local/docs", "list_20191231.csv");
-     *     mkdirAsOwnName(file); // new File("/usr/local/docs", "list_20191231")
-     * </code></pre>
-     *
-     * @param file file
-     * @return directory whose name is the same name as the filename in the same path
-     */
-    public static File mkdirAsOwnName(File file) {
-        String dirName = FilenameUtils.getBaseName(file.getName());
-
-        File dir = new File(file.getParentFile(), dirName);
-        dir.mkdir();
-
-        return dir;
-    }
-
-    /**
      * Downloads a file with URL.
      *
      * @param url  URL

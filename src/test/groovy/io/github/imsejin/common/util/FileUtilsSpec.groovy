@@ -30,19 +30,6 @@ class FileUtilsSpec extends Specification {
     @TempDir
     private Path tempPath
 
-    def "Makes a directory as own name"() {
-        given:
-        def file = Files.createTempFile(tempPath, "temp-file-", ".txt").toFile()
-
-        when:
-        def dir = FileUtils.mkdirAsOwnName file
-
-        then:
-        dir.exists()
-        dir.isDirectory()
-        dir.getName() == FilenameUtils.getBaseName(file.getName())
-    }
-
     def "Download a file with URL"() {
         given:
         def content = "Lorem ipsum dolor sit amet".getBytes(StandardCharsets.UTF_8)
