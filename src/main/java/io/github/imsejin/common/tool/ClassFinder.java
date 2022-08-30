@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -87,13 +88,20 @@ public final class ClassFinder {
         Pattern pattern = Pattern.compile("^[a-zA-Z].+\\$\\d+.*$");
 
         List<Class<?>> subclasses = new ArrayList<>();
-        ClassFinder.findClasses(name -> {
+        findClasses(name -> {
             try {
                 // Excludes anonymous classes that cannot be found.
-                if (pattern.matcher(name).matches()) return true;
+                if (pattern.matcher(name).matches()) {
+                    return true;
+                }
 
-                return subclasses.add(Class.forName(name, false, classLoader));
-            } catch (ClassNotFoundException e) {
+                if (name.endsWith("package-info") || name.endsWith("module-info")) {
+                    return true;
+                }
+
+                Class<?> clazz = Class.forName(name, false, classLoader);
+                return subclasses.add(clazz);
+            } catch (ClassNotFoundException | NoClassDefFoundError e) {
                 throw new RuntimeException(e.getMessage(), e);
             }
         });
@@ -133,8 +141,8 @@ public final class ClassFinder {
             }
         }
 
-        String filename = file.getName().toLowerCase();
-        if (includeJars && filename.endsWith(".jar")) {
+        String fileName = file.getName().toLowerCase(Locale.ROOT);
+        if (includeJars && fileName.endsWith(".jar")) {
             try (JarFile jar = new JarFile(file)) {
                 Enumeration<JarEntry> entries = jar.entries();
                 while (entries.hasMoreElements()) {
@@ -142,7 +150,8 @@ public final class ClassFinder {
                     String name = entry.getName();
                     int extIndex = name.lastIndexOf(".class");
                     if (extIndex > 0) {
-                        if (!visitor.test(name.substring(0, extIndex).replace('/', '.'))) {
+                        String className = name.substring(0, extIndex).replace('/', '.');
+                        if (!visitor.test(className)) {
                             return false;
                         }
                     }
@@ -150,7 +159,7 @@ public final class ClassFinder {
             } catch (IOException ignored) {
                 return true;
             }
-        } else if (filename.endsWith(".class")) {
+        } else if (fileName.endsWith(".class")) {
             return visitor.test(createClassName(root, file));
         }
 
