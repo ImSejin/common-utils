@@ -18,7 +18,6 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -30,10 +29,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Set;
+import java.util.List;
 
 import static java.util.Comparator.reverseOrder;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
 
 /**
  * File utilities
@@ -94,12 +93,11 @@ public final class FileUtils {
      * Finds all files in directory recursively.
      *
      * @param path path
-     * @return all files in directory
+     * @return all file paths in directory
      */
-    public static Set<File> findAllFiles(Path path) {
+    public static List<Path> findAllFiles(Path path, FileVisitOption... options) {
         try {
-            return Files.find(path, Integer.MAX_VALUE, (p, bfa) -> bfa.isRegularFile())
-                    .map(Path::toFile).collect(toSet());
+            return Files.find(path, Integer.MAX_VALUE, (p, bfa) -> bfa.isRegularFile(), options).collect(toList());
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
