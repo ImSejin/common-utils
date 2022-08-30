@@ -20,7 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -41,8 +40,15 @@ class DiskFileResourceFinderTest {
         void test0(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
-                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathTypeMap = TestFileSystemCreator.builder()
+                    .minimumFileCount(1)
+                    .maximumFileCount(10)
+                    .minimumDirectoryCount(1)
+                    .maximumDirectoryCount(10)
+                    .minimumFileLength(512)
+                    .maximumFileLength(4096)
+                    .fileSuffixes(".log", ".txt", ".tmp", ".dat")
+                    .build().create(path);
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(false);
@@ -59,14 +65,14 @@ class DiskFileResourceFinderTest {
             assertThat(resources)
                     .filteredOn(Resource::isDirectory)
                     .doesNotContainNull()
-                    .hasSameSizeAs(pathMap.get(PathType.DIRECTORY))
+                    .hasSameSizeAs(pathTypeMap.get(PathType.DIRECTORY))
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
                     .allMatch(resource -> resource.getInputStream() == null)
                     .allMatch(resource -> resource.getSize() == -1);
             assertThat(resources)
                     .filteredOn(resource -> !resource.isDirectory())
                     .doesNotContainNull()
-                    .hasSameSizeAs(pathMap.get(PathType.FILE))
+                    .hasSameSizeAs(pathTypeMap.get(PathType.FILE))
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
                     .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
                     .allMatch(resource -> resource.getSize() >= 0)
@@ -78,8 +84,15 @@ class DiskFileResourceFinderTest {
         void test1(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
-                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathTypeMap = TestFileSystemCreator.builder()
+                    .minimumFileCount(1)
+                    .maximumFileCount(10)
+                    .minimumDirectoryCount(1)
+                    .maximumDirectoryCount(10)
+                    .minimumFileLength(512)
+                    .maximumFileLength(4096)
+                    .fileSuffixes(".log", ".txt", ".tmp", ".dat")
+                    .build().create(path);
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(true);
@@ -96,14 +109,14 @@ class DiskFileResourceFinderTest {
             assertThat(resources)
                     .filteredOn(Resource::isDirectory)
                     .doesNotContainNull()
-                    .hasSameSizeAs(pathMap.get(PathType.DIRECTORY))
+                    .hasSameSizeAs(pathTypeMap.get(PathType.DIRECTORY))
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
                     .allMatch(resource -> resource.getInputStream() == null)
                     .allMatch(resource -> resource.getSize() == -1);
             assertThat(resources)
                     .filteredOn(resource -> !resource.isDirectory())
                     .doesNotContainNull()
-                    .hasSize(pathMap.get(PathType.FILE).size() + pathMap.get(PathType.FILE_IN_DIRECTORY).size())
+                    .hasSize(pathTypeMap.get(PathType.FILE).size() + pathTypeMap.get(PathType.FILE_IN_DIRECTORY).size())
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
                     .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
                     .allMatch(resource -> resource.getInputStream() != null)
@@ -115,8 +128,15 @@ class DiskFileResourceFinderTest {
         @DisplayName("gets resources non-recursively with another constructor on default file system")
         void test2(@TempDir Path path) throws IOException {
             // given
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
-                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathTypeMap = TestFileSystemCreator.builder()
+                    .minimumFileCount(1)
+                    .maximumFileCount(10)
+                    .minimumDirectoryCount(1)
+                    .maximumDirectoryCount(10)
+                    .minimumFileLength(512)
+                    .maximumFileLength(4096)
+                    .fileSuffixes(".log", ".txt", ".tmp", ".dat")
+                    .build().create(path);
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(false,
@@ -130,7 +150,7 @@ class DiskFileResourceFinderTest {
                     .doesNotHaveDuplicates()
                     .allMatch(resource -> resource instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
-                    .hasSameSizeAs(pathMap.get(PathType.FILE).stream().map(Path::toString)
+                    .hasSameSizeAs(pathTypeMap.get(PathType.FILE).stream().map(Path::toString)
                             .filter(it -> it.endsWith(".log") || it.endsWith(".txt")).toArray())
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
                     .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
@@ -142,8 +162,15 @@ class DiskFileResourceFinderTest {
         @DisplayName("gets resources recursively with another constructor on default file system")
         void test3(@TempDir Path path) throws IOException {
             // given
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
-                    null, Arrays.asList(".log", ".txt", ".tmp", ".dat"));
+            Map<PathType, List<Path>> pathTypeMap = TestFileSystemCreator.builder()
+                    .minimumFileCount(1)
+                    .maximumFileCount(10)
+                    .minimumDirectoryCount(1)
+                    .maximumDirectoryCount(10)
+                    .minimumFileLength(512)
+                    .maximumFileLength(4096)
+                    .fileSuffixes(".log", ".txt", ".tmp", ".dat")
+                    .build().create(path);
 
             // when
             ResourceFinder resourceFinder = new DiskFileResourceFinder(true,
@@ -157,7 +184,7 @@ class DiskFileResourceFinderTest {
                     .doesNotHaveDuplicates()
                     .allMatch(resource -> resource instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
-                    .hasSameSizeAs(Stream.concat(pathMap.get(PathType.FILE).stream(), pathMap.get(PathType.FILE_IN_DIRECTORY).stream())
+                    .hasSameSizeAs(Stream.concat(pathTypeMap.get(PathType.FILE).stream(), pathTypeMap.get(PathType.FILE_IN_DIRECTORY).stream())
                             .map(Path::toString).filter(it -> it.endsWith(".dat")).toArray())
                     .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
                     .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())

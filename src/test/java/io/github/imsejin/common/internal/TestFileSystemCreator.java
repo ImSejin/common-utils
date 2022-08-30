@@ -176,10 +176,10 @@ public final class TestFileSystemCreator {
         return Collections.unmodifiableMap(map);
     }
 
-    private List<Path> createDirectories(Path path, RandomString randomString) throws IOException {
+    public List<Path> createDirectories(Path path, RandomString randomString) throws IOException {
         List<Path> directories = new ArrayList<>();
 
-        int directoryCount = this.random.nextInt(this.maximumDirectoryCount + 1) + this.minimumDirectoryCount;
+        int directoryCount = Math.max(this.random.nextInt(this.maximumDirectoryCount + 1), this.minimumDirectoryCount);
         for (int i = 0; i < directoryCount; i++) {
             String prefix = CollectionUtils.isNullOrEmpty(this.directoryPrefixes)
                     ? "" : this.directoryPrefixes.get(this.random.nextInt(this.directoryPrefixes.size()));
@@ -200,9 +200,9 @@ public final class TestFileSystemCreator {
         List<Path> files = new ArrayList<>();
 
         // Creates files in directory.
-        int fileCount = this.random.nextInt(this.maximumFileCount + 1) + this.minimumFileCount;
+        int fileCount = Math.max(this.random.nextInt(this.maximumFileCount + 1), this.minimumFileCount);
         for (int i = 0; i < fileCount; i++) {
-            int fileLength = this.random.nextInt(this.maximumFileLength + 1) + this.minimumFileLength;
+            int fileLength = Math.max(this.random.nextInt(this.maximumFileLength + 1), this.minimumFileLength);
             RandomString randomContentString = new RandomString(this.random);
 
             String prefix = CollectionUtils.isNullOrEmpty(this.filePrefixes)
@@ -218,80 +218,6 @@ public final class TestFileSystemCreator {
             String content = randomContentString.nextString(fileLength);
             try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
                 int lineWidth = Math.min(100, this.random.nextInt(20) + 80); // min: 80, max: 100
-                String[] lines = content.split("(?<=\\G.{" + lineWidth + "})");
-
-                for (String line : lines) {
-                    writer.write(line);
-                }
-            }
-
-            files.add(filePath);
-        }
-
-        return files;
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    public static Map<PathType, List<Path>> createRandomEnvironment(Path basePath) throws IOException {
-        return createRandomEnvironment(basePath, Collections.emptyList(), Collections.emptyList());
-    }
-
-    public static Map<PathType, List<Path>> createRandomEnvironment(Path basePath, List<String> prefixes, List<String> suffixes) throws IOException {
-        Random random = new Random();
-        RandomString randomNameString = new RandomString(random);
-
-        // Creates directories in root directory.
-        List<Path> directories = new ArrayList<>();
-        int directoryCount = random.nextInt(10) + 1;
-        for (int i = 0; i < directoryCount; i++) {
-            String directoryName = String.format("%s-%d", randomNameString.nextString(random.nextInt(10) + 1), System.nanoTime());
-            Path directoryPath = Files.createDirectory(basePath.resolve(directoryName));
-
-            directories.add(directoryPath);
-        }
-
-        // Creates files in root directory.
-        List<Path> files = createRandomFiles(basePath, random, prefixes, suffixes);
-
-        // Creates files in each directory.
-        List<Path> dirFiles = new ArrayList<>();
-        for (Path directory : directories) {
-            List<Path> list = createRandomFiles(directory, random, prefixes, suffixes);
-            dirFiles.addAll(list);
-        }
-
-        directories.add(basePath);
-
-        Map<PathType, List<Path>> map = new EnumMap<>(PathType.class);
-        map.put(PathType.DIRECTORY, directories);
-        map.put(PathType.FILE, files);
-        map.put(PathType.FILE_IN_DIRECTORY, dirFiles);
-
-        return Collections.unmodifiableMap(map);
-    }
-
-    public static List<Path> createRandomFiles(Path path, Random random, List<String> prefixes, List<String> suffixes) throws IOException {
-        RandomString randomNameString = new RandomString(random);
-        List<Path> files = new ArrayList<>();
-
-        // Creates files in directory.
-        int fileCount = random.nextInt(10) + 1;
-        for (int i = 0; i < fileCount; i++) {
-            int fileLength = random.nextInt((int) Math.pow(2, 13)) + 1;
-            RandomString randomContentString = new RandomString(random);
-
-            String prefix = CollectionUtils.isNullOrEmpty(prefixes) ? "" : prefixes.get(random.nextInt(prefixes.size()));
-            String baseName = randomNameString.nextString(random.nextInt(10) + 1);
-            String suffix = CollectionUtils.isNullOrEmpty(suffixes) ? "" : suffixes.get(random.nextInt(suffixes.size()));
-            String fileName = String.format("%s%s-%d%s", prefix, baseName, System.nanoTime(), suffix);
-
-            Path filePath = Files.createFile(path.resolve(fileName));
-
-            // Write content into file.
-            String content = randomContentString.nextString(fileLength);
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
-                int lineWidth = Math.min(100, random.nextInt(20) + 80); // min: 80, max: 100
                 String[] lines = content.split("(?<=\\G.{" + lineWidth + "})");
 
                 for (String line : lines) {

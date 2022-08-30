@@ -26,18 +26,20 @@ import org.junit.jupiter.api.extension.FileSystemSource;
 import org.junit.jupiter.api.extension.Memory;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -57,8 +59,13 @@ class FileUtilsTest {
         void test0(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            List<Path> randomFilePaths = TestFileSystemCreator.createRandomFiles(path, new Random(),
-                    null, Arrays.asList(".alp", ".bet", ".gam", ".del"));
+            List<Path> randomFilePaths = TestFileSystemCreator.builder()
+                    .minimumFileCount(1)
+                    .maximumFileCount(10)
+                    .minimumFileLength(128)
+                    .maximumFileLength(1024)
+                    .fileSuffixes(".alp", ".bet", ".gam", ".del")
+                    .build().create(path).get(PathType.FILE);
 
             // when
             List<BasicFileAttributes> attributes = Files.list(path)
@@ -72,7 +79,7 @@ class FileUtilsTest {
                     .doesNotContainNull()
                     .doesNotHaveDuplicates()
                     .allMatch(BasicFileAttributes::isRegularFile)
-                    .allMatch(attribute -> attribute.size() > 0)
+                    .allMatch(attribute -> attribute.size() > 127)
                     .allMatch(attribute -> attribute.creationTime().toMillis() <= System.currentTimeMillis());
         }
 
@@ -102,22 +109,36 @@ class FileUtilsTest {
             Map<PathType, List<Path>> pathTypeMap = TestFileSystemCreator.builder()
                     .minimumFileCount(1)
                     .maximumFileCount(1)
-                    .minimumFileLength(2)
-                    .maximumFileLength(8192)
+                    .minimumFileLength(128)
+                    .maximumFileLength(512)
                     .build().create(tempPath);
             Path filePath = pathTypeMap.get(PathType.FILE).get(0);
 
             // when
             URL url = filePath.toUri().toURL();
-            Path path = tempPath.resolve(filePath.getFileName().toString() + ".bak");
-            FileUtils.download(url, path);
+            Path dest = tempPath.resolve(filePath.getFileName().toString() + ".bak");
+            FileUtils.download(url, dest);
 
             // then
-            assertThat(path)
+            assertThat(dest)
                     .isNotNull()
                     .exists()
                     .isNotEmptyFile()
                     .hasSameBinaryContentAs(filePath);
+        }
+
+        @Test
+        @DisplayName("fails to download data with invalid URL")
+        void test1() throws MalformedURLException {
+            // given
+            Path path = Paths.get(UUID.randomUUID().toString()).toAbsolutePath();
+            URL url = path.toUri().toURL();
+
+            // expect
+            assertThatRuntimeException()
+                    .isThrownBy(() -> FileUtils.download(url, null))
+                    .withCauseExactlyInstanceOf(FileNotFoundException.class)
+                    .withMessageStartingWith(path.toString());
         }
     }
 
@@ -131,8 +152,15 @@ class FileUtilsTest {
         void test0(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            TestFileSystemCreator.createRandomEnvironment(path,
-                    Arrays.asList("alpha-", "beta-", "gamma-", "delta-"), null);
+            TestFileSystemCreator.builder()
+                    .minimumFileCount(2)
+                    .maximumFileCount(10)
+                    .minimumDirectoryCount(2)
+                    .maximumDirectoryCount(10)
+                    .minimumFileLength(128)
+                    .maximumFileLength(512)
+                    .filePrefixes("alpha-", "beta-", "gamma-", "delta-")
+                    .build().create(path);
 
             // when
             Path[] paths = Files.list(path).toArray(Path[]::new);
@@ -159,13 +187,20 @@ class FileUtilsTest {
                     .withMessage(path.toString());
         }
 
-        @RepeatedTest(10)
+        @Test
         @DisplayName("fails to delete directory that has file in common way")
         void test2(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path path = fileSystem.getPath("/");
-            Map<PathType, List<Path>> pathMap = TestFileSystemCreator.createRandomEnvironment(path,
-                    Arrays.asList("alpha-", "beta-", "gamma-", "delta-"), null);
+            Map<PathType, List<Path>> pathTypeMap = TestFileSystemCreator.builder()
+                    .minimumFileCount(1)
+                    .maximumFileCount(1)
+                    .minimumDirectoryCount(1)
+                    .maximumDirectoryCount(1)
+                    .minimumFileLength(128)
+                    .maximumFileLength(512)
+                    .filePrefixes("alpha-", "beta-", "gamma-", "delta-")
+                    .build().create(path);
 
             // when
             assertThatIOException().isThrownBy(() -> {
@@ -179,7 +214,7 @@ class FileUtilsTest {
             assertThat(Files.list(path))
                     .isNotNull()
                     .isNotEmpty()
-                    .hasSameSizeAs(pathMap.entrySet().stream()
+                    .hasSameSizeAs(pathTypeMap.entrySet().stream()
                             .filter(entry -> entry.getKey() == PathType.DIRECTORY)
                             .flatMap(entry -> entry.getValue().stream())
                             .filter(p -> !p.equals(path)).toArray());
