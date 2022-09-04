@@ -157,7 +157,7 @@ public class NumberAssert<
      */
     public SELF isCloseTo(NUMBER expected, double percentage) {
         Asserts.that(percentage)
-                .as("Error percentage must be zero or positive and less than 100, but it isn't: {0}", percentage)
+                .describe("Error percentage must be zero or positive and less than 100, but it isn't: {0}", percentage)
                 .isZeroOrPositive().isLessThan(100.0);
 
         // When acceptable error rate is 0%, they must be equal.

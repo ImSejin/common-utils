@@ -41,12 +41,12 @@ public class DepthFirstIterator<E> implements Iterator<E> {
 
     public DepthFirstIterator(Graph<E> graph, E root) {
         Asserts.that(graph)
-                .as("DepthFirstIterator.graph is not allowed to be null")
+                .describe("DepthFirstIterator.graph is not allowed to be null")
                 .isNotNull();
         Asserts.that(root)
-                .as("DepthFirstIterator.root is not allowed to be null")
+                .describe("DepthFirstIterator.root is not allowed to be null")
                 .isNotNull()
-                .as("DepthFirstIterator.root must be in graph as a vertex: '{0}'", root)
+                .describe("DepthFirstIterator.root must be in graph as a vertex: '{0}'", root)
                 .predicate(graph::containsVertex);
 
         this.graph = graph;
@@ -111,12 +111,12 @@ public class DepthFirstIterator<E> implements Iterator<E> {
 
     public static <E> void traverse(Graph<E> graph, E root, Consumer<E> consumer) {
         Asserts.that(graph)
-                .as("DepthFirstIterator.graph is not allowed to be null")
+                .describe("DepthFirstIterator.graph is not allowed to be null")
                 .isNotNull();
         Asserts.that(root)
-                .as("DepthFirstIterator.root is not allowed to be null")
+                .describe("DepthFirstIterator.root is not allowed to be null")
                 .isNotNull()
-                .as("DepthFirstIterator.root must be in graph as a vertex: '{0}'", root)
+                .describe("DepthFirstIterator.root must be in graph as a vertex: '{0}'", root)
                 .predicate(graph::containsVertex);
 
         Set<E> visited = new LinkedHashSet<>();

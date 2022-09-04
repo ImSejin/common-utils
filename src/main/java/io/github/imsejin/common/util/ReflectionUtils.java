@@ -133,7 +133,7 @@ public final class ReflectionUtils {
         Asserts.that(field).isNotNull();
         if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
         if (field.getType().isPrimitive()) Asserts.that(value)
-                .as("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
+                .describe("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
                 .isNotNull();
 
         // Enables to have access to the field even private field.

@@ -174,7 +174,7 @@ public final class CollectionUtils {
      */
     public static <E> List<List<E>> partitionBySize(List<E> list, int chunkSize) {
         Asserts.that(chunkSize)
-                .as("Size of each list must be greater than 0")
+                .describe("Size of each list must be greater than 0")
                 .isGreaterThan(0);
 
         /*
@@ -218,9 +218,9 @@ public final class CollectionUtils {
      */
     public static <E> List<List<E>> partitionByCount(List<E> list, int count) {
         Asserts.that(count)
-                .as("The number of lists must be greater than 0")
+                .describe("The number of lists must be greater than 0")
                 .isGreaterThan(0)
-                .as("Count must be less than or equal to list's size")
+                .describe("Count must be less than or equal to list's size")
                 .isLessThanOrEqualTo(list.size());
 
         int originSize = list.size();

@@ -33,12 +33,12 @@ public class Verification {
 
     public Verification(Object credentials, Duration duration) {
         Asserts.that(credentials)
-                .as("Verification.credentials is allowed to be null")
+                .describe("Verification.credentials is allowed to be null")
                 .isNotNull();
         Asserts.that(duration)
-                .as("Verification.duration is allowed to be null")
+                .describe("Verification.duration is allowed to be null")
                 .isNotNull()
-                .as("Verification.duration must be zero or positive, but it is not: '{0}'", duration)
+                .describe("Verification.duration must be zero or positive, but it is not: '{0}'", duration)
                 .isZeroOrPositive();
 
         this.credentials = credentials;

@@ -82,7 +82,7 @@ public final class Stopwatch {
      */
     public Stopwatch(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .as("Stopwatch.timeUnit cannot be null")
+                .describe("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -104,7 +104,7 @@ public final class Stopwatch {
      */
     public void setTimeUnit(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .as("Stopwatch.timeUnit cannot be null")
+                .describe("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -143,10 +143,10 @@ public final class Stopwatch {
      */
     public void start(String format, Object... args) {
         Asserts.that(format)
-                .as("Stopwatch.taskName cannot be null")
+                .describe("Stopwatch.taskName cannot be null")
                 .isNotNull();
         Asserts.that(isRunning())
-                .as("Stopwatch cannot start while running")
+                .describe("Stopwatch cannot start while running")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
@@ -163,7 +163,7 @@ public final class Stopwatch {
      */
     public void stop() {
         Asserts.that(isRunning())
-                .as("Stopwatch cannot stop while not running")
+                .describe("Stopwatch cannot stop while not running")
                 .exception(UnsupportedOperationException::new)
                 .isTrue();
 
@@ -199,7 +199,7 @@ public final class Stopwatch {
      */
     public void clear() {
         Asserts.that(isRunning())
-                .as("Stopwatch is running; stop it first to clear")
+                .describe("Stopwatch is running; stop it first to clear")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
@@ -236,7 +236,7 @@ public final class Stopwatch {
      */
     public BigDecimal getTotalTime() {
         Asserts.that(hasNeverBeenStopped())
-                .as("Stopwatch has no total time, because it has never been stopped")
+                .describe("Stopwatch has no total time, because it has never been stopped")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 

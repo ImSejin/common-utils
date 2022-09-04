@@ -84,7 +84,7 @@ public class RSA implements Crypto {
 
     public static KeyPair generateKeyPair(int keySize) {
         Asserts.that(keySize)
-                .as("KeyPair.keySize allows 512 ~ 65536, but it isn't: {0}", keySize)
+                .describe("KeyPair.keySize allows 512 ~ 65536, but it isn't: {0}", keySize)
                 .isBetween(512, 64 * 1024);
 
         try {

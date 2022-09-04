@@ -224,7 +224,7 @@ public enum DateType {
      */
     public static DateType from(String pattern) {
         Asserts.that($CODE_LOOKUP)
-                .as("Enumeration 'DateType' has no value: '{0}'", pattern)
+                .describe("Enumeration 'DateType' has no value: '{0}'", pattern)
                 .containsKey(pattern);
 
         return $CODE_LOOKUP.get(pattern);

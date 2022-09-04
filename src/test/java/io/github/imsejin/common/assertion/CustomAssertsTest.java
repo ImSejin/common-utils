@@ -135,7 +135,7 @@ public class CustomAssertsTest {
 
         private static void validate0(String code) {
             Asserts.that(code)
-                    .as("KanCode allows only 8 digits: '{0}'", code)
+                    .describe("KanCode allows only 8 digits: '{0}'", code)
                     .isNotNull().hasLengthOf(8).isNumeric();
 
             String large = code.substring(0, 2);

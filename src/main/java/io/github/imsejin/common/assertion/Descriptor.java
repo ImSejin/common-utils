@@ -46,7 +46,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         merge(descriptor, this);
     }
 
-    public final SELF as(String description, Object... args) {
+    public final SELF describe(String description, Object... args) {
         this.description = description;
         this.arguments = args;
         return this.self;

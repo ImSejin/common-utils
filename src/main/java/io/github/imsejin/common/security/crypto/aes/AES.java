@@ -45,10 +45,10 @@ abstract class AES implements Crypto {
 
     protected AES(@Pattern(".+") String key, int length, Charset charset) {
         Asserts.that(key)
-                .as("{0}.key must have {1} characters, but it isn't: '{2}'", getClass().getSimpleName(), length, key)
+                .describe("{0}.key must have {1} characters, but it isn't: '{2}'", getClass().getSimpleName(), length, key)
                 .isNotNull().hasText().hasLengthOf(length);
         Asserts.that(charset)
-                .as("{0}.charset is not allowed to be null, but it is", getClass().getSimpleName(), charset)
+                .describe("{0}.charset is not allowed to be null, but it is", getClass().getSimpleName(), charset)
                 .isNotNull();
 
         byte[] bytes = key.getBytes(charset);
