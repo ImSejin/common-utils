@@ -147,7 +147,7 @@ public final class Stopwatch {
                 .isNotNull();
         Asserts.that(isRunning())
                 .describedAs("Stopwatch cannot start while running")
-                .exception(UnsupportedOperationException::new)
+                .thrownBy(UnsupportedOperationException::new)
                 .isFalse();
 
         this.currentTaskName = ArrayUtils.isNullOrEmpty(args) ? format : String.format(format, args);
@@ -164,7 +164,7 @@ public final class Stopwatch {
     public void stop() {
         Asserts.that(isRunning())
                 .describedAs("Stopwatch cannot stop while not running")
-                .exception(UnsupportedOperationException::new)
+                .thrownBy(UnsupportedOperationException::new)
                 .isTrue();
 
         long elapsedNanoTime = System.nanoTime() - this.startNanoTime;
@@ -200,7 +200,7 @@ public final class Stopwatch {
     public void clear() {
         Asserts.that(isRunning())
                 .describedAs("Stopwatch is running; stop it first to clear")
-                .exception(UnsupportedOperationException::new)
+                .thrownBy(UnsupportedOperationException::new)
                 .isFalse();
 
         forceClear();
@@ -237,7 +237,7 @@ public final class Stopwatch {
     public BigDecimal getTotalTime() {
         Asserts.that(hasNeverBeenStopped())
                 .describedAs("Stopwatch has no total time, because it has never been stopped")
-                .exception(UnsupportedOperationException::new)
+                .thrownBy(UnsupportedOperationException::new)
                 .isFalse();
 
         BigDecimal amount = BigDecimal.valueOf(this.totalNanoTime);

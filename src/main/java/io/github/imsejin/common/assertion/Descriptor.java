@@ -52,7 +52,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         return this.self;
     }
 
-    public final SELF exception(Function<String, ? extends RuntimeException> function) {
+    public final SELF thrownBy(Function<String, ? extends RuntimeException> function) {
         this.exception = Objects.requireNonNull(function, "Descriptor.exception cannot be null");
         return this.self;
     }

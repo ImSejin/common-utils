@@ -88,7 +88,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(uuid)
                             .describedAs("Description of assertion: {0}", uuid)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asString().isNull())
                     .withMessage("Description of assertion: " + uuid);
         }
@@ -107,7 +107,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(object)
                             .describedAs("Description of assertion: {0}", object)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asClass().isAnonymousClass())
                     .withMessage("Description of assertion: " + object);
         }
@@ -131,7 +131,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(array)
                             .describedAs("Description of assertion: {0}", ArrayUtils.toString(array))
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLength().isEqualTo(array.length - 1))
                     .withMessage("Description of assertion: " + ArrayUtils.toString(array));
         }
@@ -153,7 +153,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(array)
                             .describedAs("Description of assertion: {0}", ArrayUtils.toString(array))
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asList().hasSize(array.length).doesNotContainAll(Arrays.asList(0, 3, 9, 27, 81, 243)))
                     .withMessage("Description of assertion: " + ArrayUtils.toString(array));
         }
@@ -176,7 +176,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(charSequence)
                             .describedAs("Description of assertion: {0}", charSequence)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLength().isCloseTo(charSequence.length() + 1, 0))
                     .withMessage("Description of assertion: " + charSequence);
         }
@@ -203,7 +203,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(NumberFormatException.class)
                             .describedAs("Description of assertion")
-                            .exception(RuntimeException::new).isAssignableFrom(IllegalArgumentException.class)
+                            .thrownBy(RuntimeException::new).isAssignableFrom(IllegalArgumentException.class)
                             .asSuperclass().isAnonymousClass())
                     .withMessage("Description of assertion");
         }
@@ -221,7 +221,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(clazz)
                             .describedAs("Description of assertion")
-                            .exception(RuntimeException::new).isAbstractClass()
+                            .thrownBy(RuntimeException::new).isAbstractClass()
                             .asPackage().isSubPackageOf(OS.class.getPackage()))
                     .withMessage("Description of assertion");
         }
@@ -243,7 +243,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(pack)
                             .describedAs("Description of assertion: {0}", pack)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asName().isNumeric())
                     .withMessage("Description of assertion: " + pack);
         }
@@ -269,7 +269,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(file)
                             .describedAs("Description of assertion: {0}", file)
-                            .exception(RuntimeException::new).exists()
+                            .thrownBy(RuntimeException::new).exists()
                             .asLength().isZeroOrNegative())
                     .withMessage("Description of assertion: " + file);
         }
@@ -290,7 +290,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(file)
                             .describedAs("Description of assertion: {0}", file)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asName().isUpperCase())
                     .withMessage("Description of assertion: " + file);
         }
@@ -313,7 +313,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(url)
                             .describedAs("Description of assertion: {0}", url)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asHost().startsWith("github.com"))
                     .withMessage("Description of assertion: " + url);
         }
@@ -331,7 +331,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(url)
                             .describedAs("Description of assertion: {0}", url)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asPort().isNegative())
                     .withMessage("Description of assertion: " + url);
         }
@@ -349,7 +349,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(url)
                             .describedAs("Description of assertion: {0}", url)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asPath().isUpperCase())
                     .withMessage("Description of assertion: " + url);
         }
@@ -372,7 +372,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(instant)
                             .describedAs("Description of assertion: {0}", instant)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asEpochMilli().isEqualTo(Long.MAX_VALUE))
                     .withMessage("Description of assertion: " + instant);
         }
@@ -396,7 +396,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(time)
                             .describedAs("Description of assertion: {0}", time)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asSecondOfDay().isGreaterThan(LocalTime.now().toSecondOfDay()))
                     .withMessage("Description of assertion: " + time);
         }
@@ -415,7 +415,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(time)
                             .describedAs("Description of assertion: {0}", time)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asNanoOfDay().isGreaterThan(LocalTime.now().toNanoOfDay()))
                     .withMessage("Description of assertion: " + time);
         }
@@ -439,7 +439,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .describedAs("Description of assertion: {0}", offsetDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDate().isAfter(LocalDate.now()))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
@@ -458,7 +458,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .describedAs("Description of assertion: {0}", offsetDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
@@ -477,7 +477,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .describedAs("Description of assertion: {0}", offsetDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asZonedDateTime().isAfter(ZonedDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
@@ -495,7 +495,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .describedAs("Description of assertion: {0}", offsetDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isEqualTo(LocalTime.MIN).isNoon())
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
@@ -514,7 +514,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .describedAs("Description of assertion: {0}", offsetDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asOffsetTime().isSameOffset(null))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
@@ -532,7 +532,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetDateTime)
                             .describedAs("Description of assertion: {0}", offsetDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isAfter(Instant.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetDateTime);
         }
@@ -556,7 +556,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(offsetTime)
                             .describedAs("Description of assertion: {0}", offsetTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isAfter(LocalTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + offsetTime);
         }
@@ -580,7 +580,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(year)
                             .describedAs("Description of assertion: {0}", year)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asValue().isZeroOrNegative())
                     .withMessage("Description of assertion: " + year);
         }
@@ -599,7 +599,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(year)
                             .describedAs("Description of assertion: {0}", year)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLength().isEqualTo(365))
                     .withMessage("Description of assertion: " + year);
         }
@@ -623,7 +623,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(yearMonth)
                             .describedAs("Description of assertion: {0}", yearMonth)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asYear().isLeapYear())
                     .withMessage("Description of assertion: " + yearMonth);
         }
@@ -642,7 +642,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(yearMonth)
                             .describedAs("Description of assertion: {0}", yearMonth)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asMonth().predicate(it -> it.ordinal() == 9))
                     .withMessage("Description of assertion: " + yearMonth);
         }
@@ -666,7 +666,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(month)
                             .describedAs("Description of assertion: {0}", month)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asValue().isEqualTo(month.ordinal()))
                     .withMessage("Description of assertion: " + month);
         }
@@ -690,7 +690,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(monthDay)
                             .describedAs("Description of assertion: {0}", monthDay)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asMonth().isBefore(monthDay.with(Month.JUNE).getMonth()))
                     .withMessage("Description of assertion: " + monthDay);
         }
@@ -709,7 +709,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(monthDay)
                             .describedAs("Description of assertion: {0}", monthDay)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asDayOfMonth().isLessThan(monthDay.getDayOfMonth()))
                     .withMessage("Description of assertion: " + monthDay);
         }
@@ -733,7 +733,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(duration)
                             .describedAs("Description of assertion: {0}", duration)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asTotalSeconds().isEqualTo(new BigDecimal(LocalTime.MAX.toSecondOfDay() + ".999999998")))
                     .withMessage("Description of assertion: " + duration);
         }
@@ -757,7 +757,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(period)
                             .describedAs("Description of assertion: {0}", period)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asTotalDays().isEqualTo(period.getDays()))
                     .withMessage("Description of assertion: " + period);
         }
@@ -782,7 +782,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(localDate)
                             .describedAs("Description of assertion: {0}", localDate)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .isNotNull().isAfter(localDate.minusDays(1))
                             .asYearMonth().isEqualTo(YearMonth.from(localDate))
                             .isNotLeapYear())
@@ -804,7 +804,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(localDate)
                             .describedAs("Description of assertion: {0}", localDate)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .isNotNull().isBefore(YearMonth.from(localDate).atEndOfMonth())
                             .asMonthDay().isNotEqualTo(MonthDay.from(localDate)))
                     .withMessage("Description of assertion: " + localDate);
@@ -829,7 +829,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(dateTime)
                             .describedAs("Description of assertion: {0}", dateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDate().isAfter(LocalDate.now()))
                     .withMessage("Description of assertion: " + dateTime);
         }
@@ -847,7 +847,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(dateTime)
                             .describedAs("Description of assertion: {0}", dateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isAfter(LocalTime.MAX))
                     .withMessage("Description of assertion: " + dateTime);
         }
@@ -865,7 +865,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(dateTime)
                             .describedAs("Description of assertion: {0}", dateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isEqualTo(Instant.now()))
                     .withMessage("Description of assertion: " + dateTime);
         }
@@ -889,7 +889,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .describedAs("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDate().isBefore(LocalDate.now()))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
@@ -908,7 +908,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .describedAs("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
@@ -926,7 +926,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .describedAs("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isEqualTo(LocalTime.now()))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
@@ -945,7 +945,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .describedAs("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asOffsetDateTime().isAfter(OffsetDateTime.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
@@ -963,7 +963,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(zonedDateTime)
                             .describedAs("Description of assertion: {0}", zonedDateTime)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isAfter(Instant.now().plusSeconds(1)))
                     .withMessage("Description of assertion: " + zonedDateTime);
         }
@@ -987,7 +987,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(date)
                             .describedAs("Description of assertion: {0}", date)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isAfter(date.toInstant().plusSeconds(1)))
                     .withMessage("Description of assertion: " + date);
         }
@@ -1007,7 +1007,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(date)
                             .describedAs("Description of assertion: {0}", date)
-                            .exception(RuntimeException::new).isNotNull()
+                            .thrownBy(RuntimeException::new).isNotNull()
                             .asYearMonth().isLeapYear())
                     .withMessage("Description of assertion: " + date);
         }
@@ -1033,7 +1033,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(collection)
                             .describedAs("Description of assertion: {0}", collection)
-                            .exception(RuntimeException::new).isNotEmpty()
+                            .thrownBy(RuntimeException::new).isNotEmpty()
                             .asArray().doesNotHaveSameSizeAs(new Object[0]).containsNull())
                     .withMessage("Description of assertion: " + collection);
         }
@@ -1051,7 +1051,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(collection)
                             .describedAs("Description of assertion: {0}", collection)
-                            .exception(RuntimeException::new).isNotEmpty()
+                            .thrownBy(RuntimeException::new).isNotEmpty()
                             .asSize().isZeroOrNegative())
                     .withMessage("Description of assertion: " + collection);
         }
@@ -1076,7 +1076,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(map)
                             .describedAs("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).isNotEmpty()
+                            .thrownBy(RuntimeException::new).isNotEmpty()
                             .asKeySet().isEmpty())
                     .withMessage("Description of assertion: " + map);
         }
@@ -1096,7 +1096,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(map)
                             .describedAs("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).isNotEmpty()
+                            .thrownBy(RuntimeException::new).isNotEmpty()
                             .asValues().isEmpty())
                     .withMessage("Description of assertion: " + map);
         }
@@ -1114,7 +1114,7 @@ class ConversionTest {
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(map)
                             .describedAs("Description of assertion: {0}", map)
-                            .exception(RuntimeException::new).isNotEmpty()
+                            .thrownBy(RuntimeException::new).isNotEmpty()
                             .asSize().isBetween(-1, 0))
                     .withMessage("Description of assertion: " + map);
         }
