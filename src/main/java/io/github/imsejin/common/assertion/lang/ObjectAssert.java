@@ -24,6 +24,55 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+/**
+ * Assertion for {@link Object}
+ *
+ * <p> All the assertion classes must be extend this class.
+ * There are some examples.
+ *
+ * <p>{@code FooAssert} allows you to override methods, to add other methods
+ * and to override {@code ACTUAL} type variable to subtype.
+ *
+ * <pre>{@code
+ *     public class FooAssert<
+ *             SELF extends FooAssert<SELF, ACTUAL>,
+ *             ACTUAL extends Foo>
+ *         extends ObjectAssert<SELF, ACTUAL> {
+ *         // ...
+ *     }
+ * }</pre>
+ *
+ * <p>{@code FooAssert} allows you to override methods and to add other methods.
+ *
+ * <pre>{@code
+ *     public class FooAssert<
+ *             SELF extends FooAssert<SELF>
+ *         extends ObjectAssert<SELF, Foo> {
+ *         // ...
+ *     }
+ * }</pre>
+ *
+ * <p>{@code FooAssert} doesn't allow you to override anything.
+ *
+ * <pre>{@code
+ *     public class FooAssert<
+ *             ACTUAL extends Foo>
+ *         extends ObjectAssert<FooAssert<ACTUAL>, ACTUAL> {
+ *         // ...
+ *     }
+ * }</pre>
+ *
+ * <p>{@code FooAssert} doesn't allow you to override anything.
+ *
+ * <pre>{@code
+ *     public class FooAssert extends ObjectAssert<FooAssert, Foo> {
+ *         // ...
+ *     }
+ * }</pre>
+ *
+ * @param <SELF>   subclass of this class
+ * @param <ACTUAL> type of actual value to be validated
+ */
 public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> extends Descriptor<SELF> {
 
     /**

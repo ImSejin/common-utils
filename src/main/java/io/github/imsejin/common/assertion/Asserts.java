@@ -91,7 +91,25 @@ import java.util.Map;
 public abstract class Asserts {
 
     /**
-     * Enables to customize Asserts class with inheritance.
+     * You can customize {@link Asserts} with this constructor.
+     *
+     * <pre><code>
+     *     public class MyAsserts extends Asserts {
+     *         public static FooAssert(Foo foo) {
+     *             return new FooAssert(foo);
+     *         }
+     *     }
+     *
+     *     ----------------------------------------
+     *
+     *     MyAsserts.that("foo")
+     *             .isNotNull()
+     *             .hasLengthOf(3)
+     *             .isEqualTo("foo");
+     *     MyAsserts.that(new Foo())
+     *             .isNotNull()
+     *             .isBar();
+     * </code></pre>
      */
     protected Asserts() {
     }
