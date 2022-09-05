@@ -33,7 +33,8 @@
 
 - 🔥 Remove: method `findElement(Collection, Predicate)` in `CollectionUtils`
 - ♻️ Change: modifier of `Descriptor.merge(Descriptor, Descriptor)` from protected to private
-- 🚚 Rename: method `as(String, Object...)` to `describe(String, Object...)` in `Descriptor`
+- 🚚 Rename: method `as(String, Object...)` to `describedAs(String, Object...)` in `Descriptor`
+- 🚚 Rename: method `exception(Function)` to `thrownBy(Function)` in `Descriptor`
 - 🚚 Rename: method `hasElement()` to `isNotEmpty()` in `IterationAssertable`
 - 🚚 Rename: method `hasLengthOf(int)` to `hasLength(int)` in `ArrayAssert`
 - 🚚 Rename: method `isSameLength(Object[])` to `hasSameSizeAs(Object[])` in `ArrayAssert`
