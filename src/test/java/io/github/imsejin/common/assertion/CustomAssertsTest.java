@@ -16,9 +16,11 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.internal.assertion.ExtendedFooAssert;
-import io.github.imsejin.common.internal.assertion.FooAssert;
-import io.github.imsejin.common.internal.assertion.KanCodeAssert;
+import io.github.imsejin.common.internal.assertion.FullyExtensibleAssert;
+import io.github.imsejin.common.internal.assertion.PartiallyExtensibleAssert;
+import io.github.imsejin.common.internal.assertion.RestrictedAssert;
+import io.github.imsejin.common.internal.assertion.RestrictedAssertImpl;
+import io.github.imsejin.common.internal.assertion.model.Bar;
 import io.github.imsejin.common.internal.assertion.model.Foo;
 import io.github.imsejin.common.internal.assertion.model.KanCode;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +41,7 @@ public class CustomAssertsTest {
         assertThatNoException().isThrownBy(() -> MyAsserts.that(foo)
                 .isNotNull()
                 .isEqualTo(foo)
+                .predicate(it -> it.getValue() == null)
                 .hasNullValue());
     }
 
@@ -46,18 +49,19 @@ public class CustomAssertsTest {
     @DisplayName("Partially extensible assertion class")
     void test1() {
         // given
-        Foo foo = new Foo();
+        Bar bar = new Bar();
 
         // expect
-        assertThatNoException().isThrownBy(() -> new ExtendedFooAssert<>(foo)
+        assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssert<>(bar)
                 .isNotNull()
-                .isEqualTo(foo)
+                .isEqualTo(bar)
+                .predicate(it -> it.getCreatedTime().toEpochMilli() <= System.currentTimeMillis())
                 .hasNullValue());
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new ExtendedFooAssert<>(foo)
-                        .isNotNull()
-                        .isSameAs(foo)
-                        .hasSingleValue());
+        assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyExtensibleAssert<>(bar)
+                .isNotNull()
+                .isSameAs(bar)
+                .predicate(it -> it.getValue() == null)
+                .hasSingleValue());
     }
 
     @Test
@@ -81,17 +85,33 @@ public class CustomAssertsTest {
                 .isParentOf(new KanCode("01020304")));
     }
 
+    @Test
+    @DisplayName("Restricted assertion class")
+    void test3() {
+        // given
+        KanCode kanCode = new KanCode("03220000");
+
+        // expect
+        assertThatNoException().isThrownBy(() -> new RestrictedAssertImpl(kanCode)
+                .isNotNull()
+                .isEqualTo("03220000")
+                .isNotEqualTo("03220100")
+                .isChildOf(new KanCode("03000000"))
+                .isParentOf(new KanCode("03220102"))
+                .hasDepth(kanCode.getDepth()));
+    }
+
     // -------------------------------------------------------------------------------------------------
 
     private static class MyAsserts extends Asserts {
         // Don't define return type with wildcard as ACTUAL.
         // public static FooAssert<?, ?> that(Foo foo) {
-        public static FooAssert<?, Foo> that(Foo foo) {
-            return new FooAssert<>(foo);
+        public static FullyExtensibleAssert<?, Foo> that(Foo foo) {
+            return new FullyExtensibleAssert<>(foo);
         }
 
-        public static KanCodeAssert that(KanCode kanCode) {
-            return new KanCodeAssert(kanCode);
+        public static RestrictedAssert that(KanCode kanCode) {
+            return new RestrictedAssert(kanCode);
         }
     }
 

@@ -1,11 +1,13 @@
 package io.github.imsejin.common.internal.assertion;
 
-import io.github.imsejin.common.internal.assertion.model.Foo;
+import io.github.imsejin.common.internal.assertion.model.Bar;
 import io.github.imsejin.common.util.StringUtils;
 
-public class ExtendedFooAssert<SELF extends ExtendedFooAssert<SELF>> extends FooAssert<SELF, Foo> {
+public class PartiallyExtensibleAssert<
+        SELF extends PartiallyExtensibleAssert<SELF>>
+        extends FullyExtensibleAssert<SELF, Bar> {
 
-    public ExtendedFooAssert(Foo actual) {
+    public PartiallyExtensibleAssert(Bar actual) {
         super(actual);
     }
 
