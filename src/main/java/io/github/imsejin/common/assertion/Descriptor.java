@@ -46,8 +46,24 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         merge(descriptor, this);
     }
 
+    /**
+     * Describes assertion message with arguments.
+     *
+     * <pre>{@code
+     *     Asserts.that(4)
+     *             .isNotNull()
+     *             .describedAs("number > 5 (number: '{0}')", 4)
+     *             .isGreaterThan(5);
+     * }</pre>
+     *
+     * <p> When assertion fails, the description will be {@code "number > 5 (number: '4')"}.
+     *
+     * @param description assertion message
+     * @param args        arguments for description
+     * @return descriptor
+     */
     public final SELF describedAs(String description, Object... args) {
-        this.description = description;
+        this.description = Objects.requireNonNull(description, "Descriptor.description cannot be null");
         this.arguments = args;
         return this.self;
     }
