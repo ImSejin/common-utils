@@ -27,12 +27,9 @@ import java.util.function.Predicate;
 /**
  * Assertion for {@link Object}
  *
- * <p> All the assertion classes must be extend this class.
- * There are some examples.
+ * <p> All the assertion classes must be extend this class. There are some plans.
  *
- * <p>{@code FooAssert} allows you to override methods, to add other methods
- * and to override {@code ACTUAL} type variable to subtype.
- *
+ * <blockquote>
  * <pre>{@code
  *     public class FooAssert<
  *             SELF extends FooAssert<SELF, ACTUAL>,
@@ -42,8 +39,12 @@ import java.util.function.Predicate;
  *     }
  * }</pre>
  *
- * <p>{@code FooAssert} allows you to override methods and to add other methods.
+ * <p> {@code FooAssert} allows you to override methods, to add other methods
+ * and to override {@code ACTUAL} type variable to subtype. This plan is fully open
+ * for other users to extend class.
+ * </blockquote>
  *
+ * <blockquote>
  * <pre>{@code
  *     public class FooAssert<
  *             SELF extends FooAssert<SELF>
@@ -52,8 +53,12 @@ import java.util.function.Predicate;
  *     }
  * }</pre>
  *
- * <p>{@code FooAssert} doesn't allow you to override anything.
+ * <p> {@code FooAssert} allows you to override methods and to add other methods.
+ * This plan is partially open for other users to extend class. We recommend this
+ * when type of {@code ACTUAL} is final class.
+ * </blockquote>
  *
+ * <blockquote>
  * <pre>{@code
  *     public class FooAssert<
  *             ACTUAL extends Foo>
@@ -63,12 +68,17 @@ import java.util.function.Predicate;
  * }</pre>
  *
  * <p>{@code FooAssert} doesn't allow you to override anything.
+ * </blockquote>
  *
+ * <blockquote>
  * <pre>{@code
  *     public class FooAssert extends ObjectAssert<FooAssert, Foo> {
  *         // ...
  *     }
  * }</pre>
+ *
+ * <p>{@code FooAssert} doesn't allow you to override anything.
+ * </blockquote>
  *
  * @param <SELF>   subclass of this class
  * @param <ACTUAL> type of actual value to be validated
