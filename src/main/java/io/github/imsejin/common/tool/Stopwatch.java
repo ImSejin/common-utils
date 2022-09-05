@@ -82,7 +82,7 @@ public final class Stopwatch {
      */
     public Stopwatch(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .describe("Stopwatch.timeUnit cannot be null")
+                .describedAs("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -104,7 +104,7 @@ public final class Stopwatch {
      */
     public void setTimeUnit(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .describe("Stopwatch.timeUnit cannot be null")
+                .describedAs("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -143,10 +143,10 @@ public final class Stopwatch {
      */
     public void start(String format, Object... args) {
         Asserts.that(format)
-                .describe("Stopwatch.taskName cannot be null")
+                .describedAs("Stopwatch.taskName cannot be null")
                 .isNotNull();
         Asserts.that(isRunning())
-                .describe("Stopwatch cannot start while running")
+                .describedAs("Stopwatch cannot start while running")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
@@ -163,7 +163,7 @@ public final class Stopwatch {
      */
     public void stop() {
         Asserts.that(isRunning())
-                .describe("Stopwatch cannot stop while not running")
+                .describedAs("Stopwatch cannot stop while not running")
                 .exception(UnsupportedOperationException::new)
                 .isTrue();
 
@@ -199,7 +199,7 @@ public final class Stopwatch {
      */
     public void clear() {
         Asserts.that(isRunning())
-                .describe("Stopwatch is running; stop it first to clear")
+                .describedAs("Stopwatch is running; stop it first to clear")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 
@@ -236,7 +236,7 @@ public final class Stopwatch {
      */
     public BigDecimal getTotalTime() {
         Asserts.that(hasNeverBeenStopped())
-                .describe("Stopwatch has no total time, because it has never been stopped")
+                .describedAs("Stopwatch has no total time, because it has never been stopped")
                 .exception(UnsupportedOperationException::new)
                 .isFalse();
 

@@ -36,13 +36,13 @@ public class GzipResourceFinder implements ResourceFinder {
     @Override
     public List<Resource> getResources(Path path) {
         Asserts.that(path)
-                .describe("Invalid path to find resources: {0}", path)
+                .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
-                .describe("No such path exists: {0}", path)
+                .describedAs("No such path exists: {0}", path)
                 .predicate(Files::exists)
-                .describe("It is not a regular file: {0}", path)
+                .describedAs("It is not a regular file: {0}", path)
                 .predicate(Files::isRegularFile)
-                .describe("Cannot read file: {0}", path)
+                .describedAs("Cannot read file: {0}", path)
                 .predicate(Files::isReadable);
 
         try (GzipCompressorInputStream in = new GzipCompressorInputStream(Files.newInputStream(path))) {

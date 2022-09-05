@@ -150,7 +150,7 @@ public class RandomString {
      */
     public String nextString(int length) {
         Asserts.that(length)
-                .describe("The length of random string must be positive, but it isn't: {0}", length)
+                .describedAs("The length of random string must be positive, but it isn't: {0}", length)
                 .isPositive();
 
         char[] chars = new char[length];
