@@ -63,7 +63,7 @@
 
 - ➕ Add: dependencies ``
 - ➕ Add: test dependency ``
-- ⬆️ Upgrade: test dependency `` from `` to ``
+- ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.3.1` to `3.4.1`
 
 # v0.10.0
 
