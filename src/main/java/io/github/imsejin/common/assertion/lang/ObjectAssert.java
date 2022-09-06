@@ -249,12 +249,12 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(0).isEqualTo(1);
-     *     Asserts.that("alpha").isEqualTo("beta");
+     *     Asserts.that(0).isNotEqualTo(1);
+     *     Asserts.that("alpha").isNotEqualTo("beta");
      *
      *     // Assertion will fail.
-     *     Asserts.that(0).isEqualTo(0);
-     *     Asserts.that("alpha").isEqualTo("alpha");
+     *     Asserts.that(0).isNotEqualTo(0);
+     *     Asserts.that("alpha").isNotEqualTo("alpha");
      * }</pre>
      *
      * @param expected expected value
