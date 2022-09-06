@@ -22,6 +22,7 @@ import io.github.imsejin.common.assertion.composition.RandomAccessIterationAsser
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +30,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 
+/**
+ * Assertion for {@link Array}
+ *
+ * @param <SELF>    this class
+ * @param <ELEMENT> element in array
+ */
 public class ArrayAssert<
         SELF extends ArrayAssert<SELF, ELEMENT>,
         ELEMENT>

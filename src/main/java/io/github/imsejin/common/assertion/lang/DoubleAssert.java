@@ -20,6 +20,11 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
+/**
+ * Assertion for {@link Double}
+ *
+ * @param <SELF> this class
+ */
 public class DoubleAssert<SELF extends DoubleAssert<SELF>> extends NumberAssert<SELF, Double>
         implements DecimalNumberAssertable<SELF, Double> {
 

@@ -18,6 +18,11 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
 
+/**
+ * Assertion for {@link Boolean}
+ *
+ * @param <SELF> this class
+ */
 public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAssert<SELF, Boolean> {
 
     public BooleanAssert(Boolean actual) {
@@ -28,18 +33,44 @@ public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAsser
         super(descriptor, actual);
     }
 
+    /**
+     * Asserts that actual value is {@code true}.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(true).isTrue();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(false).isTrue();
+     * }</pre>
+     *
+     * @return this class
+     */
     public SELF isTrue() {
         if (!actual) {
-            setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
+            setDefaultDescription("It is expected to be true, but it isn't. (actual: 'false')");
             throw getException();
         }
 
         return self;
     }
 
+    /**
+     * Asserts that actual value is {@code false}.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(false).isFalse();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(true).isFalse();
+     * }</pre>
+     *
+     * @return this class
+     */
     public SELF isFalse() {
         if (actual) {
-            setDefaultDescription("It is expected to be false, but it isn't. (expected: 'true')");
+            setDefaultDescription("It is expected to be false, but it isn't. (actual: 'true')");
             throw getException();
         }
 

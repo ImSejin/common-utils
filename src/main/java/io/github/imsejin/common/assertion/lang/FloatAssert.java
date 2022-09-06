@@ -20,6 +20,11 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
+/**
+ * Assertion for {@link Float}
+ *
+ * @param <SELF> this class
+ */
 public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SELF, Float>
         implements DecimalNumberAssertable<SELF, Float> {
 

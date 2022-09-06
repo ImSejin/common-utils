@@ -18,6 +18,11 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
 
+/**
+ * Assertion for {@link Package}
+ *
+ * @param <SELF> this class
+ */
 public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAssert<SELF, Package> {
 
     public PackageAssert(Package actual) {

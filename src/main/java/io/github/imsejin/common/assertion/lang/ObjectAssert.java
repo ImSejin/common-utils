@@ -80,7 +80,7 @@ import java.util.function.Predicate;
  * <p>{@code FooAssert} doesn't allow you to override anything.
  * </blockquote>
  *
- * @param <SELF>   subclass of this class
+ * @param <SELF>   this class
  * @param <ACTUAL> type of actual value to be validated
  */
 public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> extends Descriptor<SELF> {
@@ -121,6 +121,19 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         this.actual = actual;
     }
 
+    /**
+     * Asserts that actual value is null.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(null).isNull();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that("").isNull();
+     * }</pre>
+     *
+     * @return this class
+     */
     public SELF isNull() {
         if (actual != null) {
             setDefaultDescription("It is expected to be null, but not null. (actual: '{0}')", actual);
@@ -130,6 +143,19 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
+    /**
+     * Asserts that actual value is not null.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that("").isNotNull();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(null).isNotNull();
+     * }</pre>
+     *
+     * @return this class
+     */
     public SELF isNotNull() {
         if (actual == null) {
             setDefaultDescription("It is expected to be not null, but null. (actual: 'null')");
@@ -139,6 +165,24 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
+    /**
+     * Asserts that actual value is the same with expected value.
+     *
+     * <pre>{@code
+     *     Object obj = new Object();
+     *
+     *     // Assertion will pass.
+     *     Asserts.that(0).isSameAs(0);
+     *     Asserts.that(obj).isSameAs(obj);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(0).isSameAs(1);
+     *     Asserts.that(obj).isSameAs(new Object());
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
     public SELF isSameAs(ACTUAL expected) {
         if (actual != expected) {
             setDefaultDescription("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
@@ -148,6 +192,24 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
+    /**
+     * Asserts that actual value is not the same with expected value.
+     *
+     * <pre>{@code
+     *     Object obj = new Object();
+     *
+     *     // Assertion will pass.
+     *     Asserts.that(0).isNotSameAs(1);
+     *     Asserts.that(obj).isNotSameAs(new Object());
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(0).isNotSameAs(0);
+     *     Asserts.that(obj).isNotSameAs(obj);
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
     public SELF isNotSameAs(ACTUAL expected) {
         if (actual == expected) {
             setDefaultDescription("They are expected to be not the same, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
@@ -157,6 +219,22 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
+    /**
+     * Asserts that actual value is equal to expected value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(0).isEqualTo(0);
+     *     Asserts.that("alpha").isEqualTo("alpha");
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(0).isEqualTo(1);
+     *     Asserts.that("alpha").isEqualTo("beta");
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
     public SELF isEqualTo(ACTUAL expected) {
         if (!Objects.deepEquals(actual, expected)) {
             setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
@@ -166,6 +244,22 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
+    /**
+     * Asserts that actual value is not equal to expected value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(0).isEqualTo(1);
+     *     Asserts.that("alpha").isEqualTo("beta");
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(0).isEqualTo(0);
+     *     Asserts.that("alpha").isEqualTo("alpha");
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
     public SELF isNotEqualTo(ACTUAL expected) {
         if (Objects.deepEquals(actual, expected)) {
             setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
@@ -182,8 +276,8 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * Primitive type cannot instantiate, so return value of
      * {@link Class#isInstance(Object)} is always {@code false}.
      *
-     * @param expected type
-     * @return whether this is instance of the type
+     * @param expected expected value
+     * @return this class
      */
     public SELF isInstanceOf(Class<?> expected) {
         if (!ClassUtils.wrap(expected).isInstance(actual)) {

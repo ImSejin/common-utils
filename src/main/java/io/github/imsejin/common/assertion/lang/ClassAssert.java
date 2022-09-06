@@ -21,6 +21,12 @@ import io.github.imsejin.common.util.ClassUtils;
 
 import java.lang.reflect.Modifier;
 
+/**
+ * Assertion for {@link Class}
+ *
+ * @param <SELF> this class
+ * @param <T>    class type
+ */
 public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAssert<SELF, Class<?>> {
 
     public ClassAssert(Class<T> actual) {

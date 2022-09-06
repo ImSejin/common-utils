@@ -18,6 +18,12 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
 
+/**
+ * Assertion for {@link CharSequence}
+ *
+ * @param <SELF>   this class
+ * @param <ACTUAL> {@link CharSequence} or its subclass
+ */
 public class CharSequenceAssert<
         SELF extends CharSequenceAssert<SELF, ACTUAL>,
         ACTUAL extends CharSequence>

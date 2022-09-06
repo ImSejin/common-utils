@@ -21,6 +21,11 @@ import org.intellij.lang.annotations.Language;
 
 import java.util.regex.Pattern;
 
+/**
+ * Assertion for {@link String}
+ *
+ * @param <SELF> this class
+ */
 public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceAssert<SELF, String> {
 
     public StringAssert(String actual) {

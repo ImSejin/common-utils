@@ -23,6 +23,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
 
+/**
+ * Assertion for {@link Number}
+ *
+ * @param <SELF> this class
+ */
 public class NumberAssert<
         SELF extends NumberAssert<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>>
