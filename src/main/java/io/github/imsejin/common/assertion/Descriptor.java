@@ -48,7 +48,11 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     @SuppressWarnings("CopyConstructorMissesField")
     protected Descriptor(Descriptor<?> descriptor) {
         this();
-        merge(descriptor, this);
+
+        // Overwrites properties of this descriptor from the given descriptor.
+        this.description = descriptor.description;
+        this.arguments = descriptor.arguments;
+        this.exception = descriptor.exception;
     }
 
     /**
@@ -113,12 +117,6 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     }
 
     // -------------------------------------------------------------------------------------------------
-
-    private static void merge(Descriptor<?> source, Descriptor<?> target) {
-        target.description = source.description;
-        target.arguments = source.arguments;
-        target.exception = source.exception;
-    }
 
     private String getMessage() {
         // Prevent NPE.
