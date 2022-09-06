@@ -298,7 +298,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
     }
 
     public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
-        T actual = Objects.requireNonNull(from.apply(this.actual), "Function is not allowed to be null");
+        T actual = Objects.requireNonNull(from, "Function is not allowed to be null").apply(this.actual);
 
         if (!Objects.deepEquals(actual, expected)) {
             setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
