@@ -25,6 +25,11 @@ import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.function.Function;
 
+/**
+ * Description manager for assertion classes
+ *
+ * @param <SELF> descriptor
+ */
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     protected final SELF self;
@@ -49,14 +54,15 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     /**
      * Describes assertion message with arguments.
      *
+     * <p> On assertion failure, exception has the description as message.
+     *
      * <pre>{@code
      *     Asserts.that(4)
      *             .isNotNull()
+     *             // number > 5 (number: '4')
      *             .describedAs("number > 5 (number: '{0}')", 4)
      *             .isGreaterThan(5);
      * }</pre>
-     *
-     * <p> When assertion fails, the description will be {@code "number > 5 (number: '4')"}.
      *
      * @param description assertion message
      * @param args        arguments for description
@@ -68,6 +74,22 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         return this.self;
     }
 
+    /**
+     * Sets type of exception on assertion failure.
+     *
+     * <p> Default type of exception is {@link IllegalArgumentException}.
+     *
+     * <pre>{@code
+     *     Asserts.that(4)
+     *             .isNotNull()
+     *             // Will be throw ArithmeticException.
+     *             .thrownBy(ArithmeticException::new)
+     *             .isGreaterThan(5);
+     * }</pre>
+     *
+     * @param function function that changes string from exception
+     * @return descriptor
+     */
     public final SELF thrownBy(Function<String, ? extends RuntimeException> function) {
         this.exception = Objects.requireNonNull(function, "Descriptor.exception cannot be null");
         return this.self;
