@@ -1,26 +1,18 @@
 package io.github.imsejin.common.internal.assertion;
 
-import io.github.imsejin.common.internal.assertion.model.Bar;
-import io.github.imsejin.common.util.StringUtils;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
+import io.github.imsejin.common.internal.assertion.model.Foo;
 
 public class PartiallyExtensibleAssert<
         SELF extends PartiallyExtensibleAssert<SELF>>
-        extends FullyExtensibleAssert<SELF, Bar> {
+        extends ObjectAssert<SELF, Foo> {
 
-    public PartiallyExtensibleAssert(Bar actual) {
+    public PartiallyExtensibleAssert(Foo actual) {
         super(actual);
     }
 
-    @Override
     public SELF hasNullValue() {
-        if (!StringUtils.isNullOrEmpty(actual.getValue())) throw getException();
-        return self;
-    }
-
-    public SELF hasSingleValue() {
-        String value = actual.getValue();
-        if (value == null || value.length() != 1) throw getException();
-
+        if (actual.getValue() != null) throw getException();
         return self;
     }
 

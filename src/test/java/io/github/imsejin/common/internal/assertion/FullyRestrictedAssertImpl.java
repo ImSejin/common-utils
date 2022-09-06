@@ -21,13 +21,13 @@ import io.github.imsejin.common.internal.assertion.model.KanCode;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class RestrictedAssertImpl extends RestrictedAssert {
+public class FullyRestrictedAssertImpl extends FullyRestrictedAssert {
 
-    public RestrictedAssertImpl(KanCode actual) {
+    public FullyRestrictedAssertImpl(KanCode actual) {
         super(actual);
     }
 
-    public RestrictedAssertImpl hasDepth(int expected) {
+    public FullyRestrictedAssertImpl hasDepth(int expected) {
         if (actual.getDepth() != expected) throw getException();
         return this;
     }
@@ -35,79 +35,79 @@ public class RestrictedAssertImpl extends RestrictedAssert {
     // -------------------------------------------------------------------------------------------------
 
     @Override
-    public RestrictedAssertImpl isNull() {
+    public FullyRestrictedAssertImpl isNull() {
         super.isNull();
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isNotNull() {
+    public FullyRestrictedAssertImpl isNotNull() {
         super.isNotNull();
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isSameAs(KanCode expected) {
+    public FullyRestrictedAssertImpl isSameAs(KanCode expected) {
         super.isSameAs(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isNotSameAs(KanCode expected) {
+    public FullyRestrictedAssertImpl isNotSameAs(KanCode expected) {
         super.isNotSameAs(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isEqualTo(KanCode expected) {
+    public FullyRestrictedAssertImpl isEqualTo(KanCode expected) {
         super.isEqualTo(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isNotEqualTo(KanCode expected) {
+    public FullyRestrictedAssertImpl isNotEqualTo(KanCode expected) {
         super.isNotEqualTo(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isInstanceOf(Class<?> expected) {
+    public FullyRestrictedAssertImpl isInstanceOf(Class<?> expected) {
         super.isInstanceOf(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl predicate(Predicate<KanCode> predicate) {
+    public FullyRestrictedAssertImpl predicate(Predicate<KanCode> predicate) {
         super.predicate(predicate);
         return this;
     }
 
     @Override
-    public <T> RestrictedAssertImpl returns(T expected, Function<KanCode, T> from) {
+    public <T> FullyRestrictedAssertImpl returns(T expected, Function<KanCode, T> from) {
         super.returns(expected, from);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isEqualTo(String expected) {
+    public FullyRestrictedAssertImpl isEqualTo(String expected) {
         super.isEqualTo(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isNotEqualTo(String expected) {
+    public FullyRestrictedAssertImpl isNotEqualTo(String expected) {
         super.isNotEqualTo(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isParentOf(KanCode expected) {
+    public FullyRestrictedAssertImpl isParentOf(KanCode expected) {
         super.isParentOf(expected);
         return this;
     }
 
     @Override
-    public RestrictedAssertImpl isChildOf(KanCode expected) {
+    public FullyRestrictedAssertImpl isChildOf(KanCode expected) {
         super.isChildOf(expected);
         return this;
     }

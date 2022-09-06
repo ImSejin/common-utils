@@ -17,13 +17,16 @@
 package io.github.imsejin.common.assertion;
 
 import io.github.imsejin.common.internal.assertion.FullyExtensibleAssert;
+import io.github.imsejin.common.internal.assertion.FullyRestrictedAssert;
+import io.github.imsejin.common.internal.assertion.FullyRestrictedAssertImpl;
 import io.github.imsejin.common.internal.assertion.PartiallyExtensibleAssert;
-import io.github.imsejin.common.internal.assertion.RestrictedAssert;
-import io.github.imsejin.common.internal.assertion.RestrictedAssertImpl;
+import io.github.imsejin.common.internal.assertion.PartiallyRestrictedAssert;
 import io.github.imsejin.common.internal.assertion.model.Bar;
 import io.github.imsejin.common.internal.assertion.model.Foo;
 import io.github.imsejin.common.internal.assertion.model.KanCode;
+import io.github.imsejin.common.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -31,41 +34,177 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 public class CustomAssertsTest {
 
-    @Test
+    @Nested
     @DisplayName("Fully extensible assertion class")
-    void test0() {
-        // given
-        Foo foo = new Foo();
+    class FullyExtensibleAssertionClass {
+        @Test
+        @DisplayName("uses that class")
+        void test0() {
+            // given
+            Foo foo = new Foo();
 
-        // expect
-        assertThatNoException().isThrownBy(() -> MyAsserts.that(foo)
-                .isNotNull()
-                .isEqualTo(foo)
-                .predicate(it -> it.getValue() == null)
-                .hasNullValue());
+            // expect
+            assertThatNoException().isThrownBy(() -> MyAsserts.that(foo)
+                    .isNotNull()
+                    .isEqualTo(foo)
+                    .predicate(it -> it.getValue() == null)
+                    .hasNullValue());
+            assertThatIllegalArgumentException().isThrownBy(() -> MyAsserts.that(new Foo(""))
+                    .isNotNull()
+                    .predicate(it -> it.getValue().isEmpty())
+                    .hasNullValue());
+        }
+
+        @Test
+        @DisplayName("uses subclass of that")
+        void test1() {
+            // given
+            class FullyExtensibleAssertImpl<
+                    SELF extends FullyExtensibleAssertImpl<SELF, ACTUAL>,
+                    ACTUAL extends Bar>
+                    extends FullyExtensibleAssert<SELF, ACTUAL> {
+                public FullyExtensibleAssertImpl(ACTUAL actual) {
+                    super(actual);
+                }
+
+                @Override
+                public SELF hasNullValue() {
+                    if (!StringUtils.isNullOrEmpty(actual.getValue())) throw getException();
+                    return self;
+                }
+
+                public SELF hasSingleValue() {
+                    String value = actual.getValue();
+                    if (value == null || value.length() != 1) throw getException();
+                    return self;
+                }
+            }
+
+            // expect
+            assertThatNoException().isThrownBy(() -> new FullyExtensibleAssertImpl<>(new Bar(""))
+                    .isNotNull()
+                    .predicate(it -> it.getValue().isEmpty())
+                    .hasNullValue());
+            assertThatNoException().isThrownBy(() -> new FullyExtensibleAssertImpl<>(new Bar("a"))
+                    .isNotNull()
+                    .predicate(it -> it.getValue().length() == 1)
+                    .hasSingleValue()
+                    .predicate(it -> it.getCreatedTime().toEpochMilli() <= System.currentTimeMillis()));
+        }
     }
 
-    @Test
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("Partially extensible assertion class")
-    void test1() {
-        // given
-        Bar bar = new Bar();
+    class PartiallyExtensibleAssertionClass {
+        @Test
+        @DisplayName("uses that class")
+        void test0() {
+            // given
+            Foo foo = new Foo();
 
-        // expect
-        assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssert<>(bar)
-                .isNotNull()
-                .isEqualTo(bar)
-                .predicate(it -> it.getCreatedTime().toEpochMilli() <= System.currentTimeMillis())
-                .hasNullValue());
-        assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyExtensibleAssert<>(bar)
-                .isNotNull()
-                .isSameAs(bar)
-                .predicate(it -> it.getValue() == null)
-                .hasSingleValue());
+            // expect
+            assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssert<>(foo)
+                    .isNotNull()
+                    .isEqualTo(foo)
+                    .predicate(it -> it.getValue() == null)
+                    .hasNullValue());
+            assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyExtensibleAssert<>(new Foo("a"))
+                    .isNotNull()
+                    .predicate(it -> it.getValue().isEmpty())
+                    .hasNullValue());
+        }
+
+        @Test
+        @DisplayName("uses subclass of that")
+        void test1() {
+            // given
+            class PartiallyExtensibleAssertImpl<
+                    SELF extends PartiallyExtensibleAssertImpl<SELF>>
+                    extends PartiallyExtensibleAssert<SELF> {
+                public PartiallyExtensibleAssertImpl(Foo actual) {
+                    super(actual);
+                }
+
+                @Override
+                public SELF hasNullValue() {
+                    if (!StringUtils.isNullOrEmpty(actual.getValue())) throw getException();
+                    return self;
+                }
+
+                public SELF hasMultipleValue() {
+                    String value = actual.getValue();
+                    if (value == null || value.length() <= 1) throw getException();
+                    return self;
+                }
+            }
+
+            // expect
+            assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssertImpl<>(new Foo(""))
+                    .isNotNull()
+                    .predicate(it -> it.getValue().isEmpty())
+                    .hasNullValue());
+            assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssertImpl<>(new Foo("alpha"))
+                    .isNotNull()
+                    .predicate(it -> it.getValue().length() > 1)
+                    .hasMultipleValue()
+                    .returns("alpha", Foo::getValue));
+        }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("Partially restricted assertion class")
+    class PartiallyRestrictedAssertionClass {
+        @Test
+        @DisplayName("uses that class")
+        void test0() {
+            // given
+            Foo foo = new Foo("a1");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> new PartiallyRestrictedAssert<>(foo)
+                    .isNotNull()
+                    .isEqualTo(foo)
+                    .predicate(it -> !it.getValue().isEmpty())
+                    .hasNumericValue());
+            assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyRestrictedAssert<>(new Foo("a"))
+                    .isNotNull()
+                    .predicate(it -> !it.getValue().isEmpty())
+                    .hasNumericValue());
+        }
+
+        @Test
+        @DisplayName("uses subclass of that")
+        void test1() {
+
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("Fully restricted assertion class")
+    class FullyRestrictedAssertionClass {
+        @Test
+        @DisplayName("uses that class")
+        void test0() {
+
+        }
+
+        @Test
+        @DisplayName("uses subclass of that")
+        void test1() {
+
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
     @Test
-    @DisplayName("Restricted assertion class")
+    @DisplayName("Fully restricted assertion class")
     void test2() {
         // given
         KanCode kanCode = new KanCode("01020300");
@@ -86,13 +225,13 @@ public class CustomAssertsTest {
     }
 
     @Test
-    @DisplayName("Restricted assertion class")
+    @DisplayName("Subclass of fully restricted assertion class")
     void test3() {
         // given
         KanCode kanCode = new KanCode("03220000");
 
         // expect
-        assertThatNoException().isThrownBy(() -> new RestrictedAssertImpl(kanCode)
+        assertThatNoException().isThrownBy(() -> new FullyRestrictedAssertImpl(kanCode)
                 .isNotNull()
                 .isEqualTo("03220000")
                 .isNotEqualTo("03220100")
@@ -104,14 +243,12 @@ public class CustomAssertsTest {
     // -------------------------------------------------------------------------------------------------
 
     private static class MyAsserts extends Asserts {
-        // Don't define return type with wildcard as ACTUAL.
-        // public static FooAssert<?, ?> that(Foo foo) {
         public static FullyExtensibleAssert<?, Foo> that(Foo foo) {
             return new FullyExtensibleAssert<>(foo);
         }
 
-        public static RestrictedAssert that(KanCode kanCode) {
-            return new RestrictedAssert(kanCode);
+        public static FullyRestrictedAssert that(KanCode kanCode) {
+            return new FullyRestrictedAssert(kanCode);
         }
     }
 
