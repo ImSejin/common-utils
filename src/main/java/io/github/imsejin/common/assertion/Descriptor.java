@@ -28,10 +28,15 @@ import java.util.function.Function;
 /**
  * Description manager for assertion classes
  *
- * @param <SELF> descriptor
+ * @param <SELF> subclass of this class
  */
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
+    /**
+     * Subclass of {@link Descriptor}.
+     *
+     * <p> This is the instance of oneself wrapped in generic type.
+     */
     protected final SELF self;
 
     private String description;
@@ -70,11 +75,11 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
      *
      * @param description assertion message
      * @param args        arguments for description
-     * @return descriptor
+     * @return subclass of this class
      */
     public final SELF describedAs(String description, Object... args) {
         this.description = Objects.requireNonNull(description, "Descriptor.description cannot be null");
-        this.arguments = args;
+        this.arguments = Objects.requireNonNull(args, "Descriptor.arguments cannot be null");
         return this.self;
     }
 
@@ -92,7 +97,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
      * }</pre>
      *
      * @param function function that changes string from exception
-     * @return descriptor
+     * @return subclass of this class
      */
     public final SELF thrownBy(Function<String, ? extends RuntimeException> function) {
         this.exception = Objects.requireNonNull(function, "Descriptor.exception cannot be null");
@@ -118,7 +123,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     // -------------------------------------------------------------------------------------------------
 
     private String getMessage() {
-        // Prevent NPE.
+        // Avoids NPE.
         if (StringUtils.isNullOrEmpty(this.description)) {
             return "";
         }

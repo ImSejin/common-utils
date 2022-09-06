@@ -93,9 +93,9 @@ public abstract class Asserts {
     /**
      * You can customize {@link Asserts} with this constructor.
      *
-     * <pre><code>
+     * <pre>{@code
      *     public class MyAsserts extends Asserts {
-     *         public static FooAssert(Foo foo) {
+     *         public static FooAssert<?, Foo>(Foo foo) {
      *             return new FooAssert(foo);
      *         }
      *     }
@@ -109,7 +109,20 @@ public abstract class Asserts {
      *     MyAsserts.that(new Foo())
      *             .isNotNull()
      *             .isBar();
-     * </code></pre>
+     * }</pre>
+     *
+     * <p> If you add the assertion method and its return type has {@code ACTUAL} type variable,
+     * you must specify the concrete type, not the wildcard like this.
+     *
+     * <pre>{@code
+     *     // This is seriously bad. Change to FooAssert<?, Foo>.
+     *     public static FooAssert<?, ?> that(Foo foo) {
+     *         // ...
+     *     }
+     * }</pre>
+     *
+     * <p> In this case, compiler can't infer appropriate type from captured parameter.
+     * When you put argument into assertion method, that causes compile error.
      */
     protected Asserts() {
     }
