@@ -107,13 +107,12 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     }
 
     protected final void setDefaultDescription(String description, Object... args) {
-        // If description is set already by user, ignores default description.
+        // Ignores default description when there is no description set by user.
         if (!StringUtils.isNullOrEmpty(this.description)) {
             return;
         }
 
-        this.description = description;
-        this.arguments = args;
+        describedAs(description, args);
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -132,7 +131,9 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         String[] strings = new String[this.arguments.length];
         for (int i = 0; i < this.arguments.length; i++) {
             Object argument = this.arguments[i];
-            strings[i] = ArrayUtils.toString(argument);
+            String string = ArrayUtils.toString(argument);
+
+            strings[i] = string;
         }
 
         return messageFormat.format(strings);
