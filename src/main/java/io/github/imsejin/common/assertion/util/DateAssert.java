@@ -1,6 +1,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.PositionComparisonAssertable;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.time.InstantAssert;
@@ -12,8 +13,11 @@ import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateAssert<SELF extends DateAssert<SELF, ACTUAL>, ACTUAL extends Date>
-        extends ObjectAssert<SELF, ACTUAL> {
+public class DateAssert<
+        SELF extends DateAssert<SELF, ACTUAL>,
+        ACTUAL extends Date>
+        extends ObjectAssert<SELF, ACTUAL>
+        implements PositionComparisonAssertable<SELF, ACTUAL> {
 
     public DateAssert(ACTUAL actual) {
         super(actual);
@@ -23,40 +27,60 @@ public class DateAssert<SELF extends DateAssert<SELF, ACTUAL>, ACTUAL extends Da
         super(descriptor, actual);
     }
 
+    @Override
+    public SELF isEqualTo(ACTUAL expected) {
+        if (!PositionComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO, expected, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isNotEqualTo(ACTUAL expected) {
+        if (!PositionComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO, expected, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
     public SELF isBefore(ACTUAL expected) {
-        if (actual.compareTo(expected) >= 0) {
-            setDefaultDescription("It is expected to be before than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!PositionComparisonAssertable.IS_BEFORE.test(actual, expected)) {
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_BEFORE, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isBeforeOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) > 0) {
-            setDefaultDescription("It is expected to be before than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!PositionComparisonAssertable.IS_BEFORE_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_BEFORE_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isAfter(ACTUAL expected) {
-        if (actual.compareTo(expected) <= 0) {
-            setDefaultDescription("It is expected to be after than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!PositionComparisonAssertable.IS_AFTER_THAN.test(actual, expected)) {
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_AFTER_THAN, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isAfterOrEqualTo(ACTUAL expected) {
-        if (actual.compareTo(expected) < 0) {
-            setDefaultDescription("It is expected to be after than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!PositionComparisonAssertable.IS_AFTER_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_AFTER_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 

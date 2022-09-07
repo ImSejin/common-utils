@@ -17,13 +17,17 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 
-public class DurationAssert<SELF extends DurationAssert<SELF>> extends ObjectAssert<SELF, Duration> {
+public class DurationAssert<
+        SELF extends DurationAssert<SELF>>
+        extends ObjectAssert<SELF, Duration>
+        implements SizeComparisonAssertable<SELF, Duration> {
 
     public DurationAssert(Duration actual) {
         super(actual);
@@ -33,40 +37,40 @@ public class DurationAssert<SELF extends DurationAssert<SELF>> extends ObjectAss
         super(descriptor, actual);
     }
 
+    @Override
     public SELF isGreaterThan(Duration expected) {
-        if (actual.compareTo(expected) <= 0) {
-            setDefaultDescription("It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isGreaterThanOrEqualTo(Duration expected) {
-        if (actual.compareTo(expected) < 0) {
-            setDefaultDescription("It is expected to be greater than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isLessThan(Duration expected) {
-        if (actual.compareTo(expected) >= 0) {
-            setDefaultDescription("It is expected to be less than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isLessThanOrEqualTo(Duration expected) {
-        if (actual.compareTo(expected) > 0) {
-            setDefaultDescription("It is expected to be less than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 
