@@ -67,7 +67,7 @@
 
 ### Dependencies
 
-- ➕ Add: dependencies ``
+- 🔧 Make: dependencies `annotations`, `jsr305` intransitive
 - ⬆️ Upgrade: test dependency `spock-core` from `2.1-groovy-3.0` to `2.2-groovy-3.0`
 - ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.3.1` to `3.4.1`
 
