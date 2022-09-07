@@ -25,7 +25,9 @@ import io.github.imsejin.common.util.NumberUtils;
  *
  * @param <SELF> this class
  */
-public class DoubleAssert<SELF extends DoubleAssert<SELF>> extends NumberAssert<SELF, Double>
+public class DoubleAssert<
+        SELF extends DoubleAssert<SELF>>
+        extends NumberAssert<SELF, Double>
         implements DecimalNumberAssertable<SELF, Double> {
 
     public DoubleAssert(Double actual) {

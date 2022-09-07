@@ -23,7 +23,9 @@ import io.github.imsejin.common.util.NumberUtils;
 
 import java.math.BigDecimal;
 
-public class BigDecimalAssert<SELF extends BigDecimalAssert<SELF>> extends NumberAssert<SELF, BigDecimal>
+public class BigDecimalAssert<
+        SELF extends BigDecimalAssert<SELF>>
+        extends NumberAssert<SELF, BigDecimal>
         implements DecimalNumberAssertable<SELF, BigDecimal> {
 
     public BigDecimalAssert(BigDecimal actual) {

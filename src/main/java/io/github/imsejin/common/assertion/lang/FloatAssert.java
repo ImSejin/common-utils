@@ -25,7 +25,9 @@ import io.github.imsejin.common.util.NumberUtils;
  *
  * @param <SELF> this class
  */
-public class FloatAssert<SELF extends FloatAssert<SELF>> extends NumberAssert<SELF, Float>
+public class FloatAssert<
+        SELF extends FloatAssert<SELF>>
+        extends NumberAssert<SELF, Float>
         implements DecimalNumberAssertable<SELF, Float> {
 
     public FloatAssert(Float actual) {
