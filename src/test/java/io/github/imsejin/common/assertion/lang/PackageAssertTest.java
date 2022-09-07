@@ -20,24 +20,18 @@ import io.github.imsejin.common.assertion.Asserts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.jar.JarFile;
-import java.util.prefs.Preferences;
-import java.util.regex.MatchResult;
-import java.util.spi.ResourceBundleControlProvider;
-import java.util.stream.Collector;
-import java.util.zip.Checksum;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @DisplayName("PackageAssert")
 class PackageAssertTest {
@@ -46,27 +40,38 @@ class PackageAssertTest {
     @DisplayName("method 'isSuperPackageOf'")
     class IsSuperPackageOf {
         @ParameterizedTest
-        @ValueSource(classes = {
-                Future.class, Consumer.class, JarFile.class,
-                Preferences.class, MatchResult.class, Collector.class,
-                ResourceBundleControlProvider.class, Checksum.class
-        })
+        @CsvSource(value = {
+                "java.lang            | java.lang.reflect",
+                "java.util            | java.util.stream",
+                "java.util.concurrent | java.util.concurrent.atomic",
+                "java.time            | java.time.chrono",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is super package of given package")
-        void test0(Class<?> type) {
-            assertThatCode(() -> Asserts.that(List.class.getPackage()).isSuperPackageOf(type.getPackage()))
-                    .doesNotThrowAnyException();
+        void test0(String actual, String expected) {
+            // given
+            Package pack = Package.getPackage(actual);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(pack)
+                    .isSuperPackageOf(Package.getPackage(expected)));
         }
 
         @ParameterizedTest
-        @ValueSource(classes = {
-                Object.class, Future.class, Consumer.class, JarFile.class,
-                Preferences.class, MatchResult.class, Collector.class,
-                ResourceBundleControlProvider.class, Checksum.class
-        })
+        @CsvSource(value = {
+                "java.lang            | java",
+                "java.util            | java.util.concurrent.atomic",
+                "java.util.stream     | java.util",
+                "java.util.concurrent | java.util.concurrent",
+                "java.time.chrono     | java.time",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is not super package of given package")
-        void test1(Class<?> type) {
-            assertThatCode(() -> Asserts.that(Object.class.getPackage()).isSuperPackageOf(type.getPackage()))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        void test1(String actual, String expected) {
+            // given
+            Package pack = Package.getPackage(actual);
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(pack)
+                    .isSuperPackageOf(Package.getPackage(expected)));
         }
     }
 
@@ -76,27 +81,37 @@ class PackageAssertTest {
     @DisplayName("method 'isSubPackageOf'")
     class IsSubPackageOf {
         @ParameterizedTest
-        @ValueSource(classes = {
-                Future.class, Consumer.class, JarFile.class,
-                Preferences.class, MatchResult.class, Collector.class,
-                ResourceBundleControlProvider.class, Checksum.class
-        })
-        @DisplayName("passes, when actual is sub package of given package")
-        void test0(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).isSubPackageOf(List.class.getPackage()))
-                    .doesNotThrowAnyException();
+        @CsvSource(value = {
+                "java.lang.reflect           | java.lang",
+                "java.util.stream            | java.util",
+                "java.util.concurrent.atomic | java.util.concurrent",
+                "java.time.chrono            | java.time",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is sub-package of given package")
+        void test0(String actual, String expected) {
+            // given
+            Package pack = Package.getPackage(actual);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(pack)
+                    .isSubPackageOf(Package.getPackage(expected)));
         }
 
         @ParameterizedTest
-        @ValueSource(classes = {
-                Object.class, Future.class, Consumer.class, JarFile.class,
-                Preferences.class, MatchResult.class, Collector.class,
-                ResourceBundleControlProvider.class, Checksum.class
-        })
-        @DisplayName("throws exception, when actual is not sub package of given package")
-        void test1(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).isSubPackageOf(Object.class.getPackage()))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+        @CsvSource(value = {
+                "java.lang                   | java",
+                "java.util.stream            | java.lang",
+                "java.util.concurrent.atomic | java.util.concurrent.locks",
+                "java.time.chrono            | java.time.chrono",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not sub-package of given package")
+        void test1(String actual, String expected) {
+            // given
+            Package pack = Package.getPackage(actual);
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(pack)
+                    .isSubPackageOf(Package.getPackage(expected)));
         }
     }
 
@@ -112,8 +127,8 @@ class PackageAssertTest {
         })
         @DisplayName("passes, when actual is equal to given package name")
         void test0(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).asName().isEqualTo("java.util.concurrent"))
-                    .doesNotThrowAnyException();
+            assertThatNoException().isThrownBy(() -> Asserts.that(type.getPackage())
+                    .asName().isEqualTo("java.util.concurrent"));
         }
 
         @ParameterizedTest
@@ -123,8 +138,8 @@ class PackageAssertTest {
         })
         @DisplayName("throws exception, when actual is not equal to given package name")
         void test1(Class<?> type) {
-            assertThatCode(() -> Asserts.that(type.getPackage()).asName().startsWith("java.lang"))
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(type.getPackage())
+                    .asName().startsWith("java.lang"));
         }
     }
 
