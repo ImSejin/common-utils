@@ -32,7 +32,6 @@ import java.util.List;
 public interface RandomAccessIterationAssertable<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL, ELEMENT> {
 
     String DEFAULT_DESCRIPTION_STARTS_WITH = "It is expected to start with the given element(s), but it isn't. (expected: '{0}', actual: '{1}')";
-
     String DEFAULT_DESCRIPTION_ENDS_WITH = "It is expected to end with the given element(s), but it isn't. (expected: '{0}', actual: '{1}')";
 
     // It is safe for heap pollution from parameterized vararg type.
