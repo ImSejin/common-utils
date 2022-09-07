@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -26,12 +27,14 @@ import java.util.Objects;
 /**
  * Assertion for {@link Number}
  *
- * @param <SELF> this class
+ * @param <SELF>   this class
+ * @param <NUMBER> comparable numeric type
  */
 public class NumberAssert<
         SELF extends NumberAssert<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>>
-        extends ObjectAssert<SELF, NUMBER> {
+        extends ObjectAssert<SELF, NUMBER>
+        implements SizeComparisonAssertable<SELF, NUMBER> {
 
     private final NUMBER zero;
 
@@ -53,7 +56,7 @@ public class NumberAssert<
      * @param number     number to be converted
      * @param numberType type of number
      * @return converted number
-     * @throws UnsupportedOperationException if {@code numberType} is unsupported
+     * @throws UnsupportedOperationException if {@code numberType} is not supported
      */
     @SuppressWarnings("unchecked")
     private static <N extends Number & Comparable<? extends Number>> N toNumber(N number, Class<N> numberType) {
@@ -69,40 +72,60 @@ public class NumberAssert<
         throw new UnsupportedOperationException("NumberAssert doesn't support the type: " + numberType);
     }
 
+    @Override
+    public SELF isEqualTo(NUMBER expected) {
+        if (!SizeComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO, expected, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isNotEqualTo(NUMBER expected) {
+        if (!SizeComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO, expected, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
     public SELF isGreaterThan(NUMBER expected) {
-        if (actual.compareTo(expected) <= 0) {
-            setDefaultDescription("It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isGreaterThanOrEqualTo(NUMBER expected) {
-        if (actual.compareTo(expected) < 0) {
-            setDefaultDescription("It is expected to be greater than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isLessThan(NUMBER expected) {
-        if (actual.compareTo(expected) >= 0) {
-            setDefaultDescription("It is expected to be less than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isLessThanOrEqualTo(NUMBER expected) {
-        if (actual.compareTo(expected) > 0) {
-            setDefaultDescription("It is expected to be less than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 
@@ -143,14 +166,6 @@ public class NumberAssert<
         }
 
         return self;
-    }
-
-    public SELF isBetween(NUMBER startInclusive, NUMBER endInclusive) {
-        return isGreaterThanOrEqualTo(startInclusive).isLessThanOrEqualTo(endInclusive);
-    }
-
-    public SELF isStrictlyBetween(NUMBER startExclusive, NUMBER endExclusive) {
-        return isGreaterThan(startExclusive).isLessThan(endExclusive);
     }
 
     /**
