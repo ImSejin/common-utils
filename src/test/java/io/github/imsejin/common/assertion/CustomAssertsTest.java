@@ -18,7 +18,6 @@ package io.github.imsejin.common.assertion;
 
 import io.github.imsejin.common.internal.assertion.FullyExtensibleAssert;
 import io.github.imsejin.common.internal.assertion.FullyRestrictedAssert;
-import io.github.imsejin.common.internal.assertion.FullyRestrictedAssertImpl;
 import io.github.imsejin.common.internal.assertion.PartiallyExtensibleAssert;
 import io.github.imsejin.common.internal.assertion.PartiallyRestrictedAssert;
 import io.github.imsejin.common.internal.assertion.model.Bar;
@@ -32,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-public class CustomAssertsTest {
+class CustomAssertsTest {
 
     @Nested
     @DisplayName("Fully extensible assertion class")
@@ -179,7 +178,49 @@ public class CustomAssertsTest {
         @Test
         @DisplayName("uses subclass of that")
         void test1() {
+            // given
+            class PartiallyRestrictedAssertImpl<ACTUAL extends Bar> extends PartiallyRestrictedAssert<ACTUAL> {
+                public PartiallyRestrictedAssertImpl(ACTUAL actual) {
+                    super(actual);
+                }
 
+                @Override
+                public PartiallyRestrictedAssertImpl<ACTUAL> isNotNull() {
+                    super.isNotNull();
+                    return this;
+                }
+
+                @Override
+                public PartiallyRestrictedAssertImpl<ACTUAL> hasNumericValue() {
+                    String value = actual.getValue();
+                    if (value == null || !value.matches(".*[0-9].*")) {
+                        throw getException();
+                    }
+
+                    return this;
+                }
+
+                public PartiallyRestrictedAssertImpl<ACTUAL> hasMultipleNumericValue() {
+                    String value = actual.getValue();
+                    if (value == null || !value.matches(".*[0-9].*[0-9].*")) {
+                        throw getException();
+                    }
+
+                    return this;
+                }
+            }
+
+            // expect
+            assertThatNoException().isThrownBy(() -> new PartiallyRestrictedAssertImpl<>(new Bar("a12"))
+                    .isNotNull()
+                    .hasNumericValue()
+                    .hasMultipleNumericValue()
+                    .predicate(it -> !it.getValue().isEmpty()));
+            assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyRestrictedAssertImpl<>(new Bar("a1"))
+                    .isNotNull()
+                    .hasNumericValue()
+                    .hasMultipleNumericValue()
+                    .predicate(it -> !it.getValue().isEmpty()));
         }
     }
 
@@ -191,53 +232,74 @@ public class CustomAssertsTest {
         @Test
         @DisplayName("uses that class")
         void test0() {
+            // given
+            KanCode kanCode = new KanCode("03200100");
 
+            // expect
+            assertThatNoException().isThrownBy(() -> MyAsserts.that(kanCode)
+                    .isNotNull()
+                    .isEqualTo("03200100")
+                    .isNotEqualTo("03200199")
+                    .isParentOf(new KanCode("03200199"))
+                    .isChildOf(new KanCode("03200000"))
+                    .predicate(it -> it.getDepth() == 3));
+            assertThatIllegalArgumentException().isThrownBy(() -> MyAsserts.that(kanCode)
+                    .isNotNull()
+                    .isEqualTo("03200100")
+                    .isNotEqualTo("03200000")
+                    .isParentOf(new KanCode("03200199"))
+                    .isChildOf(new KanCode("03200199"))
+                    .predicate(it -> it.getDepth() == 3));
         }
 
         @Test
         @DisplayName("uses subclass of that")
         void test1() {
+            // given
+            class FullyRestrictedAssertImpl extends FullyRestrictedAssert {
+                public FullyRestrictedAssertImpl(KanCode actual) {
+                    super(actual);
+                }
 
+                protected FullyRestrictedAssertImpl(Descriptor<?> descriptor, KanCode actual) {
+                    super(descriptor, actual);
+                }
+
+                @Override
+                public FullyRestrictedAssertImpl isNotNull() {
+                    super.isNotNull();
+                    return this;
+                }
+
+                @Override
+                public FullyRestrictedAssertImpl isParentOf(KanCode expected) {
+                    if (!actual.isParentOf(expected)) throw getException();
+                    return this;
+                }
+
+                public FullyRestrictedAssertImpl asParent() {
+                    return new FullyRestrictedAssertImpl(this, actual.getParent());
+                }
+            }
+
+            // expect
+            assertThatNoException().isThrownBy(() -> new FullyRestrictedAssertImpl(new KanCode("03200100"))
+                    .isNotNull()
+                    .asParent()
+                    .isParentOf(new KanCode("03200100"))
+                    .isEqualTo("03200000")
+                    .isNotEqualTo("03200100")
+                    .isChildOf(new KanCode("03000000"))
+                    .predicate(it -> it.getDepth() == 2));
+            assertThatIllegalArgumentException().isThrownBy(() -> new FullyRestrictedAssertImpl(new KanCode("03200100"))
+                    .isNotNull()
+                    .asParent()
+                    .isParentOf(new KanCode("03200100"))
+                    .isEqualTo("03200000")
+                    .isNotEqualTo("03200100")
+                    .isChildOf(new KanCode("03200100"))
+                    .predicate(it -> it.getDepth() == 2));
         }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Test
-    @DisplayName("Fully restricted assertion class")
-    void test2() {
-        // given
-        KanCode kanCode = new KanCode("01020300");
-
-        // expect
-        assertThatNoException().isThrownBy(() -> Asserts.that(kanCode)
-                .isNotNull()
-                .isEqualTo(new KanCode("01020300"))
-                .isNotEqualTo(new KanCode("01020304"))
-                .predicate(it -> it.isChildOf(new KanCode("01020000")))
-                .returns(true, it -> it.isParentOf(new KanCode("01020304"))));
-        assertThatNoException().isThrownBy(() -> MyAsserts.that(kanCode)
-                .isNotNull()
-                .isEqualTo("01020300")
-                .isNotEqualTo("01020304")
-                .isChildOf(new KanCode("01020000"))
-                .isParentOf(new KanCode("01020304")));
-    }
-
-    @Test
-    @DisplayName("Subclass of fully restricted assertion class")
-    void test3() {
-        // given
-        KanCode kanCode = new KanCode("03220000");
-
-        // expect
-        assertThatNoException().isThrownBy(() -> new FullyRestrictedAssertImpl(kanCode)
-                .isNotNull()
-                .isEqualTo("03220000")
-                .isNotEqualTo("03220100")
-                .isChildOf(new KanCode("03000000"))
-                .isParentOf(new KanCode("03220102"))
-                .hasDepth(kanCode.getDepth()));
     }
 
     // -------------------------------------------------------------------------------------------------

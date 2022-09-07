@@ -1,5 +1,6 @@
 package io.github.imsejin.common.internal.assertion;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.internal.assertion.model.KanCode;
 
@@ -7,6 +8,10 @@ public class FullyRestrictedAssert extends ObjectAssert<FullyRestrictedAssert, K
 
     public FullyRestrictedAssert(KanCode actual) {
         super(actual);
+    }
+
+    protected FullyRestrictedAssert(Descriptor<?> descriptor, KanCode actual) {
+        super(descriptor, actual);
     }
 
     public FullyRestrictedAssert isEqualTo(String expected) {
