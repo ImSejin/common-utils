@@ -31,8 +31,10 @@
 
 ### Modification
 
+- ♻️ Refactor: assertion `AbstractTemporalAccessorAssert`, `DateAssert`
+- ♻️ Refactor: assertion `NumberAssert`, `CharacterAssert`
 - 🔥 Remove: method `findElement(Collection, Predicate)` in `CollectionUtils`
-- ♻️ Change: modifier of `Descriptor.merge(Descriptor, Descriptor)` from protected to private
+- 🔥 Remove: protected method `Descriptor.merge(Descriptor, Descriptor)`
 - 🚚 Rename: method `as(String, Object...)` to `describedAs(String, Object...)` in `Descriptor`
 - 🚚 Rename: method `exception(Function)` to `thrownBy(Function)` in `Descriptor`
 - 🚚 Rename: method `hasElement()` to `isNotEmpty()` in `IterationAssertable`
@@ -50,19 +52,23 @@
 ### New features
 
 - ✨ Add: assertion class `DateAssert`
+- ✨ Add: assertion composition `ComparisonAssertable`, `SizeComparisonAssertable`, `PositionComparisonAssertable`
 - ✨ Add: protected constructor in assertion classes
 - ✨ Add: method `doesNotHaveSize(int)` in `IterationAssertable`
 - ✨ Add: method `asList()` in `ArrayAssert`
 - ✨ Add: methods `asYearMonth()`, `asMonthDay()` in `ChronoLocalDateAssert`
+- ✨ Add: methods `isBetween(Character, Character)`, `isStrictlyBetween(Character, Character)` in `CharacterAssert`
+- ✨ Add: methods `isBetween(TemporalAccessor, TemporalAccessor)`
+  , `isStrictlyBetween(TemporalAccessor, TemporalAccessor)` in `AbstractTemporalAccessorAssert`
 
 ### Troubleshooting
 
-- 🐞 Fix:
+- 🐞 Fix: wrong check for parameter in `ObjectAssert.returns(Object, Function)`
 
 ### Dependencies
 
 - ➕ Add: dependencies ``
-- ➕ Add: test dependency ``
+- ⬆️ Upgrade: test dependency `spock-core` from `2.1-groovy-3.0` to `2.2-groovy-3.0`
 - ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.3.1` to `3.4.1`
 
 # v0.10.0
