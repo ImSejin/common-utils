@@ -84,7 +84,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     }
 
     /**
-     * Sets type of exception on assertion failure.
+     * Sets what exception will be thrown on assertion failure.
      *
      * <p> Default type of exception is {@link IllegalArgumentException}.
      *

@@ -54,10 +54,10 @@ List<LocalDate> dates = Arrays.asList(
         LocalDate.of(1999, 12, 31), LocalDate.of(2000, 1, 1), LocalDate.of(2001, 1, 2));
 
 Asserts.that(dates)
-        // You can set message on error.
-        .as("dates should not be null or empty")
-        // You can set any sub type of RuntimeException on error.
-        .exception(IllegalStateException::new)
+        // You can describe error message on assertion failure.
+        .describedAs("dates should not be null or empty")
+        // You can set what exception will be thrown on assertion failure.
+        .thrownBy(IllegalStateException::new)
         // First of all, you have to make sure that variable to be asserted is not null,
         // before call the other assertion methods. Otherwise, it might throw NullPointerException.
         .isNotNull()
