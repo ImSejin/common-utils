@@ -4,6 +4,9 @@ import io.github.imsejin.common.assertion.Asserts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,15 +30,17 @@ class UrlAssertTest {
             assertThatNoException().isThrownBy(() -> Asserts.that(url).hasHost("www.github.com"));
         }
 
-        @Test
+        @ParameterizedTest
+        @CsvSource(value = {
+                "https://                | ",
+                "file:///var/lib/        | ",
+                "http://localhost:8080   | 127.0.0.1",
+                "https://www.github.com/ | github.com",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have host")
-        void test1() throws MalformedURLException {
-            // given
-            URL url = new URL("file:///var/lib/");
-
-            // expect
+        void test1(URL actual, String expected) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(url).hasHost("/"))
+                    .isThrownBy(() -> Asserts.that(actual).hasHost(expected))
                     .withMessageStartingWith("It is expected to have that host, but it doesn't.");
         }
     }
@@ -55,13 +60,12 @@ class UrlAssertTest {
             assertThatNoException().isThrownBy(() -> Asserts.that(url).doesNotHaveHost());
         }
 
-        @Test
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "http://localhost:8080", "https://www.github.com/",
+        })
         @DisplayName("throws exception, when actual has host")
-        void test1() throws MalformedURLException {
-            // given
-            URL url = new URL("https://www.github.com/");
-
-            // expect
+        void test1(URL url) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(url).doesNotHaveHost())
                     .withMessage("It is expected not to have host, but it does.");
@@ -73,25 +77,25 @@ class UrlAssertTest {
     @Nested
     @DisplayName("method 'hasPort'")
     class HasPort {
-        @Test
+        @ParameterizedTest
+        @CsvSource(value = {
+                "http://localhost:8080   | 8080",
+                "https://www.github.com/ | 443",
+        }, delimiter = '|')
         @DisplayName("passes, when actual has port")
-        void test0() throws MalformedURLException {
-            // given
-            URL url = new URL("https://www.github.com/");
-
-            // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(url).hasPort(443));
+        void test0(URL actual, int expected) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).hasPort(expected));
         }
 
-        @Test
+        @ParameterizedTest
+        @CsvSource(value = {
+                "http://localhost:8080   | 80",
+                "https://www.github.com/ | 8080",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have port")
-        void test1() throws MalformedURLException {
-            // given
-            URL url = new URL("file:///var/lib/");
-
-            // expect
+        void test1(URL actual, int expected) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(url).hasPort(80))
+                    .isThrownBy(() -> Asserts.that(actual).hasPort(expected))
                     .withMessageStartingWith("It is expected to have that port, but it doesn't.");
         }
     }
@@ -111,15 +115,14 @@ class UrlAssertTest {
             assertThatNoException().isThrownBy(() -> Asserts.that(url).doesNotHavePort());
         }
 
-        @Test
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "http://localhost:8080", "https://www.github.com/",
+        })
         @DisplayName("throws exception, when actual has port")
-        void test1() throws MalformedURLException {
-            // given
-            URL url = new URL("https://www.github.com/");
-
-            // expect
+        void test1(URL actual) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(url).doesNotHavePort())
+                    .isThrownBy(() -> Asserts.that(actual).doesNotHavePort())
                     .withMessage("It is expected not to have port, but it does.");
         }
     }
@@ -140,15 +143,15 @@ class UrlAssertTest {
                     .hasPath("/imsejin/common-utils"));
         }
 
-        @Test
+        @ParameterizedTest
+        @CsvSource(value = {
+                "https://www.github.com     | ",
+                "http://localhost:8080/apis | apis",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have path")
-        void test1() throws MalformedURLException {
-            // given
-            URL url = new URL("https:");
-
-            // expect
+        void test1(URL actual, String expected) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(url).hasPath(""))
+                    .isThrownBy(() -> Asserts.that(actual).hasPath(expected))
                     .withMessageStartingWith("It is expected to have that path, but it doesn't.");
         }
     }

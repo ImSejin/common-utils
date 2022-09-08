@@ -26,6 +26,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -318,16 +320,16 @@ class ConversionTest {
                     .withMessage("Description of assertion: " + url);
         }
 
-        @Test
+        @ParameterizedTest
+        @CsvSource(value = {
+                "http://localhost:8080  | 8080",
+                "https://www.github.com | 443",
+        }, delimiter = '|')
         @DisplayName("asPort(): URL -> Integer")
-        void asPort() throws MalformedURLException {
-            // given
-            URL url = new URL("http://www.github.com/");
-
-            // expect
+        void asPort(URL url, int port) {
             assertThatNoException().isThrownBy(() -> Asserts.that(url)
-                    .isNotNull().isEqualTo(new URL("http://www.github.com/"))
-                    .asPort().isEqualTo(80));
+                    .isNotNull().isEqualTo(new URL(url.toString()))
+                    .asPort().isEqualTo(port));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(url)
                             .describedAs("Description of assertion: {0}", url)
