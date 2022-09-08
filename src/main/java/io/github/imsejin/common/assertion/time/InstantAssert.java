@@ -19,8 +19,10 @@ package io.github.imsejin.common.assertion.time;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
+import io.github.imsejin.common.assertion.util.DateAssert;
 
 import java.time.Instant;
+import java.util.Date;
 
 public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTemporalAccessorAssert<SELF, Instant> {
 
@@ -33,6 +35,16 @@ public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTem
     }
 
     // -------------------------------------------------------------------------------------------------
+
+    public DateAssert<?, Date> asDate() {
+        class DateAssertImpl extends DateAssert<DateAssertImpl, Date> {
+            DateAssertImpl(Descriptor<?> descriptor, Date actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        return new DateAssertImpl(this, Date.from(actual));
+    }
 
     public NumberAssert<?, Long> asEpochMilli() {
         class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {

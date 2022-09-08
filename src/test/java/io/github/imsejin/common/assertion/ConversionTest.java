@@ -360,6 +360,26 @@ class ConversionTest {
     @Nested
     class InstantAssert {
         @Test
+        @DisplayName("asDate(): Instant -> Date")
+        void asDate() {
+            // given
+            Instant instant = Instant.now();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(instant)
+                    .isNotNull().isAfter(Instant.from(instant.minusSeconds(10)))
+                    .asDate().isEqualTo(new java.sql.Timestamp(instant.toEpochMilli()))
+                    .isBefore(new Date(instant.toEpochMilli() + 1)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(instant)
+                            .describedAs("Description of assertion: {0}", instant)
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asDate().isEqualTo(new java.sql.Date(instant.toEpochMilli()))
+                            .isEqualTo(new java.sql.Timestamp(0)))
+                    .withMessage("Description of assertion: " + instant);
+        }
+
+        @Test
         @DisplayName("asEpochMilli(): Instant -> Long")
         void asEpochMilli() {
             // given
