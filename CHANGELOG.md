@@ -56,6 +56,7 @@
 - ✨ Add: protected constructor in assertion classes
 - ✨ Add: method `doesNotHaveSize(int)` in `IterationAssertable`
 - ✨ Add: method `asList()` in `ArrayAssert`
+- ✨ Add: method `asDate()` in `InstantAssert`
 - ✨ Add: methods `asYearMonth()`, `asMonthDay()` in `ChronoLocalDateAssert`
 - ✨ Add: methods `isBetween(Character, Character)`, `isStrictlyBetween(Character, Character)` in `CharacterAssert`
 - ✨ Add: methods `isBetween(TemporalAccessor, TemporalAccessor)`
