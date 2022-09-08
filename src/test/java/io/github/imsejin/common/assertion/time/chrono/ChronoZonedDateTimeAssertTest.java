@@ -280,6 +280,66 @@ class ChronoZonedDateTimeAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
+    @DisplayName("method 'isBetween'")
+    class IsBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-23T00:00:00Z                  | 1592-05-23T00:00:00Z      | 1592-05-23T00:00:01Z",
+                "0912-01-01T12:34:56+09:00[Asia/Seoul] | 0911-12-31T12:34:56Z[UTC] | 0912-01-02T12:34:56Z[UTC]",
+                "2022-05-19T23:59:59Z[GMT]             | 1918-12-31T23:59:59Z[GMT] | 2022-05-19T23:59:59Z[GMT]",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value inclusively")
+        void test0(ZonedDateTime actual, ZonedDateTime start, ZonedDateTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-22T00:00:00Z                  | 1592-05-23T00:00:00Z      | 1592-05-23T00:00:01Z",
+                "0912-02-01T12:34:56+09:00[Asia/Seoul] | 0911-12-31T12:34:56Z[UTC] | 0912-01-02T12:34:56Z[UTC]",
+                "2022-05-20T23:59:59Z[GMT]             | 1918-12-31T23:59:59Z[GMT] | 2022-05-19T23:59:59Z[GMT]",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value inclusively")
+        void test1(ZonedDateTime actual, ZonedDateTime start, ZonedDateTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isStrictlyBetween'")
+    class IsStrictlyBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-23T00:00:01Z                  | 1592-05-23T00:00:00Z      | 1592-05-23T00:00:02Z",
+                "0912-01-01T12:34:56+09:00[Asia/Seoul] | 0911-12-31T12:34:56Z[UTC] | 0912-01-02T12:34:56Z[UTC]",
+                "2022-05-19T23:59:58Z[GMT]             | 1918-12-31T23:59:59Z[GMT] | 2022-05-19T23:59:59Z[GMT]",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value exclusively")
+        void test0(ZonedDateTime actual, ZonedDateTime start, ZonedDateTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-23T00:00:00Z                  | 1592-05-23T00:00:00Z      | 1592-05-23T00:00:00Z",
+                "0912-02-01T12:34:56+09:00[Asia/Seoul] | 0911-12-31T12:34:56Z[UTC] | 0912-01-02T12:34:56Z[UTC]",
+                "2022-05-19T23:59:59Z[GMT]             | 1918-12-31T23:59:59Z[GMT] | 2022-05-19T23:59:59Z[GMT]",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value exclusively")
+        void test1(ZonedDateTime actual, ZonedDateTime start, ZonedDateTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("method 'isSameZone'")
     class IsSameZone {
         @Test

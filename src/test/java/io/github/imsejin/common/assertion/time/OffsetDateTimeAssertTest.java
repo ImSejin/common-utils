@@ -272,6 +272,66 @@ class OffsetDateTimeAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
+    @DisplayName("method 'isBetween'")
+    class IsBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-23T00:00:00Z      | 1592-05-23T00:00:00Z      | 1592-05-23T00:00:00Z",
+                "1919-01-01T20:09:07-09:30 | 1918-12-31T20:39:06-09:00 | 1919-01-02T19:39:08-10:00",
+                "2022-05-19T23:59:58+18:00 | 1918-12-31T23:59:50+18:00 | 2022-05-19T23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value inclusively")
+        void test0(OffsetDateTime actual, OffsetDateTime start, OffsetDateTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-22T00:01:00Z      | 1592-05-23T00:00:00Z      | 1592-05-31T00:00:01Z",
+                "1919-02-01T20:09:05-09:30 | 1918-12-31T20:39:06-09:00 | 1919-01-02T19:39:08-10:00",
+                "2022-05-20T23:59:59+18:00 | 1918-12-31T23:59:50+18:00 | 2022-05-19T23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value inclusively")
+        void test1(OffsetDateTime actual, OffsetDateTime start, OffsetDateTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isStrictlyBetween'")
+    class IsStrictlyBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-23T00:00:01Z      | 1592-05-23T00:00:00Z      | 1592-05-23T00:00:02Z",
+                "1919-01-01T20:09:07-09:30 | 1918-12-31T20:39:06-09:00 | 1919-01-02T19:39:08-10:00",
+                "2022-05-19T23:59:58+18:00 | 1918-12-31T23:59:50+18:00 | 2022-05-19T23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value exclusively")
+        void test0(OffsetDateTime actual, OffsetDateTime start, OffsetDateTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1591-05-23T00:00:00Z      | 1592-05-23T00:00:00Z      | 1592-05-31T00:00:00Z",
+                "1919-02-01T20:09:05-09:30 | 1918-12-31T20:39:06-09:00 | 1919-01-02T19:39:08-10:00",
+                "2022-05-19T23:59:59+18:00 | 1918-12-31T23:59:50+18:00 | 2022-05-19T23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value exclusively")
+        void test1(OffsetDateTime actual, OffsetDateTime start, OffsetDateTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("method 'isSameOffset'")
     class IsSameOffset {
         @Test

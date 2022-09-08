@@ -208,4 +208,64 @@ class ChronoLocalDateTimeAssertTest {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isBetween'")
+    class IsBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000001",
+                "1919-01-01T12:34:56.789012345 | 1918-12-31T12:34:56.789012345 | 1919-01-02T12:34:56.789012345",
+                "2022-05-19T23:59:59.999999999 | 1918-12-31T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value inclusively")
+        void test0(LocalDateTime actual, LocalDateTime start, LocalDateTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-22T00:00:00.000000000 | 1592-05-23T00:00:00.000000000 | 1592-05-31T00:00:00.000000000",
+                "1919-02-01T12:34:56.789012345 | 1918-12-31T12:34:56.789012345 | 1919-01-02T12:34:56.789012345",
+                "2022-05-20T23:59:59.999999999 | 1918-12-31T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value inclusively")
+        void test1(LocalDateTime actual, LocalDateTime start, LocalDateTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isStrictlyBetween'")
+    class IsStrictlyBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1592-05-23T00:00:00.000000001 | 1592-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000002",
+                "1919-01-01T12:34:56.789012345 | 1918-12-31T12:34:56.789012345 | 1919-01-02T12:34:56.789012345",
+                "2022-05-19T23:59:59.999999998 | 1918-12-31T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value exclusively")
+        void test0(LocalDateTime actual, LocalDateTime start, LocalDateTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1591-05-23T00:00:00.000000000 | 1592-05-23T00:00:00.000000000 | 1592-05-31T00:00:00.000000000",
+                "1919-02-01T12:34:56.789012345 | 1918-12-31T12:34:56.789012345 | 1919-01-02T12:34:56.789012345",
+                "2022-05-19T23:59:59.999999999 | 1918-12-31T23:59:59.999999999 | 2022-05-19T23:59:59.999999999",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value exclusively")
+        void test1(LocalDateTime actual, LocalDateTime start, LocalDateTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
 }

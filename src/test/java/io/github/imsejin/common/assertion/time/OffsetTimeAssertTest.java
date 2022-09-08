@@ -272,6 +272,66 @@ class OffsetTimeAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
+    @DisplayName("method 'isBetween'")
+    class IsBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z      | 00:00:00Z",
+                "20:09:07-09:30 | 20:39:06-09:00 | 19:39:08-10:00",
+                "23:59:58+18:00 | 23:59:50+18:00 | 23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value inclusively")
+        void test0(OffsetTime actual, OffsetTime start, OffsetTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "00:01:00Z      | 00:00:00Z      | 00:00:01Z",
+                "20:09:05-09:30 | 20:39:06-09:00 | 19:39:08-10:00",
+                "23:59:59+18:00 | 23:59:50+18:00 | 23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value inclusively")
+        void test1(OffsetTime actual, OffsetTime start, OffsetTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isStrictlyBetween'")
+    class IsStrictlyBetween {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "00:00:01Z      | 00:00:00Z      | 00:00:02Z",
+                "20:09:07-09:30 | 20:39:06-09:00 | 19:39:08-10:00",
+                "23:59:58+18:00 | 23:59:50+18:00 | 23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is between start value and end value exclusively")
+        void test0(OffsetTime actual, OffsetTime start, OffsetTime end) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "00:00:00Z      | 00:00:00Z      | 00:00:00Z",
+                "20:09:05-09:30 | 20:39:06-09:00 | 19:39:08-10:00",
+                "23:59:59+18:00 | 23:59:50+18:00 | 23:29:59+17:30",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is not between start value and end value exclusively")
+        void test1(OffsetTime actual, OffsetTime start, OffsetTime end) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isStrictlyBetween(start, end))
+                    .withMessageStartingWith("It is expected to be");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("method 'isSameOffset'")
     class IsSameOffset {
         @Test
