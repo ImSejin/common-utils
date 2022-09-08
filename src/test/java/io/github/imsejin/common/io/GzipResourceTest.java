@@ -36,8 +36,10 @@ class GzipResourceTest {
     void test() {
         // given
         String fileName = "temp-file.log";
-        byte[] bytes = new RandomString().nextString(new Random()
-                .nextInt((int) Math.pow(2, 20))).getBytes(StandardCharsets.UTF_8);
+        int length = new Random().nextInt((int) Math.pow(2, 20));
+        byte[] bytes = length == 0
+                ? new byte[0]
+                : new RandomString().nextString(length).getBytes(StandardCharsets.UTF_8);
         long modifiedTime = System.currentTimeMillis();
 
         // when
