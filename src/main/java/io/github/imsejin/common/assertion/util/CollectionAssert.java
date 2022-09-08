@@ -30,6 +30,13 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 
+/**
+ * Assertion for {@link Collection}
+ *
+ * @param <SELF>    this class
+ * @param <ACTUAL>  type of collection
+ * @param <ELEMENT> type of element in collection
+ */
 public class CollectionAssert<
         SELF extends CollectionAssert<SELF, ACTUAL, ELEMENT>,
         ACTUAL extends Collection<? extends ELEMENT>,
@@ -45,6 +52,11 @@ public class CollectionAssert<
         super(descriptor, actual);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
@@ -55,6 +67,11 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF isNotEmpty() {
         if (actual.isEmpty()) {
@@ -65,6 +82,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF hasSize(int expected) {
         if (actual.size() != expected) {
@@ -75,6 +98,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveSize(int expected) {
         if (actual.size() == expected) {
@@ -85,6 +114,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF hasSameSizeAs(Collection expected) {
@@ -97,6 +132,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF doesNotHaveSameSizeAs(Collection expected) {
@@ -109,6 +150,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF contains(ELEMENT expected) {
         for (ELEMENT element : actual) {
@@ -121,6 +168,12 @@ public class CollectionAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotContain(ELEMENT expected) {
         for (ELEMENT element : actual) {
@@ -135,6 +188,11 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF containsNull() {
         for (ELEMENT element : actual) {
@@ -147,6 +205,11 @@ public class CollectionAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF doesNotContainNull() {
         for (ELEMENT element : actual) {
@@ -161,6 +224,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF containsAny(ELEMENT... expected) {
@@ -180,6 +249,12 @@ public class CollectionAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF containsAll(ACTUAL expected) {
         if (CollectionUtils.isNullOrEmpty(expected)) {
@@ -201,6 +276,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotContainAll(ACTUAL expected) {
         if (actual.isEmpty() || CollectionUtils.isNullOrEmpty(expected)) {
@@ -222,6 +303,10 @@ public class CollectionAssert<
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
      * @see #containsAll(Collection)
      */
     @Override
@@ -260,6 +345,11 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF containsOnlyNulls() {
         if (actual.isEmpty()) {
@@ -279,6 +369,11 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveDuplicates() {
         if (actual.isEmpty() || actual.size() == 1) {
@@ -302,6 +397,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF anyMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {
@@ -314,6 +415,12 @@ public class CollectionAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF allMatch(Predicate<ELEMENT> expected) {
         if (actual.isEmpty()) {
@@ -333,6 +440,12 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF noneMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {

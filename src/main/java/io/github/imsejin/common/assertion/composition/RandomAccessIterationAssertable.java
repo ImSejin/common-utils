@@ -34,11 +34,43 @@ public interface RandomAccessIterationAssertable<SELF extends ObjectAssert<SELF,
     String DEFAULT_DESCRIPTION_STARTS_WITH = "It is expected to start with the given element(s), but it isn't. (expected: '{0}', actual: '{1}')";
     String DEFAULT_DESCRIPTION_ENDS_WITH = "It is expected to end with the given element(s), but it isn't. (expected: '{0}', actual: '{1}')";
 
+    /**
+     * Asserts that actual value has elements started with expected values.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that([1, 2, 3, 4, 5]).startsWith(1, 2, 3);
+     *     Asserts.that(['a', 'b', 'c', 'd']).startsWith('a', 'b', 'c', 'd');
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([1, 2, 3, 4, 5]).startsWith(0, 1, 2);
+     *     Asserts.that(['a', 'b', 'c', 'd']).startsWith('a', 'b', 'd', 'c');
+     * }</pre>
+     *
+     * @param expected expected values
+     * @return this class
+     */
     // It is safe for heap pollution from parameterized vararg type.
     // This doesn't return the parameter and doesn't set any value as its element.
     @SuppressWarnings("unchecked")
     SELF startsWith(ELEMENT... expected);
 
+    /**
+     * Asserts that actual value has elements ended with expected values.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that([1, 2, 3, 4, 5]).endsWith(3, 4, 5);
+     *     Asserts.that(['a', 'b', 'c', 'd']).endsWith('a', 'b', 'c', 'd');
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([1, 2, 3, 4, 5]).endsWith(4, 5, 6);
+     *     Asserts.that(['a', 'b', 'c', 'd']).endsWith('b', 'a', 'c', 'd');
+     * }</pre>
+     *
+     * @param expected expected values
+     * @return this class
+     */
     // It is safe for heap pollution from parameterized vararg type.
     // This doesn't return the parameter and doesn't set any value as its element.
     @SuppressWarnings("unchecked")

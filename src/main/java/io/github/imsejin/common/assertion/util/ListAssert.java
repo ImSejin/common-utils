@@ -23,6 +23,13 @@ import io.github.imsejin.common.util.ArrayUtils;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Assertion for {@link List}
+ *
+ * @param <SELF>    this class
+ * @param <ACTUAL>  type of list
+ * @param <ELEMENT> type of element in list
+ */
 public class ListAssert<
         SELF extends ListAssert<SELF, ACTUAL, ELEMENT>,
         ACTUAL extends List<? extends ELEMENT>,
@@ -38,6 +45,12 @@ public class ListAssert<
         super(descriptor, actual);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF startsWith(ELEMENT... expected) {
@@ -64,6 +77,12 @@ public class ListAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF endsWith(ELEMENT... expected) {

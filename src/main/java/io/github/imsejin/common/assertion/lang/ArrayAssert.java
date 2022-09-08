@@ -34,7 +34,7 @@ import java.util.function.Predicate;
  * Assertion for {@link Array}
  *
  * @param <SELF>    this class
- * @param <ELEMENT> element in array
+ * @param <ELEMENT> type of element in array
  */
 public class ArrayAssert<
         SELF extends ArrayAssert<SELF, ELEMENT>,
@@ -51,6 +51,11 @@ public class ArrayAssert<
         super(descriptor, actual);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF isEmpty() {
         if (actual.length > 0) {
@@ -61,6 +66,11 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF isNotEmpty() {
         if (actual.length == 0) {
@@ -71,6 +81,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF hasSize(int expected) {
         if (actual.length != expected) {
@@ -81,6 +97,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveSize(int expected) {
         if (actual.length == expected) {
@@ -91,6 +113,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF hasSameSizeAs(Object[] expected) {
         if (expected == null || actual.length != expected.length) {
@@ -102,6 +130,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveSameSizeAs(Object[] expected) {
         if (expected == null || actual.length == expected.length) {
@@ -113,6 +147,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF contains(ELEMENT expected) {
         for (ELEMENT element : actual) {
@@ -125,6 +165,12 @@ public class ArrayAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotContain(ELEMENT expected) {
         for (ELEMENT element : actual) {
@@ -139,6 +185,11 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF containsNull() {
         for (ELEMENT element : actual) {
@@ -151,6 +202,11 @@ public class ArrayAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF doesNotContainNull() {
         for (ELEMENT element : actual) {
@@ -203,6 +259,12 @@ public class ArrayAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF containsAll(ELEMENT[] expected) {
         if (ArrayUtils.isNullOrEmpty(expected)) {
@@ -224,6 +286,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotContainAll(ELEMENT[] expected) {
         if (actual.length == 0 || ArrayUtils.isNullOrEmpty(expected)) {
@@ -245,6 +313,10 @@ public class ArrayAssert<
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
      * @see #containsAll(Object[])
      */
     @Override
@@ -283,6 +355,11 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF containsOnlyNulls() {
         if (actual.length == 0) {
@@ -302,6 +379,11 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveDuplicates() {
         if (actual.length == 0 || actual.length == 1) {
@@ -325,6 +407,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF anyMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {
@@ -337,6 +425,12 @@ public class ArrayAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF allMatch(Predicate<ELEMENT> expected) {
         if (actual.length == 0) {
@@ -356,6 +450,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF noneMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {
@@ -370,6 +470,12 @@ public class ArrayAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF startsWith(ELEMENT... expected) {
@@ -396,6 +502,12 @@ public class ArrayAssert<
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF endsWith(ELEMENT... expected) {

@@ -288,6 +288,22 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
+    /**
+     * Asserts that predicate returns {@code true} from actual value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that('2').predicate(Character::isDigit);
+     *     Asserts.that("alpha").predicate(it -> it.length() == 5);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Object.class).predicate(Class::isInterface);
+     *     Asserts.that(['a', 'b', 'c']).predicate(List::isEmpty);
+     * }</pre>
+     *
+     * @param predicate expected condition
+     * @return this class
+     */
     public SELF predicate(Predicate<ACTUAL> predicate) {
         if (!Objects.requireNonNull(predicate, "Predicate is not allowed to be null").test(actual)) {
             setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
@@ -297,6 +313,24 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
         return self;
     }
 
+    /**
+     * Asserts that expected value is equal to the value returned by function from actual value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(2).returns(1, it -> it / 2);
+     *     Asserts.that("alpha").returns("ALPHA", String::toUpperCase);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Object.class).returns("Object", Class::getName);
+     *     Asserts.that(['a', 'b', 'c']).returns(3, List::size);
+     * }</pre>
+     *
+     * @param expected expected value
+     * @param from     function
+     * @param <T>      return type of function
+     * @return this class
+     */
     public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
         T actual = Objects.requireNonNull(from, "Function is not allowed to be null").apply(this.actual);
 
