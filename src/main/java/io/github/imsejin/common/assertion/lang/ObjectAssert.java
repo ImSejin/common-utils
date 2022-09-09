@@ -270,17 +270,30 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
     }
 
     /**
-     * Verifies this is instance of the type.
-     * <p>
-     * If you input a primitive type, it is converted to wrapper type.
-     * Primitive type cannot instantiate, so return value of
-     * {@link Class#isInstance(Object)} is always {@code false}.
+     * Asserts that actual value is the instance of expected type.
      *
-     * @param expected expected value
+     * <p> If you input a type of primitive or primitive array, it is converted to wrapper type.
+     * Because primitive type can't be instantiated and Java language {@code instanceof} operator
+     * always returns {@code false} with it.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(0).isInstanceOf(Integer.class);
+     *     Asserts.that(3.14).isInstanceOf(double.class);
+     *     Asserts.that("alpha").isInstanceOf(CharSequence.class);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(null).isInstanceOf(Object.class);
+     *     Asserts.that(3.14).isInstanceOf(BigDecimal.class);
+     *     Asserts.that(new StringBuilder()).isInstanceOf(StringBuffer.class);
+     * }</pre>
+     *
+     * @param expected expected type
      * @return this class
      */
     public SELF isInstanceOf(Class<?> expected) {
-        if (!ClassUtils.wrap(expected).isInstance(actual)) {
+        Class<?> wrappedType = ClassUtils.wrap(expected);
+        if (!wrappedType.isInstance(actual)) {
             setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual);
             throw getException();
         }

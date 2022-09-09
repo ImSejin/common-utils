@@ -48,7 +48,7 @@ public class ListAssert<
     /**
      * {@inheritDoc}
      *
-     * @param expected expected value
+     * @param expected expected values
      * @return this class
      */
     @Override
@@ -80,7 +80,7 @@ public class ListAssert<
     /**
      * {@inheritDoc}
      *
-     * @param expected expected value
+     * @param expected expected values
      * @return this class
      */
     @Override
