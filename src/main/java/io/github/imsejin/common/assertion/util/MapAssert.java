@@ -141,14 +141,50 @@ public class MapAssert<
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its keys.
+     *
+     * <pre>{@code
+     *     Asserts.that(["alpha": 1, "beta": 2])
+     *             .hasSize(2)
+     *             .asKeySet()
+     *             .isEqualTo(["alpha", "beta"]);
+     * }</pre>
+     *
+     * @return assertion for collection
+     */
     public CollectionAssert<?, Collection<K>, K> asKeySet() {
         return new CollectionAssert<>(this, actual.keySet());
     }
 
+    /**
+     * Converts actual value into its values.
+     *
+     * <pre>{@code
+     *     Asserts.that(["alpha": 1, "beta": 2])
+     *             .hasSize(2)
+     *             .asValues()
+     *             .isEqualTo([1, 2]);
+     * }</pre>
+     *
+     * @return assertion for collection
+     */
     public CollectionAssert<?, Collection<V>, V> asValues() {
         return new CollectionAssert<>(this, actual.values());
     }
 
+    /**
+     * Converts actual value into its size.
+     *
+     * <pre>{@code
+     *     Asserts.that(["alpha": 1, "beta": 2])
+     *             .hasSize(2)
+     *             .asSize()
+     *             .isGreaterThanOrEqualTo(2);
+     * }</pre>
+     *
+     * @return assertion for integer
+     */
     public NumberAssert<?, Integer> asSize() {
         class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
             NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {

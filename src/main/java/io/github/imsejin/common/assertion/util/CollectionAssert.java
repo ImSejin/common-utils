@@ -462,6 +462,18 @@ public class CollectionAssert<
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into array.
+     *
+     * <pre>{@code
+     *     Asserts.that([1, 2, 3, 4])
+     *             .allMatch(it -> it > 0)
+     *             .asArray()
+     *             .isInstanceOf(Object[].class);
+     * }</pre>
+     *
+     * @return assertion for integer.
+     */
     @SuppressWarnings("unchecked")
     public ArrayAssert<?, ELEMENT> asArray() {
         // You can meet this exception by local anonymous class like this code
@@ -487,10 +499,22 @@ public class CollectionAssert<
             }
         }
 
-        ELEMENT[] elements = (ELEMENT[]) this.actual.toArray();
+        ELEMENT[] elements = (ELEMENT[]) this.actual.toArray(new Object[0]);
         return new ArrayAssertImpl(this, elements);
     }
 
+    /**
+     * Converts actual value into its size.
+     *
+     * <pre>{@code
+     *     Asserts.that([1, 2, 3, 4])
+     *             .hasSize(4)
+     *             .asSize()
+     *             .isPositive();
+     * }</pre>
+     *
+     * @return assertion for integer.
+     */
     public NumberAssert<?, Integer> asSize() {
         class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
             NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {

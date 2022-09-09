@@ -270,11 +270,35 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its super class.
+     *
+     * <pre>{@code
+     *     Asserts.that(Object.class)
+     *             .isEqualTo(Object.class)
+     *             .asSuperclass()
+     *             .isNull();
+     * }</pre>
+     *
+     * @return assertion for class.
+     */
     public ClassAssert<?, ?> asSuperclass() {
         Class<?> superclass = actual.getSuperclass();
         return new ClassAssert<>(this, superclass);
     }
 
+    /**
+     * Converts actual value into its package.
+     *
+     * <pre>{@code
+     *     Asserts.that(Object.class)
+     *             .isEqualTo(Object.class)
+     *             .asPackage()
+     *             .isSuperPackageOf(Package.getPackage("java.lang.reflect"));
+     * }</pre>
+     *
+     * @return assertion for package.
+     */
     public PackageAssert<?> asPackage() {
         Package pack = actual.getPackage();
         return new PackageAssert<>(this, pack);

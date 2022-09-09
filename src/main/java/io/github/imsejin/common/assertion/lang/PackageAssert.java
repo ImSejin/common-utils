@@ -109,6 +109,20 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its name.
+     *
+     * <pre>{@code
+     *     Package pack = Package.getPackage("java.util.concurrent");
+     *
+     *     Asserts.that(pack)
+     *             .isSubPackageOf(Package.getPackage("java.util"))
+     *             .asName()
+     *             .isEqualTo("java.util.concurrent");
+     * }</pre>
+     *
+     * @return assertion for string
+     */
     public StringAssert<?> asName() {
         String name = actual.getName();
         return new StringAssert<>(this, name);

@@ -87,6 +87,18 @@ public class CharSequenceAssert<
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its length.
+     *
+     * <pre>{@code
+     *     Asserts.that("alpha")
+     *             .isNotEmpty()
+     *             .asLength()
+     *             .isLessThan(10);
+     * }</pre>
+     *
+     * @return assertion for integer.
+     */
     public NumberAssert<?, Integer> asLength() {
         int length = actual.length();
         return new NumberAssert<>(this, length);

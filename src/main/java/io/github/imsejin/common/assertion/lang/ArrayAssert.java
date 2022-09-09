@@ -536,10 +536,34 @@ public class ArrayAssert<
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its length.
+     *
+     * <pre>{@code
+     *     Asserts.that([1, 2, 3, 4])
+     *             .hasSize(4)
+     *             .asLength()
+     *             .isPositive();
+     * }</pre>
+     *
+     * @return assertion for integer.
+     */
     public NumberAssert<?, Integer> asLength() {
         return new NumberAssert<>(this, actual.length);
     }
 
+    /**
+     * Converts actual value into list.
+     *
+     * <pre>{@code
+     *     Asserts.that([1, 2, 3, 4])
+     *             .hasSize(4)
+     *             .asList()
+     *             .isInstanceOf(Collection.class);
+     * }</pre>
+     *
+     * @return assertion for list.
+     */
     public ListAssert<?, List<ELEMENT>, ELEMENT> asList() {
         class ListAssertImpl extends ListAssert<ListAssertImpl, List<ELEMENT>, ELEMENT> {
             ListAssertImpl(Descriptor<?> descriptor, List<ELEMENT> actual) {

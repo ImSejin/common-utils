@@ -357,11 +357,35 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its class.
+     *
+     * <pre>{@code
+     *     Asserts.that("alpha")
+     *             .isEqualTo("alpha")
+     *             .asClass()
+     *             .isFinalClass();
+     * }</pre>
+     *
+     * @return assertion for class
+     */
     public ClassAssert<?, ACTUAL> asClass() {
         Class<?> clazz = actual.getClass();
         return new ClassAssert<>(this, clazz);
     }
 
+    /**
+     * Converts actual value into string.
+     *
+     * <pre>{@code
+     *     Asserts.that(Object.class)
+     *             .isEqualTo(Object.class)
+     *             .asString()
+     *             .endsWith("java.lang.Object");
+     * }</pre>
+     *
+     * @return assertion for string
+     */
     public StringAssert<?> asString() {
         String string = this.actual.toString();
         return new StringAssert<>(this, string);
