@@ -56,13 +56,13 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -1049,14 +1049,14 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(collection).hasSize(count)
-                    .asArray().hasSize(count).containsOnly(Arrays.stream(packageName.split("\\."))
-                            .sorted(Collections.reverseOrder()).toArray(String[]::new))
-                    .containsAny("java", "lang", "imsejin").containsAll(new String[0]));
+                    .asArray().hasSize(count).isEqualTo(packageName.split("\\."))
+                    .containsOnly(collection.stream().sorted(reverseOrder()).toArray(String[]::new))
+                    .containsAny("java", "lang", "imsejin").isInstanceOf(Object[].class));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(collection)
                             .describedAs("Description of assertion: {0}", collection)
                             .thrownBy(RuntimeException::new).isNotEmpty()
-                            .asArray().doesNotHaveSameSizeAs(new Object[0]).containsNull())
+                            .asArray().doesNotHaveSameSizeAs(new Object[0]).isInstanceOf(String[].class))
                     .withMessage("Description of assertion: " + collection);
         }
 
