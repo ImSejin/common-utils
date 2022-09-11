@@ -153,6 +153,7 @@ public class CharSequenceAssert<
      *     Asserts.that("alpha").hasSameSizeAs("gamma");
      *
      *     // Assertion will fail.
+     *     Asserts.that("").hasSameSizeAs(null);
      *     Asserts.that("").hasSameSizeAs(" ");
      *     Asserts.that("alpha").hasSameSizeAs("beta");
      * }</pre>
@@ -180,6 +181,7 @@ public class CharSequenceAssert<
      *     Asserts.that("alpha").doesNotHaveSameSizeAs("beta");
      *
      *     // Assertion will fail.
+     *     Asserts.that("").doesNotHaveSameSizeAs(null);
      *     Asserts.that("").doesNotHaveSameSizeAs("");
      *     Asserts.that(" ").doesNotHaveSameSizeAs("a");
      *     Asserts.that("alpha").doesNotHaveSameSizeAs("gamma");
