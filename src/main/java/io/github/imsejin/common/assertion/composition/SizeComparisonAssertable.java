@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.assertion.composition;
 
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
 import java.util.function.BiPredicate;
 
 /**
@@ -29,7 +27,7 @@ import java.util.function.BiPredicate;
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public interface SizeComparisonAssertable<
-        SELF extends ObjectAssert<SELF, ACTUAL> & SizeComparisonAssertable<SELF, ACTUAL>,
+        SELF extends SizeComparisonAssertable<SELF, ACTUAL>,
         ACTUAL>
         extends ComparisonAssertable<SELF, ACTUAL> {
 

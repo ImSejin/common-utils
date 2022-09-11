@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.assertion.composition;
 
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
 import java.util.function.BiPredicate;
 
 /**
@@ -28,9 +26,7 @@ import java.util.function.BiPredicate;
  * @see Comparable
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public interface ComparisonAssertable<
-        SELF extends ObjectAssert<SELF, ACTUAL> & ComparisonAssertable<SELF, ACTUAL>,
-        ACTUAL> {
+public interface ComparisonAssertable<SELF extends ComparisonAssertable<SELF, ACTUAL>, ACTUAL> {
 
     /**
      * @see java.util.Date#compareTo(java.util.Date)
