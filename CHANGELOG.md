@@ -31,8 +31,8 @@
 
 ### Modification
 
-- ♻️ Refactor: assertion `AbstractTemporalAccessorAssert`, `DateAssert`
-- ♻️ Refactor: assertion `NumberAssert`, `CharacterAssert`
+- ♻️ Refactor: assertion `AbstractTemporalAccessorAssert`, `DateAssert`, `NumberAssert`, `IterationAssertable`
+  , `CharacterAssert`, `CharSequenceAssert`, `StringAssert`
 - 🔥 Remove: method `findElement(Collection, Predicate)` in `CollectionUtils`
 - 🔥 Remove: protected method `Descriptor.merge(Descriptor, Descriptor)`
 - 🚚 Rename: method `as(String, Object...)` to `describedAs(String, Object...)` in `Descriptor`
@@ -48,11 +48,16 @@
 - 🚚 Rename: method `hasSizeOf(int)` to `hasSize(int)` in `MapAssert`
 - 🚚 Rename: method `isSameSize(Map)` to `hasSameSizeAs(Map)` in `MapAssert`
 - 🚚 Rename: method `isNotSameSize(Map)` to `doesNotHaveSameSizeAs(Map)` in `MapAssert`
+- 🚚 Rename: method `hasLengthOf(int)` to `hasSize(int)` in `CharSequenceAssert`
+- 🚚 Rename: method `isSameLength(int)` to `hasSameSizeAs(int)` in `CharSequenceAssert`
+- 🚚 Rename: method `isNotSameLength(int)` to `doesNotHaveSameSizeAs(int)` in `CharSequenceAssert`
+- 🚚 Move: method `contains(CharSequence)` from `StringAssert` to `CharSequenceAssert`
 
 ### New features
 
 - ✨ Add: assertion class `DateAssert`
 - ✨ Add: assertion composition `ComparisonAssertable`, `SizeComparisonAssertable`, `PositionComparisonAssertable`
+  , `EnumerationAssertable`
 - ✨ Add: protected constructor in assertion classes
 - ✨ Add: method `doesNotHaveSize(int)` in `IterationAssertable`
 - ✨ Add: method `asList()` in `ArrayAssert`
@@ -61,10 +66,12 @@
 - ✨ Add: methods `isBetween(Character, Character)`, `isStrictlyBetween(Character, Character)` in `CharacterAssert`
 - ✨ Add: methods `isBetween(TemporalAccessor, TemporalAccessor)`
   , `isStrictlyBetween(TemporalAccessor, TemporalAccessor)` in `AbstractTemporalAccessorAssert`
+- ✨ Add: methods `doesNotHaveSize(int)`, `doesNotContain(CharSequence)` in `CharSequenceAssert`
 
 ### Troubleshooting
 
 - 🐞 Fix: wrong check for parameter in `ObjectAssert.returns(Object, Function)`
+- 🐞 Fix: wrong assertion logic for `containsAny(ELEMENT)`, `containsOnly(ELEMENT)` in `IterationAssertable`
 
 ### Dependencies
 
