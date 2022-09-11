@@ -484,9 +484,12 @@ class CollectionAssertTest {
         @DisplayName("passes, when actual contains the given elements at least 1")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e', null)).containsAny();
-                Asserts.that(Collections.singletonList(false)).containsAny(false, null, null);
-                Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024)).containsAny(1024, null, -1);
+                Asserts.that(Collections.emptySet())
+                        .containsAny();
+                Asserts.that(Collections.singletonList(false))
+                        .containsAny(false, null, null);
+                Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
+                        .containsAny(1024, null, -1);
                 Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
                         .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect", "common");
             });
@@ -497,6 +500,12 @@ class CollectionAssertTest {
         void test1() {
             String description = "It is expected to contain at least one of the given element(s), but it isn't.";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Collections.emptySet()).containsAny(1, 2))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3)).containsAny())
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e')).containsAny(null, '\u0000'))
                     .withMessageStartingWith(description);
@@ -614,8 +623,6 @@ class CollectionAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(Collections.emptySet())
                         .containsOnly();
-                Asserts.that(Arrays.asList(-1, BigDecimal.ZERO, 2.5))
-                        .containsOnly();
                 Asserts.that(Arrays.asList('z', 'y', 'x', 'w', 'v'))
                         .containsOnly('v', 'w', 'x', 'y', 'z');
                 Asserts.that(Arrays.asList(1, 2, 3, 1, 2, 3, 1, 2, 3))
@@ -633,6 +640,10 @@ class CollectionAssertTest {
             String missingDescription = "It is expected to contain only the given element(s), but it doesn't contain some element(s).";
             String unexpectedDescription = "It is expected to contain only the given element(s), but it contains unexpected element(s).";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1, BigDecimal.ZERO, 2.5))
+                            .containsOnly())
+                    .withMessageStartingWith(unexpectedDescription);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Collections.emptyList())
                             .containsOnly(-1, BigDecimal.ZERO, 2.5))

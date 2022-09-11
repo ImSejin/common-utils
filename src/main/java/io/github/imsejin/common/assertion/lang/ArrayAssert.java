@@ -243,7 +243,7 @@ public class ArrayAssert<
     @Override
     @SafeVarargs
     public final SELF containsAny(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) {
+        if (actual.length == 0 && expected.length == 0) {
             return self;
         }
 
@@ -322,7 +322,7 @@ public class ArrayAssert<
     @Override
     @SafeVarargs
     public final SELF containsOnly(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) {
+        if (actual.length == 0 && expected.length == 0) {
             return self;
         }
 

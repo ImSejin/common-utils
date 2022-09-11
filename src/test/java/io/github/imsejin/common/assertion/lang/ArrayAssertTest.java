@@ -642,8 +642,10 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual contains the given elements at least 1")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new Character[]{'a', 'b', 'c', 'd', 'e', null}).containsAny();
-                Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).containsAny(null, 1023, -1);
+                Asserts.that(new Object[0])
+                        .containsAny();
+                Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
+                        .containsAny(null, 1023, -1);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect", "common");
                 Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
@@ -656,6 +658,12 @@ class ArrayAssertTest {
         void test1() {
             String description = "It is expected to contain at least one of the given element(s), but it isn't.";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Object[0]).containsAny('a'))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Integer[]{1, 2, 3}).containsAny())
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).containsAny(null, '\u0000'))
                     .withMessageStartingWith(description);
@@ -780,8 +788,6 @@ class ArrayAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[0])
                         .containsOnly();
-                Asserts.that(new Number[]{-1, BigDecimal.ZERO, 2.5})
-                        .containsOnly();
                 Asserts.that(new char[]{'z', 'y', 'x', 'w', 'v'})
                         .containsOnly('v', 'w', 'x', 'y', 'z');
                 Asserts.that(new int[]{1, 2, 3, 1, 2, 3, 1, 2, 3})
@@ -799,6 +805,10 @@ class ArrayAssertTest {
             String missingDescription = "It is expected to contain only the given element(s), but it doesn't contain some element(s).";
             String unexpectedDescription = "It is expected to contain only the given element(s), but it contains unexpected element(s).";
 
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Number[]{-1, BigDecimal.ZERO, 2.5})
+                            .containsOnly())
+                    .withMessageStartingWith(unexpectedDescription);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new Number[0])
                             .containsOnly(-1, BigDecimal.ZERO, 2.5))

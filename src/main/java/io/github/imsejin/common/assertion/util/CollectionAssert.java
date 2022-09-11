@@ -233,7 +233,7 @@ public class CollectionAssert<
     @Override
     @SafeVarargs
     public final SELF containsAny(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) {
+        if (actual.size() == 0 && expected.length == 0) {
             return self;
         }
 
@@ -312,7 +312,7 @@ public class CollectionAssert<
     @Override
     @SafeVarargs
     public final SELF containsOnly(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) {
+        if (actual.size() == 0 && expected.length == 0) {
             return self;
         }
 
