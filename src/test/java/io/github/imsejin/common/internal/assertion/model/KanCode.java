@@ -51,7 +51,7 @@ public final class KanCode {
     private static void validate(String code) {
         Asserts.that(code)
                 .describedAs("KanCode allows only 8 digits: '{0}'", code)
-                .isNotNull().hasLengthOf(8).isNumeric();
+                .isNotNull().hasSize(8).isNumeric();
 
         String large = code.substring(0, 2);
         String medium = code.substring(2, 4);

@@ -28,26 +28,26 @@ import java.util.Objects;
  * Assertion for {@link Number}
  *
  * @param <SELF>   this class
- * @param <NUMBER> comparable numeric type
+ * @param <ACTUAL> comparable numeric type
  */
 public class NumberAssert<
-        SELF extends NumberAssert<SELF, NUMBER>,
-        NUMBER extends Number & Comparable<NUMBER>>
-        extends ObjectAssert<SELF, NUMBER>
-        implements SizeComparisonAssertable<SELF, NUMBER> {
+        SELF extends NumberAssert<SELF, ACTUAL>,
+        ACTUAL extends Number & Comparable<ACTUAL>>
+        extends ObjectAssert<SELF, ACTUAL>
+        implements SizeComparisonAssertable<SELF, ACTUAL> {
 
-    private final NUMBER zero;
+    private final ACTUAL zero;
 
     @SuppressWarnings("unchecked")
-    public NumberAssert(NUMBER actual) {
+    public NumberAssert(ACTUAL actual) {
         super(actual);
-        this.zero = toNumber((NUMBER) BigInteger.ZERO, (Class<NUMBER>) actual.getClass());
+        this.zero = toActualNumber((ACTUAL) BigInteger.ZERO, (Class<ACTUAL>) actual.getClass());
     }
 
     @SuppressWarnings("unchecked")
-    protected NumberAssert(Descriptor<?> descriptor, NUMBER actual) {
+    protected NumberAssert(Descriptor<?> descriptor, ACTUAL actual) {
         super(descriptor, actual);
-        this.zero = toNumber((NUMBER) BigInteger.ZERO, (Class<NUMBER>) actual.getClass());
+        this.zero = toActualNumber((ACTUAL) BigInteger.ZERO, (Class<ACTUAL>) actual.getClass());
     }
 
     /**
@@ -59,18 +59,20 @@ public class NumberAssert<
      * @throws UnsupportedOperationException if {@code numberType} is not supported
      */
     @SuppressWarnings("unchecked")
-    private static <N extends Number & Comparable<? extends Number>> N toNumber(N number, Class<N> numberType) {
-        if (numberType == Byte.class) return (N) Byte.valueOf(number.byteValue());
-        if (numberType == Short.class) return (N) Short.valueOf(number.shortValue());
-        if (numberType == Integer.class) return (N) Integer.valueOf(number.intValue());
-        if (numberType == Long.class) return (N) Long.valueOf(number.longValue());
-        if (numberType == Float.class) return (N) Float.valueOf(number.floatValue());
-        if (numberType == Double.class) return (N) Double.valueOf(number.doubleValue());
-        if (numberType == BigInteger.class) return (N) BigInteger.valueOf(number.longValue());
-        if (numberType == BigDecimal.class) return (N) BigDecimal.valueOf(number.doubleValue());
+    private ACTUAL toActualNumber(ACTUAL number, Class<ACTUAL> numberType) {
+        if (numberType.isAssignableFrom(Byte.class)) return (ACTUAL) Byte.valueOf(number.byteValue());
+        if (numberType.isAssignableFrom(Short.class)) return (ACTUAL) Short.valueOf(number.shortValue());
+        if (numberType.isAssignableFrom(Integer.class)) return (ACTUAL) Integer.valueOf(number.intValue());
+        if (numberType.isAssignableFrom(Long.class)) return (ACTUAL) Long.valueOf(number.longValue());
+        if (numberType.isAssignableFrom(Float.class)) return (ACTUAL) Float.valueOf(number.floatValue());
+        if (numberType.isAssignableFrom(Double.class)) return (ACTUAL) Double.valueOf(number.doubleValue());
+        if (numberType.isAssignableFrom(BigInteger.class)) return (ACTUAL) BigInteger.valueOf(number.longValue());
+        if (numberType.isAssignableFrom(BigDecimal.class)) return (ACTUAL) BigDecimal.valueOf(number.doubleValue());
 
         throw new UnsupportedOperationException("NumberAssert doesn't support the type: " + numberType);
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     /**
      * Asserts that actual value is equal to expected value.
@@ -89,7 +91,7 @@ public class NumberAssert<
      * @return this class
      */
     @Override
-    public SELF isEqualTo(NUMBER expected) {
+    public SELF isEqualTo(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO, expected, actual);
             throw getException();
@@ -115,7 +117,7 @@ public class NumberAssert<
      * @return this class
      */
     @Override
-    public SELF isNotEqualTo(NUMBER expected) {
+    public SELF isNotEqualTo(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO, expected, actual);
             throw getException();
@@ -141,7 +143,7 @@ public class NumberAssert<
      * @return this class
      */
     @Override
-    public SELF isGreaterThan(NUMBER expected) {
+    public SELF isGreaterThan(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
             throw getException();
@@ -167,7 +169,7 @@ public class NumberAssert<
      * @return this class
      */
     @Override
-    public SELF isGreaterThanOrEqualTo(NUMBER expected) {
+    public SELF isGreaterThanOrEqualTo(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
@@ -193,7 +195,7 @@ public class NumberAssert<
      * @return this class
      */
     @Override
-    public SELF isLessThan(NUMBER expected) {
+    public SELF isLessThan(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
             throw getException();
@@ -219,7 +221,7 @@ public class NumberAssert<
      * @return this class
      */
     @Override
-    public SELF isLessThanOrEqualTo(NUMBER expected) {
+    public SELF isLessThanOrEqualTo(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
@@ -341,7 +343,7 @@ public class NumberAssert<
      * @param percentage acceptable error rate
      * @return this class
      */
-    public SELF isCloseTo(NUMBER expected, double percentage) {
+    public SELF isCloseTo(ACTUAL expected, double percentage) {
         Asserts.that(percentage)
                 .describedAs("Error percentage must be zero or positive and less than 100, but it isn't: {0}", percentage)
                 .isZeroOrPositive().isLessThan(100.0);
