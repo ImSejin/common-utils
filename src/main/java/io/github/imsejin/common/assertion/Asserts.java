@@ -197,7 +197,7 @@ public abstract class Asserts {
         return new DoubleAssert<>(number);
     }
 
-    public static CharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
+    public static CharSequenceAssert<?, CharSequence, CharSequence> that(CharSequence charSequence) {
         return new CharSequenceAssert<>(charSequence);
     }
 

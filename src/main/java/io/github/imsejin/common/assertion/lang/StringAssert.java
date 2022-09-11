@@ -26,7 +26,9 @@ import java.util.regex.Pattern;
  *
  * @param <SELF> this class
  */
-public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceAssert<SELF, String> {
+public class StringAssert<
+        SELF extends StringAssert<SELF>>
+        extends CharSequenceAssert<SELF, String, CharSequence> {
 
     public StringAssert(String actual) {
         super(actual);
@@ -154,16 +156,6 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceA
     public SELF endsWith(String expected) {
         if (expected == null || !actual.endsWith(expected)) {
             setDefaultDescription("It is expected to end with the given string, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    public SELF contains(CharSequence expected) {
-        if (expected == null || !actual.contains(expected)) {
-            setDefaultDescription("It is expected to contain the given string, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }

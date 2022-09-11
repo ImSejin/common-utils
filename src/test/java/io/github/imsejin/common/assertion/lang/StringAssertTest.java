@@ -315,37 +315,6 @@ class StringAssertTest {
         }
     }
 
-    @Nested
-    @DisplayName("method 'contains'")
-    class Contains {
-        @ParameterizedTest
-        @CsvSource(value = {
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry | ing",
-                "It is a long established fact that a reader will be distracted            | be distracted",
-                "Lorem Ipsum is not simply random text.                                    | Lorem Ipsum",
-                "There are many variations of passages of Lorem Ipsum available            | are",
-                "All the Lorem Ipsum generators tend to repeat predefined chunks           | k",
-        }, delimiter = '|')
-        @DisplayName("passes, when actual contains the given string")
-        void test0(String actual, String expected) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(actual).contains(expected));
-        }
-
-        @ParameterizedTest
-        @CsvSource(value = {
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry | industries",
-                "It is a long established fact that a reader will be distracted            | ",
-                "Lorem Ipsum is not simply random text.                                    | LoremIpsum",
-                "There are many variations of passages of Lorem Ipsum available            | is",
-                "All the Lorem Ipsum generators tend to repeat predefined chunks           | CHUNK",
-        }, delimiter = '|')
-        @DisplayName("throws exception, when actual doesn't contain the given string")
-        void test1(String actual, String expected) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).contains(expected))
-                    .withMessageStartingWith("It is expected to contain the given string, but it isn't.");
-        }
-    }
 
     @Nested
     @DisplayName("method 'matches'")

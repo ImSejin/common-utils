@@ -46,7 +46,7 @@ abstract class AES implements Crypto {
     protected AES(@Pattern(".+") String key, int length, Charset charset) {
         Asserts.that(key)
                 .describedAs("{0}.key must have {1} characters, but it isn't: '{2}'", getClass().getSimpleName(), length, key)
-                .isNotNull().hasText().hasLengthOf(length);
+                .isNotNull().hasText().hasSize(length);
         Asserts.that(charset)
                 .describedAs("{0}.charset is not allowed to be null, but it is", getClass().getSimpleName(), charset)
                 .isNotNull();

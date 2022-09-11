@@ -173,7 +173,7 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(charSequence)
-                    .isNotNull().isNotEmpty().isNotSameLength(new StringBuilder())
+                    .isNotNull().isNotEmpty().doesNotHaveSameSizeAs(new StringBuilder())
                     .asLength().isGreaterThan(1).isLessThan(Integer.MAX_VALUE).isEqualTo(charSequence.length()));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(charSequence)
