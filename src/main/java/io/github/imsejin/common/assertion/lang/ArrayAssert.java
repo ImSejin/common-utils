@@ -223,9 +223,9 @@ public class ArrayAssert<
     }
 
     /**
-     * Verifies this contains the given elements at least 1.
-     * <p>
-     * This is faster about 10% than the below code.
+     * {@inheritDoc}
+     *
+     * <p> This is faster about 10% than the below code.
      *
      * <pre>{@code
      *     if (expected.length == 0) return self;
@@ -547,7 +547,7 @@ public class ArrayAssert<
      *             .isPositive();
      * }</pre>
      *
-     * @return assertion for integer.
+     * @return assertion for integer
      */
     public NumberAssert<?, Integer> asLength() {
         return new NumberAssert<>(this, actual.length);
@@ -563,7 +563,7 @@ public class ArrayAssert<
      *             .isInstanceOf(Collection.class);
      * }</pre>
      *
-     * @return assertion for list.
+     * @return assertion for list
      */
     public ListAssert<?, List<ELEMENT>, ELEMENT> asList() {
         class ListAssertImpl extends ListAssert<ListAssertImpl, List<ELEMENT>, ELEMENT> {

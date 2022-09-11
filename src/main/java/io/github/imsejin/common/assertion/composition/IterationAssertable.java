@@ -22,8 +22,8 @@ import java.util.function.Predicate;
  * Composition of assertion for iteration.
  *
  * @param <SELF>    assertion class
- * @param <ACTUAL>  type that can iterate
- * @param <ELEMENT> element that {@link ACTUAL} has
+ * @param <ACTUAL>  iterable type
+ * @param <ELEMENT> element of {@link ACTUAL}
  * @see java.lang.reflect.Array
  * @see Iterable
  */
@@ -49,6 +49,8 @@ public interface IterationAssertable<
     /**
      * Asserts that actual value contains {@code null} as a element.
      *
+     * <p> If actual value is empty, the assertion always fails.
+     *
      * <pre>{@code
      *     // Assertion will pass.
      *     Asserts.that([null]).containsNull();
@@ -65,6 +67,8 @@ public interface IterationAssertable<
 
     /**
      * Asserts that actual value doesn't contain {@code null} as a element.
+     *
+     * <p> If actual value is empty, the assertion always passes.
      *
      * <pre>{@code
      *     // Assertion will pass.
@@ -83,6 +87,8 @@ public interface IterationAssertable<
     /**
      * Asserts that actual value contains at least 1 element of expected values.
      *
+     * <p> If actual value is empty and expected value is empty, the assertion always passes.
+     *
      * <pre>{@code
      *     // Assertion will pass.
      *     Asserts.that([]).containsAny();
@@ -91,6 +97,7 @@ public interface IterationAssertable<
      *
      *     // Assertion will fail.
      *     Asserts.that([]).containsAny('a');
+     *     Asserts.that([1, 2, 3]).containsAny();
      *     Asserts.that([1, 2, 3, 4, 5]).containsAny(6, 7);
      * }</pre>
      *
@@ -144,15 +151,18 @@ public interface IterationAssertable<
     /**
      * Asserts that actual value contains only expected values.
      *
+     * <p> If actual value is empty and expected value is empty, the assertion always passes.
+     *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that([0]).containsOnly([]);
-     *     Asserts.that([1, 2, 3]).containsOnly([2, 3, 1]);
-     *     Asserts.that(['a', 'b', 'c', 'd']).containsOnly(['a', 'b', 'd', 'c']);
+     *     Asserts.that([]).containsOnly();
+     *     Asserts.that([1, 2, 3]).containsOnly(2, 3, 1);
+     *     Asserts.that(['a', 'b', 'c', 'd']).containsOnly('a', 'b', 'd', 'c');
      *
      *     // Assertion will fail.
-     *     Asserts.that([]).containsOnly(['a']);
-     *     Asserts.that([1, 2, 3, 4, 5]).containsOnly([0, 1, 2]);
+     *     Asserts.that([]).containsOnly('a');
+     *     Asserts.that([1, 2, 3]).containsOnly();
+     *     Asserts.that([1, 2, 3, 4, 5]).containsOnly(0, 1, 2);
      * }</pre>
      *
      * @param expected expected values
@@ -166,6 +176,8 @@ public interface IterationAssertable<
 
     /**
      * Asserts that actual value contains only {@code null}.
+     *
+     * <p> If actual value is empty, the assertion always fails.
      *
      * <pre>{@code
      *     // Assertion will pass.
@@ -202,6 +214,8 @@ public interface IterationAssertable<
     /**
      * Asserts that actual value has at least 1 element which satisfies expected condition.
      *
+     * <p> If actual value is empty, the assertion always fails.
+     *
      * <pre>{@code
      *     // Assertion will pass.
      *     Asserts.that([1, 2, 3]).anyMatch(it -> it == 1);
@@ -221,6 +235,8 @@ public interface IterationAssertable<
     /**
      * Asserts that actual value has all the elements which satisfy expected condition.
      *
+     * <p> If actual value is empty, the assertion always fails.
+     *
      * <pre>{@code
      *     // Assertion will pass.
      *     Asserts.that([1, 2, 3]).allMatch(it -> it > 0);
@@ -239,6 +255,8 @@ public interface IterationAssertable<
 
     /**
      * Asserts that actual value has no element which satisfies expected condition.
+     *
+     * <p> If actual value is empty, the assertion always passes.
      *
      * <pre>{@code
      *     // Assertion will pass.

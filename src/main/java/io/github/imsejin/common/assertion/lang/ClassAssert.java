@@ -173,7 +173,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is final class.
      *
-     * @return whether this is final class.
+     * @return whether this is final class
      */
     public SELF isFinalClass() {
         if (!Modifier.isFinal(actual.getModifiers())) {
@@ -187,7 +187,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is abstract class.
      *
-     * @return whether this is abstract class.
+     * @return whether this is abstract class
      */
     public SELF isAbstractClass() {
         if (!ClassUtils.isAbstractClass(actual)) {
@@ -201,7 +201,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is anonymous class.
      *
-     * @return whether this is anonymous class.
+     * @return whether this is anonymous class
      */
     public SELF isAnonymousClass() {
         if (!actual.isAnonymousClass()) {
@@ -215,7 +215,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is type of enum.
      *
-     * @return whether this is type of enum.
+     * @return whether this is type of enum
      */
     public SELF isEnum() {
         if (!ClassUtils.isEnumOrEnumConstant(actual)) {
@@ -229,7 +229,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is type of array.
      *
-     * @return whether this is type of array.
+     * @return whether this is type of array
      */
     public SELF isArray() {
         if (!actual.isArray()) {
@@ -243,7 +243,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is inner class.
      *
-     * @return whether this is inner class.
+     * @return whether this is inner class
      */
     public SELF isMemberClass() {
         if (!actual.isMemberClass()) {
@@ -257,7 +257,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is local class.
      *
-     * @return whether this is local class.
+     * @return whether this is local class
      */
     public SELF isLocalClass() {
         if (!actual.isLocalClass()) {
@@ -280,7 +280,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      *             .isNull();
      * }</pre>
      *
-     * @return assertion for class.
+     * @return assertion for class
      */
     public ClassAssert<?, ?> asSuperclass() {
         Class<?> superclass = actual.getSuperclass();
@@ -297,7 +297,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      *             .isSuperPackageOf(Package.getPackage("java.lang.reflect"));
      * }</pre>
      *
-     * @return assertion for package.
+     * @return assertion for package
      */
     public PackageAssert<?> asPackage() {
         Package pack = actual.getPackage();

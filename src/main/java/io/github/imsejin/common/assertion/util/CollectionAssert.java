@@ -473,7 +473,7 @@ public class CollectionAssert<
      *             .isInstanceOf(Object[].class);
      * }</pre>
      *
-     * @return assertion for integer.
+     * @return assertion for integer
      */
     @SuppressWarnings("unchecked")
     public ArrayAssert<?, ELEMENT> asArray() {
@@ -514,7 +514,7 @@ public class CollectionAssert<
      *             .isPositive();
      * }</pre>
      *
-     * @return assertion for integer.
+     * @return assertion for integer
      */
     public NumberAssert<?, Integer> asSize() {
         class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {

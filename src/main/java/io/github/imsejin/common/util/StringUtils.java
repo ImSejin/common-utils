@@ -562,7 +562,7 @@ public final class StringUtils {
      * @param regex  regular expression
      * @param flags  regular flags
      * @param groups group numbers you want to get value of
-     * @return map whose key is group number and whose value is a captured string.
+     * @return map whose key is group number and whose value is a captured string
      */
     public static Map<Integer, String> find(String src, @Language("RegExp") String regex, int flags, int... groups) {
         return find(src, Pattern.compile(regex, flags), groups);
@@ -579,7 +579,7 @@ public final class StringUtils {
      * @param src     source string
      * @param pattern pattern of regular expression
      * @param groups  group numbers you want to get value of
-     * @return map whose key is group number and whose value is a captured string.
+     * @return map whose key is group number and whose value is a captured string
      */
     public static Map<Integer, String> find(String src, Pattern pattern, int... groups) {
         Matcher matcher = pattern.matcher(src);

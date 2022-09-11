@@ -179,7 +179,7 @@ public final class Stopwatch {
     /**
      * Checks if stopwatch is running.
      *
-     * @return whether stopwatch is running.
+     * @return whether stopwatch is running
      */
     public boolean isRunning() {
         return this.currentTaskName != null;
@@ -188,7 +188,7 @@ public final class Stopwatch {
     /**
      * Checks if stopwatch has never been stopped.
      *
-     * @return whether stopwatch has never been stopped.
+     * @return whether stopwatch has never been stopped
      */
     public boolean hasNeverBeenStopped() {
         return this.tasks.isEmpty();
