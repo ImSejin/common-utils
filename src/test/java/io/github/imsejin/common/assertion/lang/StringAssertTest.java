@@ -62,6 +62,8 @@ class StringAssertTest {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     @Nested
     @DisplayName("method 'isNumeric'")
     class IsNumeric {
@@ -85,6 +87,8 @@ class StringAssertTest {
                     .withMessageStartingWith("It is expected to be numeric, but it isn't.");
         }
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("method 'isLetter'")
@@ -119,6 +123,8 @@ class StringAssertTest {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     @Nested
     @DisplayName("method 'isLetterOrDigit'")
     class IsLetterOrDigit {
@@ -151,6 +157,8 @@ class StringAssertTest {
                     .withMessageStartingWith("It is expected to be letter or digit, but it isn't."));
         }
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("method 'isUpperCase'")
@@ -185,6 +193,8 @@ class StringAssertTest {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     @Nested
     @DisplayName("method 'isLowerCase'")
     class IsLowerCase {
@@ -217,6 +227,8 @@ class StringAssertTest {
                     .withMessageStartingWith("It is expected to have only lowercase letter(s), but it isn't."));
         }
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("method 'isAlphabetic'")
@@ -251,6 +263,8 @@ class StringAssertTest {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     @Nested
     @DisplayName("method 'startsWith'")
     class StartsWith {
@@ -282,6 +296,8 @@ class StringAssertTest {
                     .withMessageStartingWith("It is expected to start with the given string, but it isn't.");
         }
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("method 'endsWith'")
@@ -315,6 +331,7 @@ class StringAssertTest {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("method 'matches'")
