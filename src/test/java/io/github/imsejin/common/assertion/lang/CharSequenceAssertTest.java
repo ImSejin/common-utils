@@ -23,11 +23,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -148,36 +145,94 @@ class CharSequenceAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'hasSameSizeAs'")
-    class HasSameSizeAs {
-        @Test
-        @DisplayName("passes, when length of the actual is equal to length of the given")
-        void test0() {
-            // given
-            Map<CharSequence, CharSequence> map = new HashMap<>();
-            map.put(new StringBuilder("imsejin"), new StringBuilder("imsejin"));
-            map.put(UUID.randomUUID().toString().replace("-", ""), StringUtils.repeat('.', 32));
-            map.put(new StringBuffer("java"), new StringBuffer("la").append("ng"));
-
-            // expect
-            map.forEach((actual, expected) -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).hasSameSizeAs(expected)));
+    @DisplayName("method 'doesNotHaveSize'")
+    class DoesNotHaveSize {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "-                                        | 0",
+                "dcc5c541\tb43c\t437b\tbfd3\t675ad3d4ed40 | 32",
+                "io.github.imsejin.common.assertion.lang  | 30",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual doesn't have the given length")
+        void test0(String source, int expected) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new StringBuffer(source)).doesNotHaveSize(expected);
+                Asserts.that(new StringBuilder(source)).doesNotHaveSize(expected);
+                Asserts.that(source).doesNotHaveSize(expected);
+            });
         }
 
-        @Test
-        @DisplayName("throws exception, when length of the actual is not equal to length of the given")
-        void test1() {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "-                                        | 1",
+                "dcc5c541\tb43c\t437b\tbfd3\t675ad3d4ed40 | 36",
+                "io.github.imsejin.common.assertion.lang  | 39",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual has the given length")
+        void test1(String source, int expected) {
+            String message = "It is expected not to have the given length, but it is.";
+
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotHaveSize(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotHaveSize(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(source).doesNotHaveSize(expected))
+                    .withMessageStartingWith(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSameSizeAs'")
+    class HasSameSizeAs {
+        @ParameterizedTest
+        @EmptySource
+        @ValueSource(strings = {
+                "dcc5c541-b43c-437b-bfd3-675ad3d4ed40",
+                "io.github.imsejin.common.assertion.lang",
+        })
+        @DisplayName("passes, when the actual and the given have the same length")
+        void test0(String source) {
             // given
-            Map<CharSequence, CharSequence> map = new HashMap<>();
-            map.put("string", null);
-            map.put(new StringBuilder("imsejin"), new StringBuilder("sejin"));
-            map.put(UUID.randomUUID().toString(), StringUtils.repeat('.', 32));
-            map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3));
+            String expected = StringUtils.repeat(".", source.length());
 
             // expect
-            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).hasSameSizeAs(expected))
-                    .withMessageStartingWith("They are expected to have the same length, but they aren't."));
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new StringBuffer(source)).hasSameSizeAs(expected);
+                Asserts.that(new StringBuilder(source)).hasSameSizeAs(expected);
+                Asserts.that(source).hasSameSizeAs(expected);
+            });
+        }
+
+        @ParameterizedTest
+        @EmptySource
+        @ValueSource(strings = {
+                "dcc5c541-b43c-437b-bfd3-675ad3d4ed40",
+                "io.github.imsejin.common.assertion.lang",
+        })
+        @DisplayName("throws exception, when the actual and the given don't have the same length")
+        void test1(String source) {
+            // given
+            String expected = StringUtils.repeat(".", source.length() + 1);
+
+            // expect
+            String message = "They are expected to have the same length, but they aren't.";
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).hasSameSizeAs(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).hasSameSizeAs(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(source).hasSameSizeAs(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(source).hasSameSizeAs(null))
+                    .withMessageStartingWith(message);
         }
     }
 
@@ -186,34 +241,50 @@ class CharSequenceAssertTest {
     @Nested
     @DisplayName("method 'doesNotHaveSameSizeAs'")
     class DoesNotHaveSameSizeAs {
-        @Test
-        @DisplayName("passes, when length of the actual is not equal to length of the given")
-        void test0() {
+        @ParameterizedTest
+        @EmptySource
+        @ValueSource(strings = {
+                "dcc5c541-b43c-437b-bfd3-675ad3d4ed40",
+                "io.github.imsejin.common.assertion.lang",
+        })
+        @DisplayName("passes, when the actual and the given don't have the same length")
+        void test0(String source) {
             // given
-            Map<CharSequence, CharSequence> map = new HashMap<>();
-            map.put(new StringBuilder("imsejin"), new StringBuilder("sejin"));
-            map.put(UUID.randomUUID().toString(), StringUtils.repeat('.', 32));
-            map.put(new StringBuffer("java"), new StringBuffer("la").append("ng").deleteCharAt(3));
+            String expected = StringUtils.repeat(".", source.length() + 1);
 
             // expect
-            map.forEach((actual, expected) -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).doesNotHaveSameSizeAs(expected)));
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new StringBuffer(source)).doesNotHaveSameSizeAs(expected);
+                Asserts.that(new StringBuilder(source)).doesNotHaveSameSizeAs(expected);
+                Asserts.that(source).doesNotHaveSameSizeAs(expected);
+            });
         }
 
-        @Test
-        @DisplayName("throws exception, when length of the actual is equal to length of the given")
-        void test1() {
+        @ParameterizedTest
+        @EmptySource
+        @ValueSource(strings = {
+                "dcc5c541-b43c-437b-bfd3-675ad3d4ed40",
+                "io.github.imsejin.common.assertion.lang",
+        })
+        @DisplayName("throws exception, when the actual and the given have the same length")
+        void test1(String source) {
             // given
-            Map<CharSequence, CharSequence> map = new HashMap<>();
-            map.put("string", null);
-            map.put(new StringBuilder("imsejin"), new StringBuilder("imsejin"));
-            map.put(UUID.randomUUID().toString().replace("-", ""), StringUtils.repeat('.', 32));
-            map.put(new StringBuffer("java"), new StringBuffer("la").append("ng"));
+            String expected = StringUtils.repeat(".", source.length());
 
             // expect
-            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith("They are expected not to have the same length, but they are."));
+            String message = "They are expected not to have the same length, but they are.";
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotHaveSameSizeAs(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotHaveSameSizeAs(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(source).doesNotHaveSameSizeAs(expected))
+                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(source).doesNotHaveSameSizeAs(null))
+                    .withMessageStartingWith(message);
         }
     }
 
