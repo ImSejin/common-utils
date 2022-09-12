@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [v0.11.0](#v0110):
+- [v0.11.0](#v0110): 2022-09-12
 - [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
 - [v0.8.0](#v080): 2022-04-10
@@ -31,7 +31,7 @@
 
 ### Modification
 
-- ♻️ Refactor: assertion `AbstractTemporalAccessorAssert`, `DateAssert`, `NumberAssert`, `IterationAssertable`
+- ♻️ Refactor: assertions `AbstractTemporalAccessorAssert`, `DateAssert`, `NumberAssert`, `IterationAssertable`
   , `CharacterAssert`, `CharSequenceAssert`, `StringAssert`
 - 🔥 Remove: method `findElement(Collection, Predicate)` in `CollectionUtils`
 - 🔥 Remove: method `start(String)` in `Stopwatch`
@@ -57,7 +57,7 @@
 ### New features
 
 - ✨ Add: assertion class `DateAssert`
-- ✨ Add: assertion composition `ComparisonAssertable`, `SizeComparisonAssertable`, `PositionComparisonAssertable`
+- ✨ Add: assertion compositions `ComparisonAssertable`, `SizeComparisonAssertable`, `PositionComparisonAssertable`
   , `EnumerationAssertable`
 - ✨ Add: protected constructor in assertion classes
 - ✨ Add: method `doesNotHaveSize(int)` in `IterationAssertable`
@@ -78,6 +78,7 @@
 ### Dependencies
 
 - 🔧 Make: dependencies `annotations`, `jsr305` intransitive
+- ⬆️ Upgrade: dependency `gson` from `2.9.0` to `2.9.1`
 - ⬆️ Upgrade: test dependency `spock-core` from `2.1-groovy-3.0` to `2.2-groovy-3.0`
 - ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.3.1` to `3.4.1`
 
