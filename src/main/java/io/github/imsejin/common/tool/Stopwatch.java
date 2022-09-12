@@ -24,7 +24,6 @@ import org.jetbrains.annotations.Range;
 import org.jetbrains.annotations.VisibleForTesting;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -120,7 +119,7 @@ public final class Stopwatch {
     }
 
     /**
-     * Runs stopwatch.
+     * Starts to run stopwatch.
      *
      * <p> Sets up task name of current task.
      *
@@ -267,7 +266,7 @@ public final class Stopwatch {
         StringBuilder sb = new StringBuilder();
         sb.append(getSummary());
         sb.append("\n----------------------------------------\n");
-        sb.append(timeUnitColumn).append("  ").append(String.format("%-3c", '%')).append("  ").append("TASK_NAME");
+        sb.append(timeUnitColumn).append("  ").append(String.format("%-6c", '%')).append("  ").append("TASK_NAME");
         sb.append("\n----------------------------------------\n");
 
         for (Task task : this.tasks) {
@@ -275,8 +274,10 @@ public final class Stopwatch {
             displayTime = StringUtils.padEnd(timeUnitIndex, displayTime);
             sb.append(displayTime).append("  ");
 
-            BigInteger percentage = task.getPercentage(totalTime, this.timeUnit);
-            sb.append(String.format("%03d", percentage)).append("  ");
+            BigDecimal percentage = this.tasks.size() == 1
+                    ? BigDecimal.valueOf(100L)
+                    : task.getPercentage(totalTime, this.timeUnit);
+            sb.append(String.format("%.2f", percentage)).append("  ");
 
             sb.append(task.name).append('\n');
         }
@@ -376,17 +377,17 @@ public final class Stopwatch {
         }
 
         @VisibleForTesting
-        BigInteger getPercentage(BigDecimal totalTime, TimeUnit timeUnit) {
+        BigDecimal getPercentage(BigDecimal totalTime, TimeUnit timeUnit) {
             // Prevents ArithmeticException: Division by zero.
             if (totalTime.compareTo(BigDecimal.ZERO) == 0) {
-                return BigInteger.ZERO;
+                return BigDecimal.ZERO;
             }
 
             BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
             BigDecimal taskTime = convertTimeUnit(elapsedNanoTime, TimeUnit.NANOSECONDS, timeUnit);
-            BigDecimal percentage = taskTime.divide(totalTime, 0, RoundingMode.HALF_UP);
+            BigDecimal ratio = taskTime.divide(totalTime, DECIMAL_PLACE, RoundingMode.HALF_UP);
 
-            return percentage.toBigIntegerExact();
+            return ratio.multiply(BigDecimal.valueOf(100L));
         }
     }
 
