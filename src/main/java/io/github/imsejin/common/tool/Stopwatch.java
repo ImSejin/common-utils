@@ -120,18 +120,6 @@ public final class Stopwatch {
     }
 
     /**
-     * Starts to run {@link Stopwatch}.
-     *
-     * <p> Sets up task name of current task.
-     *
-     * @param taskName current task name
-     * @throws UnsupportedOperationException if stopwatch is running
-     */
-    public void start(String taskName) {
-        start(taskName, (Object[]) null);
-    }
-
-    /**
      * Runs stopwatch.
      *
      * <p> Sets up task name of current task.
