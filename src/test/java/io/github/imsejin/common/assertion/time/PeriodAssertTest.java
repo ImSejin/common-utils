@@ -35,28 +35,28 @@ class PeriodAssertTest {
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P2Y",
-                "P6M,      P6M",
-                "P30D,     P30D",
-                "P2Y6M30D, P2Y6M30D",
-                "P-1M-42D, P-1M-42D",
-                "P5Y13M,   P5Y13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P2Y",
+                "P6M      | P6M",
+                "P30D     | P30D",
+                "P2Y6M30D | P2Y6M30D",
+                "P-1M-42D | P-1M-42D",
+                "P5Y13M   | P5Y13M",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is equal to other")
         void test0(Period actual, Period expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P3Y",
-                "P6M,      P7M",
-                "P30D,     P31D",
-                "P2Y6M30D, P2Y5M30D",
-                "P-1M-42D, P1M42D",
-                "P5Y13M,   P-5Y-13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P3Y",
+                "P6M      | P7M",
+                "P30D     | P31D",
+                "P2Y6M30D | P2Y5M30D",
+                "P-1M-42D | P1M42D",
+                "P5Y13M   | P-5Y-13M",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is not equal to other")
         void test1(Period actual, Period expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
@@ -69,28 +69,28 @@ class PeriodAssertTest {
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P3Y",
-                "P6M,      P7M",
-                "P30D,     P31D",
-                "P2Y6M30D, P2Y5M30D",
-                "P-1M-42D, P1M42D",
-                "P5Y13M,   P-5Y-13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P3Y",
+                "P6M      | P7M",
+                "P30D     | P31D",
+                "P2Y6M30D | P2Y5M30D",
+                "P-1M-42D | P1M42D",
+                "P5Y13M   | P-5Y-13M",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is not equal to other")
         void test0(Period actual, Period expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P2Y",
-                "P6M,      P6M",
-                "P30D,     P30D",
-                "P2Y6M30D, P2Y6M30D",
-                "P-1M-42D, P-1M-42D",
-                "P5Y13M,   P5Y13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P2Y",
+                "P6M      | P6M",
+                "P30D     | P30D",
+                "P2Y6M30D | P2Y6M30D",
+                "P-1M-42D | P-1M-42D",
+                "P5Y13M   | P5Y13M",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is equal to other")
         void test1(Period actual, Period expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
@@ -103,28 +103,28 @@ class PeriodAssertTest {
     @DisplayName("method 'isGreaterThan'")
     class IsGreaterThan {
         @ParameterizedTest
-        @CsvSource({
-                "P3Y,      P2Y",
-                "P7M,      P6M",
-                "P31D,     P30D",
-                "P2Y6M31D, P2Y6M30D",
-                "P1M42D,   P-1M-42D",
-                "P5Y13M,   P4Y13M",
-        })
+        @CsvSource(value = {
+                "P3Y      | P2Y",
+                "P7M      | P6M",
+                "P31D     | P30D",
+                "P2Y6M31D | P2Y6M30D",
+                "P1M42D   | P-1M-42D",
+                "P5Y13M   | P4Y13M",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is greater than other")
         void test0(Period actual, Period expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThan(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P3Y",
-                "P6M,      P7M",
-                "P30D,     P31D",
-                "P2Y6M30D, P2Y6M31D",
-                "P-1M-42D, P-1M-42D",
-                "P4Y13M,   P5Y13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P3Y",
+                "P6M      | P7M",
+                "P30D     | P31D",
+                "P2Y6M30D | P2Y6M31D",
+                "P-1M-42D | P-1M-42D",
+                "P4Y13M   | P5Y13M",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1(Period actual, Period expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isGreaterThan(expected));
@@ -137,28 +137,28 @@ class PeriodAssertTest {
     @DisplayName("method 'isGreaterThanOrEqualTo'")
     class IsGreaterThanOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "P3Y,      P2Y",
-                "P7M,      P6M",
-                "P31D,     P30D",
-                "P2Y6M31D, P2Y6M30D",
-                "P-1M-42D, P-1M-42D",
-                "P5Y13M,   P4Y13M",
-        })
+        @CsvSource(value = {
+                "P3Y      | P2Y",
+                "P7M      | P6M",
+                "P31D     | P30D",
+                "P2Y6M31D | P2Y6M30D",
+                "P-1M-42D | P-1M-42D",
+                "P5Y13M   | P4Y13M",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0(Period actual, Period expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P3Y",
-                "P6M,      P7M",
-                "P30D,     P31D",
-                "P2Y6M30D, P2Y6M31D",
-                "P-1M-42D, P-1M-41D",
-                "P4Y13M,   P5Y13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P3Y",
+                "P6M      | P7M",
+                "P30D     | P31D",
+                "P2Y6M30D | P2Y6M31D",
+                "P-1M-42D | P-1M-41D",
+                "P4Y13M   | P5Y13M",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is less than other")
         void test1(Period actual, Period expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
@@ -171,28 +171,28 @@ class PeriodAssertTest {
     @DisplayName("method 'isLessThan'")
     class IsLessThan {
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P3Y",
-                "P6M,      P7M",
-                "P30D,     P31D",
-                "P2Y6M30D, P2Y6M31D",
-                "P-1M-42D, P-1M-41D",
-                "P4Y13M,   P5Y13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P3Y",
+                "P6M      | P7M",
+                "P30D     | P31D",
+                "P2Y6M30D | P2Y6M31D",
+                "P-1M-42D | P-1M-41D",
+                "P4Y13M   | P5Y13M",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is less than other")
         void test0(Period actual, Period expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThan(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "P3Y,      P2Y",
-                "P7M,      P6M",
-                "P31D,     P30D",
-                "P2Y6M31D, P2Y6M30D",
-                "P-1M-42D, P-1M-42D",
-                "P5Y13M,   P4Y13M",
-        })
+        @CsvSource(value = {
+                "P3Y      | P2Y",
+                "P7M      | P6M",
+                "P31D     | P30D",
+                "P2Y6M31D | P2Y6M30D",
+                "P-1M-42D | P-1M-42D",
+                "P5Y13M   | P4Y13M",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1(Period actual, Period expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isLessThan(expected));
@@ -205,28 +205,28 @@ class PeriodAssertTest {
     @DisplayName("method 'isLessThanOrEqualTo'")
     class IsLessThanOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "P2Y,      P3Y",
-                "P6M,      P7M",
-                "P30D,     P31D",
-                "P2Y6M30D, P2Y6M31D",
-                "P-1M-42D, P-1M-42D",
-                "P4Y13M,   P5Y13M",
-        })
+        @CsvSource(value = {
+                "P2Y      | P3Y",
+                "P6M      | P7M",
+                "P30D     | P31D",
+                "P2Y6M30D | P2Y6M31D",
+                "P-1M-42D | P-1M-42D",
+                "P4Y13M   | P5Y13M",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is less than or equal to other")
         void test0(Period actual, Period expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThanOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "P3Y,      P2Y",
-                "P7M,      P6M",
-                "P31D,     P30D",
-                "P2Y6M31D, P2Y6M30D",
-                "P1M42D,   P-1M-42D",
-                "P5Y13M,   P4Y13M",
-        })
+        @CsvSource(value = {
+                "P3Y      | P2Y",
+                "P7M      | P6M",
+                "P31D     | P30D",
+                "P2Y6M31D | P2Y6M30D",
+                "P1M42D   | P-1M-42D",
+                "P5Y13M   | P4Y13M",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is greater than other")
         void test1(Period actual, Period expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isLessThanOrEqualTo(expected));

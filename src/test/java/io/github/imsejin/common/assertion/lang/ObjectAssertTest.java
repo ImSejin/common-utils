@@ -229,7 +229,7 @@ class ObjectAssertTest {
     @DisplayName("method 'isInstanceOf'")
     class IsInstanceOf {
         @Test
-        @DisplayName("passes, when actual is instance of given type")
+        @DisplayName("passes, when actual is the instance of given type")
         void test0() {
             // given
             Map<Object, Class<?>> params = new HashMap<>();
@@ -246,7 +246,7 @@ class ObjectAssertTest {
         }
 
         @Test
-        @DisplayName("throws exception, when actual is not instance of given type")
+        @DisplayName("throws exception, when actual is not the instance of given type")
         void test1() {
             // given
             Map<Object, Class<?>> params = new HashMap<>();

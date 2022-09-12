@@ -22,55 +22,111 @@ import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.StringUtils;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.function.Function;
 
+/**
+ * Description manager for assertion classes
+ *
+ * @param <SELF> this class
+ */
 public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
+    /**
+     * Subclass of {@link Descriptor}.
+     *
+     * <p> This is the instance of oneself wrapped in generic type.
+     */
     protected final SELF self;
 
     private String description;
 
     private Object[] arguments;
 
-    private Function<String, ? extends RuntimeException> function = IllegalArgumentException::new;
+    private Function<String, ? extends RuntimeException> exception = IllegalArgumentException::new;
 
     @SuppressWarnings("unchecked")
     protected Descriptor() {
         this.self = (SELF) this;
     }
 
-    protected static void merge(Descriptor<?> source, Descriptor<?> target) {
-        target.description = source.description;
-        target.arguments = source.arguments;
-        target.function = source.function;
+    @SuppressWarnings("CopyConstructorMissesField")
+    protected Descriptor(Descriptor<?> descriptor) {
+        this();
+
+        // Overwrites properties of this descriptor from the given descriptor.
+        this.description = descriptor.description;
+        this.arguments = descriptor.arguments;
+        this.exception = descriptor.exception;
     }
 
-    public final SELF as(String description, Object... args) {
-        this.description = description;
-        this.arguments = args;
+    /**
+     * Describes assertion message with arguments.
+     *
+     * <p> On assertion failure, exception has the description as message.
+     *
+     * <pre>{@code
+     *     Asserts.that(4)
+     *             .isNotNull()
+     *             // number > 5 (number: '4')
+     *             .describedAs("number > 5 (number: '{0}')", 4)
+     *             .isGreaterThan(5);
+     * }</pre>
+     *
+     * @param description assertion message
+     * @param args        arguments for description
+     * @return this class
+     */
+    public final SELF describedAs(String description, Object... args) {
+        this.description = Objects.requireNonNull(description, "Descriptor.description cannot be null");
+        this.arguments = Objects.requireNonNull(args, "Descriptor.arguments cannot be null");
         return this.self;
     }
 
-    public final SELF exception(Function<String, ? extends RuntimeException> function) {
-        this.function = function;
+    /**
+     * Sets what exception will be thrown on assertion failure.
+     *
+     * <p> Default type of exception is {@link IllegalArgumentException}.
+     *
+     * <pre>{@code
+     *     Asserts.that(4)
+     *             .isNotNull()
+     *             // Will be throw ArithmeticException.
+     *             .thrownBy(ArithmeticException::new)
+     *             .isGreaterThan(5);
+     * }</pre>
+     *
+     * @param function function that changes string from exception
+     * @return this class
+     */
+    public final SELF thrownBy(Function<String, ? extends RuntimeException> function) {
+        this.exception = Objects.requireNonNull(function, "Descriptor.exception cannot be null");
         return this.self;
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     protected final RuntimeException getException() {
-        return this.function.apply(getMessage());
+        String message = getMessage();
+        return this.exception.apply(message);
     }
 
     protected final void setDefaultDescription(String description, Object... args) {
-        // If description is set already by user, ignores default description.
-        if (!StringUtils.isNullOrEmpty(this.description)) return;
+        // Ignores default description when there is no description set by user.
+        if (!StringUtils.isNullOrEmpty(this.description)) {
+            return;
+        }
 
-        this.description = description;
-        this.arguments = args;
+        describedAs(description, args);
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     private String getMessage() {
-        // Prevent NPE.
-        if (StringUtils.isNullOrEmpty(this.description)) return "";
+        // Avoids NPE.
+        if (StringUtils.isNullOrEmpty(this.description)) {
+            return "";
+        }
 
         // Escapes single quotation marks.
         String pattern = this.description.replace("'", "''");
@@ -80,11 +136,15 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         String[] strings = new String[this.arguments.length];
         for (int i = 0; i < this.arguments.length; i++) {
             Object argument = this.arguments[i];
-            strings[i] = ArrayUtils.toString(argument);
+            String string = ArrayUtils.toString(argument);
+
+            strings[i] = string;
         }
 
         return messageFormat.format(strings);
     }
+
+    // -------------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}

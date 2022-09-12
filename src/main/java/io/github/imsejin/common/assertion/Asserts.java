@@ -44,6 +44,7 @@ import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.util.CollectionAssert;
+import io.github.imsejin.common.assertion.util.DateAssert;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.util.ArrayUtils;
@@ -65,6 +66,7 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -86,11 +88,41 @@ import java.util.Map;
  *
  * @see <a href="https://assertj.github.io/doc/">AssertJ API document</a>
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class Asserts {
 
     /**
-     * Enables to customize Asserts class with inheritance.
+     * You can customize {@link Asserts} with this constructor.
+     *
+     * <pre>{@code
+     *     public class MyAsserts extends Asserts {
+     *         public static FooAssert<?, Foo>(Foo foo) {
+     *             return new FooAssert(foo);
+     *         }
+     *     }
+     *
+     *     ----------------------------------------
+     *
+     *     MyAsserts.that("foo")
+     *             .isNotNull()
+     *             .hasLengthOf(3)
+     *             .isEqualTo("foo");
+     *     MyAsserts.that(new Foo())
+     *             .isNotNull()
+     *             .isBar();
+     * }</pre>
+     *
+     * <p> If you add the assertion method and its return type has {@code ACTUAL} type variable,
+     * you must specify the concrete type, not the wildcard like this.
+     *
+     * <pre>{@code
+     *     // This is seriously bad. Change to FooAssert<?, Foo>.
+     *     public static FooAssert<?, ?> that(Foo foo) {
+     *         // ...
+     *     }
+     * }</pre>
+     *
+     * <p> In this case, compiler can't infer appropriate type from captured parameter.
+     * When you put argument into assertion method, that causes compile error.
      */
     protected Asserts() {
     }
@@ -137,12 +169,24 @@ public abstract class Asserts {
         return new ArrayAssert<>(array);
     }
 
+    public static <T> ClassAssert<?, T> that(Class<T> clazz) {
+        return new ClassAssert<>(clazz);
+    }
+
+    public static PackageAssert<?> that(Package pack) {
+        return new PackageAssert<>(pack);
+    }
+
     public static BooleanAssert<?> that(Boolean bool) {
         return new BooleanAssert<>(bool);
     }
 
     public static CharacterAssert<?> that(Character character) {
         return new CharacterAssert<>(character);
+    }
+
+    public static <NUMBER extends Number & Comparable<NUMBER>> NumberAssert<?, NUMBER> that(NUMBER number) {
+        return new NumberAssert<>(number);
     }
 
     public static FloatAssert<?> that(Float number) {
@@ -153,11 +197,7 @@ public abstract class Asserts {
         return new DoubleAssert<>(number);
     }
 
-    public static <NUMBER extends Number & Comparable<NUMBER>> NumberAssert<?, NUMBER> that(NUMBER number) {
-        return new NumberAssert<>(number);
-    }
-
-    public static CharSequenceAssert<?, CharSequence> that(CharSequence charSequence) {
+    public static CharSequenceAssert<?, CharSequence, CharSequence> that(CharSequence charSequence) {
         return new CharSequenceAssert<>(charSequence);
     }
 
@@ -165,39 +205,10 @@ public abstract class Asserts {
         return new StringAssert<>(string);
     }
 
-    public static <T> ClassAssert<?, T> that(Class<T> clazz) {
-        return new ClassAssert<>(clazz);
-    }
-
-    public static PackageAssert<?> that(Package pack) {
-        return new PackageAssert<>(pack);
-    }
-
-    // java.util ---------------------------------------------------------------------------------------
-
-    public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
-        return new CollectionAssert<>(collection);
-    }
-
-    public static <T> ListAssert<?, List<T>, T> that(List<T> list) {
-        return new ListAssert<>(list);
-    }
-
-    public static <K, V> MapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
-        return new MapAssert<>(map);
-    }
-
     // java.io -----------------------------------------------------------------------------------------
 
     public static AbstractFileAssert<?, File> that(File file) {
-        return new AbstractFileAssert(file) {
-        };
-    }
-
-    // java.net ----------------------------------------------------------------------------------------
-
-    public static UrlAssert<?> that(URL url) {
-        return new UrlAssert<>(url);
+        return new AbstractFileAssert<>(file);
     }
 
     // java.math ---------------------------------------------------------------------------------------
@@ -206,22 +217,28 @@ public abstract class Asserts {
         return new BigDecimalAssert<>(bigDecimal);
     }
 
+    // java.net ----------------------------------------------------------------------------------------
+
+    public static UrlAssert<?> that(URL url) {
+        return new UrlAssert<>(url);
+    }
+
     // java.time ---------------------------------------------------------------------------------------
 
     public static YearAssert<?> that(Year year) {
-        return new YearAssert(year);
+        return new YearAssert<>(year);
     }
 
     public static MonthAssert<?> that(Month month) {
-        return new MonthAssert(month);
+        return new MonthAssert<>(month);
     }
 
     public static YearMonthAssert<?> that(YearMonth yearMonth) {
-        return new YearMonthAssert(yearMonth);
+        return new YearMonthAssert<>(yearMonth);
     }
 
     public static MonthDayAssert<?> that(MonthDay monthDay) {
-        return new MonthDayAssert(monthDay);
+        return new MonthDayAssert<>(monthDay);
     }
 
     public static LocalTimeAssert<?> that(LocalTime localTime) {
@@ -233,7 +250,7 @@ public abstract class Asserts {
     }
 
     public static InstantAssert<?> that(Instant instant) {
-        return new InstantAssert(instant);
+        return new InstantAssert<>(instant);
     }
 
     public static OffsetDateTimeAssert<?> that(OffsetDateTime offsetDateTime) {
@@ -255,11 +272,29 @@ public abstract class Asserts {
     }
 
     public static <DATE extends ChronoLocalDate> ChronoLocalDateTimeAssert<?, DATE> that(ChronoLocalDateTime<DATE> localDateTime) {
-        return new ChronoLocalDateTimeAssert(localDateTime);
+        return new ChronoLocalDateTimeAssert<>(localDateTime);
     }
 
     public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<?, DATE> that(ChronoZonedDateTime<DATE> zonedDateTime) {
-        return new ChronoZonedDateTimeAssert(zonedDateTime);
+        return new ChronoZonedDateTimeAssert<>(zonedDateTime);
+    }
+
+    // java.util ---------------------------------------------------------------------------------------
+
+    public static DateAssert<?, Date> that(Date date) {
+        return new DateAssert<>(date);
+    }
+
+    public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
+        return new CollectionAssert<>(collection);
+    }
+
+    public static <T> ListAssert<?, List<T>, T> that(List<T> list) {
+        return new ListAssert<>(list);
+    }
+
+    public static <K, V> MapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
+        return new MapAssert<>(map);
     }
 
 }

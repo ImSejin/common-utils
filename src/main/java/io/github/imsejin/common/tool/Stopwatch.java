@@ -24,7 +24,6 @@ import org.jetbrains.annotations.Range;
 import org.jetbrains.annotations.VisibleForTesting;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,7 +81,7 @@ public final class Stopwatch {
      */
     public Stopwatch(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .as("Stopwatch.timeUnit cannot be null")
+                .describedAs("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -104,7 +103,7 @@ public final class Stopwatch {
      */
     public void setTimeUnit(TimeUnit timeUnit) {
         Asserts.that(timeUnit)
-                .as("Stopwatch.timeUnit cannot be null")
+                .describedAs("Stopwatch.timeUnit cannot be null")
                 .isNotNull();
 
         this.timeUnit = timeUnit;
@@ -120,19 +119,7 @@ public final class Stopwatch {
     }
 
     /**
-     * Starts to run {@link Stopwatch}.
-     *
-     * <p> Sets up task name of current task.
-     *
-     * @param taskName current task name
-     * @throws UnsupportedOperationException if stopwatch is running
-     */
-    public void start(String taskName) {
-        start(taskName, (Object[]) null);
-    }
-
-    /**
-     * Runs stopwatch.
+     * Starts to run stopwatch.
      *
      * <p> Sets up task name of current task.
      *
@@ -143,11 +130,11 @@ public final class Stopwatch {
      */
     public void start(String format, Object... args) {
         Asserts.that(format)
-                .as("Stopwatch.taskName cannot be null")
+                .describedAs("Stopwatch.taskName cannot be null")
                 .isNotNull();
         Asserts.that(isRunning())
-                .as("Stopwatch cannot start while running")
-                .exception(UnsupportedOperationException::new)
+                .describedAs("Stopwatch cannot start while running")
+                .thrownBy(UnsupportedOperationException::new)
                 .isFalse();
 
         this.currentTaskName = ArrayUtils.isNullOrEmpty(args) ? format : String.format(format, args);
@@ -163,8 +150,8 @@ public final class Stopwatch {
      */
     public void stop() {
         Asserts.that(isRunning())
-                .as("Stopwatch cannot stop while not running")
-                .exception(UnsupportedOperationException::new)
+                .describedAs("Stopwatch cannot stop while not running")
+                .thrownBy(UnsupportedOperationException::new)
                 .isTrue();
 
         long elapsedNanoTime = System.nanoTime() - this.startNanoTime;
@@ -179,7 +166,7 @@ public final class Stopwatch {
     /**
      * Checks if stopwatch is running.
      *
-     * @return whether stopwatch is running.
+     * @return whether stopwatch is running
      */
     public boolean isRunning() {
         return this.currentTaskName != null;
@@ -188,7 +175,7 @@ public final class Stopwatch {
     /**
      * Checks if stopwatch has never been stopped.
      *
-     * @return whether stopwatch has never been stopped.
+     * @return whether stopwatch has never been stopped
      */
     public boolean hasNeverBeenStopped() {
         return this.tasks.isEmpty();
@@ -199,8 +186,8 @@ public final class Stopwatch {
      */
     public void clear() {
         Asserts.that(isRunning())
-                .as("Stopwatch is running; stop it first to clear")
-                .exception(UnsupportedOperationException::new)
+                .describedAs("Stopwatch is running; stop it first to clear")
+                .thrownBy(UnsupportedOperationException::new)
                 .isFalse();
 
         forceClear();
@@ -236,8 +223,8 @@ public final class Stopwatch {
      */
     public BigDecimal getTotalTime() {
         Asserts.that(hasNeverBeenStopped())
-                .as("Stopwatch has no total time, because it has never been stopped")
-                .exception(UnsupportedOperationException::new)
+                .describedAs("Stopwatch has no total time, because it has never been stopped")
+                .thrownBy(UnsupportedOperationException::new)
                 .isFalse();
 
         BigDecimal amount = BigDecimal.valueOf(this.totalNanoTime);
@@ -279,7 +266,7 @@ public final class Stopwatch {
         StringBuilder sb = new StringBuilder();
         sb.append(getSummary());
         sb.append("\n----------------------------------------\n");
-        sb.append(timeUnitColumn).append("  ").append(String.format("%-3c", '%')).append("  ").append("TASK_NAME");
+        sb.append(timeUnitColumn).append("  ").append(String.format("%-6c", '%')).append("  ").append("TASK_NAME");
         sb.append("\n----------------------------------------\n");
 
         for (Task task : this.tasks) {
@@ -287,8 +274,10 @@ public final class Stopwatch {
             displayTime = StringUtils.padEnd(timeUnitIndex, displayTime);
             sb.append(displayTime).append("  ");
 
-            BigInteger percentage = task.getPercentage(totalTime, this.timeUnit);
-            sb.append(String.format("%03d", percentage)).append("  ");
+            BigDecimal percentage = this.tasks.size() == 1
+                    ? BigDecimal.valueOf(100L)
+                    : task.getPercentage(totalTime, this.timeUnit);
+            sb.append(String.format("%.2f", percentage)).append("  ");
 
             sb.append(task.name).append('\n');
         }
@@ -388,17 +377,17 @@ public final class Stopwatch {
         }
 
         @VisibleForTesting
-        BigInteger getPercentage(BigDecimal totalTime, TimeUnit timeUnit) {
+        BigDecimal getPercentage(BigDecimal totalTime, TimeUnit timeUnit) {
             // Prevents ArithmeticException: Division by zero.
             if (totalTime.compareTo(BigDecimal.ZERO) == 0) {
-                return BigInteger.ZERO;
+                return BigDecimal.ZERO;
             }
 
             BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
             BigDecimal taskTime = convertTimeUnit(elapsedNanoTime, TimeUnit.NANOSECONDS, timeUnit);
-            BigDecimal percentage = taskTime.divide(totalTime, 0, RoundingMode.HALF_UP);
+            BigDecimal ratio = taskTime.divide(totalTime, DECIMAL_PLACE, RoundingMode.HALF_UP);
 
-            return percentage.toBigIntegerExact();
+            return ratio.multiply(BigDecimal.valueOf(100L));
         }
     }
 

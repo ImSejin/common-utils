@@ -16,25 +16,91 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 
+/**
+ * Assertion for {@link Package}
+ *
+ * @param <SELF> this class
+ */
 public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAssert<SELF, Package> {
 
     public PackageAssert(Package actual) {
         super(actual);
     }
 
+    protected PackageAssert(Descriptor<?> descriptor, Package actual) {
+        super(descriptor, actual);
+    }
+
+    /**
+     * Asserts that actual value is super package of expected package.
+     *
+     * <pre>{@code
+     *     Package pack = Package.getPackage("java.util.concurrent");
+     *
+     *     // Assertion will pass.
+     *     Asserts.that(pack)
+     *             .isSuperPackageOf(Package.getPackage("java.util.concurrent.atomic"));
+     *     Asserts.that(pack)
+     *             .isSuperPackageOf(Package.getPackage("java.util.concurrent.locks"));
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(pack)
+     *             .isSuperPackageOf(null);
+     *     Asserts.that(pack)
+     *             .isSuperPackageOf(Package.getPackage("java.util"));
+     *     Asserts.that(pack)
+     *             .isSuperPackageOf(Package.getPackage("java.util.concurrent"));
+     * }</pre>
+     *
+     * @param expected expected package
+     * @return this class
+     */
     public SELF isSuperPackageOf(Package expected) {
-        if (actual.equals(expected) || !(expected.getName() + '.').startsWith(actual.getName())) {
+        if (expected == null || actual.equals(expected)) {
+            throw getException();
+        }
+
+        String expectedName = expected.getName();
+        String packageName = expectedName.substring(0, expectedName.lastIndexOf('.'));
+        if (!actual.getName().equals(packageName)) {
             throw getException();
         }
 
         return self;
     }
 
+    /**
+     * Asserts that actual value is sub-package of expected package.
+     *
+     * <pre>{@code
+     *     Package pack = Package.getPackage("java.util.concurrent");
+     *
+     *     // Assertion will pass.
+     *     Asserts.that(pack)
+     *             .isSubPackageOf(Package.getPackage("java.util"));
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(pack)
+     *             .isSubPackageOf(null);
+     *     Asserts.that(pack)
+     *             .isSubPackageOf(Package.getPackage("java.util.concurrent.atomic"));
+     *     Asserts.that(pack)
+     *             .isSubPackageOf(Package.getPackage("java.util.concurrent"));
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
     public SELF isSubPackageOf(Package expected) {
-        if (actual.equals(expected) || !(actual.getName() + '.').startsWith(expected.getName())) {
+        if (expected == null || actual.equals(expected)) {
+            throw getException();
+        }
+
+        String actualName = actual.getName();
+        String packageName = actualName.substring(0, actualName.lastIndexOf('.'));
+        if (!expected.getName().equals(packageName)) {
             throw getException();
         }
 
@@ -43,11 +109,23 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its name.
+     *
+     * <pre>{@code
+     *     Package pack = Package.getPackage("java.util.concurrent");
+     *
+     *     Asserts.that(pack)
+     *             .isSubPackageOf(Package.getPackage("java.util"))
+     *             .asName()
+     *             .isEqualTo("java.util.concurrent");
+     * }</pre>
+     *
+     * @return assertion for string
+     */
     public StringAssert<?> asName() {
-        StringAssert<?> assertion = Asserts.that(actual.getName());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        String name = actual.getName();
+        return new StringAssert<>(this, name);
     }
 
 }

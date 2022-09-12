@@ -16,55 +16,24 @@
 
 package io.github.imsejin.common.assertion.math;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.util.NumberUtils;
 
 import java.math.BigDecimal;
 
-public class BigDecimalAssert<SELF extends BigDecimalAssert<SELF>> extends NumberAssert<SELF, BigDecimal>
+public class BigDecimalAssert<
+        SELF extends BigDecimalAssert<SELF>>
+        extends NumberAssert<SELF, BigDecimal>
         implements DecimalNumberAssertable<SELF, BigDecimal> {
 
     public BigDecimalAssert(BigDecimal actual) {
         super(actual);
     }
 
-    /**
-     * To compare equality of {@link BigDecimal} with only its value,
-     * we use {@link BigDecimal#compareTo(BigDecimal)}.
-     * <p>
-     * ({@code BigDecimal.scale} is ignored)
-     *
-     * @see BigDecimal#equals(Object)
-     */
-    @Override
-    public SELF isEqualTo(BigDecimal expected) {
-        if (actual.compareTo(expected) != 0) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * To compare equality of {@link BigDecimal} with only its value,
-     * we use {@link BigDecimal#compareTo(BigDecimal)}.
-     * <p>
-     * ({@code BigDecimal.scale} is ignored)
-     *
-     * @see BigDecimal#equals(Object)
-     */
-    @Override
-    public SELF isNotEqualTo(BigDecimal expected) {
-        if (actual.compareTo(expected) == 0) {
-            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
+    protected BigDecimalAssert(Descriptor<?> descriptor, BigDecimal actual) {
+        super(descriptor, actual);
     }
 
     @Override

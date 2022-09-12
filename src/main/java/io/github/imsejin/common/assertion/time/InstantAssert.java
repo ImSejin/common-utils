@@ -16,12 +16,13 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
+import io.github.imsejin.common.assertion.util.DateAssert;
 
 import java.time.Instant;
+import java.util.Date;
 
 public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTemporalAccessorAssert<SELF, Instant> {
 
@@ -29,13 +30,31 @@ public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTem
         super(actual);
     }
 
+    protected InstantAssert(Descriptor<?> descriptor, Instant actual) {
+        super(descriptor, actual);
+    }
+
     // -------------------------------------------------------------------------------------------------
 
-    public NumberAssert<?, Long> asEpochMilli() {
-        NumberAssert<?, Long> assertion = Asserts.that(actual.toEpochMilli());
-        Descriptor.merge(this, assertion);
+    public DateAssert<?, Date> asDate() {
+        class DateAssertImpl extends DateAssert<DateAssertImpl, Date> {
+            DateAssertImpl(Descriptor<?> descriptor, Date actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        return new DateAssertImpl(this, Date.from(actual));
+    }
+
+    public NumberAssert<?, Long> asEpochMilli() {
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
+            NumberAssertImpl(Descriptor<?> descriptor, Long actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        long epochMilli = actual.toEpochMilli();
+        return new NumberAssertImpl(this, epochMilli);
     }
 
 }

@@ -297,11 +297,11 @@ class StopwatchSpec extends Specification {
         given:
         def stopwatch = new Stopwatch(timeUnit as TimeUnit)
         def randomString = new RandomString()
-        def taskCount = 3
 
         when:
         (0..<taskCount).each {
-            stopwatch.start("task-$it: %s", randomString.nextString(8))
+            stopwatch.start("task-%d: %s", it, randomString.nextString(8))
+            sleep(10)
             stopwatch.stop()
         }
 
@@ -311,12 +311,19 @@ class StopwatchSpec extends Specification {
                 + "-{40}\n"
                 + "${abbreviation} {2,}% {2,}TASK_NAME\n"
                 + "-{40}\n"
-                + "(\\d+(?:\\.\\d+)? {2,}\\d{3} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
+                + "(\\d+(\\.\\d+)? {2,}\\d{1,3}\\.\\d{2} {2}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
                 Pattern.DOTALL)
         stopwatch.statistics.matches(pattern)
 
         where:
-        timeUnit << TimeUnit.values()
+        timeUnit              | taskCount
+        TimeUnit.NANOSECONDS  | 1
+        TimeUnit.MICROSECONDS | 2
+        TimeUnit.MILLISECONDS | 3
+        TimeUnit.SECONDS      | 1
+        TimeUnit.MINUTES      | 2
+        TimeUnit.HOURS        | 3
+        TimeUnit.DAYS         | 1
     }
 
     def "Converts timeUnit to other"() {

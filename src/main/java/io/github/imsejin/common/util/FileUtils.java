@@ -18,24 +18,21 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Comparator;
-import java.util.Set;
+import java.util.List;
 
-import static java.util.stream.Collectors.toSet;
+import static java.util.Comparator.reverseOrder;
+import static java.util.stream.Collectors.toList;
 
 /**
  * File utilities
@@ -48,67 +45,30 @@ public final class FileUtils {
     }
 
     /**
-     * Returns creation time of the file.
+     * Returns attributes of path.
      *
-     * <pre><code>
-     *     File file = new File("C:\\Program Files\\Java", "README.md");
-     *     getCreationTime(file); // 2020-02-29 23:06:34
-     * </code></pre>
-     *
-     * @param file file
-     * @return file's creation time
+     * @param path path
+     * @return path's attributes
      */
-    public static LocalDateTime getCreationTime(File file) {
-        FileTime time = getFileAttributes(file).creationTime();
-        return LocalDateTime.ofInstant(time.toInstant(), ZoneId.systemDefault());
-    }
-
-    /**
-     * Returns attributes of file.
-     *
-     * @param file file
-     * @return file's attributes
-     */
-    public static BasicFileAttributes getFileAttributes(File file) {
+    public static BasicFileAttributes getFileAttributes(Path path) {
         try {
-            return Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            return Files.readAttributes(path, BasicFileAttributes.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
-    }
-
-    /**
-     * Creates a directory whose name is the same name as the filename in the same path.
-     *
-     * <pre><code>
-     *     File file = new File("/usr/local/docs", "list_20191231.csv");
-     *     mkdirAsOwnName(file); // new File("/usr/local/docs", "list_20191231")
-     * </code></pre>
-     *
-     * @param file file
-     * @return directory whose name is the same name as the filename in the same path
-     */
-    public static File mkdirAsOwnName(File file) {
-        String dirName = FilenameUtils.getBaseName(file.getName());
-
-        File dir = new File(file.getParentFile(), dirName);
-        dir.mkdir();
-
-        return dir;
     }
 
     /**
      * Downloads a file with URL.
      *
      * @param url  URL
-     * @param dest file for destination
-     * @return whether success to download file or not
+     * @param dest destination for file
      */
-    public static boolean download(URL url, File dest) {
+    public static void download(URL url, Path dest) {
         try {
-            return download(url.openStream(), dest);
+            download(url.openStream(), dest);
         } catch (IOException e) {
-            return false;
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -116,19 +76,16 @@ public final class FileUtils {
      * Downloads a file.
      *
      * @param in   input stream
-     * @param dest file for destination
-     * @return whether success to download file or not
+     * @param dest destination for file
      */
-    public static boolean download(InputStream in, File dest) {
-        try (FileOutputStream out = new FileOutputStream(dest);
-             ReadableByteChannel readChannel = Channels.newChannel(in)) {
-            out.getChannel().transferFrom(readChannel, 0, Long.MAX_VALUE);
-
-            // Success
-            return true;
+    public static void download(InputStream in, Path dest) {
+        try (
+                ReadableByteChannel readChannel = Channels.newChannel(in);
+                FileChannel channel = FileChannel.open(dest, StandardOpenOption.WRITE, StandardOpenOption.CREATE)
+        ) {
+            channel.transferFrom(readChannel, 0, Long.MAX_VALUE);
         } catch (IOException e) {
-            // Fail
-            return false;
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -136,14 +93,13 @@ public final class FileUtils {
      * Finds all files in directory recursively.
      *
      * @param path path
-     * @return all files in directory
+     * @return all file paths in directory
      */
-    public static Set<File> findAllFiles(Path path) {
+    public static List<Path> findAllFiles(Path path, FileVisitOption... options) {
         try {
-            return Files.find(path, Integer.MAX_VALUE, (p, bfa) -> bfa.isRegularFile())
-                    .map(Path::toFile).collect(toSet());
+            return Files.find(path, Integer.MAX_VALUE, (p, bfa) -> bfa.isRegularFile(), options).collect(toList());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -151,15 +107,23 @@ public final class FileUtils {
      * Deletes all directories and files recursively.
      *
      * @param path    path
-     * @param options options for visiting files
+     * @param options options for visiting paths
      */
     public static void deleteRecursively(Path path, FileVisitOption... options) {
         try {
-            Files.walk(path, options).map(Path::toFile).filter(File::exists)
-                    .sorted(Comparator.reverseOrder()) // To delete directories that contain files.
-                    .forEach(File::delete);
+            if (!Files.isDirectory(path)) {
+                Files.delete(path);
+                return;
+            }
+
+            // Sorts as reverse order to delete directory that contains file.
+            Path[] paths = Files.walk(path, options).sorted(reverseOrder()).toArray(Path[]::new);
+
+            for (Path p : paths) {
+                Files.delete(p);
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

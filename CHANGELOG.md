@@ -1,6 +1,7 @@
 # Table of Contents
 
-- [v0.10.0](#v0100):
+- [v0.11.0](#v0110): 2022-09-12
+- [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
 - [v0.8.0](#v080): 2022-04-10
 - [v0.7.1](#v071): 2022-02-20
@@ -26,11 +27,66 @@
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
 
+# v0.11.0
+
+### Modification
+
+- ♻️ Refactor: assertions `AbstractTemporalAccessorAssert`, `DateAssert`, `NumberAssert`, `IterationAssertable`
+  , `CharacterAssert`, `CharSequenceAssert`, `StringAssert`
+- 🔥 Remove: method `findElement(Collection, Predicate)` in `CollectionUtils`
+- 🔥 Remove: method `start(String)` in `Stopwatch`
+- 🔥 Remove: protected method `Descriptor.merge(Descriptor, Descriptor)`
+- 🚚 Rename: method `as(String, Object...)` to `describedAs(String, Object...)` in `Descriptor`
+- 🚚 Rename: method `exception(Function)` to `thrownBy(Function)` in `Descriptor`
+- 🚚 Rename: method `hasElement()` to `isNotEmpty()` in `IterationAssertable`
+- 🚚 Rename: method `hasLengthOf(int)` to `hasLength(int)` in `ArrayAssert`
+- 🚚 Rename: method `isSameLength(Object[])` to `hasSameSizeAs(Object[])` in `ArrayAssert`
+- 🚚 Rename: method `isNotSameLength(Object[])` to `doesNotHaveSameSizeAs(Object[])` in `ArrayAssert`
+- 🚚 Rename: method `hasSizeOf(int)` to `hasSize(int)` in `CollectionAssert`
+- 🚚 Rename: method `isSameSize(Collection)` to `hasSameSizeAs(Collection)` in `CollectionAssert`
+- 🚚 Rename: method `isNotSameSize(Collection)` to `doesNotHaveSameSizeAs(Collection)` in `CollectionAssert`
+- 🚚 Rename: method `hasEntry()` to `isNotEmpty()` in `MapAssert`
+- 🚚 Rename: method `hasSizeOf(int)` to `hasSize(int)` in `MapAssert`
+- 🚚 Rename: method `isSameSize(Map)` to `hasSameSizeAs(Map)` in `MapAssert`
+- 🚚 Rename: method `isNotSameSize(Map)` to `doesNotHaveSameSizeAs(Map)` in `MapAssert`
+- 🚚 Rename: method `hasLengthOf(int)` to `hasSize(int)` in `CharSequenceAssert`
+- 🚚 Rename: method `isSameLength(int)` to `hasSameSizeAs(int)` in `CharSequenceAssert`
+- 🚚 Rename: method `isNotSameLength(int)` to `doesNotHaveSameSizeAs(int)` in `CharSequenceAssert`
+- 🚚 Move: method `contains(CharSequence)` from `StringAssert` to `CharSequenceAssert`
+
+### New features
+
+- ✨ Add: assertion class `DateAssert`
+- ✨ Add: assertion compositions `ComparisonAssertable`, `SizeComparisonAssertable`, `PositionComparisonAssertable`
+  , `EnumerationAssertable`
+- ✨ Add: protected constructor in assertion classes
+- ✨ Add: method `doesNotHaveSize(int)` in `IterationAssertable`
+- ✨ Add: method `asList()` in `ArrayAssert`
+- ✨ Add: method `asDate()` in `InstantAssert`
+- ✨ Add: methods `asYearMonth()`, `asMonthDay()` in `ChronoLocalDateAssert`
+- ✨ Add: methods `isBetween(Character, Character)`, `isStrictlyBetween(Character, Character)` in `CharacterAssert`
+- ✨ Add: methods `isBetween(TemporalAccessor, TemporalAccessor)`
+  , `isStrictlyBetween(TemporalAccessor, TemporalAccessor)` in `AbstractTemporalAccessorAssert`
+- ✨ Add: methods `doesNotHaveSize(int)`, `doesNotContain(CharSequence)` in `CharSequenceAssert`
+
+### Troubleshooting
+
+- 🐞 Fix: wrong calculation for `Stopwatch` to print percentage of each task
+- 🐞 Fix: wrong check for parameter in `ObjectAssert.returns(Object, Function)`
+- 🐞 Fix: wrong assertion logic for `containsAny(ELEMENT)`, `containsOnly(ELEMENT)` in `IterationAssertable`
+
+### Dependencies
+
+- 🔧 Make: dependencies `annotations`, `jsr305` intransitive
+- ⬆️ Upgrade: dependency `gson` from `2.9.0` to `2.9.1`
+- ⬆️ Upgrade: test dependency `spock-core` from `2.1-groovy-3.0` to `2.2-groovy-3.0`
+- ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.3.1` to `3.4.1`
+
 # v0.10.0
 
 ### Modification
 
-- ♻️ Refactor: tool `Stopwatch` 
+- ♻️ Refactor: tool `Stopwatch`
 - ⚡️ Improve: security.model `Verification`
 - ⚡️ Improve: static code analysis on IntelliJ IDEA
 

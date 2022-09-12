@@ -16,12 +16,20 @@
 
 package io.github.imsejin.common.assertion.util;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Assertion for {@link List}
+ *
+ * @param <SELF>    this class
+ * @param <ACTUAL>  type of list
+ * @param <ELEMENT> type of element in list
+ */
 public class ListAssert<
         SELF extends ListAssert<SELF, ACTUAL, ELEMENT>,
         ACTUAL extends List<? extends ELEMENT>,
@@ -29,14 +37,26 @@ public class ListAssert<
         extends CollectionAssert<SELF, ACTUAL, ELEMENT>
         implements RandomAccessIterationAssertable<SELF, ACTUAL, ELEMENT> {
 
-    public ListAssert(ACTUAL target) {
-        super(target);
+    public ListAssert(ACTUAL actual) {
+        super(actual);
     }
 
+    protected ListAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF startsWith(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         if (actual.size() < expected.length) {
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
@@ -46,7 +66,9 @@ public class ListAssert<
         for (int i = 0; i < expected.length; i++) {
             ELEMENT element = actual.get(i);
             ELEMENT item = expected[i];
-            if (Objects.deepEquals(element, item)) continue;
+            if (Objects.deepEquals(element, item)) {
+                continue;
+            }
 
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
             throw getException();
@@ -55,10 +77,18 @@ public class ListAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF endsWith(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (ArrayUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         if (actual.size() < expected.length) {
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
@@ -68,7 +98,9 @@ public class ListAssert<
         for (int i = 0; i < expected.length; i++) {
             ELEMENT element = actual.get(actual.size() - expected.length + i);
             ELEMENT item = expected[i];
-            if (Objects.deepEquals(element, item)) continue;
+            if (Objects.deepEquals(element, item)) {
+                continue;
+            }
 
             setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
             throw getException();

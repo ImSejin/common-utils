@@ -16,12 +16,26 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import io.github.imsejin.common.assertion.Descriptor;
+import org.intellij.lang.annotations.Language;
+
 import java.util.regex.Pattern;
 
-public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceAssert<SELF, String> {
+/**
+ * Assertion for {@link String}
+ *
+ * @param <SELF> this class
+ */
+public class StringAssert<
+        SELF extends StringAssert<SELF>>
+        extends CharSequenceAssert<SELF, String, CharSequence> {
 
     public StringAssert(String actual) {
         super(actual);
+    }
+
+    protected StringAssert(Descriptor<?> descriptor, String actual) {
+        super(descriptor, actual);
     }
 
     public SELF hasText() {
@@ -149,17 +163,7 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceA
         return self;
     }
 
-    public SELF contains(CharSequence expected) {
-        if (expected == null || !actual.contains(expected)) {
-            setDefaultDescription("It is expected to contain the given string, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    public SELF matches(String expected) {
+    public SELF matches(@Language("RegExp") String expected) {
         if (!actual.matches(expected)) {
             setDefaultDescription("It is expected to match the given regular expression, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
@@ -171,7 +175,7 @@ public class StringAssert<SELF extends StringAssert<SELF>> extends CharSequenceA
 
     public SELF matches(Pattern expected) {
         if (!expected.matcher(actual).matches()) {
-            setDefaultDescription("It is expected to match the given regular expression, but it isn't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription("It is expected to match the given pattern, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }

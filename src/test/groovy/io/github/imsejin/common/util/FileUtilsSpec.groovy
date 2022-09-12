@@ -18,66 +18,14 @@ package io.github.imsejin.common.util
 
 import spock.lang.Specification
 import spock.lang.TempDir
-import spock.lang.Unroll
 
-import java.nio.charset.StandardCharsets
-import java.nio.file.DirectoryNotEmptyException
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
-import java.time.LocalDateTime
 
 class FileUtilsSpec extends Specification {
 
     @TempDir
     private Path tempPath
-
-    def "Gets creation time of a file"() {
-        given:
-        def file = Paths.get("./src/main/java/io/github/imsejin/common/util", "FileUtils.java").toRealPath().toFile()
-
-        when:
-        def creationTime = FileUtils.getCreationTime file
-
-        then:
-        creationTime.isBefore(LocalDateTime.now())
-    }
-
-    def "Makes a directory as own name"() {
-        given:
-        def file = Files.createTempFile(tempPath, "temp-file-", ".txt").toFile()
-
-        when:
-        def dir = FileUtils.mkdirAsOwnName file
-
-        then:
-        dir.exists()
-        dir.isDirectory()
-        dir.getName() == FilenameUtils.getBaseName(file.getName())
-    }
-
-    def "Download a file with URL"() {
-        given:
-        def content = "Lorem ipsum dolor sit amet".getBytes(StandardCharsets.UTF_8)
-        def path = Files.createTempFile(tempPath, "temp-file-", ".txt").toRealPath()
-        Files.write(path, content)
-        def dest = tempPath.resolve("temp-file-downloaded.txt").toFile()
-
-        when: "Tries to download with valid URL."
-        def validUrl = path.toUri().toURL()
-        def successful = FileUtils.download(validUrl, dest)
-
-        then: "Successfully downloaded with valid URL."
-        successful
-        content == Files.readAllBytes(dest.toPath())
-
-        when: "Tries to download with invalid URL."
-        def invalidUrl = path.resolve(UUID.randomUUID().toString()).toUri().toURL()
-        def failed = FileUtils.download(invalidUrl, dest)
-
-        then: "Failed to download with valid URL."
-        !failed
-    }
 
     def "Finds all files in the path"() {
         given:
@@ -91,37 +39,6 @@ class FileUtilsSpec extends Specification {
 
         then:
         files.size() == count
-    }
-
-    @Unroll("Deletes a directory recursively: repeated #i time(s)")
-    def "Deletes a directory recursively"() {
-        given:
-        Path dir = Files.createTempDirectory(tempPath, "temp-")
-        Files.createTempDirectory(dir, "outer-empty-dir-")
-        Files.createTempFile(dir, "outer-file-", null)
-        Path outerDir = Files.createTempDirectory(dir, "outer-filled-dir-")
-        Files.createTempDirectory(outerDir, "inner-empty-dir-")
-        Files.createTempFile(outerDir, "inner-file-", null)
-
-        Files.walk(dir).map(it -> it.toString().replace("$tempPath$File.separator", ""))
-                .forEach(it -> printf("%s%n", it))
-        println()
-
-        when:
-        Files.delete dir
-
-        then: "Cannot delete not empty directory, as well as all its files and directories."
-        thrown DirectoryNotEmptyException
-        Files.walk(dir).map(Path::toFile).allMatch(File::exists)
-
-        when:
-        FileUtils.deleteRecursively dir
-
-        then: "Directory is deleted even if not empty."
-        Files.notExists dir
-
-        where:
-        i << (1..10)
     }
 
 }

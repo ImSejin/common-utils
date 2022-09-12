@@ -54,20 +54,20 @@ List<LocalDate> dates = Arrays.asList(
         LocalDate.of(1999, 12, 31), LocalDate.of(2000, 1, 1), LocalDate.of(2001, 1, 2));
 
 Asserts.that(dates)
-        // You can set message on error.
-        .as("dates should not be null or empty")
-        // You can set any sub type of RuntimeException on error.
-        .exception(IllegalStateException::new)
+        // You can describe error message on assertion failure.
+        .describedAs("dates should not be null or empty")
+        // You can set what exception will be thrown on assertion failure.
+        .thrownBy(IllegalStateException::new)
         // First of all, you have to make sure that variable to be asserted is not null,
         // before call the other assertion methods. Otherwise, it might throw NullPointerException.
         .isNotNull()
-        .hasElement()
-        .hasSizeOf(3)
-        .as("dates should not have duplicated elements: '{0}'", dates)
+        .isNotEmpty()
+        .hasSize(3)
+        .describedAs("dates should not have duplicated elements: '{0}'", dates)
         .doesNotHaveDuplicates()
-        .as("dates should contain '2001-01-01' or '2000-01-02': '{0}'", dates)
-        .containsAny(LocalDate.of(2001, 1, 1), LocalDate.of(2000, 1, 2))
-        .as("dates should not have date in leap year: '{0}'", dates)
+        .describedAs("dates should contain '2000-01-01' or '2001-01-01': '{0}'", dates)
+        .containsAny(LocalDate.of(2000, 1, 1), LocalDate.of(2001, 1, 1))
+        .describedAs("dates should not have date in leap year: '{0}'", dates)
         .anyMatch(LocalDate::isLeapYear)
         // Target of assertion is changed from List to Integer.
         .asSize()

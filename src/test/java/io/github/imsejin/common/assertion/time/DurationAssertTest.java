@@ -35,30 +35,30 @@ class DurationAssertTest {
     @DisplayName("method 'isEqualTo'")
     class IsEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT6H",
-                "PT30M,          PT30M",
-                "PT59S,          PT59S",
-                "PT0.000000007S, PT0.000000007S",
-                "PT6H30M59S,     PT6H30M59S",
-                "PT-1M-42S,      PT-1M-42S",
-                "PT5M13.075S,    PT5M13.075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT6H",
+                "PT30M          | PT30M",
+                "PT59S          | PT59S",
+                "PT0.000000007S | PT0.000000007S",
+                "PT6H30M59S     | PT6H30M59S",
+                "PT-1M-42S      | PT-1M-42S",
+                "PT5M13.075S    | PT5M13.075S",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is equal to other")
         void test0(Duration actual, Duration expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT7H",
-                "PT30M,          PT29M",
-                "PT58S,          PT59S",
-                "PT0.000000007S, PT0.000000008S",
-                "PT6H30M59S,     PT6H31M",
-                "PT-2M-42S,      PT-1M-42S",
-                "PT5M13.075S,    PT5M13.75S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT7H",
+                "PT30M          | PT29M",
+                "PT58S          | PT59S",
+                "PT0.000000007S | PT0.000000008S",
+                "PT6H30M59S     | PT6H31M",
+                "PT-2M-42S      | PT-1M-42S",
+                "PT5M13.075S    | PT5M13.75S",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is not equal to other")
         void test1(Duration actual, Duration expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isEqualTo(expected));
@@ -71,30 +71,30 @@ class DurationAssertTest {
     @DisplayName("method 'isNotEqualTo'")
     class IsNotEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT7H",
-                "PT30M,          PT29M",
-                "PT58S,          PT59S",
-                "PT0.000000007S, PT0.000000008S",
-                "PT6H30M59S,     PT6H31M",
-                "PT-2M-42S,      PT-1M-42S",
-                "PT5M13.075S,    PT5M13.75S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT7H",
+                "PT30M          | PT29M",
+                "PT58S          | PT59S",
+                "PT0.000000007S | PT0.000000008S",
+                "PT6H30M59S     | PT6H31M",
+                "PT-2M-42S      | PT-1M-42S",
+                "PT5M13.075S    | PT5M13.75S",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is not equal to other")
         void test0(Duration actual, Duration expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT6H",
-                "PT30M,          PT30M",
-                "PT59S,          PT59S",
-                "PT0.000000007S, PT0.000000007S",
-                "PT6H30M59S,     PT6H30M59S",
-                "PT-1M-42S,      PT-1M-42S",
-                "PT5M13.075S,    PT5M13.075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT6H",
+                "PT30M          | PT30M",
+                "PT59S          | PT59S",
+                "PT0.000000007S | PT0.000000007S",
+                "PT6H30M59S     | PT6H30M59S",
+                "PT-1M-42S      | PT-1M-42S",
+                "PT5M13.075S    | PT5M13.075S",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is equal to other")
         void test1(Duration actual, Duration expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected));
@@ -107,30 +107,30 @@ class DurationAssertTest {
     @DisplayName("method 'isGreaterThan'")
     class IsGreaterThan {
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT5H",
-                "PT30M,          PT29M",
-                "PT59S,          PT58S",
-                "PT0.000000008S, PT0.000000007S",
-                "PT6H30M59S,     PT6H29M59S",
-                "PT-1M-42S,      PT-1M-43S",
-                "PT5M13.075S,    PT5M13.0075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT5H",
+                "PT30M          | PT29M",
+                "PT59S          | PT58S",
+                "PT0.000000008S | PT0.000000007S",
+                "PT6H30M59S     | PT6H29M59S",
+                "PT-1M-42S      | PT-1M-43S",
+                "PT5M13.075S    | PT5M13.0075S",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is greater than other")
         void test0(Duration actual, Duration expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThan(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT7H",
-                "PT30M,          PT31M",
-                "PT58S,          PT59S",
-                "PT0.000000007S, PT0.000000008S",
-                "PT6H30M59S,     PT6H30M59S",
-                "PT-2M-43S,      PT-1M-42S",
-                "PT5M13.075S,    PT5M13.075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT7H",
+                "PT30M          | PT31M",
+                "PT58S          | PT59S",
+                "PT0.000000007S | PT0.000000008S",
+                "PT6H30M59S     | PT6H30M59S",
+                "PT-2M-43S      | PT-1M-42S",
+                "PT5M13.075S    | PT5M13.075S",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1(Duration actual, Duration expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isGreaterThan(expected));
@@ -143,30 +143,30 @@ class DurationAssertTest {
     @DisplayName("method 'isGreaterThanOrEqualTo'")
     class IsGreaterThanOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT5H",
-                "PT30M,          PT29M",
-                "PT59S,          PT58S",
-                "PT0.000000008S, PT0.000000007S",
-                "PT6H30M59S,     PT6H30M59S",
-                "PT-1M-42S,      PT-1M-43S",
-                "PT5M13.075S,    PT5M13.075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT5H",
+                "PT30M          | PT29M",
+                "PT59S          | PT58S",
+                "PT0.000000008S | PT0.000000007S",
+                "PT6H30M59S     | PT6H30M59S",
+                "PT-1M-42S      | PT-1M-43S",
+                "PT5M13.075S    | PT5M13.075S",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0(Duration actual, Duration expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT7H",
-                "PT30M,          PT31M",
-                "PT58S,          PT59S",
-                "PT0.000000007S, PT0.000000008S",
-                "PT6H29M59S,     PT6H30M59S",
-                "PT-2M-43S,      PT-1M-42S",
-                "PT5M13.0075S,   PT5M13.075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT7H",
+                "PT30M          | PT31M",
+                "PT58S          | PT59S",
+                "PT0.000000007S | PT0.000000008S",
+                "PT6H29M59S     | PT6H30M59S",
+                "PT-2M-43S      | PT-1M-42S",
+                "PT5M13.0075S   | PT5M13.075S",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is less than other")
         void test1(Duration actual, Duration expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
@@ -179,30 +179,30 @@ class DurationAssertTest {
     @DisplayName("method 'isLessThan'")
     class IsLessThan {
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT7H",
-                "PT30M,          PT31M",
-                "PT58S,          PT59S",
-                "PT0.000000007S, PT0.000000008S",
-                "PT6H29M59S,     PT6H30M59S",
-                "PT-2M-43S,      PT-1M-42S",
-                "PT5M13.0075S,   PT5M13.075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT7H",
+                "PT30M          | PT31M",
+                "PT58S          | PT59S",
+                "PT0.000000007S | PT0.000000008S",
+                "PT6H29M59S     | PT6H30M59S",
+                "PT-2M-43S      | PT-1M-42S",
+                "PT5M13.0075S   | PT5M13.075S",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is less than other")
         void test0(Duration actual, Duration expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThan(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT5H",
-                "PT30M,          PT29M",
-                "PT59S,          PT58S",
-                "PT0.000000008S, PT0.000000007S",
-                "PT6H30M59S,     PT6H29M59S",
-                "PT-1M-42S,      PT-1M-43S",
-                "PT5M13.075S,    PT5M13.0075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT5H",
+                "PT30M          | PT29M",
+                "PT59S          | PT58S",
+                "PT0.000000008S | PT0.000000007S",
+                "PT6H30M59S     | PT6H29M59S",
+                "PT-1M-42S      | PT-1M-43S",
+                "PT5M13.075S    | PT5M13.0075S",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1(Duration actual, Duration expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isLessThan(expected));
@@ -215,30 +215,30 @@ class DurationAssertTest {
     @DisplayName("method 'isLessThanOrEqualTo'")
     class IsLessThanOrEqualTo {
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT7H",
-                "PT30M,          PT31M",
-                "PT58S,          PT59S",
-                "PT0.000000007S, PT0.000000008S",
-                "PT6H30M59S,     PT6H30M59S",
-                "PT-2M-43S,      PT-1M-42S",
-                "PT5M13.075S,    PT5M13.075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT7H",
+                "PT30M          | PT31M",
+                "PT58S          | PT59S",
+                "PT0.000000007S | PT0.000000008S",
+                "PT6H30M59S     | PT6H30M59S",
+                "PT-2M-43S      | PT-1M-42S",
+                "PT5M13.075S    | PT5M13.075S",
+        }, delimiter = '|')
         @DisplayName("passes, when actual is less than or equal to other")
         void test0(Duration actual, Duration expected) {
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThanOrEqualTo(expected));
         }
 
         @ParameterizedTest
-        @CsvSource({
-                "PT6H,           PT5H",
-                "PT30M,          PT29M",
-                "PT59S,          PT58S",
-                "PT0.000000008S, PT0.000000007S",
-                "PT6H30M59S,     PT6H29M59S",
-                "PT-1M-42S,      PT-1M-43S",
-                "PT5M13.075S,    PT5M13.0075S",
-        })
+        @CsvSource(value = {
+                "PT6H           | PT5H",
+                "PT30M          | PT29M",
+                "PT59S          | PT58S",
+                "PT0.000000008S | PT0.000000007S",
+                "PT6H30M59S     | PT6H29M59S",
+                "PT-1M-42S      | PT-1M-43S",
+                "PT5M13.075S    | PT5M13.0075S",
+        }, delimiter = '|')
         @DisplayName("throws exception, when actual is greater than other")
         void test1(Duration actual, Duration expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isLessThanOrEqualTo(expected));

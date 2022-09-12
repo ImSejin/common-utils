@@ -25,9 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -158,10 +156,6 @@ public final class CollectionUtils {
         return collection.stream().reduce(Long.MIN_VALUE, Math::max);
     }
 
-    public static <E> Optional<E> findElement(Collection<E> collection, Predicate<E> predicate) {
-        return collection.stream().filter(predicate).findFirst();
-    }
-
     /**
      * Returns a list that contains consecutive {@link List#subList(int, int)}s.
      * Inner lists have the same size, but last is smaller.
@@ -180,7 +174,7 @@ public final class CollectionUtils {
      */
     public static <E> List<List<E>> partitionBySize(List<E> list, int chunkSize) {
         Asserts.that(chunkSize)
-                .as("Size of each list must be greater than 0")
+                .describedAs("Size of each list must be greater than 0")
                 .isGreaterThan(0);
 
         /*
@@ -224,9 +218,9 @@ public final class CollectionUtils {
      */
     public static <E> List<List<E>> partitionByCount(List<E> list, int count) {
         Asserts.that(count)
-                .as("The number of lists must be greater than 0")
+                .describedAs("The number of lists must be greater than 0")
                 .isGreaterThan(0)
-                .as("Count must be less than or equal to list's size")
+                .describedAs("Count must be less than or equal to list's size")
                 .isLessThanOrEqualTo(list.size());
 
         int originSize = list.size();

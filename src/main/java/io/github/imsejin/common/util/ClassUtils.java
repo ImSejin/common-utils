@@ -78,7 +78,7 @@ public final class ClassUtils {
      * </pre>
      *
      * @param clazz class
-     * @return whether this class is enum or its one of a constant.
+     * @return whether this class is enum or its one of a constant
      * @see Class#isEnum()
      * @see Enum#getDeclaringClass()
      */

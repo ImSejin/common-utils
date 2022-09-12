@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.OffsetAssertable;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateAssert;
@@ -24,9 +23,17 @@ import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, OffsetDateTime>
@@ -34,6 +41,10 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     public OffsetDateTimeAssert(OffsetDateTime actual) {
         super(actual);
+    }
+
+    protected OffsetDateTimeAssert(Descriptor<?> descriptor, OffsetDateTime actual) {
+        super(descriptor, actual);
     }
 
     /**
@@ -76,10 +87,14 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      * @see ChronoZonedDateTimeAssert#asLocalDate()
      */
     public ChronoLocalDateAssert<?> asLocalDate() {
-        ChronoLocalDateAssert<?> assertion = Asserts.that(actual.toLocalDate());
-        Descriptor.merge(this, assertion);
+        class ChronoLocalDateAssertImpl extends ChronoLocalDateAssert<ChronoLocalDateAssertImpl> {
+            ChronoLocalDateAssertImpl(Descriptor<?> descriptor, ChronoLocalDate actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        LocalDate localDate = actual.toLocalDate();
+        return new ChronoLocalDateAssertImpl(this, localDate);
     }
 
     /**
@@ -87,17 +102,25 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      * @see ChronoZonedDateTimeAssert#asLocalDateTime()
      */
     public ChronoLocalDateTimeAssert<?, LocalDate> asLocalDateTime() {
-        ChronoLocalDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toLocalDateTime());
-        Descriptor.merge(this, assertion);
+        class ChronoLocalDateTimeAssertImpl extends ChronoLocalDateTimeAssert<ChronoLocalDateTimeAssertImpl, LocalDate> {
+            protected ChronoLocalDateTimeAssertImpl(Descriptor<?> descriptor, ChronoLocalDateTime<?> actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        LocalDateTime localDateTime = actual.toLocalDateTime();
+        return new ChronoLocalDateTimeAssertImpl(this, localDateTime);
     }
 
     public ChronoZonedDateTimeAssert<?, LocalDate> asZonedDateTime() {
-        ChronoZonedDateTimeAssert<?, LocalDate> assertion = Asserts.that(actual.toZonedDateTime());
-        Descriptor.merge(this, assertion);
+        class ChronoZonedDateTimeAssertImpl extends ChronoZonedDateTimeAssert<ChronoZonedDateTimeAssertImpl, LocalDate> {
+            ChronoZonedDateTimeAssertImpl(Descriptor<?> descriptor, ChronoZonedDateTime<?> actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        ZonedDateTime zonedDateTime = actual.toZonedDateTime();
+        return new ChronoZonedDateTimeAssertImpl(this, zonedDateTime);
     }
 
     /**
@@ -106,24 +129,18 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
      * @see ChronoZonedDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {
-        LocalTimeAssert<?> assertion = Asserts.that(actual.toLocalTime());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        LocalTime localTime = actual.toLocalTime();
+        return new LocalTimeAssert<>(this, localTime);
     }
 
     public OffsetTimeAssert<?> asOffsetTime() {
-        OffsetTimeAssert<?> assertion = Asserts.that(actual.toOffsetTime());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        OffsetTime offsetTime = actual.toOffsetTime();
+        return new OffsetTimeAssert<>(this, offsetTime);
     }
 
     public InstantAssert<?> asInstant() {
-        InstantAssert<?> assertion = Asserts.that(actual.toInstant());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Instant instant = actual.toInstant();
+        return new InstantAssert<>(this, instant);
     }
 
 }

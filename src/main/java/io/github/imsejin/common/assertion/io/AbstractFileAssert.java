@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.io;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -25,13 +24,17 @@ import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
 
-public abstract class AbstractFileAssert<
+public class AbstractFileAssert<
         SELF extends AbstractFileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
         extends ObjectAssert<SELF, ACTUAL> {
 
-    protected AbstractFileAssert(ACTUAL actual) {
+    public AbstractFileAssert(ACTUAL actual) {
         super(actual);
+    }
+
+    protected AbstractFileAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
     }
 
     public SELF exists() {
@@ -164,17 +167,25 @@ public abstract class AbstractFileAssert<
     // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Long> asLength() {
-        NumberAssert<?, Long> assertion = Asserts.that(actual.length());
-        Descriptor.merge(this, assertion);
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
+            NumberAssertImpl(Descriptor<?> descriptor, Long actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        long length = actual.length();
+        return new NumberAssertImpl(this, length);
     }
 
     public StringAssert<?> asName() {
-        StringAssert<?> assertion = Asserts.that(actual.getName());
-        Descriptor.merge(this, assertion);
+        class StringAssertImpl extends StringAssert<StringAssertImpl> {
+            StringAssertImpl(Descriptor<?> descriptor, String actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        String name = actual.getName();
+        return new StringAssertImpl(this, name);
     }
 
 }

@@ -28,6 +28,7 @@ import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
@@ -64,6 +65,7 @@ class ClassUtilsTest {
         List<Class<?>> enumAndConstantClasses = Stream.of(ENUMS, ENUM_CONSTANTS)
                 .flatMap(Collection::stream).collect(toList());
         List<Class<?>> classes = Stream.of(
+                Collections.singleton((Class<?>) null),
                 TypeClassifier.Types.PRIMITIVE.getClasses(),
                 TypeClassifier.Types.WRAPPER.getClasses(),
                 INTERFACES, ANNOTATIONS, ANONYMOUS_CLASSES, ARRAYS)
@@ -78,6 +80,7 @@ class ClassUtilsTest {
     @Test
     void isAbstractClass() {
         List<Class<?>> nonAbstractClasses = Stream.of(
+                Collections.singleton((Class<?>) null),
                 TypeClassifier.Types.PRIMITIVE.getClasses(),
                 TypeClassifier.Types.WRAPPER.getClasses(),
                 INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)

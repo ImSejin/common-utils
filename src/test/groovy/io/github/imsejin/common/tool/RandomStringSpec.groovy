@@ -43,7 +43,7 @@ class RandomStringSpec extends Specification {
         def randomString = new RandomString(random, locale)
 
         when:
-        def length = random.nextInt(100) + 1
+        def length = Math.max(1, random.nextInt(100))
         def actual = randomString.nextString(length)
 
         then:
@@ -65,6 +65,7 @@ class RandomStringSpec extends Specification {
     def "Failed to generate a random string"() {
         given:
         def randomString = new RandomString()
+        def length = new Random().nextInt(10) * -1
 
         when:
         randomString.nextString(length)
@@ -74,7 +75,7 @@ class RandomStringSpec extends Specification {
         e.message == "The length of random string must be positive, but it isn't: $length"
 
         where:
-        length << [-1, 0]
+        i << (1..1024)
     }
 
     def "Converts integers as ranges of code point"() {

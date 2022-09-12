@@ -16,8 +16,8 @@
 
 package io.github.imsejin.common.assertion.util;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
@@ -31,6 +31,13 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 
+/**
+ * Assertion for {@link Collection}
+ *
+ * @param <SELF>    this class
+ * @param <ACTUAL>  type of collection
+ * @param <ELEMENT> type of element in collection
+ */
 public class CollectionAssert<
         SELF extends CollectionAssert<SELF, ACTUAL, ELEMENT>,
         ACTUAL extends Collection<? extends ELEMENT>,
@@ -38,43 +45,87 @@ public class CollectionAssert<
         extends ObjectAssert<SELF, ACTUAL>
         implements IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
-    public CollectionAssert(ACTUAL target) {
-        super(target);
+    public CollectionAssert(ACTUAL actual) {
+        super(actual);
     }
 
+    protected CollectionAssert(Descriptor<?> descriptor, ACTUAL actual) {
+        super(descriptor, actual);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
-    public SELF hasElement() {
+    public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_HAS_ELEMENT, actual);
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 
         return self;
     }
 
-    public SELF hasSizeOf(int expected) {
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSize(int expected) {
         if (actual.size() != expected) {
-            setDefaultDescription("It is expected to be the same size, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.size());
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
             throw getException();
         }
 
         return self;
     }
 
-    public SELF isSameSize(Collection<?> expected) {
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF doesNotHaveSize(int expected) {
+        if (actual.size() == expected) {
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.size());
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
+    public SELF hasSameSizeAs(Collection expected) {
         if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription("They are expected to be the same size, but they aren't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -82,9 +133,17 @@ public class CollectionAssert<
         return self;
     }
 
-    public SELF isNotSameSize(Collection<?> expected) {
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
+    public SELF doesNotHaveSameSizeAs(Collection expected) {
         if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription("They are expected to be not the same size, but they are. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -92,42 +151,72 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF contains(ELEMENT expected) {
         for (ELEMENT element : actual) {
-            if (Objects.deepEquals(element, expected)) return self;
+            if (Objects.deepEquals(element, expected)) {
+                return self;
+            }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
+        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotContain(ELEMENT expected) {
         for (ELEMENT element : actual) {
-            if (!Objects.deepEquals(element, expected)) continue;
+            if (!Objects.deepEquals(element, expected)) {
+                continue;
+            }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN, expected, actual, element);
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN, expected, actual, element);
             throw getException();
         }
 
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF containsNull() {
         for (ELEMENT element : actual) {
-            if (element == null) return self;
+            if (element == null) {
+                return self;
+            }
         }
 
         setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, actual);
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF doesNotContainNull() {
         for (ELEMENT element : actual) {
-            if (element != null) continue;
+            if (element != null) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, actual);
             throw getException();
@@ -136,14 +225,24 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
+     */
     @Override
     @SafeVarargs
     public final SELF containsAny(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (actual.size() == 0 && expected.length == 0) {
+            return self;
+        }
 
         for (Object item : expected) {
             for (Object element : actual) {
-                if (Objects.deepEquals(element, item)) return self;
+                if (Objects.deepEquals(element, item)) {
+                    return self;
+                }
             }
         }
 
@@ -151,14 +250,24 @@ public class CollectionAssert<
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF containsAll(ACTUAL expected) {
-        if (CollectionUtils.isNullOrEmpty(expected)) return self;
+        if (CollectionUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         outer:
         for (ELEMENT item : expected) {
             for (ELEMENT element : actual) {
-                if (Objects.deepEquals(element, item)) continue outer;
+                if (Objects.deepEquals(element, item)) {
+                    continue outer;
+                }
             }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual, item);
@@ -168,13 +277,23 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotContainAll(ACTUAL expected) {
-        if (actual.isEmpty() || CollectionUtils.isNullOrEmpty(expected)) return self;
+        if (actual.isEmpty() || CollectionUtils.isNullOrEmpty(expected)) {
+            return self;
+        }
 
         for (ELEMENT item : expected) {
             for (ELEMENT element : actual) {
-                if (!Objects.deepEquals(element, item)) continue;
+                if (!Objects.deepEquals(element, item)) {
+                    continue;
+                }
 
                 setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL, expected, actual);
                 throw getException();
@@ -185,18 +304,26 @@ public class CollectionAssert<
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @param expected expected values
+     * @return this class
      * @see #containsAll(Collection)
      */
     @Override
     @SafeVarargs
     public final SELF containsOnly(ELEMENT... expected) {
-        if (ArrayUtils.isNullOrEmpty(expected)) return self;
+        if (actual.size() == 0 && expected.length == 0) {
+            return self;
+        }
 
         // Checks if the actual collection contains all the given elements.
         outer:
         for (ELEMENT item : expected) {
             for (ELEMENT element : actual) {
-                if (Objects.deepEquals(element, item)) continue outer;
+                if (Objects.deepEquals(element, item)) {
+                    continue outer;
+                }
             }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING, expected, actual, item);
@@ -207,7 +334,9 @@ public class CollectionAssert<
         outer:
         for (ELEMENT element : actual) {
             for (ELEMENT item : expected) {
-                if (Objects.deepEquals(element, item)) continue outer;
+                if (Objects.deepEquals(element, item)) {
+                    continue outer;
+                }
             }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED, expected, actual, element);
@@ -217,6 +346,11 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF containsOnlyNulls() {
         if (actual.isEmpty()) {
@@ -225,7 +359,9 @@ public class CollectionAssert<
         }
 
         for (ELEMENT element : actual) {
-            if (element == null) continue;
+            if (element == null) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
             throw getException();
@@ -234,9 +370,16 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveDuplicates() {
-        if (actual.isEmpty() || actual.size() == 1) return self;
+        if (actual.isEmpty() || actual.size() == 1) {
+            return self;
+        }
 
         Set<ELEMENT> noDuplicates = new TreeSet<>((o1, o2) -> {
             if (Objects.deepEquals(o1, o2)) return 0;
@@ -255,16 +398,30 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF anyMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {
-            if (expected.test(element)) return self;
+            if (expected.test(element)) {
+                return self;
+            }
         }
 
         setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH, actual);
         throw getException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF allMatch(Predicate<ELEMENT> expected) {
         if (actual.isEmpty()) {
@@ -273,7 +430,9 @@ public class CollectionAssert<
         }
 
         for (ELEMENT element : actual) {
-            if (expected.test(element)) continue;
+            if (expected.test(element)) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, element);
             throw getException();
@@ -282,10 +441,18 @@ public class CollectionAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected condition
+     * @return this class
+     */
     @Override
     public SELF noneMatch(Predicate<ELEMENT> expected) {
         for (ELEMENT element : actual) {
-            if (!expected.test(element)) continue;
+            if (!expected.test(element)) {
+                continue;
+            }
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH, actual, element);
             throw getException();
@@ -296,19 +463,68 @@ public class CollectionAssert<
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into array.
+     *
+     * <pre>{@code
+     *     Asserts.that([1, 2, 3, 4])
+     *             .allMatch(it -> it > 0)
+     *             .asArray()
+     *             .isInstanceOf(Object[].class);
+     * }</pre>
+     *
+     * @return assertion for integer
+     */
     @SuppressWarnings("unchecked")
     public ArrayAssert<?, ELEMENT> asArray() {
-        ArrayAssert<?, ELEMENT> assertion = Asserts.that((ELEMENT[]) actual.toArray());
-        Descriptor.merge(this, assertion);
+        // You can meet this exception by local anonymous class like this code
+        // return new ArrayAssert(this, actual.toArray()) {};
+        //
+        // To prevent that, we use local class instead of anonymous class.
+        // This is all parts of exception message.
+        //
+        //   java.lang.VerifyError: Bad type on operand stack
+        // Exception Details:
+        //   Location:
+        //     io/github/imsejin/common/assertion/util/CollectionAssert$1.containsAll(Ljava/lang/Object;)Lio/github/imsejin/common/assertion/lang/ObjectAssert; @6: invokespecial
+        //   Reason:
+        //     Type 'java/lang/Object' (current frame, stack[1]) is not assignable to '[Ljava/lang/Object;'
+        //   Current Frame:
+        //     bci: @6
+        //     flags: { }
+        //     locals: { 'io/github/imsejin/common/assertion/util/CollectionAssert$1', 'java/lang/Object', '[Z' }
+        //     stack: { 'io/github/imsejin/common/assertion/util/CollectionAssert$1', 'java/lang/Object' }
+        class ArrayAssertImpl extends ArrayAssert<ArrayAssertImpl, ELEMENT> {
+            ArrayAssertImpl(Descriptor<?> descriptor, ELEMENT[] actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        ELEMENT[] elements = (ELEMENT[]) this.actual.toArray(new Object[0]);
+        return new ArrayAssertImpl(this, elements);
     }
 
+    /**
+     * Converts actual value into its size.
+     *
+     * <pre>{@code
+     *     Asserts.that([1, 2, 3, 4])
+     *             .hasSize(4)
+     *             .asSize()
+     *             .isPositive();
+     * }</pre>
+     *
+     * @return assertion for integer
+     */
     public NumberAssert<?, Integer> asSize() {
-        NumberAssert<?, Integer> assertion = Asserts.that(actual.size());
-        Descriptor.merge(this, assertion);
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        int size = actual.size();
+        return new NumberAssertImpl(this, size);
     }
 
 }

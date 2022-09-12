@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 import org.junit.platform.commons.util.ReflectionUtils;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -66,6 +67,7 @@ public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
         converters.put(OffsetTime.class, OffsetTime::from);
         converters.put(ZonedDateTime.class, ZonedDateTime::from);
         converters.put(ChronoZonedDateTime.class, ChronoZonedDateTime::from);
+        converters.put(Instant.class, Instant::from);
 
         CONVERTERS = Collections.unmodifiableMap(converters);
     }
@@ -79,7 +81,7 @@ public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
 
         if (!SOURCE_TYPE.isInstance(source)) {
             String message = String.format(
-                    "%s cannot convert objects of type [%s]. Only source objects of type [%s] are supported.",
+                    "%s cannot convert objects of type [%s]. Source objects of type [%s] are supported only.",
                     getClass().getSimpleName(), source.getClass().getName(), SOURCE_TYPE.getName());
             throw new ArgumentConversionException(message);
         }

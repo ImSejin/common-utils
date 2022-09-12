@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.assertion.net;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -31,6 +30,10 @@ public class UrlAssert<
 
     public UrlAssert(URL actual) {
         super(actual);
+    }
+
+    protected UrlAssert(Descriptor<?> descriptor, URL actual) {
+        super(descriptor, actual);
     }
 
     public SELF hasHost(String expected) {
@@ -97,25 +100,36 @@ public class UrlAssert<
     // -------------------------------------------------------------------------------------------------
 
     public StringAssert<?> asHost() {
-        StringAssert<?> assertion = Asserts.that(actual.getHost());
-        Descriptor.merge(this, assertion);
+        class StringAssertImpl extends StringAssert<StringAssertImpl> {
+            StringAssertImpl(Descriptor<?> descriptor, String actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        String host = actual.getHost();
+        return new StringAssertImpl(this, host);
     }
 
     public NumberAssert<?, Integer> asPort() {
-        int port = actual.getPort() == -1 ? actual.getDefaultPort() : actual.getPort();
-        NumberAssert<?, Integer> assertion = Asserts.that(port);
-        Descriptor.merge(this, assertion);
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        int port = actual.getPort() == -1 ? actual.getDefaultPort() : actual.getPort();
+        return new NumberAssertImpl(this, port);
     }
 
     public StringAssert<?> asPath() {
-        StringAssert<?> assertion = Asserts.that(actual.getPath());
-        Descriptor.merge(this, assertion);
+        class StringAssertImpl extends StringAssert<StringAssertImpl> {
+            StringAssertImpl(Descriptor<?> descriptor, String actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        String path = actual.getPath();
+        return new StringAssertImpl(this, path);
     }
 
 }

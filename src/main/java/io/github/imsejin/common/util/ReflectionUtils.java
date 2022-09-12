@@ -133,7 +133,7 @@ public final class ReflectionUtils {
         Asserts.that(field).isNotNull();
         if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
         if (field.getType().isPrimitive()) Asserts.that(value)
-                .as("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
+                .describedAs("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
                 .isNotNull();
 
         // Enables to have access to the field even private field.
@@ -212,7 +212,7 @@ public final class ReflectionUtils {
      */
     public static <T> T instantiate(Constructor<T> constructor, @Nullable Object... initArgs) {
         Asserts.that(constructor).isNotNull();
-        if (initArgs != null) Asserts.that(initArgs).isSameLength(constructor.getParameterTypes());
+        if (initArgs != null) Asserts.that(initArgs).hasSameSizeAs(constructor.getParameterTypes());
 
         boolean accessible = constructor.isAccessible();
         if (!accessible) constructor.setAccessible(true);
@@ -244,7 +244,7 @@ public final class ReflectionUtils {
         try {
             return type.getDeclaredMethod(name, paramTypes);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -269,7 +269,7 @@ public final class ReflectionUtils {
     public static Object invoke(Method method, @Nullable Object instance, Object... args) {
         Asserts.that(method).isNotNull();
         if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
-        if (args != null) Asserts.that(args).isSameLength(method.getParameterTypes());
+        if (args != null) Asserts.that(args).hasSameSizeAs(method.getParameterTypes());
 
         boolean accessible = method.isAccessible();
         if (!accessible) method.setAccessible(true);
@@ -277,7 +277,7 @@ public final class ReflectionUtils {
         try {
             return method.invoke(instance, args);
         } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             // Turns back the accessibility of the method as it was.
             if (!accessible) method.setAccessible(false);

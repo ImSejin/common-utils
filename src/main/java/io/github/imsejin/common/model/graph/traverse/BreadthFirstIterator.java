@@ -39,12 +39,12 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
 
     public BreadthFirstIterator(Graph<E> graph, E root) {
         Asserts.that(graph)
-                .as("BreadthFirstIterator.graph is not allowed to be null")
+                .describedAs("BreadthFirstIterator.graph is not allowed to be null")
                 .isNotNull();
         Asserts.that(root)
-                .as("BreadthFirstIterator.root is not allowed to be null")
+                .describedAs("BreadthFirstIterator.root is not allowed to be null")
                 .isNotNull()
-                .as("BreadthFirstIterator.root must be in graph as a vertex: '{0}'", root)
+                .describedAs("BreadthFirstIterator.root must be in graph as a vertex: '{0}'", root)
                 .predicate(graph::containsVertex);
 
         this.graph = graph;
@@ -74,12 +74,12 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
 
     public static <E> void traverse(Graph<E> graph, E root, Consumer<E> consumer) {
         Asserts.that(graph)
-                .as("BreadthFirstIterator.graph is not allowed to be null")
+                .describedAs("BreadthFirstIterator.graph is not allowed to be null")
                 .isNotNull();
         Asserts.that(root)
-                .as("BreadthFirstIterator.root is not allowed to be null")
+                .describedAs("BreadthFirstIterator.root is not allowed to be null")
                 .isNotNull()
-                .as("BreadthFirstIterator.root must be in graph as a vertex: '{0}'", root)
+                .describedAs("BreadthFirstIterator.root must be in graph as a vertex: '{0}'", root)
                 .predicate(graph::containsVertex);
 
         Set<E> visited = new LinkedHashSet<>();

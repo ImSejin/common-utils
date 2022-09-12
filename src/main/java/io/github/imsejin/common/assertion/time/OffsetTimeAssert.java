@@ -16,13 +16,13 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.OffsetAssertable;
 import io.github.imsejin.common.assertion.time.chrono.ChronoLocalDateTimeAssert;
 import io.github.imsejin.common.assertion.time.chrono.ChronoZonedDateTimeAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
+import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
@@ -32,6 +32,10 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
 
     public OffsetTimeAssert(OffsetTime actual) {
         super(actual);
+    }
+
+    protected OffsetTimeAssert(Descriptor<?> descriptor, OffsetTime actual) {
+        super(descriptor, actual);
     }
 
     /**
@@ -75,10 +79,8 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
      * @see OffsetDateTimeAssert#asLocalTime()
      */
     public LocalTimeAssert<?> asLocalTime() {
-        LocalTimeAssert<?> assertion = Asserts.that(actual.toLocalTime());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        LocalTime localTime = actual.toLocalTime();
+        return new LocalTimeAssert<>(this, localTime);
     }
 
 }

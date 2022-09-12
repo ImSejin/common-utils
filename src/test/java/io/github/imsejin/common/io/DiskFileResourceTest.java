@@ -43,8 +43,10 @@ class DiskFileResourceTest {
         // given
         Path filePath = fileSystem.getPath("/", "temp-text.txt");
         Files.createFile(filePath);
-        byte[] bytes = new RandomString().nextString(new Random()
-                .nextInt(1024)).getBytes(StandardCharsets.UTF_8);
+        int length = new Random().nextInt(1024);
+        byte[] bytes = length == 0
+                ? new byte[0]
+                : new RandomString().nextString(length).getBytes(StandardCharsets.UTF_8);
         Files.write(filePath, bytes);
 
         // when

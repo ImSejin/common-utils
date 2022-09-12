@@ -71,7 +71,7 @@ public final class IniUtils {
 
             return ini;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -98,7 +98,7 @@ public final class IniUtils {
 
             ini.store();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

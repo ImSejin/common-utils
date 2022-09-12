@@ -45,10 +45,10 @@ abstract class AES implements Crypto {
 
     protected AES(@Pattern(".+") String key, int length, Charset charset) {
         Asserts.that(key)
-                .as("{0}.key must have {1} characters, but it isn't: '{2}'", getClass().getSimpleName(), length, key)
-                .isNotNull().hasText().hasLengthOf(length);
+                .describedAs("{0}.key must have {1} characters, but it isn't: '{2}'", getClass().getSimpleName(), length, key)
+                .isNotNull().hasText().hasSize(length);
         Asserts.that(charset)
-                .as("{0}.charset is not allowed to be null, but it is", getClass().getSimpleName(), charset)
+                .describedAs("{0}.charset is not allowed to be null, but it is", getClass().getSimpleName(), charset)
                 .isNotNull();
 
         byte[] bytes = key.getBytes(charset);
@@ -67,7 +67,7 @@ abstract class AES implements Crypto {
 
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -82,7 +82,7 @@ abstract class AES implements Crypto {
 
             return new String(decrypted, this.charset);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

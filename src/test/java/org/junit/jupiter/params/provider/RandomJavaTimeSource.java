@@ -59,7 +59,7 @@ public @interface RandomJavaTimeSource {
     /**
      * Whether source is leap year or not.
      *
-     * @return whether source is leap year or not.
+     * @return whether source is leap year or not
      */
     Switch leapYear() default Switch.NEUTRAL;
 

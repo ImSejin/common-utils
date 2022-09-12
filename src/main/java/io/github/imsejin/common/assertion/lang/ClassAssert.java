@@ -16,16 +16,25 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.util.ClassUtils;
 
 import java.lang.reflect.Modifier;
 
+/**
+ * Assertion for {@link Class}
+ *
+ * @param <SELF> this class
+ * @param <T>    class type
+ */
 public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAssert<SELF, Class<?>> {
 
     public ClassAssert(Class<T> actual) {
         super(actual);
+    }
+
+    protected ClassAssert(Descriptor<?> descriptor, Class<?> actual) {
+        super(descriptor, actual);
     }
 
     /**
@@ -164,7 +173,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is final class.
      *
-     * @return whether this is final class.
+     * @return whether this is final class
      */
     public SELF isFinalClass() {
         if (!Modifier.isFinal(actual.getModifiers())) {
@@ -178,7 +187,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is abstract class.
      *
-     * @return whether this is abstract class.
+     * @return whether this is abstract class
      */
     public SELF isAbstractClass() {
         if (!ClassUtils.isAbstractClass(actual)) {
@@ -192,7 +201,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is anonymous class.
      *
-     * @return whether this is anonymous class.
+     * @return whether this is anonymous class
      */
     public SELF isAnonymousClass() {
         if (!actual.isAnonymousClass()) {
@@ -206,7 +215,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is type of enum.
      *
-     * @return whether this is type of enum.
+     * @return whether this is type of enum
      */
     public SELF isEnum() {
         if (!ClassUtils.isEnumOrEnumConstant(actual)) {
@@ -220,7 +229,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is type of array.
      *
-     * @return whether this is type of array.
+     * @return whether this is type of array
      */
     public SELF isArray() {
         if (!actual.isArray()) {
@@ -234,7 +243,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is inner class.
      *
-     * @return whether this is inner class.
+     * @return whether this is inner class
      */
     public SELF isMemberClass() {
         if (!actual.isMemberClass()) {
@@ -248,7 +257,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     /**
      * Verifies this is local class.
      *
-     * @return whether this is local class.
+     * @return whether this is local class
      */
     public SELF isLocalClass() {
         if (!actual.isLocalClass()) {
@@ -261,18 +270,38 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
 
     // -------------------------------------------------------------------------------------------------
 
+    /**
+     * Converts actual value into its super class.
+     *
+     * <pre>{@code
+     *     Asserts.that(Object.class)
+     *             .isEqualTo(Object.class)
+     *             .asSuperclass()
+     *             .isNull();
+     * }</pre>
+     *
+     * @return assertion for class
+     */
     public ClassAssert<?, ?> asSuperclass() {
-        ClassAssert<?, ?> assertion = Asserts.that(actual.getSuperclass());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Class<?> superclass = actual.getSuperclass();
+        return new ClassAssert<>(this, superclass);
     }
 
+    /**
+     * Converts actual value into its package.
+     *
+     * <pre>{@code
+     *     Asserts.that(Object.class)
+     *             .isEqualTo(Object.class)
+     *             .asPackage()
+     *             .isSuperPackageOf(Package.getPackage("java.lang.reflect"));
+     * }</pre>
+     *
+     * @return assertion for package
+     */
     public PackageAssert<?> asPackage() {
-        PackageAssert<?> assertion = Asserts.that(actual.getPackage());
-        Descriptor.merge(this, assertion);
-
-        return assertion;
+        Package pack = actual.getPackage();
+        return new PackageAssert<>(this, pack);
     }
 
 }

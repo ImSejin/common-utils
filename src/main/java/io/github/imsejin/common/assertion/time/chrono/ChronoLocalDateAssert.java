@@ -16,9 +16,14 @@
 
 package io.github.imsejin.common.assertion.time.chrono;
 
+import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
+import io.github.imsejin.common.assertion.time.MonthDayAssert;
+import io.github.imsejin.common.assertion.time.YearMonthAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
+import java.time.MonthDay;
+import java.time.YearMonth;
 import java.time.chrono.ChronoLocalDate;
 
 public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
@@ -27,6 +32,10 @@ public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
 
     public ChronoLocalDateAssert(ChronoLocalDate actual) {
         super(actual);
+    }
+
+    protected ChronoLocalDateAssert(Descriptor<?> descriptor, ChronoLocalDate actual) {
+        super(descriptor, actual);
     }
 
     @Override
@@ -47,6 +56,30 @@ public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
         }
 
         return self;
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    public YearMonthAssert<?> asYearMonth() {
+        class YearMonthAssertImpl extends YearMonthAssert<YearMonthAssertImpl> {
+            YearMonthAssertImpl(Descriptor<?> descriptor, YearMonth actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        YearMonth yearMonth = YearMonth.from(actual);
+        return new YearMonthAssertImpl(this, yearMonth);
+    }
+
+    public MonthDayAssert<?> asMonthDay() {
+        class MonthDayAssertImpl extends MonthDayAssert<MonthDayAssertImpl> {
+            MonthDayAssertImpl(Descriptor<?> descriptor, MonthDay actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        MonthDay monthDay = MonthDay.from(actual);
+        return new MonthDayAssertImpl(this, monthDay);
     }
 
 }

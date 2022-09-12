@@ -39,13 +39,13 @@ public abstract class ArchiveResourceFinder<
     @Override
     public List<Resource> getResources(Path path) {
         Asserts.that(path)
-                .as("Invalid path to find resources: {0}", path)
+                .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
-                .as("No such path exists: {0}", path)
+                .describedAs("No such path exists: {0}", path)
                 .predicate(Files::exists)
-                .as("It is not a regular file: {0}", path)
+                .describedAs("It is not a regular file: {0}", path)
                 .predicate(Files::isRegularFile)
-                .as("Cannot read file: {0}", path)
+                .describedAs("Cannot read file: {0}", path)
                 .predicate(Files::isReadable);
 
         try (I in = getArchiveInputStream(Files.newInputStream(path))) {

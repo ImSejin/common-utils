@@ -27,7 +27,7 @@ public final class TestUtils {
         try (InputStream inputStream = in) {
             return IOUtils.readRange(inputStream, Integer.MAX_VALUE);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

@@ -16,15 +16,18 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.Period;
 import java.util.Comparator;
 
-public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<SELF, Period> {
+public class PeriodAssert<
+        SELF extends PeriodAssert<SELF>>
+        extends ObjectAssert<SELF, Period>
+        implements SizeComparisonAssertable<SELF, Period> {
 
     private static final Comparator<Period> COMPARATOR = (o1, o2) -> {
         int total1 = (((o1.getYears() * 12) + o1.getMonths()) * 30) + o1.getDays();
@@ -37,40 +40,44 @@ public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<
         super(actual);
     }
 
+    protected PeriodAssert(Descriptor<?> descriptor, Period actual) {
+        super(descriptor, actual);
+    }
+
+    @Override
     public SELF isGreaterThan(Period expected) {
         if (COMPARATOR.compare(actual, expected) <= 0) {
-            setDefaultDescription("It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isGreaterThanOrEqualTo(Period expected) {
         if (COMPARATOR.compare(actual, expected) < 0) {
-            setDefaultDescription("It is expected to be greater than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isLessThan(Period expected) {
         if (COMPARATOR.compare(actual, expected) >= 0) {
-            setDefaultDescription("It is expected to be less than the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isLessThanOrEqualTo(Period expected) {
         if (COMPARATOR.compare(actual, expected) > 0) {
-            setDefaultDescription("It is expected to be less than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
             throw getException();
         }
 
@@ -116,11 +123,14 @@ public class PeriodAssert<SELF extends PeriodAssert<SELF>> extends ObjectAssert<
     // -------------------------------------------------------------------------------------------------
 
     public NumberAssert<?, Integer> asTotalDays() {
-        int totalDays = (((actual.getYears() * 12) + actual.getMonths()) * 30) + actual.getDays();
-        NumberAssert<?, Integer> assertion = Asserts.that(totalDays);
-        Descriptor.merge(this, assertion);
+        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
+            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+                super(descriptor, actual);
+            }
+        }
 
-        return assertion;
+        int totalDays = (((actual.getYears() * 12) + actual.getMonths()) * 30) + actual.getDays();
+        return new NumberAssertImpl(this, totalDays);
     }
 
 }
