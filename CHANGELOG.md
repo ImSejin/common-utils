@@ -34,6 +34,7 @@
 - ♻️ Refactor: assertion `AbstractTemporalAccessorAssert`, `DateAssert`, `NumberAssert`, `IterationAssertable`
   , `CharacterAssert`, `CharSequenceAssert`, `StringAssert`
 - 🔥 Remove: method `findElement(Collection, Predicate)` in `CollectionUtils`
+- 🔥 Remove: method `start(String)` in `Stopwatch`
 - 🔥 Remove: protected method `Descriptor.merge(Descriptor, Descriptor)`
 - 🚚 Rename: method `as(String, Object...)` to `describedAs(String, Object...)` in `Descriptor`
 - 🚚 Rename: method `exception(Function)` to `thrownBy(Function)` in `Descriptor`
@@ -70,6 +71,7 @@
 
 ### Troubleshooting
 
+- 🐞 Fix: wrong calculation for `Stopwatch` to print percentage of each task
 - 🐞 Fix: wrong check for parameter in `ObjectAssert.returns(Object, Function)`
 - 🐞 Fix: wrong assertion logic for `containsAny(ELEMENT)`, `containsOnly(ELEMENT)` in `IterationAssertable`
 
