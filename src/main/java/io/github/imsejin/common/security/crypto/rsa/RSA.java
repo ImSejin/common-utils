@@ -71,8 +71,8 @@ public class RSA implements Crypto {
     /**
      * Returns an instance of {@link RSA} with the given
      * public key and private key.
-     * <p>
-     * These key might be not pair.
+     *
+     * <p> These keys might be not pair.
      *
      * @param publicKey  public key
      * @param privateKey private key

@@ -23,6 +23,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Time-limited security object for verification
+ */
 public class Verification {
 
     private final Object credentials;
@@ -31,6 +34,12 @@ public class Verification {
 
     private final LocalDateTime createdDateTime = LocalDateTime.now();
 
+    /**
+     * Creates an instance.
+     *
+     * @param credentials credentials
+     * @param duration    time limit
+     */
     public Verification(Object credentials, Duration duration) {
         Asserts.that(credentials)
                 .describedAs("Verification.credentials is allowed to be null")
@@ -45,6 +54,12 @@ public class Verification {
         this.duration = duration;
     }
 
+    /**
+     * Verifies that credentials is valid and time limit is not expired.
+     *
+     * @param credentials credentials
+     * @return result of verification
+     */
     public boolean verify(Object credentials) {
         // We determine that the cost of comparing credentials is cheaper
         // than the cost of comparing whether the verification time has expired,
@@ -54,6 +69,11 @@ public class Verification {
         return !isExpired();
     }
 
+    /**
+     * Returns whether time limit is expired or not.
+     *
+     * @return expiration of time limit
+     */
     public boolean isExpired() {
         Duration duration = Duration.between(this.createdDateTime, LocalDateTime.now());
 
@@ -68,14 +88,29 @@ public class Verification {
         return thatDuration.compareTo(thisDuration) > 0;
     }
 
+    /**
+     * Returns credentials for verification.
+     *
+     * @return credentials
+     */
     public Object getCredentials() {
         return this.credentials;
     }
 
+    /**
+     * Returns time limit for verification.
+     *
+     * @return time limit
+     */
     public Duration getDuration() {
         return this.duration;
     }
 
+    /**
+     * Returns created date and time of verification.
+     *
+     * @return created date and time
+     */
     public LocalDateTime getCreatedDateTime() {
         return this.createdDateTime;
     }
