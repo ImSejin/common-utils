@@ -404,4 +404,25 @@ class StopwatchSpec extends Specification {
         TimeUnit.DAYS         | "days"
     }
 
+    def "Gets the percentage of task"() {
+        given:
+        def task = new Task("taskName", 0, elapsedNanoTime as long)
+
+        when:
+        def percentage = task.getPercentage(totalTime as BigDecimal, timeUnit)
+
+        then:
+        percentage == expected
+
+        where:
+        elapsedNanoTime | totalTime | timeUnit              || expected
+        998             | 1000      | TimeUnit.NANOSECONDS  || 99.8
+        3.14E+3         | 100       | TimeUnit.MICROSECONDS || 3.14
+        1.4142135E+6    | 10        | TimeUnit.MILLISECONDS || 14.1421
+        1.25E+6         | 1         | TimeUnit.SECONDS      || 0.125
+        2.449489E+9     | 0.1       | TimeUnit.MINUTES      || 40.8248
+        3.6E+10         | 0.01      | TimeUnit.HOURS        || 100
+        0               | 0         | TimeUnit.DAYS         || 0
+    }
+
 }
