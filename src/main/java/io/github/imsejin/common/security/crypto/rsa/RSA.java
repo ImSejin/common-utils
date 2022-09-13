@@ -28,7 +28,6 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -89,7 +88,7 @@ public class RSA implements Crypto {
 
         try {
             KeyPairGenerator generator = KeyPairGenerator.getInstance(ALGORITHM);
-            generator.initialize(keySize, new SecureRandom());
+            generator.initialize(keySize);
 
             return generator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
@@ -119,10 +118,24 @@ public class RSA implements Crypto {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     @Override
     public String encrypt(String text) {
         return encryptWithPrivateKey(text);
     }
+
+    @Override
+    public String decrypt(String cipherText) {
+        return decryptWithPublicKey(cipherText);
+    }
+
+    @Override
+    public String getKey() {
+        return getPublicKey();
+    }
+
+    // -------------------------------------------------------------------------------------------------
 
     public String encryptWithPublicKey(String text) {
         try {
@@ -150,11 +163,6 @@ public class RSA implements Crypto {
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
-    }
-
-    @Override
-    public String decrypt(String cipherText) {
-        return decryptWithPublicKey(cipherText);
     }
 
     public String decryptWithPublicKey(String cipherText) {
@@ -185,11 +193,6 @@ public class RSA implements Crypto {
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
-    }
-
-    @Override
-    public String getKey() {
-        return getPublicKey();
     }
 
     public String getPublicKey() {

@@ -41,7 +41,7 @@ class StopwatchSpec extends Specification {
         stopwatch.timeUnit = timeUnit as TimeUnit
 
         then: """
-            Stopwatch returns timeUnit as set.
+            Stopwatch returns timeUnit as it is given.
         """
         stopwatch.timeUnit == timeUnit
 
@@ -63,7 +63,7 @@ class StopwatchSpec extends Specification {
         def stopwatch = new Stopwatch(timeUnit as TimeUnit)
 
         then: """
-            Stopwatch returns timeUnit as set.
+            Stopwatch returns timeUnit as it is given.
         """
         stopwatch.timeUnit == timeUnit
 
@@ -71,7 +71,7 @@ class StopwatchSpec extends Specification {
         new Stopwatch(null)
 
         then: """
-            Stopwatch doesn't allow you to change timeUnit into null.
+            Stopwatch doesn't allow you to set null to timeUnit.
         """
         def e = thrown IllegalArgumentException
         e.message == "Stopwatch.timeUnit cannot be null"
@@ -250,11 +250,10 @@ class StopwatchSpec extends Specification {
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def timeoutMillis = 100
 
         when:
         stopwatch.start()
-        TimeUnit.MILLISECONDS.sleep(timeoutMillis)
+        sleep(50)
         stopwatch.stop()
         def totalTime = stopwatch.totalTime
 
@@ -282,7 +281,7 @@ class StopwatchSpec extends Specification {
 
         when:
         stopwatch.start()
-        TimeUnit.MILLISECONDS.sleep(50)
+        sleep(50)
         stopwatch.stop()
         def summary = stopwatch.summary
 
@@ -309,7 +308,7 @@ class StopwatchSpec extends Specification {
         def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
         def pattern = Pattern.compile("^${stopwatch.summary.replace(".", "\\.")}\n"
                 + "-{40}\n"
-                + "${abbreviation} {2,}% {2,}TASK_NAME\n"
+                + "$abbreviation {2,}% {2,}TASK_NAME\n"
                 + "-{40}\n"
                 + "(\\d+(\\.\\d+)? {2,}\\d{1,3}\\.\\d{2} {2}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
                 Pattern.DOTALL)
