@@ -157,7 +157,7 @@ public final class Stopwatch {
         long elapsedNanoTime = System.nanoTime() - this.startNanoTime;
         this.totalNanoTime += elapsedNanoTime;
 
-        Task task = new Task(elapsedNanoTime, this.currentTaskName, this.tasks.size());
+        Task task = new Task(this.currentTaskName, this.tasks.size(), elapsedNanoTime);
         this.tasks.add(task);
 
         this.currentTaskName = null;
@@ -328,25 +328,16 @@ public final class Stopwatch {
      * Task of stopwatch
      */
     public static final class Task {
-        private final long elapsedNanoTime;
         private final String name;
         private final int order;
+        private final long elapsedNanoTime;
 
         @VisibleForTesting
-        Task(@Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime, @NotNull String name,
-             @Range(from = 0, to = Integer.MAX_VALUE) int order) {
-            this.elapsedNanoTime = elapsedNanoTime;
+        Task(@NotNull String name, @Range(from = 0, to = Integer.MAX_VALUE - 1) int order,
+             @Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime) {
             this.name = name;
             this.order = order;
-        }
-
-        /**
-         * Returns task time with nanoseconds.
-         *
-         * @return task time
-         */
-        public long getElapsedNanoTime() {
-            return this.elapsedNanoTime;
+            this.elapsedNanoTime = elapsedNanoTime;
         }
 
         /**
@@ -367,6 +358,15 @@ public final class Stopwatch {
             return this.order;
         }
 
+        /**
+         * Returns task time with nanoseconds.
+         *
+         * @return task time
+         */
+        public long getElapsedNanoTime() {
+            return this.elapsedNanoTime;
+        }
+
         @VisibleForTesting
         String getDisplayTime(TimeUnit timeUnit) {
             BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
@@ -384,8 +384,8 @@ public final class Stopwatch {
             }
 
             BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
-            BigDecimal taskTime = convertTimeUnit(elapsedNanoTime, TimeUnit.NANOSECONDS, timeUnit);
-            BigDecimal ratio = taskTime.divide(totalTime, DECIMAL_PLACE, RoundingMode.HALF_UP);
+            BigDecimal taskTime = convertTimeUnit(totalTime, timeUnit, TimeUnit.NANOSECONDS);
+            BigDecimal ratio = elapsedNanoTime.divide(taskTime, DECIMAL_PLACE, RoundingMode.HALF_UP);
 
             return ratio.multiply(BigDecimal.valueOf(100L));
         }

@@ -238,7 +238,7 @@ class StopwatchSpec extends Specification {
         }
 
         when:
-        stopwatch.tasks << new Task(0, "new task", stopwatch.tasks.size())
+        stopwatch.tasks << new Task("new task", stopwatch.tasks.size(), 0)
 
         then: """
             Stopwatch.tasks are unmodifiable.
