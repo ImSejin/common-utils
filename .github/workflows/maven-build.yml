@@ -36,7 +36,7 @@ jobs:
         cache: "maven"
 
     - name: Build with Maven
-      run: mvnw clean package -B --file pom.xml
+      run: ./mvnw clean package -B --file pom.xml
 
     - name: Send code coverage to Codecov
       uses: codecov/codecov-action@v2
