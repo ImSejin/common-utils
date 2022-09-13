@@ -1,6 +1,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.constant.DateType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,8 +11,9 @@ import org.junit.jupiter.params.converter.JavaTimeFormat;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -215,23 +217,25 @@ class DateAssertTest {
     @Nested
     @DisplayName("method 'isLeapYear'")
     class IsLeapYear {
-        @ParameterizedTest
-        @RandomJavaTimeSource(leapYear = Switch.ON)
+        @ParameterizedTest // It seems that java.util.Date works on common era(AD).
+        @RandomJavaTimeSource(leapYear = Switch.ON, start = "0001-01-01T00:00:00")
         @DisplayName("passes, when actual is leap year")
-        void test0(@ConvertJavaTime LocalDateTime dateTime) {
+        void test0(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
+            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
+            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
 
-        @ParameterizedTest
-        @RandomJavaTimeSource(leapYear = Switch.OFF)
+        @ParameterizedTest // It seems that java.util.Date works on common era(AD).
+        @RandomJavaTimeSource(leapYear = Switch.OFF, start = "0001-01-01T00:00:00")
         @DisplayName("throws exception, when actual is not leap year")
-        void test1(@ConvertJavaTime LocalDateTime dateTime) {
+        void test1(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
+            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
+            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
 
             // expect
             assertThatIllegalArgumentException()
@@ -245,23 +249,25 @@ class DateAssertTest {
     @Nested
     @DisplayName("method 'isNotLeapYear'")
     class IsNotLeapYear {
-        @ParameterizedTest
-        @RandomJavaTimeSource(leapYear = Switch.OFF)
+        @ParameterizedTest // It seems that java.util.Date works on common era(AD).
+        @RandomJavaTimeSource(leapYear = Switch.OFF, start = "0001-01-01T00:00:00")
         @DisplayName("passes, when actual is not leap year")
-        void test0(@ConvertJavaTime LocalDateTime dateTime) {
+        void test0(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
+            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
+            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
 
-        @ParameterizedTest
-        @RandomJavaTimeSource(leapYear = Switch.ON)
+        @ParameterizedTest // It seems that java.util.Date works on common era(AD).
+        @RandomJavaTimeSource(leapYear = Switch.ON, start = "0001-01-01T00:00:00")
         @DisplayName("throws exception, when actual is leap year")
-        void test1(@ConvertJavaTime LocalDateTime dateTime) {
+        void test1(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
+            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
+            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
 
             // expect
             assertThatIllegalArgumentException()
