@@ -10,7 +10,8 @@ import org.junit.jupiter.params.converter.JavaTimeFormat;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -217,24 +218,24 @@ class DateAssertTest {
         @ParameterizedTest
         @RandomJavaTimeSource(leapYear = Switch.ON)
         @DisplayName("passes, when actual is leap year")
-        void test0(@ConvertJavaTime Instant actual) {
+        void test0(@ConvertJavaTime LocalDateTime dateTime) {
             // given
-            Date date = Date.from(actual);
+            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(date).isLeapYear());
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
         }
 
         @ParameterizedTest
         @RandomJavaTimeSource(leapYear = Switch.OFF)
         @DisplayName("throws exception, when actual is not leap year")
-        void test1(@ConvertJavaTime Instant actual) {
+        void test1(@ConvertJavaTime LocalDateTime dateTime) {
             // given
-            Date date = Date.from(actual);
+            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
 
             // expect
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(date).isLeapYear())
+                    .isThrownBy(() -> Asserts.that(actual).isLeapYear())
                     .withMessageStartingWith("It is expected to be leap year, but it isn't.");
         }
     }
@@ -247,24 +248,24 @@ class DateAssertTest {
         @ParameterizedTest
         @RandomJavaTimeSource(leapYear = Switch.OFF)
         @DisplayName("passes, when actual is not leap year")
-        void test0(@ConvertJavaTime Instant actual) {
+        void test0(@ConvertJavaTime LocalDateTime dateTime) {
             // given
-            Date date = Date.from(actual);
+            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(date).isNotLeapYear());
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
         }
 
         @ParameterizedTest
         @RandomJavaTimeSource(leapYear = Switch.ON)
         @DisplayName("throws exception, when actual is leap year")
-        void test1(@ConvertJavaTime Instant actual) {
+        void test1(@ConvertJavaTime LocalDateTime dateTime) {
             // given
-            Date date = Date.from(actual);
+            Date actual = Date.from(dateTime.toInstant(ZoneOffset.UTC));
 
             // expect
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(date).isNotLeapYear())
+                    .isThrownBy(() -> Asserts.that(actual).isNotLeapYear())
                     .withMessageStartingWith("It is expected not to be leap year, but it is.");
         }
     }
