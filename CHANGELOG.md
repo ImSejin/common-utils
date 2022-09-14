@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [v0.11.1](#v0111):
 - [v0.11.0](#v0110): 2022-09-12
 - [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
@@ -26,6 +27,26 @@
 - [v0.1.2](#v012): 2020-09-27
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
+
+# v0.11.1
+
+### Modification
+
+- ♻️ Refactor:
+- 🔥 Remove:
+- 🚚 Rename:
+
+### New features
+
+- ✨ Add:
+
+### Troubleshooting
+
+- 🐞 Fix: wrong print of `Stopwatch.getStatistics()`
+
+### Dependencies
+
+- ⬆️ Upgrade:
 
 # v0.11.0
 
