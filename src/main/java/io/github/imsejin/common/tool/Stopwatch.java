@@ -277,7 +277,7 @@ public final class Stopwatch {
             BigDecimal percentage = this.tasks.size() == 1
                     ? BigDecimal.valueOf(100L)
                     : task.getPercentage(totalTime, this.timeUnit);
-            sb.append(String.format("%.2f", percentage)).append("  ");
+            sb.append(String.format("%-6.2f", percentage)).append("  ");
 
             sb.append(task.name).append('\n');
         }

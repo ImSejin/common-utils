@@ -310,7 +310,7 @@ class StopwatchSpec extends Specification {
                 + "-{40}\n"
                 + "$abbreviation {2,}% {2,}TASK_NAME\n"
                 + "-{40}\n"
-                + "(\\d+(\\.\\d+)? {2,}\\d{1,3}\\.\\d{2} {2}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
+                + "(\\d+(\\.\\d+)? {2,}\\d{1,3}\\.\\d{2} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
                 Pattern.DOTALL)
         stopwatch.statistics.matches(pattern)
 
