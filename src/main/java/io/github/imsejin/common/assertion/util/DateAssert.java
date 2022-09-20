@@ -13,6 +13,12 @@ import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Assertion for {@link Date}
+ *
+ * @param <SELF>   this class
+ * @param <ACTUAL> type of date
+ */
 public class DateAssert<
         SELF extends DateAssert<SELF, ACTUAL>,
         ACTUAL extends Date>
