@@ -1144,4 +1144,27 @@ class ConversionTest {
 
     // -------------------------------------------------------------------------------------------------
 
+    @Nested
+    class UuidAssert {
+        @Test
+        @DisplayName("asVersion(): UUID -> Integer")
+        void asVersion() {
+            // given
+            UUID uuid = UUID.randomUUID();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(uuid)
+                    .isNotNull().isNotNil().isEqualTo(UUID.fromString(uuid.toString()))
+                    .asVersion().isBetween(0, 15).predicate(it -> it == 4));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(uuid)
+                            .describedAs("Description of assertion: {0}", uuid)
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asVersion().isNegative())
+                    .withMessage("Description of assertion: " + uuid);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
 }
