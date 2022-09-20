@@ -38,7 +38,7 @@
 
 ### New features
 
-- ✨ Add:
+- ✨ Add: assertion class `UuidAssert`
 
 ### Troubleshooting
 
@@ -179,7 +179,7 @@
 - 🔥 Remove: redundant annotation `@Nonnull` on parameter
 - ♻️ Replace: methods `box` with `wrap(Object)` in `ArrayUtils`
 - ♻️ Replace: methods `unbox` with `unwrap(Object)` in `ArrayUtils`
-- ♻️ Replace: `assertion.DecimalNumberAssertion` with `assertion.composition.DecimalNumberAssertion`
+- ♻️ Replace: `assertion.DecimalNumberAssertion` with `assertion.composition.DecimalNumberAssertable`
 - ♻️ Replace: `assertion.object.AbstractObjectAssert` with `assertion.lang.ObjectAssert`
 - ♻️ Replace: `assertion.chars.AbstractCharSequenceAssert` with `assertion.lang.CharSequenceAssert`
 - ♻️ Replace: `assertion.time.OffsetAssertion` with `assertion.composition.OffsetAssertable`
