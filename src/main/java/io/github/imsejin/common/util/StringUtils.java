@@ -370,7 +370,7 @@ public final class StringUtils {
     }
 
     /**
-     * 가장 마지막에 일치하는 문구를 원하는 문구로 대체한다.
+     * Replaces the last substring of string that matches the given regular expression with the given replacement.
      *
      * <pre><code>
      *     replaceLast("ABC%DEF%GHI", "%", "-");   // "ABC%DEF-GHI"
