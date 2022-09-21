@@ -253,24 +253,28 @@ class StopwatchSpec extends Specification {
 
         when:
         stopwatch.start()
-        sleep(50)
+        sleep(20)
         stopwatch.stop()
         def totalTime = stopwatch.totalTime
 
         then: """
-            Stopwatch.totalTime is equal to expected within 1.0E-9998% error.
+            Stopwatch.totalTime is equal to expected within 75% error.
         """
-        totalTime * (1.0 - 1.0E-10000) < expected || expected < totalTime * (1.0 + 1.0E-10000)
+        def min = (expected * (1.0 - 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
+        def max = (expected * (1.0 + 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
+        min < totalTime && totalTime < max
 
         where:
         timeUnit              | expected
-        TimeUnit.NANOSECONDS  | (100 as BigDecimal) * 1_000_000
-        TimeUnit.MICROSECONDS | (100 as BigDecimal) * 1_000
-        TimeUnit.MILLISECONDS | (100 as BigDecimal)
-        TimeUnit.SECONDS      | (100 as BigDecimal) / 1_000
-        TimeUnit.MINUTES      | (100 as BigDecimal) / 1_000 / 60
-        TimeUnit.HOURS        | (100 as BigDecimal) / 1_000 / 60 / 60
-        TimeUnit.DAYS         | (100 as BigDecimal) / 1_000 / 60 / 60 / 24
+        TimeUnit.NANOSECONDS  | (20 as BigDecimal) * 1_000_000
+        TimeUnit.MICROSECONDS | (20 as BigDecimal) * 1_000
+        TimeUnit.MILLISECONDS | 20 as BigDecimal
+        TimeUnit.SECONDS      | (20 as BigDecimal) / 1_000
+        TimeUnit.MINUTES      | (20 as BigDecimal) / 1_000 / 60
+        TimeUnit.HOURS        | (20 as BigDecimal) / 1_000 / 60 / 60
+        TimeUnit.DAYS         | (20 as BigDecimal) / 1_000 / 60 / 60 / 24
+    }
+
     }
 
     def "Gets summary of stopwatch"() {
@@ -294,7 +298,7 @@ class StopwatchSpec extends Specification {
 
     def "Gets statistics of stopwatch"() {
         given:
-        def stopwatch = new Stopwatch(timeUnit as TimeUnit)
+        def stopwatch = new Stopwatch(timeUnit)
         def randomString = new RandomString()
 
         when:
@@ -305,7 +309,7 @@ class StopwatchSpec extends Specification {
         }
 
         then:
-        def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
+        def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit)
         def pattern = Pattern.compile("^${stopwatch.summary.replace(".", "\\.")}\n"
                 + "-{40}\n"
                 + "$abbreviation {2,}% {2,}TASK_NAME\n"
