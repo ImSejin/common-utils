@@ -256,8 +256,6 @@ public final class Stopwatch {
      * @see #getSummary()
      */
     public String getStatistics() {
-        BigDecimal totalTime = getTotalTime().setScale(DECIMAL_PLACE, RoundingMode.HALF_UP);
-
         final int timeUnitIndex = this.tasks.stream()
                 .mapToInt(task -> task.getDisplayTime(this.timeUnit).length())
                 .max().orElse(0);
@@ -268,6 +266,8 @@ public final class Stopwatch {
         sb.append("\n----------------------------------------\n");
         sb.append(timeUnitColumn).append("  ").append(String.format("%-6c", '%')).append("  ").append("TASK_NAME");
         sb.append("\n----------------------------------------\n");
+
+        BigDecimal totalTime = getTotalTime();
 
         for (Task task : this.tasks) {
             String displayTime = task.getDisplayTime(this.timeUnit);
