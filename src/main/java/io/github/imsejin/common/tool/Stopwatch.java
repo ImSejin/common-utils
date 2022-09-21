@@ -232,6 +232,24 @@ public final class Stopwatch {
     }
 
     /**
+     * Returns the average of all saved tasks.
+     *
+     * <p> This average time will be converted with {@link Stopwatch#timeUnit}
+     * and shown up to the millionths(sixth after decimal point).
+     *
+     * @return the average of task times
+     * @throws UnsupportedOperationException if stopwatch has never been stopped
+     */
+    public BigDecimal getAverageTime() {
+        BigDecimal totalTime = BigDecimal.valueOf(this.totalNanoTime);
+        BigDecimal taskCount = BigDecimal.valueOf(this.tasks.size());
+
+        BigDecimal amount = totalTime.divide(taskCount, 10, RoundingMode.HALF_UP);
+
+        return convertTimeUnit(amount, TimeUnit.NANOSECONDS, this.timeUnit);
+    }
+
+    /**
      * Returns total time and abbreviation of {@link Stopwatch#timeUnit}.
      *
      * @return summary of stopwatch

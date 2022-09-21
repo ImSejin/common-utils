@@ -275,6 +275,36 @@ class StopwatchSpec extends Specification {
         TimeUnit.DAYS         | (20 as BigDecimal) / 1_000 / 60 / 60 / 24
     }
 
+    def "Gets average time"() {
+        given:
+        def stopwatch = new Stopwatch(timeUnit)
+        def randomString = new RandomString()
+        def taskCount = Math.max(1, new Random().nextInt(10))
+
+        when:
+        (0..<taskCount).each {
+            stopwatch.start("task-%d: %s", it, randomString.nextString(8))
+            sleep(taskTimeMillis)
+            stopwatch.stop()
+        }
+        def averageTime = stopwatch.averageTime
+
+        then: """
+            Stopwatch.averageTime is equal to expected within 75% error.
+        """
+        def min = (expected * (1.0 - 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
+        def max = (expected * (1.0 + 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
+        min < averageTime && averageTime < max
+
+        where:
+        timeUnit              | taskTimeMillis || expected
+        TimeUnit.NANOSECONDS  | 10             || (taskTimeMillis as BigDecimal) * 1_000_000
+        TimeUnit.MICROSECONDS | 20             || (taskTimeMillis as BigDecimal) * 1_000
+        TimeUnit.MILLISECONDS | 30             || (taskTimeMillis as BigDecimal)
+        TimeUnit.SECONDS      | 10             || (taskTimeMillis as BigDecimal) / 1_000
+        TimeUnit.MINUTES      | 20             || (taskTimeMillis as BigDecimal) / 1_000 / 60
+        TimeUnit.HOURS        | 30             || (taskTimeMillis as BigDecimal) / 1_000 / 60 / 60
+        TimeUnit.DAYS         | 40             || (taskTimeMillis as BigDecimal) / 1_000 / 60 / 60 / 24
     }
 
     def "Gets summary of stopwatch"() {
