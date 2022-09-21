@@ -506,7 +506,7 @@ public final class StringUtils {
      * @return repeated string
      */
     public static String repeat(char c, int cnt) {
-        return String.join("", Collections.nCopies(cnt, String.valueOf(c)));
+        return repeat(String.valueOf(c), cnt);
     }
 
     /**
