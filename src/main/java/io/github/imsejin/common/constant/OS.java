@@ -57,7 +57,7 @@ public enum OS {
     private static final OS CURRENT_OS;
 
     static {
-        String osName = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+        String osName = System.getProperty("os.name").toLowerCase(Locale.US);
 
         OS os;
         if (osName.contains("linux")) {

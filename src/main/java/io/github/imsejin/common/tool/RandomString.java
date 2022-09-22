@@ -18,6 +18,7 @@ package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.constant.Locales;
+import io.github.imsejin.common.util.StringUtils;
 import org.jetbrains.annotations.VisibleForTesting;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -52,10 +53,10 @@ public class RandomString {
         languageUnicodeRangeMap.put(Locales.ARABIC.getLanguage(), Collections.singletonList("1536-1791"));
 
         // Chinese: U+4E00..U+9FCC (CJK Unified Ideographs)
-        languageUnicodeRangeMap.put(Locale.CHINESE.getLanguage(), Collections.singletonList("19968-40908"));
+        languageUnicodeRangeMap.put(Locales.CHINESE.getLanguage(), Collections.singletonList("19968-40908"));
 
         // English: U+0041..U+005A, U+0061..U+007A
-        languageUnicodeRangeMap.put(Locale.ENGLISH.getLanguage(), Arrays.asList("65-90", "97-122"));
+        languageUnicodeRangeMap.put(Locales.ENGLISH.getLanguage(), Arrays.asList("65-90", "97-122"));
 
         // Hebrew: U+0590..U+05FF
         languageUnicodeRangeMap.put(Locales.HEBREW.getLanguage(), Collections.singletonList("1424-1535"));
@@ -64,10 +65,10 @@ public class RandomString {
         languageUnicodeRangeMap.put(Locales.HINDI.getLanguage(), Collections.singletonList("2304-3455"));
 
         // Japanese: U+3041..U+3096, U+30A1..U+30FA
-        languageUnicodeRangeMap.put(Locale.JAPANESE.getLanguage(), Arrays.asList("12353-12438", "12449-12538"));
+        languageUnicodeRangeMap.put(Locales.JAPANESE.getLanguage(), Arrays.asList("12353-12438", "12449-12538"));
 
         // Korean: U+AC00..U+D7A3
-        languageUnicodeRangeMap.put(Locale.KOREAN.getLanguage(), Collections.singletonList("44032-55203"));
+        languageUnicodeRangeMap.put(Locales.KOREAN.getLanguage(), Collections.singletonList("44032-55203"));
 
         LANGUAGE_UNICODE_POINT_MAP = languageUnicodeRangeMap.entrySet().stream()
                 .map(e -> new SimpleEntry<>(e.getKey(), Collections.unmodifiableList(e.getValue())))
@@ -91,7 +92,7 @@ public class RandomString {
      * @param random instance of custom random
      */
     public RandomString(Random random) {
-        this(random, Locale.ENGLISH);
+        this(random, Locales.ENGLISH);
     }
 
     /**
@@ -111,15 +112,26 @@ public class RandomString {
      *
      * @param random instance of custom random
      * @param locale language to use in
+     * @throws UnsupportedOperationException if the locale is not supported
      */
     public RandomString(Random random, Locale locale) {
-        this.random = random;
+        Asserts.that(random)
+                .describedAs("RandomString.random cannot be null")
+                .isNotNull();
+        Asserts.that(locale)
+                .describedAs("RandomString.locale cannot be null")
+                .isNotNull()
+                .describedAs("RandomString.locale has invalid language: '{0}'", locale.getLanguage())
+                .predicate(it -> !StringUtils.isNullOrBlank(it.getLanguage()));
 
         // Resolves symbols by locale.
-        StringBuilder sb = new StringBuilder();
+        List<String> unicodePointRanges = LANGUAGE_UNICODE_POINT_MAP.get(locale.getLanguage());
+        Asserts.that(unicodePointRanges)
+                .describedAs("Unsupported locale for RandomString: {0}", locale)
+                .thrownBy(UnsupportedOperationException::new)
+                .isNotNull().isNotEmpty();
 
-        List<String> unicodePointRanges = LANGUAGE_UNICODE_POINT_MAP.getOrDefault(locale.getLanguage(),
-                LANGUAGE_UNICODE_POINT_MAP.get(Locale.ENGLISH.getLanguage()));
+        StringBuilder sb = new StringBuilder();
         for (String range : unicodePointRanges) {
             String[] codePoints = range.split("-");
 
@@ -136,6 +148,7 @@ public class RandomString {
             }
         }
 
+        this.random = random;
         this.symbols = sb.toString().toCharArray();
     }
 
