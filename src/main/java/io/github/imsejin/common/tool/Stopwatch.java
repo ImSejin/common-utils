@@ -28,6 +28,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -307,15 +308,19 @@ public final class Stopwatch {
 
     @VisibleForTesting
     static BigDecimal convertTimeUnit(BigDecimal amount, TimeUnit from, TimeUnit to) {
+        BigDecimal converted;
+
         if (from == to) {
-            return amount;
+            converted = amount;
         } else if (from.ordinal() < to.ordinal()) {
             BigDecimal divisor = BigDecimal.valueOf(from.convert(1, to));
-            return amount.divide(divisor, 10, RoundingMode.HALF_UP);
+            converted = amount.divide(divisor, 10, RoundingMode.HALF_UP);
         } else {
             BigDecimal multiplicand = BigDecimal.valueOf(to.convert(1, from));
-            return amount.multiply(multiplicand);
+            converted = amount.multiply(multiplicand);
         }
+
+        return converted.stripTrailingZeros();
     }
 
     @VisibleForTesting
@@ -353,7 +358,7 @@ public final class Stopwatch {
         @VisibleForTesting
         Task(@NotNull String name, @Range(from = 0, to = Integer.MAX_VALUE - 1) int order,
              @Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime) {
-            this.name = name;
+            this.name = Objects.requireNonNull(name, "Task.name cannot be null");
             this.order = order;
             this.elapsedNanoTime = elapsedNanoTime;
         }
