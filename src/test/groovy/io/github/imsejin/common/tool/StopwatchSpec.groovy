@@ -250,29 +250,31 @@ class StopwatchSpec extends Specification {
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
+        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal::new).collect(toList())
+        (0..<taskTimes.size()).each {
+            def taskTime = taskTimes[it].longValueExact()
+            stopwatch.@tasks.add(new Task("task", it, taskTime))
+            stopwatch.@totalNanoTime += taskTime
+        }
 
         when:
-        stopwatch.start()
-        sleep(20)
-        stopwatch.stop()
         def totalTime = stopwatch.totalTime
 
         then: """
-            Stopwatch.totalTime is equal to expected within 75% error.
+            Stopwatch.totalTime is equal to expected.
         """
-        def min = (expected * (1.0 - 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
-        def max = (expected * (1.0 + 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
-        min < totalTime && totalTime < max
+        def expected = (sum as BigDecimal).setScale(10, RoundingMode.HALF_UP)
+        totalTime == expected
 
         where:
-        timeUnit              | expected
-        TimeUnit.NANOSECONDS  | (20 as BigDecimal) * 1_000_000
-        TimeUnit.MICROSECONDS | (20 as BigDecimal) * 1_000
-        TimeUnit.MILLISECONDS | 20 as BigDecimal
-        TimeUnit.SECONDS      | (20 as BigDecimal) / 1_000
-        TimeUnit.MINUTES      | (20 as BigDecimal) / 1_000 / 60
-        TimeUnit.HOURS        | (20 as BigDecimal) / 1_000 / 60 / 60
-        TimeUnit.DAYS         | (20 as BigDecimal) / 1_000 / 60 / 60 / 24
+        timeUnit              | taskTimeInfo                || sum
+        TimeUnit.NANOSECONDS  | "28,654,107"                || 28 + 654 + 107
+        TimeUnit.MICROSECONDS | "707,68,59,13,4"            || (707 + 68 + 59 + 13 + 4) / 1_000
+        TimeUnit.MILLISECONDS | "3.7081E+8"                 || 3.7081E+8 / 1_000_000
+        TimeUnit.SECONDS      | "5.8192E+10,2.204E+10"      || (5.8192E+10 + 2.204E+10) / 1_000_000_000
+        TimeUnit.MINUTES      | "8.509E+9,0,7.14E+9"        || (8.509E+9 + 0 + 7.14E+9) / 1_000_000_000 / 60
+        TimeUnit.HOURS        | "3.141592E+10,1.732050E+10" || (3.141592E+10 + 1.732050E+10) / 1_000_000_000 / 60 / 60
+        TimeUnit.DAYS         | "1.6384E+14"                || 1.6384E+14 / 1_000_000_000 / 60 / 60 / 24
     }
 
     def "Gets average time"() {
