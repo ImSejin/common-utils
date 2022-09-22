@@ -407,6 +407,11 @@ public final class Stopwatch {
 
             return ratio.multiply(BigDecimal.valueOf(100L));
         }
+
+        @Override
+        public String toString() {
+            return "Task(name=" + this.name + ", order=" + this.order + ", elapsedNanoTime=" + this.elapsedNanoTime + ")";
+        }
     }
 
 }

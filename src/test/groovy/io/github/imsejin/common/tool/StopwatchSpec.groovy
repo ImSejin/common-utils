@@ -23,6 +23,8 @@ import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
+import static java.util.stream.Collectors.toList
+
 class StopwatchSpec extends Specification {
 
     def "Default timeUnit is nanoseconds"() {
@@ -232,9 +234,9 @@ class StopwatchSpec extends Specification {
         stopwatch.tasks.size() == taskCount
         for (i in 0..<taskCount) {
             def task = stopwatch.tasks[i]
-            assert task.elapsedNanoTime > 0
             assert task.name == "task-$i"
             assert task.order == i
+            assert task.elapsedNanoTime > 0
         }
 
         when:
@@ -458,6 +460,22 @@ class StopwatchSpec extends Specification {
         2.449489E+9     | 0.1       | TimeUnit.MINUTES      || 40.8248
         3.6E+10         | 0.01      | TimeUnit.HOURS        || 100
         0               | 0         | TimeUnit.DAYS         || 0
+    }
+
+    def "Stringifies task"() {
+        given:
+        def taskName = "task-$i: ${new RandomString().nextString(8)}"
+        def taskTime = new Random().nextInt(1024)
+        def task = new Task(taskName, i, taskTime)
+
+        when:
+        def string = task.toString()
+
+        then:
+        string == "Task(name=${task.name}, order=${task.order}, elapsedNanoTime=${task.elapsedNanoTime})"
+
+        where:
+        i << (0..10)
     }
 
 }
