@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public final class Stopwatch {
 
     @VisibleForTesting
-    static final int DECIMAL_PLACE = 6;
+    static final int DISPLAY_SCALE = 6;
 
     /**
      * Recorded tasks.
@@ -245,7 +245,7 @@ public final class Stopwatch {
         BigDecimal totalTime = BigDecimal.valueOf(this.totalNanoTime);
         BigDecimal taskCount = BigDecimal.valueOf(this.tasks.size());
 
-        BigDecimal amount = totalTime.divide(taskCount, 10, RoundingMode.HALF_UP);
+        BigDecimal amount = totalTime.divide(taskCount, DISPLAY_SCALE, RoundingMode.HALF_UP);
 
         return convertTimeUnit(amount, TimeUnit.NANOSECONDS, this.timeUnit);
     }
@@ -255,14 +255,15 @@ public final class Stopwatch {
      *
      * @return summary of stopwatch
      * @see #getTotalTime()
+     * @see #getAverageTime()
      */
     public String getSummary() {
         BigDecimal totalTime = getTotalTime();
-        String displayTotalTime = totalTime.setScale(DECIMAL_PLACE, RoundingMode.HALF_UP)
-                .stripTrailingZeros().toPlainString();
+        BigDecimal averageTime = getAverageTime();
         String abbreviation = getTimeUnitAbbreviation(this.timeUnit);
 
-        return String.format("Stopwatch: TOTAL_TIME = %s %s", displayTotalTime, abbreviation);
+        return String.format("TOTAL = %s %s, AVERAGE = %s %s",
+                totalTime, abbreviation, averageTime, abbreviation);
     }
 
     /**
@@ -275,16 +276,17 @@ public final class Stopwatch {
      * @see #getSummary()
      */
     public String getStatistics() {
-        final int timeUnitIndex = this.tasks.stream()
+        String unitAbbr = getTimeUnitAbbreviation(this.timeUnit);
+        final int timeUnitIndex = Math.max(unitAbbr.length(), this.tasks.stream()
                 .mapToInt(task -> task.getDisplayTime(this.timeUnit).length())
-                .max().orElse(0);
-        String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", getTimeUnitAbbreviation(this.timeUnit));
+                .max().orElse(0));
+        String timeUnitColumn = String.format("%-" + timeUnitIndex + "s", unitAbbr);
 
         StringBuilder sb = new StringBuilder();
         sb.append(getSummary());
-        sb.append("\n----------------------------------------\n");
+        sb.append("\n--------------------------------------------------\n");
         sb.append(timeUnitColumn).append("  ").append(String.format("%-6c", '%')).append("  ").append("TASK_NAME");
-        sb.append("\n----------------------------------------\n");
+        sb.append("\n--------------------------------------------------\n");
 
         BigDecimal totalTime = getTotalTime();
 
@@ -314,7 +316,7 @@ public final class Stopwatch {
             converted = amount;
         } else if (from.ordinal() < to.ordinal()) {
             BigDecimal divisor = BigDecimal.valueOf(from.convert(1, to));
-            converted = amount.divide(divisor, 10, RoundingMode.HALF_UP);
+            converted = amount.divide(divisor, DISPLAY_SCALE, RoundingMode.HALF_UP);
         } else {
             BigDecimal multiplicand = BigDecimal.valueOf(to.convert(1, from));
             converted = amount.multiply(multiplicand);
@@ -394,9 +396,8 @@ public final class Stopwatch {
         String getDisplayTime(TimeUnit timeUnit) {
             BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
             BigDecimal taskTime = convertTimeUnit(elapsedNanoTime, TimeUnit.NANOSECONDS, timeUnit);
-            String format = timeUnit == TimeUnit.NANOSECONDS ? "%.0f" : "%." + DECIMAL_PLACE + "f";
 
-            return String.format(format, taskTime);
+            return taskTime.toString();
         }
 
         @VisibleForTesting
@@ -408,7 +409,7 @@ public final class Stopwatch {
 
             BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
             BigDecimal taskTime = convertTimeUnit(totalTime, timeUnit, TimeUnit.NANOSECONDS);
-            BigDecimal ratio = elapsedNanoTime.divide(taskTime, DECIMAL_PLACE, RoundingMode.HALF_UP);
+            BigDecimal ratio = elapsedNanoTime.divide(taskTime, DISPLAY_SCALE, RoundingMode.HALF_UP);
 
             return ratio.multiply(BigDecimal.valueOf(100L));
         }

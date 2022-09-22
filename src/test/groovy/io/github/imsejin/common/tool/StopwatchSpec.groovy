@@ -249,6 +249,7 @@ class StopwatchSpec extends Specification {
         stopwatch.tasks.size() == taskCount
     }
 
+    @SuppressWarnings("GroovyAccessibility")
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
@@ -265,7 +266,7 @@ class StopwatchSpec extends Specification {
         then: """
             Stopwatch.totalTime is equal to expected.
         """
-        totalTime == (expected as BigDecimal).setScale(10, RoundingMode.HALF_UP)
+        totalTime == (expected as BigDecimal).setScale(Stopwatch.DISPLAY_SCALE, RoundingMode.HALF_UP)
 
         where:
         timeUnit              | taskTimeInfo                || expected
@@ -278,6 +279,7 @@ class StopwatchSpec extends Specification {
         TimeUnit.DAYS         | "1.6384E+14"                || 1.6384E+14 / 1_000_000_000 / 60 / 60 / 24
     }
 
+    @SuppressWarnings("GroovyAccessibility")
     def "Gets average time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
@@ -294,7 +296,7 @@ class StopwatchSpec extends Specification {
         then: """
             Stopwatch.averageTime is equal to expected.
         """
-        averageTime == (expected as BigDecimal).setScale(10, RoundingMode.HALF_UP)
+        averageTime == (expected as BigDecimal).setScale(Stopwatch.DISPLAY_SCALE, RoundingMode.HALF_UP)
 
         where:
         timeUnit              | taskTimeInfo                || expected
@@ -311,7 +313,8 @@ class StopwatchSpec extends Specification {
         given:
         def stopwatch = new Stopwatch(timeUnit as TimeUnit)
         def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
-        def pattern = Pattern.compile("^Stopwatch: TOTAL_TIME = \\d+(\\.\\d{1,$Stopwatch.DECIMAL_PLACE})? $abbreviation\$")
+        def pattern = Pattern.compile("^TOTAL = (\\d+(\\.\\d{1,$Stopwatch.DISPLAY_SCALE})?|\\d+\\.\\d+E[+-]\\d+) $abbreviation, " +
+                "AVERAGE = (\\d+(\\.\\d{1,$Stopwatch.DISPLAY_SCALE})?|\\d+\\.\\d+E[+-]\\d+) $abbreviation\$")
 
         when:
         stopwatch.start()
@@ -340,13 +343,15 @@ class StopwatchSpec extends Specification {
 
         then:
         def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit)
-        def pattern = Pattern.compile("^${stopwatch.summary.replace(".", "\\.")}\n"
-                + "-{40}\n"
+        def summary = stopwatch.summary.replaceAll("([.+])", '\\\\$1')
+        def pattern = Pattern.compile("^${summary}\n"
+                + "-{50}\n"
                 + "$abbreviation {2,}% {2,}TASK_NAME\n"
-                + "-{40}\n"
-                + "(\\d+(\\.\\d+)? {2,}\\d{1,3}\\.\\d{2} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
+                + "-{50}\n"
+                + "((\\d+(\\.\\d{1,$Stopwatch.DISPLAY_SCALE})?|\\d+\\.\\d+E[+-]\\d+) {2,}\\d{1,3}\\.\\d{2} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
                 Pattern.DOTALL)
         stopwatch.statistics.matches(pattern)
+        println stopwatch.statistics
 
         where:
         timeUnit              | taskCount
@@ -364,7 +369,9 @@ class StopwatchSpec extends Specification {
         def time = Stopwatch.convertTimeUnit(amount as BigDecimal, from, to)
 
         then:
-        time == expected.setScale(10, RoundingMode.HALF_UP)
+        time == expected.setScale(Stopwatch.DISPLAY_SCALE, RoundingMode.HALF_UP)
+        println "time: $time"
+        println "expected: ${expected.setScale(Stopwatch.DISPLAY_SCALE, RoundingMode.HALF_UP)}"
 
         where:
         amount        | from                  | to                    || expected
@@ -458,6 +465,7 @@ class StopwatchSpec extends Specification {
         0               | 0         | TimeUnit.DAYS         || 0
     }
 
+    @SuppressWarnings("GroovyAssignabilityCheck")
     def "Converts task into string"() {
         given:
         def taskName = "task-$i: ${new RandomString().nextString(8)}"
