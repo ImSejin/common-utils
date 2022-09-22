@@ -255,7 +255,7 @@ class StopwatchSpec extends Specification {
         def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal::new).collect(toList())
         (0..<taskTimes.size()).each {
             def taskTime = taskTimes[it].longValueExact()
-            stopwatch.@tasks.add(new Task("task", it, taskTime))
+            stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
             stopwatch.@totalNanoTime += taskTime
         }
 
@@ -265,11 +265,10 @@ class StopwatchSpec extends Specification {
         then: """
             Stopwatch.totalTime is equal to expected.
         """
-        def expected = (sum as BigDecimal).setScale(10, RoundingMode.HALF_UP)
-        totalTime == expected
+        totalTime == (expected as BigDecimal).setScale(10, RoundingMode.HALF_UP)
 
         where:
-        timeUnit              | taskTimeInfo                || sum
+        timeUnit              | taskTimeInfo                || expected
         TimeUnit.NANOSECONDS  | "28,654,107"                || 28 + 654 + 107
         TimeUnit.MICROSECONDS | "707,68,59,13,4"            || (707 + 68 + 59 + 13 + 4) / 1_000
         TimeUnit.MILLISECONDS | "3.7081E+8"                 || 3.7081E+8 / 1_000_000
@@ -282,33 +281,30 @@ class StopwatchSpec extends Specification {
     def "Gets average time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def randomString = new RandomString()
-        def taskCount = Math.max(1, new Random().nextInt(10))
+        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal::new).collect(toList())
+        (0..<taskTimes.size()).each {
+            def taskTime = taskTimes[it].longValueExact()
+            stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
+            stopwatch.@totalNanoTime += taskTime
+        }
 
         when:
-        (0..<taskCount).each {
-            stopwatch.start("task-%d: %s", it, randomString.nextString(8))
-            sleep(taskTimeMillis)
-            stopwatch.stop()
-        }
         def averageTime = stopwatch.averageTime
 
         then: """
-            Stopwatch.averageTime is equal to expected within 75% error.
+            Stopwatch.averageTime is equal to expected.
         """
-        def min = (expected * (1.0 - 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
-        def max = (expected * (1.0 + 7.5E-1)).setScale(10, RoundingMode.HALF_UP)
-        min < averageTime && averageTime < max
+        averageTime == (expected as BigDecimal).setScale(10, RoundingMode.HALF_UP)
 
         where:
-        timeUnit              | taskTimeMillis || expected
-        TimeUnit.NANOSECONDS  | 10             || (taskTimeMillis as BigDecimal) * 1_000_000
-        TimeUnit.MICROSECONDS | 20             || (taskTimeMillis as BigDecimal) * 1_000
-        TimeUnit.MILLISECONDS | 30             || (taskTimeMillis as BigDecimal)
-        TimeUnit.SECONDS      | 10             || (taskTimeMillis as BigDecimal) / 1_000
-        TimeUnit.MINUTES      | 20             || (taskTimeMillis as BigDecimal) / 1_000 / 60
-        TimeUnit.HOURS        | 30             || (taskTimeMillis as BigDecimal) / 1_000 / 60 / 60
-        TimeUnit.DAYS         | 40             || (taskTimeMillis as BigDecimal) / 1_000 / 60 / 60 / 24
+        timeUnit              | taskTimeInfo                || expected
+        TimeUnit.NANOSECONDS  | "28,654,107"                || (28 + 654 + 107) / 3
+        TimeUnit.MICROSECONDS | "707,68,59,13,4"            || ((707 + 68 + 59 + 13 + 4) / 5) / 1_000
+        TimeUnit.MILLISECONDS | "3.7081E+8"                 || 3.7081E+8 / 1_000_000
+        TimeUnit.SECONDS      | "5.8192E+10,2.204E+10"      || ((5.8192E+10 + 2.204E+10) / 2) / 1_000_000_000
+        TimeUnit.MINUTES      | "8.509E+9,0,7.14E+9"        || ((8.509E+9 + 0 + 7.14E+9) / 3) / 1_000_000_000 / 60
+        TimeUnit.HOURS        | "3.141592E+10,1.732050E+10" || ((3.141592E+10 + 1.732050E+10) / 2) / 1_000_000_000 / 60 / 60
+        TimeUnit.DAYS         | "1.6384E+14"                || 1.6384E+14 / 1_000_000_000 / 60 / 60 / 24
     }
 
     def "Gets summary of stopwatch"() {
@@ -462,7 +458,7 @@ class StopwatchSpec extends Specification {
         0               | 0         | TimeUnit.DAYS         || 0
     }
 
-    def "Stringifies task"() {
+    def "Converts task into string"() {
         given:
         def taskName = "task-$i: ${new RandomString().nextString(8)}"
         def taskTime = new Random().nextInt(1024)
