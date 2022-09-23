@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public final class Stopwatch {
 
     @VisibleForTesting
-    static final int DISPLAY_SCALE = 6;
+    static final int ROUNDING_SCALE = 10;
 
     /**
      * Recorded tasks.
@@ -245,7 +245,7 @@ public final class Stopwatch {
         BigDecimal totalTime = BigDecimal.valueOf(this.totalNanoTime);
         BigDecimal taskCount = BigDecimal.valueOf(this.tasks.size());
 
-        BigDecimal amount = totalTime.divide(taskCount, DISPLAY_SCALE, RoundingMode.HALF_UP);
+        BigDecimal amount = totalTime.divide(taskCount, ROUNDING_SCALE, RoundingMode.HALF_UP);
 
         return convertTimeUnit(amount, TimeUnit.NANOSECONDS, this.timeUnit);
     }
@@ -316,7 +316,7 @@ public final class Stopwatch {
             converted = amount;
         } else if (from.ordinal() < to.ordinal()) {
             BigDecimal divisor = BigDecimal.valueOf(from.convert(1, to));
-            converted = amount.divide(divisor, DISPLAY_SCALE, RoundingMode.HALF_UP);
+            converted = amount.divide(divisor, ROUNDING_SCALE, RoundingMode.HALF_UP);
         } else {
             BigDecimal multiplicand = BigDecimal.valueOf(to.convert(1, from));
             converted = amount.multiply(multiplicand);
@@ -409,7 +409,7 @@ public final class Stopwatch {
 
             BigDecimal elapsedNanoTime = BigDecimal.valueOf(this.elapsedNanoTime);
             BigDecimal taskTime = convertTimeUnit(totalTime, timeUnit, TimeUnit.NANOSECONDS);
-            BigDecimal ratio = elapsedNanoTime.divide(taskTime, DISPLAY_SCALE, RoundingMode.HALF_UP);
+            BigDecimal ratio = elapsedNanoTime.divide(taskTime, ROUNDING_SCALE, RoundingMode.HALF_UP);
 
             return ratio.multiply(BigDecimal.valueOf(100L));
         }
