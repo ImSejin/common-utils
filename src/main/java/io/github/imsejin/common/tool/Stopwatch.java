@@ -411,7 +411,7 @@ public final class Stopwatch {
             BigDecimal taskTime = convertTimeUnit(totalTime, timeUnit, TimeUnit.NANOSECONDS);
             BigDecimal ratio = elapsedNanoTime.divide(taskTime, ROUNDING_SCALE, RoundingMode.HALF_UP);
 
-            return ratio.multiply(BigDecimal.valueOf(100L));
+            return ratio.multiply(BigDecimal.valueOf(100L)).stripTrailingZeros();
         }
 
         @Override
