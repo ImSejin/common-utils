@@ -29,10 +29,10 @@ class DepthFirstIteratorSpec extends Specification {
     def "Iterate"() {
         given: "Add vertices and its edges"
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
-        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable].forEach(graph::addVertex)
+        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable].forEach(graph.&addVertex)
         def edges = [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList],
                      [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
-        edges.forEach(graph::addEdge)
+        edges.forEach(graph.&addEdge)
 
         when:
         def iterator = new DepthFirstIterator<>(graph, root)
@@ -61,14 +61,14 @@ class DepthFirstIteratorSpec extends Specification {
     def "Traverse"() {
         given: "Add vertices and its edges"
         def graph = new UndirectedGraph<>() as Graph<Class<?>>
-        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable].forEach(graph::addVertex)
+        [Iterable, Collection, List, AbstractCollection, AbstractList, ArrayList, RandomAccess, Cloneable, Serializable].forEach(graph.&addVertex)
         def edges = [[Iterable, Collection], [Collection, List], [Collection, AbstractCollection], [AbstractCollection, AbstractList],
                      [ArrayList, List], [ArrayList, AbstractList], [ArrayList, RandomAccess], [ArrayList, Cloneable], [ArrayList, Serializable]]
-        edges.forEach(graph::addEdge)
+        edges.forEach(graph.&addEdge)
 
         when:
         def vertices = []
-        DepthFirstIterator.traverse(graph, root, vertices::add)
+        DepthFirstIterator.traverse(graph, root, vertices.&add)
 
         then:
         graph.vertexSize == vertices.size()

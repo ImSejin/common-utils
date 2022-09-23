@@ -26,7 +26,7 @@ class UndirectedGraphSpec extends Specification {
         def graph = new UndirectedGraph<>() as Graph<?>
 
         when: "UndirectedGraph has vertices as many as the number of elements, but no edge"
-        def added = elements.stream().map(graph::addVertex).reduce(Boolean.TRUE, { a, b -> a && b })
+        def added = elements.stream().map(graph.&addVertex).reduce(Boolean.TRUE, { a, b -> a && b })
 
         then: """
             1. All elements are added to graph as vertices.
@@ -36,7 +36,7 @@ class UndirectedGraphSpec extends Specification {
         """
         added == expected
         graph.pathLength == 0
-        graph.vertexSize == elements.stream().filter(Objects::nonNull).count()
+        graph.vertexSize == elements.stream().filter(Objects.&nonNull).count()
         elements.stream().flatMap({ graph.getAdjacentVertices(it).stream() }).count() == 0
 
         where:
@@ -51,7 +51,7 @@ class UndirectedGraphSpec extends Specification {
     def "Removes vertices"() {
         given:
         def graph = new UndirectedGraph<>() as Graph<?>
-        vertices.forEach(graph::addVertex)
+        vertices.forEach(graph.&addVertex)
         edges.forEach({ edge -> graph.addEdge(edge[0], edge[1]) })
 
         expect: """
@@ -91,7 +91,7 @@ class UndirectedGraphSpec extends Specification {
         def graph = new UndirectedGraph<>() as Graph<?>
 
         when:
-        vertices.forEach(graph::addVertex)
+        vertices.forEach(graph.&addVertex)
         def added = edges.stream().map({ edge -> graph.addEdge(edge[0], edge[1]) }).reduce(Boolean.TRUE, { a, b -> a && b })
 
         then: """
@@ -131,7 +131,7 @@ class UndirectedGraphSpec extends Specification {
     def "Removes edges"() {
         given:
         def graph = new UndirectedGraph<>() as Graph<?>
-        vertices.forEach(graph::addVertex)
+        vertices.forEach(graph.&addVertex)
         edges.forEach({ edge -> graph.addEdge(edge[0], edge[1]) })
         def vertex = vertices[0]
 
@@ -172,10 +172,10 @@ class UndirectedGraphSpec extends Specification {
 
         when:
         def isEqual = origin == other
-        originVertices.forEach(origin::addVertex)
-        originEdges.forEach(origin::addEdge)
-        otherVertices.forEach(other::addVertex)
-        otherEdges.forEach(other::addEdge)
+        originVertices.forEach(origin.&addVertex)
+        originEdges.forEach(origin.&addEdge)
+        otherVertices.forEach(other.&addVertex)
+        otherEdges.forEach(other.&addEdge)
         def isNotEqual = origin != other
 
         then:
@@ -219,8 +219,8 @@ class UndirectedGraphSpec extends Specification {
         graph == new UndirectedGraph<>()
 
         when: "Add vertices and its edges"
-        [String, Serializable, Comparable, CharSequence].forEach(graph::addVertex)
-        [[String, Serializable], [String, Comparable], [String, CharSequence]].forEach(graph::addEdge)
+        [String, Serializable, Comparable, CharSequence].forEach(graph.&addVertex)
+        [[String, Serializable], [String, Comparable], [String, CharSequence]].forEach(graph.&addEdge)
 
         then: """
             1. UndirectedGraph that has vertices or edges is not equal to another empty graph

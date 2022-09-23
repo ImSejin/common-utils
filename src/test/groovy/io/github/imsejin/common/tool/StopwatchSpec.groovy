@@ -253,7 +253,7 @@ class StopwatchSpec extends Specification {
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal::new).collect(toList())
+        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
         (0..<taskTimes.size()).each {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
@@ -283,7 +283,7 @@ class StopwatchSpec extends Specification {
     def "Gets average time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal::new).collect(toList())
+        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
         (0..<taskTimes.size()).each {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))

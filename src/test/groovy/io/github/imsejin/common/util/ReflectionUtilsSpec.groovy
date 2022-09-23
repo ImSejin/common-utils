@@ -71,7 +71,7 @@ class ReflectionUtilsSpec extends Specification {
     def "Invoke"() {
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     private static class A {
         private static Long id
