@@ -32,13 +32,15 @@
 
 ### Modification
 
+- 🔨 Modify: pattern of return value from `getSummary`, `getStatistics()` in `Stopwatch`
 - ♻️ Refactor:
 - 🔥 Remove:
-- 🚚 Rename:
+- 🚚 Rename: internal field from `DECIMAL_PLACE` to `ROUNDING_SCALE` in `Stopwatch`
 
 ### New features
 
 - ✨ Add: assertion class `UuidAssert`
+- ✨ Add: method `getAverageTime` in `Stopwatch`
 
 ### Troubleshooting
 
