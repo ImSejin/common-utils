@@ -351,7 +351,6 @@ class StopwatchSpec extends Specification {
                 + "((\\d+(\\.\\d{1,$Stopwatch.ROUNDING_SCALE})?|\\d+\\.\\d+E[+-]\\d+) {2,}\\d{1,3}\\.\\d{2} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
                 Pattern.DOTALL)
         stopwatch.statistics.matches(pattern)
-        println stopwatch.statistics
 
         where:
         timeUnit              | taskCount
@@ -370,7 +369,6 @@ class StopwatchSpec extends Specification {
 
         then:
         time == expected.setScale(Stopwatch.ROUNDING_SCALE, RoundingMode.HALF_UP)
-        println "time: $time"
 
         where:
         amount        | from                  | to                    || expected
@@ -457,9 +455,9 @@ class StopwatchSpec extends Specification {
         elapsedNanoTime | totalTime | timeUnit              || expected
         998             | 1000      | TimeUnit.NANOSECONDS  || 99.8
         3.14E+3         | 100       | TimeUnit.MICROSECONDS || 3.14
-        1.4142135E+6    | 10        | TimeUnit.MILLISECONDS || 14.1421
+        1.4142135E+6    | 10        | TimeUnit.MILLISECONDS || 14.14213
         1.25E+6         | 1         | TimeUnit.SECONDS      || 0.125
-        2.449489E+9     | 0.1       | TimeUnit.MINUTES      || 40.8248
+        2.449489E+9     | 0.1       | TimeUnit.MINUTES      || 40.82481667
         3.6E+10         | 0.01      | TimeUnit.HOURS        || 100
         0               | 0         | TimeUnit.DAYS         || 0
     }
