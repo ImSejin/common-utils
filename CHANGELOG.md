@@ -40,7 +40,7 @@
 ### New features
 
 - ✨ Add: assertion class `UuidAssert`
-- ✨ Add: method `getAverageTime` in `Stopwatch`
+- ✨ Add: method `getAverageTime()` in `Stopwatch`
 
 ### Troubleshooting
 
@@ -49,6 +49,7 @@
 ### Dependencies
 
 - ⬆️ Upgrade:
+- ♻️ Replace: dependency `jsr305` with `jakarta.validation-api`
 
 # v0.11.0
 
