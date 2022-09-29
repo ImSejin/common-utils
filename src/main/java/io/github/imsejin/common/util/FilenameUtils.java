@@ -17,8 +17,7 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
-import javax.annotation.Nullable;
+import jakarta.validation.constraints.Null;
 
 /**
  * Filename utilities
@@ -50,7 +49,7 @@ public final class FilenameUtils {
      * @param filename filename
      * @return index of extension separator
      */
-    public static int indexOfExtension(@Nullable String filename) {
+    public static int indexOfExtension(@Null String filename) {
         if (filename == null) return -1;
 
         int index = filename.lastIndexOf(EXTENSION_SEPARATOR);
@@ -104,7 +103,7 @@ public final class FilenameUtils {
      * @param filename filename
      * @return filename without extension
      */
-    public static String getBaseName(@Nullable String filename) {
+    public static String getBaseName(@Null String filename) {
         if (filename == null) return "";
 
         int index = indexOfExtension(filename);
@@ -123,7 +122,7 @@ public final class FilenameUtils {
      * @param filename filename
      * @return extension name
      */
-    public static String getExtension(@Nullable String filename) {
+    public static String getExtension(@Null String filename) {
         if (filename == null) return "";
 
         int index = indexOfExtension(filename);

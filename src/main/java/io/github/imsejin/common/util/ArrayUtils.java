@@ -17,8 +17,8 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import jakarta.validation.constraints.Null;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -77,8 +77,8 @@ public final class ArrayUtils {
      * @param array primitive array or {@code null} if {@code array} is {@code null}
      * @return boxed array
      */
-    @Nullable
-    public static Object wrap(@Nullable Object array) {
+    @Null
+    public static Object wrap(@Null Object array) {
         if (array == null) return null;
 
         // When parameter is not array, returns as it is.
@@ -111,8 +111,8 @@ public final class ArrayUtils {
      * @param array boxed array or {@code null} if {@code array} is {@code null}
      * @return primitive array
      */
-    @Nullable
-    public static Object unwrap(@Nullable Object array) {
+    @Null
+    public static Object unwrap(@Null Object array) {
         if (array == null) return null;
 
         // When parameter is not array, returns as it is.
@@ -155,7 +155,7 @@ public final class ArrayUtils {
      * @param array maybe array
      * @return stringified object
      */
-    public static String toString(@Nullable Object array) {
+    public static String toString(@Null Object array) {
         if (array == null) return "null";
 
         Class<?> clazz = array.getClass();
@@ -223,7 +223,7 @@ public final class ArrayUtils {
      * @param array array
      * @return hash code of array
      */
-    public static int hashCode(@Nullable Object array) {
+    public static int hashCode(@Null Object array) {
         if (array == null) return 0;
 
         Class<?> clazz = array.getClass();
@@ -258,7 +258,7 @@ public final class ArrayUtils {
      * @param elements elements to be prepended
      * @return prepended array
      */
-    public static Object[] prepend(Object[] src, @Nullable Object... elements) {
+    public static Object[] prepend(Object[] src, @Null Object... elements) {
         if (isNullOrEmpty(elements)) return src;
 
         Object[] array = new Object[elements.length + src.length];
@@ -280,7 +280,7 @@ public final class ArrayUtils {
      * @param elements elements to be appended
      * @return appended array
      */
-    public static Object[] append(Object[] src, @Nullable Object... elements) {
+    public static Object[] append(Object[] src, @Null Object... elements) {
         if (isNullOrEmpty(elements)) return src;
 
         Object[] array = new Object[src.length + elements.length];

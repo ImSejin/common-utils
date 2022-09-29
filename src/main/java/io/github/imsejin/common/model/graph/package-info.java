@@ -17,7 +17,4 @@
 /**
  * Data structure classes on graph generally useful.
  */
-@Nonnull
 package io.github.imsejin.common.model.graph;
-
-import javax.annotation.Nonnull;

@@ -18,8 +18,8 @@ package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.Asserts;
+import jakarta.validation.constraints.Null;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -185,7 +185,7 @@ public final class ClassFinder {
          */
         CLASS {
             @Override
-            public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
+            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
                 if (subclass == null || superclass == subclass) return false;
 
                 for (Class<?> c = subclass.getSuperclass(); c != null; c = c.getSuperclass()) {
@@ -201,7 +201,7 @@ public final class ClassFinder {
          */
         ALL {
             @Override
-            public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
+            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
                 Asserts.that(superclass).isNotNull();
                 if (subclass == null || superclass == subclass) return false;
 
@@ -209,7 +209,7 @@ public final class ClassFinder {
             }
         };
 
-        public abstract boolean search(Class<?> superclass, @Nullable Class<?> subclass);
+        public abstract boolean search(Class<?> superclass, @Null Class<?> subclass);
     }
 
 }

@@ -17,9 +17,9 @@
 package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import jakarta.validation.constraints.Null;
 import org.intellij.lang.annotations.Language;
 
-import javax.annotation.Nullable;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -186,7 +186,7 @@ public final class StringUtils {
      * @param strings   strings to be compared
      * @return whether any strings are equal to criterion string
      */
-    public static boolean anyEquals(@Nullable String criterion, @Nullable Collection<String> strings) {
+    public static boolean anyEquals(@Null String criterion, @Null Collection<String> strings) {
         if (CollectionUtils.isNullOrEmpty(strings)) return false;
 
         for (String string : strings) {
@@ -214,7 +214,7 @@ public final class StringUtils {
      * @param strings   strings to be compared
      * @return whether criterial string contains other strings
      */
-    public static boolean anyContains(@Nullable String criterion, @Nullable Iterable<String> strings) {
+    public static boolean anyContains(@Null String criterion, @Null Iterable<String> strings) {
         if (criterion == null || strings == null || strings.spliterator().estimateSize() == 0) return false;
 
         for (String string : strings) {
@@ -521,7 +521,7 @@ public final class StringUtils {
      * @param group group number you want to get value of
      * @return captured string
      */
-    @Nullable
+    @Null
     public static String find(String src, @Language("RegExp") String regex, int group) {
         return find(src, Pattern.compile(regex), group);
     }
@@ -539,7 +539,7 @@ public final class StringUtils {
      * @param group   group number you want to get value of
      * @return captured string
      */
-    @Nullable
+    @Null
     public static String find(String src, Pattern pattern, int group) {
         Matcher matcher = pattern.matcher(src);
 
@@ -691,7 +691,7 @@ public final class StringUtils {
      * @param closer character of closing bracket
      * @return index of the current closing bracket
      */
-    public static int indexOfCurrentClosingBracket(@Nullable String str, int pos, char opener, char closer) {
+    public static int indexOfCurrentClosingBracket(@Null String str, int pos, char opener, char closer) {
         if (isNullOrEmpty(str)) return -1;
 
         // Finds the opening bracket in the current context.

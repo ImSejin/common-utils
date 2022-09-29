@@ -2,11 +2,11 @@ package io.github.imsejin.common.internal.assertion.model;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.util.StringUtils;
+import jakarta.validation.constraints.Null;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -137,7 +137,7 @@ public final class KanCode {
      *     new KanCode("01020304").getParent(); // new KanCode("01020300")
      * </code></pre>
      */
-    @Nullable
+    @Null
     public KanCode getParent() {
         if (this.depth == 0) return null;
 

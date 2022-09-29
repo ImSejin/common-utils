@@ -19,8 +19,8 @@ package io.github.imsejin.common.util;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.model.graph.DirectedGraph;
 import io.github.imsejin.common.model.graph.Graph;
+import jakarta.validation.constraints.Null;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -82,7 +82,7 @@ public final class ClassUtils {
      * @see Class#isEnum()
      * @see Enum#getDeclaringClass()
      */
-    public static boolean isEnumOrEnumConstant(@Nullable Class<?> clazz) {
+    public static boolean isEnumOrEnumConstant(@Null Class<?> clazz) {
         return clazz != null && Enum.class.isAssignableFrom(clazz);
     }
 
@@ -92,7 +92,7 @@ public final class ClassUtils {
      * @param clazz class
      * @return whether this class is abstract
      */
-    public static boolean isAbstractClass(@Nullable Class<?> clazz) {
+    public static boolean isAbstractClass(@Null Class<?> clazz) {
         if (clazz == null) return false;
 
         // Keyword 'abstract' is cannot be compatible with 'final' except native objects.
@@ -112,12 +112,12 @@ public final class ClassUtils {
      * @param type class
      * @return whether type is wrapper class
      */
-    public static boolean isWrapper(@Nullable Class<?> type) {
+    public static boolean isWrapper(@Null Class<?> type) {
         return isNumericWrapper(type) || type == Boolean.class ||
                 type == Character.class || type == Void.class;
     }
 
-    public static boolean isNumeric(@Nullable Class<?> type) {
+    public static boolean isNumeric(@Null Class<?> type) {
         return isNumericPrimitive(type) || isNumericWrapper(type);
     }
 
@@ -131,7 +131,7 @@ public final class ClassUtils {
      * @param type class
      * @return whether type is numeric and primitive
      */
-    public static boolean isNumericPrimitive(@Nullable Class<?> type) {
+    public static boolean isNumericPrimitive(@Null Class<?> type) {
         return type == byte.class || type == short.class || type == int.class ||
                 type == long.class || type == float.class || type == double.class;
     }
@@ -146,7 +146,7 @@ public final class ClassUtils {
      * @param type class
      * @return whether type is numeric and wrapper class
      */
-    public static boolean isNumericWrapper(@Nullable Class<?> type) {
+    public static boolean isNumericWrapper(@Null Class<?> type) {
         return type == Byte.class || type == Short.class || type == Integer.class ||
                 type == Long.class || type == Float.class || type == Double.class;
     }
@@ -157,8 +157,8 @@ public final class ClassUtils {
      * @param type type of the object
      * @return initial value of the type
      */
-    @Nullable
-    public static Object initialValueOf(@Nullable Class<?> type) {
+    @Null
+    public static Object initialValueOf(@Null Class<?> type) {
         // Value of primitive type cannot be null.
         if (isNumericPrimitive(type)) return 0;
         if (type == char.class) return '\u0000';
@@ -178,9 +178,9 @@ public final class ClassUtils {
      * @param <T>  type
      * @return boxed type
      */
-    @Nullable
+    @Null
     @SuppressWarnings("unchecked")
-    public static <T> Class<T> wrap(@Nullable Class<T> type) {
+    public static <T> Class<T> wrap(@Null Class<T> type) {
         if (type == null) return null;
 
         Class<?> clazz = type;
@@ -215,9 +215,9 @@ public final class ClassUtils {
      * @param <T>  type
      * @return primitive type
      */
-    @Nullable
+    @Null
     @SuppressWarnings("unchecked")
-    public static <T> Class<T> unwrap(@Nullable Class<T> type) {
+    public static <T> Class<T> unwrap(@Null Class<T> type) {
         if (type == null) return null;
 
         Class<?> clazz = type;
@@ -262,7 +262,7 @@ public final class ClassUtils {
      * @see <a href="https://stackoverflow.com/questions/22031207/find-all-classes-and-interfaces-a-class-extends-or-implements-recursively">
      * Find all classes and interfaces a class extends or implements recursively</a>
      */
-    public static Set<Class<?>> getAllExtendedOrImplementedTypesAsSet(@Nullable Class<?> clazz) {
+    public static Set<Class<?>> getAllExtendedOrImplementedTypesAsSet(@Null Class<?> clazz) {
         if (clazz == null) return Collections.emptySet();
         List<Class<?>> classes = new ArrayList<>();
 
@@ -313,7 +313,7 @@ public final class ClassUtils {
      * @see <a href="https://stackoverflow.com/questions/22031207/find-all-classes-and-interfaces-a-class-extends-or-implements-recursively">
      * Find all classes and interfaces a class extends or implements recursively</a>
      */
-    public static Graph<Class<?>> getAllExtendedOrImplementedTypesAsGraph(@Nullable Class<?> clazz) {
+    public static Graph<Class<?>> getAllExtendedOrImplementedTypesAsGraph(@Null Class<?> clazz) {
         if (clazz == null) return new DirectedGraph<>();
         Graph<Class<?>> graph = new DirectedGraph<>();
 
@@ -382,7 +382,7 @@ public final class ClassUtils {
      * @param type resolvable type
      * @return actual type
      */
-    public static List<Class<?>> resolveActualTypes(@Nullable Type type) {
+    public static List<Class<?>> resolveActualTypes(@Null Type type) {
         // When type is concrete type: java.lang.String
         if (type instanceof Class<?>) return Collections.singletonList((Class<?>) type);
 
