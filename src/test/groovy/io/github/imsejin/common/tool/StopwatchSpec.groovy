@@ -225,7 +225,7 @@ class StopwatchSpec extends Specification {
         stopwatch.tasks.isEmpty()
 
         when:
-        (0..<taskCount).each {
+        taskCount.times {
             stopwatch.start("task-$it")
             stopwatch.stop()
         }
@@ -254,7 +254,7 @@ class StopwatchSpec extends Specification {
         given:
         def stopwatch = new Stopwatch(timeUnit)
         def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
-        (0..<taskTimes.size()).each {
+        taskTimes.size().times {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
             stopwatch.@totalNanoTime += taskTime
@@ -284,7 +284,7 @@ class StopwatchSpec extends Specification {
         given:
         def stopwatch = new Stopwatch(timeUnit)
         def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
-        (0..<taskTimes.size()).each {
+        taskTimes.size().times {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
             stopwatch.@totalNanoTime += taskTime
@@ -335,7 +335,7 @@ class StopwatchSpec extends Specification {
         def randomString = new RandomString()
 
         when:
-        (0..<taskCount).each {
+        taskCount.times {
             stopwatch.start("task-%d: %s", it, randomString.nextString(8))
             sleep(10)
             stopwatch.stop()
