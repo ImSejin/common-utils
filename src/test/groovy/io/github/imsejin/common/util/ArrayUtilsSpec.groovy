@@ -17,9 +17,6 @@
 package io.github.imsejin.common.util
 
 import spock.lang.Specification
-import spock.lang.Timeout
-
-import java.util.concurrent.TimeUnit
 
 class ArrayUtilsSpec extends Specification {
 
@@ -207,40 +204,34 @@ class ArrayUtilsSpec extends Specification {
         ["alpha", "beta", "gamma"] | ['Y', 'Z']         || ["alpha", "beta", "gamma", 'Y', 'Z']
     }
 
-    @SuppressWarnings("GroovyAssignabilityCheck")
-    @Timeout(value = 100, unit = TimeUnit.MILLISECONDS)
-    def "Resolves array type in short-time"() {
-        given:
-        def data = [
-                [type: boolean, dimension: 1, expected: boolean[]],
-                [type: byte, dimension: 2, expected: byte[][]],
-                [type: short, dimension: 3, expected: short[][][]],
-                [type: char, dimension: 4, expected: char[][][][]],
-                [type: int, dimension: 5, expected: int[][][][][]],
-                [type: long, dimension: 6, expected: long[][][][][][]],
-                [type: float, dimension: 7, expected: float[][][][][][][]],
-                [type: double, dimension: 8, expected: double[][][][][][][][]],
-                [type: Void, dimension: 0, expected: Void],
-                [type: Object, dimension: 1, expected: Object[]],
-                [type: Boolean[], dimension: 1, expected: Boolean[][]],
-                [type: Byte[], dimension: 2, expected: Byte[][][]],
-                [type: Short[][], dimension: 2, expected: Short[][][][]],
-                [type: Character[][], dimension: 3, expected: Character[][][][][]],
-                [type: Integer[][][], dimension: 3, expected: Integer[][][][][][]],
-                [type: Long[][][], dimension: 4, expected: Long[][][][][][][]],
-                [type: Float[][][][], dimension: 4, expected: Float[][][][][][][][]],
-                [type: Double[][][][], dimension: 5, expected: Double[][][][][][][][][]],
-                [type: String[][][][][], dimension: 5, expected: String[][][][][][][][][][]],
-        ]
-
+    def "Resolves array type"() {
         when:
-        def result = data.collect({ ArrayUtils.resolveArrayType(it.type, it.dimension) == it.expected })
+        def arrayType = ArrayUtils.resolveArrayType(type, dimension)
 
         then:
-        result.stream().reduce(Boolean.TRUE, { a, b -> a && b })
+        arrayType == expected
 
         where:
-        i << (0..2000)
+        type             | dimension || expected
+        boolean          | 1         || boolean[]
+        byte             | 2         || byte[][]
+        short            | 3         || short[][][]
+        char             | 4         || char[][][][]
+        int              | 5         || int[][][][][]
+        long             | 6         || long[][][][][][]
+        float            | 7         || float[][][][][][][]
+        double           | 8         || double[][][][][][][][]
+        Void             | 0         || Void
+        Object           | 1         || Object[]
+        Boolean[]        | 1         || Boolean[][]
+        Byte[]           | 2         || Byte[][][]
+        Short[][]        | 2         || Short[][][][]
+        Character[][]    | 3         || Character[][][][][]
+        Integer[][][]    | 3         || Integer[][][][][][]
+        Long[][][]       | 4         || Long[][][][][][][]
+        Float[][][][]    | 4         || Float[][][][][][][][]
+        Double[][][][]   | 5         || Double[][][][][][][][][]
+        String[][][][][] | 5         || String[][][][][][][][][][]
     }
 
     def "Resolves the actual component type of array"() {
