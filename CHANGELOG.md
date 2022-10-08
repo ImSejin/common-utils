@@ -48,7 +48,8 @@
 
 ### Dependencies
 
-- ⬆️ Upgrade:
+- ⬆️ Upgrade: test dependency `junit5` from `5.8.2` to `5.9.1`
+- ⬆️ Upgrade: test dependency `spock-core` from `2.2-groovy-3.0` to `2.3-groovy-3.0`
 - ♻️ Replace: dependency `jsr305` with `jakarta.validation-api`
 
 # v0.11.0
