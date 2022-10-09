@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [v0.11.1](#v0111):
+- [v0.12.0](#v0120):
 - [v0.11.0](#v0110): 2022-09-12
 - [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
@@ -28,20 +28,20 @@
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
 
-# v0.11.1
+# v0.12.0
 
 ### Modification
 
 - 🔨 Modify: pattern of return value from `getSummary`, `getStatistics()` in `Stopwatch`
 - ♻️ Refactor:
-- 🔥 Remove:
-- 🚚 Rename: assertion method `predicate(Predicate)` `is(Predicate)` in `ObjectAssert`
+- 🔥 Remove: assertion methods `isTypeOf(Object)`, `isNotTypeOf(Object)` in `ClassAssert`
+- 🚚 Rename: assertion method `predicate(Predicate)` to `is(Predicate)` in `ObjectAssert`
 - 🚚 Rename: internal field from `DECIMAL_PLACE` to `ROUNDING_SCALE` in `Stopwatch`
 
 ### New features
 
 - ✨ Add: assertion class `UuidAssert`
-- ✨ Add: assertion method `isNot(Predicate)` in `ObjectAssert`
+- ✨ Add: assertion methods `isNotInstanceOf(Class)`, `isNot(Predicate)` in `ObjectAssert`
 - ✨ Add: method `getAverageTime()` in `Stopwatch`
 
 ### Troubleshooting
