@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [v0.12.0](#v0120):
 - [v0.11.0](#v0110): 2022-09-12
 - [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
@@ -26,6 +27,32 @@
 - [v0.1.2](#v012): 2020-09-27
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
+
+# v0.12.0
+
+### Modification
+
+- 🔥 Remove: utility class `PathnameUtils`
+- 🔥 Remove: assertion methods `isTypeOf(Object)`, `isNotTypeOf(Object)` in `ClassAssert`
+- 🚚 Rename: assertion method `predicate(Predicate)` to `is(Predicate)` in `ObjectAssert`
+- 🚚 Rename: internal field from `DECIMAL_PLACE` to `ROUNDING_SCALE` in `Stopwatch`
+- 🔨 Modify: pattern of return value from `getSummary`, `getStatistics()` in `Stopwatch`
+
+### New features
+
+- ✨ Add: assertion class `UuidAssert`
+- ✨ Add: assertion methods `isNotInstanceOf(Class)`, `isNot(Predicate)` in `ObjectAssert`
+- ✨ Add: method `getAverageTime()` in `Stopwatch`
+
+### Troubleshooting
+
+- 🐞 Fix: wrong print of `Stopwatch.getStatistics()`
+
+### Dependencies
+
+- ♻️ Replace: dependency `jsr305` with `jakarta.validation-api`
+- ⬆️ Upgrade: test dependency `junit5` from `5.8.2` to `5.9.1`
+- ⬆️ Upgrade: test dependency `spock-core` from `2.2-groovy-3.0` to `2.3-groovy-3.0`
 
 # v0.11.0
 
@@ -158,7 +185,7 @@
 - 🔥 Remove: redundant annotation `@Nonnull` on parameter
 - ♻️ Replace: methods `box` with `wrap(Object)` in `ArrayUtils`
 - ♻️ Replace: methods `unbox` with `unwrap(Object)` in `ArrayUtils`
-- ♻️ Replace: `assertion.DecimalNumberAssertion` with `assertion.composition.DecimalNumberAssertion`
+- ♻️ Replace: `assertion.DecimalNumberAssertion` with `assertion.composition.DecimalNumberAssertable`
 - ♻️ Replace: `assertion.object.AbstractObjectAssert` with `assertion.lang.ObjectAssert`
 - ♻️ Replace: `assertion.chars.AbstractCharSequenceAssert` with `assertion.lang.CharSequenceAssert`
 - ♻️ Replace: `assertion.time.OffsetAssertion` with `assertion.composition.OffsetAssertable`

@@ -77,18 +77,18 @@ public final class MathUtils {
         return true;
     }
 
-    public static double ceil(double amount, int decimalPlace) {
-        double compensator = Math.pow(10, decimalPlace);
+    public static double ceil(double amount, int scale) {
+        double compensator = Math.pow(10, scale);
         return Math.ceil(amount * compensator) / compensator;
     }
 
-    public static double round(double amount, int decimalPlace) {
-        double compensator = Math.pow(10, decimalPlace);
+    public static double round(double amount, int scale) {
+        double compensator = Math.pow(10, scale);
         return Math.round(amount * compensator) / compensator;
     }
 
-    public static double floor(double amount, int decimalPlace) {
-        double compensator = Math.pow(10, decimalPlace);
+    public static double floor(double amount, int scale) {
+        double compensator = Math.pow(10, scale);
         return Math.floor(amount * compensator) / compensator;
     }
 

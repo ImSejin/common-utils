@@ -18,8 +18,8 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.Asserts;
+import jakarta.validation.constraints.Null;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
@@ -89,8 +89,8 @@ public final class ReflectionUtils {
      * @return field value
      * @throws RuntimeException if failed to get value from the field
      */
-    @Nullable
-    public static Object getFieldValue(@Nullable Object instance, Field field) {
+    @Null
+    public static Object getFieldValue(@Null Object instance, Field field) {
         Asserts.that(field).isNotNull();
         if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
 
@@ -129,7 +129,7 @@ public final class ReflectionUtils {
      * @param value    value to be set into field
      * @throws RuntimeException if failed to set {@code value} into the {@code field}
      */
-    public static void setFieldValue(@Nullable Object instance, Field field, Object value) {
+    public static void setFieldValue(@Null Object instance, Field field, Object value) {
         Asserts.that(field).isNotNull();
         if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
         if (field.getType().isPrimitive()) Asserts.that(value)
@@ -161,7 +161,7 @@ public final class ReflectionUtils {
      * @param <T>        declaring class of constructor
      * @return constructor
      */
-    public static <T> Constructor<T> getDeclaredConstructor(Class<T> type, @Nullable Class<?>... paramTypes) {
+    public static <T> Constructor<T> getDeclaredConstructor(Class<T> type, @Null Class<?>... paramTypes) {
         Asserts.that(type).isNotNull();
         if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
 
@@ -210,7 +210,7 @@ public final class ReflectionUtils {
      * @throws RuntimeException if {@code initArgs} doesn't match with {@code constructor.parameterTypes}
      * @throws RuntimeException if failed to instantiate
      */
-    public static <T> T instantiate(Constructor<T> constructor, @Nullable Object... initArgs) {
+    public static <T> T instantiate(Constructor<T> constructor, @Null Object... initArgs) {
         Asserts.that(constructor).isNotNull();
         if (initArgs != null) Asserts.that(initArgs).hasSameSizeAs(constructor.getParameterTypes());
 
@@ -236,7 +236,7 @@ public final class ReflectionUtils {
      * @param paramTypes parameter types of method
      * @return method
      */
-    public static Method getDeclaredMethod(Class<?> type, String name, @Nullable Class<?>... paramTypes) {
+    public static Method getDeclaredMethod(Class<?> type, String name, @Null Class<?>... paramTypes) {
         Asserts.that(type).isNotNull();
         Asserts.that(name).isNotNull().hasText();
         if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
@@ -266,7 +266,7 @@ public final class ReflectionUtils {
      * @param args     arguments of method
      * @return result of method
      */
-    public static Object invoke(Method method, @Nullable Object instance, Object... args) {
+    public static Object invoke(Method method, @Null Object instance, Object... args) {
         Asserts.that(method).isNotNull();
         if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
         if (args != null) Asserts.that(args).hasSameSizeAs(method.getParameterTypes());
@@ -305,7 +305,7 @@ public final class ReflectionUtils {
      * @see #invoke(Method, Object, Object...)
      * @see #instantiate(Constructor, Object...)
      */
-    public static Object execute(Executable executable, @Nullable Object instance, Object... args) {
+    public static Object execute(Executable executable, @Null Object instance, Object... args) {
         if (executable instanceof Method) {
             Method method = (Method) executable;
             return invoke(method, instance, args);

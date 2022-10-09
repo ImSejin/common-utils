@@ -23,6 +23,8 @@ import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
+import static java.util.stream.Collectors.toList
+
 class StopwatchSpec extends Specification {
 
     def "Default timeUnit is nanoseconds"() {
@@ -41,7 +43,7 @@ class StopwatchSpec extends Specification {
         stopwatch.timeUnit = timeUnit as TimeUnit
 
         then: """
-            Stopwatch returns timeUnit as set.
+            Stopwatch returns timeUnit as it is given.
         """
         stopwatch.timeUnit == timeUnit
 
@@ -63,7 +65,7 @@ class StopwatchSpec extends Specification {
         def stopwatch = new Stopwatch(timeUnit as TimeUnit)
 
         then: """
-            Stopwatch returns timeUnit as set.
+            Stopwatch returns timeUnit as it is given.
         """
         stopwatch.timeUnit == timeUnit
 
@@ -71,7 +73,7 @@ class StopwatchSpec extends Specification {
         new Stopwatch(null)
 
         then: """
-            Stopwatch doesn't allow you to change timeUnit into null.
+            Stopwatch doesn't allow you to set null to timeUnit.
         """
         def e = thrown IllegalArgumentException
         e.message == "Stopwatch.timeUnit cannot be null"
@@ -223,7 +225,7 @@ class StopwatchSpec extends Specification {
         stopwatch.tasks.isEmpty()
 
         when:
-        (0..<taskCount).each {
+        taskCount.times {
             stopwatch.start("task-$it")
             stopwatch.stop()
         }
@@ -232,13 +234,13 @@ class StopwatchSpec extends Specification {
         stopwatch.tasks.size() == taskCount
         for (i in 0..<taskCount) {
             def task = stopwatch.tasks[i]
-            assert task.elapsedNanoTime > 0
             assert task.name == "task-$i"
             assert task.order == i
+            assert task.elapsedNanoTime > 0
         }
 
         when:
-        stopwatch.tasks << new Task(0, "new task", stopwatch.tasks.size())
+        stopwatch.tasks << new Task("new task", stopwatch.tasks.size(), 0)
 
         then: """
             Stopwatch.tasks are unmodifiable.
@@ -247,42 +249,76 @@ class StopwatchSpec extends Specification {
         stopwatch.tasks.size() == taskCount
     }
 
+    @SuppressWarnings("GroovyAccessibility")
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def timeoutMillis = 100
+        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
+        taskTimes.size().times {
+            def taskTime = taskTimes[it].longValueExact()
+            stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
+            stopwatch.@totalNanoTime += taskTime
+        }
 
         when:
-        stopwatch.start()
-        TimeUnit.MILLISECONDS.sleep(timeoutMillis)
-        stopwatch.stop()
         def totalTime = stopwatch.totalTime
 
         then: """
-            Stopwatch.totalTime is equal to expected within 1.0E-9998% error.
+            Stopwatch.totalTime is equal to expected.
         """
-        totalTime * (1.0 - 1.0E-10000) < expected || expected < totalTime * (1.0 + 1.0E-10000)
+        totalTime == (expected as BigDecimal).setScale(Stopwatch.ROUNDING_SCALE, RoundingMode.HALF_UP)
 
         where:
-        timeUnit              | expected
-        TimeUnit.NANOSECONDS  | (100 as BigDecimal) * 1_000_000
-        TimeUnit.MICROSECONDS | (100 as BigDecimal) * 1_000
-        TimeUnit.MILLISECONDS | (100 as BigDecimal)
-        TimeUnit.SECONDS      | (100 as BigDecimal) / 1_000
-        TimeUnit.MINUTES      | (100 as BigDecimal) / 1_000 / 60
-        TimeUnit.HOURS        | (100 as BigDecimal) / 1_000 / 60 / 60
-        TimeUnit.DAYS         | (100 as BigDecimal) / 1_000 / 60 / 60 / 24
+        timeUnit              | taskTimeInfo                || expected
+        TimeUnit.NANOSECONDS  | "28,654,107"                || 28 + 654 + 107
+        TimeUnit.MICROSECONDS | "707,68,59,13,4"            || (707 + 68 + 59 + 13 + 4) / 1_000
+        TimeUnit.MILLISECONDS | "3.7081E+8"                 || 3.7081E+8 / 1_000_000
+        TimeUnit.SECONDS      | "5.8192E+10,2.204E+10"      || (5.8192E+10 + 2.204E+10) / 1_000_000_000
+        TimeUnit.MINUTES      | "8.509E+9,0,7.14E+9"        || (8.509E+9 + 0 + 7.14E+9) / 1_000_000_000 / 60
+        TimeUnit.HOURS        | "3.141592E+10,1.732050E+10" || (3.141592E+10 + 1.732050E+10) / 1_000_000_000 / 60 / 60
+        TimeUnit.DAYS         | "1.6384E+14"                || 1.6384E+14 / 1_000_000_000 / 60 / 60 / 24
+    }
+
+    @SuppressWarnings("GroovyAccessibility")
+    def "Gets average time"() {
+        given:
+        def stopwatch = new Stopwatch(timeUnit)
+        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
+        taskTimes.size().times {
+            def taskTime = taskTimes[it].longValueExact()
+            stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
+            stopwatch.@totalNanoTime += taskTime
+        }
+
+        when:
+        def averageTime = stopwatch.averageTime
+
+        then: """
+            Stopwatch.averageTime is equal to expected.
+        """
+        averageTime == (expected as BigDecimal).setScale(Stopwatch.ROUNDING_SCALE, RoundingMode.HALF_UP)
+
+        where:
+        timeUnit              | taskTimeInfo                || expected
+        TimeUnit.NANOSECONDS  | "28,654,107"                || (28 + 654 + 107) / 3
+        TimeUnit.MICROSECONDS | "707,68,59,13,4"            || ((707 + 68 + 59 + 13 + 4) / 5) / 1_000
+        TimeUnit.MILLISECONDS | "3.7081E+8"                 || 3.7081E+8 / 1_000_000
+        TimeUnit.SECONDS      | "5.8192E+10,2.204E+10"      || ((5.8192E+10 + 2.204E+10) / 2) / 1_000_000_000
+        TimeUnit.MINUTES      | "8.509E+9,0,7.14E+9"        || ((8.509E+9 + 0 + 7.14E+9) / 3) / 1_000_000_000 / 60
+        TimeUnit.HOURS        | "3.141592E+10,1.732050E+10" || ((3.141592E+10 + 1.732050E+10) / 2) / 1_000_000_000 / 60 / 60
+        TimeUnit.DAYS         | "1.6384E+14"                || 1.6384E+14 / 1_000_000_000 / 60 / 60 / 24
     }
 
     def "Gets summary of stopwatch"() {
         given:
         def stopwatch = new Stopwatch(timeUnit as TimeUnit)
         def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
-        def pattern = Pattern.compile("^Stopwatch: TOTAL_TIME = \\d+(\\.\\d{1,$Stopwatch.DECIMAL_PLACE})? $abbreviation\$")
+        def pattern = Pattern.compile("^TOTAL = (\\d+(\\.\\d{1,$Stopwatch.ROUNDING_SCALE})?|\\d+\\.\\d+E[+-]\\d+) $abbreviation, " +
+                "AVERAGE = (\\d+(\\.\\d{1,$Stopwatch.ROUNDING_SCALE})?|\\d+\\.\\d+E[+-]\\d+) $abbreviation\$")
 
         when:
         stopwatch.start()
-        TimeUnit.MILLISECONDS.sleep(50)
+        sleep(50)
         stopwatch.stop()
         def summary = stopwatch.summary
 
@@ -295,23 +331,24 @@ class StopwatchSpec extends Specification {
 
     def "Gets statistics of stopwatch"() {
         given:
-        def stopwatch = new Stopwatch(timeUnit as TimeUnit)
+        def stopwatch = new Stopwatch(timeUnit)
         def randomString = new RandomString()
 
         when:
-        (0..<taskCount).each {
+        taskCount.times {
             stopwatch.start("task-%d: %s", it, randomString.nextString(8))
             sleep(10)
             stopwatch.stop()
         }
 
         then:
-        def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
-        def pattern = Pattern.compile("^${stopwatch.summary.replace(".", "\\.")}\n"
-                + "-{40}\n"
-                + "${abbreviation} {2,}% {2,}TASK_NAME\n"
-                + "-{40}\n"
-                + "(\\d+(\\.\\d+)? {2,}\\d{1,3}\\.\\d{2} {2}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
+        def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit)
+        def summary = stopwatch.summary.replaceAll("([.+])", '\\\\$1')
+        def pattern = Pattern.compile("^${summary}\n"
+                + "-{50}\n"
+                + "$abbreviation {2,}% {2,}TASK_NAME\n"
+                + "-{50}\n"
+                + "((\\d+(\\.\\d{1,$Stopwatch.ROUNDING_SCALE})?|\\d+\\.\\d+E[+-]\\d+) {2,}\\d{1,3}\\.\\d{2} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
                 Pattern.DOTALL)
         stopwatch.statistics.matches(pattern)
 
@@ -331,7 +368,7 @@ class StopwatchSpec extends Specification {
         def time = Stopwatch.convertTimeUnit(amount as BigDecimal, from, to)
 
         then:
-        time == expected.setScale(10, RoundingMode.HALF_UP)
+        time == expected.setScale(Stopwatch.ROUNDING_SCALE, RoundingMode.HALF_UP)
 
         where:
         amount        | from                  | to                    || expected
@@ -402,6 +439,44 @@ class StopwatchSpec extends Specification {
         TimeUnit.MINUTES      | "min"
         TimeUnit.HOURS        | "hrs"
         TimeUnit.DAYS         | "days"
+    }
+
+    def "Gets the percentage of task"() {
+        given:
+        def task = new Task("taskName", 0, elapsedNanoTime as long)
+
+        when:
+        def percentage = task.getPercentage(totalTime as BigDecimal, timeUnit)
+
+        then:
+        percentage == expected
+
+        where:
+        elapsedNanoTime | totalTime | timeUnit              || expected
+        998             | 1000      | TimeUnit.NANOSECONDS  || 99.8
+        3.14E+3         | 100       | TimeUnit.MICROSECONDS || 3.14
+        1.4142135E+6    | 10        | TimeUnit.MILLISECONDS || 14.14213
+        1.25E+6         | 1         | TimeUnit.SECONDS      || 0.125
+        2.449489E+9     | 0.1       | TimeUnit.MINUTES      || 40.82481667
+        3.6E+10         | 0.01      | TimeUnit.HOURS        || 100
+        0               | 0         | TimeUnit.DAYS         || 0
+    }
+
+    @SuppressWarnings("GroovyAssignabilityCheck")
+    def "Converts task into string"() {
+        given:
+        def taskName = "task-$i: ${new RandomString().nextString(8)}"
+        def taskTime = new Random().nextInt(1024)
+        def task = new Task(taskName, i, taskTime)
+
+        when:
+        def string = task.toString()
+
+        then:
+        string == "Task(name=${task.name}, order=${task.order}, elapsedNanoTime=${task.elapsedNanoTime})"
+
+        where:
+        i << (0..10)
     }
 
 }

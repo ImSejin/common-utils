@@ -302,24 +302,81 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
     }
 
     /**
-     * Asserts that predicate returns {@code true} from actual value.
+     * Asserts that actual value is not the instance of expected type.
+     *
+     * <p> If you input a type of primitive or primitive array, it is converted to wrapper type.
+     * Because primitive type can't be instantiated and Java language {@code instanceof} operator
+     * always returns {@code false} with it.
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that('2').predicate(Character::isDigit);
-     *     Asserts.that("alpha").predicate(it -> it.length() == 5);
+     *     Asserts.that(0).isNotInstanceOf(Long.class);
+     *     Asserts.that(3.14).isNotInstanceOf(BigDecimal.class);
+     *     Asserts.that(new StringBuilder()).isNotInstanceOf(StringBuffer.class);
      *
      *     // Assertion will fail.
-     *     Asserts.that(Object.class).predicate(Class::isInterface);
-     *     Asserts.that(['a', 'b', 'c']).predicate(List::isEmpty);
+     *     Asserts.that(null).isNotInstanceOf(Object.class);
+     *     Asserts.that(3.14).isNotInstanceOf(double.class);
+     *     Asserts.that("alpha").isNotInstanceOf(CharSequence.class);
      * }</pre>
      *
-     * @param predicate expected condition
+     * @param expected expected type
      * @return this class
      */
-    public SELF predicate(Predicate<ACTUAL> predicate) {
-        if (!Objects.requireNonNull(predicate, "Predicate is not allowed to be null").test(actual)) {
-            setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
+    public SELF isNotInstanceOf(Class<?> expected) {
+        Class<?> wrappedType = ClassUtils.wrap(expected);
+        if (wrappedType.isInstance(actual)) {
+            setDefaultDescription("It is expected not to be instance of the type, but it is. (expected: '{0}', actual: '{1}')", expected, actual);
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Asserts that actual value matches the given condition.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that('2').is(Character::isDigit);
+     *     Asserts.that("alpha").is(it -> it.length() == 5);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Object.class).is(Class::isInterface);
+     *     Asserts.that(['a', 'b', 'c']).is(List::isEmpty);
+     * }</pre>
+     *
+     * @param condition expected condition
+     * @return this class
+     */
+    public SELF is(Predicate<ACTUAL> condition) {
+        if (!Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
+            setDefaultDescription("It is expected to be true, but it isn't. (actual: 'false')");
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Asserts that actual value doesn't match the given condition.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Object.class).isNot(Class::isInterface);
+     *     Asserts.that(['a', 'b', 'c']).isNot(List::isEmpty);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that('2').isNot(Character::isDigit);
+     *     Asserts.that("alpha").isNot(it -> it.length() == 5);
+     * }</pre>
+     *
+     * @param condition expected condition
+     * @return this class
+     */
+    public SELF isNot(Predicate<ACTUAL> condition) {
+        if (Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
+            setDefaultDescription("It is expected to be false, but it isn't. (actual: 'true')");
             throw getException();
         }
 

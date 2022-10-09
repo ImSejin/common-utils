@@ -231,44 +231,107 @@ class ObjectAssertTest {
         @Test
         @DisplayName("passes, when actual is the instance of given type")
         void test0() {
-            // given
-            Map<Object, Class<?>> params = new HashMap<>();
-            params.put(new Object(), Object.class);
-            params.put("alpha", String.class);
-            params.put('b', char.class);
-            params.put('c', Character.class);
-            params.put(3.14, double.class);
-            params.put(3.141592, Double.class);
-
             // expect
-            params.forEach((actual, expected) -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).isInstanceOf(expected)));
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new Object()).isInstanceOf(Object.class);
+                Asserts.that("alpha").isInstanceOf(String.class);
+                Asserts.that('b').isInstanceOf(char.class);
+                Asserts.that('c').isInstanceOf(Character.class);
+                Asserts.that(3.14).isInstanceOf(double.class);
+                Asserts.that(3.141592).isInstanceOf(Double.class);
+                Asserts.that(new long[0]).isInstanceOf(long[].class);
+                Asserts.that(new Long[0]).isInstanceOf(Long[].class);
+            });
         }
 
         @Test
         @DisplayName("throws exception, when actual is not the instance of given type")
         void test1() {
             // given
-            Map<Object, Class<?>> params = new HashMap<>();
-            params.put("alpha", Character.class);
-            params.put('\n', String.class);
-            params.put(3.14, float.class);
-            params.put(BigInteger.valueOf(1000), BigDecimal.class);
+            String description = "It is expected to be instance of the type, but it isn't.";
 
             // expect
-            params.forEach((actual, expected) -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isInstanceOf(expected))
-                    .withMessageStartingWith("It is expected to be instance of the type, but it isn't."));
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that("alpha").isInstanceOf(Character.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that('\n').isInstanceOf(String.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(3.14).isInstanceOf(float.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(1000)).isInstanceOf(BigDecimal.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new int[0]).isInstanceOf(long[].class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Integer[0]).isInstanceOf(Long[].class))
+                    .withMessageStartingWith(description);
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'predicate'")
-    class Predicate {
+    @DisplayName("method 'isNotInstanceOf'")
+    class IsNotInstanceOf {
         @Test
-        @DisplayName("passes, when predication result of the actual is true")
+        @DisplayName("passes, when actual is not the instance of given type")
+        void test0() {
+            // expect
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that("alpha").isNotInstanceOf(Character.class);
+                Asserts.that('\n').isNotInstanceOf(String.class);
+                Asserts.that(3.14).isNotInstanceOf(float.class);
+                Asserts.that(BigInteger.valueOf(1000)).isNotInstanceOf(BigDecimal.class);
+                Asserts.that(new int[0]).isNotInstanceOf(long[].class);
+                Asserts.that(new Integer[0]).isNotInstanceOf(Long[].class);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is the instance of given type")
+        void test1() {
+            // given
+            String description = "It is expected not to be instance of the type, but it is.";
+
+            // expect
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Object()).isNotInstanceOf(Object.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that("alpha").isNotInstanceOf(String.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that('b').isNotInstanceOf(char.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that('c').isNotInstanceOf(Character.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(3.14).isNotInstanceOf(double.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(3.141592).isNotInstanceOf(Double.class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new long[0]).isNotInstanceOf(long[].class))
+                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(new Long[0]).isNotInstanceOf(Long[].class))
+                    .withMessageStartingWith(description);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'is'")
+    class Is {
+        @Test
+        @DisplayName("passes, when condition result of the actual is true")
         void test0() {
             // given
             Map<Object, Object> params = new HashMap<>();
@@ -280,11 +343,11 @@ class ObjectAssertTest {
 
             // expect
             params.forEach((actual, expected) -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals)));
+                    .isThrownBy(() -> Asserts.that(actual).is(expected::equals)));
         }
 
         @Test
-        @DisplayName("throws exception, when predication result of the actual is false")
+        @DisplayName("throws exception, when condition result of the actual is false")
         void test1() {
             // given
             Map<Object, Object> params = new HashMap<>();
@@ -296,8 +359,47 @@ class ObjectAssertTest {
 
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals))
+                    .isThrownBy(() -> Asserts.that(actual).is(expected::equals))
                     .withMessageStartingWith("It is expected to be true, but it isn't."));
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isNot'")
+    class IsNot {
+        @Test
+        @DisplayName("passes, when condition result of the actual is false")
+        void test0() {
+            // given
+            Map<Object, Object> params = new HashMap<>();
+            params.put(LocalDate.now(), LocalDateTime.now().minusDays(1));
+            params.put("alpha", "alpha".toUpperCase());
+            params.put('c', "C".charAt(0));
+            params.put(3.14F, 3.14);
+            params.put(3.141592, 3.141592F);
+
+            // expect
+            params.forEach((actual, expected) -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).isNot(expected::equals)));
+        }
+
+        @Test
+        @DisplayName("throws exception, when condition result of the actual is true")
+        void test1() {
+            // given
+            Map<Object, Object> params = new HashMap<>();
+            params.put(LocalDate.now(), LocalDateTime.now().toLocalDate());
+            params.put("alpha", "ALPHA".toLowerCase());
+            params.put('c', "c".charAt(0));
+            params.put(3.14F, Float.valueOf("3.14"));
+            params.put(3.141592, Double.valueOf("3.141592"));
+
+            // expect
+            params.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isNot(expected::equals))
+                    .withMessageStartingWith("It is expected to be false, but it isn't."));
         }
     }
 

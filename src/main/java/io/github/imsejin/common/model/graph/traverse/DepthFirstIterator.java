@@ -47,7 +47,7 @@ public class DepthFirstIterator<E> implements Iterator<E> {
                 .describedAs("DepthFirstIterator.root is not allowed to be null")
                 .isNotNull()
                 .describedAs("DepthFirstIterator.root must be in graph as a vertex: '{0}'", root)
-                .predicate(graph::containsVertex);
+                .is(graph::containsVertex);
 
         this.graph = graph;
 //        this.stack.push(root);
@@ -117,7 +117,7 @@ public class DepthFirstIterator<E> implements Iterator<E> {
                 .describedAs("DepthFirstIterator.root is not allowed to be null")
                 .isNotNull()
                 .describedAs("DepthFirstIterator.root must be in graph as a vertex: '{0}'", root)
-                .predicate(graph::containsVertex);
+                .is(graph::containsVertex);
 
         Set<E> visited = new LinkedHashSet<>();
         Stack<E> stack = new Stack<>();

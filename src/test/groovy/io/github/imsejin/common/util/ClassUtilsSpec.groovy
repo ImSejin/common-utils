@@ -23,7 +23,11 @@ import io.github.imsejin.common.assertion.composition.EnumerationAssertable
 import io.github.imsejin.common.assertion.composition.IterationAssertable
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable
 import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable
-import io.github.imsejin.common.assertion.lang.*
+import io.github.imsejin.common.assertion.lang.ArrayAssert
+import io.github.imsejin.common.assertion.lang.CharSequenceAssert
+import io.github.imsejin.common.assertion.lang.NumberAssert
+import io.github.imsejin.common.assertion.lang.ObjectAssert
+import io.github.imsejin.common.assertion.lang.StringAssert
 import io.github.imsejin.common.assertion.math.BigDecimalAssert
 import io.github.imsejin.common.security.crypto.Crypto
 import io.github.imsejin.common.security.crypto.aes.AES
@@ -348,7 +352,7 @@ class ClassUtilsSpec extends Specification {
         "generic_generic_concrete_generic_typeVar_unknown" | [String, Object]
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------------------------------------------------------------------------------
 
     private static class Sample<T> extends HashMap<String, T> {
         String concrete

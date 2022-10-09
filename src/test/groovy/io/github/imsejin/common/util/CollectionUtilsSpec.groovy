@@ -264,12 +264,12 @@ class CollectionUtilsSpec extends Specification {
         def maybeExceptLast = Math.floorMod(originSize, chunkSize) > 0 && Math.floorDiv(originSize, chunkSize) > 0
                 ? outer.subList(0, outerSize - 2)
                 : outer
-        def maxSizeOfInnerList = maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::max)
-        def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::min)
+        def maxSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&max)
+        def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&min)
         maxSizeOfInnerList == minSizeOfInnerList
 
         and: "Sum of inner list' size and origin list' size are the same."
-        def sizeOfInnerLists = outer.stream().mapToInt(List::size).sum()
+        def sizeOfInnerLists = outer.stream().mapToInt(List.&size).sum()
         sizeOfInnerLists == range
 
         where:
@@ -291,12 +291,12 @@ class CollectionUtilsSpec extends Specification {
         def maybeExceptLast = Math.floorMod(integers.size(), count) > 0
                 ? outer.subList(0, count - 2)
                 : outer
-        def maxSizeOfInnerList = maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::max)
-        def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List::size).reduce(Integer::min)
+        def maxSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&max)
+        def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&min)
         maxSizeOfInnerList == minSizeOfInnerList
 
         and: "Sum of inner list' size and origin list' size are the same."
-        def sizeOfInnerLists = outer.stream().mapToInt(List::size).sum()
+        def sizeOfInnerLists = outer.stream().mapToInt(List.&size).sum()
         sizeOfInnerLists == range
 
         where:

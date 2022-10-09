@@ -277,6 +277,23 @@ class StringUtilsSpec extends Specification {
         "1034784621.00" | "1,034,784,621"
     }
 
+    def "Returns repeated string with fragment characters"() {
+        when:
+        def actual = StringUtils.repeat(fragment, count)
+
+        then:
+        actual == expected
+
+        where:
+        fragment    | count || expected
+        'a' as char | 0     || ""
+        ""          | 100   || ""
+        " "         | 3     || "   "
+        '0' as char | 4     || "0000"
+        "alpha"     | 2     || "alphaalpha"
+        "beta,"     | 3     || "beta,beta,beta,"
+    }
+
     @Unroll("{1: '#first', 2: '#second', 3: '#third'}")
     def "Finds with groups"() {
         given:

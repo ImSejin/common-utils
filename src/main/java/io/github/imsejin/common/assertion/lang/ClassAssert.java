@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.util.ClassUtils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 
 /**
@@ -38,50 +39,22 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is type of the instance.
-     * <p>
-     * If you input a primitive type, it is converted to wrapper type.
-     * Primitive type cannot instantiate, so return value of
-     * {@link Class#isInstance(Object)} is always {@code false}.
+     * Asserts that actual type is assignable from expected type.
      *
-     * @param expected instance of this type
-     * @return whether this is type of the instance
-     */
-    public SELF isTypeOf(Object expected) {
-        if (!ClassUtils.wrap(actual).isInstance(expected)) {
-            setDefaultDescription("It is expected to be type of the instance, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * Verifies this is not type of the instance.
-     * <p>
-     * If you input a primitive type, it is converted to wrapper type.
-     * Primitive type cannot instantiate, so return value of
-     * {@link Class#isInstance(Object)} is always {@code false}.
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Number.class).isAssignableFrom(Long.class);
+     *     Asserts.that(Iterable.class).isAssignableFrom(List.class);
+     *     Asserts.that(CharSequence.class).isAssignableFrom(StringBuilder.class);
      *
-     * @param expected instance of non-matched this type
-     * @return whether this is not type of the instance
-     */
-    public SELF isNotTypeOf(Object expected) {
-        if (ClassUtils.wrap(actual).isInstance(expected)) {
-            setDefaultDescription("It is expected not to be type of the instance, but it is. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * Verifies this is assignable from the type.
+     *     // Assertion will fail.
+     *     Asserts.that(long.class).isAssignableFrom(int.class);
+     *     Asserts.that(Long.class).isAssignableFrom(long.class);
+     *     Asserts.that(StringBuilder.class).isAssignableFrom(CharSequence.class);
+     * }</pre>
      *
-     * @param expected sub type
-     * @return whether this is assignable from given type
+     * @param expected expected type
+     * @return this class
      */
     public SELF isAssignableFrom(Class<?> expected) {
         if (!actual.isAssignableFrom(expected)) {
@@ -94,13 +67,25 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is superclass of the type.
+     * Asserts that actual type is superclass of expected type.
      *
-     * @param expected sub type
-     * @return whether this is super class of given type
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Number.class).isSuperclassOf(Long.class);
+     *     Asserts.that(Object.class).isSuperclassOf(String.class);
+     *     Asserts.that(AbstractList.class).isSuperclassOf(ArrayList.class);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(long.class).isSuperclassOf(int.class);
+     *     Asserts.that(Long.class).isSuperclassOf(long.class);
+     *     Asserts.that(CharSequence.class).isSuperclassOf(StringBuilder.class);
+     * }</pre>
+     *
+     * @param expected expected type
+     * @return this class
      */
     public SELF isSuperclassOf(Class<?> expected) {
-        if (actual != expected.getSuperclass()) {
+        if (actual == null || actual != expected.getSuperclass()) {
             setDefaultDescription("It is expected to be superclass of the given type, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
@@ -110,24 +95,49 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies is subclass of the type.
+     * Asserts that actual type is subclass of expected type.
      *
-     * @param expected super type
-     * @return whether this is sub class of given type
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Long.class).isSubclassOf(Number.class);
+     *     Asserts.that(String.class).isSubclassOf(Object.class);
+     *     Asserts.that(ArrayList.class).isSubclassOf(AbstractList.class);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(int.class).isSubclassOf(long.class);
+     *     Asserts.that(long.class).isSubclassOf(Long.class);
+     *     Asserts.that(StringBuilder.class).isSubclassOf(CharSequence.class);
+     * }</pre>
+     *
+     * @param expected expected type
+     * @return this class
      */
     public SELF isSubclassOf(Class<?> expected) {
-        if (actual.getSuperclass() != expected) {
+        if (expected == null || actual.getSuperclass() != expected) {
             setDefaultDescription("It is expected to be subclass of the given type, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual);
             throw getException();
         }
+
         return self;
     }
 
     /**
-     * Verifies this is primitive.
+     * Asserts that actual type is primitive.
      *
-     * @return whether this is primitive
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(boolean.class).isPrimitive();
+     *     Asserts.that(int.class).isPrimitive();
+     *     Asserts.that(double.class).isPrimitive();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Boolean.class).isPrimitive();
+     *     Asserts.that(Integer.class).isPrimitive();
+     *     Asserts.that(Double.class).isPrimitive();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isPrimitive() {
         if (!actual.isPrimitive()) {
@@ -139,12 +149,24 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies whether this class is interface.
-     * <p>
-     * All annotations are passed this assertion
-     * because they extends {@link java.lang.annotation.Annotation}.
+     * Asserts that actual type is interface.
      *
-     * @return whether is is interface
+     * <p> If the actual value is annotation, this assertion is always passed
+     * because all the annotation extends interface {@link Annotation}.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Member.class).isInterface();
+     *     Asserts.that(Override.class).isInterface();
+     *     Asserts.that(CharSequence.class).isInterface();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Object.class).isInterface();
+     *     Asserts.that(Enum.class).isInterface();
+     *     Asserts.that(String[].class).isInterface();
+     * }</pre>
+     *
+     * @return this class
      * @see #isAnnotation()
      */
     public SELF isInterface() {
@@ -157,9 +179,21 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is annotation type.
+     * Asserts that actual type is annotation.
      *
-     * @return whether this is annotation type
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Override.class).isAnnotation();
+     *     Asserts.that(SafeVarargs.class).isAnnotation();
+     *     Asserts.that(SuppressWarnings.class).isAnnotation();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Object.class).isAnnotation();
+     *     Asserts.that(Annotation.class).isAnnotation();
+     *     Asserts.that(FunctionalInterface[].class).isAnnotation();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isAnnotation() {
         if (!actual.isAnnotation()) {
@@ -171,9 +205,23 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is final class.
+     * Asserts that actual type is final class.
      *
-     * @return whether this is final class
+     * <p> Notice: in case of {@code enum}, result of this assertion depends on jdk version.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(int.class).isFinalClass();
+     *     Asserts.that(String.class).isFinalClass();
+     *     Asserts.that(LocalDate.class).isFinalClass();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Object.class).isFinalClass();
+     *     Asserts.that(Enum.class).isFinalClass();
+     *     Asserts.that(Comparable.class).isFinalClass();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isFinalClass() {
         if (!Modifier.isFinal(actual.getModifiers())) {
@@ -185,9 +233,23 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is abstract class.
+     * Asserts that actual type is abstract class.
      *
-     * @return whether this is abstract class
+     * <p> Notice: in case of {@code enum}, result of this assertion depends on jdk version.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Enum.class).isAbstractClass();
+     *     Asserts.that(Number.class).isAbstractClass();
+     *     Asserts.that(OutputStream.class).isAbstractClass();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(int.class).isAbstractClass();
+     *     Asserts.that(String.class).isAbstractClass();
+     *     Asserts.that(Comparable.class).isAbstractClass();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isAbstractClass() {
         if (!ClassUtils.isAbstractClass(actual)) {
@@ -199,9 +261,21 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is anonymous class.
+     * Asserts that actual type is anonymous class.
      *
-     * @return whether this is anonymous class
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(new Object() {}.class).isAnonymousClass();
+     *     Asserts.that(new Random() {}.class).isAnonymousClass();
+     *     Asserts.that(new Serializable() {}.class).isAnonymousClass();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(byte.class).isAnonymousClass();
+     *     Asserts.that(Object.class).isAnonymousClass();
+     *     Asserts.that(Enum.class).isAnonymousClass();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isAnonymousClass() {
         if (!actual.isAnonymousClass()) {
@@ -213,9 +287,21 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is type of enum.
+     * Asserts that actual type is enum.
      *
-     * @return whether this is type of enum
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Enum.class).isEnum();
+     *     Asserts.that(Month.class).isEnum();
+     *     Asserts.that(TimeUnit.class).isEnum();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(byte.class).isEnum();
+     *     Asserts.that(Object.class).isEnum();
+     *     Asserts.that(Integer.class).isEnum();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isEnum() {
         if (!ClassUtils.isEnumOrEnumConstant(actual)) {
@@ -227,9 +313,21 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is type of array.
+     * Asserts that actual type is type of array.
      *
-     * @return whether this is type of array
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(int[].class).isArray();
+     *     Asserts.that(Object[][].class).isArray();
+     *     Asserts.that(String[][][].class).isArray();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(int.class).isArray();
+     *     Asserts.that(Object.class).isArray();
+     *     Asserts.that(String.class).isArray();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isArray() {
         if (!actual.isArray()) {
@@ -241,9 +339,23 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is inner class.
+     * Asserts that actual type is member class.
      *
-     * @return whether this is inner class
+     * <pre>{@code
+     *     Object o = new Object() { class A {} };
+     *
+     *     // Assertion will pass.
+     *     Asserts.that(Map.Entry.class).isMemberClass();
+     *     Asserts.that(AbstractMap.SimpleEntry.class).isMemberClass();
+     *     Asserts.that(o.getClass().getDeclaredClasses()[0]).isMemberClass();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(int.class).isMemberClass();
+     *     Asserts.that(Object.class).isMemberClass();
+     *     Asserts.that(Map.class).isMemberClass();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isMemberClass() {
         if (!actual.isMemberClass()) {
@@ -255,9 +367,21 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is local class.
+     * Asserts that actual type is local class.
      *
-     * @return whether this is local class
+     * <pre>{@code
+     *     class A {}
+     *
+     *     // Assertion will pass.
+     *     Asserts.that(A.class).isLocalClass();
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(double.class).isLocalClass();
+     *     Asserts.that(Object.class).isLocalClass();
+     *     Asserts.that(new Object {}.class).isLocalClass();
+     * }</pre>
+     *
+     * @return this class
      */
     public SELF isLocalClass() {
         if (!actual.isLocalClass()) {

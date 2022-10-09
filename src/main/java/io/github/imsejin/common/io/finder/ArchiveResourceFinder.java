@@ -19,10 +19,10 @@ package io.github.imsejin.common.io.finder;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.ArchiveResource;
 import io.github.imsejin.common.io.Resource;
+import jakarta.validation.constraints.Null;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -42,11 +42,11 @@ public abstract class ArchiveResourceFinder<
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
                 .describedAs("No such path exists: {0}", path)
-                .predicate(Files::exists)
+                .is(Files::exists)
                 .describedAs("It is not a regular file: {0}", path)
-                .predicate(Files::isRegularFile)
+                .is(Files::isRegularFile)
                 .describedAs("Cannot read file: {0}", path)
-                .predicate(Files::isReadable);
+                .is(Files::isReadable);
 
         try (I in = getArchiveInputStream(Files.newInputStream(path))) {
             List<Resource> resources = new ArrayList<>();
@@ -71,7 +71,7 @@ public abstract class ArchiveResourceFinder<
 
     protected abstract E getNextArchiveEntry(I in) throws IOException;
 
-    @Nullable
+    @Null
     protected abstract R getArchiveResource(E entry, I in) throws IOException;
 
     protected abstract I getArchiveInputStream(InputStream in) throws IOException;
