@@ -122,7 +122,7 @@ public class RandomString {
                 .describedAs("RandomString.locale cannot be null")
                 .isNotNull()
                 .describedAs("RandomString.locale has invalid language: '{0}'", locale.getLanguage())
-                .predicate(it -> !StringUtils.isNullOrBlank(it.getLanguage()));
+                .is(it -> !StringUtils.isNullOrBlank(it.getLanguage()));
 
         // Resolves symbols by locale.
         List<String> unicodePointRanges = LANGUAGE_UNICODE_POINT_MAP.get(locale.getLanguage());

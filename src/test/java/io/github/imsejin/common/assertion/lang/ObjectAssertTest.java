@@ -265,10 +265,10 @@ class ObjectAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'predicate'")
-    class Predicate {
+    @DisplayName("method 'is'")
+    class Is {
         @Test
-        @DisplayName("passes, when predication result of the actual is true")
+        @DisplayName("passes, when condition result of the actual is true")
         void test0() {
             // given
             Map<Object, Object> params = new HashMap<>();
@@ -280,11 +280,11 @@ class ObjectAssertTest {
 
             // expect
             params.forEach((actual, expected) -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals)));
+                    .isThrownBy(() -> Asserts.that(actual).is(expected::equals)));
         }
 
         @Test
-        @DisplayName("throws exception, when predication result of the actual is false")
+        @DisplayName("throws exception, when condition result of the actual is false")
         void test1() {
             // given
             Map<Object, Object> params = new HashMap<>();
@@ -296,7 +296,7 @@ class ObjectAssertTest {
 
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).predicate(expected::equals))
+                    .isThrownBy(() -> Asserts.that(actual).is(expected::equals))
                     .withMessageStartingWith("It is expected to be true, but it isn't."));
         }
     }

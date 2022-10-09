@@ -46,11 +46,11 @@ class CustomAssertsTest {
             assertThatNoException().isThrownBy(() -> MyAsserts.that(foo)
                     .isNotNull()
                     .isEqualTo(foo)
-                    .predicate(it -> it.getValue() == null)
+                    .is(it -> it.getValue() == null)
                     .hasNullValue());
             assertThatIllegalArgumentException().isThrownBy(() -> MyAsserts.that(new Foo(""))
                     .isNotNull()
-                    .predicate(it -> it.getValue().isEmpty())
+                    .is(it -> it.getValue().isEmpty())
                     .hasNullValue());
         }
 
@@ -82,13 +82,13 @@ class CustomAssertsTest {
             // expect
             assertThatNoException().isThrownBy(() -> new FullyExtensibleAssertImpl<>(new Bar(""))
                     .isNotNull()
-                    .predicate(it -> it.getValue().isEmpty())
+                    .is(it -> it.getValue().isEmpty())
                     .hasNullValue());
             assertThatNoException().isThrownBy(() -> new FullyExtensibleAssertImpl<>(new Bar("a"))
                     .isNotNull()
-                    .predicate(it -> it.getValue().length() == 1)
+                    .is(it -> it.getValue().length() == 1)
                     .hasSingleValue()
-                    .predicate(it -> it.getCreatedTime().toEpochMilli() <= System.currentTimeMillis()));
+                    .is(it -> it.getCreatedTime().toEpochMilli() <= System.currentTimeMillis()));
         }
     }
 
@@ -107,11 +107,11 @@ class CustomAssertsTest {
             assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssert<>(foo)
                     .isNotNull()
                     .isEqualTo(foo)
-                    .predicate(it -> it.getValue() == null)
+                    .is(it -> it.getValue() == null)
                     .hasNullValue());
             assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyExtensibleAssert<>(new Foo("a"))
                     .isNotNull()
-                    .predicate(it -> it.getValue().isEmpty())
+                    .is(it -> it.getValue().isEmpty())
                     .hasNullValue());
         }
 
@@ -142,11 +142,11 @@ class CustomAssertsTest {
             // expect
             assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssertImpl<>(new Foo(""))
                     .isNotNull()
-                    .predicate(it -> it.getValue().isEmpty())
+                    .is(it -> it.getValue().isEmpty())
                     .hasNullValue());
             assertThatNoException().isThrownBy(() -> new PartiallyExtensibleAssertImpl<>(new Foo("alpha"))
                     .isNotNull()
-                    .predicate(it -> it.getValue().length() > 1)
+                    .is(it -> it.getValue().length() > 1)
                     .hasMultipleValue()
                     .returns("alpha", Foo::getValue));
         }
@@ -167,11 +167,11 @@ class CustomAssertsTest {
             assertThatNoException().isThrownBy(() -> new PartiallyRestrictedAssert<>(foo)
                     .isNotNull()
                     .isEqualTo(foo)
-                    .predicate(it -> !it.getValue().isEmpty())
+                    .is(it -> !it.getValue().isEmpty())
                     .hasNumericValue());
             assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyRestrictedAssert<>(new Foo("a"))
                     .isNotNull()
-                    .predicate(it -> !it.getValue().isEmpty())
+                    .is(it -> !it.getValue().isEmpty())
                     .hasNumericValue());
         }
 
@@ -215,12 +215,12 @@ class CustomAssertsTest {
                     .isNotNull()
                     .hasNumericValue()
                     .hasMultipleNumericValue()
-                    .predicate(it -> !it.getValue().isEmpty()));
+                    .is(it -> !it.getValue().isEmpty()));
             assertThatIllegalArgumentException().isThrownBy(() -> new PartiallyRestrictedAssertImpl<>(new Bar("a1"))
                     .isNotNull()
                     .hasNumericValue()
                     .hasMultipleNumericValue()
-                    .predicate(it -> !it.getValue().isEmpty()));
+                    .is(it -> !it.getValue().isEmpty()));
         }
     }
 
@@ -242,14 +242,14 @@ class CustomAssertsTest {
                     .isNotEqualTo("03200199")
                     .isParentOf(new KanCode("03200199"))
                     .isChildOf(new KanCode("03200000"))
-                    .predicate(it -> it.getDepth() == 3));
+                    .is(it -> it.getDepth() == 3));
             assertThatIllegalArgumentException().isThrownBy(() -> MyAsserts.that(kanCode)
                     .isNotNull()
                     .isEqualTo("03200100")
                     .isNotEqualTo("03200000")
                     .isParentOf(new KanCode("03200199"))
                     .isChildOf(new KanCode("03200199"))
-                    .predicate(it -> it.getDepth() == 3));
+                    .is(it -> it.getDepth() == 3));
         }
 
         @Test
@@ -290,7 +290,7 @@ class CustomAssertsTest {
                     .isEqualTo("03200000")
                     .isNotEqualTo("03200100")
                     .isChildOf(new KanCode("03000000"))
-                    .predicate(it -> it.getDepth() == 2));
+                    .is(it -> it.getDepth() == 2));
             assertThatIllegalArgumentException().isThrownBy(() -> new FullyRestrictedAssertImpl(new KanCode("03200100"))
                     .isNotNull()
                     .asParent()
@@ -298,7 +298,7 @@ class CustomAssertsTest {
                     .isEqualTo("03200000")
                     .isNotEqualTo("03200100")
                     .isChildOf(new KanCode("03200100"))
-                    .predicate(it -> it.getDepth() == 2));
+                    .is(it -> it.getDepth() == 2));
         }
     }
 

@@ -45,7 +45,7 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
                 .describedAs("BreadthFirstIterator.root is not allowed to be null")
                 .isNotNull()
                 .describedAs("BreadthFirstIterator.root must be in graph as a vertex: '{0}'", root)
-                .predicate(graph::containsVertex);
+                .is(graph::containsVertex);
 
         this.graph = graph;
         this.queue.offer(root);
@@ -80,7 +80,7 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
                 .describedAs("BreadthFirstIterator.root is not allowed to be null")
                 .isNotNull()
                 .describedAs("BreadthFirstIterator.root must be in graph as a vertex: '{0}'", root)
-                .predicate(graph::containsVertex);
+                .is(graph::containsVertex);
 
         Set<E> visited = new LinkedHashSet<>();
         Queue<E> queue = new ArrayDeque<>();
