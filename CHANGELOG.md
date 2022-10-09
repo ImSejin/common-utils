@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [v0.12.0](#v0120):
+- [v0.12.0](#v0120): 2022-10-09
 - [v0.11.0](#v0110): 2022-09-12
 - [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
@@ -35,7 +35,6 @@
 - 🔥 Remove: utility class `PathnameUtils`
 - 🔥 Remove: assertion methods `isTypeOf(Object)`, `isNotTypeOf(Object)` in `ClassAssert`
 - 🚚 Rename: assertion method `predicate(Predicate)` to `is(Predicate)` in `ObjectAssert`
-- 🚚 Rename: internal field from `DECIMAL_PLACE` to `ROUNDING_SCALE` in `Stopwatch`
 - 🔨 Modify: pattern of return value from `getSummary`, `getStatistics()` in `Stopwatch`
 
 ### New features
