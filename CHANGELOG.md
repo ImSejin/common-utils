@@ -32,11 +32,11 @@
 
 ### Modification
 
-- 🔨 Modify: pattern of return value from `getSummary`, `getStatistics()` in `Stopwatch`
-- ♻️ Refactor:
+- 🔥 Remove: utility class `PathnameUtils`
 - 🔥 Remove: assertion methods `isTypeOf(Object)`, `isNotTypeOf(Object)` in `ClassAssert`
 - 🚚 Rename: assertion method `predicate(Predicate)` to `is(Predicate)` in `ObjectAssert`
 - 🚚 Rename: internal field from `DECIMAL_PLACE` to `ROUNDING_SCALE` in `Stopwatch`
+- 🔨 Modify: pattern of return value from `getSummary`, `getStatistics()` in `Stopwatch`
 
 ### New features
 
