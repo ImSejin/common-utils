@@ -133,6 +133,8 @@ class ClassAssertTest {
         void test1() {
             String description = "It is expected to be superclass of the given type, but it isn't.";
 
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that((Class<?>) null)
+                    .isSuperclassOf(Object.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IllegalArgumentException.class)
                     .isSuperclassOf(RuntimeException.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
@@ -162,13 +164,14 @@ class ClassAssertTest {
         void test1() {
             String description = "It is expected to be subclass of the given type, but it isn't.";
 
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Object.class)
+                    .isSubclassOf(null)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Throwable.class)
                     .isSubclassOf(Exception.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
                     .isSubclassOf(RuntimeException.class)).withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
                     .isSubclassOf(IllegalArgumentException.class)).withMessageStartingWith(description);
-
         }
     }
 
