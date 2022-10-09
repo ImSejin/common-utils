@@ -292,6 +292,13 @@
 - ✨ Add: methods `ifNullOrEmpty(Collection, Collection)`, `ifNullOrEmpty(Collection, Supplier)`, `exists(Map)`
   in `CollectionUtils`
 
+### Troubleshooting
+
+- 🐞 Fix: wrong type inference in `AbstractMapAssert`
+- 🐞 Fix: wrong assertion condition of `isNotSameSize(Map)` in `AbstractMapAssert`
+- 🐞 Fix: wrong default description when array is multi-dimensional
+- 🐞 Fix: wrong comparison in `NumberUtils#hasDecimalPart(BigDecimal)`
+
 ### Dependencies
 
 - ➖ Remove: useless build dependency `maven-dependency-plugin`
@@ -301,13 +308,6 @@
 - ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.2.0` to `3.3.1`
 - ⬆️ Upgrade: build dependency `maven-gpg-plugin` from `1.6` to `3.0.1`
 - ⬆️ Upgrade: build dependency `maven-gmavenplus-plugin` from `1.12.1` to `1.13.0`
-
-### Troubleshooting
-
-- 🐞 Fix: wrong type inference in `AbstractMapAssert`
-- 🐞 Fix: wrong assertion condition of `isNotSameSize(Map)` in `AbstractMapAssert`
-- 🐞 Fix: wrong default description when array is multi-dimensional
-- 🐞 Fix: wrong comparison in `NumberUtils#hasDecimalPart(BigDecimal)`
 
 # v0.6.0
 
@@ -383,15 +383,6 @@
 - ✨ Support: assertion for primitive array
 - ✨ Add: conversion methods in some assertion classes
 
-### Dependencies
-
-- ⬆️ Upgrade: dependency `gson` from `2.8.6` to `2.8.7`
-- ⬆️ Upgrade: test dependency `junit5` from `5.7.1` to `5.7.2`
-- ⬆️ Upgrade: test dependency `assertj-core` from `3.19.0` to `3.20.2`
-- ⬆️ Upgrade: test dependency `spock` from `2.0-M5` to `2.0`
-- ⬆️ Upgrade: build plugin dependency `gmavenplus` from `1.11.1` to `1.12.1`
-- ⬆️ Upgrade: build plugin dependency `jacoco` from `0.8.6` to `0.8.7`
-
 ### Troubleshooting
 
 - 🐞 Fix: wrong computation `MathUtils#hasDecimalPart(double)`
@@ -400,6 +391,15 @@
 - 🐞 Fix: wrong comparison with equality of character
 - 🐞 Fix: wrong type inference in `AbstractCollectionAssert`
 - 🐞 Fix: wrong type inference in `ArrayAssert`
+
+### Dependencies
+
+- ⬆️ Upgrade: dependency `gson` from `2.8.6` to `2.8.7`
+- ⬆️ Upgrade: test dependency `junit5` from `5.7.1` to `5.7.2`
+- ⬆️ Upgrade: test dependency `assertj-core` from `3.19.0` to `3.20.2`
+- ⬆️ Upgrade: test dependency `spock` from `2.0-M5` to `2.0`
+- ⬆️ Upgrade: build plugin dependency `gmavenplus` from `1.11.1` to `1.12.1`
+- ⬆️ Upgrade: build plugin dependency `jacoco` from `0.8.6` to `0.8.7`
 
 # v0.4.7
 
@@ -576,13 +576,13 @@
 - ✨ Add: `StringUtils#getLastString(String)`
 - ✨ Add: `StringUtils#chop(String)`
 
-### Dependencies
-
-- ➕ Add: dependency `maven-surefire-plugin` for maven test
-
 ### Troubleshooting
 
 - 🐞 Fix: `StringUtils#countOf`
+
+### Dependencies
+
+- ➕ Add: dependency `maven-surefire-plugin` for maven test
 
 # v0.3.0
 
