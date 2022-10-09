@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.nio.file.AccessMode;
@@ -35,7 +34,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.chrono.ChronoLocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -46,7 +44,6 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -74,95 +71,6 @@ class ClassAssertTest {
             }.getClass());
     private static final List<Class<?>> ARRAYS = Arrays.asList(
             int[].class, Member[].class, Override[].class, Month[].class, Number[].class);
-
-    @Nested
-    @DisplayName("method 'isTypeOf'")
-    class IsTypeOf {
-        @Test
-        @DisplayName("passes, when actual is type of the given instance")
-        void test0() throws NoSuchFieldException {
-            // given
-            Map<Class<?>, Object> map = new HashMap<>();
-            map.put(long.class, 512L);
-            map.put(Object.class, new Object());
-            map.put(StringBuffer.class, new StringBuffer("string-buffer"));
-            map.put(CharSequence.class, String.class.getName());
-            map.put(Supplier.class, (Supplier<Map<?, ?>>) HashMap::new);
-            map.put(Class.class, getClass());
-            map.put(Member.class, String.class.getDeclaredField("value"));
-            map.put(Descriptor.class, Asserts.that(new Object()));
-
-            // expect
-            assertThatNoException().isThrownBy(() -> map
-                    .forEach((actual, expected) -> Asserts.that(actual).isTypeOf(expected)));
-        }
-
-        @Test
-        void test1() throws NoSuchFieldException {
-            // given
-            Map<Class<?>, Object> map = new HashMap<>();
-            map.put(long.class, 512);
-            map.put(Object.class, null);
-            map.put(StringBuffer.class, new StringBuilder("string-builder"));
-            map.put(CharSequence.class, new Object());
-            map.put(Supplier.class, (Function<Collection<?>, List<?>>) ArrayList::new);
-            map.put(Class.class, getClass().getSimpleName());
-            map.put(Constructor.class, String.class.getDeclaredField("value"));
-            map.put(ClassAssert.class, Asserts.that(new Object()));
-
-            // expect
-            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isTypeOf(expected))
-                    .withMessageStartingWith("It is expected to be type of the instance, but it isn't."));
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'isNotTypeOf'")
-    class IsNotTypeOf {
-        @Test
-        @DisplayName("passes, when actual is not type of the given instance")
-        void test0() throws NoSuchFieldException {
-            // given
-            Map<Class<?>, Object> map = new HashMap<>();
-            map.put(long.class, 512);
-            map.put(Object.class, null);
-            map.put(StringBuffer.class, new StringBuilder("string-builder"));
-            map.put(CharSequence.class, new Object());
-            map.put(Supplier.class, (Function<Collection<?>, List<?>>) ArrayList::new);
-            map.put(Class.class, getClass().getSimpleName());
-            map.put(Constructor.class, String.class.getDeclaredField("value"));
-            map.put(ClassAssert.class, Asserts.that(new Object()));
-
-            // expect
-            assertThatNoException().isThrownBy(() -> map
-                    .forEach((actual, expected) -> Asserts.that(actual).isNotTypeOf(expected)));
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is type of the given instance")
-        void test1() throws NoSuchFieldException {
-            // given
-            Map<Class<?>, Object> map = new HashMap<>();
-            map.put(long.class, 512L);
-            map.put(Object.class, new Object());
-            map.put(StringBuffer.class, new StringBuffer("string-buffer"));
-            map.put(CharSequence.class, String.class.getName());
-            map.put(Supplier.class, (Supplier<Map<?, ?>>) HashMap::new);
-            map.put(Class.class, getClass());
-            map.put(Member.class, String.class.getDeclaredField("value"));
-            map.put(Descriptor.class, Asserts.that(new Object()));
-
-            // expect
-            map.forEach((actual, expected) -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isNotTypeOf(expected))
-                    .withMessageStartingWith("It is expected not to be type of the instance, but it is."));
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("method 'isAssignableFrom'")

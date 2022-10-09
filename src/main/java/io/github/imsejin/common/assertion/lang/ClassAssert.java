@@ -38,46 +38,6 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
     }
 
     /**
-     * Verifies this is type of the instance.
-     * <p>
-     * If you input a primitive type, it is converted to wrapper type.
-     * Primitive type cannot instantiate, so return value of
-     * {@link Class#isInstance(Object)} is always {@code false}.
-     *
-     * @param expected instance of this type
-     * @return whether this is type of the instance
-     */
-    public SELF isTypeOf(Object expected) {
-        if (!ClassUtils.wrap(actual).isInstance(expected)) {
-            setDefaultDescription("It is expected to be type of the instance, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
-     * Verifies this is not type of the instance.
-     * <p>
-     * If you input a primitive type, it is converted to wrapper type.
-     * Primitive type cannot instantiate, so return value of
-     * {@link Class#isInstance(Object)} is always {@code false}.
-     *
-     * @param expected instance of non-matched this type
-     * @return whether this is not type of the instance
-     */
-    public SELF isNotTypeOf(Object expected) {
-        if (ClassUtils.wrap(actual).isInstance(expected)) {
-            setDefaultDescription("It is expected not to be type of the instance, but it is. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
-            throw getException();
-        }
-
-        return self;
-    }
-
-    /**
      * Verifies this is assignable from the type.
      *
      * @param expected sub type
