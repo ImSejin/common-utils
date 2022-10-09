@@ -201,7 +201,7 @@ class ConversionTest {
                     .asSuperclass().isEqualTo(Throwable.class)
                     .isSuperclassOf(Exception.class).isSubclassOf(Object.class)
                     .asSuperclass().isEqualTo(Object.class)
-                    .isSuperclassOf(Throwable.class).isSubclassOf(null));
+                    .isSuperclassOf(Throwable.class));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(NumberFormatException.class)
                             .describedAs("Description of assertion")
