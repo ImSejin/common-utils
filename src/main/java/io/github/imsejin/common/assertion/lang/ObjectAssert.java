@@ -319,7 +319,32 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF is(Predicate<ACTUAL> condition) {
         if (!Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
-            setDefaultDescription("It is expected to be true, but it isn't. (expected: 'false')");
+            setDefaultDescription("It is expected to be true, but it isn't. (actual: 'false')");
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Asserts that actual value doesn't match the given condition.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Object.class).isNot(Class::isInterface);
+     *     Asserts.that(['a', 'b', 'c']).isNot(List::isEmpty);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that('2').isNot(Character::isDigit);
+     *     Asserts.that("alpha").isNot(it -> it.length() == 5);
+     * }</pre>
+     *
+     * @param condition expected condition
+     * @return this class
+     */
+    public SELF isNot(Predicate<ACTUAL> condition) {
+        if (Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
+            setDefaultDescription("It is expected to be false, but it isn't. (actual: 'true')");
             throw getException();
         }
 

@@ -304,6 +304,45 @@ class ObjectAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
+    @DisplayName("method 'isNot'")
+    class IsNot {
+        @Test
+        @DisplayName("passes, when condition result of the actual is false")
+        void test0() {
+            // given
+            Map<Object, Object> params = new HashMap<>();
+            params.put(LocalDate.now(), LocalDateTime.now().minusDays(1));
+            params.put("alpha", "alpha".toUpperCase());
+            params.put('c', "C".charAt(0));
+            params.put(3.14F, 3.14);
+            params.put(3.141592, 3.141592F);
+
+            // expect
+            params.forEach((actual, expected) -> assertThatNoException()
+                    .isThrownBy(() -> Asserts.that(actual).isNot(expected::equals)));
+        }
+
+        @Test
+        @DisplayName("throws exception, when condition result of the actual is true")
+        void test1() {
+            // given
+            Map<Object, Object> params = new HashMap<>();
+            params.put(LocalDate.now(), LocalDateTime.now().toLocalDate());
+            params.put("alpha", "ALPHA".toLowerCase());
+            params.put('c', "c".charAt(0));
+            params.put(3.14F, Float.valueOf("3.14"));
+            params.put(3.141592, Double.valueOf("3.141592"));
+
+            // expect
+            params.forEach((actual, expected) -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isNot(expected::equals))
+                    .withMessageStartingWith("It is expected to be false, but it isn't."));
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("method 'returns'")
     class Returns {
         @Test

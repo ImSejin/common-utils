@@ -50,7 +50,7 @@ class CustomAssertsTest {
                     .hasNullValue());
             assertThatIllegalArgumentException().isThrownBy(() -> MyAsserts.that(new Foo(""))
                     .isNotNull()
-                    .is(it -> it.getValue().isEmpty())
+                    .isNot(it -> it.getValue() == null)
                     .hasNullValue());
         }
 
