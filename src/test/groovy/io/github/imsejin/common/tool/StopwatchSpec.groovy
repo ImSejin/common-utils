@@ -23,8 +23,6 @@ import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-import static java.util.stream.Collectors.toList
-
 class StopwatchSpec extends Specification {
 
     def "Default timeUnit is nanoseconds"() {
@@ -253,7 +251,7 @@ class StopwatchSpec extends Specification {
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
+        def taskTimes = taskTimeInfo.split(",").collect { new BigDecimal(it) }
         taskTimes.size().times {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
@@ -283,7 +281,7 @@ class StopwatchSpec extends Specification {
     def "Gets average time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
+        def taskTimes = taskTimeInfo.split(",").collect { new BigDecimal(it) }
         taskTimes.size().times {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
