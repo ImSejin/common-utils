@@ -17,6 +17,8 @@
 package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
@@ -27,7 +29,9 @@ import java.io.File;
 public class AbstractFileAssert<
         SELF extends AbstractFileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
-        extends ObjectAssert<SELF, ACTUAL> {
+        extends ObjectAssert<SELF, ACTUAL>
+        implements SizeAssertable<SELF, ACTUAL, Long>,
+        SizeComparisonAssertable<SELF, ACTUAL> {
 
     public AbstractFileAssert(ACTUAL actual) {
         super(actual);
@@ -38,17 +42,64 @@ public class AbstractFileAssert<
     }
 
     public SELF exists() {
-        if (!actual.exists()) throw getException();
+        if (!actual.exists()) {
+            throw getException();
+        }
+
         return self;
     }
 
+    @Override
     public SELF isEmpty() {
-        if (actual.length() > 0) throw getException();
+        if (actual.length() > 0) {
+            throw getException();
+        }
+
         return self;
     }
 
+    @Override
     public SELF isNotEmpty() {
-        if (actual.length() == 0) throw getException();
+        if (actual.length() == 0) {
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF hasSize(Long expected) {
+        if (actual.length() != expected) {
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF doesNotHaveSize(Long expected) {
+        if (actual.length() == expected) {
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF hasSameSizeAs(ACTUAL expected) {
+        if (expected == null || actual.length() != expected.length()) {
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF doesNotHaveSameSizeAs(ACTUAL expected) {
+        if (expected == null || actual.length() == expected.length()) {
+            throw getException();
+        }
+
         return self;
     }
 
@@ -92,31 +143,37 @@ public class AbstractFileAssert<
         return self;
     }
 
+    @Deprecated
     public SELF canRead() {
         if (!actual.canRead()) throw getException();
         return self;
     }
 
+    @Deprecated
     public SELF canNotRead() {
         if (actual.canRead()) throw getException();
         return self;
     }
 
+    @Deprecated
     public SELF canWrite() {
         if (!actual.canWrite()) throw getException();
         return self;
     }
 
+    @Deprecated
     public SELF canNotWrite() {
         if (actual.canWrite()) throw getException();
         return self;
     }
 
+    @Deprecated
     public SELF canExecute() {
         if (!actual.canExecute()) throw getException();
         return self;
     }
 
+    @Deprecated
     public SELF canNotExecute() {
         if (actual.canExecute()) throw getException();
         return self;
@@ -136,31 +193,69 @@ public class AbstractFileAssert<
         return self;
     }
 
+    @Override
+    public SELF isGreaterThan(ACTUAL expected) {
+        return isLargerThan(expected.length());
+    }
+
+    @Override
+    public SELF isGreaterThanOrEqualTo(ACTUAL expected) {
+        return self;
+    }
+
+    @Override
+    public SELF isLessThan(ACTUAL expected) {
+        return isSmallerThan(expected.length());
+    }
+
+    @Override
+    public SELF isLessThanOrEqualTo(ACTUAL expected) {
+        return self;
+    }
+
+    @Deprecated
     public SELF isLargerThan(ACTUAL expected) {
         return isLargerThan(expected.length());
     }
 
+    @Deprecated
     public SELF isLargerThan(long expected) {
-        if (actual.length() <= expected) throw getException();
+        if (actual.length() <= expected) {
+            throw getException();
+        }
+
         return self;
     }
 
+    @Deprecated
     public SELF isSmallerThan(ACTUAL expected) {
         return isSmallerThan(expected.length());
     }
 
+    @Deprecated
     public SELF isSmallerThan(long expected) {
-        if (actual.length() >= expected) throw getException();
+        if (actual.length() >= expected) {
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasName(String expected) {
-        if (!actual.getName().equals(expected)) throw getException();
+        if (!actual.getName().equals(expected)) {
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasExtension(String expected) {
-        if (!FilenameUtils.getExtension(actual.getName()).equals(expected)) throw getException();
+        String extension = FilenameUtils.getExtension(actual.getName());
+
+        if (!extension.equals(expected)) {
+            throw getException();
+        }
+
         return self;
     }
 
