@@ -254,7 +254,7 @@ class ConversionTest {
     // java.io -----------------------------------------------------------------------------------------
 
     @Nested
-    class AbstractFileAssert {
+    class FileAssert {
         @Test
         @DisplayName("asLength(): File -> Long")
         void asLength(@TempDir Path path) throws IOException {

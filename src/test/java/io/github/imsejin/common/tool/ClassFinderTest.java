@@ -17,7 +17,7 @@
 package io.github.imsejin.common.tool;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.io.AbstractFileAssert;
+import io.github.imsejin.common.assertion.io.FileAssert;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.BooleanAssert;
 import io.github.imsejin.common.assertion.lang.CharSequenceAssert;
@@ -114,7 +114,7 @@ class ClassFinderTest {
                     .isNotEmpty()
                     .doesNotContainNull()
                     .contains(ArrayAssert.class, CharSequenceAssert.class, StringAssert.class,
-                            CollectionAssert.class, AbstractFileAssert.class, MapAssert.class,
+                            CollectionAssert.class, FileAssert.class, MapAssert.class,
                             ObjectAssert.class, BooleanAssert.class, CharacterAssert.class, DoubleAssert.class,
                             FloatAssert.class, NumberAssert.class, ClassAssert.class, PackageAssert.class,
                             ChronoLocalDateAssert.class, ChronoLocalDateTimeAssert.class,

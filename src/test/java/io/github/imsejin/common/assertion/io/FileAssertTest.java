@@ -37,7 +37,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("AbstractFileAssert")
-class AbstractFileAssertTest {
+class FileAssertTest {
 
     @Nested
     @DisplayName("method 'exists'")

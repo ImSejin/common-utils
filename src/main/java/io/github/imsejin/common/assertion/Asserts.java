@@ -16,7 +16,7 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.assertion.io.AbstractFileAssert;
+import io.github.imsejin.common.assertion.io.FileAssert;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.BooleanAssert;
 import io.github.imsejin.common.assertion.lang.CharSequenceAssert;
@@ -209,8 +209,8 @@ public abstract class Asserts {
 
     // java.io -----------------------------------------------------------------------------------------
 
-    public static AbstractFileAssert<?, File> that(File file) {
-        return new AbstractFileAssert<>(file);
+    public static FileAssert<?, File> that(File file) {
+        return new FileAssert<>(file);
     }
 
     // java.math ---------------------------------------------------------------------------------------

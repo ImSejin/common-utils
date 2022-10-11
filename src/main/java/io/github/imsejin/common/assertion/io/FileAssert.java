@@ -26,18 +26,18 @@ import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
 
-public class AbstractFileAssert<
-        SELF extends AbstractFileAssert<SELF, ACTUAL>,
+public class FileAssert<
+        SELF extends FileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
         extends ObjectAssert<SELF, ACTUAL>
         implements SizeAssertable<SELF, ACTUAL, Long>,
         SizeComparisonAssertable<SELF, ACTUAL> {
 
-    public AbstractFileAssert(ACTUAL actual) {
+    public FileAssert(ACTUAL actual) {
         super(actual);
     }
 
-    protected AbstractFileAssert(Descriptor<?> descriptor, ACTUAL actual) {
+    protected FileAssert(Descriptor<?> descriptor, ACTUAL actual) {
         super(descriptor, actual);
     }
 
