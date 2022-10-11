@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
@@ -42,7 +43,7 @@ public class MapAssert<
 
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
@@ -51,7 +52,7 @@ public class MapAssert<
 
     public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 
@@ -60,7 +61,7 @@ public class MapAssert<
 
     public SELF hasSize(int expected) {
         if (actual.size() != expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
             throw getException();
         }
 
@@ -69,7 +70,7 @@ public class MapAssert<
 
     public SELF hasSameSizeAs(Map<?, ?> expected) {
         if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -79,7 +80,7 @@ public class MapAssert<
 
     public SELF doesNotHaveSameSizeAs(Map<?, ?> expected) {
         if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }

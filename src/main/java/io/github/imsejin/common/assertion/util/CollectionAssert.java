@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.util;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -61,7 +62,7 @@ public class CollectionAssert<
     @Override
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
@@ -76,7 +77,7 @@ public class CollectionAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 
@@ -90,9 +91,9 @@ public class CollectionAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(int expected) {
+    public SELF hasSize(Integer expected) {
         if (actual.size() != expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
             throw getException();
         }
 
@@ -106,9 +107,9 @@ public class CollectionAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(int expected) {
+    public SELF doesNotHaveSize(Integer expected) {
         if (actual.size() == expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.size());
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.size());
             throw getException();
         }
 
@@ -125,7 +126,7 @@ public class CollectionAssert<
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF hasSameSizeAs(Collection expected) {
         if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -143,7 +144,7 @@ public class CollectionAssert<
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF doesNotHaveSameSizeAs(Collection expected) {
         if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }

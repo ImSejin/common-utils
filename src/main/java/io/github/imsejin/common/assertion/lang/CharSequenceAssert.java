@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 
 /**
  * Assertion for {@link CharSequence}
@@ -58,7 +59,7 @@ public class CharSequenceAssert<
     @Override
     public SELF isEmpty() {
         if (actual.length() > 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
@@ -82,7 +83,7 @@ public class CharSequenceAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.length() <= 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 
@@ -107,7 +108,7 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(int expected) {
+    public SELF hasSize(Integer expected) {
         if (actual.length() != expected) {
             setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length());
             throw getException();
@@ -134,7 +135,7 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(int expected) {
+    public SELF doesNotHaveSize(Integer expected) {
         if (actual.length() == expected) {
             setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')", expected, actual.length());
             throw getException();

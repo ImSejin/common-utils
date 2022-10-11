@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
@@ -60,7 +61,7 @@ public class ArrayAssert<
     @Override
     public SELF isEmpty() {
         if (actual.length > 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, (Object) actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, (Object) actual);
             throw getException();
         }
 
@@ -75,7 +76,7 @@ public class ArrayAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.length == 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, (Object) actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, (Object) actual);
             throw getException();
         }
 
@@ -89,9 +90,9 @@ public class ArrayAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(int expected) {
+    public SELF hasSize(Integer expected) {
         if (actual.length != expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.length);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.length);
             throw getException();
         }
 
@@ -105,9 +106,9 @@ public class ArrayAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(int expected) {
+    public SELF doesNotHaveSize(Integer expected) {
         if (actual.length == expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.length);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.length);
             throw getException();
         }
 
@@ -123,7 +124,7 @@ public class ArrayAssert<
     @Override
     public SELF hasSameSizeAs(Object[] expected) {
         if (expected == null || actual.length != expected.length) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }
@@ -140,7 +141,7 @@ public class ArrayAssert<
     @Override
     public SELF doesNotHaveSameSizeAs(Object[] expected) {
         if (expected == null || actual.length == expected.length) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.length, actual.length);
             throw getException();
         }
