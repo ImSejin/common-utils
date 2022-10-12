@@ -39,7 +39,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-@DisplayName("AbstractFileAssert")
+@DisplayName("FileAssert")
 class FileAssertTest {
 
     @Nested
@@ -142,8 +142,45 @@ class FileAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
+    @DisplayName("method 'doesNotHaveSize'")
+    class DoesNotHaveSize {
+        @Test
+        @DisplayName("passes, when actual doesn't have the given size")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String content = new RandomString().nextString(fileSize);
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), content.getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .doesNotHaveSize(content.length() + 1));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has the given size")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String content = new RandomString().nextString(fileSize);
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), content.getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .doesNotHaveSize(content.length()))
+                    .withMessageStartingWith("It is expected not to have the given length, but it is");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("method 'hasSameSizeAs'")
-    class hasSameSizeAs {
+    class HasSameSizeAs {
         @Test
         @DisplayName("passes, when actual has the same size as the given file")
         void test0(@TempDir Path path) throws IOException {
@@ -179,6 +216,49 @@ class FileAssertTest {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .hasSameSizeAs(expected))
                     .withMessageStartingWith("They are expected to have the same length, but they aren't.");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'doesNotHaveSameSizeAs'")
+    class DoesNotHaveSameSizeAs {
+        @Test
+        @DisplayName("passes, when actual doesn't have the same size as the given file")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File actual = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(actual.toPath(), randomString.nextString(fileSize).getBytes());
+
+            File expected = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(expected.toPath(), randomString.nextString(fileSize + 1).getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual)
+                    .doesNotHaveSameSizeAs(expected));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has the same as the given file")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File actual = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(actual.toPath(), randomString.nextString(fileSize).getBytes());
+
+            File expected = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(expected.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .doesNotHaveSameSizeAs(expected))
+                    .withMessageStartingWith("They are expected not to have the same length, but they are.");
         }
     }
 
@@ -223,8 +303,7 @@ class FileAssertTest {
         @DisplayName("passes, when actual exists")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
@@ -235,8 +314,8 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual doesn't exist")
         void test1(@TempDir Path path) {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = new File(path.toFile(), "temp" + filename);
+            String fileName = new RandomString().nextString(8);
+            File file = new File(path.toFile(), fileName);
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
@@ -253,8 +332,7 @@ class FileAssertTest {
         @DisplayName("passes, when actual is file")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
@@ -285,8 +363,7 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is file")
         void test1(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
@@ -310,8 +387,7 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is not directory")
         void test1(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
@@ -328,8 +404,7 @@ class FileAssertTest {
         @DisplayName("passes, when actual is not directory")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
@@ -496,12 +571,12 @@ class FileAssertTest {
     @DisplayName("method 'hasName'")
     class HasName {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual has the given name")
         void test0(@TempDir Path path) {
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual doesn't have the given name")
         void test1(@TempDir Path path) {
         }
     }
@@ -512,12 +587,12 @@ class FileAssertTest {
     @DisplayName("method 'hasExtension'")
     class HasExtension {
         @Test
-        @DisplayName("")
+        @DisplayName("passes, when actual has the given extension")
         void test0(@TempDir Path path) {
         }
 
         @Test
-        @DisplayName("")
+        @DisplayName("throws exception, when actual doesn't have the given extension")
         void test1(@TempDir Path path) {
         }
     }
