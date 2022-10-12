@@ -45,7 +45,9 @@
 
 ### New features
 
-- ✨ Add: assertion failure message of `FileAssert`
+- ✨ Add: assertion class `PathAssert`
+- ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
+- ✨ Add: assertion failure messages of `FileAssert`
 
 ### Troubleshooting
 
