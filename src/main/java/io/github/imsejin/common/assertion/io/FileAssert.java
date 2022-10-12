@@ -31,7 +31,7 @@ public class FileAssert<
         ACTUAL extends File>
         extends ObjectAssert<SELF, ACTUAL>
         implements SizeAssertable<SELF, ACTUAL>,
-        SizeComparisonAssertable<SELF, ACTUAL> {
+        SizeComparisonAssertable<SELF, Long> {
 
     public FileAssert(ACTUAL actual) {
         super(actual);
@@ -68,8 +68,10 @@ public class FileAssert<
     }
 
     @Override
-    public SELF hasSize(Long expected) {
+    public SELF hasSize(long expected) {
         if (actual.length() != expected) {
+            setDefaultDescription("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length());
             throw getException();
         }
 
@@ -77,7 +79,7 @@ public class FileAssert<
     }
 
     @Override
-    public SELF doesNotHaveSize(Long expected) {
+    public SELF doesNotHaveSize(long expected) {
         if (actual.length() == expected) {
             throw getException();
         }
@@ -143,37 +145,8 @@ public class FileAssert<
         return self;
     }
 
-    public SELF hasLengthOf(ACTUAL expected) {
-        return hasLengthOf(expected.length());
-    }
-
-    public SELF hasLengthOf(long expected) {
-        if (actual.length() != expected) {
-            setDefaultDescription("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length());
-            throw getException();
-        }
-
-        return self;
-    }
-
     @Override
-    public SELF isGreaterThanOrEqualTo(ACTUAL expected) {
-        return self;
-    }
-
-    @Override
-    public SELF isLessThanOrEqualTo(ACTUAL expected) {
-        return self;
-    }
-
-    @Deprecated
-    public SELF isLargerThan(ACTUAL expected) {
-        return isLargerThan(expected.length());
-    }
-
-    @Deprecated
-    public SELF isLargerThan(long expected) {
+    public SELF isGreaterThan(Long expected) {
         if (actual.length() <= expected) {
             throw getException();
         }
@@ -181,17 +154,22 @@ public class FileAssert<
         return self;
     }
 
-    @Deprecated
-    public SELF isSmallerThan(ACTUAL expected) {
-        return isSmallerThan(expected.length());
+    @Override
+    public SELF isGreaterThanOrEqualTo(Long expected) {
+        return self;
     }
 
-    @Deprecated
-    public SELF isSmallerThan(long expected) {
+    @Override
+    public SELF isLessThan(Long expected) {
         if (actual.length() >= expected) {
             throw getException();
         }
 
+        return self;
+    }
+
+    @Override
+    public SELF isLessThanOrEqualTo(Long expected) {
         return self;
     }
 
