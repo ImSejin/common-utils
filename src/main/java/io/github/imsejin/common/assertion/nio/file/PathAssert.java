@@ -47,13 +47,7 @@ public class PathAssert<
 
     @Override
     public SELF isEmpty() {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (size > 0) {
             setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
@@ -65,13 +59,7 @@ public class PathAssert<
 
     @Override
     public SELF isNotEmpty() {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (size == 0) {
             setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
@@ -83,13 +71,7 @@ public class PathAssert<
 
     @Override
     public SELF hasSize(long expected) {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (size != expected) {
             setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')",
@@ -102,13 +84,7 @@ public class PathAssert<
 
     @Override
     public SELF doesNotHaveSize(long expected) {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (size == expected) {
             setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')",
@@ -122,15 +98,8 @@ public class PathAssert<
 
     @Override
     public SELF hasSameSizeAs(ACTUAL expected) {
-        long actualSize;
-        Long expectedSize;
-
-        try {
-            actualSize = Files.size(actual);
-            expectedSize = expected == null ? null : Files.size(expected);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long actualSize = getSize(actual);
+        Long expectedSize = expected == null ? null : getSize(expected);
 
         if (expectedSize == null || actualSize != expectedSize) {
             setDefaultDescription("They are expected to have the same length, but they aren't. (expected: '{0}', actual: '{1}')",
@@ -143,15 +112,8 @@ public class PathAssert<
 
     @Override
     public SELF doesNotHaveSameSizeAs(ACTUAL expected) {
-        long actualSize;
-        Long expectedSize;
-
-        try {
-            actualSize = Files.size(actual);
-            expectedSize = expected == null ? null : Files.size(expected);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long actualSize = getSize(actual);
+        Long expectedSize = expected == null ? null : getSize(expected);
 
         if (expectedSize == null || actualSize == expectedSize) {
             setDefaultDescription("They are expected not to have the same length, but they are. (expected: '{0}', actual: '{1}')",
@@ -164,13 +126,7 @@ public class PathAssert<
 
     @Override
     public SELF isGreaterThan(Long expected) {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, size);
@@ -182,13 +138,7 @@ public class PathAssert<
 
     @Override
     public SELF isGreaterThanOrEqualTo(Long expected) {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, size);
@@ -200,13 +150,7 @@ public class PathAssert<
 
     @Override
     public SELF isLessThan(Long expected) {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_LESS_THAN.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, size);
@@ -218,13 +162,7 @@ public class PathAssert<
 
     @Override
     public SELF isLessThanOrEqualTo(Long expected) {
-        long size;
-
-        try {
-            size = Files.size(actual);
-        } catch (IOException e) {
-            throw getException();
-        }
+        long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, size);
@@ -381,6 +319,16 @@ public class PathAssert<
 
         int nameCount = actual.getNameCount();
         return new NumberAssertImpl(this, nameCount);
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    private long getSize(Path path) {
+        try {
+            return Files.size(path);
+        } catch (IOException e) {
+            throw getException();
+        }
     }
 
 }

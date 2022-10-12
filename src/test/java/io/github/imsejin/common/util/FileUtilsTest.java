@@ -72,6 +72,7 @@ class FileUtilsTest {
                     .map(FileUtils::getFileAttributes).collect(toList());
 
             // then
+            assertThat(path).hasNoParent();
             assertThat(attributes)
                     .isNotNull()
                     .isNotEmpty()
