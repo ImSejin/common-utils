@@ -108,7 +108,10 @@ public class FileAssert<
 
     @Override
     public SELF isGreaterThan(Long expected) {
-        if (actual.length() <= expected) {
+        long length = actual.length();
+
+        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(length, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, length);
             throw getException();
         }
 
@@ -117,12 +120,22 @@ public class FileAssert<
 
     @Override
     public SELF isGreaterThanOrEqualTo(Long expected) {
+        long length = actual.length();
+
+        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(length, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, length);
+            throw getException();
+        }
+
         return self;
     }
 
     @Override
     public SELF isLessThan(Long expected) {
-        if (actual.length() >= expected) {
+        long length = actual.length();
+
+        if (!SizeComparisonAssertable.IS_LESS_THAN.test(length, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, length);
             throw getException();
         }
 
@@ -131,6 +144,13 @@ public class FileAssert<
 
     @Override
     public SELF isLessThanOrEqualTo(Long expected) {
+        long length = actual.length();
+
+        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(length, expected)) {
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, length);
+            throw getException();
+        }
+
         return self;
     }
 

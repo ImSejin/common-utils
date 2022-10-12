@@ -265,32 +265,150 @@ class FileAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'isLargerThan'")
-    class IsLargerThan {
+    @DisplayName("method 'isGreaterThan'")
+    class IsGreaterThan {
         @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
+        @DisplayName("passes, when actual is greater than other")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isGreaterThan((long) fileSize - 1));
         }
 
         @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
+        @DisplayName("throws exception, when actual is less than or equal to other")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isGreaterThan((long) fileSize))
+                    .withMessageStartingWith("It is expected to be greater than the other, but it isn't.");
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'isSmallerThan'")
-    class IsSmallerThan {
+    @DisplayName("method 'isGreaterThanOrEqualTo'")
+    class IsGreaterThanOrEqualTo {
         @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
+        @DisplayName("passes, when actual is greater than or equal to other")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isGreaterThanOrEqualTo((long) fileSize - 1)
+                    .isGreaterThanOrEqualTo((long) fileSize));
         }
 
         @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
+        @DisplayName("throws exception, when actual is less than other")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isGreaterThanOrEqualTo((long) fileSize + 1))
+                    .withMessageStartingWith("It is expected to be greater than or equal to the other, but it isn't.");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isLessThan'")
+    class IsLessThan {
+        @Test
+        @DisplayName("passes, when actual is less than other")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isLessThan((long) fileSize + 1));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is greater than or equal to other")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isLessThan((long) fileSize))
+                    .withMessageStartingWith("It is expected to be less than the other, but it isn't.");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isLessThanOrEqualTo'")
+    class IsLessThanOrEqualTo {
+        @Test
+        @DisplayName("passes, when actual is less than or equal to other")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isLessThanOrEqualTo((long) fileSize + 1)
+                    .isLessThanOrEqualTo((long) fileSize));
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is greater than other")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isLessThanOrEqualTo((long) fileSize - 1))
+                    .withMessageStartingWith("It is expected to be less than or equal to the other, but it isn't.");
         }
     }
 
