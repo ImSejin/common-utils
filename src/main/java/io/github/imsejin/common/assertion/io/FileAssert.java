@@ -143,42 +143,6 @@ public class FileAssert<
         return self;
     }
 
-    @Deprecated
-    public SELF canRead() {
-        if (!actual.canRead()) throw getException();
-        return self;
-    }
-
-    @Deprecated
-    public SELF canNotRead() {
-        if (actual.canRead()) throw getException();
-        return self;
-    }
-
-    @Deprecated
-    public SELF canWrite() {
-        if (!actual.canWrite()) throw getException();
-        return self;
-    }
-
-    @Deprecated
-    public SELF canNotWrite() {
-        if (actual.canWrite()) throw getException();
-        return self;
-    }
-
-    @Deprecated
-    public SELF canExecute() {
-        if (!actual.canExecute()) throw getException();
-        return self;
-    }
-
-    @Deprecated
-    public SELF canNotExecute() {
-        if (actual.canExecute()) throw getException();
-        return self;
-    }
-
     public SELF hasLengthOf(ACTUAL expected) {
         return hasLengthOf(expected.length());
     }
@@ -194,18 +158,8 @@ public class FileAssert<
     }
 
     @Override
-    public SELF isGreaterThan(ACTUAL expected) {
-        return isLargerThan(expected.length());
-    }
-
-    @Override
     public SELF isGreaterThanOrEqualTo(ACTUAL expected) {
         return self;
-    }
-
-    @Override
-    public SELF isLessThan(ACTUAL expected) {
-        return isSmallerThan(expected.length());
     }
 
     @Override
