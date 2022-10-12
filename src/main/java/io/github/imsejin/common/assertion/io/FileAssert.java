@@ -44,6 +44,7 @@ public class FileAssert<
     @Override
     public SELF isEmpty() {
         if (actual.length() > 0) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
@@ -53,6 +54,7 @@ public class FileAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.length() == 0) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 
@@ -62,7 +64,7 @@ public class FileAssert<
     @Override
     public SELF hasSize(long expected) {
         if (actual.length() != expected) {
-            setDefaultDescription("It is expected to be the same length, but it isn't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')",
                     expected, actual.length());
             throw getException();
         }
@@ -73,6 +75,9 @@ public class FileAssert<
     @Override
     public SELF doesNotHaveSize(long expected) {
         if (actual.length() == expected) {
+            setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length());
+
             throw getException();
         }
 
@@ -82,6 +87,8 @@ public class FileAssert<
     @Override
     public SELF hasSameSizeAs(ACTUAL expected) {
         if (expected == null || actual.length() != expected.length()) {
+            setDefaultDescription("They are expected to have the same length, but they aren't. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length());
             throw getException();
         }
 
@@ -91,6 +98,8 @@ public class FileAssert<
     @Override
     public SELF doesNotHaveSameSizeAs(ACTUAL expected) {
         if (expected == null || actual.length() == expected.length()) {
+            setDefaultDescription("They are expected not to have the same length, but they are. (expected: '{0}', actual: '{1}')",
+                    expected, actual.length());
             throw getException();
         }
 
