@@ -397,16 +397,17 @@ class CollectionAssertTest {
         @Test
         @DisplayName("passes, when actual contains null")
         void test0() {
-            // expect
-            Asserts.that(Arrays.asList(true, null, false)).containsNull();
-            Asserts.that(Arrays.asList(23, null, -54)).containsNull();
-            Asserts.that(Arrays.asList('0', ' ', null, 'i')).containsNull();
-            Asserts.that(Arrays.asList(null, 3.14, 0.0)).containsNull();
-            Asserts.that(Arrays.asList(1.141F, 0.0F, null)).containsNull();
-            Asserts.that(Arrays.asList(0, null, -10)).containsNull();
-            Asserts.that(Arrays.asList(-128L, 64L, null)).containsNull();
-            Asserts.that(Arrays.asList("", null, "alpha")).containsNull();
-            Asserts.that(Arrays.asList(null, new String[0])).containsNull();
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Arrays.asList(true, null, false)).containsNull();
+                Asserts.that(Arrays.asList(23, null, -54)).containsNull();
+                Asserts.that(Arrays.asList('0', ' ', null, 'i')).containsNull();
+                Asserts.that(Arrays.asList(null, 3.14, 0.0)).containsNull();
+                Asserts.that(Arrays.asList(1.141F, 0.0F, null)).containsNull();
+                Asserts.that(Arrays.asList(0, null, -10)).containsNull();
+                Asserts.that(Arrays.asList(-128L, 64L, null)).containsNull();
+                Asserts.that(Arrays.asList("", null, "alpha")).containsNull();
+                Asserts.that(Arrays.asList(null, new String[0])).containsNull();
+            });
         }
 
         @Test
