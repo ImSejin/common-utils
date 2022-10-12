@@ -41,14 +41,6 @@ public class FileAssert<
         super(descriptor, actual);
     }
 
-    public SELF exists() {
-        if (!actual.exists()) {
-            throw getException();
-        }
-
-        return self;
-    }
-
     @Override
     public SELF isEmpty() {
         if (actual.length() > 0) {
@@ -105,6 +97,42 @@ public class FileAssert<
         return self;
     }
 
+    @Override
+    public SELF isGreaterThan(Long expected) {
+        if (actual.length() <= expected) {
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isGreaterThanOrEqualTo(Long expected) {
+        return self;
+    }
+
+    @Override
+    public SELF isLessThan(Long expected) {
+        if (actual.length() >= expected) {
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isLessThanOrEqualTo(Long expected) {
+        return self;
+    }
+
+    public SELF exists() {
+        if (!actual.exists()) {
+            throw getException();
+        }
+
+        return self;
+    }
+
     public SELF isFile() {
         if (!actual.isFile()) throw getException();
         return self;
@@ -142,34 +170,6 @@ public class FileAssert<
 
     public SELF isNotHidden() {
         if (actual.isHidden()) throw getException();
-        return self;
-    }
-
-    @Override
-    public SELF isGreaterThan(Long expected) {
-        if (actual.length() <= expected) {
-            throw getException();
-        }
-
-        return self;
-    }
-
-    @Override
-    public SELF isGreaterThanOrEqualTo(Long expected) {
-        return self;
-    }
-
-    @Override
-    public SELF isLessThan(Long expected) {
-        if (actual.length() >= expected) {
-            throw getException();
-        }
-
-        return self;
-    }
-
-    @Override
-    public SELF isLessThanOrEqualTo(Long expected) {
         return self;
     }
 
