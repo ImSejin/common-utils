@@ -488,8 +488,8 @@ class FileAssertTest {
 
             // expect
             assertThatCode(() -> Asserts.that(file0)
-                    .hasLengthOf(UUID.randomUUID().toString().length())
-                    .hasLengthOf(file1))
+                    .hasSize(UUID.randomUUID().toString().length())
+                    .hasSameSizeAs(file1))
                     .doesNotThrowAnyException();
         }
 
@@ -507,8 +507,8 @@ class FileAssertTest {
 
             // expect
             assertThatCode(() -> Asserts.that(file0)
-                    .hasLengthOf(content.length())
-                    .hasLengthOf(file1))
+                    .hasSize(content.length())
+                    .hasSameSizeAs(file1))
                     .hasMessageStartingWith("It is expected to be the same length, but it isn't.")
                     .isExactlyInstanceOf(IllegalArgumentException.class);
         }

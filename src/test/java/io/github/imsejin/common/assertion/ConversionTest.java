@@ -266,7 +266,7 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isNotNull().exists().canRead()
+                    .isNotNull().exists().hasSize(content.length())
                     .asLength().isGreaterThan(1L).isLessThan(Long.MAX_VALUE).isEqualTo((long) content.length()));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(file)
@@ -287,7 +287,7 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isNotNull().exists().canRead().canWrite().isNotEmpty()
+                    .isNotNull().exists().isNotEmpty().hasSize(content.length())
                     .asName().hasText().contains("content").endsWith("txt"));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(file)

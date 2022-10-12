@@ -17,11 +17,11 @@
 package io.github.imsejin.common.util
 
 import io.github.imsejin.common.assertion.Descriptor
-import io.github.imsejin.common.assertion.composition.ComparisonAssertable
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable
 import io.github.imsejin.common.assertion.composition.IterationAssertable
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable
+import io.github.imsejin.common.assertion.composition.SizeAssertable
 import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable
 import io.github.imsejin.common.assertion.lang.ArrayAssert
 import io.github.imsejin.common.assertion.lang.CharSequenceAssert
@@ -291,9 +291,9 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, List, RandomAccess, Cloneable, Serializable, Collection, Iterable, AbstractList, AbstractCollection]
         TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, EnumerationAssertable, ObjectAssert, Descriptor]
-        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ComparisonAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, EnumerationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, EnumerationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ObjectAssert, Descriptor]
     }
 
     @SuppressWarnings("GroovyAccessibility")
@@ -314,9 +314,9 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, RandomAccess, List, Serializable, AbstractList, Cloneable, Collection, AbstractCollection, Iterable]
         TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, EnumerationAssertable, ObjectAssert, Descriptor]
-        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ComparisonAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, EnumerationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, EnumerationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ObjectAssert, Descriptor]
     }
 
     def "Resolves actual generic type"() {
