@@ -45,7 +45,7 @@
 
 ### New features
 
-- ✨ Add:
+- ✨ Add: assertion failure message of `FileAssert`
 
 ### Troubleshooting
 
