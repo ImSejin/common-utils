@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.constant.DateType;
+import io.github.imsejin.common.tool.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,42 +33,14 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @DisplayName("AbstractFileAssert")
 class FileAssertTest {
-
-    @Nested
-    @DisplayName("method 'exists'")
-    class Exists {
-        @Test
-        @DisplayName("passes, when actual exists")
-        void test0(@TempDir Path path) throws IOException {
-            // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).exists())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual doesn't exist")
-        void test1(@TempDir Path path) {
-            // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = new File(path.toFile(), "temp" + filename);
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).exists())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
 
     @Nested
     @DisplayName("method 'isEmpty'")
@@ -80,8 +53,8 @@ class FileAssertTest {
             File file = Files.createTempFile(path, "temp", filename).toFile();
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isEmpty())
-                    .doesNotThrowAnyException();
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isEmpty());
         }
 
         @Test
@@ -93,8 +66,8 @@ class FileAssertTest {
             Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isEmpty())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isEmpty());
         }
     }
 
@@ -112,8 +85,8 @@ class FileAssertTest {
             Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isNotEmpty())
-                    .doesNotThrowAnyException();
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isNotEmpty());
         }
 
         @Test
@@ -124,393 +97,88 @@ class FileAssertTest {
             File file = Files.createTempFile(path, "temp", filename).toFile();
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isNotEmpty())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isNotEmpty());
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'isFile'")
-    class IsFile {
+    @DisplayName("method 'hasSize'")
+    class HasSize {
         @Test
-        @DisplayName("passes, when actual is file")
+        @DisplayName("passes, when actual has the given size")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String content = new RandomString().nextString(fileSize);
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isFile())
-                    .doesNotThrowAnyException();
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .hasSize(content.length()));
         }
 
         @Test
-        @DisplayName("throws exception, when actual is not file")
-        void test1(@TempDir Path path) {
-            assertThatCode(() -> Asserts.that(path.toFile()).isFile())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'isNotFile'")
-    class IsNotFile {
-        @Test
-        @DisplayName("passes, when actual is not file")
-        void test0(@TempDir Path path) {
-            assertThatCode(() -> Asserts.that(path.toFile()).isNotFile())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is file")
+        @DisplayName("throws exception, when actual doesn't have the given size")
         void test1(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String content = new RandomString().nextString(fileSize);
+
+            File file = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isNotFile())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .hasSize(content.length() + 1))
+                    .withMessageStartingWith("It is expected to have the given length, but it isn't.");
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'isDirectory'")
-    class IsDirectory {
+    @DisplayName("method 'hasSameSizeAs'")
+    class hasSameSizeAs {
         @Test
-        @DisplayName("passes, when actual is directory")
-        void test0(@TempDir Path path) {
-            assertThatCode(() -> Asserts.that(path.toFile()).isDirectory())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is not directory")
-        void test1(@TempDir Path path) throws IOException {
-            // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isDirectory())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'isNotDirectory'")
-    class IsNotDirectory {
-        @Test
-        @DisplayName("passes, when actual is not directory")
+        @DisplayName("passes, when actual has the same size as the given file")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File actual = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(actual.toPath(), randomString.nextString(fileSize).getBytes());
+
+            File expected = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(expected.toPath(), randomString.nextString(fileSize).getBytes());
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isNotDirectory())
-                    .doesNotThrowAnyException();
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual)
+                    .hasSameSizeAs(expected));
         }
 
         @Test
-        @DisplayName("throws exception, when actual is directory")
-        void test1(@TempDir Path path) {
-            assertThatCode(() -> Asserts.that(path.toFile()).isNotDirectory())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'isAbsolute'")
-    class IsAbsolute {
-        @Test
-        @DisplayName("passes, when actual is in absolute path")
-        void test0() {
-            // given
-            File file = new File("/usr/local", "temp.txt").getAbsoluteFile();
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isAbsolute())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is relative path")
-        void test1() {
-            // given
-            File file = new File("./usr/local", "temp.txt");
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isAbsolute())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'isRelative'")
-    class IsRelative {
-        @Test
-        @DisplayName("passes, when actual is in relative path")
-        void test0() {
-            // given
-            File file = new File("./usr/local", "temp.txt");
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isRelative())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is absolute path")
-        void test1() {
-            // given
-            File file = new File("/usr/local", "temp.txt").getAbsoluteFile();
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isRelative())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'isHidden'")
-    class IsHidden {
-        @Test
-        @EnabledOnOs(OS.WINDOWS)
-        @DisplayName("passes, when actual is hidden on windows")
-        void test0(@TempDir Path path) throws IOException {
-            // given
-            File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
-            Files.setAttribute(file.toPath(), "dos:hidden", true, LinkOption.NOFOLLOW_LINKS);
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isHidden())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisabledOnOs(OS.WINDOWS)
-        @DisplayName("passes, when actual is hidden on non-windows")
+        @DisplayName("throws exception, when actual doesn't have the same as the given file")
         void test1(@TempDir Path path) throws IOException {
             // given
-            File file = new File(path.toFile(), ".temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            RandomString randomString = new RandomString();
+            int fileSize = Math.max(1, new Random().nextInt(64));
+
+            File actual = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(actual.toPath(), randomString.nextString(fileSize).getBytes());
+
+            File expected = Files.createTempFile(path, "temp", ".txt").toFile();
+            Files.write(expected.toPath(), randomString.nextString(fileSize + 1).getBytes());
 
             // expect
-            assertThatCode(() -> Asserts.that(file).isHidden())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual is not hidden")
-        void test2(@TempDir Path path) throws IOException {
-            // given
-            File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isHidden())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'isNotHidden'")
-    class IsNotHidden {
-        @Test
-        @DisplayName("passes, when actual is not hidden")
-        void test0(@TempDir Path path) throws IOException {
-            // given
-            File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isNotHidden())
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @EnabledOnOs(OS.WINDOWS)
-        @DisplayName("throws exception, when actual is not hidden on windows")
-        void test1(@TempDir Path path) throws IOException {
-            // given
-            File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
-            Files.setAttribute(file.toPath(), "dos:hidden", true, LinkOption.NOFOLLOW_LINKS);
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isNotHidden())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        @DisabledOnOs(OS.WINDOWS)
-        @DisplayName("throws exception, when actual is not hidden on non-windows")
-        void test2(@TempDir Path path) throws IOException {
-            // given
-            File file = new File(path.toFile(), ".temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
-
-            // expect
-            assertThatCode(() -> Asserts.that(file).isNotHidden())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'canRead'")
-    class CanRead {
-        @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
-        }
-
-        @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'canNotRead'")
-    class CanNotRead {
-        @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
-        }
-
-        @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'canWrite'")
-    class CanWrite {
-        @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
-        }
-
-        @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'canNotWrite'")
-    class CanNotWrite {
-        @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
-        }
-
-        @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'canExecute'")
-    class CanExecute {
-        @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
-        }
-
-        @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'canNotExecute'")
-    class CanNotExecute {
-        @Test
-        @DisplayName("")
-        void test0(@TempDir Path path) {
-        }
-
-        @Test
-        @DisplayName("")
-        void test1(@TempDir Path path) {
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'hasLengthOf'")
-    class HasLengthOf {
-        @Test
-        @DisplayName("passes, when actual has the given length")
-        void test0(@TempDir Path path) throws IOException {
-            // given
-            File file0 = new File(path.toFile(), "temp0.txt");
-            Files.write(file0.toPath(), UUID.randomUUID().toString().getBytes());
-
-            File file1 = new File(path.toFile(), "temp1.txt");
-            Files.write(file1.toPath(), UUID.randomUUID().toString().getBytes());
-
-            // expect
-            assertThatCode(() -> Asserts.that(file0)
-                    .hasSize(UUID.randomUUID().toString().length())
-                    .hasSameSizeAs(file1))
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        @DisplayName("throws exception, when actual doesn't have the given length")
-        void test1(@TempDir Path path) throws IOException {
-            // given
-            String content = UUID.randomUUID().toString();
-
-            File file0 = new File(path.toFile(), "temp0.txt");
-            Files.write(file0.toPath(), content.getBytes());
-
-            File file1 = new File(path.toFile(), "temp1.txt");
-            Files.write(file1.toPath(), content.replace("-", "").getBytes());
-
-            // expect
-            assertThatCode(() -> Asserts.that(file0)
-                    .hasSize(content.length())
-                    .hasSameSizeAs(file1))
-                    .hasMessageStartingWith("It is expected to be the same length, but it isn't.")
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .hasSameSizeAs(expected))
+                    .withMessageStartingWith("They are expected to have the same length, but they aren't.");
         }
     }
 
@@ -543,6 +211,282 @@ class FileAssertTest {
         @Test
         @DisplayName("")
         void test1(@TempDir Path path) {
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'exists'")
+    class Exists {
+        @Test
+        @DisplayName("passes, when actual exists")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .exists());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual doesn't exist")
+        void test1(@TempDir Path path) {
+            // given
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = new File(path.toFile(), "temp" + filename);
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .exists());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isFile'")
+    class IsFile {
+        @Test
+        @DisplayName("passes, when actual is file")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isFile());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not file")
+        void test1(@TempDir Path path) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(path.toFile())
+                    .isFile());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isNotFile'")
+    class IsNotFile {
+        @Test
+        @DisplayName("passes, when actual is not file")
+        void test0(@TempDir Path path) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(path.toFile())
+                    .isNotFile());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is file")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isNotFile());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isDirectory'")
+    class IsDirectory {
+        @Test
+        @DisplayName("passes, when actual is directory")
+        void test0(@TempDir Path path) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(path.toFile())
+                    .isDirectory());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not directory")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isDirectory());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isNotDirectory'")
+    class IsNotDirectory {
+        @Test
+        @DisplayName("passes, when actual is not directory")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", filename).toFile();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isNotDirectory());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is directory")
+        void test1(@TempDir Path path) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(path.toFile())
+                    .isNotDirectory());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isAbsolute'")
+    class IsAbsolute {
+        @Test
+        @DisplayName("passes, when actual is in absolute path")
+        void test0() {
+            // given
+            File file = new File("/usr/local", "temp.txt").getAbsoluteFile();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isAbsolute());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is relative path")
+        void test1() {
+            // given
+            File file = new File("./usr/local", "temp.txt");
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isAbsolute());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isRelative'")
+    class IsRelative {
+        @Test
+        @DisplayName("passes, when actual is in relative path")
+        void test0() {
+            // given
+            File file = new File("./usr/local", "temp.txt");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isRelative());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is absolute path")
+        void test1() {
+            // given
+            File file = new File("/usr/local", "temp.txt").getAbsoluteFile();
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isRelative());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isHidden'")
+    class IsHidden {
+        @Test
+        @EnabledOnOs(OS.WINDOWS)
+        @DisplayName("passes, when actual is hidden on windows")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            File file = new File(path.toFile(), "temp.txt");
+            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.setAttribute(file.toPath(), "dos:hidden", true, LinkOption.NOFOLLOW_LINKS);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isHidden());
+        }
+
+        @Test
+        @DisabledOnOs(OS.WINDOWS)
+        @DisplayName("passes, when actual is hidden on non-windows")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            File file = new File(path.toFile(), ".temp.txt");
+            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isHidden());
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual is not hidden")
+        void test2(@TempDir Path path) throws IOException {
+            // given
+            File file = new File(path.toFile(), "temp.txt");
+            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isHidden());
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isNotHidden'")
+    class IsNotHidden {
+        @Test
+        @DisplayName("passes, when actual is not hidden")
+        void test0(@TempDir Path path) throws IOException {
+            // given
+            File file = new File(path.toFile(), "temp.txt");
+            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isNotHidden());
+        }
+
+        @Test
+        @EnabledOnOs(OS.WINDOWS)
+        @DisplayName("throws exception, when actual is not hidden on windows")
+        void test1(@TempDir Path path) throws IOException {
+            // given
+            File file = new File(path.toFile(), "temp.txt");
+            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.setAttribute(file.toPath(), "dos:hidden", true, LinkOption.NOFOLLOW_LINKS);
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isNotHidden());
+        }
+
+        @Test
+        @DisabledOnOs(OS.WINDOWS)
+        @DisplayName("throws exception, when actual is not hidden on non-windows")
+        void test2(@TempDir Path path) throws IOException {
+            // given
+            File file = new File(path.toFile(), ".temp.txt");
+            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .isNotHidden());
         }
     }
 
