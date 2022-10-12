@@ -28,14 +28,27 @@ import java.util.function.BiPredicate;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public interface SizeComparisonAssertable<
         SELF extends SizeComparisonAssertable<SELF, ACTUAL>,
-        ACTUAL>
-        extends ComparisonAssertable<SELF, ACTUAL> {
+        ACTUAL> {
+
+    /**
+     * @see java.util.Date#compareTo(java.util.Date)
+     * @see java.math.BigDecimal#compareTo(java.math.BigDecimal)
+     */
+    BiPredicate<Comparable, Comparable<?>> IS_EQUAL_TO = (actual, expected) -> actual.equals(expected) || actual.compareTo(expected) == 0;
+
+    /**
+     * @see java.util.Date#compareTo(java.util.Date)
+     * @see java.math.BigDecimal#compareTo(java.math.BigDecimal)
+     */
+    BiPredicate<Comparable, Comparable<?>> IS_NOT_EQUAL_TO = (actual, expected) -> !actual.equals(expected) && actual.compareTo(expected) != 0;
 
     BiPredicate<Comparable, Comparable<?>> IS_GREATER_THAN = (actual, expected) -> actual.compareTo(expected) > 0;
     BiPredicate<Comparable, Comparable<?>> IS_GREATER_THAN_OR_EQUAL_TO = (actual, expected) -> actual.compareTo(expected) >= 0;
     BiPredicate<Comparable, Comparable<?>> IS_LESS_THAN = (actual, expected) -> actual.compareTo(expected) < 0;
     BiPredicate<Comparable, Comparable<?>> IS_LESS_THAN_OR_EQUAL_TO = (actual, expected) -> actual.compareTo(expected) <= 0;
 
+    String DEFAULT_DESCRIPTION_IS_EQUAL_TO = "They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO = "They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')";
     String DEFAULT_DESCRIPTION_IS_GREATER_THAN = "It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')";
     String DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO = "It is expected to be greater than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')";
     String DEFAULT_DESCRIPTION_IS_LESS_THAN = "It is expected to be less than the other, but it isn't. (expected: '{0}', actual: '{1}')";
@@ -49,12 +62,10 @@ public interface SizeComparisonAssertable<
 
     SELF isLessThanOrEqualTo(ACTUAL expected);
 
-    @Override
     default SELF isBetween(ACTUAL startInclusive, ACTUAL endInclusive) {
         return isGreaterThanOrEqualTo(startInclusive).isLessThanOrEqualTo(endInclusive);
     }
 
-    @Override
     default SELF isStrictlyBetween(ACTUAL startExclusive, ACTUAL endExclusive) {
         return isGreaterThan(startExclusive).isLessThan(endExclusive);
     }
