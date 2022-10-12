@@ -30,6 +30,7 @@ import io.github.imsejin.common.assertion.lang.PackageAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 import io.github.imsejin.common.assertion.net.UrlAssert;
+import io.github.imsejin.common.assertion.nio.file.PathAssert;
 import io.github.imsejin.common.assertion.time.DurationAssert;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
@@ -53,6 +54,7 @@ import io.github.imsejin.common.util.ArrayUtils;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -211,6 +213,12 @@ public abstract class Asserts {
 
     public static FileAssert<?, File> that(File file) {
         return new FileAssert<>(file);
+    }
+
+    // java.nio.file -----------------------------------------------------------------------------------------
+
+    public static PathAssert<?, Path> that(Path path) {
+        return new PathAssert<>(path);
     }
 
     // java.math ---------------------------------------------------------------------------------------
