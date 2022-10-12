@@ -406,7 +406,7 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      *
      * @return assertion for class
      */
-    public ClassAssert<?, ?> asSuperclass() {
+    public ClassAssert<?, Class<?>> asSuperclass() {
         Class<?> superclass = actual.getSuperclass();
         return new ClassAssert<>(this, superclass);
     }
