@@ -90,7 +90,7 @@ public class ArrayAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(Integer expected) {
+    public SELF hasSize(long expected) {
         if (actual.length != expected) {
             setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.length);
             throw getException();
@@ -106,7 +106,7 @@ public class ArrayAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(Integer expected) {
+    public SELF doesNotHaveSize(long expected) {
         if (actual.length == expected) {
             setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.length);
             throw getException();

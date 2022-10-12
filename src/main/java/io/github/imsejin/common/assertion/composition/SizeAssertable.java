@@ -21,12 +21,10 @@ package io.github.imsejin.common.assertion.composition;
  *
  * @param <SELF>   assertion class
  * @param <ACTUAL> something that has size
- * @param <SIZE>   size unit
  */
 public interface SizeAssertable<
-        SELF extends SizeAssertable<SELF, ACTUAL, SIZE>,
-        ACTUAL,
-        SIZE extends Number> {
+        SELF extends SizeAssertable<SELF, ACTUAL>,
+        ACTUAL> {
 
     String DEFAULT_DESCRIPTION_IS_EMPTY = "It is expected to be empty, but it isn't. (actual: '{0}')";
     String DEFAULT_DESCRIPTION_IS_NOT_EMPTY = "It is expected not to be empty, but it is. (actual: '{0}')";
@@ -81,7 +79,7 @@ public interface SizeAssertable<
      * @param expected expected value
      * @return this class
      */
-    SELF hasSize(SIZE expected);
+    SELF hasSize(long expected);
 
     /**
      * Asserts that actual value doesn't have as many elements as expected.
@@ -99,7 +97,7 @@ public interface SizeAssertable<
      * @param expected expected value
      * @return this class
      */
-    SELF doesNotHaveSize(SIZE expected);
+    SELF doesNotHaveSize(long expected);
 
     /**
      * Asserts that actual value and expected value have the same size.

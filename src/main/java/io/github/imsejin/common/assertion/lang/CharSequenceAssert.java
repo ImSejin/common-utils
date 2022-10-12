@@ -108,7 +108,7 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(Integer expected) {
+    public SELF hasSize(long expected) {
         if (actual.length() != expected) {
             setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length());
             throw getException();
@@ -135,7 +135,7 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(Integer expected) {
+    public SELF doesNotHaveSize(long expected) {
         if (actual.length() == expected) {
             setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')", expected, actual.length());
             throw getException();

@@ -30,7 +30,7 @@ public interface EnumerationAssertable<
         SELF extends EnumerationAssertable<SELF, ACTUAL, ELEMENT>,
         ACTUAL,
         ELEMENT>
-        extends SizeAssertable<SELF, ACTUAL, Integer> {
+        extends SizeAssertable<SELF, ACTUAL> {
 
     String DEFAULT_DESCRIPTION_CONTAINS = "It is expected to contain the given element, but it isn't. (expected: '{0}', actual: '{1}')";
     String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN = "It is expected not to contain the given element, but it is. (expected: '{0}', actual: '{1}', unexpected: '{2}')";

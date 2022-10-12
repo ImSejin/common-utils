@@ -30,7 +30,7 @@ public class FileAssert<
         SELF extends FileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
         extends ObjectAssert<SELF, ACTUAL>
-        implements SizeAssertable<SELF, ACTUAL, Long>,
+        implements SizeAssertable<SELF, ACTUAL>,
         SizeComparisonAssertable<SELF, ACTUAL> {
 
     public FileAssert(ACTUAL actual) {
