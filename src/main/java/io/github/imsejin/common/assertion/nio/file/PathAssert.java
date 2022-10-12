@@ -242,7 +242,7 @@ public class PathAssert<
         return self;
     }
 
-    public SELF isFile() {
+    public SELF isRegularFile() {
         if (!Files.isRegularFile(actual)) {
             throw getException();
         }
@@ -250,7 +250,7 @@ public class PathAssert<
         return self;
     }
 
-    public SELF isNotFile() {
+    public SELF isNotRegularFile() {
         if (Files.isRegularFile(actual)) {
             throw getException();
         }

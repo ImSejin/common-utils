@@ -39,9 +39,9 @@ public class GzipResourceFinder implements ResourceFinder {
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
                 .describedAs("No such path exists: {0}", path)
-                .is(Files::exists)
+                .exists()
                 .describedAs("It is not a regular file: {0}", path)
-                .is(Files::isRegularFile)
+                .isRegularFile()
                 .describedAs("Cannot read file: {0}", path)
                 .is(Files::isReadable);
 
