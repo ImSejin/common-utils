@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [v0.13.0](#v0130):
 - [v0.12.0](#v0120): 2022-10-09
 - [v0.11.0](#v0110): 2022-09-12
 - [v0.10.0](#v0100): 2022-08-21
@@ -27,6 +28,33 @@
 - [v0.1.2](#v012): 2020-09-27
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
+
+# v0.13.0
+
+### Modification
+
+- 🔥 Remove: assertion composition `ComparisonAssertable`
+- 🔥 Remove: assertion methods `canRead()`, `canNotRead()`, `canWrite()`, `canNotWrite()`, `canExecute()`
+  , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `FileAssert`
+- 🚚 Rename: assertion class `AbstractFileAssert` to `FileAssert`
+- 🚚 Rename: assertion method `hasLengthOf(File)` to `hasSameSizeAs(File)` in `FileAssert`
+- 🚚 Rename: assertion method `hasLengthOf(long)` to `hasSize(long)` in `FileAssert`
+- 🚚 Rename: assertion method `isLargerThan(long)` to `isGreaterThan(Long)` in `FileAssert`
+- 🚚 Rename: assertion method `isSmallerThan(long)` to `isLessThan(Long)` in `FileAssert`
+- 🔨 Modify:
+
+### New features
+
+- ✨ Add:
+
+### Troubleshooting
+
+- 🐞 Fix:
+
+### Dependencies
+
+- ♻️ Replace:
+- ⬆️ Upgrade:
 
 # v0.12.0
 
