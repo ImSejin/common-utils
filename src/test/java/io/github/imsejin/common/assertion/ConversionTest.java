@@ -16,8 +16,8 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.constant.OS;
+import io.github.imsejin.common.tool.RandomString;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 import io.github.imsejin.common.util.MathUtils;
@@ -256,11 +256,47 @@ class ConversionTest {
     @Nested
     class FileAssert {
         @Test
+        @DisplayName("asParentFile(): File -> File")
+        void asParentFile(@TempDir Path path) {
+            // given
+            String fileName = new RandomString().nextString(8);
+            File file = new File(path.toFile(), fileName);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isNotNull().isEmpty()
+                    .asParentFile().isDirectory().isEmpty());
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(file)
+                            .describedAs("Description of assertion: {0}", file)
+                            .thrownBy(RuntimeException::new).isEmpty()
+                            .asParentFile().exists().is(File::isFile))
+                    .withMessage("Description of assertion: " + file);
+        }
+
+        @Test
+        @DisplayName("asPath(): File -> Path")
+        void asPath(@TempDir Path path) throws IOException {
+            // given
+            File file = Files.createTempFile(path, "temp-", ".dat").toFile();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .isNotNull().isEmpty()
+                    .asPath().isRegularFile().isEmpty());
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(file)
+                            .describedAs("Description of assertion: {0}", file)
+                            .thrownBy(RuntimeException::new).isEmpty()
+                            .asPath().exists().is(Files::isDirectory))
+                    .withMessage("Description of assertion: " + file);
+        }
+
+        @Test
         @DisplayName("asLength(): File -> Long")
         void asLength(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = new File(path.toFile(), filename);
+            File file = Files.createTempFile(path, "temp-", ".dat").toFile();
             String content = getClass().getPackage().getName();
             Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
 
@@ -280,21 +316,97 @@ class ConversionTest {
         @DisplayName("asName(): File -> String")
         void asName(@TempDir Path path) throws IOException {
             // given
-            String filename = "content.txt";
-            File file = new File(path.toFile(), filename);
+            File file = Files.createTempFile(path, "temp-", ".dat").toFile();
             String content = getClass().getPackage().getName();
             Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8));
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
                     .isNotNull().exists().isNotEmpty().hasSize(content.length())
-                    .asName().hasText().contains("content").endsWith("txt"));
+                    .asName().hasText().startsWith("temp-").endsWith(".dat"));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(file)
                             .describedAs("Description of assertion: {0}", file)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asName().isUpperCase())
                     .withMessage("Description of assertion: " + file);
+        }
+    }
+
+    // java.nio.file ----------------------------------------------------------------------------------------
+
+    @Nested
+    class PathAssert {
+        @Test
+        @DisplayName("asParent(): Path -> Path")
+        void asParent(@TempDir Path path) throws IOException {
+            // given
+            Path filePath = Files.createTempFile(path, "temp-", ".dat");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(filePath)
+                    .isNotNull().isEmpty()
+                    .asParent().isDirectory().isEmpty());
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(filePath)
+                            .describedAs("Description of assertion: {0}", filePath)
+                            .thrownBy(RuntimeException::new).isEmpty()
+                            .asParent().exists().is(Files::isRegularFile))
+                    .withMessage("Description of assertion: " + filePath);
+        }
+
+        @Test
+        @DisplayName("asFile(): Path -> File")
+        void asFile(@TempDir Path path) throws IOException {
+            // given
+            Path filePath = Files.createTempFile(path, "temp-", ".dat");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(filePath)
+                    .isNotNull().isEmpty()
+                    .asFile().exists().isFile());
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(filePath)
+                            .describedAs("Description of assertion: {0}", filePath)
+                            .thrownBy(RuntimeException::new).isEmpty()
+                            .asFile().exists().is(File::isDirectory))
+                    .withMessage("Description of assertion: " + filePath);
+        }
+
+        @Test
+        @DisplayName("asFileName(): Path -> String")
+        void asFileName(@TempDir Path path) throws IOException {
+            // given
+            Path filePath = Files.createTempFile(path, "temp-", ".dat");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(filePath)
+                    .isNotNull().isEmpty()
+                    .asFileName().isNotEmpty().startsWith("temp-"));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(filePath)
+                            .describedAs("Description of assertion: {0}", filePath)
+                            .thrownBy(RuntimeException::new).isEmpty()
+                            .asFileName().isNotEmpty().isNot(it -> it.split("\\.").length == 2))
+                    .withMessage("Description of assertion: " + filePath);
+        }
+
+        @Test
+        @DisplayName("asNameCount(): Path -> Integer")
+        void asNameCount(@TempDir Path path) throws IOException {
+            // given
+            Path filePath = Files.createTempFile(path, "temp-", ".dat");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(filePath)
+                    .isNotNull().isEmpty()
+                    .asNameCount().isPositive().isGreaterThan(2));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(filePath)
+                            .describedAs("Description of assertion: {0}", filePath)
+                            .thrownBy(RuntimeException::new).isEmpty()
+                            .asNameCount().isPositive().is(it -> it == 2))
+                    .withMessage("Description of assertion: " + filePath);
         }
     }
 
