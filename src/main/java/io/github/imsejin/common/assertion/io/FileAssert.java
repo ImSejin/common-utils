@@ -22,9 +22,11 @@ import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
+import io.github.imsejin.common.assertion.nio.file.PathAssert;
 import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class FileAssert<
         SELF extends FileAssert<SELF, ACTUAL>,
@@ -221,6 +223,22 @@ public class FileAssert<
     }
 
     // -------------------------------------------------------------------------------------------------
+
+    public FileAssert<?, ?> asParentFile() {
+        File parentFile = actual.getParentFile();
+        return new FileAssert<>(this, parentFile);
+    }
+
+    public PathAssert<?, ?> asPath() {
+        class PathAssertImpl extends PathAssert<PathAssertImpl, Path> {
+            PathAssertImpl(Descriptor<?> descriptor, Path actual) {
+                super(descriptor, actual);
+            }
+        }
+
+        Path path = actual.toPath();
+        return new PathAssertImpl(this, path);
+    }
 
     public NumberAssert<?, Long> asLength() {
         class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
