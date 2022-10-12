@@ -200,8 +200,20 @@ class FileAssertTest {
         }
 
         @Test
+        @DisplayName("throws exception, when the given file is null")
+        void test1(@TempDir Path path) {
+            // given
+            File file = new File(path.toFile(), "temp-file");
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .hasSameSizeAs(null))
+                    .withMessageStartingWith("They are expected to have the same length, but they aren't.");
+        }
+
+        @Test
         @DisplayName("throws exception, when actual doesn't have the same as the given file")
-        void test1(@TempDir Path path) throws IOException {
+        void test2(@TempDir Path path) throws IOException {
             // given
             RandomString randomString = new RandomString();
             int fileSize = Math.max(1, new Random().nextInt(64));
@@ -243,8 +255,20 @@ class FileAssertTest {
         }
 
         @Test
+        @DisplayName("throws exception, when the given file is null")
+        void test1(@TempDir Path path) {
+            // given
+            File file = new File(path.toFile(), "temp-file");
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .doesNotHaveSameSizeAs(null))
+                    .withMessageStartingWith("They are expected not to have the same length, but they are.");
+        }
+
+        @Test
         @DisplayName("throws exception, when actual has the same as the given file")
-        void test1(@TempDir Path path) throws IOException {
+        void test2(@TempDir Path path) throws IOException {
             // given
             RandomString randomString = new RandomString();
             int fileSize = Math.max(1, new Random().nextInt(64));
@@ -691,11 +715,27 @@ class FileAssertTest {
         @Test
         @DisplayName("passes, when actual has the given name")
         void test0(@TempDir Path path) {
+            // given
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String fileName = new RandomString().nextString(fileSize);
+            File file = path.resolve(fileName).toFile();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .hasName(fileName));
         }
 
         @Test
         @DisplayName("throws exception, when actual doesn't have the given name")
         void test1(@TempDir Path path) {
+            // given
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String fileName = new RandomString().nextString(fileSize);
+            File file = path.resolve(fileName).toFile();
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .hasName(fileName + fileName));
         }
     }
 
@@ -707,14 +747,28 @@ class FileAssertTest {
         @Test
         @DisplayName("passes, when actual has the given extension")
         void test0(@TempDir Path path) {
+            // given
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String fileName = new RandomString().nextString(fileSize) + ".dat";
+            File file = path.resolve(fileName).toFile();
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(file)
+                    .hasExtension("dat"));
         }
 
         @Test
         @DisplayName("throws exception, when actual doesn't have the given extension")
         void test1(@TempDir Path path) {
+            // given
+            int fileSize = Math.max(1, new Random().nextInt(64));
+            String fileName = new RandomString().nextString(fileSize) + ".dat";
+            File file = path.resolve(fileName).toFile();
+
+            // expect
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
+                    .hasExtension("log"));
         }
     }
-
-    // -------------------------------------------------------------------------------------------------
 
 }
