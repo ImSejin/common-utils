@@ -174,13 +174,13 @@ public final class ArrayUtils {
             if (componentType == float.class) return Arrays.toString((float[]) array);
             if (componentType == double.class) return Arrays.toString((double[]) array);
 
-        } else if (Path.class.isAssignableFrom(clazz)) {
+        } else if (array instanceof Path) {
             // Must check it is implementation of Path before Iterable, or StackOverflowError is thrown.
             // Implementation of Iterable like Path returns true as the result of Iterable.hasNext()
             // even though it reaches to the end of elements.
             return array.toString();
 
-        } else if (Iterable.class.isAssignableFrom(clazz)) {
+        } else if (array instanceof Iterable) {
             Iterator<?> iterator = ((Iterable<?>) array).iterator();
 
             StringBuilder sb = new StringBuilder("[");
@@ -195,7 +195,7 @@ public final class ArrayUtils {
 
             return sb.toString();
 
-        } else if (Map.class.isAssignableFrom(clazz)) {
+        } else if (array instanceof Map) {
             Iterator<? extends Entry<?, ?>> iterator = ((Map<?, ?>) array).entrySet().iterator();
 
             StringBuilder sb = new StringBuilder("{");
