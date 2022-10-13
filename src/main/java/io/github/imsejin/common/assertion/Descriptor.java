@@ -114,22 +114,6 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     // -------------------------------------------------------------------------------------------------
 
-    protected final RuntimeException getException() {
-        String message = getFailureMessage();
-
-        // Appends assertion variables to the message of exception.
-        if (CollectionUtils.exists(this.descriptionVariables)) {
-            StringBuilder sb = new StringBuilder(message);
-            for (Entry<String, String> variable : this.descriptionVariables) {
-                sb.append("\n    ").append(variable.getKey()).append(": '").append(variable.getValue()).append("'");
-            }
-
-            message = sb.toString();
-        }
-
-        return this.exception.apply(message);
-    }
-
     protected final void setDefaultDescription(String description, Object... args) {
         // Ignores default description when there is no description set by user.
         if (!StringUtils.isNullOrEmpty(this.description)) {
@@ -151,6 +135,22 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         }
 
         this.descriptionVariables = Collections.unmodifiableList(descriptionVariables);
+    }
+
+    protected final RuntimeException getException() {
+        String message = getFailureMessage();
+
+        // Appends assertion variables to the message of exception.
+        if (CollectionUtils.exists(this.descriptionVariables)) {
+            StringBuilder sb = new StringBuilder(message);
+            for (Entry<String, String> variable : this.descriptionVariables) {
+                sb.append("\n    ").append(variable.getKey()).append(": '").append(variable.getValue()).append("'");
+            }
+
+            message = sb.toString();
+        }
+
+        return this.exception.apply(message);
     }
 
     // -------------------------------------------------------------------------------------------------
