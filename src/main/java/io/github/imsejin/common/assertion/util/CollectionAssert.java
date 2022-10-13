@@ -26,6 +26,7 @@ import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -166,7 +167,11 @@ public class CollectionAssert<
             }
         }
 
-        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
+        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+        setDescriptionVariables(
+                new SimpleEntry<>("actual", actual),
+                new SimpleEntry<>("expected", expected));
+
         throw getException();
     }
 
@@ -183,7 +188,11 @@ public class CollectionAssert<
                 continue;
             }
 
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN, expected, actual, element);
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 

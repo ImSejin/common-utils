@@ -20,6 +20,8 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 
+import java.util.AbstractMap.SimpleEntry;
+
 /**
  * Assertion for {@link CharSequence}
  *
@@ -225,7 +227,11 @@ public class CharSequenceAssert<
     @Override
     public SELF contains(ELEMENT expected) {
         if (expected == null || !actual.toString().contains(expected)) {
-            setDefaultDescription("It is expected to contain the given character(s), but it isn't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("It is expected to contain the given character(s), but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -255,8 +261,11 @@ public class CharSequenceAssert<
     @Override
     public SELF doesNotContain(ELEMENT expected) {
         if (expected == null || actual.toString().contains(expected)) {
-            setDefaultDescription("It is expected not to contain the given character(s), but it is. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected not to contain the given character(s), but it is.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 

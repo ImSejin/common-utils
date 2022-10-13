@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.tool.Stopwatch;
 import io.github.imsejin.common.util.ArrayUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -484,21 +486,23 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain the given element")
         void test1() {
-            String description = "It is expected to contain the given element, but it isn't.";
+            String message = Pattern.quote(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS) +
+                    "\n {4}actual: '\\[.+]'" +
+                    "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).contains('f'))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).contains(1023))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\.")).contains(""))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
                             .contains(new String[]{"i"}))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
         }
     }
 
@@ -523,24 +527,26 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual contains the given element")
         void test1() {
-            String description = "It is expected not to contain the given element, but it is.";
+            String message = Pattern.quote(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
+                    "\n {4}actual: '\\[.+]'" +
+                    "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
                             .doesNotContain('d'))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
                             .doesNotContain(1024))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
                             .doesNotContain("imsejin"))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
                             .doesNotContain(new String[]{"n"}))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(message);
         }
     }
 

@@ -26,6 +26,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.regex.Pattern;
+
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
@@ -321,17 +323,19 @@ class CharSequenceAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't contain the given character(s)")
         void test1(String source, String expected) {
-            String message = "It is expected to contain the given character(s), but it isn't.";
+            String message = Pattern.quote("It is expected to contain the given character(s), but it isn't.") +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuffer(source)).contains(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuilder(source)).contains(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(source).contains(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
         }
     }
 
@@ -367,20 +371,22 @@ class CharSequenceAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual contains the given character(s)")
         void test1(String source, String expected) {
-            String message = "It is expected not to contain the given character(s), but it is.";
+            String message = Pattern.quote("It is expected not to contain the given character(s), but it is.") +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotContain(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotContain(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(source).doesNotContain(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(source).doesNotContain(""))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
         }
     }
 
