@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -81,7 +82,9 @@ class CollectionAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
-                    .withMessageStartingWith("It is expected to be empty, but it isn't."));
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}actual.size: '[0-9]+'"));
         }
     }
 

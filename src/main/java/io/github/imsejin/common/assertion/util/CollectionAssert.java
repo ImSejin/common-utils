@@ -63,7 +63,11 @@ public class CollectionAssert<
     @Override
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()));
+
             throw getException();
         }
 
@@ -78,7 +82,11 @@ public class CollectionAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()));
+
             throw getException();
         }
 
@@ -93,8 +101,15 @@ public class CollectionAssert<
      */
     @Override
     public SELF hasSize(long expected) {
-        if (actual.size() != expected) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
+        int size = actual.size();
+
+        if (size != expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -109,8 +124,15 @@ public class CollectionAssert<
      */
     @Override
     public SELF doesNotHaveSize(long expected) {
-        if (actual.size() == expected) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.size());
+        int size = actual.size();
+
+        if (size == expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -126,9 +148,16 @@ public class CollectionAssert<
     @Override
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF hasSameSizeAs(Collection expected) {
-        if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.size(), actual.size());
+        Integer expectedSize = expected == null ? null : expected.size();
+
+        if (expected == null || actual.size() != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -144,9 +173,16 @@ public class CollectionAssert<
     @Override
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF doesNotHaveSameSizeAs(Collection expected) {
-        if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.size(), actual.size());
+        Integer expectedSize = expected == null ? null : expected.size();
+
+        if (expected == null || actual.size() == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 

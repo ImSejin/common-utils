@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.AbstractMap.SimpleEntry;
 
 public class PathAssert<
         SELF extends PathAssert<SELF, ACTUAL>,
@@ -50,7 +51,11 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (size > 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size));
+
             throw getException();
         }
 
@@ -62,7 +67,11 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (size == 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size));
+
             throw getException();
         }
 
@@ -74,8 +83,12 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (size != expected) {
-            setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, size);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -87,8 +100,11 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (size == expected) {
-            setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')",
-                    expected, size);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
 
             throw getException();
         }
@@ -101,9 +117,14 @@ public class PathAssert<
         long actualSize = getSize(actual);
         Long expectedSize = expected == null ? null : getSize(expected);
 
-        if (expectedSize == null || actualSize != expectedSize) {
-            setDefaultDescription("They are expected to have the same length, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expectedSize, actualSize);
+        if (expected == null || actualSize != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -115,9 +136,14 @@ public class PathAssert<
         long actualSize = getSize(actual);
         Long expectedSize = expected == null ? null : getSize(expected);
 
-        if (expectedSize == null || actualSize == expectedSize) {
-            setDefaultDescription("They are expected not to have the same length, but they are. (expected: '{0}', actual: '{1}')",
-                    expectedSize, actualSize);
+        if (expected == null || actualSize == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 

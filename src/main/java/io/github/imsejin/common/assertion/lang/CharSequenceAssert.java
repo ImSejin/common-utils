@@ -60,8 +60,14 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF isEmpty() {
-        if (actual.length() > 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+        int length = actual.length();
+
+        if (length > 0) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length));
+
             throw getException();
         }
 
@@ -84,8 +90,14 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF isNotEmpty() {
-        if (actual.length() <= 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+        int length = actual.length();
+
+        if (length <= 0) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length));
+
             throw getException();
         }
 
@@ -111,8 +123,15 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF hasSize(long expected) {
-        if (actual.length() != expected) {
-            setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length());
+        int size = actual.length();
+
+        if (size != expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -138,8 +157,15 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF doesNotHaveSize(long expected) {
-        if (actual.length() == expected) {
-            setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')", expected, actual.length());
+        int size = actual.length();
+
+        if (size == expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -166,9 +192,17 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF hasSameSizeAs(ACTUAL expected) {
-        if (expected == null || actual.length() != expected.length()) {
-            setDefaultDescription("They are expected to have the same length, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected == null ? "null" : expected.length(), actual.length());
+        int actualSize = actual.length();
+        Integer expectedSize = expected == null ? null : expected.length();
+
+        if (expected == null || actualSize != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -195,9 +229,17 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF doesNotHaveSameSizeAs(ACTUAL expected) {
-        if (expected == null || actual.length() == expected.length()) {
-            setDefaultDescription("They are expected not to have the same length, but they are. (expected: '{0}', actual: '{1}')",
-                    expected == null ? "null" : expected.length(), actual.length());
+        int actualSize = actual.length();
+        Integer expectedSize = expected == null ? null : expected.length();
+
+        if (expected == null || actualSize == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 

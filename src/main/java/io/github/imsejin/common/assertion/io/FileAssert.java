@@ -62,11 +62,13 @@ public class FileAssert<
 
     @Override
     public SELF isNotEmpty() {
-        if (actual.length() == 0) {
+        long length = actual.length();
+
+        if (length == 0) {
             setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.size", 0));
+                    new SimpleEntry<>("actual.size", length));
 
             throw getException();
         }
@@ -76,13 +78,13 @@ public class FileAssert<
 
     @Override
     public SELF hasSize(long expected) {
-        long length = actual.length();
+        long size = actual.length();
 
-        if (length != expected) {
+        if (size != expected) {
             setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("actual.size", size),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -93,13 +95,13 @@ public class FileAssert<
 
     @Override
     public SELF doesNotHaveSize(long expected) {
-        long length = actual.length();
+        long size = actual.length();
 
-        if (length == expected) {
+        if (size == expected) {
             setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("actual.size", size),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();

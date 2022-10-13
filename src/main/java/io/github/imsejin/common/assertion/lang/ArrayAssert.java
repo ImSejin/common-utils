@@ -62,7 +62,11 @@ public class ArrayAssert<
     @Override
     public SELF isEmpty() {
         if (actual.length > 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, (Object) actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length));
+
             throw getException();
         }
 
@@ -77,7 +81,11 @@ public class ArrayAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.length == 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, (Object) actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length));
+
             throw getException();
         }
 
@@ -93,7 +101,12 @@ public class ArrayAssert<
     @Override
     public SELF hasSize(long expected) {
         if (actual.length != expected) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.length);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -109,7 +122,12 @@ public class ArrayAssert<
     @Override
     public SELF doesNotHaveSize(long expected) {
         if (actual.length == expected) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.length);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -124,9 +142,16 @@ public class ArrayAssert<
      */
     @Override
     public SELF hasSameSizeAs(Object[] expected) {
-        if (expected == null || actual.length != expected.length) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.length, actual.length);
+        Integer expectedSize = expected == null ? null : expected.length;
+
+        if (expected == null || actual.length != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -141,9 +166,16 @@ public class ArrayAssert<
      */
     @Override
     public SELF doesNotHaveSameSizeAs(Object[] expected) {
-        if (expected == null || actual.length == expected.length) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.length, actual.length);
+        Integer expectedSize = expected == null ? null : expected.length;
+
+        if (expected == null || actual.length == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 

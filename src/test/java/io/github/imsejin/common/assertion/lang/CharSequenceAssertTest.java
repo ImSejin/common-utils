@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -49,21 +50,23 @@ class CharSequenceAssertTest {
 
         @ParameterizedTest
         @ValueSource(strings = {
-                " ", "\n", "\t", "\r\n", "alpha",
+                "\u0000", " ", "\t", "\\", "alpha",
         })
         @DisplayName("throws exception, when actual is not empty")
         void test1(String source) {
-            String message = "It is expected to be empty, but it isn't.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual.size: '[0-9]+'";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuffer(source)).isEmpty())
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuilder(source)).isEmpty())
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(source).isEmpty())
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
         }
     }
 
