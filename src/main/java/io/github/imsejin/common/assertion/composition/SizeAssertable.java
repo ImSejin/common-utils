@@ -26,12 +26,12 @@ public interface SizeAssertable<
         SELF extends SizeAssertable<SELF, ACTUAL>,
         ACTUAL> {
 
-    String DEFAULT_DESCRIPTION_IS_EMPTY = "It is expected to be empty, but it isn't. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_IS_NOT_EMPTY = "It is expected not to be empty, but it is. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_HAS_SIZE = "It is expected to have the given size, but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE = "It is expected not to have the given size, but it is. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS = "They are expected to have the same size, but they aren't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS = "They are expected not to have the same size, but they are. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_IS_EMPTY = "It is expected to be empty, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_NOT_EMPTY = "It is expected not to be empty, but it is.";
+    String DEFAULT_DESCRIPTION_HAS_SIZE = "It is expected to have the given size, but it isn't.";
+    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE = "It is expected not to have the given size, but it is.";
+    String DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS = "They are expected to have the same size, but they aren't.";
+    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS = "They are expected not to have the same size, but they are.";
 
     /**
      * Asserts that actual value is empty.

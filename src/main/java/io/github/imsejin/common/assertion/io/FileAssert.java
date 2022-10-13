@@ -27,6 +27,7 @@ import io.github.imsejin.common.util.FilenameUtils;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.AbstractMap.SimpleEntry;
 
 public class FileAssert<
         SELF extends FileAssert<SELF, ACTUAL>,
@@ -45,8 +46,14 @@ public class FileAssert<
 
     @Override
     public SELF isEmpty() {
-        if (actual.length() > 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+        long length = actual.length();
+
+        if (length > 0) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length));
+
             throw getException();
         }
 
@@ -56,7 +63,11 @@ public class FileAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.length() == 0) {
-            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", 0));
+
             throw getException();
         }
 
@@ -65,9 +76,15 @@ public class FileAssert<
 
     @Override
     public SELF hasSize(long expected) {
-        if (actual.length() != expected) {
-            setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length());
+        long length = actual.length();
+
+        if (length != expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -76,9 +93,14 @@ public class FileAssert<
 
     @Override
     public SELF doesNotHaveSize(long expected) {
-        if (actual.length() == expected) {
-            setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length());
+        long length = actual.length();
+
+        if (length == expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("expected", expected));
 
             throw getException();
         }
@@ -88,9 +110,17 @@ public class FileAssert<
 
     @Override
     public SELF hasSameSizeAs(ACTUAL expected) {
-        if (expected == null || actual.length() != expected.length()) {
-            setDefaultDescription("They are expected to have the same length, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length());
+        long actualSize = actual.length();
+        Long expectedSize = expected == null ? null : expected.length();
+
+        if (expected == null || actualSize != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -99,9 +129,17 @@ public class FileAssert<
 
     @Override
     public SELF doesNotHaveSameSizeAs(ACTUAL expected) {
-        if (expected == null || actual.length() == expected.length()) {
-            setDefaultDescription("They are expected not to have the same length, but they are. (expected: '{0}', actual: '{1}')",
-                    expected, actual.length());
+        long actualSize = actual.length();
+        Long expectedSize = expected == null ? null : expected.length();
+
+        if (expected == null || actualSize == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -113,7 +151,12 @@ public class FileAssert<
         long length = actual.length();
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, length);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -125,7 +168,12 @@ public class FileAssert<
         long length = actual.length();
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, length);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -137,7 +185,12 @@ public class FileAssert<
         long length = actual.length();
 
         if (!SizeComparisonAssertable.IS_LESS_THAN.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, length);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -149,7 +202,12 @@ public class FileAssert<
         long length = actual.length();
 
         if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, length);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 

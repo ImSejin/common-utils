@@ -17,6 +17,8 @@
 package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
 import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.tool.RandomString;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +37,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -49,8 +52,8 @@ class FileAssertTest {
         @DisplayName("passes, when actual is empty")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", fileName).toFile();
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
@@ -61,13 +64,16 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is not empty")
         void test1(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", fileName).toFile();
             Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isEmpty());
+                    .isEmpty())
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'");
         }
     }
 
@@ -80,8 +86,8 @@ class FileAssertTest {
         @DisplayName("passes, when actual is not empty")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", fileName).toFile();
             Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
 
             // expect
@@ -93,12 +99,15 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is empty")
         void test1(@TempDir Path path) throws IOException {
             // given
-            String filename = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
-            File file = Files.createTempFile(path, "temp", filename).toFile();
+            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            File file = Files.createTempFile(path, "temp", fileName).toFile();
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isNotEmpty());
+                    .isNotEmpty())
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '0'");
         }
     }
 
@@ -135,7 +144,10 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .hasSize(content.length() + 1))
-                    .withMessageStartingWith("It is expected to have the given length, but it isn't.");
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -172,7 +184,10 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .doesNotHaveSize(content.length()))
-                    .withMessageStartingWith("It is expected not to have the given length, but it is");
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -208,7 +223,11 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .hasSameSizeAs(null))
-                    .withMessageStartingWith("They are expected to have the same length, but they aren't.");
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: 'null'" +
+                            "\n {4}expected.size: 'null'");
         }
 
         @Test
@@ -227,7 +246,11 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .hasSameSizeAs(expected))
-                    .withMessageStartingWith("They are expected to have the same length, but they aren't.");
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[^']+'" +
+                            "\n {4}expected.size: '[0-9]+'");
         }
     }
 
@@ -263,7 +286,11 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .doesNotHaveSameSizeAs(null))
-                    .withMessageStartingWith("They are expected not to have the same length, but they are.");
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: 'null'" +
+                            "\n {4}expected.size: 'null'");
         }
 
         @Test
@@ -282,7 +309,11 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith("They are expected not to have the same length, but they are.");
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[^']+'" +
+                            "\n {4}expected.size: '[0-9]+'");
         }
     }
 
@@ -319,7 +350,10 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isGreaterThan((long) fileSize))
-                    .withMessageStartingWith("It is expected to be greater than the other, but it isn't.");
+                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -357,7 +391,10 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isGreaterThanOrEqualTo((long) fileSize + 1))
-                    .withMessageStartingWith("It is expected to be greater than or equal to the other, but it isn't.");
+                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -394,7 +431,10 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isLessThan((long) fileSize))
-                    .withMessageStartingWith("It is expected to be less than the other, but it isn't.");
+                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -432,7 +472,10 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isLessThanOrEqualTo((long) fileSize - 1))
-                    .withMessageStartingWith("It is expected to be less than or equal to the other, but it isn't.");
+                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO) +
+                            "\n {4}actual: '[^']+'" +
+                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}expected: '[0-9]+'");
         }
     }
 

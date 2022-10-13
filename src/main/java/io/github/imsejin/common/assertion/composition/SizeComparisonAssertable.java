@@ -47,12 +47,12 @@ public interface SizeComparisonAssertable<
     BiPredicate<Comparable, Comparable<?>> IS_LESS_THAN = (actual, expected) -> actual.compareTo(expected) < 0;
     BiPredicate<Comparable, Comparable<?>> IS_LESS_THAN_OR_EQUAL_TO = (actual, expected) -> actual.compareTo(expected) <= 0;
 
-    String DEFAULT_DESCRIPTION_IS_EQUAL_TO = "They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO = "They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_GREATER_THAN = "It is expected to be greater than the other, but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO = "It is expected to be greater than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_LESS_THAN = "It is expected to be less than the other, but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO = "It is expected to be less than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_IS_EQUAL_TO = "They are expected to be equal, but they aren't.";
+    String DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO = "They are expected to be not equal, but they are.";
+    String DEFAULT_DESCRIPTION_IS_GREATER_THAN = "It is expected to be greater than the other, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO = "It is expected to be greater than or equal to the other, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_LESS_THAN = "It is expected to be less than the other, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO = "It is expected to be less than or equal to the other, but it isn't.";
 
     SELF isGreaterThan(ACTUAL expected);
 
