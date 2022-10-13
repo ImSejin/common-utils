@@ -33,6 +33,7 @@
 
 ### Modification
 
+- ♻️ Refactor: processing of assertion description in `Descriptor`
 - 🔥 Remove: assertion composition `ComparisonAssertable`
 - 🔥 Remove: assertion methods `canRead()`, `canNotRead()`, `canWrite()`, `canNotWrite()`, `canExecute()`
   , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `FileAssert`
