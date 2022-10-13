@@ -31,12 +31,12 @@ public interface DecimalNumberAssertable<
         SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertable<SELF, NUMBER>,
         NUMBER extends Number & Comparable<NUMBER>> {
 
-    String DEFAULT_DESCRIPTION_HAS_DECIMAL_PART = "It is expected to have decimal part, but it isn't. (actual: '{0}')";
+    String DEFAULT_DESCRIPTION_HAS_DECIMAL_PART = "It is expected to have decimal part, but it isn't.";
 
     /**
-     * Verifies that actual value has decimal part.
+     * Asserts that actual value has decimal part.
      *
-     * @return assertion instance
+     * @return this class
      */
     SELF hasDecimalPart();
 

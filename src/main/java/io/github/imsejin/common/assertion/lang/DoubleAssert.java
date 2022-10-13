@@ -20,6 +20,8 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
+import java.util.AbstractMap.SimpleEntry;
+
 /**
  * Assertion for {@link Double}
  *
@@ -41,7 +43,9 @@ public class DoubleAssert<
     @Override
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
-            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
+            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 

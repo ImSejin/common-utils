@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -493,7 +495,8 @@ class FloatAssertTest {
         void test1(float actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).hasDecimalPart())
-                    .withMessageStartingWith("It is expected to have decimal part, but it isn't.");
+                    .withMessageMatching(Pattern.quote(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART) +
+                            "\n {4}actual: '-?[0-9]+(\\.[0-9]+(E[0-9]+)?)?'");
         }
     }
 

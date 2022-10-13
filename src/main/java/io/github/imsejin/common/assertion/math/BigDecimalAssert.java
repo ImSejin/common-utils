@@ -22,6 +22,7 @@ import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.util.NumberUtils;
 
 import java.math.BigDecimal;
+import java.util.AbstractMap.SimpleEntry;
 
 public class BigDecimalAssert<
         SELF extends BigDecimalAssert<SELF>>
@@ -39,7 +40,9 @@ public class BigDecimalAssert<
     @Override
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
-            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
+            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
