@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.util.ClassUtils;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -136,7 +137,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNull() {
         if (actual != null) {
-            setDefaultDescription("It is expected to be null, but not null. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be null, but not null.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -158,7 +161,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotNull() {
         if (actual == null) {
-            setDefaultDescription("It is expected to be not null, but null. (actual: 'null')");
+            setDefaultDescription("It is expected not to be null, but null.");
+            setDescriptionVariables(new SimpleEntry<>("actual", null));
+
             throw getException();
         }
 
@@ -185,7 +190,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isSameAs(ACTUAL expected) {
         if (actual != expected) {
-            setDefaultDescription("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be the same, but they aren't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -212,7 +221,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotSameAs(ACTUAL expected) {
         if (actual == expected) {
-            setDefaultDescription("They are expected to be not the same, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be not the same, but they are.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -237,7 +250,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isEqualTo(ACTUAL expected) {
         if (!Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be equal, but they aren't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -262,7 +279,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotEqualTo(ACTUAL expected) {
         if (Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be not equal, but they are.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -293,8 +314,14 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isInstanceOf(Class<?> expected) {
         Class<?> wrappedType = ClassUtils.wrap(expected);
+
         if (!wrappedType.isInstance(actual)) {
-            setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("It is expected to be instance of the type, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.class", actual.getClass()),
+                    new SimpleEntry<>("expected", wrappedType));
+
             throw getException();
         }
 
@@ -325,8 +352,14 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotInstanceOf(Class<?> expected) {
         Class<?> wrappedType = ClassUtils.wrap(expected);
+
         if (wrappedType.isInstance(actual)) {
-            setDefaultDescription("It is expected not to be instance of the type, but it is. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("It is expected not to be instance of the type, but it is.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.class", actual.getClass()),
+                    new SimpleEntry<>("expected", wrappedType));
+
             throw getException();
         }
 
@@ -406,6 +439,10 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
 
         if (!Objects.deepEquals(actual, expected)) {
             setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -444,7 +481,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * @return assertion for string
      */
     public StringAssert<?> asString() {
-        String string = this.actual.toString();
+        String string = actual.toString();
         return new StringAssert<>(this, string);
     }
 
