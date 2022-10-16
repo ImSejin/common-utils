@@ -73,7 +73,7 @@ class FileAssertTest {
                     .isEmpty())
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'");
+                            "\n {4}actual\\.size: '[0-9]+'");
         }
     }
 
@@ -107,7 +107,7 @@ class FileAssertTest {
                     .isNotEmpty())
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '0'");
+                            "\n {4}actual\\.size: '0'");
         }
     }
 
@@ -146,7 +146,7 @@ class FileAssertTest {
                     .hasSize(content.length() + 1))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
         }
     }
@@ -186,7 +186,7 @@ class FileAssertTest {
                     .doesNotHaveSize(content.length()))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
         }
     }
@@ -225,9 +225,9 @@ class FileAssertTest {
                     .hasSameSizeAs(null))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: 'null'" +
-                            "\n {4}expected.size: 'null'");
+                            "\n {4}expected\\.size: 'null'");
         }
 
         @Test
@@ -248,9 +248,9 @@ class FileAssertTest {
                     .hasSameSizeAs(expected))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[^']+'" +
-                            "\n {4}expected.size: '[0-9]+'");
+                            "\n {4}expected\\.size: '[0-9]+'");
         }
     }
 
@@ -288,9 +288,9 @@ class FileAssertTest {
                     .doesNotHaveSameSizeAs(null))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: 'null'" +
-                            "\n {4}expected.size: 'null'");
+                            "\n {4}expected\\.size: 'null'");
         }
 
         @Test
@@ -311,9 +311,9 @@ class FileAssertTest {
                     .doesNotHaveSameSizeAs(expected))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[^']+'" +
-                            "\n {4}expected.size: '[0-9]+'");
+                            "\n {4}expected\\.size: '[0-9]+'");
         }
     }
 
@@ -352,7 +352,7 @@ class FileAssertTest {
                     .isGreaterThan((long) fileSize))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
         }
     }
@@ -393,7 +393,7 @@ class FileAssertTest {
                     .isGreaterThanOrEqualTo((long) fileSize + 1))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
         }
     }
@@ -433,7 +433,7 @@ class FileAssertTest {
                     .isLessThan((long) fileSize))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
         }
     }
@@ -474,7 +474,7 @@ class FileAssertTest {
                     .isLessThanOrEqualTo((long) fileSize - 1))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO) +
                             "\n {4}actual: '[^']+'" +
-                            "\n {4}actual.size: '[0-9]+'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
         }
     }

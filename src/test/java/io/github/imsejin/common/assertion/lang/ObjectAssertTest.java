@@ -261,7 +261,7 @@ class ObjectAssertTest {
             // given
             String description = Pattern.quote("It is expected to be instance of the type, but it isn't.") +
                     "\n {4}actual: '.+'" +
-                    "\n {4}actual.class: '(class|interface) .+'" +
+                    "\n {4}actual\\.class: '(class|interface) .+'" +
                     "\n {4}expected: '.+'";
 
             // expect
@@ -311,7 +311,7 @@ class ObjectAssertTest {
             // given
             String description = Pattern.quote("It is expected not to be instance of the type, but it is.") +
                     "\n {4}actual: '.+'" +
-                    "\n {4}actual.class: '(class|interface) .+'" +
+                    "\n {4}actual\\.class: '(class|interface) .+'" +
                     "\n {4}expected: '.+'";
 
             // expect
