@@ -384,7 +384,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF is(Predicate<ACTUAL> condition) {
         if (!Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
-            setDefaultDescription("It is expected to be true, but it isn't. (actual: 'false')");
+            setDefaultDescription("It is expected to satisfy the given condition, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -409,7 +411,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNot(Predicate<ACTUAL> condition) {
         if (Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
-            setDefaultDescription("It is expected to be false, but it isn't. (actual: 'true')");
+            setDefaultDescription("It is expected not to satisfy the given condition, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -435,12 +439,13 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * @return this class
      */
     public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
-        T actual = Objects.requireNonNull(from, "Function is not allowed to be null").apply(this.actual);
+        T returned = Objects.requireNonNull(from, "Function is not allowed to be null").apply(actual);
 
-        if (!Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+        if (!Objects.deepEquals(returned, expected)) {
+            setDefaultDescription("It is expected to return the given value via function, but it isn't.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("returned", returned),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();

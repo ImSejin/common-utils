@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -56,7 +57,8 @@ class ObjectAssertTest {
 
             params.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNull())
-                    .withMessageStartingWith("It is expected to be null, but not null."));
+                    .withMessageMatching(Pattern.quote("It is expected to be null, but not null.") +
+                            "\n {4}actual: '.*'"));
         }
     }
 
@@ -80,7 +82,8 @@ class ObjectAssertTest {
         void test1() {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that((Object) null).isNotNull())
-                    .withMessageStartingWith("It is expected to be not null, but null.");
+                    .withMessageMatching(Pattern.quote("It is expected not to be null, but null.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -113,7 +116,9 @@ class ObjectAssertTest {
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isSameAs(expected))
-                    .withMessageStartingWith("They are expected to be the same, but they aren't."));
+                    .withMessageMatching(Pattern.quote("They are expected to be the same, but they aren't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}expected: '.+'"));
         }
     }
 
@@ -146,7 +151,9 @@ class ObjectAssertTest {
             // expect
             params.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotSameAs(actual))
-                    .withMessageStartingWith("They are expected to be not the same, but they are."));
+                    .withMessageMatching(Pattern.quote("They are expected to be not the same, but they are.") +
+                            "\n {4}actual: '.*'" +
+                            "\n {4}expected: '.*'"));
         }
     }
 
@@ -183,7 +190,9 @@ class ObjectAssertTest {
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isEqualTo(expected))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't."));
+                    .withMessageMatching(Pattern.quote("They are expected to be equal, but they aren't.") +
+                            "\n {4}actual: '.*'" +
+                            "\n {4}expected: '.*'"));
         }
     }
 
@@ -212,14 +221,16 @@ class ObjectAssertTest {
             // given
             Map<Object, Object> params = new HashMap<>();
             params.put("alpha", String.valueOf("alpha".toCharArray()));
-            params.put('\n', '\n');
+            params.put('\t', '\t');
             params.put(3.14, 3.14);
             params.put(BigInteger.valueOf(1000), BigInteger.valueOf(1000));
 
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected))
-                    .withMessageStartingWith("They are expected to be not equal, but they are."));
+                    .withMessageMatching(Pattern.quote("They are expected to be not equal, but they are.") +
+                            "\n {4}actual: '.*'" +
+                            "\n {4}expected: '.*'"));
         }
     }
 
@@ -248,27 +259,30 @@ class ObjectAssertTest {
         @DisplayName("throws exception, when actual is not the instance of given type")
         void test1() {
             // given
-            String description = "It is expected to be instance of the type, but it isn't.";
+            String description = Pattern.quote("It is expected to be instance of the type, but it isn't.") +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual.class: '(class|interface) .+'" +
+                    "\n {4}expected: '.+'";
 
             // expect
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that("alpha").isInstanceOf(Character.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that('\n').isInstanceOf(String.class))
-                    .withMessageStartingWith(description);
+                    .isThrownBy(() -> Asserts.that('\t').isInstanceOf(String.class))
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(3.14).isInstanceOf(float.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigInteger.valueOf(1000)).isInstanceOf(BigDecimal.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new int[0]).isInstanceOf(long[].class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new Integer[0]).isInstanceOf(Long[].class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
         }
     }
 
@@ -295,33 +309,36 @@ class ObjectAssertTest {
         @DisplayName("throws exception, when actual is the instance of given type")
         void test1() {
             // given
-            String description = "It is expected not to be instance of the type, but it is.";
+            String description = Pattern.quote("It is expected not to be instance of the type, but it is.") +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual.class: '(class|interface) .+'" +
+                    "\n {4}expected: '.+'";
 
             // expect
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new Object()).isNotInstanceOf(Object.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that("alpha").isNotInstanceOf(String.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that('b').isNotInstanceOf(char.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that('c').isNotInstanceOf(Character.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(3.14).isNotInstanceOf(double.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(3.141592).isNotInstanceOf(Double.class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new long[0]).isNotInstanceOf(long[].class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new Long[0]).isNotInstanceOf(Long[].class))
-                    .withMessageStartingWith(description);
+                    .withMessageMatching(description);
         }
     }
 
@@ -360,7 +377,8 @@ class ObjectAssertTest {
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).is(expected::equals))
-                    .withMessageStartingWith("It is expected to be true, but it isn't."));
+                    .withMessageMatching(Pattern.quote("It is expected to satisfy the given condition, but it isn't.") +
+                            "\n {4}actual: '.*'"));
         }
     }
 
@@ -399,7 +417,8 @@ class ObjectAssertTest {
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNot(expected::equals))
-                    .withMessageStartingWith("It is expected to be false, but it isn't."));
+                    .withMessageMatching(Pattern.quote("It is expected not to satisfy the given condition, but it isn't.") +
+                            "\n {4}actual: '.*'"));
         }
     }
 
@@ -434,7 +453,10 @@ class ObjectAssertTest {
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).returns(actual, it -> it.replace('-', '_')))
-                    .withMessageStartingWith("They are expected to be equal, but they aren't."));
+                    .withMessageMatching(Pattern.quote("It is expected to return the given value via function, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}returned: '.+'" +
+                            "\n {4}expected: '.+'"));
         }
     }
 
