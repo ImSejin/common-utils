@@ -1,6 +1,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -44,29 +46,30 @@ class ListAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't start with the given element(s)")
         void test1() {
-            String description = "It is expected to start with the given element(s), but it isn't.";
+            String message = Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}unexpected: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(null, new Object(), null))
-                            .startsWith(null, new Object()))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(IntStream.range(0, 100).boxed().collect(toList()))
-                            .startsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
-                            .startsWith('a', 'b', 'c', 'd'))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\.")).collect(toList()))
-                            .startsWith("io", "github", "common", "imsejin"))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Stream.of(null, "alpha", null, "beta")
-                            .map(Collections::singletonList).collect(toList()))
-                            .startsWith(Collections.emptyList(), Collections.singletonList("alpha")))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).boxed().collect(toList()))
+                    .startsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageMatching(Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
+                            "\n {4}expected: '\\[.*]'" +
+                            "\n {4}expected\\.size: '[0-9]+'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(null, new Object(), null))
+                    .startsWith(null, new Object()))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
+                    .startsWith('a', 'b', 'c', 'd'))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\.")).collect(toList()))
+                    .startsWith("io", "github", "common", "imsejin"))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Stream.of(null, "alpha", null, "beta").map(Collections::singletonList).collect(toList()))
+                    .startsWith(Collections.emptyList(), Collections.singletonList("alpha")))
+                    .withMessageMatching(message);
         }
     }
 
@@ -98,29 +101,30 @@ class ListAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't end with the given element(s)")
         void test1() {
-            String description = "It is expected to end with the given element(s), but it isn't.";
+            String message = Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}unexpected: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(null, new Object(), null))
-                            .endsWith(new Object(), null))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(IntStream.range(0, 100).boxed().collect(toList()))
-                            .endsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
-                            .endsWith('a', 'b', 'c', 'd'))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\.")).collect(toList()))
-                            .endsWith("util", "assertion"))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Stream.of(null, "alpha", null, "beta")
-                            .map(Collections::singletonList).collect(toList()))
-                            .endsWith(Collections.emptyList(), Collections.singletonList("beta")))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).boxed().collect(toList()))
+                    .endsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageMatching(Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
+                            "\n {4}expected: '\\[.*]'" +
+                            "\n {4}expected\\.size: '[0-9]+'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(null, new Object(), null))
+                    .endsWith(new Object(), null))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
+                    .endsWith('a', 'b', 'c', 'd'))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\.")).collect(toList()))
+                    .endsWith("util", "assertion"))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Stream.of(null, "alpha", null, "beta").map(Collections::singletonList).collect(toList()))
+                    .endsWith(Collections.emptyList(), Collections.singletonList("beta")))
+                    .withMessageMatching(message);
         }
     }
 

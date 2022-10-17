@@ -575,7 +575,13 @@ public class ArrayAssert<
         }
 
         if (actual.length < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expected.length));
+
             throw getException();
         }
 
@@ -586,7 +592,12 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 
@@ -607,7 +618,13 @@ public class ArrayAssert<
         }
 
         if (actual.length < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expected.length));
+
             throw getException();
         }
 
@@ -618,7 +635,12 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 

@@ -20,6 +20,7 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,7 +60,13 @@ public class ListAssert<
         }
 
         if (actual.size() < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expected.length));
+
             throw getException();
         }
 
@@ -70,7 +77,12 @@ public class ListAssert<
                 continue;
             }
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 
@@ -91,7 +103,13 @@ public class ListAssert<
         }
 
         if (actual.size() < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expected.length));
+
             throw getException();
         }
 
@@ -102,7 +120,12 @@ public class ListAssert<
                 continue;
             }
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 

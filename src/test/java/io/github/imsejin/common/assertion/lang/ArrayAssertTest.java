@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
+import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.tool.Stopwatch;
 import io.github.imsejin.common.util.ArrayUtils;
@@ -1137,28 +1138,30 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't start with the given element(s)")
         void test1() {
-            String description = "It is expected to start with the given element(s), but it isn't.";
+            String message = Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}unexpected: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
-                            .startsWith(null, new Object()))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
-                            .startsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
-                            .startsWith('a', 'b', 'c', 'd'))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                            .startsWith("io", "github", "common", "imsejin"))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
-                            .startsWith(new String[]{null}, new String[]{}))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
+                    .startsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageMatching(Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
+                            "\n {4}expected: '\\[.*]'" +
+                            "\n {4}expected\\.size: '[0-9]+'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
+                    .startsWith(null, new Object()))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
+                    .startsWith('a', 'b', 'c', 'd'))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                    .startsWith("io", "github", "common", "imsejin"))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
+                    .startsWith(new String[]{null}, new String[]{}))
+                    .withMessageMatching(message);
         }
     }
 
@@ -1189,28 +1192,30 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't end with the given element(s)")
         void test1() {
-            String description = "It is expected to end with the given element(s), but it isn't.";
+            String message = Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}unexpected: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
-                            .endsWith(new Object(), null))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
-                            .endsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
-                            .endsWith('a', 'b', 'c', 'd'))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                            .endsWith("lang", "assertion"))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
-                            .endsWith(new String[]{"alpha"}, new String[]{"beta"}))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
+                    .endsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageMatching(Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}actual\\.size: '[0-9]+'" +
+                            "\n {4}expected: '\\[.*]'" +
+                            "\n {4}expected\\.size: '[0-9]+'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
+                    .endsWith(new Object(), null))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
+                    .endsWith('a', 'b', 'c', 'd'))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                    .endsWith("lang", "assertion"))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
+                    .endsWith(new String[]{"alpha"}, new String[]{"beta"}))
+                    .withMessageMatching(message);
         }
     }
 
