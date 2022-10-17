@@ -21,14 +21,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -112,34 +104,6 @@ class PackageAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(pack)
                     .isSubPackageOf(Package.getPackage(expected)));
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'asName'")
-    class AsName {
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("passes, when actual is equal to given package name")
-        void test0(Class<?> type) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(type.getPackage())
-                    .asName().isEqualTo("java.util.concurrent"));
-        }
-
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("throws exception, when actual is not equal to given package name")
-        void test1(Class<?> type) {
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(type.getPackage())
-                    .asName().startsWith("java.lang"));
         }
     }
 
