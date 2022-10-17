@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.util.ClassUtils;
+import jakarta.validation.constraints.Null;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
@@ -92,6 +93,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * <p> We shouldn't check if it is null in any assertion classes. The user is responsible for checking that.
      * If you want to avoid {@link NullPointerException}, you check if it is null explicitly using {@link #isNotNull()}.
      */
+    @Null
     protected final ACTUAL actual;
 
     /**
