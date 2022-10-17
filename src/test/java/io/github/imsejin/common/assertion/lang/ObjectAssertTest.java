@@ -259,30 +259,30 @@ class ObjectAssertTest {
         @DisplayName("throws exception, when actual is not the instance of given type")
         void test1() {
             // given
-            String description = Pattern.quote("It is expected to be instance of the type, but it isn't.") +
+            String message = Pattern.quote("It is expected to be instance of the type, but it isn't.") +
                     "\n {4}actual: '.+'" +
                     "\n {4}actual\\.class: '(class|interface) .+'" +
                     "\n {4}expected: '.+'";
 
             // expect
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that("alpha").isInstanceOf(Character.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that('\t').isInstanceOf(String.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(3.14).isInstanceOf(float.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(1000)).isInstanceOf(BigDecimal.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new int[0]).isInstanceOf(long[].class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new Integer[0]).isInstanceOf(Long[].class))
-                    .withMessageMatching(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("alpha")
+                    .isInstanceOf(Character.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that('\t')
+                    .isInstanceOf(String.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(3.14)
+                    .isInstanceOf(float.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(BigInteger.valueOf(1000))
+                    .isInstanceOf(BigDecimal.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
+                    .isInstanceOf(long[].class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[0])
+                    .isInstanceOf(Long[].class))
+                    .withMessageMatching(message);
         }
     }
 
@@ -309,36 +309,36 @@ class ObjectAssertTest {
         @DisplayName("throws exception, when actual is the instance of given type")
         void test1() {
             // given
-            String description = Pattern.quote("It is expected not to be instance of the type, but it is.") +
+            String message = Pattern.quote("It is expected not to be instance of the type, but it is.") +
                     "\n {4}actual: '.+'" +
                     "\n {4}actual\\.class: '(class|interface) .+'" +
                     "\n {4}expected: '.+'";
 
             // expect
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new Object()).isNotInstanceOf(Object.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that("alpha").isNotInstanceOf(String.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that('b').isNotInstanceOf(char.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that('c').isNotInstanceOf(Character.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(3.14).isNotInstanceOf(double.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(3.141592).isNotInstanceOf(Double.class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new long[0]).isNotInstanceOf(long[].class))
-                    .withMessageMatching(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new Long[0]).isNotInstanceOf(Long[].class))
-                    .withMessageMatching(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object())
+                    .isNotInstanceOf(Object.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("alpha")
+                    .isNotInstanceOf(String.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that('b')
+                    .isNotInstanceOf(char.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that('c')
+                    .isNotInstanceOf(Character.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(3.14)
+                    .isNotInstanceOf(double.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(3.141592)
+                    .isNotInstanceOf(Double.class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
+                    .isNotInstanceOf(long[].class))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Long[0])
+                    .isNotInstanceOf(Long[].class))
+                    .withMessageMatching(message);
         }
     }
 

@@ -134,13 +134,17 @@ class ClassAssertTest {
             String description = "It is expected to be superclass of the given type, but it isn't.";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that((Class<?>) null)
-                    .isSuperclassOf(Object.class)).withMessageStartingWith(description);
+                    .isSuperclassOf(Object.class))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IllegalArgumentException.class)
-                    .isSuperclassOf(RuntimeException.class)).withMessageStartingWith(description);
+                    .isSuperclassOf(RuntimeException.class))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
-                    .isSuperclassOf(Exception.class)).withMessageStartingWith(description);
+                    .isSuperclassOf(Exception.class))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
-                    .isSuperclassOf(Throwable.class)).withMessageStartingWith(description);
+                    .isSuperclassOf(Throwable.class))
+                    .withMessageStartingWith(description);
         }
     }
 
@@ -165,13 +169,17 @@ class ClassAssertTest {
             String description = "It is expected to be subclass of the given type, but it isn't.";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Object.class)
-                    .isSubclassOf(null)).withMessageStartingWith(description);
+                    .isSubclassOf(null))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Throwable.class)
-                    .isSubclassOf(Exception.class)).withMessageStartingWith(description);
+                    .isSubclassOf(Exception.class))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Exception.class)
-                    .isSubclassOf(RuntimeException.class)).withMessageStartingWith(description);
+                    .isSubclassOf(RuntimeException.class))
+                    .withMessageStartingWith(description);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(RuntimeException.class)
-                    .isSubclassOf(IllegalArgumentException.class)).withMessageStartingWith(description);
+                    .isSubclassOf(IllegalArgumentException.class))
+                    .withMessageStartingWith(description);
         }
     }
 
