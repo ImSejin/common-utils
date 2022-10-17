@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.util.ArrayUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -84,7 +85,7 @@ class CollectionAssertTest {
                     .isThrownBy(() -> Asserts.that(actual).isEmpty())
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY) +
                             "\n {4}actual: '\\[.*]'" +
-                            "\n {4}actual.size: '[0-9]+'"));
+                            "\n {4}actual\\.size: '[0-9]+'"));
         }
     }
 
@@ -122,7 +123,9 @@ class CollectionAssertTest {
 
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotEmpty())
-                    .withMessageStartingWith("It is expected not to be empty, but it is."));
+                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}actual\\.size: '0'"));
         }
     }
 
@@ -158,17 +161,20 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't have the given size")
         void test1() {
-            String description = "It is expected to have the given size, but it isn't.";
+            String description = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '-?[0-9]+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).hasSize(1))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonList(null)).hasSize(0))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3, 4)).hasSize(3))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .hasSize(-1))
+                    .withMessageMatching(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .hasSize(0))
+                    .withMessageMatching(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3, 4))
+                    .hasSize(3))
+                    .withMessageMatching(description);
         }
     }
 
@@ -197,24 +203,27 @@ class CollectionAssertTest {
                 Asserts.that(Collections.singletonList(null)).doesNotHaveSize(0);
                 Asserts.that(set).doesNotHaveSize(set.size() - 1);
                 Asserts.that(stack).doesNotHaveSize(stack.size() + 1);
-                Asserts.that(queue).doesNotHaveSize(queue.size() * 2);
+                Asserts.that(queue).doesNotHaveSize(queue.size() * 2L);
             });
         }
 
         @Test
         @DisplayName("throws exception, when actual has the given size")
         void test1() {
-            String description = "It is expected not to have the given size, but it is.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).doesNotHaveSize(0))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonList(null)).doesNotHaveSize(1))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3, 4)).doesNotHaveSize(4))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .doesNotHaveSize(0))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .doesNotHaveSize(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3, 4))
+                    .doesNotHaveSize(4))
+                    .withMessageMatching(message);
         }
     }
 
@@ -249,20 +258,24 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual and other have a difference with size")
         void test1() {
-            String description = "They are expected to have the same size, but they aren't.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '(\\[.*]|null)'" +
+                    "\n {4}expected\\.size: '([0-9]+|null)'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).hasSameSizeAs(null))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).hasSameSizeAs(Collections.singletonList(null)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonList(null)).hasSameSizeAs(Collections.emptyList()))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3, 4)).hasSameSizeAs(Arrays.asList(1, 2)))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .hasSameSizeAs(null))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .hasSameSizeAs(Collections.singletonList(null)))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .hasSameSizeAs(Collections.emptyList()))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3, 4))
+                    .hasSameSizeAs(Arrays.asList(1, 2)))
+                    .withMessageMatching(message);
         }
     }
 
@@ -297,20 +310,24 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual and other have the same size")
         void test1() {
-            String description = "They are expected not to have the same size, but they are.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '(\\[.*]|null)'" +
+                    "\n {4}expected\\.size: '([0-9]+|null)'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).doesNotHaveSameSizeAs(null))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).doesNotHaveSameSizeAs(new ArrayList<>()))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonList(null)).doesNotHaveSameSizeAs(Collections.singletonList(0)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(1, 2)).doesNotHaveSameSizeAs(Arrays.asList('a', 'b')))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .doesNotHaveSameSizeAs(null))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .doesNotHaveSameSizeAs(new ArrayList<>()))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .doesNotHaveSameSizeAs(Collections.singletonList(0)))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(1, 2))
+                    .doesNotHaveSameSizeAs(Arrays.asList('a', 'b')))
+                    .withMessageMatching(message);
         }
     }
 
@@ -338,18 +355,17 @@ class CollectionAssertTest {
                     "\n {4}actual: '\\[.+]'" +
                     "\n {4}expected: '.*'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', null, 'd', 'e')).contains('\u0000'))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', null, 'd', 'e'))
+                    .contains('\u0000'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024)).contains(64))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
+                    .contains(64))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\.")).contains(""))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                    .contains(""))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{"alpha"}, new String[]{null, ""}))
-                            .contains(new String[0]))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{"alpha"}, new String[]{null, ""}))
+                    .contains(new String[0]))
                     .withMessageMatching(message);
         }
     }
@@ -379,21 +395,17 @@ class CollectionAssertTest {
                     "\n {4}actual: '\\[.+]'" +
                     "\n {4}expected: '.*'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e'))
-                            .doesNotContain('d'))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e'))
+                    .doesNotContain('d'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
-                            .doesNotContain(1024))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
+                    .doesNotContain(1024))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                            .doesNotContain("imsejin"))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
+                    .doesNotContain("imsejin"))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{"c", "mo"}, new String[]{"n"}, new String[]{"ut", "i", "li"}))
-                            .doesNotContain(new String[]{"n"}))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{"c", "mo"}, new String[]{"n"}, new String[]{"ut", "i", "li"}))
+                    .doesNotContain(new String[]{"n"}))
                     .withMessageMatching(message);
         }
     }
@@ -422,20 +434,21 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain null")
         void test1() {
-            String description = "It is expected to contain null, but it isn't.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL) +
+                    "\n {4}actual: '\\[.*]'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList()).containsNull())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList("Alpha", "null", "", "BETA", "gamma")).containsNull())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('A', Character.MIN_VALUE, 'b', '0')).containsNull())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(0, Integer.MIN_VALUE, Integer.MAX_VALUE)).containsNull())
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .containsNull())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList("Alpha", "null", "", "BETA", "gamma"))
+                    .containsNull())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('A', Character.MIN_VALUE, 'b', '0'))
+                    .containsNull())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(0, Integer.MIN_VALUE, Integer.MAX_VALUE))
+                    .containsNull())
+                    .withMessageMatching(message);
         }
     }
 
@@ -481,7 +494,8 @@ class CollectionAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).doesNotContainNull())
-                    .withMessageStartingWith("It is expected not to contain null, but it is."));
+                    .withMessageMatching(Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL) +
+                            "\n {4}actual: '\\[.*]'"));
         }
     }
 
@@ -508,24 +522,25 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain all the given elements")
         void test1() {
-            String description = "It is expected to contain at least one of the given element(s), but it isn't.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptySet()).containsAny(1, 2))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3)).containsAny())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e')).containsAny(null, '\u0000'))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024)).containsAny(2))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                            .containsAny("java", "net", "concurrent", "atomic", "lang", "reflect"))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptySet())
+                    .containsAny(1, 2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(1, 2, 3))
+                    .containsAny())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e'))
+                    .containsAny(null, '\u0000'))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
+                    .containsAny(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                    .containsAny("java", "net", "concurrent", "atomic", "lang", "reflect"))
+                    .withMessageMatching(message);
         }
     }
 
@@ -553,26 +568,23 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain the given collection")
         void test1() {
-            String description = "It is expected to contain all the given elements, but it isn't.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}missing: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList())
-                            .containsAll(Arrays.asList('a', 'b', 'c', 'd', 'e')))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
-                            .containsAll(Arrays.asList(-1024, -10, 0, 10, 1024)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                            .containsAll(Arrays.asList("IMSEJIN", "GITHUB", "COMMON", "COLLECTION", "ASSERTION", "IO")))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\."))
-                            .map(it -> new String[]{it}).collect(toList()))
-                            .containsAll(Stream.of("imsejin", "github", "common", "IO")
-                                    .map(it -> new String[]{it}).collect(toList())))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .containsAll(Arrays.asList('a', 'b', 'c', 'd', 'e')))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
+                    .containsAll(Arrays.asList(-1024, -10, 0, 10, 1024)))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
+                    .containsAll(Arrays.asList("IMSEJIN", "GITHUB", "COMMON", "COLLECTION", "ASSERTION", "IO")))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.stream(getClass().getPackage().getName().split("\\.")).map(it -> new String[]{it}).collect(toList()))
+                    .containsAll(Stream.of("imsejin", "github", "common", "IO").map(it -> new String[]{it}).collect(toList())))
+                    .withMessageMatching(message);
         }
     }
 
@@ -601,24 +613,23 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain all the given elements")
         void test1() {
-            String description = "It is expected not to contain all the given elements, but it is.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}included: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e'))
-                            .doesNotContainAll(Arrays.asList('z', 'y', 'x', 'w', 'a')))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
-                            .doesNotContainAll(Collections.singletonList(1)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                            .doesNotContainAll(Arrays.asList("imsejin", "github", "common", "assertion", "lang")))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{"n"}, new String[]{"li"}, new String[]{"tie", "s"}))
-                            .doesNotContainAll(Arrays.asList(new String[]{"n"}, new String[]{"tie", "s"})))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'c', 'd', 'e'))
+                    .doesNotContainAll(Arrays.asList('z', 'y', 'x', 'w', 'a')))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1024, -1, 0, 1, 1024))
+                    .doesNotContainAll(Collections.singletonList(1)))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
+                    .doesNotContainAll(Arrays.asList("imsejin", "github", "common", "assertion", "lang")))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{"n"}, new String[]{"li"}, new String[]{"tie", "s"}))
+                    .doesNotContainAll(Arrays.asList(new String[]{"n"}, new String[]{"tie", "s"})))
+                    .withMessageMatching(message);
         }
     }
 
@@ -647,29 +658,30 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain only the given element(s)")
         void test1() {
-            String missingDescription = "It is expected to contain only the given element(s), but it doesn't contain some element(s).";
-            String unexpectedDescription = "It is expected to contain only the given element(s), but it contains unexpected element(s).";
+            String missingMessage = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}missing: '.+'";
+            String unexpectedMessage = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '\\[.*]'" +
+                    "\n {4}unexpected: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1, BigDecimal.ZERO, 2.5))
-                            .containsOnly())
-                    .withMessageStartingWith(unexpectedDescription);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList())
-                            .containsOnly(-1, BigDecimal.ZERO, 2.5))
-                    .withMessageStartingWith(missingDescription);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1, 0, 1))
-                            .containsOnly(-1024, -1, 0, 1, 1024))
-                    .withMessageStartingWith(missingDescription);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                            .containsOnly("imsejin", "github", "common", "assertion", "util"))
-                    .withMessageStartingWith(unexpectedDescription);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{}, new String[]{"alpha"}, null, new String[]{"beta"}))
-                            .containsOnly(new String[][]{{}, {"alpha"}, {"beta"}}))
-                    .withMessageStartingWith(unexpectedDescription);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .containsOnly(-1, BigDecimal.ZERO, 2.5))
+                    .withMessageMatching(missingMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1, 0, 1))
+                    .containsOnly(-1024, -1, 0, 1, 1024))
+                    .withMessageMatching(missingMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1, BigDecimal.ZERO, 2.5))
+                    .containsOnly())
+                    .withMessageMatching(unexpectedMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
+                    .containsOnly("imsejin", "github", "common", "assertion", "util"))
+                    .withMessageMatching(unexpectedMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{}, new String[]{"alpha"}, null, new String[]{"beta"}))
+                    .containsOnly(new String[][]{{}, {"alpha"}, {"beta"}}))
+                    .withMessageMatching(unexpectedMessage);
         }
     }
 
@@ -691,24 +703,21 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain only null element(s)")
         void test1() {
-            String description = "It is expected to contain only null elements, but it isn't.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS) +
+                    "\n {4}actual: '\\[.*]'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptySet())
-                            .containsOnlyNulls())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(-1, 0, 1))
-                            .containsOnlyNulls())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                            .containsOnlyNulls())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{}, new String[]{"alpha"}, null, new String[]{"beta"}))
-                            .containsOnlyNulls())
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptySet())
+                    .containsOnlyNulls())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(-1, 0, 1))
+                    .containsOnlyNulls())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
+                    .containsOnlyNulls())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{}, new String[]{"alpha"}, null, new String[]{"beta"}))
+                    .containsOnlyNulls())
+                    .withMessageMatching(message);
         }
     }
 
@@ -733,24 +742,22 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual has duplicated elements")
         void test1() {
-            String description = "It is expected not to have duplicated elements, but it is.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}duplicated: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(null, null))
-                            .doesNotHaveDuplicates())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', '0', 'c', '0'))
-                            .doesNotHaveDuplicates())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("")))
-                            .doesNotHaveDuplicates())
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(new int[0], null, new int[]{1, 2}, new int[]{1, 1}, new int[]{1, 2}, new int[]{2}))
-                            .doesNotHaveDuplicates())
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(null, null))
+                    .doesNotHaveDuplicates())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', '0', 'c', '0'))
+                    .doesNotHaveDuplicates())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("")))
+                    .doesNotHaveDuplicates())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(new int[0], null, new int[]{1, 2}, new int[]{1, 1}, new int[]{1, 2}, new int[]{2}))
+                    .doesNotHaveDuplicates())
+                    .withMessageMatching(message);
         }
     }
 
@@ -779,28 +786,24 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't match the given condition with its any elements")
         void test1() {
-            String description = "It is expected to match the given condition with its any elements, but it isn't.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH) +
+                    "\n {4}actual: '\\[.*]'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptySet())
-                            .anyMatch(Objects::nonNull))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(IntStream.range(0, 100).boxed().collect(toSet()))
-                            .anyMatch(it -> it == 100))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', '1', 'b', 'c'))
-                            .anyMatch(Character::isUpperCase))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList("ImSejin", "Github", "coMMoN", "asSErtIon", "lAnG"))
-                            .anyMatch(it -> it.chars().allMatch(Character::isLowerCase)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{null}, new String[]{"alpha"}, new String[]{"beta"}, new String[]{"gamma"}))
-                            .anyMatch(ArrayUtils::isNullOrEmpty))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptySet())
+                    .anyMatch(Objects::nonNull))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).boxed().collect(toSet()))
+                    .anyMatch(it -> it == 100))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', '1', 'b', 'c'))
+                    .anyMatch(Character::isUpperCase))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList("ImSejin", "Github", "coMMoN", "asSErtIon", "lAnG"))
+                    .anyMatch(it -> it.chars().allMatch(Character::isLowerCase)))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(new String[]{null}, new String[]{"alpha"}, new String[]{"beta"}, new String[]{"gamma"}))
+                    .anyMatch(ArrayUtils::isNullOrEmpty))
+                    .withMessageMatching(message);
         }
     }
 
@@ -829,28 +832,26 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't match the given condition with its all elements")
         void test1() {
-            String description = "It is expected to match the given condition with its all elements, but it isn't.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}unmatched: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyList())
-                            .allMatch(Objects::nonNull))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(IntStream.rangeClosed(0, 100).boxed().collect(toList()))
-                            .allMatch(it -> it < 100))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
-                            .allMatch(Character::isLowerCase))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                            .allMatch(it -> it.chars().allMatch(Character::isUpperCase)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(null, new String[]{"alpha"}, new String[0], new String[]{"beta"}))
-                            .allMatch(ArrayUtils::isNullOrEmpty))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .allMatch(Objects::nonNull))
+                    .withMessageMatching(Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH) +
+                            "\n {4}actual: '\\[.*]'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.rangeClosed(0, 100).boxed().collect(toList()))
+                    .allMatch(it -> it < 100))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
+                    .allMatch(Character::isLowerCase))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
+                    .allMatch(it -> it.chars().allMatch(Character::isUpperCase)))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(null, new String[]{"alpha"}, new String[0], new String[]{"beta"}))
+                    .allMatch(ArrayUtils::isNullOrEmpty))
+                    .withMessageMatching(message);
         }
     }
 
@@ -879,28 +880,25 @@ class CollectionAssertTest {
         @Test
         @DisplayName("throws exception, when actual matches the given condition with its any elements")
         void test1() {
-            String description = "It is expected not to match the given condition with its all elements, but it is.";
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}matched: '.+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(null, new Object(), null))
-                            .noneMatch(Objects::isNull))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(IntStream.rangeClosed(0, 100).boxed().collect(toList()))
-                            .noneMatch(it -> it == 100))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
-                            .noneMatch(Character::isLowerCase))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
-                            .noneMatch(it -> it.chars().allMatch(Character::isLowerCase)))
-                    .withMessageStartingWith(description);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Arrays.asList(null, new String[]{"alpha"}, new String[0], new String[]{"beta"}))
-                            .noneMatch(ArrayUtils::isNullOrEmpty))
-                    .withMessageStartingWith(description);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(null, new Object(), null))
+                    .noneMatch(Objects::isNull))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.rangeClosed(0, 100).boxed().collect(toList()))
+                    .noneMatch(it -> it == 100))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b', 'C', 'd'))
+                    .noneMatch(Character::isLowerCase))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(getClass().getPackage().getName().split("\\.")))
+                    .noneMatch(it -> it.chars().allMatch(Character::isLowerCase)))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(null, new String[]{"alpha"}, new String[0], new String[]{"beta"}))
+                    .noneMatch(ArrayUtils::isNullOrEmpty))
+                    .withMessageMatching(message);
         }
     }
 

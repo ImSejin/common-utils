@@ -241,7 +241,9 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, (Object) actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL);
+        setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
         throw getException();
     }
 
@@ -257,7 +259,9 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, (Object) actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -298,7 +302,11 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY, expected, actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY);
+        setDescriptionVariables(
+                new SimpleEntry<>("actual", actual),
+                new SimpleEntry<>("expected", expected));
+
         throw getException();
     }
 
@@ -322,7 +330,12 @@ public class ArrayAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual, item);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("missing", item));
+
             throw getException();
         }
 
@@ -347,7 +360,12 @@ public class ArrayAssert<
                     continue;
                 }
 
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL, expected, actual);
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL);
+                setDescriptionVariables(
+                        new SimpleEntry<>("actual", actual),
+                        new SimpleEntry<>("expected", expected),
+                        new SimpleEntry<>("included", element));
+
                 throw getException();
             }
         }
@@ -378,7 +396,12 @@ public class ArrayAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING, expected, actual, item);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("missing", item));
+
             throw getException();
         }
 
@@ -391,7 +414,12 @@ public class ArrayAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED, expected, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 
@@ -406,7 +434,9 @@ public class ArrayAssert<
     @Override
     public SELF containsOnlyNulls() {
         if (actual.length == 0) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, (Object) actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -415,7 +445,9 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, (Object) actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -440,7 +472,11 @@ public class ArrayAssert<
 
         for (ELEMENT element : actual) {
             if (noDuplicates.contains(element)) {
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES, actual, element);
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES);
+                setDescriptionVariables(
+                        new SimpleEntry<>("actual", actual),
+                        new SimpleEntry<>("duplicated", element));
+
                 throw getException();
             }
 
@@ -464,7 +500,9 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH, (Object) actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH);
+        setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
         throw getException();
     }
 
@@ -477,7 +515,9 @@ public class ArrayAssert<
     @Override
     public SELF allMatch(Predicate<ELEMENT> expected) {
         if (actual.length == 0) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, "");
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -486,7 +526,11 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("unmatched", element));
+
             throw getException();
         }
 
@@ -506,7 +550,11 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("matched", element));
+
             throw getException();
         }
 

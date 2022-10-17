@@ -33,18 +33,18 @@ public interface IterationAssertable<
         ELEMENT>
         extends EnumerationAssertable<SELF, ACTUAL, ELEMENT> {
 
-    String DEFAULT_DESCRIPTION_CONTAINS_NULL = "It is expected to contain null, but it isn't. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL = "It is expected not to contain null, but it is. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_CONTAINS_ANY = "It is expected to contain at least one of the given element(s), but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_CONTAINS_ALL = "It is expected to contain all the given elements, but it isn't. (expected: '{0}', actual: '{1}', missing: '{2}')";
-    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL = "It is expected not to contain all the given elements, but it is. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING = "It is expected to contain only the given element(s), but it doesn't contain some element(s). (expected: '{0}', actual: '{1}', missing: '{2}')";
-    String DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED = "It is expected to contain only the given element(s), but it contains unexpected element(s). (expected: '{0}', actual: '{1}', unexpected: '{2}')";
-    String DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS = "It is expected to contain only null elements, but it isn't. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES = "It is expected not to have duplicated elements, but it is. (actual: '{0}', duplicated: '{1}')";
-    String DEFAULT_DESCRIPTION_ANY_MATCH = "It is expected to match the given condition with its any elements, but it isn't. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_ALL_MATCH = "It is expected to match the given condition with its all elements, but it isn't. (actual: '{0}', unexpected: '{1}')";
-    String DEFAULT_DESCRIPTION_NONE_MATCH = "It is expected not to match the given condition with its all elements, but it is. (actual: '{0}', unexpected: '{1}')";
+    String DEFAULT_DESCRIPTION_CONTAINS_NULL = "It is expected to contain null, but it isn't.";
+    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL = "It is expected not to contain null, but it is.";
+    String DEFAULT_DESCRIPTION_CONTAINS_ANY = "It is expected to contain at least one of the given element(s), but it isn't.";
+    String DEFAULT_DESCRIPTION_CONTAINS_ALL = "It is expected to contain all the given elements, but it isn't.";
+    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL = "It is expected not to contain all the given elements, but it is.";
+    String DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING = "It is expected to contain only the given element(s), but it doesn't contain some element(s).";
+    String DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED = "It is expected to contain only the given element(s), but it contains unexpected element(s).";
+    String DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS = "It is expected to contain only null elements, but it isn't.";
+    String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES = "It is expected not to have duplicated elements, but it is.";
+    String DEFAULT_DESCRIPTION_ANY_MATCH = "It is expected to match the given condition with its any elements, but it isn't.";
+    String DEFAULT_DESCRIPTION_ALL_MATCH = "It is expected to match the given condition with its all elements, but it isn't.";
+    String DEFAULT_DESCRIPTION_NONE_MATCH = "It is expected not to match the given condition with its all elements, but it is.";
 
     /**
      * Asserts that actual value contains {@code null} as a element.
