@@ -21,6 +21,7 @@ import io.github.imsejin.common.util.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
+import java.util.AbstractMap.SimpleEntry;
 
 /**
  * Assertion for {@link Class}
@@ -58,8 +59,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isAssignableFrom(Class<?> expected) {
         if (!actual.isAssignableFrom(expected)) {
-            setDefaultDescription("It is expected to be assignable from the given type, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to be assignable from the given type, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -86,8 +90,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isSuperclassOf(Class<?> expected) {
         if (actual == null || actual != expected.getSuperclass()) {
-            setDefaultDescription("It is expected to be superclass of the given type, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to be superclass of the given type, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -114,8 +121,11 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isSubclassOf(Class<?> expected) {
         if (expected == null || actual.getSuperclass() != expected) {
-            setDefaultDescription("It is expected to be subclass of the given type, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to be subclass of the given type, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -141,7 +151,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isPrimitive() {
         if (!actual.isPrimitive()) {
-            setDefaultDescription("It is expected to be primitive, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be primitive, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -171,7 +183,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isInterface() {
         if (!actual.isInterface()) {
-            setDefaultDescription("It is expected to be interface, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be interface, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -197,7 +211,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isAnnotation() {
         if (!actual.isAnnotation()) {
-            setDefaultDescription("It is expected to be annotation, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be annotation, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -225,7 +241,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isFinalClass() {
         if (!Modifier.isFinal(actual.getModifiers())) {
-            setDefaultDescription("It is expected to be final class, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be final class, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -253,7 +271,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isAbstractClass() {
         if (!ClassUtils.isAbstractClass(actual)) {
-            setDefaultDescription("It is expected to be abstract class, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be abstract class, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -279,7 +299,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isAnonymousClass() {
         if (!actual.isAnonymousClass()) {
-            setDefaultDescription("It is expected to be anonymous class, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be anonymous class, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -305,7 +327,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isEnum() {
         if (!ClassUtils.isEnumOrEnumConstant(actual)) {
-            setDefaultDescription("It is expected to be enum, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be enum, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -331,7 +355,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isArray() {
         if (!actual.isArray()) {
-            setDefaultDescription("It is expected to be array, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be array, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -359,7 +385,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isMemberClass() {
         if (!actual.isMemberClass()) {
-            setDefaultDescription("It is expected to be member class, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be member class, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -385,7 +413,9 @@ public class ClassAssert<SELF extends ClassAssert<SELF, T>, T> extends ObjectAss
      */
     public SELF isLocalClass() {
         if (!actual.isLocalClass()) {
-            setDefaultDescription("It is expected to be local class, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be local class, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
