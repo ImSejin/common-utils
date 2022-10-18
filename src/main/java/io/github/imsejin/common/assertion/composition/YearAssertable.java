@@ -32,8 +32,8 @@ public interface YearAssertable<
         SELF extends AbstractTemporalAccessorAssert<SELF, ACTUAL>,
         ACTUAL extends Temporal & TemporalAdjuster & Comparable<ACTUAL>> {
 
-    String DEFAULT_DESCRIPTION_IS_LEAP_YEAR = "It is expected to be leap year, but it isn't. (actual: '{0}')";
-    String DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR = "It is expected not to be leap year, but it is. (actual: '{0}')";
+    String DEFAULT_DESCRIPTION_IS_LEAP_YEAR = "It is expected to be leap year, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR = "It is expected not to be leap year, but it is.";
 
     SELF isLeapYear();
 
