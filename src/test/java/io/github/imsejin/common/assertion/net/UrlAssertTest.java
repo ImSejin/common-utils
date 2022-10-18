@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -39,9 +40,12 @@ class UrlAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have host")
         void test1(URL actual, String expected) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).hasHost(expected))
-                    .withMessageStartingWith("It is expected to have that host, but it doesn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .hasHost(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to have that host, but it doesn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.host: '.*'" +
+                            "\n {4}expected: '.*'");
         }
     }
 
@@ -66,9 +70,11 @@ class UrlAssertTest {
         })
         @DisplayName("throws exception, when actual has host")
         void test1(URL url) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(url).doesNotHaveHost())
-                    .withMessage("It is expected not to have host, but it does.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(url)
+                    .doesNotHaveHost())
+                    .withMessageMatching(Pattern.quote("It is expected not to have host, but it does.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.host: '.+'");
         }
     }
 
@@ -94,9 +100,12 @@ class UrlAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have port")
         void test1(URL actual, int expected) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).hasPort(expected))
-                    .withMessageStartingWith("It is expected to have that port, but it doesn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .hasPort(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to have that port, but it doesn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.port: '[0-9]+'" +
+                            "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -121,9 +130,11 @@ class UrlAssertTest {
         })
         @DisplayName("throws exception, when actual has port")
         void test1(URL actual) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).doesNotHavePort())
-                    .withMessage("It is expected not to have port, but it does.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .doesNotHavePort())
+                    .withMessageMatching(Pattern.quote("It is expected not to have port, but it does.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.port: '[0-9]+'");
         }
     }
 
@@ -150,9 +161,12 @@ class UrlAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have path")
         void test1(URL actual, String expected) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).hasPath(expected))
-                    .withMessageStartingWith("It is expected to have that path, but it doesn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .hasPath(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to have that path, but it doesn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.path: '.*'" +
+                            "\n {4}expected: '.*'");
         }
     }
 
@@ -178,12 +192,12 @@ class UrlAssertTest {
             URL url = new URL("https://www.github.com/imsejin/common-utils");
 
             // expect
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(url).doesNotHavePath())
-                    .withMessage("It is expected not to have path, but it does.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(url)
+                    .doesNotHavePath())
+                    .withMessageMatching(Pattern.quote("It is expected not to have path, but it does.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.path: '.+'");
         }
     }
-
-    // -------------------------------------------------------------------------------------------------
 
 }

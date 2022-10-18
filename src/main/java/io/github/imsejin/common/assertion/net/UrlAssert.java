@@ -23,6 +23,7 @@ import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.util.StringUtils;
 
 import java.net.URL;
+import java.util.AbstractMap.SimpleEntry;
 
 public class UrlAssert<
         SELF extends UrlAssert<SELF>>
@@ -37,9 +38,15 @@ public class UrlAssert<
     }
 
     public SELF hasHost(String expected) {
-        if (StringUtils.isNullOrEmpty(actual.getHost()) || !actual.getHost().equals(expected)) {
-            setDefaultDescription("It is expected to have that host, but it doesn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.getHost());
+        String host = actual.getHost();
+
+        if (StringUtils.isNullOrEmpty(host) || !host.equals(expected)) {
+            setDefaultDescription("It is expected to have that host, but it doesn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.host", host),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -47,8 +54,14 @@ public class UrlAssert<
     }
 
     public SELF doesNotHaveHost() {
-        if (!StringUtils.isNullOrEmpty(actual.getHost())) {
+        String host = actual.getHost();
+
+        if (!StringUtils.isNullOrEmpty(host)) {
             setDefaultDescription("It is expected not to have host, but it does.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.host", host));
+
             throw getException();
         }
 
@@ -59,8 +72,12 @@ public class UrlAssert<
         int port = actual.getPort() == -1 ? actual.getDefaultPort() : actual.getPort();
 
         if (port != expected) {
-            setDefaultDescription("It is expected to have that port, but it doesn't. (expected: '{0}', actual: '{1}')",
-                    expected, port);
+            setDefaultDescription("It is expected to have that port, but it doesn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.port", port),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -72,6 +89,10 @@ public class UrlAssert<
 
         if (port != -1) {
             setDefaultDescription("It is expected not to have port, but it does.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.port", port));
+
             throw getException();
         }
 
@@ -79,9 +100,15 @@ public class UrlAssert<
     }
 
     public SELF hasPath(String expected) {
-        if (StringUtils.isNullOrEmpty(actual.getPath()) || !actual.getPath().equals(expected)) {
-            setDefaultDescription("It is expected to have that path, but it doesn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual.getPath());
+        String path = actual.getPath();
+
+        if (StringUtils.isNullOrEmpty(path) || !path.equals(expected)) {
+            setDefaultDescription("It is expected to have that path, but it doesn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.path", path),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -89,8 +116,14 @@ public class UrlAssert<
     }
 
     public SELF doesNotHavePath() {
-        if (!StringUtils.isNullOrEmpty(actual.getPath())) {
+        String path = actual.getPath();
+
+        if (!StringUtils.isNullOrEmpty(path)) {
             setDefaultDescription("It is expected not to have path, but it does.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.path", path));
+
             throw getException();
         }
 
