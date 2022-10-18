@@ -34,6 +34,9 @@ public interface OffsetAssertable<
         SELF extends ObjectAssert<SELF, ACTUAL>,
         ACTUAL extends Temporal & TemporalAdjuster & Comparable<ACTUAL> & Serializable> {
 
+    String DEFAULT_DESCRIPTION_IS_SAME_OFFSET = "They are expected to have the same offset, but they aren't.";
+    String DEFAULT_DESCRIPTION_IS_NOT_SAME_OFFSET = "They are expected not to have the same offset, but they are.";
+
     SELF isSameOffset(ZoneOffset expected);
 
     SELF isNotSameOffset(ZoneOffset expected);

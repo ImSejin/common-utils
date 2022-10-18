@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.OffsetAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
@@ -352,10 +354,12 @@ class OffsetTimeAssertTest {
             List<ZoneOffset> params = IntStream.rangeClosed(1, 18).mapToObj(ZoneOffset::ofHours).collect(toList());
 
             // expect
-            params.forEach(offset -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(OffsetTime.now(offset))
-                            .isSameOffset(ZoneOffset.ofTotalSeconds(-offset.getTotalSeconds())))
-                    .withMessageStartingWith("They are expected to have the same offset, but they aren't."));
+            params.forEach(offset -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(OffsetTime.now(offset))
+                    .isSameOffset(ZoneOffset.ofTotalSeconds(-offset.getTotalSeconds())))
+                    .withMessageMatching(Pattern.quote(OffsetAssertable.DEFAULT_DESCRIPTION_IS_SAME_OFFSET) +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.offset: '(Z|[+-][0-9]{2}:[0-9]{2})'" +
+                            "\n {4}expected: '(Z|[+-][0-9]{2}:[0-9]{2})'"));
         }
     }
 
@@ -383,9 +387,12 @@ class OffsetTimeAssertTest {
             List<ZoneOffset> params = IntStream.rangeClosed(-18, 18).mapToObj(ZoneOffset::ofHours).collect(toList());
 
             // expect
-            params.forEach(offset -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(OffsetTime.now(offset)).isNotSameOffset(offset))
-                    .withMessageStartingWith("They are expected not to have the same offset, but they are."));
+            params.forEach(offset -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(OffsetTime.now(offset))
+                            .isNotSameOffset(offset))
+                    .withMessageMatching(Pattern.quote(OffsetAssertable.DEFAULT_DESCRIPTION_IS_NOT_SAME_OFFSET) +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.offset: '(Z|[+-][0-9]{2}:[0-9]{2})'" +
+                            "\n {4}expected: '(Z|[+-][0-9]{2}:[0-9]{2})'"));
         }
     }
 

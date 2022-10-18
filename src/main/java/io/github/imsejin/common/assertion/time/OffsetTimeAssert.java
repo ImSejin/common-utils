@@ -25,6 +25,7 @@ import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessor
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
+import java.util.AbstractMap.SimpleEntry;
 
 public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, OffsetTime>
@@ -40,14 +41,19 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
 
     /**
      * @param expected expected value
-     * @return self
+     * @return this class
      */
     @Override
     public SELF isSameOffset(ZoneOffset expected) {
         ZoneOffset offset = actual.getOffset();
 
         if (!offset.equals(expected)) {
-            setDefaultDescription("They are expected to have the same offset, but they aren't. (expected: '{0}', actual: '{1}')", expected, offset);
+            setDefaultDescription(OffsetAssertable.DEFAULT_DESCRIPTION_IS_SAME_OFFSET);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.offset", offset),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -56,14 +62,19 @@ public class OffsetTimeAssert<SELF extends OffsetTimeAssert<SELF>>
 
     /**
      * @param expected expected value
-     * @return self
+     * @return this class
      */
     @Override
     public SELF isNotSameOffset(ZoneOffset expected) {
         ZoneOffset offset = actual.getOffset();
 
         if (offset.equals(expected)) {
-            setDefaultDescription("They are expected not to have the same offset, but they are. (expected: '{0}', actual: '{1}')", expected, offset);
+            setDefaultDescription(OffsetAssertable.DEFAULT_DESCRIPTION_IS_NOT_SAME_OFFSET);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.offset", offset),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 

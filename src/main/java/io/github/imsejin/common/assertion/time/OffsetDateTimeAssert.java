@@ -34,6 +34,7 @@ import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
+import java.util.AbstractMap.SimpleEntry;
 
 public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, OffsetDateTime>
@@ -49,14 +50,19 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     /**
      * @param expected expected value
-     * @return self
+     * @return this class
      */
     @Override
     public SELF isSameOffset(ZoneOffset expected) {
         ZoneOffset offset = actual.getOffset();
 
         if (!offset.equals(expected)) {
-            setDefaultDescription("They are expected to have the same offset, but they aren't. (expected: '{0}', actual: '{1}')", expected, offset);
+            setDefaultDescription(OffsetAssertable.DEFAULT_DESCRIPTION_IS_SAME_OFFSET);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.offset", offset),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -65,14 +71,19 @@ public class OffsetDateTimeAssert<SELF extends OffsetDateTimeAssert<SELF>>
 
     /**
      * @param expected expected value
-     * @return self
+     * @return this class
      */
     @Override
     public SELF isNotSameOffset(ZoneOffset expected) {
         ZoneOffset offset = actual.getOffset();
 
         if (offset.equals(expected)) {
-            setDefaultDescription("They are expected not to have the same offset, but they are. (expected: '{0}', actual: '{1}')", expected, offset);
+            setDefaultDescription(OffsetAssertable.DEFAULT_DESCRIPTION_IS_NOT_SAME_OFFSET);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.offset", offset),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
