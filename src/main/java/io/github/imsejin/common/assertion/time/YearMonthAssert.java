@@ -23,6 +23,7 @@ import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessor
 import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
+import java.util.AbstractMap.SimpleEntry;
 
 public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, YearMonth>
@@ -39,7 +40,9 @@ public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
     @Override
     public SELF isLeapYear() {
         if (!actual.isLeapYear()) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -49,7 +52,9 @@ public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
     @Override
     public SELF isNotLeapYear() {
         if (actual.isLeapYear()) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 

@@ -25,6 +25,7 @@ import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessor
 import java.time.MonthDay;
 import java.time.YearMonth;
 import java.time.chrono.ChronoLocalDate;
+import java.util.AbstractMap.SimpleEntry;
 
 public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, ChronoLocalDate>
@@ -41,7 +42,9 @@ public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
     @Override
     public SELF isLeapYear() {
         if (!actual.isLeapYear()) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -51,7 +54,9 @@ public class ChronoLocalDateAssert<SELF extends ChronoLocalDateAssert<SELF>>
     @Override
     public SELF isNotLeapYear() {
         if (actual.isLeapYear()) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
