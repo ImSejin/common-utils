@@ -52,7 +52,7 @@ class StopwatchSpec extends Specification {
             Stopwatch doesn't allow you to change timeUnit into null.
         """
         def e = thrown IllegalArgumentException
-        e.message == "Stopwatch.timeUnit cannot be null"
+        e.message.split("\n")[0] == "Stopwatch.timeUnit cannot be null"
 
         where:
         timeUnit << TimeUnit.values()
@@ -74,7 +74,7 @@ class StopwatchSpec extends Specification {
             Stopwatch doesn't allow you to set null to timeUnit.
         """
         def e = thrown IllegalArgumentException
-        e.message == "Stopwatch.timeUnit cannot be null"
+        e.message.split("\n")[0] == "Stopwatch.timeUnit cannot be null"
 
         where:
         timeUnit << TimeUnit.values()

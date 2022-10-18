@@ -133,17 +133,20 @@ class CharSequenceAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have the given length")
         void test1(String source, int expected) {
-            String message = "It is expected to have the given length, but it isn't.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '-?[0-9]+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).hasSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).hasSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).hasSize(expected))
-                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSize(expected))
+                    .withMessageMatching(message);
         }
     }
 
@@ -175,17 +178,20 @@ class CharSequenceAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual has the given length")
         void test1(String source, int expected) {
-            String message = "It is expected not to have the given length, but it is.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotHaveSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotHaveSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).doesNotHaveSize(expected))
-                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .doesNotHaveSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .doesNotHaveSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .doesNotHaveSize(expected))
+                    .withMessageMatching(message);
         }
     }
 
@@ -225,19 +231,23 @@ class CharSequenceAssertTest {
             String expected = StringUtils.repeat(".", source.length() + 1);
 
             // expect
-            String message = "They are expected to have the same length, but they aren't.";
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).hasSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).hasSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).hasSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).hasSameSizeAs(null))
-                    .withMessageStartingWith(message);
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
+                    "\n {4}actual: '.*'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '(.+|null)'" +
+                    "\n {4}expected\\.size: '([0-9]+|null)'";
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSameSizeAs(null))
+                    .withMessageMatching(message);
         }
     }
 
@@ -277,19 +287,23 @@ class CharSequenceAssertTest {
             String expected = StringUtils.repeat(".", source.length());
 
             // expect
-            String message = "They are expected not to have the same length, but they are.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
+                    "\n {4}actual: '.*'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '(.*|null)'" +
+                    "\n {4}expected\\.size: '([0-9]+|null)'";
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(source).doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(source).doesNotHaveSameSizeAs(null))
-                    .withMessageStartingWith(message);
+                    .withMessageMatching(message);
         }
     }
 

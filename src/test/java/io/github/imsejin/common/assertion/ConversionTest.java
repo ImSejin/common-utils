@@ -92,7 +92,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", uuid)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asString().isNull())
-                    .withMessage("Description of assertion: " + uuid);
+                    .withMessageStartingWith("Description of assertion: " + uuid);
         }
 
         @Test
@@ -111,7 +111,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", object)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asClass().isAnonymousClass())
-                    .withMessage("Description of assertion: " + object);
+                    .withMessageStartingWith("Description of assertion: " + object);
         }
     }
 
@@ -135,7 +135,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", ArrayUtils.toString(array))
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLength().isEqualTo(array.length - 1))
-                    .withMessage("Description of assertion: " + ArrayUtils.toString(array));
+                    .withMessageStartingWith("Description of assertion: " + ArrayUtils.toString(array));
         }
 
         @Test
@@ -157,7 +157,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", ArrayUtils.toString(array))
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asList().hasSize(array.length).doesNotContainAll(Arrays.asList(0, 3, 9, 27, 81, 243)))
-                    .withMessage("Description of assertion: " + ArrayUtils.toString(array));
+                    .withMessageStartingWith("Description of assertion: " + ArrayUtils.toString(array));
         }
     }
 
@@ -180,7 +180,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", charSequence)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLength().isCloseTo(charSequence.length() + 1, 0))
-                    .withMessage("Description of assertion: " + charSequence);
+                    .withMessageStartingWith("Description of assertion: " + charSequence);
         }
     }
 
@@ -207,7 +207,7 @@ class ConversionTest {
                             .describedAs("Description of assertion")
                             .thrownBy(RuntimeException::new).isAssignableFrom(IllegalArgumentException.class)
                             .asSuperclass().isAnonymousClass())
-                    .withMessage("Description of assertion");
+                    .withMessageStartingWith("Description of assertion");
         }
 
         @Test
@@ -225,7 +225,7 @@ class ConversionTest {
                             .describedAs("Description of assertion")
                             .thrownBy(RuntimeException::new).isAbstractClass()
                             .asPackage().isSubPackageOf(OS.class.getPackage()))
-                    .withMessage("Description of assertion");
+                    .withMessageStartingWith("Description of assertion");
         }
     }
 
@@ -247,7 +247,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", pack)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asName().isNumeric())
-                    .withMessage("Description of assertion: " + pack);
+                    .withMessageStartingWith("Description of assertion: " + pack);
         }
     }
 
@@ -271,7 +271,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", file)
                             .thrownBy(RuntimeException::new).isEmpty()
                             .asParentFile().exists().is(File::isFile))
-                    .withMessage("Description of assertion: " + file);
+                    .withMessageStartingWith("Description of assertion: " + file);
         }
 
         @Test
@@ -289,7 +289,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", file)
                             .thrownBy(RuntimeException::new).isEmpty()
                             .asPath().exists().is(Files::isDirectory))
-                    .withMessage("Description of assertion: " + file);
+                    .withMessageStartingWith("Description of assertion: " + file);
         }
 
         @Test
@@ -309,7 +309,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", file)
                             .thrownBy(RuntimeException::new).exists()
                             .asLength().isZeroOrNegative())
-                    .withMessage("Description of assertion: " + file);
+                    .withMessageStartingWith("Description of assertion: " + file);
         }
 
         @Test
@@ -329,7 +329,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", file)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asName().isUpperCase())
-                    .withMessage("Description of assertion: " + file);
+                    .withMessageStartingWith("Description of assertion: " + file);
         }
     }
 
@@ -352,7 +352,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", filePath)
                             .thrownBy(RuntimeException::new).isEmpty()
                             .asParent().exists().is(Files::isRegularFile))
-                    .withMessage("Description of assertion: " + filePath);
+                    .withMessageStartingWith("Description of assertion: " + filePath);
         }
 
         @Test
@@ -370,7 +370,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", filePath)
                             .thrownBy(RuntimeException::new).isEmpty()
                             .asFile().exists().is(File::isDirectory))
-                    .withMessage("Description of assertion: " + filePath);
+                    .withMessageStartingWith("Description of assertion: " + filePath);
         }
 
         @Test
@@ -388,7 +388,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", filePath)
                             .thrownBy(RuntimeException::new).isEmpty()
                             .asFileName().isNotEmpty().isNot(it -> it.split("\\.").length == 2))
-                    .withMessage("Description of assertion: " + filePath);
+                    .withMessageStartingWith("Description of assertion: " + filePath);
         }
 
         @Test
@@ -406,7 +406,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", filePath)
                             .thrownBy(RuntimeException::new).isEmpty()
                             .asNameCount().isPositive().is(it -> it == 2))
-                    .withMessage("Description of assertion: " + filePath);
+                    .withMessageStartingWith("Description of assertion: " + filePath);
         }
     }
 
@@ -429,7 +429,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", url)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asHost().startsWith("github.com"))
-                    .withMessage("Description of assertion: " + url);
+                    .withMessageStartingWith("Description of assertion: " + url);
         }
 
         @ParameterizedTest
@@ -447,7 +447,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", url)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asPort().isNegative())
-                    .withMessage("Description of assertion: " + url);
+                    .withMessageStartingWith("Description of assertion: " + url);
         }
 
         @Test
@@ -465,7 +465,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", url)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asPath().isUpperCase())
-                    .withMessage("Description of assertion: " + url);
+                    .withMessageStartingWith("Description of assertion: " + url);
         }
     }
 
@@ -490,7 +490,7 @@ class ConversionTest {
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asDate().isEqualTo(new java.sql.Date(instant.toEpochMilli()))
                             .isEqualTo(new java.sql.Timestamp(0)))
-                    .withMessage("Description of assertion: " + instant);
+                    .withMessageStartingWith("Description of assertion: " + instant);
         }
 
         @Test
@@ -508,7 +508,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", instant)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asEpochMilli().isEqualTo(Long.MAX_VALUE))
-                    .withMessage("Description of assertion: " + instant);
+                    .withMessageStartingWith("Description of assertion: " + instant);
         }
     }
 
@@ -532,7 +532,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", time)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asSecondOfDay().isGreaterThan(LocalTime.now().toSecondOfDay()))
-                    .withMessage("Description of assertion: " + time);
+                    .withMessageStartingWith("Description of assertion: " + time);
         }
 
         @Test
@@ -551,7 +551,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", time)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asNanoOfDay().isGreaterThan(LocalTime.now().toNanoOfDay()))
-                    .withMessage("Description of assertion: " + time);
+                    .withMessageStartingWith("Description of assertion: " + time);
         }
     }
 
@@ -575,7 +575,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", offsetDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDate().isAfter(LocalDate.now()))
-                    .withMessage("Description of assertion: " + offsetDateTime);
+                    .withMessageStartingWith("Description of assertion: " + offsetDateTime);
         }
 
         @Test
@@ -594,7 +594,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", offsetDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + offsetDateTime);
+                    .withMessageStartingWith("Description of assertion: " + offsetDateTime);
         }
 
         @Test
@@ -613,7 +613,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", offsetDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asZonedDateTime().isAfter(ZonedDateTime.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + offsetDateTime);
+                    .withMessageStartingWith("Description of assertion: " + offsetDateTime);
         }
 
         @Test
@@ -631,7 +631,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", offsetDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isEqualTo(LocalTime.MIN).isNoon())
-                    .withMessage("Description of assertion: " + offsetDateTime);
+                    .withMessageStartingWith("Description of assertion: " + offsetDateTime);
         }
 
         @Test
@@ -650,7 +650,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", offsetDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asOffsetTime().isSameOffset(null))
-                    .withMessage("Description of assertion: " + offsetDateTime);
+                    .withMessageStartingWith("Description of assertion: " + offsetDateTime);
         }
 
         @Test
@@ -668,7 +668,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", offsetDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isAfter(Instant.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + offsetDateTime);
+                    .withMessageStartingWith("Description of assertion: " + offsetDateTime);
         }
     }
 
@@ -692,7 +692,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", offsetTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isAfter(LocalTime.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + offsetTime);
+                    .withMessageStartingWith("Description of assertion: " + offsetTime);
         }
     }
 
@@ -716,7 +716,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", year)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asValue().isZeroOrNegative())
-                    .withMessage("Description of assertion: " + year);
+                    .withMessageStartingWith("Description of assertion: " + year);
         }
 
         @Test
@@ -735,7 +735,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", year)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLength().isEqualTo(365))
-                    .withMessage("Description of assertion: " + year);
+                    .withMessageStartingWith("Description of assertion: " + year);
         }
     }
 
@@ -759,7 +759,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", yearMonth)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asYear().isLeapYear())
-                    .withMessage("Description of assertion: " + yearMonth);
+                    .withMessageStartingWith("Description of assertion: " + yearMonth);
         }
 
         @Test
@@ -778,7 +778,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", yearMonth)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asMonth().is(it -> it.ordinal() == 9))
-                    .withMessage("Description of assertion: " + yearMonth);
+                    .withMessageStartingWith("Description of assertion: " + yearMonth);
         }
     }
 
@@ -802,7 +802,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", month)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asValue().isEqualTo(month.ordinal()))
-                    .withMessage("Description of assertion: " + month);
+                    .withMessageStartingWith("Description of assertion: " + month);
         }
     }
 
@@ -826,7 +826,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", monthDay)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asMonth().isBefore(monthDay.with(Month.JUNE).getMonth()))
-                    .withMessage("Description of assertion: " + monthDay);
+                    .withMessageStartingWith("Description of assertion: " + monthDay);
         }
 
         @Test
@@ -845,7 +845,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", monthDay)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asDayOfMonth().isLessThan(monthDay.getDayOfMonth()))
-                    .withMessage("Description of assertion: " + monthDay);
+                    .withMessageStartingWith("Description of assertion: " + monthDay);
         }
     }
 
@@ -869,7 +869,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", duration)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asTotalSeconds().isEqualTo(new BigDecimal(LocalTime.MAX.toSecondOfDay() + ".999999998")))
-                    .withMessage("Description of assertion: " + duration);
+                    .withMessageStartingWith("Description of assertion: " + duration);
         }
     }
 
@@ -893,7 +893,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", period)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asTotalDays().isEqualTo(period.getDays()))
-                    .withMessage("Description of assertion: " + period);
+                    .withMessageStartingWith("Description of assertion: " + period);
         }
     }
 
@@ -920,7 +920,7 @@ class ConversionTest {
                             .isNotNull().isAfter(localDate.minusDays(1))
                             .asYearMonth().isEqualTo(YearMonth.from(localDate))
                             .isNotLeapYear())
-                    .withMessage("Description of assertion: " + localDate);
+                    .withMessageStartingWith("Description of assertion: " + localDate);
         }
 
         @Test
@@ -941,7 +941,7 @@ class ConversionTest {
                             .thrownBy(RuntimeException::new).isNotNull()
                             .isNotNull().isBefore(YearMonth.from(localDate).atEndOfMonth())
                             .asMonthDay().isNotEqualTo(MonthDay.from(localDate)))
-                    .withMessage("Description of assertion: " + localDate);
+                    .withMessageStartingWith("Description of assertion: " + localDate);
         }
     }
 
@@ -965,7 +965,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", dateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDate().isAfter(LocalDate.now()))
-                    .withMessage("Description of assertion: " + dateTime);
+                    .withMessageStartingWith("Description of assertion: " + dateTime);
         }
 
         @Test
@@ -983,7 +983,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", dateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isAfter(LocalTime.MAX))
-                    .withMessage("Description of assertion: " + dateTime);
+                    .withMessageStartingWith("Description of assertion: " + dateTime);
         }
 
         @Test
@@ -1001,7 +1001,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", dateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isEqualTo(Instant.now()))
-                    .withMessage("Description of assertion: " + dateTime);
+                    .withMessageStartingWith("Description of assertion: " + dateTime);
         }
     }
 
@@ -1025,7 +1025,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", zonedDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDate().isBefore(LocalDate.now()))
-                    .withMessage("Description of assertion: " + zonedDateTime);
+                    .withMessageStartingWith("Description of assertion: " + zonedDateTime);
         }
 
         @Test
@@ -1044,7 +1044,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", zonedDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalDateTime().isAfter(LocalDateTime.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + zonedDateTime);
+                    .withMessageStartingWith("Description of assertion: " + zonedDateTime);
         }
 
         @Test
@@ -1062,7 +1062,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", zonedDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asLocalTime().isEqualTo(LocalTime.now()))
-                    .withMessage("Description of assertion: " + zonedDateTime);
+                    .withMessageStartingWith("Description of assertion: " + zonedDateTime);
         }
 
         @Test
@@ -1081,7 +1081,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", zonedDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asOffsetDateTime().isAfter(OffsetDateTime.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + zonedDateTime);
+                    .withMessageStartingWith("Description of assertion: " + zonedDateTime);
         }
 
         @Test
@@ -1099,7 +1099,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", zonedDateTime)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isAfter(Instant.now().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + zonedDateTime);
+                    .withMessageStartingWith("Description of assertion: " + zonedDateTime);
         }
     }
 
@@ -1123,7 +1123,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", date)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asInstant().isAfter(date.toInstant().plusSeconds(1)))
-                    .withMessage("Description of assertion: " + date);
+                    .withMessageStartingWith("Description of assertion: " + date);
         }
 
         @Test
@@ -1143,7 +1143,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", date)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asYearMonth().isLeapYear())
-                    .withMessage("Description of assertion: " + date);
+                    .withMessageStartingWith("Description of assertion: " + date);
         }
     }
 
@@ -1169,7 +1169,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", collection)
                             .thrownBy(RuntimeException::new).isNotEmpty()
                             .asArray().doesNotHaveSameSizeAs(new Object[0]).isInstanceOf(String[].class))
-                    .withMessage("Description of assertion: " + collection);
+                    .withMessageStartingWith("Description of assertion: " + collection);
         }
 
         @Test
@@ -1187,7 +1187,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", collection)
                             .thrownBy(RuntimeException::new).isNotEmpty()
                             .asSize().isZeroOrNegative())
-                    .withMessage("Description of assertion: " + collection);
+                    .withMessageStartingWith("Description of assertion: " + collection);
         }
     }
 
@@ -1212,7 +1212,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", map)
                             .thrownBy(RuntimeException::new).isNotEmpty()
                             .asKeySet().isEmpty())
-                    .withMessage("Description of assertion: " + map);
+                    .withMessageStartingWith("Description of assertion: " + map);
         }
 
         @Test
@@ -1232,7 +1232,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", map)
                             .thrownBy(RuntimeException::new).isNotEmpty()
                             .asValues().isEmpty())
-                    .withMessage("Description of assertion: " + map);
+                    .withMessageStartingWith("Description of assertion: " + map);
         }
 
         @Test
@@ -1250,7 +1250,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", map)
                             .thrownBy(RuntimeException::new).isNotEmpty()
                             .asSize().isBetween(-1, 0))
-                    .withMessage("Description of assertion: " + map);
+                    .withMessageStartingWith("Description of assertion: " + map);
         }
     }
 
@@ -1273,7 +1273,7 @@ class ConversionTest {
                             .describedAs("Description of assertion: {0}", uuid)
                             .thrownBy(RuntimeException::new).isNotNull()
                             .asVersion().isNegative())
-                    .withMessage("Description of assertion: " + uuid);
+                    .withMessageStartingWith("Description of assertion: " + uuid);
         }
     }
 

@@ -76,40 +76,40 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not equal to other")
         void test1() {
-            String description = Pattern.quote("They are expected to be equal, but they aren't.") +
+            String message = Pattern.quote("They are expected to be equal, but they aren't.") +
                     "\n {4}actual: '\\[.*]'" +
                     "\n {4}expected: '\\[.*]'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
                     .isEqualTo(new Boolean[]{true, false}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[0])
                     .isEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
                     .isEqualTo(new Character[]{Character.MIN_VALUE, Character.MAX_VALUE / 2, Character.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[0])
                     .isEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[0])
                     .isEqualTo(new Float[]{Float.MIN_VALUE, -1.1F, 0.0F, 1.1F, Float.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
                     .isEqualTo(new Integer[]{Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
                     .isEqualTo(new Long[]{Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[0])
                     .isEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[0])
                     .isEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "array"}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Class<?>[1][1])
                     .isEqualTo(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
         }
     }
 
@@ -148,40 +148,40 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual is equal to other")
         void test1() {
-            String description = Pattern.quote("They are expected to be not equal, but they are.") +
+            String message = Pattern.quote("They are expected to be not equal, but they are.") +
                     "\n {4}actual: '\\[.*]'" +
                     "\n {4}expected: '\\[.*]'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[]{true, false})
                     .isNotEqualTo(new Boolean[]{true, false}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE})
                     .isNotEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
                     .isNotEqualTo(new Character[0]))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE})
                     .isNotEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[]{})
                     .isNotEqualTo(new Float[]{}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
                     .isNotEqualTo(new Integer[]{}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[]{})
                     .isNotEqualTo(new Long[0]))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE})
                     .isNotEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("io.github.imsejin.common.assertion.array".split("\\."))
                     .isNotEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "array"}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}})
                     .isNotEqualTo(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}}))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
         }
     }
 
@@ -240,37 +240,37 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual is empty")
         void test1() {
-            String description = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY) +
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY) +
                     "\n {4}actual: '\\[.*]'" +
                     "\n {4}actual\\.size: '0'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[0])
                     .isNotEmpty())
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
         }
     }
 
@@ -298,38 +298,38 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't have the given size")
         void test1() {
-            String description = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
                     "\n {4}actual: '\\[.*]'" +
                     "\n {4}actual\\.size: '[0-9]+'" +
                     "\n {4}expected: '-?[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
                     .hasSize(128))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
                     .hasSize(64))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
                     .hasSize(32))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
                     .hasSize(16))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
                     .hasSize(-1))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
                     .hasSize(4))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
                     .hasSize(2))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
                     .hasSize(1))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
                     .hasSize(0))
-                    .withMessageMatching(description);
+                    .withMessageMatching(message);
         }
     }
 
