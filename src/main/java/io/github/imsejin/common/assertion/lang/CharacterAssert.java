@@ -19,6 +19,8 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
 
+import java.util.AbstractMap.SimpleEntry;
+
 /**
  * Assertion for {@link Character}
  *
@@ -78,42 +80,90 @@ public class CharacterAssert<
     }
 
     public SELF isDigit() {
-        if (!Character.isDigit(actual)) throw getException();
+        if (!Character.isDigit(actual)) {
+            setDefaultDescription("It is expected to be digit, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLetter() {
-        if (!Character.isLetter(actual)) throw getException();
+        if (!Character.isLetter(actual)) {
+            setDefaultDescription("It is expected to be letter, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLetterOrDigit() {
-        if (!Character.isLetterOrDigit(actual)) throw getException();
+        if (!Character.isLetterOrDigit(actual)) {
+            setDefaultDescription("It is expected to be letter or digit, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isUpperCase() {
-        if (!Character.isUpperCase(actual)) throw getException();
+        if (!Character.isUpperCase(actual)) {
+            setDefaultDescription("It is expected to be upper case, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isLowerCase() {
-        if (!Character.isLowerCase(actual)) throw getException();
+        if (!Character.isLowerCase(actual)) {
+            setDefaultDescription("It is expected to be lower case, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isAlphabetic() {
-        if (!Character.isAlphabetic(actual)) throw getException();
+        if (!Character.isAlphabetic(actual)) {
+            setDefaultDescription("It is expected to be alphabetic, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isSpaceChar() {
-        if (!Character.isSpaceChar(actual)) throw getException();
+        if (!Character.isSpaceChar(actual)) {
+            setDefaultDescription("It is expected to be space character, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isWhitespace() {
-        if (!Character.isWhitespace(actual)) throw getException();
+        if (!Character.isWhitespace(actual)) {
+            setDefaultDescription("It is expected to be whitespace, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
