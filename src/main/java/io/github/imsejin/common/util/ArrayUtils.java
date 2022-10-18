@@ -79,11 +79,15 @@ public final class ArrayUtils {
      */
     @Null
     public static Object wrap(@Null Object array) {
-        if (array == null) return null;
+        if (array == null) {
+            return null;
+        }
 
         // When parameter is not array, returns as it is.
         Class<?> componentType = array.getClass().getComponentType();
-        if (componentType == null) return array;
+        if (componentType == null) {
+            return array;
+        }
 
         int length = Array.getLength(array);
         Class<?> wrapped = ClassUtils.wrap(componentType);
@@ -113,11 +117,15 @@ public final class ArrayUtils {
      */
     @Null
     public static Object unwrap(@Null Object array) {
-        if (array == null) return null;
+        if (array == null) {
+            return null;
+        }
 
         // When parameter is not array, returns as it is.
         Class<?> componentType = array.getClass().getComponentType();
-        if (componentType == null) return array;
+        if (componentType == null) {
+            return array;
+        }
 
         int length = Array.getLength(array);
         Class<?> primitive = ClassUtils.unwrap(componentType);
@@ -156,7 +164,9 @@ public final class ArrayUtils {
      * @return stringified object
      */
     public static String toString(@Null Object array) {
-        if (array == null) return "null";
+        if (array == null) {
+            return "null";
+        }
 
         Class<?> clazz = array.getClass();
         if (clazz.isArray()) {
