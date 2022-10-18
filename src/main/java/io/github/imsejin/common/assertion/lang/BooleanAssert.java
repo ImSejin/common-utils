@@ -51,9 +51,7 @@ public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAsser
     public SELF isTrue() {
         if (!actual) {
             setDefaultDescription("It is expected to be true, but it isn't.");
-            setDescriptionVariables(
-                    new SimpleEntry<>("actual", false),
-                    new SimpleEntry<>("expected", true));
+            setDescriptionVariables(new SimpleEntry<>("actual", false));
 
             throw getException();
         }
@@ -77,9 +75,7 @@ public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAsser
     public SELF isFalse() {
         if (actual) {
             setDefaultDescription("It is expected to be false, but it isn't.");
-            setDescriptionVariables(
-                    new SimpleEntry<>("actual", true),
-                    new SimpleEntry<>("expected", false));
+            setDescriptionVariables(new SimpleEntry<>("actual", true));
 
             throw getException();
         }

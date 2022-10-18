@@ -48,8 +48,7 @@ class BooleanAssertTest {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isTrue())
                     .withMessageMatching(Pattern.quote("It is expected to be true, but it isn't.") +
-                            "\n {4}actual: 'false'" +
-                            "\n {4}expected: 'true'");
+                            "\n {4}actual: 'false'");
         }
     }
 
@@ -73,8 +72,7 @@ class BooleanAssertTest {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isFalse())
                     .withMessageMatching(Pattern.quote("It is expected to be false, but it isn't.") +
-                            "\n {4}actual: 'true'" +
-                            "\n {4}expected: 'false'");
+                            "\n {4}actual: 'true'");
         }
     }
 
