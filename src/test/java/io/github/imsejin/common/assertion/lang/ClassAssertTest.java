@@ -141,7 +141,7 @@ class ClassAssertTest {
         void test1() {
             String message = Pattern.quote("It is expected to be superclass of the given type, but it isn't.") +
                     "\n {4}actual: '" + CLASS_STRING_REGEX + "'" +
-                    "\n {4}expected: '(null|\\b(boolean|byte|char|double|float|int|long|short|void)\\b|class \\[+[ZBCDFIJS]|((class |interface |class \\[L)[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_$]*)*);?)'";
+                    "\n {4}expected: '" + CLASS_STRING_REGEX + "'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that((Class<?>) null)
                     .isSuperclassOf(Object.class))
@@ -177,8 +177,8 @@ class ClassAssertTest {
         @DisplayName("throws exception, when actual is not subclass of the given type")
         void test1() {
             String message = Pattern.quote("It is expected to be subclass of the given type, but it isn't.") +
-                    "\n {4}actual: '(null|\\b(boolean|byte|char|double|float|int|long|short|void)\\b|class \\[+[ZBCDFIJS]|((class |interface |class \\[L)[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_$]*)*);?)'" +
-                    "\n {4}expected: '(null|\\b(boolean|byte|char|double|float|int|long|short|void)\\b|class \\[+[ZBCDFIJS]|((class |interface |class \\[L)[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_$]*)*);?)'";
+                    "\n {4}actual: '" + CLASS_STRING_REGEX + "'" +
+                    "\n {4}expected: '" + CLASS_STRING_REGEX + "'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Object.class)
                     .isSubclassOf(null))
