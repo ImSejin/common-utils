@@ -71,7 +71,12 @@ class ClassAssertTest {
             new Random() {
             }.getClass());
     private static final List<Class<?>> ARRAYS = Arrays.asList(
-            int[].class, Member[].class, Override[].class, Month[].class, Number[].class);
+            int[].class, float[][].class, Member[].class, Override[][].class, Month[].class, Number[][][].class);
+
+    private static final String CLASS_STRING_REGEX = "(null|" + // null
+            "\\b(boolean|byte|char|double|float|int|long|short|void)\\b|" + // primary types
+            "class \\[+[ZBCDFIJS]|" + // primary array types
+            "((class (\\[+L)?|interface )[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_$]*)*);?)"; // other types
 
     @Nested
     @DisplayName("method 'isAssignableFrom'")
@@ -111,8 +116,8 @@ class ClassAssertTest {
             map.forEach((actual, expected) -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isAssignableFrom(expected))
                     .withMessageMatching(Pattern.quote("It is expected to be assignable from the given type, but it isn't.") +
-                            "\n {4}actual: '.+'" +
-                            "\n {4}expected: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'" +
+                            "\n {4}expected: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -134,9 +139,9 @@ class ClassAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not superclass of the given type")
         void test1() {
-            String message = Pattern.quote("It is expected to be superclass of the given type, but it isn't.")+
-                    "\n {4}actual: '.+'" +
-                    "\n {4}expected: '.+'";
+            String message = Pattern.quote("It is expected to be superclass of the given type, but it isn't.") +
+                    "\n {4}actual: '" + CLASS_STRING_REGEX + "'" +
+                    "\n {4}expected: '(null|\\b(boolean|byte|char|double|float|int|long|short|void)\\b|class \\[+[ZBCDFIJS]|((class |interface |class \\[L)[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_$]*)*);?)'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that((Class<?>) null)
                     .isSuperclassOf(Object.class))
@@ -171,9 +176,9 @@ class ClassAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not subclass of the given type")
         void test1() {
-            String message = Pattern.quote("It is expected to be subclass of the given type, but it isn't.")+
-                    "\n {4}actual: '.+'" +
-                    "\n {4}expected: '.+'";
+            String message = Pattern.quote("It is expected to be subclass of the given type, but it isn't.") +
+                    "\n {4}actual: '(null|\\b(boolean|byte|char|double|float|int|long|short|void)\\b|class \\[+[ZBCDFIJS]|((class |interface |class \\[L)[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_$]*)*);?)'" +
+                    "\n {4}expected: '(null|\\b(boolean|byte|char|double|float|int|long|short|void)\\b|class \\[+[ZBCDFIJS]|((class |interface |class \\[L)[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_$]*)*);?)'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Object.class)
                     .isSubclassOf(null))
@@ -209,7 +214,7 @@ class ClassAssertTest {
                     .forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                             .isPrimitive())
                             .withMessageMatching(Pattern.quote("It is expected to be primitive, but it isn't.") +
-                                    "\n {4}actual: '.+'"));
+                                    "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -243,7 +248,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isInterface())
                     .withMessageMatching(Pattern.quote("It is expected to be interface, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -272,7 +277,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isAnnotation())
                     .withMessageMatching(Pattern.quote("It is expected to be annotation, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -303,7 +308,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isFinalClass())
                     .withMessageMatching(Pattern.quote("It is expected to be final class, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -332,7 +337,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isAbstractClass())
                     .withMessageMatching(Pattern.quote("It is expected to be abstract class, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -366,7 +371,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isAnonymousClass())
                     .withMessageMatching(Pattern.quote("It is expected to be anonymous class, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -400,7 +405,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isEnum())
                     .withMessageMatching(Pattern.quote("It is expected to be enum, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -429,7 +434,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isArray())
                     .withMessageMatching(Pattern.quote("It is expected to be array, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -464,7 +469,7 @@ class ClassAssertTest {
             classes.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isMemberClass())
                     .withMessageMatching(Pattern.quote("It is expected to be member class, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -481,6 +486,7 @@ class ClassAssertTest {
                 public abstract void doIt(Object it);
             }
             class B extends A {
+                @Override
                 public void doIt(Object it) {
                     System.out.println(it);
                 }
@@ -503,7 +509,7 @@ class ClassAssertTest {
             memberClasses.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isLocalClass())
                     .withMessageMatching(Pattern.quote("It is expected to be local class, but it isn't.") +
-                            "\n {4}actual: '.+'"));
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
