@@ -504,7 +504,9 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .exists());
+                    .exists())
+                    .withMessageMatching(Pattern.quote("It is expected to exist, but it isn't.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -528,7 +530,9 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is not file")
         void test1(@TempDir Path path) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(path.toFile())
-                    .isFile());
+                    .isFile())
+                    .withMessageMatching(Pattern.quote("It is expected to be file, but it isn't.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -552,7 +556,9 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isNotFile());
+                    .isNotFile())
+                    .withMessageMatching(Pattern.quote("It is expected not to be file, but it is.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -576,7 +582,9 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isDirectory());
+                    .isDirectory())
+                    .withMessageMatching(Pattern.quote("It is expected to be directory, but it isn't.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -600,7 +608,9 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is directory")
         void test1(@TempDir Path path) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(path.toFile())
-                    .isNotDirectory());
+                    .isNotDirectory())
+                    .withMessageMatching(Pattern.quote("It is expected not to be directory, but it is.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -628,7 +638,9 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isAbsolute());
+                    .isAbsolute())
+                    .withMessageMatching(Pattern.quote("It is expected to be absolute, but it isn't.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -656,7 +668,9 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isRelative());
+                    .isRelative())
+                    .withMessageMatching(Pattern.quote("It is expected to be relative, but it isn't.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -701,7 +715,9 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isHidden());
+                    .isHidden())
+                    .withMessageMatching(Pattern.quote("It is expected to be hidden, but it isn't.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -746,7 +762,9 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isNotHidden());
+                    .isNotHidden())
+                    .withMessageMatching(Pattern.quote("It is expected not to be hidden, but it is.") +
+                            "\n {4}actual: '.+'");
         }
     }
 
@@ -778,7 +796,11 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .hasName(fileName + fileName));
+                    .hasName(fileName + fileName))
+                    .withMessageMatching(Pattern.quote("It is expected to have the given name, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.name: '[^/\\\\]+'" +
+                            "\n {4}expected: '.+'");
         }
     }
 
@@ -810,7 +832,11 @@ class FileAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .hasExtension("log"));
+                    .hasExtension("log"))
+                    .withMessageMatching(Pattern.quote("It is expected to have the given extension, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}actual\\.extension: '[^/\\\\]+'" +
+                            "\n {4}expected: '.+'");
         }
     }
 

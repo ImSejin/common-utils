@@ -156,6 +156,11 @@ public class PathAssert<
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, size);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -168,6 +173,11 @@ public class PathAssert<
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, size);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -180,6 +190,11 @@ public class PathAssert<
 
         if (!SizeComparisonAssertable.IS_LESS_THAN.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, size);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -192,6 +207,11 @@ public class PathAssert<
 
         if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(size, expected)) {
             setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, size);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -200,6 +220,9 @@ public class PathAssert<
 
     public SELF exists() {
         if (!Files.exists(actual)) {
+            setDefaultDescription("It is expected to exist, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -208,6 +231,9 @@ public class PathAssert<
 
     public SELF isRegularFile() {
         if (!Files.isRegularFile(actual)) {
+            setDefaultDescription("It is expected to be regular file, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -216,6 +242,9 @@ public class PathAssert<
 
     public SELF isNotRegularFile() {
         if (Files.isRegularFile(actual)) {
+            setDefaultDescription("It is expected not to be regular file, but it is.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -224,6 +253,9 @@ public class PathAssert<
 
     public SELF isDirectory() {
         if (!Files.isDirectory(actual)) {
+            setDefaultDescription("It is expected to be directory, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -232,6 +264,9 @@ public class PathAssert<
 
     public SELF isNotDirectory() {
         if (Files.isDirectory(actual)) {
+            setDefaultDescription("It is expected not to be directory, but it is.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -240,6 +275,9 @@ public class PathAssert<
 
     public SELF isAbsolute() {
         if (!actual.isAbsolute()) {
+            setDefaultDescription("It is expected to be absolute, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -248,6 +286,9 @@ public class PathAssert<
 
     public SELF isRelative() {
         if (actual.isAbsolute()) {
+            setDefaultDescription("It is expected to be relative, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -260,10 +301,16 @@ public class PathAssert<
         try {
             hidden = Files.isHidden(actual);
         } catch (IOException e) {
+            setDefaultDescription("Failed to resolve whether path is hidden.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         if (!hidden) {
+            setDefaultDescription("It is expected to be hidden, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -276,10 +323,16 @@ public class PathAssert<
         try {
             hidden = Files.isHidden(actual);
         } catch (IOException e) {
+            setDefaultDescription("Failed to resolve whether path is hidden.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         if (hidden) {
+            setDefaultDescription("It is expected not to be hidden, but it is.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -290,6 +343,11 @@ public class PathAssert<
         String fileName = actual.getFileName().toString();
 
         if (!fileName.equals(expected)) {
+            setDefaultDescription("It is expected to have the given file name, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.fileName", fileName));
+
             throw getException();
         }
 
@@ -301,6 +359,11 @@ public class PathAssert<
         String extension = FilenameUtils.getExtension(fileName);
 
         if (!extension.equals(expected)) {
+            setDefaultDescription("It is expected to have the given file extension, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.extension", extension));
+
             throw getException();
         }
 

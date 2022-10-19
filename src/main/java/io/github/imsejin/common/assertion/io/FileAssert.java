@@ -218,6 +218,9 @@ public class FileAssert<
 
     public SELF exists() {
         if (!actual.exists()) {
+            setDefaultDescription("It is expected to exist, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -225,47 +228,103 @@ public class FileAssert<
     }
 
     public SELF isFile() {
-        if (!actual.isFile()) throw getException();
+        if (!actual.isFile()) {
+            setDefaultDescription("It is expected to be file, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotFile() {
-        if (actual.isFile()) throw getException();
+        if (actual.isFile()) {
+            setDefaultDescription("It is expected not to be file, but it is.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isDirectory() {
-        if (!actual.isDirectory()) throw getException();
+        if (!actual.isDirectory()) {
+            setDefaultDescription("It is expected to be directory, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotDirectory() {
-        if (actual.isDirectory()) throw getException();
+        if (actual.isDirectory()) {
+            setDefaultDescription("It is expected not to be directory, but it is.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isAbsolute() {
-        if (!actual.isAbsolute()) throw getException();
+        if (!actual.isAbsolute()) {
+            setDefaultDescription("It is expected to be absolute, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isRelative() {
-        if (actual.isAbsolute()) throw getException();
+        if (actual.isAbsolute()) {
+            setDefaultDescription("It is expected to be relative, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isHidden() {
-        if (!actual.isHidden()) throw getException();
+        if (!actual.isHidden()) {
+            setDefaultDescription("It is expected to be hidden, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF isNotHidden() {
-        if (actual.isHidden()) throw getException();
+        if (actual.isHidden()) {
+            setDefaultDescription("It is expected not to be hidden, but it is.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
         return self;
     }
 
     public SELF hasName(String expected) {
-        if (!actual.getName().equals(expected)) {
+        String name = actual.getName();
+
+        if (!name.equals(expected)) {
+            setDefaultDescription("It is expected to have the given name, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.name", name),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -276,6 +335,12 @@ public class FileAssert<
         String extension = FilenameUtils.getExtension(actual.getName());
 
         if (!extension.equals(expected)) {
+            setDefaultDescription("It is expected to have the given extension, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.extension", extension),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
