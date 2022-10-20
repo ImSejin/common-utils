@@ -97,6 +97,24 @@ class RandomStringSpec extends Specification {
         def e = thrown IllegalArgumentException
         e.message == "The length of random string must be positive, but it isn't: $length"
 
+        when:
+        def origin = length
+        def bound = length * -1
+        randomString.nextString(origin, bound)
+
+        then:
+        e = thrown IllegalArgumentException
+        e.message == "Origin must be positive, but it isn't: $length"
+
+        when:
+        origin = length * -1 + 1
+        bound = length * -1
+        randomString.nextString(origin, bound)
+
+        then:
+        e = thrown IllegalArgumentException
+        e.message == "Bound must be greater than origin, but it isn't. (origin: $origin, bound: $bound)"
+
         where:
         i << (1..1024)
     }
