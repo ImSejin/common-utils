@@ -372,12 +372,12 @@ public class PathAssert<
 
     // -------------------------------------------------------------------------------------------------
 
-    public PathAssert<?, ?> asParent() {
+    public PathAssert<?, Path> asParent() {
         Path parent = actual.getParent();
         return new PathAssert<>(this, parent);
     }
 
-    public FileAssert<?, ?> asFile() {
+    public FileAssert<?, File> asFile() {
         class FileAssertImpl extends FileAssert<FileAssertImpl, File> {
             FileAssertImpl(Descriptor<?> descriptor, File actual) {
                 super(descriptor, actual);
