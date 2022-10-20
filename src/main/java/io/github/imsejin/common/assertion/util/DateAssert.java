@@ -126,7 +126,9 @@ public class DateAssert<
         int year = calendar.get(Calendar.YEAR);
 
         if (!Year.isLeap(year)) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -140,7 +142,9 @@ public class DateAssert<
         int year = calendar.get(Calendar.YEAR);
 
         if (Year.isLeap(year)) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
