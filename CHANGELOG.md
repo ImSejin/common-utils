@@ -49,8 +49,9 @@
 ### New features
 
 - ✨ Add: assertion class `PathAssert`
-- ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
 - ✨ Add: assertion failure messages of `FileAssert`
+- ✨ Add: method `nextString(int, int)` in `RandomString`
+- ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
 
 ### Troubleshooting
 
