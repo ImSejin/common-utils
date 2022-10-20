@@ -37,6 +37,29 @@ class RandomStringSpec extends Specification {
         length << (1..1024)
     }
 
+    def "Generates a random string with random length"() {
+        given:
+        def randomString = new RandomString()
+
+        when:
+        def actual = randomString.nextString(origin, bound)
+
+        then:
+        actual != null
+        origin <= actual.length()
+        actual.length() < bound
+        actual.matches("[A-Za-z]{$origin,${bound - 1}}")
+
+        where:
+        origin | bound
+        1      | 2
+        2      | 10
+        1      | 128
+        10     | 20
+        16     | 64
+        1      | 1024
+    }
+
     def "Generates a random string of locale with random length"() {
         given:
         def random = new Random()
