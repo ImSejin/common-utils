@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -40,7 +41,8 @@ class UuidAssertTest {
         void test1(UUID actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNil())
-                    .withMessageStartingWith("It is expected to be nil, but it isn't.");
+                    .withMessageMatching(Pattern.quote("It is expected to be nil, but it isn't.") +
+                            "\n {4}actual: '[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}'");
         }
     }
 
@@ -72,10 +74,9 @@ class UuidAssertTest {
         void test1(UUID actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotNil())
-                    .withMessageStartingWith("It is expected not to be nil, but nil.");
+                    .withMessageMatching(Pattern.quote("It is expected not to be nil, but nil.") +
+                            "\n {4}actual: '[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}'");
         }
     }
-
-    // -------------------------------------------------------------------------------------------------
 
 }
