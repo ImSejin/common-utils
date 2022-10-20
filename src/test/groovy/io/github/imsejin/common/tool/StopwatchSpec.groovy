@@ -97,7 +97,7 @@ class StopwatchSpec extends Specification {
             Stopwatch can't be started while running.
         """
         def e = thrown UnsupportedOperationException
-        e.message == "Stopwatch cannot start while running"
+        e.message.split("\n")[0] == "Stopwatch cannot start while running"
     }
 
     def "Stops"() {
@@ -118,7 +118,7 @@ class StopwatchSpec extends Specification {
             Stopwatch can't be stopped while not running.
         """
         def e = thrown UnsupportedOperationException
-        e.message == "Stopwatch cannot stop while not running"
+        e.message.split("\n")[0] == "Stopwatch cannot stop while not running"
     }
 
     def "Checks stopwatch is running"() {
@@ -186,7 +186,7 @@ class StopwatchSpec extends Specification {
             Stopwatch can't be cleared while running.
         """
         def e = thrown UnsupportedOperationException
-        e.message == "Stopwatch is running; stop it first to clear"
+        e.message.split("\n")[0] == "Stopwatch is running; stop it first to clear"
     }
 
     def "Forces all the tasks to be erased"() {
