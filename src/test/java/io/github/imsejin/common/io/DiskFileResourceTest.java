@@ -30,7 +30,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,10 +42,7 @@ class DiskFileResourceTest {
         // given
         Path filePath = fileSystem.getPath("/", "temp-text.txt");
         Files.createFile(filePath);
-        int length = new Random().nextInt(1024);
-        byte[] bytes = length == 0
-                ? new byte[0]
-                : new RandomString().nextString(length).getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = new RandomString().nextString(1, 1024).getBytes(StandardCharsets.UTF_8);
         Files.write(filePath, bytes);
 
         // when

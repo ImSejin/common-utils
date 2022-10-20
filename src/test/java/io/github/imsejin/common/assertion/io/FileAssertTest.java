@@ -36,7 +36,6 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -66,7 +65,7 @@ class FileAssertTest {
             // given
             String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
             File file = Files.createTempFile(path, "temp", fileName).toFile();
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
@@ -88,7 +87,7 @@ class FileAssertTest {
             // given
             String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
             File file = Files.createTempFile(path, "temp", fileName).toFile();
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
@@ -120,8 +119,7 @@ class FileAssertTest {
         @DisplayName("passes, when actual has the given size")
         void test0(@TempDir Path path) throws IOException {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String content = new RandomString().nextString(fileSize);
+            String content = new RandomString().nextString(1, 64);
 
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
             Files.write(file.toPath(), content.getBytes());
@@ -135,8 +133,7 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual doesn't have the given size")
         void test1(@TempDir Path path) throws IOException {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String content = new RandomString().nextString(fileSize);
+            String content = new RandomString().nextString(1, 64);
 
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
             Files.write(file.toPath(), content.getBytes());
@@ -160,8 +157,7 @@ class FileAssertTest {
         @DisplayName("passes, when actual doesn't have the given size")
         void test0(@TempDir Path path) throws IOException {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String content = new RandomString().nextString(fileSize);
+            String content = new RandomString().nextString(1, 64);
 
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
             Files.write(file.toPath(), content.getBytes());
@@ -175,8 +171,7 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual has the given size")
         void test1(@TempDir Path path) throws IOException {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String content = new RandomString().nextString(fileSize);
+            String content = new RandomString().nextString(1, 64);
 
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
             Files.write(file.toPath(), content.getBytes());
@@ -326,30 +321,26 @@ class FileAssertTest {
         @DisplayName("passes, when actual is greater than other")
         void test0(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isGreaterThan((long) fileSize - 1));
+                    .isGreaterThan((long) content.length() - 1));
         }
 
         @Test
         @DisplayName("throws exception, when actual is less than or equal to other")
         void test1(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isGreaterThan((long) fileSize))
+                    .isGreaterThan((long) content.length()))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -366,31 +357,27 @@ class FileAssertTest {
         @DisplayName("passes, when actual is greater than or equal to other")
         void test0(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isGreaterThanOrEqualTo((long) fileSize - 1)
-                    .isGreaterThanOrEqualTo((long) fileSize));
+                    .isGreaterThanOrEqualTo((long) content.length() - 1)
+                    .isGreaterThanOrEqualTo((long) content.length()));
         }
 
         @Test
         @DisplayName("throws exception, when actual is less than other")
         void test1(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isGreaterThanOrEqualTo((long) fileSize + 1))
+                    .isGreaterThanOrEqualTo((long) content.length() + 1))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -407,30 +394,26 @@ class FileAssertTest {
         @DisplayName("passes, when actual is less than other")
         void test0(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isLessThan((long) fileSize + 1));
+                    .isLessThan((long) content.length() + 1));
         }
 
         @Test
         @DisplayName("throws exception, when actual is greater than or equal to other")
         void test1(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isLessThan((long) fileSize))
+                    .isLessThan((long) content.length()))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -447,31 +430,27 @@ class FileAssertTest {
         @DisplayName("passes, when actual is less than or equal to other")
         void test0(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
-                    .isLessThanOrEqualTo((long) fileSize + 1)
-                    .isLessThanOrEqualTo((long) fileSize));
+                    .isLessThanOrEqualTo((long) content.length() + 1)
+                    .isLessThanOrEqualTo((long) content.length()));
         }
 
         @Test
         @DisplayName("throws exception, when actual is greater than other")
         void test1(@TempDir Path path) throws IOException {
             // given
-            RandomString randomString = new RandomString();
-            int fileSize = Math.max(1, new Random().nextInt(64));
-
+            String content = new RandomString().nextString(1, 64);
             File file = Files.createTempFile(path, "temp", ".txt").toFile();
-            Files.write(file.toPath(), randomString.nextString(fileSize).getBytes());
+            Files.write(file.toPath(), content.getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
-                    .isLessThanOrEqualTo((long) fileSize - 1))
+                    .isLessThanOrEqualTo((long) content.length() - 1))
                     .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -685,7 +664,7 @@ class FileAssertTest {
         void test0(@TempDir Path path) throws IOException {
             // given
             File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
             Files.setAttribute(file.toPath(), "dos:hidden", true, LinkOption.NOFOLLOW_LINKS);
 
             // expect
@@ -699,7 +678,7 @@ class FileAssertTest {
         void test1(@TempDir Path path) throws IOException {
             // given
             File file = new File(path.toFile(), ".temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
@@ -711,7 +690,7 @@ class FileAssertTest {
         void test2(@TempDir Path path) throws IOException {
             // given
             File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
@@ -731,7 +710,7 @@ class FileAssertTest {
         void test0(@TempDir Path path) throws IOException {
             // given
             File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
@@ -744,7 +723,7 @@ class FileAssertTest {
         void test1(@TempDir Path path) throws IOException {
             // given
             File file = new File(path.toFile(), "temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
             Files.setAttribute(file.toPath(), "dos:hidden", true, LinkOption.NOFOLLOW_LINKS);
 
             // expect
@@ -758,7 +737,7 @@ class FileAssertTest {
         void test2(@TempDir Path path) throws IOException {
             // given
             File file = new File(path.toFile(), ".temp.txt");
-            Files.write(file.toPath(), UUID.randomUUID().toString().getBytes());
+            Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
@@ -777,8 +756,7 @@ class FileAssertTest {
         @DisplayName("passes, when actual has the given name")
         void test0(@TempDir Path path) {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String fileName = new RandomString().nextString(fileSize);
+            String fileName = new RandomString().nextString(1, 64);
             File file = path.resolve(fileName).toFile();
 
             // expect
@@ -790,8 +768,7 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual doesn't have the given name")
         void test1(@TempDir Path path) {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String fileName = new RandomString().nextString(fileSize);
+            String fileName = new RandomString().nextString(1, 64);
             File file = path.resolve(fileName).toFile();
 
             // expect
@@ -813,8 +790,7 @@ class FileAssertTest {
         @DisplayName("passes, when actual has the given extension")
         void test0(@TempDir Path path) {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String fileName = new RandomString().nextString(fileSize) + ".dat";
+            String fileName = new RandomString().nextString(1, 64) + ".dat";
             File file = path.resolve(fileName).toFile();
 
             // expect
@@ -826,8 +802,7 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual doesn't have the given extension")
         void test1(@TempDir Path path) {
             // given
-            int fileSize = Math.max(1, new Random().nextInt(64));
-            String fileName = new RandomString().nextString(fileSize) + ".dat";
+            String fileName = new RandomString().nextString(1, 64) + ".dat";
             File file = path.resolve(fileName).toFile();
 
             // expect

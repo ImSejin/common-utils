@@ -25,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,10 +35,7 @@ class GzipResourceTest {
     void test() {
         // given
         String fileName = "temp-file.log";
-        int length = new Random().nextInt((int) Math.pow(2, 20));
-        byte[] bytes = length == 0
-                ? new byte[0]
-                : new RandomString().nextString(length).getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = new RandomString().nextString(1, (int) Math.pow(2, 20)).getBytes(StandardCharsets.UTF_8);
         long modifiedTime = System.currentTimeMillis();
 
         // when

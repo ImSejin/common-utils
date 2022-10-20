@@ -388,7 +388,7 @@ class OffsetTimeAssertTest {
 
             // expect
             params.forEach(offset -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(OffsetTime.now(offset))
-                            .isNotSameOffset(offset))
+                    .isNotSameOffset(offset))
                     .withMessageMatching(Pattern.quote(OffsetAssertable.DEFAULT_DESCRIPTION_IS_NOT_SAME_OFFSET) +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.offset: '(Z|[+-][0-9]{2}:[0-9]{2})'" +
