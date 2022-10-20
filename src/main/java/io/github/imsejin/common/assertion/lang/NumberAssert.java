@@ -94,7 +94,11 @@ public class NumberAssert<
     @Override
     public SELF isEqualTo(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO, expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -120,7 +124,11 @@ public class NumberAssert<
     @Override
     public SELF isNotEqualTo(ACTUAL expected) {
         if (!SizeComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO, expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -264,7 +272,9 @@ public class NumberAssert<
      */
     public SELF isPositive() {
         if (actual.compareTo(this.zero) <= 0) {
-            setDefaultDescription("It is expected to be positive, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be positive, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -288,7 +298,9 @@ public class NumberAssert<
      */
     public SELF isZeroOrPositive() {
         if (actual.compareTo(this.zero) < 0) {
-            setDefaultDescription("It is expected to be zero or positive, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be zero or positive, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -312,7 +324,9 @@ public class NumberAssert<
      */
     public SELF isNegative() {
         if (actual.compareTo(this.zero) >= 0) {
-            setDefaultDescription("It is expected to be negative, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be negative, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -336,7 +350,9 @@ public class NumberAssert<
      */
     public SELF isZeroOrNegative() {
         if (actual.compareTo(this.zero) > 0) {
-            setDefaultDescription("It is expected to be zero or negative, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be zero or negative, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -376,7 +392,12 @@ public class NumberAssert<
         }
 
         if (expected == null) {
-            setDefaultDescription("It is expected to close to other, but it isn't. (expected: 'null', actual: '{0}')", actual);
+            setDefaultDescription("It is expected to close to other, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", null),
+                    new SimpleEntry<>("percentage", percentage));
+
             throw getException();
         }
 
@@ -385,8 +406,12 @@ public class NumberAssert<
         double $expected = expected.doubleValue();
 
         if (Double.isNaN($actual) || Double.isInfinite($actual) || Double.isNaN($expected) || Double.isInfinite($expected)) {
-            setDefaultDescription("It is expected to close to other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    String.valueOf(expected), String.valueOf(actual));
+            setDefaultDescription("It is expected to close to other, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("percentage", percentage));
+
             throw getException();
         }
 
@@ -396,11 +421,16 @@ public class NumberAssert<
         // When actual is 0, errorRate is NaN or infinite.
         boolean invalid = Double.isNaN(errorRate) || Double.isInfinite(errorRate);
         if (invalid || Math.abs(errorRate) > percentage) {
-            setDefaultDescription("It is expected to close to other by less than {0}%, but difference was {1}%. (expected: '{2}', actual: '{3}')",
-                    BigDecimal.valueOf(percentage).stripTrailingZeros().toPlainString(),
-                    invalid ? errorRate : BigDecimal.valueOf(errorRate).stripTrailingZeros().toPlainString(),
-                    BigDecimal.valueOf($expected).stripTrailingZeros().toPlainString(),
-                    BigDecimal.valueOf($actual).stripTrailingZeros().toPlainString());
+            String $percentage = BigDecimal.valueOf(percentage).stripTrailingZeros().toPlainString();
+
+            setDefaultDescription("It is expected to close to other by less than {0}%, but difference was {1}%.",
+                    $percentage,
+                    invalid ? errorRate : BigDecimal.valueOf(errorRate).stripTrailingZeros().toPlainString());
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", BigDecimal.valueOf($actual).stripTrailingZeros().toPlainString()),
+                    new SimpleEntry<>("expected", BigDecimal.valueOf($expected).stripTrailingZeros().toPlainString()),
+                    new SimpleEntry<>("percentage", $percentage));
+
             throw getException();
         }
 
