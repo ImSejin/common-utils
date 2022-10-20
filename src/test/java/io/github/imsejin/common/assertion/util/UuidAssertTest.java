@@ -39,9 +39,9 @@ class UuidAssertTest {
         })
         @DisplayName("throws exception, when actual is not nil")
         void test1(UUID actual) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isNil())
-                    .withMessageMatching(Pattern.quote("It is expected to be nil, but it isn't.") +
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isNil())
+                    .withMessageMatching(Pattern.quote("It is expected to be nil, but not nil.") +
                             "\n {4}actual: '[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}'");
         }
     }
@@ -72,8 +72,8 @@ class UuidAssertTest {
         })
         @DisplayName("throws exception, when actual is nil")
         void test1(UUID actual) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isNotNil())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isNotNil())
                     .withMessageMatching(Pattern.quote("It is expected not to be nil, but nil.") +
                             "\n {4}actual: '[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}'");
         }

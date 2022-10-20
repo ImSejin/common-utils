@@ -26,10 +26,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapAssert<
-        SELF extends MapAssert<SELF, ACTUAL, K, V>,
-        ACTUAL extends Map<K, V>,
-        K,
-        V>
+        SELF extends MapAssert<SELF, ACTUAL, KEY, VALUE>,
+        ACTUAL extends Map<KEY, VALUE>,
+        KEY,
+        VALUE>
         extends ObjectAssert<SELF, ACTUAL> {
 
     public MapAssert(ACTUAL actual) {
@@ -87,7 +87,7 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsKey(K expected) {
+    public SELF containsKey(KEY expected) {
         if (!actual.containsKey(expected)) {
             setDefaultDescription("It is expected to contain the given key, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actual.keySet());
@@ -97,7 +97,7 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsValue(V expected) {
+    public SELF containsValue(VALUE expected) {
         if (!actual.containsValue(expected)) {
             setDefaultDescription("It is expected to contain the given value, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actual.values());
@@ -107,12 +107,12 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsAllKeys(Map<? extends K, ?> expected) {
+    public SELF containsAllKeys(Map<? extends KEY, ?> expected) {
         return containsAllKeys(expected.keySet());
     }
 
-    public SELF containsAllKeys(Collection<? extends K> expected) {
-        Set<K> actualKeys = actual.keySet();
+    public SELF containsAllKeys(Collection<? extends KEY> expected) {
+        Set<KEY> actualKeys = actual.keySet();
 
         if (!actualKeys.containsAll(expected)) {
             setDefaultDescription("It is expected to contain all the given keys, but it doesn't. (expected: '{0}', actual: '{1}')",
@@ -123,12 +123,12 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsAllValues(Map<?, ? extends V> expected) {
+    public SELF containsAllValues(Map<?, ? extends VALUE> expected) {
         return containsAllValues(expected.values());
     }
 
-    public SELF containsAllValues(Collection<? extends V> expected) {
-        Collection<V> actualValues = actual.values();
+    public SELF containsAllValues(Collection<? extends VALUE> expected) {
+        Collection<VALUE> actualValues = actual.values();
 
         if (!actualValues.containsAll(expected)) {
             setDefaultDescription("It is expected to contain all the given values, but it doesn't. (expected: '{0}', actual: '{1}')",
@@ -153,7 +153,7 @@ public class MapAssert<
      *
      * @return assertion for collection
      */
-    public CollectionAssert<?, Collection<K>, K> asKeySet() {
+    public CollectionAssert<?, Collection<KEY>, KEY> asKeySet() {
         return new CollectionAssert<>(this, actual.keySet());
     }
 
@@ -169,7 +169,7 @@ public class MapAssert<
      *
      * @return assertion for collection
      */
-    public CollectionAssert<?, Collection<V>, V> asValues() {
+    public CollectionAssert<?, Collection<VALUE>, VALUE> asValues() {
         return new CollectionAssert<>(this, actual.values());
     }
 

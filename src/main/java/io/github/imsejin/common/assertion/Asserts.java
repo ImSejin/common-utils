@@ -169,7 +169,7 @@ public abstract class Asserts {
         return that((Double[]) ArrayUtils.wrap(array));
     }
 
-    public static <T> ArrayAssert<?, T> that(T[] array) {
+    public static <E> ArrayAssert<?, E> that(E[] array) {
         return new ArrayAssert<>(array);
     }
 
@@ -295,11 +295,11 @@ public abstract class Asserts {
         return new DateAssert<>(date);
     }
 
-    public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
+    public static <E> CollectionAssert<?, Collection<E>, E> that(Collection<E> collection) {
         return new CollectionAssert<>(collection);
     }
 
-    public static <T> ListAssert<?, List<T>, T> that(List<T> list) {
+    public static <E> ListAssert<?, List<E>, E> that(List<E> list) {
         return new ListAssert<>(list);
     }
 
