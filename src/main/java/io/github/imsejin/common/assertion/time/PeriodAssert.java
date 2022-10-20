@@ -22,6 +22,7 @@ import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.Period;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 
 public class PeriodAssert<
@@ -47,7 +48,11 @@ public class PeriodAssert<
     @Override
     public SELF isGreaterThan(Period expected) {
         if (COMPARATOR.compare(actual, expected) <= 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -57,7 +62,11 @@ public class PeriodAssert<
     @Override
     public SELF isGreaterThanOrEqualTo(Period expected) {
         if (COMPARATOR.compare(actual, expected) < 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -67,7 +76,11 @@ public class PeriodAssert<
     @Override
     public SELF isLessThan(Period expected) {
         if (COMPARATOR.compare(actual, expected) >= 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -77,7 +90,11 @@ public class PeriodAssert<
     @Override
     public SELF isLessThanOrEqualTo(Period expected) {
         if (COMPARATOR.compare(actual, expected) > 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 

@@ -155,7 +155,7 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, size);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -172,7 +172,7 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, size);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -189,7 +189,7 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_LESS_THAN.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, size);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -206,7 +206,7 @@ public class PathAssert<
         long size = getSize(actual);
 
         if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, size);
+            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
