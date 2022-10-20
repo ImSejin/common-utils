@@ -48,6 +48,7 @@ import io.github.imsejin.common.assertion.util.CollectionAssert;
 import io.github.imsejin.common.assertion.util.DateAssert;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
+import io.github.imsejin.common.assertion.util.OptionalAssert;
 import io.github.imsejin.common.assertion.util.UuidAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
@@ -72,6 +73,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -305,6 +307,11 @@ public abstract class Asserts {
 
     public static <K, V> MapAssert<?, Map<K, V>, K, V> that(Map<K, V> map) {
         return new MapAssert<>(map);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static <T> OptionalAssert<?, T> that(Optional<T> optional) {
+        return new OptionalAssert<>(optional);
     }
 
     public static UuidAssert<?> that(UUID uuid) {
