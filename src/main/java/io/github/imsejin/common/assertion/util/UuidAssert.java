@@ -37,7 +37,7 @@ public class UuidAssert<SELF extends UuidAssert<SELF>> extends ObjectAssert<SELF
      *
      * @return this class
      */
-    public UuidAssert<SELF> isNil() {
+    public SELF isNil() {
         if (actual.getMostSignificantBits() != 0 || actual.getLeastSignificantBits() != 0) {
             setDefaultDescription("It is expected to be nil, but it isn't.");
             setDescriptionVariables(new SimpleEntry<>("actual", actual));
@@ -63,7 +63,7 @@ public class UuidAssert<SELF extends UuidAssert<SELF>> extends ObjectAssert<SELF
      *
      * @return this class
      */
-    public UuidAssert<SELF> isNotNil() {
+    public SELF isNotNil() {
         if (actual.getMostSignificantBits() == 0 && actual.getLeastSignificantBits() == 0) {
             setDefaultDescription("It is expected not to be nil, but nil.");
             setDescriptionVariables(new SimpleEntry<>("actual", actual));
