@@ -19,6 +19,7 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Descriptor;
 import org.intellij.lang.annotations.Language;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.regex.Pattern;
 
 /**
@@ -40,22 +41,30 @@ public class StringAssert<
 
     public SELF hasText() {
         for (char c : actual.toCharArray()) {
-            if (!Character.isWhitespace(c)) return self;
+            if (!Character.isWhitespace(c)) {
+                return self;
+            }
         }
 
-        setDefaultDescription("It is expected to have text, but it isn't. (actual: '{0}')", actual);
+        setDefaultDescription("It is expected to have text, but it isn't.");
+        setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
         throw getException();
     }
 
     public SELF isNumeric() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to be numeric, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be numeric, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         for (char c : actual.toCharArray()) {
             if (!Character.isDigit(c)) {
-                setDefaultDescription("It is expected to be numeric, but it isn't. (actual: '{0}')", actual);
+                setDefaultDescription("It is expected to be numeric, but it isn't.");
+                setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
                 throw getException();
             }
         }
@@ -65,13 +74,17 @@ public class StringAssert<
 
     public SELF isLetter() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to be letter, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be letter, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         for (char c : actual.toCharArray()) {
             if (!Character.isLetter(c)) {
-                setDefaultDescription("It is expected to be letter, but it isn't. (actual: '{0}')", actual);
+                setDefaultDescription("It is expected to be letter, but it isn't.");
+                setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
                 throw getException();
             }
         }
@@ -81,13 +94,17 @@ public class StringAssert<
 
     public SELF isLetterOrDigit() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to be letter or digit, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be letter or digit, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         for (char c : actual.toCharArray()) {
             if (!Character.isLetterOrDigit(c)) {
-                setDefaultDescription("It is expected to be letter or digit, but it isn't. (actual: '{0}')", actual);
+                setDefaultDescription("It is expected to be letter or digit, but it isn't.");
+                setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
                 throw getException();
             }
         }
@@ -97,13 +114,17 @@ public class StringAssert<
 
     public SELF isUpperCase() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to have only uppercase letter(s), but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to have only uppercase letter(s), but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         for (char c : actual.toCharArray()) {
             if (!Character.isUpperCase(c)) {
-                setDefaultDescription("It is expected to have only uppercase letter(s), but it isn't. (actual: '{0}')", actual);
+                setDefaultDescription("It is expected to have only uppercase letter(s), but it isn't.");
+                setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
                 throw getException();
             }
         }
@@ -113,13 +134,17 @@ public class StringAssert<
 
     public SELF isLowerCase() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to have only lowercase letter(s), but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to have only lowercase letter(s), but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         for (char c : actual.toCharArray()) {
             if (!Character.isLowerCase(c)) {
-                setDefaultDescription("It is expected to have only lowercase letter(s), but it isn't. (actual: '{0}')", actual);
+                setDefaultDescription("It is expected to have only lowercase letter(s), but it isn't.");
+                setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
                 throw getException();
             }
         }
@@ -129,13 +154,17 @@ public class StringAssert<
 
     public SELF isAlphabetic() {
         if (actual.isEmpty()) {
-            setDefaultDescription("It is expected to be alphabetic, but it isn't. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be alphabetic, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         for (char c : actual.toCharArray()) {
             if (!Character.isAlphabetic(c)) {
-                setDefaultDescription("It is expected to be alphabetic, but it isn't. (actual: '{0}')", actual);
+                setDefaultDescription("It is expected to be alphabetic, but it isn't.");
+                setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
                 throw getException();
             }
         }
@@ -145,8 +174,11 @@ public class StringAssert<
 
     public SELF startsWith(String expected) {
         if (expected == null || !actual.startsWith(expected)) {
-            setDefaultDescription("It is expected to start with the given string, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to start with the given string, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -155,8 +187,11 @@ public class StringAssert<
 
     public SELF endsWith(String expected) {
         if (expected == null || !actual.endsWith(expected)) {
-            setDefaultDescription("It is expected to end with the given string, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to end with the given string, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -165,8 +200,11 @@ public class StringAssert<
 
     public SELF matches(@Language("RegExp") String expected) {
         if (!actual.matches(expected)) {
-            setDefaultDescription("It is expected to match the given regular expression, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to match the given regular expression, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -175,8 +213,11 @@ public class StringAssert<
 
     public SELF matches(Pattern expected) {
         if (!expected.matcher(actual).matches()) {
-            setDefaultDescription("It is expected to match the given pattern, but it isn't. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected to match the given pattern, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
