@@ -48,14 +48,14 @@
 
 ### New features
 
-- ✨ Add: assertion class `PathAssert`
+- ✨ Add: assertion classes `PathAssert`, `OptionalAssert`
 - ✨ Add: assertion failure messages of `FileAssert`
 - ✨ Add: method `nextString(int, int)` in `RandomString`
 - ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
 
 ### Troubleshooting
 
-- 🐞 Fix:
+- 🐞 Fix: wrong return type of methods in `UuidAssert`
 
 ### Dependencies
 
