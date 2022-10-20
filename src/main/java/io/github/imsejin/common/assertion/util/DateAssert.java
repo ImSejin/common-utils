@@ -24,7 +24,8 @@ public class DateAssert<
         SELF extends DateAssert<SELF, ACTUAL>,
         ACTUAL extends Date>
         extends ObjectAssert<SELF, ACTUAL>
-        implements PositionComparisonAssertable<SELF, ACTUAL> {
+        implements PositionComparisonAssertable<SELF, ACTUAL>,
+        YearAssertable<SELF, ACTUAL> {
 
     public DateAssert(ACTUAL actual) {
         super(actual);
@@ -118,6 +119,7 @@ public class DateAssert<
         return self;
     }
 
+    @Override
     public SELF isLeapYear() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(actual);
@@ -131,6 +133,7 @@ public class DateAssert<
         return self;
     }
 
+    @Override
     public SELF isNotLeapYear() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(actual);

@@ -16,21 +16,15 @@
 
 package io.github.imsejin.common.assertion.composition;
 
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
-
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjuster;
-
 /**
  * Composition of assertion for year.
  *
  * @param <SELF>   assertion class
- * @param <ACTUAL> type that implements interfaces {@link Temporal},
- *                 {@link TemporalAdjuster} and {@link Comparable}
+ * @param <ACTUAL> something that has year
  */
 public interface YearAssertable<
-        SELF extends AbstractTemporalAccessorAssert<SELF, ACTUAL>,
-        ACTUAL extends Temporal & TemporalAdjuster & Comparable<ACTUAL>> {
+        SELF extends YearAssertable<SELF, ACTUAL>,
+        ACTUAL> {
 
     String DEFAULT_DESCRIPTION_IS_LEAP_YEAR = "It is expected to be leap year, but it isn't.";
     String DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR = "It is expected not to be leap year, but it is.";

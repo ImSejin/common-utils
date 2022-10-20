@@ -28,7 +28,7 @@ import java.util.function.BiPredicate;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public interface PositionComparisonAssertable<
         SELF extends PositionComparisonAssertable<SELF, ACTUAL>,
-        ACTUAL extends Comparable<?>> {
+        ACTUAL> {
 
     /**
      * @see java.util.Date#compareTo(java.util.Date)
