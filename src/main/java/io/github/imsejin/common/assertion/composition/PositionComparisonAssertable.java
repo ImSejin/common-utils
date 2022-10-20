@@ -28,7 +28,7 @@ import java.util.function.BiPredicate;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public interface PositionComparisonAssertable<
         SELF extends PositionComparisonAssertable<SELF, ACTUAL>,
-        ACTUAL> {
+        ACTUAL extends Comparable<?>> {
 
     /**
      * @see java.util.Date#compareTo(java.util.Date)
@@ -47,12 +47,12 @@ public interface PositionComparisonAssertable<
     BiPredicate<Comparable, Comparable<?>> IS_AFTER_THAN = (actual, expected) -> actual.compareTo(expected) > 0;
     BiPredicate<Comparable, Comparable<?>> IS_AFTER_THAN_OR_EQUAL_TO = (actual, expected) -> actual.compareTo(expected) >= 0;
 
-    String DEFAULT_DESCRIPTION_IS_EQUAL_TO = "They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO = "They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_BEFORE = "It is expected to be before than the other, but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_BEFORE_OR_EQUAL_TO = "It is expected to be before than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_AFTER_THAN = "It is expected to be after than the other, but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_IS_AFTER_THAN_OR_EQUAL_TO = "It is expected to be after than or equal to the other, but it isn't. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_IS_EQUAL_TO = "They are expected to be equal, but they aren't.";
+    String DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO = "They are expected to be not equal, but they are.";
+    String DEFAULT_DESCRIPTION_IS_BEFORE = "It is expected to be before than the other, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_BEFORE_OR_EQUAL_TO = "It is expected to be before than or equal to the other, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_AFTER_THAN = "It is expected to be after than the other, but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_AFTER_THAN_OR_EQUAL_TO = "It is expected to be after than or equal to the other, but it isn't.";
 
     SELF isBefore(ACTUAL expected);
 
