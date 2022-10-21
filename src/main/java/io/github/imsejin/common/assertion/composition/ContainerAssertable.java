@@ -16,24 +16,25 @@
 
 package io.github.imsejin.common.assertion.composition;
 
+import java.lang.reflect.Array;
+import java.util.Optional;
+
 /**
- * Composition of assertion for enumeration.
+ * Composition of assertion for container.
  *
  * @param <SELF>    assertion class
- * @param <ACTUAL>  enumerable type
- * @param <ELEMENT> element of {@link ACTUAL}
- * @see java.lang.reflect.Array
+ * @param <CONTENT> content in the container
+ * @see Array
  * @see Iterable
  * @see CharSequence
+ * @see Optional
  */
-public interface EnumerationAssertable<
-        SELF extends EnumerationAssertable<SELF, ACTUAL, ELEMENT>,
-        ACTUAL,
-        ELEMENT>
-        extends SizeAssertable<SELF, ACTUAL> {
+public interface ContainerAssertable<
+        SELF extends ContainerAssertable<SELF, CONTENT>,
+        CONTENT> {
 
-    String DEFAULT_DESCRIPTION_CONTAINS = "It is expected to contain the given element, but it isn't.";
-    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN = "It is expected not to contain the given element, but it is.";
+    String DEFAULT_DESCRIPTION_CONTAINS = "It is expected to contain the given content, but it isn't.";
+    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN = "It is expected not to contain the given content, but it is.";
 
     /**
      * Asserts that actual value contains expected value as a element.
@@ -53,7 +54,7 @@ public interface EnumerationAssertable<
      * @param expected expected value
      * @return this class
      */
-    SELF contains(ELEMENT expected);
+    SELF contains(CONTENT expected);
 
     /**
      * Asserts that actual value doesn't contain expected value as a element.
@@ -73,6 +74,6 @@ public interface EnumerationAssertable<
      * @param expected expected value
      * @return this class
      */
-    SELF doesNotContain(ELEMENT expected);
+    SELF doesNotContain(CONTENT expected);
 
 }

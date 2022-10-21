@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.ContainerAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
@@ -43,7 +43,7 @@ public class ArrayAssert<
         SELF extends ArrayAssert<SELF, ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ELEMENT[]>
-        implements EnumerationAssertable<SELF, ELEMENT[], ELEMENT>,
+        implements ContainerAssertable<SELF, ELEMENT>,
         IterationAssertable<SELF, ELEMENT[], ELEMENT>,
         RandomAccessIterationAssertable<SELF, ELEMENT> {
 
@@ -197,7 +197,7 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+        setDefaultDescription("It is expected to contain the given element, but it isn't.");
         setDescriptionVariables(
                 new SimpleEntry<>("actual", actual),
                 new SimpleEntry<>("expected", expected));
@@ -218,7 +218,7 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDefaultDescription("It is expected not to contain the given element, but it is.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));

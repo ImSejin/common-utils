@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.ContainerAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
@@ -538,7 +538,7 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual doesn't contain the given element")
         void test1() {
-            String message = Pattern.quote(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS) +
+            String message = Pattern.quote("It is expected to contain the given element, but it isn't.") +
                     "\n {4}actual: '\\[.+]'" +
                     "\n {4}expected: '.*'";
 
@@ -578,7 +578,7 @@ class ArrayAssertTest {
         @Test
         @DisplayName("throws exception, when actual contains the given element")
         void test1() {
-            String message = Pattern.quote(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
+            String message = Pattern.quote("It is expected not to contain the given element, but it is.") +
                     "\n {4}actual: '\\[.+]'" +
                     "\n {4}expected: '.*'";
 

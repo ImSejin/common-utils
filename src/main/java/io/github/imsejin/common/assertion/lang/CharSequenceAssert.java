@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.ContainerAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -35,7 +35,7 @@ public class CharSequenceAssert<
         ELEMENT extends CharSequence>
         extends ObjectAssert<SELF, ACTUAL>
         implements SizeAssertable<SELF, ACTUAL>,
-        EnumerationAssertable<SELF, ACTUAL, ELEMENT> {
+        ContainerAssertable<SELF, ACTUAL> {
 
     public CharSequenceAssert(ACTUAL actual) {
         super(actual);
@@ -268,7 +268,7 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF contains(ELEMENT expected) {
+    public SELF contains(ACTUAL expected) {
         if (expected == null || !actual.toString().contains(expected)) {
             setDefaultDescription("It is expected to contain the given character(s), but it isn't.");
             setDescriptionVariables(
@@ -302,7 +302,7 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotContain(ELEMENT expected) {
+    public SELF doesNotContain(ACTUAL expected) {
         if (expected == null || actual.toString().contains(expected)) {
             setDefaultDescription("It is expected not to contain the given character(s), but it is.");
             setDescriptionVariables(

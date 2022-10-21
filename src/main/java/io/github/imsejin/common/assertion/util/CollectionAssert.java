@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.ContainerAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
@@ -45,7 +45,7 @@ public class CollectionAssert<
         ACTUAL extends Collection<? extends ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ACTUAL>
-        implements EnumerationAssertable<SELF, ACTUAL, ELEMENT>,
+        implements ContainerAssertable<SELF, ELEMENT>,
         IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
     public CollectionAssert(ACTUAL actual) {
@@ -204,7 +204,7 @@ public class CollectionAssert<
             }
         }
 
-        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+        setDefaultDescription("It is expected to contain the given element, but it isn't.");
         setDescriptionVariables(
                 new SimpleEntry<>("actual", actual),
                 new SimpleEntry<>("expected", expected));
@@ -225,7 +225,7 @@ public class CollectionAssert<
                 continue;
             }
 
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDefaultDescription("It is expected not to contain the given element, but it is.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
