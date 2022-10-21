@@ -49,6 +49,9 @@ import io.github.imsejin.common.assertion.util.DateAssert;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
 import io.github.imsejin.common.assertion.util.OptionalAssert;
+import io.github.imsejin.common.assertion.util.OptionalDoubleAssert;
+import io.github.imsejin.common.assertion.util.OptionalIntAssert;
+import io.github.imsejin.common.assertion.util.OptionalLongAssert;
 import io.github.imsejin.common.assertion.util.UuidAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
@@ -74,6 +77,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.UUID;
 
 /**
@@ -312,6 +318,21 @@ public abstract class Asserts {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static <T> OptionalAssert<?, T> that(Optional<T> optional) {
         return new OptionalAssert<>(optional);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static OptionalIntAssert<?> that(OptionalInt optionalInt) {
+        return new OptionalIntAssert<>(optionalInt);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static OptionalLongAssert<?> that(OptionalLong optionalLong) {
+        return new OptionalLongAssert<>(optionalLong);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static OptionalDoubleAssert<?> that(OptionalDouble optionalDouble) {
+        return new OptionalDoubleAssert<>(optionalDouble);
     }
 
     public static UuidAssert<?> that(UUID uuid) {
