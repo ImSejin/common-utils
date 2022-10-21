@@ -11,7 +11,7 @@ import java.util.Optional;
  * Assertion for {@link Optional}
  *
  * @param <SELF>  this class
- * @param <VALUE> value in the optional
+ * @param <VALUE> value in the {@link Optional}
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class OptionalAssert<
@@ -39,7 +39,7 @@ public class OptionalAssert<
      *
      *     // Assertion will fail.
      *     Asserts.that(Optional.ofNullable(null)).contains(null);
-     *     Asserts.that(Optional.of(1)).contains(2);
+     *     Asserts.that(Optional.of("alpha")).contains("beta");
      * }</pre>
      *
      * @return this class
@@ -68,7 +68,7 @@ public class OptionalAssert<
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(Optional.of(1)).doesNotContain(2);
+     *     Asserts.that(Optional.of("alpha")).doesNotContain("beta");
      *
      *     // Assertion will fail.
      *     Asserts.that(Optional.ofNullable(null)).doesNotContain(null);
