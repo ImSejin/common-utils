@@ -50,7 +50,7 @@ class OptionalAssertTest {
             // expect
             String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS) +
                     "\n {4}actual: 'Optional(\\.empty|\\[.+])'" +
-                    "\n {4}actual.value: '.+'" +
+                    "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             entries.forEach(entry -> assertThatIllegalArgumentException()
@@ -91,7 +91,7 @@ class OptionalAssertTest {
             // expect
             String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
                     "\n {4}actual: 'Optional(\\.empty|\\[.+])'" +
-                    "\n {4}actual.value: '.+'" +
+                    "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             values.forEach(value -> assertThatIllegalArgumentException()
@@ -122,7 +122,7 @@ class OptionalAssertTest {
         void test1(Object value) {
             String message = Pattern.quote("It is expected to be present, but it isn't.") +
                     "\n {4}actual: 'Optional\\.empty'" +
-                    "\n {4}actual.value: '.+'";
+                    "\n {4}actual\\.value: '.+'";
 
             assertThatIllegalArgumentException()
                     .isThrownBy((() -> Asserts.that(Optional.ofNullable(value)).isPresent()))
@@ -151,7 +151,7 @@ class OptionalAssertTest {
             // expect
             String message = Pattern.quote("It is expected to be absent, but it isn't.") +
                     "\n {4}actual: 'Optional\\[.+]'" +
-                    "\n {4}actual.value: '.+'";
+                    "\n {4}actual\\.value: '.+'";
 
             values.forEach(value -> assertThatIllegalArgumentException()
                     .isThrownBy((() -> Asserts.that(Optional.of(value)).isAbsent()))
