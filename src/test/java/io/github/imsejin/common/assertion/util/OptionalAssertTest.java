@@ -28,7 +28,7 @@ class OptionalAssertTest {
         @DisplayName("passes, when actual contains the given content")
         void test0() {
             // given
-            List<Object> values = Arrays.asList(null, new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
+            List<Object> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
 
             // expect
             values.forEach(value -> assertThatNoException()
@@ -40,7 +40,7 @@ class OptionalAssertTest {
         void test1() {
             // given
             List<SimpleEntry<Object, Object>> entries = Arrays.asList(
-                    new SimpleEntry<>(null, new Object()),
+                    new SimpleEntry<>(null, null),
                     new SimpleEntry<>(new Object(), new Object()),
                     new SimpleEntry<>(1, -1),
                     new SimpleEntry<>(new BigDecimal("3.14"), BigDecimal.ONE),
@@ -69,7 +69,7 @@ class OptionalAssertTest {
         void test0() {
             // given
             List<SimpleEntry<Object, Object>> entries = Arrays.asList(
-                    new SimpleEntry<>(null, new Object()),
+                    new SimpleEntry<>(null, null),
                     new SimpleEntry<>(new Object(), new Object()),
                     new SimpleEntry<>(1, -1),
                     new SimpleEntry<>(new BigDecimal("3.14"), BigDecimal.ONE),
@@ -86,7 +86,7 @@ class OptionalAssertTest {
         @DisplayName("throws exception, when actual contains the given content")
         void test1() {
             // given
-            List<Object> values = Arrays.asList(null, new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
+            List<Object> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
 
             // expect
             String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +

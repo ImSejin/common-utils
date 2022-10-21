@@ -5,7 +5,6 @@ import io.github.imsejin.common.assertion.composition.ContainerAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -33,7 +32,7 @@ public class OptionalAssert<
     public SELF contains(VALUE expected) {
         VALUE value = actual.orElse(null);
 
-        if (!Objects.equals(value, expected)) {
+        if (value == null || !value.equals(expected)) {
             setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
@@ -50,11 +49,11 @@ public class OptionalAssert<
     public SELF doesNotContain(VALUE expected) {
         VALUE value = actual.orElse(null);
 
-        if (Objects.equals(value, expected)) {
+        if (value != null && value.equals(expected)) {
             setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", actual),
+                    new SimpleEntry<>("actual.value", value),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
