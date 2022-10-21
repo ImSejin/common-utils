@@ -291,8 +291,8 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, List, RandomAccess, Cloneable, Serializable, Collection, Iterable, AbstractList, AbstractCollection]
         TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, ContainerAssertable, SizeAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, ContainerAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, ContainerAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, ContainerAssertable, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ObjectAssert, Descriptor]
     }
 
@@ -314,8 +314,8 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, RandomAccess, List, Serializable, AbstractList, Cloneable, Collection, AbstractCollection, Iterable]
         TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, IterationAssertable, RandomAccessIterationAssertable, ContainerAssertable, SizeAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, ContainerAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, ContainerAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, ContainerAssertable, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ObjectAssert, Descriptor]
     }
 
