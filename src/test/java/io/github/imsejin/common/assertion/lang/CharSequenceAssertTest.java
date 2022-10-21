@@ -321,7 +321,7 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | k",
         }, delimiter = '|')
         @DisplayName("passes, when actual contains the given character(s)")
-        void test0(String source, String expected) {
+        void test0(CharSequence source, CharSequence expected) {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new StringBuffer(source)).contains(expected);
                 Asserts.that(new StringBuilder(source)).contains(expected);
@@ -339,7 +339,7 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | CHUNK",
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't contain the given character(s)")
-        void test1(String source, String expected) {
+        void test1(CharSequence source, CharSequence expected) {
             String message = Pattern.quote("It is expected to contain the given character(s), but it isn't.") +
                     "\n {4}actual: '.+'" +
                     "\n {4}expected: '.*'";
@@ -370,7 +370,7 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | CHUNK",
         }, delimiter = '|')
         @DisplayName("passes, when actual doesn't contain the given character(s)")
-        void test0(String source, String expected) {
+        void test0(CharSequence source, CharSequence expected) {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new StringBuffer(source)).doesNotContain(expected);
                 Asserts.that(new StringBuilder(source)).doesNotContain(expected);
@@ -387,7 +387,7 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | k",
         }, delimiter = '|')
         @DisplayName("throws exception, when actual contains the given character(s)")
-        void test1(String source, String expected) {
+        void test1(CharSequence source, CharSequence expected) {
             String message = Pattern.quote("It is expected not to contain the given character(s), but it is.") +
                     "\n {4}actual: '.+'" +
                     "\n {4}expected: '.*'";
