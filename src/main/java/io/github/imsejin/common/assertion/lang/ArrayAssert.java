@@ -43,8 +43,9 @@ public class ArrayAssert<
         SELF extends ArrayAssert<SELF, ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ELEMENT[]>
-        implements IterationAssertable<SELF, ELEMENT[], ELEMENT>,
-        RandomAccessIterationAssertable<SELF, ELEMENT[], ELEMENT> {
+        implements EnumerationAssertable<SELF, ELEMENT[], ELEMENT>,
+        IterationAssertable<SELF, ELEMENT[], ELEMENT>,
+        RandomAccessIterationAssertable<SELF, ELEMENT> {
 
     public ArrayAssert(ELEMENT[] actual) {
         super(actual);

@@ -31,7 +31,7 @@ public interface IterationAssertable<
         SELF extends IterationAssertable<SELF, ACTUAL, ELEMENT>,
         ACTUAL,
         ELEMENT>
-        extends EnumerationAssertable<SELF, ACTUAL, ELEMENT> {
+        extends SizeAssertable<SELF, ACTUAL> {
 
     String DEFAULT_DESCRIPTION_CONTAINS_NULL = "It is expected to contain null, but it isn't.";
     String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL = "It is expected not to contain null, but it is.";

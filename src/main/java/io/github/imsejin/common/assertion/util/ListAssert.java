@@ -36,7 +36,7 @@ public class ListAssert<
         ACTUAL extends List<? extends ELEMENT>,
         ELEMENT>
         extends CollectionAssert<SELF, ACTUAL, ELEMENT>
-        implements RandomAccessIterationAssertable<SELF, ACTUAL, ELEMENT> {
+        implements RandomAccessIterationAssertable<SELF, ELEMENT> {
 
     public ListAssert(ACTUAL actual) {
         super(actual);

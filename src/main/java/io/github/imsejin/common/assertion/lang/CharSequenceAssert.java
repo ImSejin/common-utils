@@ -34,7 +34,8 @@ public class CharSequenceAssert<
         ACTUAL extends CharSequence,
         ELEMENT extends CharSequence>
         extends ObjectAssert<SELF, ACTUAL>
-        implements EnumerationAssertable<SELF, ACTUAL, ELEMENT> {
+        implements SizeAssertable<SELF, ACTUAL>,
+        EnumerationAssertable<SELF, ACTUAL, ELEMENT> {
 
     public CharSequenceAssert(ACTUAL actual) {
         super(actual);

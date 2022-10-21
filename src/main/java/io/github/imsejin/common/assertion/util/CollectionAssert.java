@@ -45,7 +45,8 @@ public class CollectionAssert<
         ACTUAL extends Collection<? extends ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ACTUAL>
-        implements IterationAssertable<SELF, ACTUAL, ELEMENT> {
+        implements EnumerationAssertable<SELF, ACTUAL, ELEMENT>,
+        IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
     public CollectionAssert(ACTUAL actual) {
         super(actual);
