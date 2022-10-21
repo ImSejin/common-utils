@@ -25,6 +25,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ class OptionalLongAssertTest {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
         @DisplayName("passes, when actual contains the given content")
-        void test0(Long value) {
+        void test0(long value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalLong.of(value))
                     .contains(value));
         }
@@ -70,18 +71,20 @@ class OptionalLongAssertTest {
     @DisplayName("method 'doesNotContain'")
     class DoesNotContain {
         @ParameterizedTest
-        @NullSource
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
         @DisplayName("passes, when actual doesn't contain the given content")
-        void test0(Long expected) {
-            assertThatNoException().isThrownBy((() -> Asserts.that(OptionalLong.empty())
-                    .doesNotContain(expected)));
+        void test0(long value) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(OptionalLong.empty()).doesNotContain(value);
+                Asserts.that(OptionalLong.of(value)).doesNotContain(null);
+                Asserts.that(OptionalLong.of(value)).doesNotContain(10L);
+            });
         }
 
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
         @DisplayName("throws exception, when actual contains the given content")
-        void test1(Long value) {
+        void test1(long value) {
             String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
                     "\n {4}actual: 'OptionalLong(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
@@ -101,7 +104,7 @@ class OptionalLongAssertTest {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
         @DisplayName("passes, when actual has content")
-        void test0(Long value) {
+        void test0(long value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalLong.of(value))
                     .isPresent());
         }
@@ -134,7 +137,7 @@ class OptionalLongAssertTest {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
         @DisplayName("throws exception, when actual has content")
-        void test1(Long value) {
+        void test1(long value) {
             String message = Pattern.quote("It is expected to be absent, but it isn't.") +
                     "\n {4}actual: 'OptionalLong\\[.+]'" +
                     "\n {4}actual\\.value: '.+'";

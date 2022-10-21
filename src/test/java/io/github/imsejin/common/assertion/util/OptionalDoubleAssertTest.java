@@ -26,6 +26,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.OptionalDouble;
+import java.util.OptionalInt;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -40,7 +41,7 @@ class OptionalDoubleAssertTest {
         @ParameterizedTest
         @ValueSource(doubles = {Double.MIN_VALUE, -3.14, 0.0, 3.14, Double.MAX_VALUE})
         @DisplayName("passes, when actual contains the given content")
-        void test0(Double value) {
+        void test0(double value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalDouble.of(value))
                     .contains(value));
         }
@@ -70,18 +71,20 @@ class OptionalDoubleAssertTest {
     @DisplayName("method 'doesNotContain'")
     class DoesNotContain {
         @ParameterizedTest
-        @NullSource
         @ValueSource(doubles = {Double.MIN_VALUE, -3.14, 0.0, 3.14, Double.MAX_VALUE})
         @DisplayName("passes, when actual doesn't contain the given content")
-        void test0(Double expected) {
-            assertThatNoException().isThrownBy((() -> Asserts.that(OptionalDouble.empty())
-                    .doesNotContain(expected)));
+        void test0(double value) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(OptionalDouble.empty()).doesNotContain(value);
+                Asserts.that(OptionalDouble.of(value)).doesNotContain(null);
+                Asserts.that(OptionalDouble.of(value)).doesNotContain(1.73);
+            });
         }
 
         @ParameterizedTest
         @ValueSource(doubles = {Double.MIN_VALUE, -3.14, 0.0, 3.14, Double.MAX_VALUE})
         @DisplayName("throws exception, when actual contains the given content")
-        void test1(Double value) {
+        void test1(double value) {
             String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
                     "\n {4}actual: 'OptionalDouble(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
@@ -101,7 +104,7 @@ class OptionalDoubleAssertTest {
         @ParameterizedTest
         @ValueSource(doubles = {Double.MIN_VALUE, -3.14, 0.0, 3.14, Double.MAX_VALUE})
         @DisplayName("passes, when actual has content")
-        void test0(Double value) {
+        void test0(double value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalDouble.of(value))
                     .isPresent());
         }
@@ -134,7 +137,7 @@ class OptionalDoubleAssertTest {
         @ParameterizedTest
         @ValueSource(doubles = {Double.MIN_VALUE, -3.14, 0.0, 3.14, Double.MAX_VALUE})
         @DisplayName("throws exception, when actual has content")
-        void test1(Double value) {
+        void test1(double value) {
             String message = Pattern.quote("It is expected to be absent, but it isn't.") +
                     "\n {4}actual: 'OptionalDouble\\[.+]'" +
                     "\n {4}actual\\.value: '.+'";

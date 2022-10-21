@@ -40,7 +40,7 @@ class OptionalIntAssertTest {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
         @DisplayName("passes, when actual contains the given content")
-        void test0(Integer value) {
+        void test0(int value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalInt.of(value))
                     .contains(value));
         }
@@ -70,18 +70,20 @@ class OptionalIntAssertTest {
     @DisplayName("method 'doesNotContain'")
     class DoesNotContain {
         @ParameterizedTest
-        @NullSource
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
         @DisplayName("passes, when actual doesn't contain the given content")
-        void test0(Integer expected) {
-            assertThatNoException().isThrownBy((() -> Asserts.that(OptionalInt.empty())
-                    .doesNotContain(expected)));
+        void test0(int value) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(OptionalInt.empty()).doesNotContain(value);
+                Asserts.that(OptionalInt.of(value)).doesNotContain(null);
+                Asserts.that(OptionalInt.of(value)).doesNotContain(2);
+            });
         }
 
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
         @DisplayName("throws exception, when actual contains the given content")
-        void test1(Integer value) {
+        void test1(int value) {
             String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
                     "\n {4}actual: 'OptionalInt(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
@@ -101,7 +103,7 @@ class OptionalIntAssertTest {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
         @DisplayName("passes, when actual has content")
-        void test0(Integer value) {
+        void test0(int value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalInt.of(value))
                     .isPresent());
         }
@@ -134,7 +136,7 @@ class OptionalIntAssertTest {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
         @DisplayName("throws exception, when actual has content")
-        void test1(Integer value) {
+        void test1(int value) {
             String message = Pattern.quote("It is expected to be absent, but it isn't.") +
                     "\n {4}actual: 'OptionalInt\\[.+]'" +
                     "\n {4}actual\\.value: '.+'";
