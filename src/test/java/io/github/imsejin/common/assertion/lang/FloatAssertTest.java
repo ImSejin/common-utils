@@ -426,7 +426,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not close to other")
         void test1() {
-            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\.[\\s\\S]+";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(36.5F).isCloseTo(null, 15))
@@ -454,13 +454,13 @@ class FloatAssertTest {
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.NaN).isCloseTo(0.0F, 99.9))
-                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: 'NaN')");
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.NEGATIVE_INFINITY).isCloseTo(0.0F, 99.9))
-                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: '-Infinity')");
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.POSITIVE_INFINITY).isCloseTo(0.1F, 99.9))
-                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.1', actual: 'Infinity')");
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.MIN_VALUE).isCloseTo(Float.MAX_VALUE, 99.9))
                     .withMessageMatching(regex);

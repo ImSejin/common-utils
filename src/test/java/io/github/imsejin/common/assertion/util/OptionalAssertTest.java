@@ -28,11 +28,11 @@ class OptionalAssertTest {
         @DisplayName("passes, when actual contains the given content")
         void test0() {
             // given
-            List<Object> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
+            List<?> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
 
             // expect
             values.forEach(value -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(Optional.ofNullable(value)).contains(value)));
+                    .isThrownBy(() -> Asserts.that(Optional.of(value)).contains(value)));
         }
 
         @Test
@@ -86,7 +86,7 @@ class OptionalAssertTest {
         @DisplayName("throws exception, when actual contains the given content")
         void test1() {
             // given
-            List<Object> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
+            List<?> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
 
             // expect
             String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
@@ -95,7 +95,7 @@ class OptionalAssertTest {
                     "\n {4}expected: '.*'";
 
             values.forEach(value -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Optional.ofNullable(value)).doesNotContain(value))
+                    .isThrownBy(() -> Asserts.that(Optional.of(value)).doesNotContain(value))
                     .withMessageMatching(message));
         }
     }
@@ -113,7 +113,7 @@ class OptionalAssertTest {
 
             // expect
             values.forEach(value -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(Optional.ofNullable(value)).isPresent()));
+                    .isThrownBy(() -> Asserts.that(Optional.of(value)).isPresent()));
         }
 
         @ParameterizedTest
@@ -154,7 +154,7 @@ class OptionalAssertTest {
                     "\n {4}actual.value: '.+'";
 
             values.forEach(value -> assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(Optional.ofNullable(value)).isAbsent()))
+                    .isThrownBy((() -> Asserts.that(Optional.of(value)).isAbsent()))
                     .withMessageMatching(message));
         }
     }
