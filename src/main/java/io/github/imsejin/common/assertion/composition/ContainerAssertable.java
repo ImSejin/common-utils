@@ -37,7 +37,7 @@ public interface ContainerAssertable<
     String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN = "It is expected not to contain the given content, but it is.";
 
     /**
-     * Asserts that actual value contains expected value as a element.
+     * Asserts that actual value contains expected value as a content.
      *
      * <p> If actual value is empty, the assertion always fails.
      *
@@ -57,7 +57,7 @@ public interface ContainerAssertable<
     SELF contains(CONTENT expected);
 
     /**
-     * Asserts that actual value doesn't contain expected value as a element.
+     * Asserts that actual value doesn't contain expected value as a content.
      *
      * <p> If actual value is empty, the assertion always passes.
      *

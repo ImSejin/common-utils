@@ -28,6 +28,22 @@ public class OptionalAssert<
         super(descriptor, actual);
     }
 
+    /**
+     * Asserts that actual value contains expected value as a content.
+     *
+     * <p> If actual value is empty, the assertion always fails.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Optional.of("alpha")).contains("alpha");
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Optional.ofNullable(null)).contains(null);
+     *     Asserts.that(Optional.of(1)).contains(2);
+     * }</pre>
+     *
+     * @return this class
+     */
     @Override
     public SELF contains(VALUE expected) {
         VALUE value = actual.orElse(null);
@@ -45,6 +61,22 @@ public class OptionalAssert<
         return self;
     }
 
+    /**
+     * Asserts that actual value doesn't contain expected value as a content.
+     *
+     * <p> If actual value is empty, the assertion always passes.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(Optional.of(1)).doesNotContain(2);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that(Optional.ofNullable(null)).doesNotContain(null);
+     *     Asserts.that(Optional.of("alpha")).doesNotContain("alpha");
+     * }</pre>
+     *
+     * @return this class
+     */
     @Override
     public SELF doesNotContain(VALUE expected) {
         VALUE value = actual.orElse(null);
