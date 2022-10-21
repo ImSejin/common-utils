@@ -59,7 +59,7 @@ class OptionalDoubleAssertTest {
                     .isThrownBy((() -> Asserts.that(OptionalDouble.empty()).contains(expected)))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(OptionalDouble.of(1)).contains(expected)))
+                    .isThrownBy((() -> Asserts.that(OptionalDouble.of(0.1)).contains(expected)))
                     .withMessageMatching(message);
         }
     }
@@ -96,7 +96,7 @@ class OptionalDoubleAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'contains'")
+    @DisplayName("method 'isPresent'")
     class IsPresent {
         @ParameterizedTest
         @ValueSource(doubles = {Double.MIN_VALUE, -3.14, 0.0, 3.14, Double.MAX_VALUE})

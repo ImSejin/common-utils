@@ -59,7 +59,7 @@ class OptionalIntAssertTest {
                     .isThrownBy((() -> Asserts.that(OptionalInt.empty()).contains(expected)))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(OptionalInt.of(1)).contains(expected)))
+                    .isThrownBy((() -> Asserts.that(OptionalInt.of(2)).contains(expected)))
                     .withMessageMatching(message);
         }
     }
@@ -96,7 +96,7 @@ class OptionalIntAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'contains'")
+    @DisplayName("method 'isPresent'")
     class IsPresent {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})

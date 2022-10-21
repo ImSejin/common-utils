@@ -59,7 +59,7 @@ class OptionalLongAssertTest {
                     .isThrownBy((() -> Asserts.that(OptionalLong.empty()).contains(expected)))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(OptionalLong.of(1)).contains(expected)))
+                    .isThrownBy((() -> Asserts.that(OptionalLong.of(10)).contains(expected)))
                     .withMessageMatching(message);
         }
     }
@@ -96,7 +96,7 @@ class OptionalLongAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'contains'")
+    @DisplayName("method 'isPresent'")
     class IsPresent {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})

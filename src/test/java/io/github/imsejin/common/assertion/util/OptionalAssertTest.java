@@ -103,7 +103,7 @@ class OptionalAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'contains'")
+    @DisplayName("method 'isPresent'")
     class IsPresent {
         @Test
         @DisplayName("passes, when actual has content")
