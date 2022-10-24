@@ -43,7 +43,7 @@ class DescriptorSpec extends Specification {
         where: "Resolves all the implementations which has merging constructor from Descriptor"
         type << ClassFinder.getAllSubtypes(Descriptor).findAll {
             if (ClassUtils.isAbstractClass(it)) return false
-            
+
             def constructor = it.declaredConstructors.find {
                 it.parameterCount == 2 && it.parameterTypes[0] == Descriptor
             }
