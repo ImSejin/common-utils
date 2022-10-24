@@ -59,6 +59,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -81,17 +82,19 @@ class ConversionTest {
         void asString() {
             // given
             UUID uuid = UUID.randomUUID();
+            Optional<UUID> optional = Optional.of(uuid);
 
             // expect
-            assertThatNoException().isThrownBy(() -> Asserts.that(uuid)
-                    .isNotNull().isEqualTo(UUID.fromString(uuid.toString()))
-                    .asString().matches("[\\da-z]{8}-([\\da-z]{4}-){3}[\\da-z]{12}")
-                    .isEqualTo(uuid.toString()));
+            assertThatNoException().isThrownBy(() -> Asserts.that(optional)
+                    .isNotNull().isEqualTo(Optional.of(uuid))
+                    .isPresent().is(it -> it.orElseGet(UUID::randomUUID).version() == 4)
+                    .asString().matches("Optional\\[[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}]")
+                    .isEqualTo("Optional[" + uuid + "]"));
             assertThatExceptionOfType(RuntimeException.class)
-                    .isThrownBy(() -> Asserts.that(uuid)
+                    .isThrownBy(() -> Asserts.that(Optional.empty())
                             .describedAs("Description of assertion: {0}", uuid)
-                            .thrownBy(RuntimeException::new).isNotNull()
-                            .asString().isNull())
+                            .thrownBy(RuntimeException::new).isNotNull().isAbsent()
+                            .asString().isNotNull().matches("Optional\\[.*]"))
                     .withMessageStartingWith("Description of assertion: " + uuid);
         }
 
