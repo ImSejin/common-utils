@@ -81,7 +81,7 @@ class ClassFinderTest {
             Class<Collection> superclass = Collection.class;
 
             // when
-            Set<Class<?>> subtypes = ClassFinder.getAllSubtypes(superclass);
+            Set<Class<? extends Collection>> subtypes = ClassFinder.getAllSubtypes(superclass);
 
             // then
             List<Class<? extends Collection>> subInterfaces = Arrays.asList(List.class, Set.class, Queue.class);
@@ -107,7 +107,7 @@ class ClassFinderTest {
             ClassFinder.SearchPolicy searchPolicy = ClassFinder.SearchPolicy.CLASS;
 
             // when
-            Set<Class<?>> subclasses = ClassFinder.getAllSubtypes(superclass, searchPolicy);
+            Set<Class<? extends Descriptor>> subclasses = ClassFinder.getAllSubtypes(superclass, searchPolicy);
 
             // then
             assertThat(subclasses)
@@ -132,7 +132,7 @@ class ClassFinderTest {
             ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
             // when
-            Set<Class<?>> subclasses = ClassFinder.getAllSubtypes(superclass, searchPolicy, classLoader);
+            Set<Class<? extends AbstractQueue>> subclasses = ClassFinder.getAllSubtypes(superclass, searchPolicy, classLoader);
 
             // then
             List<Class<? extends AbstractQueue>> classes = Arrays.asList(
