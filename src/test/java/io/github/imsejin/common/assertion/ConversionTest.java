@@ -86,16 +86,16 @@ class ConversionTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(optional)
-                    .isNotNull().isEqualTo(Optional.of(uuid))
+                    .isNotNull().isEqualTo(Optional.of(uuid)).hasValue(uuid)
                     .isPresent().is(it -> it.orElseGet(UUID::randomUUID).version() == 4)
                     .asString().matches("Optional\\[[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}]")
                     .isEqualTo("Optional[" + uuid + "]"));
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(Optional.empty())
-                            .describedAs("Description of assertion: {0}", uuid)
-                            .thrownBy(RuntimeException::new).isNotNull().isAbsent()
+                            .describedAs("Description of assertion: {0}", Optional.empty())
+                            .thrownBy(RuntimeException::new).isNotNull().isAbsent().doesNotHaveValue(null)
                             .asString().isNotNull().matches("Optional\\[.*]"))
-                    .withMessageStartingWith("Description of assertion: " + uuid);
+                    .withMessageStartingWith("Description of assertion: " + Optional.empty());
         }
 
         @Test
