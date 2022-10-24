@@ -1,7 +1,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.ContainerAssertable;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -16,7 +16,7 @@ import java.util.OptionalDouble;
 public class OptionalDoubleAssert<
         SELF extends OptionalDoubleAssert<SELF>>
         extends ObjectAssert<SELF, OptionalDouble>
-        implements ContainerAssertable<SELF, Double> {
+        implements HolderAssertable<SELF, Double> {
 
     public OptionalDoubleAssert(OptionalDouble actual) {
         super(actual);
@@ -27,27 +27,27 @@ public class OptionalDoubleAssert<
     }
 
     /**
-     * Asserts that actual value contains expected value as a content.
+     * Asserts that actual value has expected value as a content.
      *
      * <p> If actual value is empty or expected value is {@code null},
      * the assertion always fails.
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(OptionalDouble.of(1.73)).contains(1.73);
+     *     Asserts.that(OptionalDouble.of(1.73)).hasValue(1.73);
      *
      *     // Assertion will fail.
-     *     Asserts.that(OptionalDouble.empty()).contains(null);
-     *     Asserts.that(OptionalDouble.of(1.73)).contains(null);
-     *     Asserts.that(OptionalDouble.of(1.73)).contains(3.14);
+     *     Asserts.that(OptionalDouble.empty()).hasValue(null);
+     *     Asserts.that(OptionalDouble.of(1.73)).hasValue(null);
+     *     Asserts.that(OptionalDouble.of(1.73)).hasValue(3.14);
      * }</pre>
      *
      * @return this class
      */
     @Override
-    public SELF contains(Double expected) {
+    public SELF hasValue(Double expected) {
         if (expected == null || !actual.isPresent() || actual.getAsDouble() != expected) {
-            setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+            setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.value", actual.isPresent() ? actual.getAsDouble() : null),
@@ -60,27 +60,27 @@ public class OptionalDoubleAssert<
     }
 
     /**
-     * Asserts that actual value doesn't contain expected value as a content.
+     * Asserts that actual value doesn't have expected value as a content.
      *
      * <p> If actual value is empty or expected value is {@code null},
      * the assertion always passes.
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(OptionalDouble.empty()).doesNotContain(null);
-     *     Asserts.that(OptionalDouble.of(1.73)).doesNotContain(null);
-     *     Asserts.that(OptionalDouble.of(1.73)).doesNotContain(3.14);
+     *     Asserts.that(OptionalDouble.empty()).doesNotHaveValue(null);
+     *     Asserts.that(OptionalDouble.of(1.73)).doesNotHaveValue(null);
+     *     Asserts.that(OptionalDouble.of(1.73)).doesNotHaveValue(3.14);
      *
      *     // Assertion will fail.
-     *     Asserts.that(OptionalDouble.of(1.73)).doesNotContain(1.73);
+     *     Asserts.that(OptionalDouble.of(1.73)).doesNotHaveValue(1.73);
      * }</pre>
      *
      * @return this class
      */
     @Override
-    public SELF doesNotContain(Double expected) {
+    public SELF doesNotHaveValue(Double expected) {
         if (expected != null && actual.isPresent() && actual.getAsDouble() == expected) {
-            setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.value", actual.getAsDouble()),

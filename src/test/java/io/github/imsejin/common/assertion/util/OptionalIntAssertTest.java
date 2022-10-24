@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.ContainerAssertable;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,31 +35,31 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 class OptionalIntAssertTest {
 
     @Nested
-    @DisplayName("method 'contains'")
-    class Contains {
+    @DisplayName("method 'hasValue'")
+    class HasValue {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
-        @DisplayName("passes, when actual contains the given content")
+        @DisplayName("passes, when actual has the given content")
         void test0(int value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalInt.of(value))
-                    .contains(value));
+                    .hasValue(value));
         }
 
         @ParameterizedTest
         @NullSource
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
-        @DisplayName("throws exception, when actual doesn't contain the given content")
+        @DisplayName("throws exception, when actual doesn't have the given content")
         void test1(Integer expected) {
-            String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS) +
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE) +
                     "\n {4}actual: 'OptionalInt(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(OptionalInt.empty()).contains(expected)))
+                    .isThrownBy((() -> Asserts.that(OptionalInt.empty()).hasValue(expected)))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(OptionalInt.of(2)).contains(expected)))
+                    .isThrownBy((() -> Asserts.that(OptionalInt.of(2)).hasValue(expected)))
                     .withMessageMatching(message);
         }
     }
@@ -67,30 +67,30 @@ class OptionalIntAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'doesNotContain'")
-    class DoesNotContain {
+    @DisplayName("method 'doesNotHaveValue'")
+    class DoesNotHaveValue {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
-        @DisplayName("passes, when actual doesn't contain the given content")
+        @DisplayName("passes, when actual doesn't have the given content")
         void test0(int value) {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(OptionalInt.empty()).doesNotContain(value);
-                Asserts.that(OptionalInt.of(value)).doesNotContain(null);
-                Asserts.that(OptionalInt.of(value)).doesNotContain(2);
+                Asserts.that(OptionalInt.empty()).doesNotHaveValue(value);
+                Asserts.that(OptionalInt.of(value)).doesNotHaveValue(null);
+                Asserts.that(OptionalInt.of(value)).doesNotHaveValue(2);
             });
         }
 
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE})
-        @DisplayName("throws exception, when actual contains the given content")
+        @DisplayName("throws exception, when actual has the given content")
         void test1(int value) {
-            String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE) +
                     "\n {4}actual: 'OptionalInt(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(OptionalInt.of(value)).doesNotContain(value))
+                    .isThrownBy(() -> Asserts.that(OptionalInt.of(value)).doesNotHaveValue(value))
                     .withMessageMatching(message);
         }
     }

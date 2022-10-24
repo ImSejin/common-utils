@@ -1,7 +1,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.ContainerAssertable;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -16,7 +16,7 @@ import java.util.OptionalLong;
 public class OptionalLongAssert<
         SELF extends OptionalLongAssert<SELF>>
         extends ObjectAssert<SELF, OptionalLong>
-        implements ContainerAssertable<SELF, Long> {
+        implements HolderAssertable<SELF, Long> {
 
     public OptionalLongAssert(OptionalLong actual) {
         super(actual);
@@ -27,27 +27,27 @@ public class OptionalLongAssert<
     }
 
     /**
-     * Asserts that actual value contains expected value as a content.
+     * Asserts that actual value has expected value as a content.
      *
      * <p> If actual value is empty or expected value is {@code null},
      * the assertion always fails.
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(OptionalLong.of(10)).contains(10);
+     *     Asserts.that(OptionalLong.of(10)).hasValue(10);
      *
      *     // Assertion will fail.
-     *     Asserts.that(OptionalLong.empty()).contains(null);
-     *     Asserts.that(OptionalLong.of(10)).contains(null);
-     *     Asserts.that(OptionalLong.of(10)).contains(20);
+     *     Asserts.that(OptionalLong.empty()).hasValue(null);
+     *     Asserts.that(OptionalLong.of(10)).hasValue(null);
+     *     Asserts.that(OptionalLong.of(10)).hasValue(20);
      * }</pre>
      *
      * @return this class
      */
     @Override
-    public SELF contains(Long expected) {
+    public SELF hasValue(Long expected) {
         if (expected == null || !actual.isPresent() || actual.getAsLong() != expected) {
-            setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+            setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.value", actual.isPresent() ? actual.getAsLong() : null),
@@ -60,27 +60,27 @@ public class OptionalLongAssert<
     }
 
     /**
-     * Asserts that actual value doesn't contain expected value as a content.
+     * Asserts that actual value doesn't have expected value as a content.
      *
      * <p> If actual value is empty or expected value is {@code null},
      * the assertion always passes.
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(OptionalLong.empty()).doesNotContain(null);
-     *     Asserts.that(OptionalLong.of(10)).doesNotContain(null);
-     *     Asserts.that(OptionalLong.of(10)).doesNotContain(20);
+     *     Asserts.that(OptionalLong.empty()).doesNotHaveValue(null);
+     *     Asserts.that(OptionalLong.of(10)).doesNotHaveValue(null);
+     *     Asserts.that(OptionalLong.of(10)).doesNotHaveValue(20);
      *
      *     // Assertion will fail.
-     *     Asserts.that(OptionalLong.of(10)).doesNotContain(10);
+     *     Asserts.that(OptionalLong.of(10)).doesNotHaveValue(10);
      * }</pre>
      *
      * @return this class
      */
     @Override
-    public SELF doesNotContain(Long expected) {
+    public SELF doesNotHaveValue(Long expected) {
         if (expected != null && actual.isPresent() && actual.getAsLong() == expected) {
-            setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.value", actual.getAsLong()),

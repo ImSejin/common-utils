@@ -1,7 +1,8 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.ContainerAssertable;
+import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,21 +23,21 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 class OptionalAssertTest {
 
     @Nested
-    @DisplayName("method 'contains'")
-    class Contains {
+    @DisplayName("method 'hasValue'")
+    class HasValue {
         @Test
-        @DisplayName("passes, when actual contains the given content")
+        @DisplayName("passes, when actual has the given content")
         void test0() {
             // given
             List<?> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
 
             // expect
             values.forEach(value -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(Optional.of(value)).contains(value)));
+                    .isThrownBy(() -> Asserts.that(Optional.of(value)).hasValue(value)));
         }
 
         @Test
-        @DisplayName("throws exception, when actual doesn't contain the given content")
+        @DisplayName("throws exception, when actual doesn't have the given content")
         void test1() {
             // given
             List<SimpleEntry<Object, Object>> entries = Arrays.asList(
@@ -48,13 +49,13 @@ class OptionalAssertTest {
                     new SimpleEntry<>(new Object[8], new Object[8]));
 
             // expect
-            String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS) +
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE) +
                     "\n {4}actual: 'Optional(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             entries.forEach(entry -> assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(Optional.ofNullable(entry.getKey())).contains(entry.getValue())))
+                    .isThrownBy((() -> Asserts.that(Optional.ofNullable(entry.getKey())).hasValue(entry.getValue())))
                     .withMessageMatching(message));
         }
     }
@@ -62,10 +63,10 @@ class OptionalAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'doesNotContain'")
-    class DoesNotContain {
+    @DisplayName("method 'doesNotHaveValue'")
+    class DoesNotHaveValue {
         @Test
-        @DisplayName("passes, when actual doesn't contain the given content")
+        @DisplayName("passes, when actual doesn't have the given content")
         void test0() {
             // given
             List<SimpleEntry<Object, Object>> entries = Arrays.asList(
@@ -79,23 +80,23 @@ class OptionalAssertTest {
             // expect
             entries.forEach(entry -> assertThatNoException()
                     .isThrownBy((() -> Asserts.that(Optional.ofNullable(entry.getKey()))
-                            .doesNotContain(entry.getValue()))));
+                            .doesNotHaveValue(entry.getValue()))));
         }
 
         @Test
-        @DisplayName("throws exception, when actual contains the given content")
+        @DisplayName("throws exception, when actual has the given content")
         void test1() {
             // given
             List<?> values = Arrays.asList(new Object(), 1, new BigDecimal("3.14"), "foo", new Object[8]);
 
             // expect
-            String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE) +
                     "\n {4}actual: 'Optional(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             values.forEach(value -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Optional.of(value)).doesNotContain(value))
+                    .isThrownBy(() -> Asserts.that(Optional.of(value)).doesNotHaveValue(value))
                     .withMessageMatching(message));
         }
     }

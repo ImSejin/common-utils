@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.ContainerAssertable;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.regex.Pattern;
 
@@ -36,31 +35,31 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 class OptionalLongAssertTest {
 
     @Nested
-    @DisplayName("method 'contains'")
-    class Contains {
+    @DisplayName("method 'hasValue'")
+    class HasValue {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
-        @DisplayName("passes, when actual contains the given content")
+        @DisplayName("passes, when actual has the given content")
         void test0(long value) {
             assertThatNoException().isThrownBy(() -> Asserts.that(OptionalLong.of(value))
-                    .contains(value));
+                    .hasValue(value));
         }
 
         @ParameterizedTest
         @NullSource
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
-        @DisplayName("throws exception, when actual doesn't contain the given content")
+        @DisplayName("throws exception, when actual doesn't have the given content")
         void test1(Long expected) {
-            String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS) +
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE) +
                     "\n {4}actual: 'OptionalLong(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(OptionalLong.empty()).contains(expected)))
+                    .isThrownBy((() -> Asserts.that(OptionalLong.empty()).hasValue(expected)))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException()
-                    .isThrownBy((() -> Asserts.that(OptionalLong.of(10)).contains(expected)))
+                    .isThrownBy((() -> Asserts.that(OptionalLong.of(10)).hasValue(expected)))
                     .withMessageMatching(message);
         }
     }
@@ -68,30 +67,30 @@ class OptionalLongAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
-    @DisplayName("method 'doesNotContain'")
-    class DoesNotContain {
+    @DisplayName("method 'doesNotHaveValue'")
+    class DoesNotHaveValue {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
-        @DisplayName("passes, when actual doesn't contain the given content")
+        @DisplayName("passes, when actual doesn't have the given content")
         void test0(long value) {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(OptionalLong.empty()).doesNotContain(value);
-                Asserts.that(OptionalLong.of(value)).doesNotContain(null);
-                Asserts.that(OptionalLong.of(value)).doesNotContain(10L);
+                Asserts.that(OptionalLong.empty()).doesNotHaveValue(value);
+                Asserts.that(OptionalLong.of(value)).doesNotHaveValue(null);
+                Asserts.that(OptionalLong.of(value)).doesNotHaveValue(10L);
             });
         }
 
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, -1024, 0, 1024, Long.MAX_VALUE})
-        @DisplayName("throws exception, when actual contains the given content")
+        @DisplayName("throws exception, when actual has the given content")
         void test1(long value) {
-            String message = Pattern.quote(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN) +
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE) +
                     "\n {4}actual: 'OptionalLong(\\.empty|\\[.+])'" +
                     "\n {4}actual\\.value: '.+'" +
                     "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(OptionalLong.of(value)).doesNotContain(value))
+                    .isThrownBy(() -> Asserts.that(OptionalLong.of(value)).doesNotHaveValue(value))
                     .withMessageMatching(message);
         }
     }

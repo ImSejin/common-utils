@@ -1,7 +1,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.ContainerAssertable;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -18,7 +18,7 @@ public class OptionalAssert<
         SELF extends OptionalAssert<SELF, VALUE>,
         VALUE>
         extends ObjectAssert<SELF, Optional<VALUE>>
-        implements ContainerAssertable<SELF, VALUE> {
+        implements HolderAssertable<SELF, VALUE> {
 
     public OptionalAssert(Optional<VALUE> actual) {
         super(actual);
@@ -29,27 +29,27 @@ public class OptionalAssert<
     }
 
     /**
-     * Asserts that actual value contains expected value as a content.
+     * Asserts that actual value has expected value as a content.
      *
      * <p> If actual value is empty, the assertion always fails.
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(Optional.of("alpha")).contains("alpha");
+     *     Asserts.that(Optional.of("alpha")).hasValue("alpha");
      *
      *     // Assertion will fail.
-     *     Asserts.that(Optional.empty()).contains(null);
-     *     Asserts.that(Optional.of("alpha")).contains("beta");
+     *     Asserts.that(Optional.empty()).hasValue(null);
+     *     Asserts.that(Optional.of("alpha")).hasValue("beta");
      * }</pre>
      *
      * @return this class
      */
     @Override
-    public SELF contains(VALUE expected) {
+    public SELF hasValue(VALUE expected) {
         VALUE value = actual.orElse(null);
 
         if (value == null || !value.equals(expected)) {
-            setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+            setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.value", value),
@@ -62,27 +62,27 @@ public class OptionalAssert<
     }
 
     /**
-     * Asserts that actual value doesn't contain expected value as a content.
+     * Asserts that actual value doesn't have expected value as a content.
      *
      * <p> If actual value is empty, the assertion always passes.
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(Optional.of("alpha")).doesNotContain("beta");
+     *     Asserts.that(Optional.of("alpha")).doesNotHaveValue("beta");
      *
      *     // Assertion will fail.
-     *     Asserts.that(Optional.empty()).doesNotContain(null);
-     *     Asserts.that(Optional.of("alpha")).doesNotContain("alpha");
+     *     Asserts.that(Optional.empty()).doesNotHaveValue(null);
+     *     Asserts.that(Optional.of("alpha")).doesNotHaveValue("alpha");
      * }</pre>
      *
      * @return this class
      */
     @Override
-    public SELF doesNotContain(VALUE expected) {
+    public SELF doesNotHaveValue(VALUE expected) {
         VALUE value = actual.orElse(null);
 
         if (value != null && value.equals(expected)) {
-            setDefaultDescription(ContainerAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.value", value),
