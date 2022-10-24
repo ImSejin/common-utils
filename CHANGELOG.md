@@ -46,7 +46,7 @@
 - 🚚 Rename: assertion method `hasLengthOf(long)` to `hasSize(long)` in `FileAssert`
 - 🚚 Rename: assertion method `isLargerThan(long)` to `isGreaterThan(Long)` in `FileAssert`
 - 🚚 Rename: assertion method `isSmallerThan(long)` to `isLessThan(Long)` in `FileAssert`
-- 🔨 Modify: return type of method `getAllSubtypes` in `ClassUtils`
+- 🔨 Modify: return type of method `getAllSubtypes` in `ClassFinder`
 - 🔨 Modify: decoupling from each other that assertion compositions which are `IterationAssertable`
   , ` RandomAccessIterationAssertable`
 
