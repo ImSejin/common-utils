@@ -20,24 +20,23 @@ import java.lang.reflect.Array;
 import java.util.Optional;
 
 /**
- * Composition of assertion for container.
+ * Composition of assertion for enumeration.
  *
  * @param <SELF>    assertion class
- * @param <CONTENT> content in the container
+ * @param <ELEMENT> element in the enumeration
  * @see Array
  * @see Iterable
  * @see CharSequence
- * @see Optional
  */
-public interface ContainerAssertable<
-        SELF extends ContainerAssertable<SELF, CONTENT>,
-        CONTENT> {
+public interface EnumerationAssertable<
+        SELF extends EnumerationAssertable<SELF, ELEMENT>,
+        ELEMENT> {
 
-    String DEFAULT_DESCRIPTION_CONTAINS = "It is expected to contain the given content, but it isn't.";
-    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN = "It is expected not to contain the given content, but it is.";
+    String DEFAULT_DESCRIPTION_CONTAINS = "It is expected to contain the given element, but it isn't.";
+    String DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN = "It is expected not to contain the given element, but it is.";
 
     /**
-     * Asserts that actual value contains expected value as a content.
+     * Asserts that actual value contains expected value as a element.
      *
      * <p> If actual value is empty, the assertion always fails.
      *
@@ -54,10 +53,10 @@ public interface ContainerAssertable<
      * @param expected expected value
      * @return this class
      */
-    SELF contains(CONTENT expected);
+    SELF contains(ELEMENT expected);
 
     /**
-     * Asserts that actual value doesn't contain expected value as a content.
+     * Asserts that actual value doesn't contain expected value as a element.
      *
      * <p> If actual value is empty, the assertion always passes.
      *
@@ -74,6 +73,6 @@ public interface ContainerAssertable<
      * @param expected expected value
      * @return this class
      */
-    SELF doesNotContain(CONTENT expected);
+    SELF doesNotContain(ELEMENT expected);
 
 }

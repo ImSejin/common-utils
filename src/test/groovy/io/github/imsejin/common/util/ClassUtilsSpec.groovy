@@ -18,7 +18,7 @@ package io.github.imsejin.common.util
 
 import io.github.imsejin.common.assertion.Descriptor
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable
-import io.github.imsejin.common.assertion.composition.ContainerAssertable
+import io.github.imsejin.common.assertion.composition.EnumerationAssertable
 import io.github.imsejin.common.assertion.composition.IterationAssertable
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable
 import io.github.imsejin.common.assertion.composition.SizeAssertable
@@ -291,8 +291,8 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, List, RandomAccess, Cloneable, Serializable, Collection, Iterable, AbstractList, AbstractCollection]
         TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, ContainerAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, ContainerAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, EnumerationAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ObjectAssert, Descriptor]
     }
 
@@ -314,8 +314,8 @@ class ClassUtilsSpec extends Specification {
         ArrayList        | [clazz, RandomAccess, List, Serializable, AbstractList, Cloneable, Collection, AbstractCollection, Iterable]
         TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
         AES256           | [clazz, AES, Crypto]
-        ArrayAssert      | [clazz, ContainerAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, ContainerAssertable, ObjectAssert, Descriptor]
+        ArrayAssert      | [clazz, EnumerationAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, NumberAssert, SizeComparisonAssertable, ObjectAssert, Descriptor]
     }
 

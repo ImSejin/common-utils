@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.ContainerAssertable;
+import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -35,7 +35,7 @@ public class CharSequenceAssert<
         ELEMENT extends CharSequence>
         extends ObjectAssert<SELF, ACTUAL>
         implements SizeAssertable<SELF, ACTUAL>,
-        ContainerAssertable<SELF, ACTUAL> {
+        EnumerationAssertable<SELF, ACTUAL> {
 
     public CharSequenceAssert(ACTUAL actual) {
         super(actual);
