@@ -52,7 +52,7 @@
 ### New features
 
 - ✨ Add: assertion compositions `AmountAssertable`, `ContainerAssertable`
-- ✨ Add: assertion classes `ByteAssert`, `IntegerAssert`, `LongAssert`, `ShortAssert`, `BigIntegerAssert`, `PathAssert`
+- ✨ Add: assertion classes `ByteAssert`, `ShortAssert`, `IntegerAssert`, `LongAssert`, `BigIntegerAssert`, `PathAssert`
   , `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert` , `OptionalDoubleAssert`
 - ✨ Add: assertion failure messages of `FileAssert`
 - ✨ Add: method `nextString(int, int)` in `RandomString`
