@@ -53,7 +53,8 @@
 
 - ✨ Add: assertion compositions `AmountAssertable`, `ContainerAssertable`
 - ✨ Add: assertion classes `ByteAssert`, `ShortAssert`, `IntegerAssert`, `LongAssert`, `BigIntegerAssert`, `PathAssert`
-  , `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert` , `OptionalDoubleAssert`
+  , `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert` , `OptionalDoubleAssert`, `AtomicBooleanAssert`
+  , `AtomicIntegerAssert`, `AtomicLongAssert`, `AtomicReferenceAssert`
 - ✨ Add: assertion failure messages of `FileAssert`
 - ✨ Add: method `nextString(int, int)` in `RandomString`
 - ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
