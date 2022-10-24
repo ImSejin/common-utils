@@ -57,6 +57,10 @@ import io.github.imsejin.common.assertion.util.OptionalDoubleAssert;
 import io.github.imsejin.common.assertion.util.OptionalIntAssert;
 import io.github.imsejin.common.assertion.util.OptionalLongAssert;
 import io.github.imsejin.common.assertion.util.UuidAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicBooleanAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicIntegerAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicLongAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicReferenceAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
@@ -86,6 +90,10 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Asserts for fluent assertion not increasing branches on code coverage.
@@ -358,6 +366,24 @@ public abstract class Asserts {
 
     public static UuidAssert<?> that(UUID uuid) {
         return new UuidAssert<>(uuid);
+    }
+
+    // java.util.concurrent.atomic ---------------------------------------------------------------------
+
+    public static AtomicBooleanAssert<?> that(AtomicBoolean atomicBoolean) {
+        return new AtomicBooleanAssert<>(atomicBoolean);
+    }
+
+    public static AtomicIntegerAssert<?> that(AtomicInteger atomicInteger) {
+        return new AtomicIntegerAssert<>(atomicInteger);
+    }
+
+    public static AtomicLongAssert<?> that(AtomicLong atomicLong) {
+        return new AtomicLongAssert<>(atomicLong);
+    }
+
+    public static <V> AtomicReferenceAssert<?, AtomicReference<V>, V> that(AtomicReference<V> atomicReference) {
+        return new AtomicReferenceAssert<>(atomicReference);
     }
 
 }
