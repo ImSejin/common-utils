@@ -337,7 +337,7 @@ class CharacterAssertTest {
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isLetter())
                     .withMessageMatching(Pattern.quote("It is expected to be letter, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '[\\s\\S]'"));
         }
     }
 
