@@ -39,7 +39,6 @@
   , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `FileAssert`
 - 🔥 Remove: message constants `DEFAULT_DESCRIPTION_STARTS_WITH`, `DEFAULT_DESCRIPTION_ENDS_WITH`
   in `RandomAccessIterationAssertable`
-- 🚚 Rename: assertion composition `EnumerationAssertable` to `ContainerAssertable`
 - 🚚 Rename: assertion class `AbstractFileAssert` to `FileAssert`
 - 🚚 Rename: assertion method `hasLengthOf(File)` to `hasSameSizeAs(File)` in `FileAssert`
 - 🚚 Rename: assertion method `hasLengthOf(long)` to `hasSize(long)` in `FileAssert`
@@ -50,6 +49,7 @@
 
 ### New features
 
+- ✨ Add: assertion composition `ContainerAssertable`
 - ✨ Add: assertion classes `PathAssert`, `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert`
   , `OptionalDoubleAssert`
 - ✨ Add: assertion failure messages of `FileAssert`
