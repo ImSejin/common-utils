@@ -38,7 +38,7 @@ public class OptionalAssert<
      *     Asserts.that(Optional.of("alpha")).contains("alpha");
      *
      *     // Assertion will fail.
-     *     Asserts.that(Optional.ofNullable(null)).contains(null);
+     *     Asserts.that(Optional.empty()).contains(null);
      *     Asserts.that(Optional.of("alpha")).contains("beta");
      * }</pre>
      *
@@ -71,7 +71,7 @@ public class OptionalAssert<
      *     Asserts.that(Optional.of("alpha")).doesNotContain("beta");
      *
      *     // Assertion will fail.
-     *     Asserts.that(Optional.ofNullable(null)).doesNotContain(null);
+     *     Asserts.that(Optional.empty()).doesNotContain(null);
      *     Asserts.that(Optional.of("alpha")).doesNotContain("alpha");
      * }</pre>
      *
@@ -102,7 +102,7 @@ public class OptionalAssert<
      *     Asserts.that(Optional.of("alpha")).isPresent();
      *
      *     // Assertion will fail.
-     *     Asserts.that(Optional.ofNullable(null)).isPresent();
+     *     Asserts.that(Optional.empty()).isPresent();
      * }</pre>
      *
      * @return this class
@@ -125,7 +125,7 @@ public class OptionalAssert<
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that(Optional.ofNullable(null)).isAbsent();
+     *     Asserts.that(Optional.empty()).isAbsent();
      *
      *     // Assertion will fail.
      *     Asserts.that(Optional.of("alpha")).isAbsent();
