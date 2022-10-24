@@ -18,23 +18,28 @@ package io.github.imsejin.common.assertion.math;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.AbstractNumberAssert;
 import io.github.imsejin.common.util.NumberUtils;
 
 import java.math.BigDecimal;
 import java.util.AbstractMap.SimpleEntry;
 
+/**
+ * Assertion for {@link BigDecimal}
+ *
+ * @param <SELF> this class
+ */
 public class BigDecimalAssert<
         SELF extends BigDecimalAssert<SELF>>
-        extends NumberAssert<SELF, BigDecimal>
+        extends AbstractNumberAssert<SELF, BigDecimal>
         implements DecimalNumberAssertable<SELF, BigDecimal> {
 
     public BigDecimalAssert(BigDecimal actual) {
-        super(actual);
+        super(actual, BigDecimal.ZERO, BigDecimal::compareTo);
     }
 
     protected BigDecimalAssert(Descriptor<?> descriptor, BigDecimal actual) {
-        super(descriptor, actual);
+        super(descriptor, actual, BigDecimal.ZERO, BigDecimal::compareTo);
     }
 
     @Override

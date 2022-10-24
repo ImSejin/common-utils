@@ -662,8 +662,8 @@ public class ArrayAssert<
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asLength() {
-        return new NumberAssert<>(this, actual.length);
+    public IntegerAssert<?> asLength() {
+        return new IntegerAssert<>(this, actual.length);
     }
 
     /**

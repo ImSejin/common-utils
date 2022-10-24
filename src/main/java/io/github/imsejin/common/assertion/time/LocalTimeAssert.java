@@ -17,7 +17,8 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
+import io.github.imsejin.common.assertion.lang.LongAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.LocalTime;
@@ -59,26 +60,26 @@ public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
-    public NumberAssert<?, Integer> asSecondOfDay() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asSecondOfDay() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int secondOfDay = actual.toSecondOfDay();
-        return new NumberAssertImpl(this, secondOfDay);
+        return new IntegerAssertImpl(this, secondOfDay);
     }
 
-    public NumberAssert<?, Long> asNanoOfDay() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
-            NumberAssertImpl(Descriptor<?> descriptor, Long actual) {
+    public LongAssert<?> asNanoOfDay() {
+        class LongAssertImpl extends LongAssert<LongAssertImpl> {
+            LongAssertImpl(Descriptor<?> descriptor, Long actual) {
                 super(descriptor, actual);
             }
         }
 
         long nanoOfDay = actual.toNanoOfDay();
-        return new NumberAssertImpl(this, nanoOfDay);
+        return new LongAssertImpl(this, nanoOfDay);
     }
 
 }

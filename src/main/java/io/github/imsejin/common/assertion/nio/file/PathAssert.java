@@ -17,10 +17,10 @@
 package io.github.imsejin.common.assertion.nio.file;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.io.FileAssert;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.util.FilenameUtils;
@@ -399,15 +399,15 @@ public class PathAssert<
         return new StringAssertImpl(this, fileName);
     }
 
-    public NumberAssert<?, Integer> asNameCount() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asNameCount() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int nameCount = actual.getNameCount();
-        return new NumberAssertImpl(this, nameCount);
+        return new IntegerAssertImpl(this, nameCount);
     }
 
     // -------------------------------------------------------------------------------------------------

@@ -329,9 +329,9 @@ public class CharSequenceAssert<
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asLength() {
+    public IntegerAssert<?> asLength() {
         int length = actual.length();
-        return new NumberAssert<>(this, length);
+        return new IntegerAssert<>(this, length);
     }
 
 }

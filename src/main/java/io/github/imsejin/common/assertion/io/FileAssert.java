@@ -17,9 +17,9 @@
 package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.assertion.lang.LongAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.nio.file.PathAssert;
@@ -365,15 +365,15 @@ public class FileAssert<
         return new PathAssertImpl(this, path);
     }
 
-    public NumberAssert<?, Long> asLength() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Long> {
-            NumberAssertImpl(Descriptor<?> descriptor, Long actual) {
+    public LongAssert<?> asLength() {
+        class LongAssertImpl extends LongAssert<LongAssertImpl> {
+            LongAssertImpl(Descriptor<?> descriptor, Long actual) {
                 super(descriptor, actual);
             }
         }
 
         long length = actual.length();
-        return new NumberAssertImpl(this, length);
+        return new LongAssertImpl(this, length);
     }
 
     public StringAssert<?> asName() {

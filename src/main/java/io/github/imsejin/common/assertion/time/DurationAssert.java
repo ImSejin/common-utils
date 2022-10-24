@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.AmountAssertable;
 import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
@@ -28,7 +29,8 @@ import java.util.AbstractMap.SimpleEntry;
 public class DurationAssert<
         SELF extends DurationAssert<SELF>>
         extends ObjectAssert<SELF, Duration>
-        implements SizeComparisonAssertable<SELF, Duration> {
+        implements AmountAssertable<SELF, Duration>,
+        AmountComparisonAssertable<SELF, Duration> {
 
     public DurationAssert(Duration actual) {
         super(actual);
@@ -94,6 +96,7 @@ public class DurationAssert<
         return self;
     }
 
+    @Override
     public SELF isPositive() {
         if (actual.isZero() || actual.isNegative()) {
             setDefaultDescription("It is expected to be positive, but it isn't. (actual: '{0}')", actual);
@@ -103,6 +106,7 @@ public class DurationAssert<
         return self;
     }
 
+    @Override
     public SELF isZeroOrPositive() {
         if (actual.isNegative()) {
             setDefaultDescription("It is expected to be zero or positive, but it isn't. (actual: '{0}')", actual);
@@ -112,6 +116,7 @@ public class DurationAssert<
         return self;
     }
 
+    @Override
     public SELF isNegative() {
         if (!actual.isNegative()) {
             setDefaultDescription("It is expected to be negative, but it isn't. (actual: '{0}')", actual);
@@ -121,6 +126,7 @@ public class DurationAssert<
         return self;
     }
 
+    @Override
     public SELF isZeroOrNegative() {
         if (!actual.isZero() && !actual.isNegative()) {
             setDefaultDescription("It is expected to be zero or negative, but it isn't. (actual: '{0}')", actual);

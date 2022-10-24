@@ -19,16 +19,20 @@ package io.github.imsejin.common.assertion;
 import io.github.imsejin.common.assertion.io.FileAssert;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.BooleanAssert;
+import io.github.imsejin.common.assertion.lang.ByteAssert;
 import io.github.imsejin.common.assertion.lang.CharSequenceAssert;
 import io.github.imsejin.common.assertion.lang.CharacterAssert;
 import io.github.imsejin.common.assertion.lang.ClassAssert;
 import io.github.imsejin.common.assertion.lang.DoubleAssert;
 import io.github.imsejin.common.assertion.lang.FloatAssert;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
+import io.github.imsejin.common.assertion.lang.LongAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.PackageAssert;
+import io.github.imsejin.common.assertion.lang.ShortAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
+import io.github.imsejin.common.assertion.math.BigIntegerAssert;
 import io.github.imsejin.common.assertion.net.UrlAssert;
 import io.github.imsejin.common.assertion.nio.file.PathAssert;
 import io.github.imsejin.common.assertion.time.DurationAssert;
@@ -57,6 +61,7 @@ import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -197,8 +202,20 @@ public abstract class Asserts {
         return new CharacterAssert<>(character);
     }
 
-    public static <NUMBER extends Number & Comparable<NUMBER>> NumberAssert<?, NUMBER> that(NUMBER number) {
-        return new NumberAssert<>(number);
+    public static ByteAssert<?> that(Byte number) {
+        return new ByteAssert<>(number);
+    }
+
+    public static ShortAssert<?> that(Short number) {
+        return new ShortAssert<>(number);
+    }
+
+    public static IntegerAssert<?> that(Integer number) {
+        return new IntegerAssert<>(number);
+    }
+
+    public static LongAssert<?> that(Long number) {
+        return new LongAssert<>(number);
     }
 
     public static FloatAssert<?> that(Float number) {
@@ -230,6 +247,10 @@ public abstract class Asserts {
     }
 
     // java.math ---------------------------------------------------------------------------------------
+
+    public static BigIntegerAssert<?> that(BigInteger bigInteger) {
+        return new BigIntegerAssert<>(bigInteger);
+    }
 
     public static BigDecimalAssert<?> that(BigDecimal bigDecimal) {
         return new BigDecimalAssert<>(bigDecimal);

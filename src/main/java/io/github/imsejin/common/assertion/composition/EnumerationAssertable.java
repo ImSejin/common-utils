@@ -17,7 +17,6 @@
 package io.github.imsejin.common.assertion.composition;
 
 import java.lang.reflect.Array;
-import java.util.Optional;
 
 /**
  * Composition of assertion for enumeration.

@@ -1,7 +1,7 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -88,15 +88,15 @@ public class UuidAssert<SELF extends UuidAssert<SELF>> extends ObjectAssert<SELF
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asVersion() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asVersion() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int version = actual.version();
-        return new NumberAssertImpl(this, version);
+        return new IntegerAssertImpl(this, version);
     }
 
 }

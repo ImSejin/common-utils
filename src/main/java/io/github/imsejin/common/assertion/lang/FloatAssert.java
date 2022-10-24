@@ -29,15 +29,15 @@ import java.util.AbstractMap.SimpleEntry;
  */
 public class FloatAssert<
         SELF extends FloatAssert<SELF>>
-        extends NumberAssert<SELF, Float>
+        extends AbstractNumberAssert<SELF, Float>
         implements DecimalNumberAssertable<SELF, Float> {
 
     public FloatAssert(Float actual) {
-        super(actual);
+        super(actual, 0.0F, Float::compare);
     }
 
     protected FloatAssert(Descriptor<?> descriptor, Float actual) {
-        super(descriptor, actual);
+        super(descriptor, actual, 0.0F, Float::compare);
     }
 
     @Override

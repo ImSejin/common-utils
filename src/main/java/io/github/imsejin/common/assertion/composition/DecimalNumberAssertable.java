@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.assertion.composition;
 
-import io.github.imsejin.common.assertion.lang.NumberAssert;
-
 import java.math.BigDecimal;
 
 /**
@@ -28,8 +26,8 @@ import java.math.BigDecimal;
  * @see BigDecimal
  */
 public interface DecimalNumberAssertable<
-        SELF extends NumberAssert<SELF, NUMBER> & DecimalNumberAssertable<SELF, NUMBER>,
-        NUMBER extends Number & Comparable<NUMBER>> {
+        SELF extends DecimalNumberAssertable<SELF, NUMBER>,
+        NUMBER extends Number> {
 
     String DEFAULT_DESCRIPTION_HAS_DECIMAL_PART = "It is expected to have decimal part, but it isn't.";
 

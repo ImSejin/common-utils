@@ -18,7 +18,7 @@ package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.Year;
@@ -62,26 +62,26 @@ public class YearAssert<SELF extends YearAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
-    public NumberAssert<?, Integer> asValue() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asValue() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int value = actual.getValue();
-        return new NumberAssertImpl(this, value);
+        return new IntegerAssertImpl(this, value);
     }
 
-    public NumberAssert<?, Integer> asLength() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asLength() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int length = actual.length();
-        return new NumberAssertImpl(this, length);
+        return new IntegerAssertImpl(this, length);
     }
 
 }

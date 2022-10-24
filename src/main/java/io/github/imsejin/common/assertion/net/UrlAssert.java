@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.net;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.util.StringUtils;
@@ -143,15 +143,15 @@ public class UrlAssert<
         return new StringAssertImpl(this, host);
     }
 
-    public NumberAssert<?, Integer> asPort() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asPort() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int port = actual.getPort() == -1 ? actual.getDefaultPort() : actual.getPort();
-        return new NumberAssertImpl(this, port);
+        return new IntegerAssertImpl(this, port);
     }
 
     public StringAssert<?> asPath() {
