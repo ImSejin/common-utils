@@ -34,6 +34,7 @@
 ### Modification
 
 - ♻️ Refactor: processing of assertion description in `Descriptor`
+- ♻️ Replace: assertion class `NumberAssert` with `AbstractNumberAssert`
 - 🔥 Remove: assertion composition `ComparisonAssertable`
 - 🔥 Remove: assertion methods `canRead()`, `canNotRead()`, `canWrite()`, `canNotWrite()`, `canExecute()`
   , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `FileAssert`
@@ -51,8 +52,8 @@
 ### New features
 
 - ✨ Add: assertion compositions `AmountAssertable`, `ContainerAssertable`
-- ✨ Add: assertion classes `PathAssert`, `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert`
-  , `OptionalDoubleAssert`
+- ✨ Add: assertion classes `ByteAssert`, `IntegerAssert`, `LongAssert`, `ShortAssert`, `BigIntegerAssert`, `PathAssert`
+  , `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert` , `OptionalDoubleAssert`
 - ✨ Add: assertion failure messages of `FileAssert`
 - ✨ Add: method `nextString(int, int)` in `RandomString`
 - ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
