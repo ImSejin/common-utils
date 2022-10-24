@@ -26,8 +26,8 @@ import java.util.function.BiPredicate;
  * @see Comparable
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public interface SizeComparisonAssertable<
-        SELF extends SizeComparisonAssertable<SELF, ACTUAL>,
+public interface AmountComparisonAssertable<
+        SELF extends AmountComparisonAssertable<SELF, ACTUAL>,
         ACTUAL> {
 
     /**

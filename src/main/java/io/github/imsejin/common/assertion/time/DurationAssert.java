@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 
@@ -40,8 +40,8 @@ public class DurationAssert<
 
     @Override
     public SELF isGreaterThan(Duration expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -54,8 +54,8 @@ public class DurationAssert<
 
     @Override
     public SELF isGreaterThanOrEqualTo(Duration expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -68,8 +68,8 @@ public class DurationAssert<
 
     @Override
     public SELF isLessThan(Duration expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+        if (!AmountComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -82,8 +82,8 @@ public class DurationAssert<
 
     @Override
     public SELF isLessThanOrEqualTo(Duration expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));

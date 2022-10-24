@@ -18,7 +18,7 @@ package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.tool.RandomString;
 import org.junit.jupiter.api.DisplayName;
@@ -341,7 +341,7 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isGreaterThan((long) content.length()))
-                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN) +
+                    .withMessageMatching(Pattern.quote(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
@@ -378,7 +378,7 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isGreaterThanOrEqualTo((long) content.length() + 1))
-                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO) +
+                    .withMessageMatching(Pattern.quote(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
@@ -414,7 +414,7 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isLessThan((long) content.length()))
-                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN) +
+                    .withMessageMatching(Pattern.quote(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");
@@ -451,7 +451,7 @@ class FileAssertTest {
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(file)
                     .isLessThanOrEqualTo((long) content.length() - 1))
-                    .withMessageMatching(Pattern.quote(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO) +
+                    .withMessageMatching(Pattern.quote(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO) +
                             "\n {4}actual: '[^']+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
                             "\n {4}expected: '[0-9]+'");

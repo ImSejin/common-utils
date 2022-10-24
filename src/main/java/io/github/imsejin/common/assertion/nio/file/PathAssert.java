@@ -18,7 +18,7 @@ package io.github.imsejin.common.assertion.nio.file;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.io.FileAssert;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -36,7 +36,7 @@ public class PathAssert<
         ACTUAL extends Path>
         extends ObjectAssert<SELF, ACTUAL>
         implements SizeAssertable<SELF, ACTUAL>,
-        SizeComparisonAssertable<SELF, Long> {
+        AmountComparisonAssertable<SELF, Long> {
 
     public PathAssert(ACTUAL actual) {
         super(actual);
@@ -154,8 +154,8 @@ public class PathAssert<
     public SELF isGreaterThan(Long expected) {
         long size = getSize(actual);
 
-        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(size, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -171,8 +171,8 @@ public class PathAssert<
     public SELF isGreaterThanOrEqualTo(Long expected) {
         long size = getSize(actual);
 
-        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(size, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -188,8 +188,8 @@ public class PathAssert<
     public SELF isLessThan(Long expected) {
         long size = getSize(actual);
 
-        if (!SizeComparisonAssertable.IS_LESS_THAN.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+        if (!AmountComparisonAssertable.IS_LESS_THAN.test(size, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -205,8 +205,8 @@ public class PathAssert<
     public SELF isLessThanOrEqualTo(Long expected) {
         long size = getSize(actual);
 
-        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(size, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(size, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),

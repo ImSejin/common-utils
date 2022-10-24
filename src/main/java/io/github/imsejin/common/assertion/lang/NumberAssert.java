@@ -18,7 +18,7 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -29,7 +29,7 @@ import java.util.Objects;
  * Assertion for {@link Number}
  *
  * @param <SELF>   this class
- * @param <ACTUAL> comparable numeric type
+ * @param <ACTUAL> comparable number
  */
 public class NumberAssert<
         SELF extends NumberAssert<SELF, ACTUAL>,
@@ -93,8 +93,8 @@ public class NumberAssert<
      */
     @Override
     public SELF isEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -123,8 +123,8 @@ public class NumberAssert<
      */
     @Override
     public SELF isNotEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -153,8 +153,8 @@ public class NumberAssert<
      */
     @Override
     public SELF isGreaterThan(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -183,8 +183,8 @@ public class NumberAssert<
      */
     @Override
     public SELF isGreaterThanOrEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -213,8 +213,8 @@ public class NumberAssert<
      */
     @Override
     public SELF isLessThan(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+        if (!AmountComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -243,8 +243,8 @@ public class NumberAssert<
      */
     @Override
     public SELF isLessThanOrEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));

@@ -18,7 +18,7 @@ package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.NumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
@@ -34,7 +34,7 @@ public class FileAssert<
         ACTUAL extends File>
         extends ObjectAssert<SELF, ACTUAL>
         implements SizeAssertable<SELF, ACTUAL>,
-        SizeComparisonAssertable<SELF, Long> {
+        AmountComparisonAssertable<SELF, Long> {
 
     public FileAssert(ACTUAL actual) {
         super(actual);
@@ -152,8 +152,8 @@ public class FileAssert<
     public SELF isGreaterThan(Long expected) {
         long length = actual.length();
 
-        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(length, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", length),
@@ -169,8 +169,8 @@ public class FileAssert<
     public SELF isGreaterThanOrEqualTo(Long expected) {
         long length = actual.length();
 
-        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(length, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", length),
@@ -186,8 +186,8 @@ public class FileAssert<
     public SELF isLessThan(Long expected) {
         long length = actual.length();
 
-        if (!SizeComparisonAssertable.IS_LESS_THAN.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+        if (!AmountComparisonAssertable.IS_LESS_THAN.test(length, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", length),
@@ -203,8 +203,8 @@ public class FileAssert<
     public SELF isLessThanOrEqualTo(Long expected) {
         long length = actual.length();
 
-        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(length, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(length, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", length),

@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 
 import java.util.AbstractMap.SimpleEntry;
 
@@ -29,7 +29,7 @@ import java.util.AbstractMap.SimpleEntry;
 public class CharacterAssert<
         SELF extends CharacterAssert<SELF>>
         extends ObjectAssert<SELF, Character>
-        implements SizeComparisonAssertable<SELF, Character> {
+        implements AmountComparisonAssertable<SELF, Character> {
 
     public CharacterAssert(Character actual) {
         super(actual);
@@ -41,8 +41,8 @@ public class CharacterAssert<
 
     @Override
     public SELF isGreaterThan(Character expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -55,8 +55,8 @@ public class CharacterAssert<
 
     @Override
     public SELF isGreaterThanOrEqualTo(Character expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -69,8 +69,8 @@ public class CharacterAssert<
 
     @Override
     public SELF isLessThan(Character expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+        if (!AmountComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
@@ -83,8 +83,8 @@ public class CharacterAssert<
 
     @Override
     public SELF isLessThanOrEqualTo(Character expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
