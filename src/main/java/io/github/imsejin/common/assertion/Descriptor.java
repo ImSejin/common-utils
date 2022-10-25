@@ -42,6 +42,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
      * Subclass of {@link Descriptor}.
      *
      * <p> This is the instance of oneself wrapped in generic type.
+     * Subclass can access this field directly for pattern of method chaining.
      */
     protected final SELF self;
 
