@@ -103,8 +103,8 @@ public final class ClassFinder {
                 }
 
                 return subclasses.add((Class<? extends T>) clazz);
-            } catch (ClassNotFoundException | NoClassDefFoundError e) {
-                throw new RuntimeException(e.getMessage(), e);
+            } catch (ClassNotFoundException | NoClassDefFoundError ignored) {
+                return false;
             }
         });
 
