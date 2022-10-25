@@ -183,33 +183,40 @@ public final class ClassFinder {
 
     public enum SearchPolicy {
         /**
-         * Search all subclasses, but not implementations of interface.
-         */
-        CLASS {
-            @Override
-            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
-                if (subclass == null || superclass == subclass) return false;
-
-                for (Class<?> c = subclass.getSuperclass(); c != null; c = c.getSuperclass()) {
-                    if (c == superclass) return true;
-                }
-
-                return false;
-            }
-        },
-
-        /**
          * Search all subtypes(sub-interfaces, subclasses and implementations).
          */
         ALL {
             @Override
             public boolean search(Class<?> superclass, @Null Class<?> subclass) {
                 Asserts.that(superclass).isNotNull();
-                if (subclass == null || superclass == subclass) return false;
+                if (subclass == null || superclass == subclass) {
+                    return false;
+                }
 
                 return superclass.isAssignableFrom(subclass);
             }
+        },
+
+        /**
+         * Search all subclasses, but not interface.
+         */
+        CLASS {
+            @Override
+            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
+                return ALL.search(superclass, subclass) && !subclass.isInterface();
+            }
+        },
+
+        /**
+         * Search all implementations, but not class.
+         */
+        INTERFACE {
+            @Override
+            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
+                return ALL.search(superclass, subclass) && subclass.isInterface();
+            }
         };
+
 
         public abstract boolean search(Class<?> superclass, @Null Class<?> subclass);
     }
