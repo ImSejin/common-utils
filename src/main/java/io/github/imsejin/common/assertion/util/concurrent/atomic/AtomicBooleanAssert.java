@@ -33,7 +33,6 @@ public class AtomicBooleanAssert<
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", value),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -50,7 +49,6 @@ public class AtomicBooleanAssert<
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", value),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();

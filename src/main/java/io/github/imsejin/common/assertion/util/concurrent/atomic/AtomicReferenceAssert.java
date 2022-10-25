@@ -32,13 +32,10 @@ public class AtomicReferenceAssert<
 
     @Override
     public SELF hasValue(VALUE expected) {
-        VALUE value = actual.get();
-
-        if (!Objects.equals(value, expected)) {
+        if (!Objects.equals(actual.get(), expected)) {
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", value),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -49,13 +46,10 @@ public class AtomicReferenceAssert<
 
     @Override
     public SELF doesNotHaveValue(VALUE expected) {
-        VALUE value = actual.get();
-
-        if (Objects.equals(value, expected)) {
+        if (Objects.equals(actual.get(), expected)) {
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", value),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();

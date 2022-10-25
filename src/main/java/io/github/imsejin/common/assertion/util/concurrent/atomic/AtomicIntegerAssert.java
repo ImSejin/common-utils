@@ -35,7 +35,6 @@ public class AtomicIntegerAssert<
             setDefaultDescription("They are expected to be equal, but they aren't.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", actual.get()),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -50,7 +49,6 @@ public class AtomicIntegerAssert<
             setDefaultDescription("They are expected to be not equal, but they are.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", actual.get()),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -61,13 +59,10 @@ public class AtomicIntegerAssert<
 
     @Override
     public SELF hasValue(Integer expected) {
-        int value = actual.get();
-
-        if (expected == null || value != expected) {
+        if (expected == null || actual.get() != expected) {
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", value),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -78,13 +73,10 @@ public class AtomicIntegerAssert<
 
     @Override
     public SELF doesNotHaveValue(Integer expected) {
-        int value = actual.get();
-
-        if (expected != null && value == expected) {
+        if (expected != null && actual.get() == expected) {
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.value", value),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();

@@ -45,12 +45,12 @@ public interface HolderAssertable<
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that([1, 2, 3, 4, 5]).contains(1);
-     *     Asserts.that(['a', 'b', 'c', 'd']).contains('b');
+     *     Asserts.that([1, 2, 3, 4, 5]).hasValue(1);
+     *     Asserts.that(['a', 'b', 'c', 'd']).hasValue('b');
      *
      *     // Assertion will fail.
-     *     Asserts.that([]).contains(['a']);
-     *     Asserts.that([1, 2, 3]).contains(0);
+     *     Asserts.that([]).hasValue(['a']);
+     *     Asserts.that([1, 2, 3]).hasValue(0);
      * }</pre>
      *
      * @param expected expected value
@@ -65,12 +65,12 @@ public interface HolderAssertable<
      *
      * <pre>{@code
      *     // Assertion will pass.
-     *     Asserts.that([]).doesNotContain(['a']);
-     *     Asserts.that([1, 2, 3]).doesNotContain(0);
+     *     Asserts.that([]).doesNotHaveValue(['a']);
+     *     Asserts.that([1, 2, 3]).doesNotHaveValue(0);
      *
      *     // Assertion will fail.
-     *     Asserts.that([1, 2, 3, 4, 5]).doesNotContain(1);
-     *     Asserts.that(['a', 'b', 'c', 'd']).doesNotContain('b');
+     *     Asserts.that([1, 2, 3, 4, 5]).doesNotHaveValue(1);
+     *     Asserts.that(['a', 'b', 'c', 'd']).doesNotHaveValue('b');
      * }</pre>
      *
      * @param expected expected value
