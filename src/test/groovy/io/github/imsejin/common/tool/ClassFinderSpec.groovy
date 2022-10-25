@@ -18,6 +18,7 @@ class ClassFinderSpec extends Specification {
         def subtypes = ClassFinder.getAllSubtypes(superclass)
 
         then:
+        !subtypes.contains(superclass)
         subtypes.size() == expected.size()
 
         def simpleNames = subtypes.collect { it.simpleName }.toSet()
