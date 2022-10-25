@@ -15,7 +15,7 @@ class ClassFinderSpec extends Specification {
 
     def "Gets all the subclasses and implementations of the given class"() {
         when:
-        def subtypes = ClassFinder.getAllSubtypes(superclass).findAll(condition)
+        def subtypes = ClassFinder.getAllSubtypes(superclass)
 
         then:
         subtypes.size() == expected.size()
@@ -24,11 +24,15 @@ class ClassFinderSpec extends Specification {
         simpleNames == expected as Set<String>
 
         where:
-        superclass | condition                                                                        || expected
-        Animal     | { true }                                                                         || [Human, Caucasoid, Mongoloid, Negroid, HomoSapiens, Father, Mother, Child].collect { it.simpleName }
-        Descriptor | { Class it -> it.package.name.startsWith("io.github.imsejin.common.assertion") } || FileUtils.findAllFiles(
-                Paths.get(".", "src", "main", "java", "io", "github", "imsejin", "common", "assertion"))
-                .collect { FilenameUtils.getBaseName(it.fileName.toString()) }.findAll { it.matches(/^[A-Za-z]+Assert$/) }
+        superclass | expected
+        Animal     | [Human, Caucasoid, Mongoloid, Negroid, HomoSapiens, Father, Mother, Child].collect { it.simpleName }
+        Descriptor | {
+            def fileNames = FileUtils.findAllFiles(Paths.get(".", "src", "main", "java", "io", "github", "imsejin", "common", "assertion"))
+                    .collect { FilenameUtils.getBaseName(it.fileName.toString()) }
+            // Excludes assertion classes for test.
+            fileNames += ["FullyExtensibleAssert", "FullyRestrictedAssert", "PartiallyExtensibleAssert", "PartiallyRestrictedAssert"]
+            fileNames.findAll { it.matches(/^[A-Za-z]+Assert$/) }
+        }.call()
     }
 
     def "Gets all the classes of the given class by policy"() {
