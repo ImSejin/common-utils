@@ -59,10 +59,12 @@
 - ✨ Add: assertion failure messages of `FileAssert`
 - ✨ Add: method `nextString(int, int)` in `RandomString`
 - ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
+- ✨ Add: enum constant `INTERFACE` in `ClassFinder.SearchPolicy`
 
 ### Troubleshooting
 
 - 🐞 Fix: wrong return type of methods in `UuidAssert`
+- 🐞 Fix: failure of `java.lang.NoClassDefFoundError: org/eclipse/swt/dnd/ByteArrayTransfer` in `ClassFinder`
 
 ### Dependencies
 
