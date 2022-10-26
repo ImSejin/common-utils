@@ -20,10 +20,9 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
@@ -36,24 +35,30 @@ class AtomicReferenceAssertTest {
     @Nested
     @DisplayName("method 'hasValue'")
     class HasValue {
-        @ParameterizedTest
-        @ValueSource(booleans = {true, false})
+        @Test
         @DisplayName("passes, when actual has the given value")
-        void test0(boolean value) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(new AtomicReference<>(value))
-                    .hasValue(value));
+        void test0() {
+            // given
+            AtomicReference<String> actual = new AtomicReference<>("alpha");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual)
+                    .hasValue(actual.get()));
         }
 
-        @ParameterizedTest
-        @ValueSource(booleans = {true, false})
+        @Test
         @DisplayName("throws exception, when actual doesn't have the given value")
-        void test1(boolean value) {
-            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE) +
-                    "\n {4}actual: '.*'" +
-                    "\n {4}expected: '.*'";
+        void test1() {
+            // given
+            AtomicReference<String> actual = new AtomicReference<>("alpha");
 
-            assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicReference<>(value))
-                    .hasValue(!value)))
+            // expect
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}expected: '.+'";
+            assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(actual)
+                    .hasValue(actual.getAndSet("beta"))
+                    .hasValue(actual.get())))
                     .withMessageMatching(message);
         }
     }
@@ -63,24 +68,29 @@ class AtomicReferenceAssertTest {
     @Nested
     @DisplayName("method 'doesNotHaveValue'")
     class DoesNotHaveValue {
-        @ParameterizedTest
-        @ValueSource(booleans = {true, false})
+        @Test
         @DisplayName("passes, when actual doesn't have the given value")
-        void test0(boolean value) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(new AtomicReference<>(value))
-                    .doesNotHaveValue(!value));
+        void test0() {
+            // given
+            AtomicReference<String> actual = new AtomicReference<>("alpha");
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual)
+                    .doesNotHaveValue(actual.getAndUpdate(val -> val.toUpperCase(Locale.US))));
         }
 
-        @ParameterizedTest
-        @ValueSource(booleans = {true, false})
+        @Test
         @DisplayName("throws exception, when actual has the given value")
-        void test1(boolean value) {
-            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE) +
-                    "\n {4}actual: '.*'" +
-                    "\n {4}expected: '.*'";
+        void test1() {
+            // given
+            AtomicReference<String> actual = new AtomicReference<>("alpha");
 
-            assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicReference<>(value))
-                    .doesNotHaveValue(value)))
+            // expect
+            String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}expected: '.+'";
+            assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(actual)
+                    .doesNotHaveValue(actual.updateAndGet(val -> val.toUpperCase(Locale.US)))))
                     .withMessageMatching(message);
         }
     }
