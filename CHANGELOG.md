@@ -52,6 +52,7 @@
 
 ### New features
 
+- ✨ Add: utility `CollectorUtils`
 - ✨ Add: assertion compositions `AmountAssertable`, `ContainerAssertable`
 - ✨ Add: assertion classes `ByteAssert`, `ShortAssert`, `IntegerAssert`, `LongAssert`, `BigIntegerAssert`, `PathAssert`
   , `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert` , `OptionalDoubleAssert`, `AtomicBooleanAssert`
