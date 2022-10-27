@@ -26,6 +26,8 @@ import java.util.stream.StreamSupport;
 
 /**
  * Stream utilities
+ *
+ * @see Stream
  */
 public final class StreamUtils {
 

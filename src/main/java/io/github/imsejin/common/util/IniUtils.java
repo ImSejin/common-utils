@@ -33,6 +33,8 @@ import static java.util.stream.Collectors.toMap;
 
 /**
  * Ini utilities
+ *
+ * @see Ini
  */
 public final class IniUtils {
 
