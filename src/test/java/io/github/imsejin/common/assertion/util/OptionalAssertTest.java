@@ -1,7 +1,6 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

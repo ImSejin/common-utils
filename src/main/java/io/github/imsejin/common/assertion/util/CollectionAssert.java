@@ -197,6 +197,90 @@ public class CollectionAssert<
      * @return this class
      */
     @Override
+    public SELF hasSizeGreaterThan(long expected) {
+        if (actual.size() <= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeGreaterThanOrEqualTo(long expected) {
+        if (actual.size() < expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThan(long expected) {
+        if (actual.size() >= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThanOrEqualTo(long expected) {
+        if (actual.size() > expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
     public SELF contains(ELEMENT expected) {
         for (ELEMENT element : actual) {
             if (Objects.deepEquals(element, expected)) {

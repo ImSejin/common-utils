@@ -17,7 +17,6 @@
 package io.github.imsejin.common.assertion.nio.file;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.io.FileAssert;
 import io.github.imsejin.common.assertion.lang.IntegerAssert;
@@ -35,8 +34,7 @@ public class PathAssert<
         SELF extends PathAssert<SELF, ACTUAL>,
         ACTUAL extends Path>
         extends ObjectAssert<SELF, ACTUAL>
-        implements SizeAssertable<SELF, ACTUAL>,
-        AmountComparisonAssertable<SELF, Long> {
+        implements SizeAssertable<SELF, ACTUAL> {
 
     public PathAssert(ACTUAL actual) {
         super(actual);
@@ -150,12 +148,18 @@ public class PathAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isGreaterThan(Long expected) {
+    public SELF hasSizeGreaterThan(long expected) {
         long size = getSize(actual);
 
-        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(size, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+        if (size <= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -167,12 +171,18 @@ public class PathAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isGreaterThanOrEqualTo(Long expected) {
+    public SELF hasSizeGreaterThanOrEqualTo(long expected) {
         long size = getSize(actual);
 
-        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(size, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+        if (size < expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -184,12 +194,18 @@ public class PathAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isLessThan(Long expected) {
+    public SELF hasSizeLessThan(long expected) {
         long size = getSize(actual);
 
-        if (!AmountComparisonAssertable.IS_LESS_THAN.test(size, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+        if (size >= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),
@@ -201,12 +217,18 @@ public class PathAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isLessThanOrEqualTo(Long expected) {
+    public SELF hasSizeLessThanOrEqualTo(long expected) {
         long size = getSize(actual);
 
-        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(size, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+        if (size > expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("actual.size", size),

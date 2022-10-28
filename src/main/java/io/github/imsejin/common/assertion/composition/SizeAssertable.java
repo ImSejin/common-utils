@@ -32,6 +32,10 @@ public interface SizeAssertable<
     String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE = "It is expected not to have the given size, but it is.";
     String DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS = "They are expected to have the same size, but they aren't.";
     String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS = "They are expected not to have the same size, but they are.";
+    String DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN = "It is expected to have size greater than the given one, but it isn't.";
+    String DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO = "It is expected to have size greater than or same as the given one, but it isn't.";
+    String DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN = "It is expected to have size less than the given one, but it isn't.";
+    String DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO = "It is expected to have size less than or same as the given one, but it isn't.";
 
     /**
      * Asserts that actual value is empty.
@@ -134,5 +138,77 @@ public interface SizeAssertable<
      * @return this class
      */
     SELF doesNotHaveSameSizeAs(ACTUAL expected);
+
+    /**
+     * Asserts that actual value has greater size than expected.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(['a']).hasSizeGreaterThan(0);
+     *     Asserts.that([1, 2, 3, 4, 5]).hasSizeGreaterThan(4);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([]).hasSizeGreaterThan(0);
+     *     Asserts.that(['a', 'b', 'c']).hasSizeGreaterThan(4);
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    SELF hasSizeGreaterThan(long expected);
+
+    /**
+     * Asserts that actual value has greater or same size than expected.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(['a']).hasSizeGreaterThanOrEqualTo(1);
+     *     Asserts.that([1, 2, 3, 4, 5]).hasSizeGreaterThanOrEqualTo(4);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([]).hasSizeGreaterThanOrEqualTo(1);
+     *     Asserts.that(['a', 'b', 'c']).hasSizeGreaterThanOrEqualTo(4);
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    SELF hasSizeGreaterThanOrEqualTo(long expected);
+
+    /**
+     * Asserts that actual value has less size than expected.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that(['a']).hasSizeLessThan(2);
+     *     Asserts.that([1, 2, 3, 4, 5]).hasSizeLessThan(5);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([]).hasSizeLessThan(0);
+     *     Asserts.that(['a', 'b', 'c']).hasSizeLessThan(2);
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    SELF hasSizeLessThan(long expected);
+
+    /**
+     * Asserts that actual value has less or same size than expected.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that([]).hasSizeLessThanOrEqualTo(0);
+     *     Asserts.that([1, 2, 3, 4, 5]).hasSizeLessThanOrEqualTo(6);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([1]).hasSizeLessThanOrEqualTo(0);
+     *     Asserts.that(['a', 'b', 'c']).hasSizeLessThanOrEqualTo(2);
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    SELF hasSizeLessThanOrEqualTo(long expected);
 
 }

@@ -30,18 +30,6 @@ public interface AmountComparisonAssertable<
         SELF extends AmountComparisonAssertable<SELF, ACTUAL>,
         ACTUAL> {
 
-    /**
-     * @see java.util.Date#compareTo(java.util.Date)
-     * @see java.math.BigDecimal#compareTo(java.math.BigDecimal)
-     */
-    BiPredicate<Comparable, Comparable<?>> IS_EQUAL_TO = (actual, expected) -> actual.equals(expected) || actual.compareTo(expected) == 0;
-
-    /**
-     * @see java.util.Date#compareTo(java.util.Date)
-     * @see java.math.BigDecimal#compareTo(java.math.BigDecimal)
-     */
-    BiPredicate<Comparable, Comparable<?>> IS_NOT_EQUAL_TO = (actual, expected) -> !actual.equals(expected) && actual.compareTo(expected) != 0;
-
     BiPredicate<Comparable, Comparable<?>> IS_GREATER_THAN = (actual, expected) -> actual.compareTo(expected) > 0;
     BiPredicate<Comparable, Comparable<?>> IS_GREATER_THAN_OR_EQUAL_TO = (actual, expected) -> actual.compareTo(expected) >= 0;
     BiPredicate<Comparable, Comparable<?>> IS_LESS_THAN = (actual, expected) -> actual.compareTo(expected) < 0;

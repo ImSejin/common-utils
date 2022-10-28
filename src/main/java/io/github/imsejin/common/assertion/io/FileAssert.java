@@ -17,7 +17,6 @@
 package io.github.imsejin.common.assertion.io;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.lang.LongAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
@@ -33,8 +32,7 @@ public class FileAssert<
         SELF extends FileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
         extends ObjectAssert<SELF, ACTUAL>
-        implements SizeAssertable<SELF, ACTUAL>,
-        AmountComparisonAssertable<SELF, Long> {
+        implements SizeAssertable<SELF, ACTUAL> {
 
     public FileAssert(ACTUAL actual) {
         super(actual);
@@ -148,15 +146,19 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isGreaterThan(Long expected) {
-        long length = actual.length();
-
-        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(length, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+    public SELF hasSizeGreaterThan(long expected) {
+        if (actual.length() <= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("actual.size", actual.length()),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -165,15 +167,19 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isGreaterThanOrEqualTo(Long expected) {
-        long length = actual.length();
-
-        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(length, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+    public SELF hasSizeGreaterThanOrEqualTo(long expected) {
+        if (actual.length() < expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("actual.size", actual.length()),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -182,15 +188,19 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isLessThan(Long expected) {
-        long length = actual.length();
-
-        if (!AmountComparisonAssertable.IS_LESS_THAN.test(length, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+    public SELF hasSizeLessThan(long expected) {
+        if (actual.length() >= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("actual.size", actual.length()),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
@@ -199,15 +209,19 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
-    public SELF isLessThanOrEqualTo(Long expected) {
-        long length = actual.length();
-
-        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(length, expected)) {
-            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+    public SELF hasSizeLessThanOrEqualTo(long expected) {
+        if (actual.length() > expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.size", length),
+                    new SimpleEntry<>("actual.size", actual.length()),
                     new SimpleEntry<>("expected", expected));
 
             throw getException();
