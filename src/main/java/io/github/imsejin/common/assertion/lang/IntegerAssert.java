@@ -12,11 +12,11 @@ public class IntegerAssert<
         extends AbstractNumberAssert<SELF, Integer> {
 
     public IntegerAssert(Integer actual) {
-        super(actual, 0, Integer::compare);
+        super(actual, 0);
     }
 
     protected IntegerAssert(Descriptor<?> descriptor, Integer actual) {
-        super(descriptor, actual, 0, Integer::compare);
+        super(descriptor, actual, 0);
     }
 
 }

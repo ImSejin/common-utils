@@ -12,11 +12,11 @@ public class ByteAssert<
         extends AbstractNumberAssert<SELF, Byte> {
 
     public ByteAssert(Byte actual) {
-        super(actual, (byte) 0, Byte::compare);
+        super(actual, (byte) 0);
     }
 
     protected ByteAssert(Descriptor<?> descriptor, Byte actual) {
-        super(descriptor, actual, (byte) 0, Byte::compare);
+        super(descriptor, actual, (byte) 0);
     }
 
 }

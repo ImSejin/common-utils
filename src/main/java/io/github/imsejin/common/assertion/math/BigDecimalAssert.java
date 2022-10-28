@@ -35,11 +35,11 @@ public class BigDecimalAssert<
         implements DecimalNumberAssertable<SELF, BigDecimal> {
 
     public BigDecimalAssert(BigDecimal actual) {
-        super(actual, BigDecimal.ZERO, BigDecimal::compareTo);
+        super(actual, BigDecimal.ZERO);
     }
 
     protected BigDecimalAssert(Descriptor<?> descriptor, BigDecimal actual) {
-        super(descriptor, actual, BigDecimal.ZERO, BigDecimal::compareTo);
+        super(descriptor, actual, BigDecimal.ZERO);
     }
 
     @Override

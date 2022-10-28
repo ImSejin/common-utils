@@ -41,15 +41,56 @@ public abstract class AbstractNumberAssert<
 
     private final ACTUAL zero;
 
-    private final Comparator<ACTUAL> comparator;
+    private final Comparator<? super ACTUAL> comparator;
 
+    /**
+     * Creates an instance with actual value which is {@link Comparable}.
+     *
+     * @param actual comparable number
+     * @param zero   base point for comparison
+     * @param <N>    type of comparable number
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected <N extends Comparable<? super N>> AbstractNumberAssert(N actual, N zero) {
+        this((ACTUAL) actual, (ACTUAL) zero, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * Creates an instance with actual value which doesn't implement {@link Comparable}.
+     *
+     * @param actual     number
+     * @param zero       base point for comparison
+     * @param comparator comparison function
+     */
     protected AbstractNumberAssert(ACTUAL actual, ACTUAL zero, Comparator<ACTUAL> comparator) {
         super(actual);
         this.zero = zero;
         this.comparator = comparator;
     }
 
-    protected AbstractNumberAssert(Descriptor<?> descriptor, ACTUAL actual, ACTUAL zero, Comparator<ACTUAL> comparator) {
+    /**
+     * Creates an instance with actual value which is {@link Comparable} and
+     * merges all the properties of {@link Descriptor} from parameter into this instance.
+     *
+     * @param descriptor assertion class to merge into this
+     * @param actual     comparable number
+     * @param zero       base point for comparison
+     * @param <N>        type of comparable number
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected <N extends Comparable<? super N>> AbstractNumberAssert(Descriptor<?> descriptor, N actual, N zero) {
+        this(descriptor, (ACTUAL) actual, (ACTUAL) zero, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * Creates an instance with actual value which doesn't implement {@link Comparable} and
+     * merges all the properties of {@link Descriptor} from parameter into this instance.
+     *
+     * @param actual     number
+     * @param zero       base point for comparison
+     * @param comparator comparison function
+     */
+    protected AbstractNumberAssert(Descriptor<?> descriptor, ACTUAL actual, ACTUAL zero, Comparator<? super ACTUAL> comparator) {
         super(descriptor, actual);
         this.zero = zero;
         this.comparator = comparator;

@@ -31,11 +31,11 @@ public class BigIntegerAssert<
         extends AbstractNumberAssert<SELF, BigInteger> {
 
     public BigIntegerAssert(BigInteger actual) {
-        super(actual, BigInteger.ZERO, BigInteger::compareTo);
+        super(actual, BigInteger.ZERO);
     }
 
     protected BigIntegerAssert(Descriptor<?> descriptor, BigInteger actual) {
-        super(descriptor, actual, BigInteger.ZERO, BigInteger::compareTo);
+        super(descriptor, actual, BigInteger.ZERO);
     }
 
 }

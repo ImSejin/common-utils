@@ -33,11 +33,11 @@ public class DoubleAssert<
         implements DecimalNumberAssertable<SELF, Double> {
 
     public DoubleAssert(Double actual) {
-        super(actual, 0.0, Double::compare);
+        super(actual, 0.0);
     }
 
     protected DoubleAssert(Descriptor<?> descriptor, Double actual) {
-        super(descriptor, actual, 0.0, Double::compare);
+        super(descriptor, actual, 0.0);
     }
 
     @Override

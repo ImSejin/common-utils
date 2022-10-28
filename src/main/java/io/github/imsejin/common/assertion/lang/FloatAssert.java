@@ -33,11 +33,11 @@ public class FloatAssert<
         implements DecimalNumberAssertable<SELF, Float> {
 
     public FloatAssert(Float actual) {
-        super(actual, 0.0F, Float::compare);
+        super(actual, 0.0F);
     }
 
     protected FloatAssert(Descriptor<?> descriptor, Float actual) {
-        super(descriptor, actual, 0.0F, Float::compare);
+        super(descriptor, actual, 0.0F);
     }
 
     @Override

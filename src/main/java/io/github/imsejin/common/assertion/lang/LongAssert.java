@@ -12,11 +12,11 @@ public class LongAssert<
         extends AbstractNumberAssert<SELF, Long> {
 
     public LongAssert(Long actual) {
-        super(actual, 0L, Long::compare);
+        super(actual, 0L);
     }
 
     protected LongAssert(Descriptor<?> descriptor, Long actual) {
-        super(descriptor, actual, 0L, Long::compare);
+        super(descriptor, actual, 0L);
     }
 
 }

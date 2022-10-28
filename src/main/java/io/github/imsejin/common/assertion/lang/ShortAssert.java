@@ -12,11 +12,11 @@ public class ShortAssert<
         extends AbstractNumberAssert<SELF, Short> {
 
     public ShortAssert(Short actual) {
-        super(actual, (short) 0, Short::compare);
+        super(actual, (short) 0);
     }
 
     protected ShortAssert(Descriptor<?> descriptor, Short actual) {
-        super(descriptor, actual, (short) 0, Short::compare);
+        super(descriptor, actual, (short) 0);
     }
 
 }
