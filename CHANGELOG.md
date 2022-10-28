@@ -37,15 +37,15 @@
 - ♻️ Replace: assertion class `NumberAssert` with `AbstractNumberAssert`
 - 🔥 Remove: assertion compositions `ComparisonAssertable`
 - 🔥 Remove: assertion methods `canRead()`, `canNotRead()`, `canWrite()`, `canNotWrite()`, `canExecute()`
-  , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `FileAssert`
+  , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `AbstractFileAssert`
 - 🔥 Remove: message constants `DEFAULT_DESCRIPTION_STARTS_WITH`, `DEFAULT_DESCRIPTION_ENDS_WITH`
   in `RandomAccessIterationAssertable`
 - 🚚 Rename: assertion composition `SizeComparisonAssertable` to `AmountComparisonAssertable`
 - 🚚 Rename: assertion class `AbstractFileAssert` to `FileAssert`
 - 🚚 Rename: assertion method `hasLengthOf(File)` to `hasSameSizeAs(File)` in `FileAssert`
 - 🚚 Rename: assertion method `hasLengthOf(long)` to `hasSize(long)` in `FileAssert`
-- 🚚 Rename: assertion method `isLargerThan(long)` to `isGreaterThan(Long)` in `FileAssert`
-- 🚚 Rename: assertion method `isSmallerThan(long)` to `isLessThan(Long)` in `FileAssert`
+- 🚚 Rename: assertion method `isLargerThan(long)` to `hasSizeGreaterThan(long)` in `FileAssert`
+- 🚚 Rename: assertion method `isSmallerThan(long)` to `hasSizeLessThan(long)` in `FileAssert`
 - 🔨 Modify: return type of method `getAllSubtypes` in `ClassFinder`
 - 🔨 Modify: decoupling from each other that assertion compositions which are `IterationAssertable`
   , ` RandomAccessIterationAssertable`
