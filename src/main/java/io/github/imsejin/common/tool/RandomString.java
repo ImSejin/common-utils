@@ -21,6 +21,7 @@ import io.github.imsejin.common.constant.Locales;
 import io.github.imsejin.common.util.StringUtils;
 import org.jetbrains.annotations.VisibleForTesting;
 
+import java.lang.Character.UnicodeScript;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,15 +39,14 @@ import static java.util.stream.Collectors.toMap;
 /**
  * Generator of randomized {@link String} by the specific language.
  *
- * @see Locales
+ * @see Locale
+ * @see UnicodeScript
  */
 public class RandomString {
 
     private static final Map<String, List<String>> LANGUAGE_UNICODE_POINT_MAP;
 
     static {
-//        Map<UnicodeScript, List<Integer>> unicodeMap = IntStream.rangeClosed(Character.MIN_VALUE, Character.MAX_VALUE)
-//                .boxed().collect(groupingBy(UnicodeScript::of));
         Map<String, List<String>> languageUnicodeRangeMap = new HashMap<>();
 
         // Arabic: U+0600..U+06FF

@@ -30,6 +30,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.AbstractMap.SimpleEntry;
 
+/**
+ * Assertion for {@link Path}
+ *
+ * @param <SELF>   this class
+ * @param <ACTUAL> type of path
+ */
 public class PathAssert<
         SELF extends PathAssert<SELF, ACTUAL>,
         ACTUAL extends Path>
