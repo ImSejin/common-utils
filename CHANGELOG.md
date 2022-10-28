@@ -35,7 +35,7 @@
 
 - ♻️ Refactor: processing of assertion description in `Descriptor`
 - ♻️ Replace: assertion class `NumberAssert` with `AbstractNumberAssert`
-- 🔥 Remove: assertion composition `ComparisonAssertable`
+- 🔥 Remove: assertion compositions `ComparisonAssertable`
 - 🔥 Remove: assertion methods `canRead()`, `canNotRead()`, `canWrite()`, `canNotWrite()`, `canExecute()`
   , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `FileAssert`
 - 🔥 Remove: message constants `DEFAULT_DESCRIPTION_STARTS_WITH`, `DEFAULT_DESCRIPTION_ENDS_WITH`
@@ -53,7 +53,7 @@
 ### New features
 
 - ✨ Add: utility `CollectorUtils`
-- ✨ Add: assertion compositions `AmountAssertable`, `ContainerAssertable`
+- ✨ Add: assertion compositions `AmountAssertable`, `SizeAssertable`, `HolderAssertable`
 - ✨ Add: assertion classes `ByteAssert`, `ShortAssert`, `IntegerAssert`, `LongAssert`, `BigIntegerAssert`, `PathAssert`
   , `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert` , `OptionalDoubleAssert`, `AtomicBooleanAssert`
   , `AtomicIntegerAssert`, `AtomicLongAssert`, `AtomicReferenceAssert`
