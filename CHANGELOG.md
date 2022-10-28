@@ -70,7 +70,7 @@
 ### Dependencies
 
 - ♻️ Replace:
-- ⬆️ Upgrade:
+- ⬆️ Upgrade: test dependency `spock-core` from `2.3-groovy-3.0` to `2.3-groovy-4.0`
 
 # v0.12.0
 
