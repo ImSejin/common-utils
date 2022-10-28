@@ -50,17 +50,19 @@ public final class CollectorUtils {
      */
     public static <T, R> Collector<T, ?, SortedMap<Integer, List<T>>> ranking(
             Function<T, R> propertyExtractor, Comparator<R> propertyComparator) {
+        class RankMap extends TreeMap<Integer, List<T>> {
+            @Override
+            public String toString() {
+                return this.entrySet().stream()
+                        .flatMap(e -> e.getValue().stream().map(v -> e.getKey() + " - " + v + " (" + propertyExtractor.apply(v) + ")"))
+                        .collect(joining("\n"));
+            }
+        }
+
         return collectingAndThen(
                 groupingBy(propertyExtractor, () -> new TreeMap<>(propertyComparator), toList()),
                 map -> map.entrySet().stream().collect(
-                        () -> new TreeMap<Integer, List<T>>() {
-                            @Override
-                            public String toString() {
-                                return this.entrySet().stream()
-                                        .flatMap(e -> e.getValue().stream().map(v -> e.getKey().toString() + " - " + v.toString() + " (" + propertyExtractor.apply(v) + ")"))
-                                        .collect(joining("\n"));
-                            }
-                        },
+                        RankMap::new,
                         (ranks, entry) -> {
                             if (ranks.isEmpty()) {
                                 ranks.put(1, entry.getValue());

@@ -85,24 +85,31 @@ class CollectorUtilsSpec extends Specification {
     }
 
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
-    def "Measures performance"() {
+    def "Measures performance on parallel stream"() {
         def stopwatch = new Stopwatch(TimeUnit.MILLISECONDS)
-        stopwatch.start("Creates %,d random values", 5_000_000)
+        stopwatch.start("Creates %,d random values", 10_000_000)
 
         given:
         def randomString = new RandomString()
-        def values = (1..5_000_000).collect { randomString.nextString(2) }
+        def values = (1..10_000_000).collect { randomString.nextString(2) }
         stopwatch.stop()
 
         when:
         stopwatch.start("Collects them by rank")
-        def rankMap = values.stream().collect(ranking())
+        def rankMap = values.parallelStream().collect(ranking())
         stopwatch.stop()
         println stopwatch.statistics
 
-        then:
-        !rankMap.isEmpty()
+        then: "It can't have more keys than the number of origin values."
         rankMap.size() <= values.size()
+
+        then: "Is it sorted by rank?"
+        def keys = rankMap.entrySet().collect(Entry::getKey) as List<Integer>
+        keys == keys.sort(false, Integer::compare)
+
+        then: "it skips rank order as many as the number of previous rank items."
+        def rank = 1
+        keys.each { assert it == rank; rank += rankMap[it].size() }
     }
 
     // -------------------------------------------------------------------------------------------------
