@@ -521,6 +521,254 @@ class ArrayAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
+    @DisplayName("method 'hasSizeGreaterThan'")
+    class HasSizeGreaterThan {
+        @Test
+        @DisplayName("passes, when actual has size greater than the given size")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new boolean[0]).hasSizeGreaterThan(-1);
+                Asserts.that(new byte[1]).hasSizeGreaterThan(0);
+                Asserts.that(new char[2]).hasSizeGreaterThan(1);
+                Asserts.that(new double[4]).hasSizeGreaterThan(2);
+                Asserts.that(new float[8]).hasSizeGreaterThan(4);
+                Asserts.that(new int[16]).hasSizeGreaterThan(8);
+                Asserts.that(new long[32]).hasSizeGreaterThan(16);
+                Asserts.that(new short[64]).hasSizeGreaterThan(32);
+                Asserts.that(new String[128]).hasSizeGreaterThan(64);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size less than or same as the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .hasSizeGreaterThan(0))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .hasSizeGreaterThan(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .hasSizeGreaterThan(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .hasSizeGreaterThan(4))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .hasSizeGreaterThan(8))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .hasSizeGreaterThan(16))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .hasSizeGreaterThan(32))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .hasSizeGreaterThan(128))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .hasSizeGreaterThan(256))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
+                    .hasSizeGreaterThan(512))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeGreaterThanOrEqualTo'")
+    class HasSizeGreaterThanOrEqualTo {
+        @Test
+        @DisplayName("passes, when actual has size greater than or same as the given size")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new boolean[0]).hasSizeGreaterThanOrEqualTo(0);
+                Asserts.that(new byte[1]).hasSizeGreaterThanOrEqualTo(1);
+                Asserts.that(new char[2]).hasSizeGreaterThanOrEqualTo(2);
+                Asserts.that(new double[4]).hasSizeGreaterThanOrEqualTo(4);
+                Asserts.that(new float[8]).hasSizeGreaterThanOrEqualTo(8);
+                Asserts.that(new int[16]).hasSizeGreaterThanOrEqualTo(16);
+                Asserts.that(new long[32]).hasSizeGreaterThanOrEqualTo(32);
+                Asserts.that(new short[64]).hasSizeGreaterThanOrEqualTo(63);
+                Asserts.that(new String[128]).hasSizeGreaterThanOrEqualTo(127);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size less than the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .hasSizeGreaterThanOrEqualTo(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .hasSizeGreaterThanOrEqualTo(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .hasSizeGreaterThanOrEqualTo(4))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .hasSizeGreaterThanOrEqualTo(8))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .hasSizeGreaterThanOrEqualTo(16))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .hasSizeGreaterThanOrEqualTo(32))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .hasSizeGreaterThanOrEqualTo(64))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .hasSizeGreaterThanOrEqualTo(128))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .hasSizeGreaterThanOrEqualTo(256))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
+                    .hasSizeGreaterThanOrEqualTo(512))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeLessThan'")
+    class HasSizeLessThan {
+        @Test
+        @DisplayName("passes, when actual has size less than the given size")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new boolean[0]).hasSizeLessThan(1);
+                Asserts.that(new byte[1]).hasSizeLessThan(2);
+                Asserts.that(new char[2]).hasSizeLessThan(4);
+                Asserts.that(new double[4]).hasSizeLessThan(8);
+                Asserts.that(new float[8]).hasSizeLessThan(16);
+                Asserts.that(new int[16]).hasSizeLessThan(32);
+                Asserts.that(new long[32]).hasSizeLessThan(64);
+                Asserts.that(new short[64]).hasSizeLessThan(128);
+                Asserts.that(new String[128]).hasSizeLessThan(256);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size greater than or same as the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .hasSizeLessThan(0))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .hasSizeLessThan(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .hasSizeLessThan(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .hasSizeLessThan(4))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .hasSizeLessThan(8))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .hasSizeLessThan(16))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .hasSizeLessThan(32))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .hasSizeLessThan(63))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .hasSizeLessThan(127))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
+                    .hasSizeLessThan(255))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeLessThanOrEqualTo'")
+    class HasSizeLessThanOrEqualTo {
+        @Test
+        @DisplayName("passes, when actual has size less than or same as the given size")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new boolean[0]).hasSizeLessThanOrEqualTo(0);
+                Asserts.that(new byte[1]).hasSizeLessThanOrEqualTo(1);
+                Asserts.that(new char[2]).hasSizeLessThanOrEqualTo(2);
+                Asserts.that(new double[4]).hasSizeLessThanOrEqualTo(4);
+                Asserts.that(new float[8]).hasSizeLessThanOrEqualTo(8);
+                Asserts.that(new int[16]).hasSizeLessThanOrEqualTo(16);
+                Asserts.that(new long[32]).hasSizeLessThanOrEqualTo(32);
+                Asserts.that(new short[64]).hasSizeLessThanOrEqualTo(128);
+                Asserts.that(new String[128]).hasSizeLessThanOrEqualTo(256);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size greater than the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '-?[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
+                    .hasSizeLessThanOrEqualTo(-1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
+                    .hasSizeLessThanOrEqualTo(0))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
+                    .hasSizeLessThanOrEqualTo(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
+                    .hasSizeLessThanOrEqualTo(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
+                    .hasSizeLessThanOrEqualTo(4))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
+                    .hasSizeLessThanOrEqualTo(8))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
+                    .hasSizeLessThanOrEqualTo(16))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
+                    .hasSizeLessThanOrEqualTo(32))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
+                    .hasSizeLessThanOrEqualTo(64))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
+                    .hasSizeLessThanOrEqualTo(128))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("method 'contains'")
     class Contains {
         @Test

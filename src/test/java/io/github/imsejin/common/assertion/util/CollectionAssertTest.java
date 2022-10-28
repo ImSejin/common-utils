@@ -137,19 +137,19 @@ class CollectionAssertTest {
         @Test
         @DisplayName("passes, when actual has the given size")
         void test0() {
-            assertThatNoException().isThrownBy(() -> {
-                // given
-                Set<String> set = new HashSet<>();
-                set.add("new");
-                set.add("set");
-                Stack<String> stack = new Stack<>();
-                stack.push("new");
-                stack.push("stack");
-                Queue<String> queue = new PriorityQueue<>();
-                queue.add("new");
-                queue.add("queue");
+            // given
+            Set<String> set = new HashSet<>();
+            set.add("new");
+            set.add("set");
+            Stack<String> stack = new Stack<>();
+            stack.push("new");
+            stack.push("stack");
+            Queue<String> queue = new PriorityQueue<>();
+            queue.add("new");
+            queue.add("queue");
 
-                // expect
+            // expect
+            assertThatNoException().isThrownBy(() -> {
                 Asserts.that(Collections.emptyList()).hasSize(0);
                 Asserts.that(Collections.singletonList(null)).hasSize(1);
                 Asserts.that(set).hasSize(set.size());
@@ -186,19 +186,19 @@ class CollectionAssertTest {
         @Test
         @DisplayName("passes, when actual doesn't have the given size")
         void test0() {
-            assertThatNoException().isThrownBy(() -> {
-                // given
-                Set<String> set = new HashSet<>();
-                set.add("new");
-                set.add("set");
-                Stack<String> stack = new Stack<>();
-                stack.push("new");
-                stack.push("stack");
-                Queue<String> queue = new PriorityQueue<>();
-                queue.add("new");
-                queue.add("queue");
+            // given
+            Set<String> set = new HashSet<>();
+            set.add("new");
+            set.add("set");
+            Stack<String> stack = new Stack<>();
+            stack.push("new");
+            stack.push("stack");
+            Queue<String> queue = new PriorityQueue<>();
+            queue.add("new");
+            queue.add("queue");
 
-                // expect
+            // expect
+            assertThatNoException().isThrownBy(() -> {
                 Asserts.that(Collections.emptyList()).doesNotHaveSize(-1);
                 Asserts.that(Collections.singletonList(null)).doesNotHaveSize(0);
                 Asserts.that(set).doesNotHaveSize(set.size() - 1);
@@ -235,18 +235,18 @@ class CollectionAssertTest {
         @Test
         @DisplayName("passes, when actual and other have the same size")
         void test0() {
-            assertThatNoException().isThrownBy(() -> {
-                // given
-                Set<String> set = new HashSet<>();
-                set.add("set");
-                Stack<String> stack = new Stack<>();
-                stack.push("new");
-                stack.push("stack");
-                Queue<String> queue = new PriorityQueue<>();
-                queue.add("new");
-                queue.add("queue");
+            // given
+            Set<String> set = new HashSet<>();
+            set.add("set");
+            Stack<String> stack = new Stack<>();
+            stack.push("new");
+            stack.push("stack");
+            Queue<String> queue = new PriorityQueue<>();
+            queue.add("new");
+            queue.add("queue");
 
-                // expect
+            // expect
+            assertThatNoException().isThrownBy(() -> {
                 Asserts.that(Collections.emptyList()).hasSameSizeAs(new HashSet<>());
                 Asserts.that(Collections.singletonList(null)).hasSameSizeAs(set);
                 Asserts.that(set).hasSameSizeAs(set);
@@ -287,18 +287,18 @@ class CollectionAssertTest {
         @Test
         @DisplayName("passes, when actual and other have a difference with size")
         void test0() {
-            assertThatNoException().isThrownBy(() -> {
-                // given
-                Set<String> set = new HashSet<>();
-                set.add("set");
-                Stack<String> stack = new Stack<>();
-                stack.push("new");
-                stack.push("stack");
-                Queue<String> queue = new PriorityQueue<>();
-                queue.add("new");
-                queue.add("queue");
+            // given
+            Set<String> set = new HashSet<>();
+            set.add("set");
+            Stack<String> stack = new Stack<>();
+            stack.push("new");
+            stack.push("stack");
+            Queue<String> queue = new PriorityQueue<>();
+            queue.add("new");
+            queue.add("queue");
 
-                // expect
+            // expect
+            assertThatNoException().isThrownBy(() -> {
                 Asserts.that(Collections.emptyList()).doesNotHaveSameSizeAs(set);
                 Asserts.that(Collections.singletonList(null)).doesNotHaveSameSizeAs(new HashSet<>());
                 Asserts.that(set).doesNotHaveSameSizeAs(stack);
@@ -327,6 +327,202 @@ class CollectionAssertTest {
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList(1, 2))
                     .doesNotHaveSameSizeAs(Arrays.asList('a', 'b')))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeGreaterThan'")
+    class HasSizeGreaterThan {
+        @Test
+        @DisplayName("passes, when actual has size greater than the given size")
+        void test0() {
+            // given
+            List<Character> list = Arrays.asList('a', 'b');
+            Set<Integer> set = new HashSet<>(Arrays.asList(1, 2, 3));
+            Queue<String> queue = new PriorityQueue<>(Arrays.asList("A", "B", "C", "D"));
+
+            // expect
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Collections.emptyList()).hasSizeGreaterThan(-1);
+                Asserts.that(Collections.singletonList(null)).hasSizeGreaterThan(0);
+                Asserts.that(list).hasSizeGreaterThan(1);
+                Asserts.that(set).hasSizeGreaterThan(2);
+                Asserts.that(queue).hasSizeGreaterThan(3);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size less than or same as the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .hasSizeGreaterThan(0))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .hasSizeGreaterThan(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b'))
+                    .hasSizeGreaterThan(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new HashSet<>(Arrays.asList(1, 2, 3)))
+                    .hasSizeGreaterThan(4))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new PriorityQueue<>(Arrays.asList("A", "B", "C", "D")))
+                    .hasSizeGreaterThan(8))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeGreaterThanOrEqualTo'")
+    class HasSizeGreaterThanOrEqualTo {
+        @Test
+        @DisplayName("passes, when actual has size greater than or same as the given size")
+        void test0() {
+            // given
+            List<Character> list = Arrays.asList('a', 'b');
+            Set<Integer> set = new HashSet<>(Arrays.asList(1, 2, 3));
+            Queue<String> queue = new PriorityQueue<>(Arrays.asList("A", "B", "C", "D"));
+
+            // expect
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Collections.emptyList()).hasSizeGreaterThanOrEqualTo(0);
+                Asserts.that(Collections.singletonList(null)).hasSizeGreaterThanOrEqualTo(1);
+                Asserts.that(list).hasSizeGreaterThanOrEqualTo(2);
+                Asserts.that(set).hasSizeGreaterThanOrEqualTo(2);
+                Asserts.that(queue).hasSizeGreaterThanOrEqualTo(3);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size less than the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .hasSizeGreaterThanOrEqualTo(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .hasSizeGreaterThanOrEqualTo(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b'))
+                    .hasSizeGreaterThanOrEqualTo(4))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new HashSet<>(Arrays.asList(1, 2, 3)))
+                    .hasSizeGreaterThanOrEqualTo(8))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new PriorityQueue<>(Arrays.asList("A", "B", "C", "D")))
+                    .hasSizeGreaterThanOrEqualTo(16))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeLessThan'")
+    class HasSizeLessThan {
+        @Test
+        @DisplayName("passes, when actual has size less than the given size")
+        void test0() {
+            // given
+            List<Character> list = Arrays.asList('a', 'b');
+            Set<Integer> set = new HashSet<>(Arrays.asList(1, 2, 3));
+            Queue<String> queue = new PriorityQueue<>(Arrays.asList("A", "B", "C", "D"));
+
+            // expect
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Collections.emptyList()).hasSizeLessThan(1);
+                Asserts.that(Collections.singletonList(null)).hasSizeLessThan(2);
+                Asserts.that(list).hasSizeLessThan(4);
+                Asserts.that(set).hasSizeLessThan(8);
+                Asserts.that(queue).hasSizeLessThan(16);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size greater than or same as the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .hasSizeLessThan(0))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .hasSizeLessThan(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b'))
+                    .hasSizeLessThan(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new HashSet<>(Arrays.asList(1, 2, 3)))
+                    .hasSizeLessThan(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new PriorityQueue<>(Arrays.asList("A", "B", "C", "D")))
+                    .hasSizeLessThan(1))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeLessThanOrEqualTo'")
+    class HasSizeLessThanOrEqualTo {
+        @Test
+        @DisplayName("passes, when actual has size less than or same as the given size")
+        void test0() {
+            // given
+            List<Character> list = Arrays.asList('a', 'b');
+            Set<Integer> set = new HashSet<>(Arrays.asList(1, 2, 3));
+            Queue<String> queue = new PriorityQueue<>(Arrays.asList("A", "B", "C", "D"));
+
+            // expect
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(Collections.emptyList()).hasSizeLessThanOrEqualTo(0);
+                Asserts.that(Collections.singletonList(null)).hasSizeLessThanOrEqualTo(1);
+                Asserts.that(list).hasSizeLessThanOrEqualTo(2);
+                Asserts.that(set).hasSizeLessThanOrEqualTo(4);
+                Asserts.that(queue).hasSizeLessThanOrEqualTo(8);
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual has size greater than the given size")
+        void test1() {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '-?[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.emptyList())
+                    .hasSizeLessThanOrEqualTo(-1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Collections.singletonList(null))
+                    .hasSizeLessThanOrEqualTo(0))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(Arrays.asList('a', 'b'))
+                    .hasSizeLessThanOrEqualTo(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new HashSet<>(Arrays.asList(1, 2, 3)))
+                    .hasSizeLessThanOrEqualTo(2))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new PriorityQueue<>(Arrays.asList("A", "B", "C", "D")))
+                    .hasSizeLessThanOrEqualTo(3))
                     .withMessageMatching(message);
         }
     }

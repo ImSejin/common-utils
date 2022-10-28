@@ -28,6 +28,12 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.AbstractMap.SimpleEntry;
 
+/**
+ * Assertion for {@link File}
+ *
+ * @param <SELF>   this class
+ * @param <ACTUAL> type of file
+ */
 public class FileAssert<
         SELF extends FileAssert<SELF, ACTUAL>,
         ACTUAL extends File>
@@ -42,6 +48,11 @@ public class FileAssert<
         super(descriptor, actual);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF isEmpty() {
         long length = actual.length();
@@ -58,6 +69,11 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
     @Override
     public SELF isNotEmpty() {
         long length = actual.length();
@@ -74,6 +90,12 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF hasSize(long expected) {
         long size = actual.length();
@@ -91,6 +113,12 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveSize(long expected) {
         long size = actual.length();
@@ -108,6 +136,12 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF hasSameSizeAs(ACTUAL expected) {
         long actualSize = actual.length();
@@ -127,6 +161,12 @@ public class FileAssert<
         return self;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
     @Override
     public SELF doesNotHaveSameSizeAs(ACTUAL expected) {
         long actualSize = actual.length();
