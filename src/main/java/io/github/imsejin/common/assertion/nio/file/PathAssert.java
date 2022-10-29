@@ -374,7 +374,8 @@ public class PathAssert<
             setDefaultDescription("It is expected to have the given file name, but it isn't.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.fileName", fileName));
+                    new SimpleEntry<>("actual.fileName", fileName),
+                    new SimpleEntry<>("expected", expected));
 
             throw getException();
         }
@@ -390,7 +391,8 @@ public class PathAssert<
             setDefaultDescription("It is expected to have the given file extension, but it isn't.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
-                    new SimpleEntry<>("actual.extension", extension));
+                    new SimpleEntry<>("actual.extension", extension),
+                    new SimpleEntry<>("expected", expected));
 
             throw getException();
         }
