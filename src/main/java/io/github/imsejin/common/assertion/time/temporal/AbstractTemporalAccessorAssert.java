@@ -18,6 +18,7 @@ package io.github.imsejin.common.assertion.time.temporal;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.PositionComparisonAssertable;
+import io.github.imsejin.common.assertion.lang.AbstractNumberAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.chrono.ChronoLocalDate;
@@ -29,9 +30,8 @@ import java.util.AbstractMap.SimpleEntry;
 /**
  * Abstract assertion for {@link TemporalAccessor}
  *
- * <p> Unlike {@link io.github.imsejin.common.assertion.Asserts#that(Number)},
- * implementations of {@link TemporalAccessor} are limited to comparison by
- * {@link java.time.temporal.TemporalAccessor#isSupported(TemporalField)}.
+ * <p> Unlike {@link AbstractNumberAssert}, implementations of {@link TemporalAccessor}
+ * are limited to comparison by {@link TemporalAccessor#isSupported(TemporalField)}.
  *
  * @param <SELF>   assertion class that extends {@link AbstractTemporalAccessorAssert}
  * @param <ACTUAL> type that implements interfaces {@link TemporalAccessor} and {@link Comparable}

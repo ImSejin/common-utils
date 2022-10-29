@@ -86,6 +86,7 @@ public abstract class AbstractNumberAssert<
      * Creates an instance with actual value which doesn't implement {@link Comparable} and
      * merges all the properties of {@link Descriptor} from parameter into this instance.
      *
+     * @param descriptor assertion class to merge into this
      * @param actual     number
      * @param zero       base point for comparison
      * @param comparator comparison function

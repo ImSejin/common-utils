@@ -92,7 +92,8 @@ public final class FileUtils {
     /**
      * Finds all files in directory recursively.
      *
-     * @param path path
+     * @param path    path
+     * @param options options for visiting paths
      * @return all file paths in directory
      */
     public static List<Path> findAllFiles(Path path, FileVisitOption... options) {
