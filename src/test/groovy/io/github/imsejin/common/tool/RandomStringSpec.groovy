@@ -119,6 +119,8 @@ class RandomStringSpec extends Specification {
         i << (1..1024)
     }
 
+    // -------------------------------------------------------------------------------------------------
+
     def "Converts integers as ranges of code point"() {
         given:
         integers = integers.sort()
