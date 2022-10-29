@@ -63,6 +63,7 @@ Asserts.that(dates)
         .isNotNull()
         .isNotEmpty()
         .hasSize(3)
+        .is(them -> them.get(2).getYear() == 2001)
         .describedAs("dates should not have duplicated elements: '{0}'", dates)
         .doesNotHaveDuplicates()
         .describedAs("dates should contain '2000-01-01' or '2001-01-01': '{0}'", dates)
@@ -71,6 +72,7 @@ Asserts.that(dates)
         .anyMatch(LocalDate::isLeapYear)
         // Target of assertion is changed from List to Integer.
         .asSize()
+        .isPositive()
         // Assertion will fail and throw IllegalStateException on this step.
         .isGreaterThan(3);
 ```

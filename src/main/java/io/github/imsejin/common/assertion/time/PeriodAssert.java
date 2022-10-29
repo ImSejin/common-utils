@@ -17,17 +17,20 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.composition.AmountAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.time.Period;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 
 public class PeriodAssert<
         SELF extends PeriodAssert<SELF>>
         extends ObjectAssert<SELF, Period>
-        implements SizeComparisonAssertable<SELF, Period> {
+        implements AmountAssertable<SELF, Period>,
+        AmountComparisonAssertable<SELF, Period> {
 
     private static final Comparator<Period> COMPARATOR = (o1, o2) -> {
         int total1 = (((o1.getYears() * 12) + o1.getMonths()) * 30) + o1.getDays();
@@ -47,7 +50,11 @@ public class PeriodAssert<
     @Override
     public SELF isGreaterThan(Period expected) {
         if (COMPARATOR.compare(actual, expected) <= 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -57,7 +64,11 @@ public class PeriodAssert<
     @Override
     public SELF isGreaterThanOrEqualTo(Period expected) {
         if (COMPARATOR.compare(actual, expected) < 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -67,7 +78,11 @@ public class PeriodAssert<
     @Override
     public SELF isLessThan(Period expected) {
         if (COMPARATOR.compare(actual, expected) >= 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -77,13 +92,18 @@ public class PeriodAssert<
     @Override
     public SELF isLessThanOrEqualTo(Period expected) {
         if (COMPARATOR.compare(actual, expected) > 0) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isPositive() {
         if (COMPARATOR.compare(actual, Period.ZERO) <= 0) {
             setDefaultDescription("It is expected to be positive, but it isn't. (actual: '{0}')", actual);
@@ -93,6 +113,7 @@ public class PeriodAssert<
         return self;
     }
 
+    @Override
     public SELF isZeroOrPositive() {
         if (COMPARATOR.compare(actual, Period.ZERO) < 0) {
             setDefaultDescription("It is expected to be zero or positive, but it isn't. (actual: '{0}')", actual);
@@ -102,6 +123,7 @@ public class PeriodAssert<
         return self;
     }
 
+    @Override
     public SELF isNegative() {
         if (COMPARATOR.compare(actual, Period.ZERO) >= 0) {
             setDefaultDescription("It is expected to be negative, but it isn't. (actual: '{0}')", actual);
@@ -111,6 +133,7 @@ public class PeriodAssert<
         return self;
     }
 
+    @Override
     public SELF isZeroOrNegative() {
         if (COMPARATOR.compare(actual, Period.ZERO) > 0) {
             setDefaultDescription("It is expected to be zero or negative, but it isn't. (actual: '{0}')", actual);
@@ -122,15 +145,15 @@ public class PeriodAssert<
 
     // -------------------------------------------------------------------------------------------------
 
-    public NumberAssert<?, Integer> asTotalDays() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asTotalDays() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int totalDays = (((actual.getYears() * 12) + actual.getMonths()) * 30) + actual.getDays();
-        return new NumberAssertImpl(this, totalDays);
+        return new IntegerAssertImpl(this, totalDays);
     }
 
 }

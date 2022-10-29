@@ -26,7 +26,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,8 +37,7 @@ class TarResourceTest {
         // given
         String path = "usr/bin/temp-file.log";
         String fileName = FilenameUtils.getName(path);
-        byte[] bytes = new RandomString().nextString(new Random()
-                .nextInt((int) Math.pow(2, 20))).getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = new RandomString().nextString(1, (int) Math.pow(2, 20)).getBytes(StandardCharsets.UTF_8);
         long modifiedTime = System.currentTimeMillis();
 
         // when

@@ -18,61 +18,83 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * Assertion for {@link Number}
+ * Abstract assertion for {@link Number}
  *
  * @param <SELF>   this class
- * @param <ACTUAL> comparable numeric type
+ * @param <ACTUAL> number
  */
-public class NumberAssert<
-        SELF extends NumberAssert<SELF, ACTUAL>,
-        ACTUAL extends Number & Comparable<ACTUAL>>
+public abstract class AbstractNumberAssert<
+        SELF extends AbstractNumberAssert<SELF, ACTUAL>,
+        ACTUAL extends Number>
         extends ObjectAssert<SELF, ACTUAL>
-        implements SizeComparisonAssertable<SELF, ACTUAL> {
+        implements AmountAssertable<SELF, ACTUAL>,
+        AmountComparisonAssertable<SELF, ACTUAL> {
 
     private final ACTUAL zero;
 
-    @SuppressWarnings("unchecked")
-    public NumberAssert(ACTUAL actual) {
-        super(actual);
-        this.zero = toActualNumber((ACTUAL) BigInteger.ZERO, (Class<ACTUAL>) actual.getClass());
-    }
+    private final Comparator<? super ACTUAL> comparator;
 
-    @SuppressWarnings("unchecked")
-    protected NumberAssert(Descriptor<?> descriptor, ACTUAL actual) {
-        super(descriptor, actual);
-        this.zero = toActualNumber((ACTUAL) BigInteger.ZERO, (Class<ACTUAL>) actual.getClass());
+    /**
+     * Creates an instance with actual value which is {@link Comparable}.
+     *
+     * @param actual comparable number
+     * @param zero   base point for comparison
+     * @param <N>    type of comparable number
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected <N extends Comparable<? super N>> AbstractNumberAssert(N actual, N zero) {
+        this((ACTUAL) actual, (ACTUAL) zero, (Comparator) Comparator.naturalOrder());
     }
 
     /**
-     * Converts as instance whose type is subclass of {@link Number} to the given type.
+     * Creates an instance with actual value which doesn't implement {@link Comparable}.
      *
-     * @param number     number to be converted
-     * @param numberType type of number
-     * @return converted number
-     * @throws UnsupportedOperationException if {@code numberType} is not supported
+     * @param actual     number
+     * @param zero       base point for comparison
+     * @param comparator comparison function
      */
-    @SuppressWarnings("unchecked")
-    private ACTUAL toActualNumber(ACTUAL number, Class<ACTUAL> numberType) {
-        if (numberType.isAssignableFrom(Byte.class)) return (ACTUAL) Byte.valueOf(number.byteValue());
-        if (numberType.isAssignableFrom(Short.class)) return (ACTUAL) Short.valueOf(number.shortValue());
-        if (numberType.isAssignableFrom(Integer.class)) return (ACTUAL) Integer.valueOf(number.intValue());
-        if (numberType.isAssignableFrom(Long.class)) return (ACTUAL) Long.valueOf(number.longValue());
-        if (numberType.isAssignableFrom(Float.class)) return (ACTUAL) Float.valueOf(number.floatValue());
-        if (numberType.isAssignableFrom(Double.class)) return (ACTUAL) Double.valueOf(number.doubleValue());
-        if (numberType.isAssignableFrom(BigInteger.class)) return (ACTUAL) BigInteger.valueOf(number.longValue());
-        if (numberType.isAssignableFrom(BigDecimal.class)) return (ACTUAL) BigDecimal.valueOf(number.doubleValue());
-
-        throw new UnsupportedOperationException("NumberAssert doesn't support the type: " + numberType);
+    protected AbstractNumberAssert(ACTUAL actual, ACTUAL zero, Comparator<ACTUAL> comparator) {
+        super(actual);
+        this.zero = zero;
+        this.comparator = comparator;
     }
 
-    // -------------------------------------------------------------------------------------------------
+    /**
+     * Creates an instance with actual value which is {@link Comparable} and
+     * merges all the properties of {@link Descriptor} from parameter into this instance.
+     *
+     * @param descriptor assertion class to merge into this
+     * @param actual     comparable number
+     * @param zero       base point for comparison
+     * @param <N>        type of comparable number
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected <N extends Comparable<? super N>> AbstractNumberAssert(Descriptor<?> descriptor, N actual, N zero) {
+        this(descriptor, (ACTUAL) actual, (ACTUAL) zero, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * Creates an instance with actual value which doesn't implement {@link Comparable} and
+     * merges all the properties of {@link Descriptor} from parameter into this instance.
+     *
+     * @param actual     number
+     * @param zero       base point for comparison
+     * @param comparator comparison function
+     */
+    protected AbstractNumberAssert(Descriptor<?> descriptor, ACTUAL actual, ACTUAL zero, Comparator<? super ACTUAL> comparator) {
+        super(descriptor, actual);
+        this.zero = zero;
+        this.comparator = comparator;
+    }
 
     /**
      * Asserts that actual value is equal to expected value.
@@ -92,8 +114,12 @@ public class NumberAssert<
      */
     @Override
     public SELF isEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO, expected, actual);
+        if (!actual.equals(expected) && this.comparator.compare(actual, expected) != 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -118,8 +144,12 @@ public class NumberAssert<
      */
     @Override
     public SELF isNotEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO, expected, actual);
+        if (actual.equals(expected) || this.comparator.compare(actual, expected) == 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -144,8 +174,12 @@ public class NumberAssert<
      */
     @Override
     public SELF isGreaterThan(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
+        if (this.comparator.compare(actual, expected) <= 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -170,8 +204,12 @@ public class NumberAssert<
      */
     @Override
     public SELF isGreaterThanOrEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
+        if (this.comparator.compare(actual, expected) < 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -196,8 +234,12 @@ public class NumberAssert<
      */
     @Override
     public SELF isLessThan(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
+        if (this.comparator.compare(actual, expected) >= 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -222,8 +264,12 @@ public class NumberAssert<
      */
     @Override
     public SELF isLessThanOrEqualTo(ACTUAL expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
+        if (this.comparator.compare(actual, expected) > 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -245,9 +291,12 @@ public class NumberAssert<
      *
      * @return this class
      */
+    @Override
     public SELF isPositive() {
-        if (actual.compareTo(this.zero) <= 0) {
-            setDefaultDescription("It is expected to be positive, but it isn't. (actual: '{0}')", actual);
+        if (this.comparator.compare(actual, this.zero) <= 0) {
+            setDefaultDescription(AmountAssertable.DEFAULT_DESCRIPTION_IS_POSITIVE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -269,9 +318,12 @@ public class NumberAssert<
      *
      * @return this class
      */
+    @Override
     public SELF isZeroOrPositive() {
-        if (actual.compareTo(this.zero) < 0) {
-            setDefaultDescription("It is expected to be zero or positive, but it isn't. (actual: '{0}')", actual);
+        if (this.comparator.compare(actual, this.zero) < 0) {
+            setDefaultDescription(AmountAssertable.DEFAULT_DESCRIPTION_IS_ZERO_OR_POSITIVE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -293,9 +345,12 @@ public class NumberAssert<
      *
      * @return this class
      */
+    @Override
     public SELF isNegative() {
-        if (actual.compareTo(this.zero) >= 0) {
-            setDefaultDescription("It is expected to be negative, but it isn't. (actual: '{0}')", actual);
+        if (this.comparator.compare(actual, this.zero) >= 0) {
+            setDefaultDescription(AmountAssertable.DEFAULT_DESCRIPTION_IS_NEGATIVE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -317,9 +372,12 @@ public class NumberAssert<
      *
      * @return this class
      */
+    @Override
     public SELF isZeroOrNegative() {
-        if (actual.compareTo(this.zero) > 0) {
-            setDefaultDescription("It is expected to be zero or negative, but it isn't. (actual: '{0}')", actual);
+        if (this.comparator.compare(actual, this.zero) > 0) {
+            setDefaultDescription(AmountAssertable.DEFAULT_DESCRIPTION_IS_ZERO_OR_NEGATIVE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -359,7 +417,12 @@ public class NumberAssert<
         }
 
         if (expected == null) {
-            setDefaultDescription("It is expected to close to other, but it isn't. (expected: 'null', actual: '{0}')", actual);
+            setDefaultDescription("It is expected to close to other, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", null),
+                    new SimpleEntry<>("percentage", percentage));
+
             throw getException();
         }
 
@@ -368,8 +431,12 @@ public class NumberAssert<
         double $expected = expected.doubleValue();
 
         if (Double.isNaN($actual) || Double.isInfinite($actual) || Double.isNaN($expected) || Double.isInfinite($expected)) {
-            setDefaultDescription("It is expected to close to other, but it isn't. (expected: '{0}', actual: '{1}')",
-                    String.valueOf(expected), String.valueOf(actual));
+            setDefaultDescription("It is expected to close to other, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("percentage", percentage));
+
             throw getException();
         }
 
@@ -379,11 +446,16 @@ public class NumberAssert<
         // When actual is 0, errorRate is NaN or infinite.
         boolean invalid = Double.isNaN(errorRate) || Double.isInfinite(errorRate);
         if (invalid || Math.abs(errorRate) > percentage) {
-            setDefaultDescription("It is expected to close to other by less than {0}%, but difference was {1}%. (expected: '{2}', actual: '{3}')",
-                    BigDecimal.valueOf(percentage).stripTrailingZeros().toPlainString(),
-                    invalid ? errorRate : BigDecimal.valueOf(errorRate).stripTrailingZeros().toPlainString(),
-                    BigDecimal.valueOf($expected).stripTrailingZeros().toPlainString(),
-                    BigDecimal.valueOf($actual).stripTrailingZeros().toPlainString());
+            String $percentage = BigDecimal.valueOf(percentage).stripTrailingZeros().toPlainString();
+
+            setDefaultDescription("It is expected to close to other by less than {0}%, but difference was {1}%.",
+                    $percentage,
+                    invalid ? errorRate : BigDecimal.valueOf(errorRate).stripTrailingZeros().toPlainString());
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", BigDecimal.valueOf($actual).stripTrailingZeros().toPlainString()),
+                    new SimpleEntry<>("expected", BigDecimal.valueOf($expected).stripTrailingZeros().toPlainString()),
+                    new SimpleEntry<>("percentage", $percentage));
+
             throw getException();
         }
 

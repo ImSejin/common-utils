@@ -79,11 +79,15 @@ public final class ArrayUtils {
      */
     @Null
     public static Object wrap(@Null Object array) {
-        if (array == null) return null;
+        if (array == null) {
+            return null;
+        }
 
         // When parameter is not array, returns as it is.
         Class<?> componentType = array.getClass().getComponentType();
-        if (componentType == null) return array;
+        if (componentType == null) {
+            return array;
+        }
 
         int length = Array.getLength(array);
         Class<?> wrapped = ClassUtils.wrap(componentType);
@@ -113,11 +117,15 @@ public final class ArrayUtils {
      */
     @Null
     public static Object unwrap(@Null Object array) {
-        if (array == null) return null;
+        if (array == null) {
+            return null;
+        }
 
         // When parameter is not array, returns as it is.
         Class<?> componentType = array.getClass().getComponentType();
-        if (componentType == null) return array;
+        if (componentType == null) {
+            return array;
+        }
 
         int length = Array.getLength(array);
         Class<?> primitive = ClassUtils.unwrap(componentType);
@@ -156,7 +164,9 @@ public final class ArrayUtils {
      * @return stringified object
      */
     public static String toString(@Null Object array) {
-        if (array == null) return "null";
+        if (array == null) {
+            return "null";
+        }
 
         Class<?> clazz = array.getClass();
         if (clazz.isArray()) {
@@ -174,13 +184,13 @@ public final class ArrayUtils {
             if (componentType == float.class) return Arrays.toString((float[]) array);
             if (componentType == double.class) return Arrays.toString((double[]) array);
 
-        } else if (Path.class.isAssignableFrom(clazz)) {
+        } else if (array instanceof Path) {
             // Must check it is implementation of Path before Iterable, or StackOverflowError is thrown.
             // Implementation of Iterable like Path returns true as the result of Iterable.hasNext()
             // even though it reaches to the end of elements.
             return array.toString();
 
-        } else if (Iterable.class.isAssignableFrom(clazz)) {
+        } else if (array instanceof Iterable) {
             Iterator<?> iterator = ((Iterable<?>) array).iterator();
 
             StringBuilder sb = new StringBuilder("[");
@@ -195,7 +205,7 @@ public final class ArrayUtils {
 
             return sb.toString();
 
-        } else if (Map.class.isAssignableFrom(clazz)) {
+        } else if (array instanceof Map) {
             Iterator<? extends Entry<?, ?>> iterator = ((Map<?, ?>) array).entrySet().iterator();
 
             StringBuilder sb = new StringBuilder("{");

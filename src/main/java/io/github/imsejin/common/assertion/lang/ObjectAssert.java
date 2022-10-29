@@ -19,7 +19,9 @@ package io.github.imsejin.common.assertion.lang;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.util.ClassUtils;
+import jakarta.validation.constraints.Null;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -91,6 +93,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * <p> We shouldn't check if it is null in any assertion classes. The user is responsible for checking that.
      * If you want to avoid {@link NullPointerException}, you check if it is null explicitly using {@link #isNotNull()}.
      */
+    @Null
     protected final ACTUAL actual;
 
     /**
@@ -136,7 +139,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNull() {
         if (actual != null) {
-            setDefaultDescription("It is expected to be null, but not null. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected to be null, but not null.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -158,7 +163,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotNull() {
         if (actual == null) {
-            setDefaultDescription("It is expected to be not null, but null. (actual: 'null')");
+            setDefaultDescription("It is expected not to be null, but null.");
+            setDescriptionVariables(new SimpleEntry<>("actual", null));
+
             throw getException();
         }
 
@@ -173,10 +180,12 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      *
      *     // Assertion will pass.
      *     Asserts.that(0).isSameAs(0);
+     *     Asserts.that(null).isSameAs(null);
      *     Asserts.that(obj).isSameAs(obj);
      *
      *     // Assertion will fail.
      *     Asserts.that(0).isSameAs(1);
+     *     Asserts.that("null").isSameAs(null);
      *     Asserts.that(obj).isSameAs(new Object());
      * }</pre>
      *
@@ -185,7 +194,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isSameAs(ACTUAL expected) {
         if (actual != expected) {
-            setDefaultDescription("They are expected to be the same, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be the same, but they aren't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -200,10 +213,12 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      *
      *     // Assertion will pass.
      *     Asserts.that(0).isNotSameAs(1);
+     *     Asserts.that("null").isNotSameAs(null);
      *     Asserts.that(obj).isNotSameAs(new Object());
      *
      *     // Assertion will fail.
      *     Asserts.that(0).isNotSameAs(0);
+     *     Asserts.that(null).isNotSameAs(null);
      *     Asserts.that(obj).isNotSameAs(obj);
      * }</pre>
      *
@@ -212,7 +227,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotSameAs(ACTUAL expected) {
         if (actual == expected) {
-            setDefaultDescription("They are expected to be not the same, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be not the same, but they are.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -225,10 +244,12 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * <pre>{@code
      *     // Assertion will pass.
      *     Asserts.that(0).isEqualTo(0);
+     *     Asserts.that(null).isEqualTo(null);
      *     Asserts.that("alpha").isEqualTo("alpha");
      *
      *     // Assertion will fail.
      *     Asserts.that(0).isEqualTo(1);
+     *     Asserts.that("null").isEqualTo(null);
      *     Asserts.that("alpha").isEqualTo("beta");
      * }</pre>
      *
@@ -237,7 +258,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isEqualTo(ACTUAL expected) {
         if (!Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be equal, but they aren't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -250,10 +275,12 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * <pre>{@code
      *     // Assertion will pass.
      *     Asserts.that(0).isNotEqualTo(1);
+     *     Asserts.that("null").isNotEqualTo(null);
      *     Asserts.that("alpha").isNotEqualTo("beta");
      *
      *     // Assertion will fail.
      *     Asserts.that(0).isNotEqualTo(0);
+     *     Asserts.that(null).isNotEqualTo(null);
      *     Asserts.that("alpha").isNotEqualTo("alpha");
      * }</pre>
      *
@@ -262,7 +289,11 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotEqualTo(ACTUAL expected) {
         if (Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be not equal, but they are. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("They are expected to be not equal, but they are.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -293,8 +324,14 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isInstanceOf(Class<?> expected) {
         Class<?> wrappedType = ClassUtils.wrap(expected);
+
         if (!wrappedType.isInstance(actual)) {
-            setDefaultDescription("It is expected to be instance of the type, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("It is expected to be instance of the type, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.class", actual.getClass()),
+                    new SimpleEntry<>("expected", wrappedType));
+
             throw getException();
         }
 
@@ -325,8 +362,14 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNotInstanceOf(Class<?> expected) {
         Class<?> wrappedType = ClassUtils.wrap(expected);
+
         if (wrappedType.isInstance(actual)) {
-            setDefaultDescription("It is expected not to be instance of the type, but it is. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("It is expected not to be instance of the type, but it is.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.class", actual.getClass()),
+                    new SimpleEntry<>("expected", wrappedType));
+
             throw getException();
         }
 
@@ -351,7 +394,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF is(Predicate<ACTUAL> condition) {
         if (!Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
-            setDefaultDescription("It is expected to be true, but it isn't. (actual: 'false')");
+            setDefaultDescription("It is expected to satisfy the given condition, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -376,7 +421,9 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      */
     public SELF isNot(Predicate<ACTUAL> condition) {
         if (Objects.requireNonNull(condition, "Predicate cannot be null").test(actual)) {
-            setDefaultDescription("It is expected to be false, but it isn't. (actual: 'true')");
+            setDefaultDescription("It is expected not to satisfy the given condition, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -402,10 +449,15 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * @return this class
      */
     public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
-        T actual = Objects.requireNonNull(from, "Function is not allowed to be null").apply(this.actual);
+        T returned = Objects.requireNonNull(from, "Function is not allowed to be null").apply(actual);
 
-        if (!Objects.deepEquals(actual, expected)) {
-            setDefaultDescription("They are expected to be equal, but they aren't. (expected: '{0}', actual: '{1}')", expected, actual);
+        if (!Objects.deepEquals(returned, expected)) {
+            setDefaultDescription("It is expected to return the given value via function, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("returned", returned),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -444,7 +496,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * @return assertion for string
      */
     public StringAssert<?> asString() {
-        String string = this.actual.toString();
+        String string = actual.toString();
         return new StringAssert<>(this, string);
     }
 

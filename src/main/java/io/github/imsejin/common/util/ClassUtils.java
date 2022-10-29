@@ -181,7 +181,9 @@ public final class ClassUtils {
     @Null
     @SuppressWarnings("unchecked")
     public static <T> Class<T> wrap(@Null Class<T> type) {
-        if (type == null) return null;
+        if (type == null) {
+            return null;
+        }
 
         Class<?> clazz = type;
         if (clazz == void.class) clazz = Void.class;
@@ -196,10 +198,14 @@ public final class ClassUtils {
 
         if (clazz.isArray()) {
             Class<?> actualType = ArrayUtils.resolveActualComponentType(clazz);
-            if (!actualType.isPrimitive()) return type;
+            if (!actualType.isPrimitive()) {
+                return type;
+            }
 
             int dimension = ArrayUtils.dimensionOf(clazz);
-            return (Class<T>) ArrayUtils.resolveArrayType(wrap(actualType), dimension);
+            Class<?> wrappedType = wrap(actualType);
+
+            return (Class<T>) ArrayUtils.resolveArrayType(wrappedType, dimension);
         }
 
         return (Class<T>) clazz;
@@ -218,7 +224,9 @@ public final class ClassUtils {
     @Null
     @SuppressWarnings("unchecked")
     public static <T> Class<T> unwrap(@Null Class<T> type) {
-        if (type == null) return null;
+        if (type == null) {
+            return null;
+        }
 
         Class<?> clazz = type;
         if (clazz == Void.class) clazz = void.class;
@@ -233,10 +241,14 @@ public final class ClassUtils {
 
         if (clazz.isArray()) {
             Class<?> actualType = ArrayUtils.resolveActualComponentType(clazz);
-            if (actualType.isPrimitive()) return type;
+            if (actualType.isPrimitive()) {
+                return type;
+            }
 
             int dimension = ArrayUtils.dimensionOf(clazz);
-            return (Class<T>) ArrayUtils.resolveArrayType(unwrap(actualType), dimension);
+            Class<?> unwrappedType = unwrap(actualType);
+
+            return (Class<T>) ArrayUtils.resolveArrayType(unwrappedType, dimension);
         }
 
         return (Class<T>) clazz;
@@ -263,7 +275,10 @@ public final class ClassUtils {
      * Find all classes and interfaces a class extends or implements recursively</a>
      */
     public static Set<Class<?>> getAllExtendedOrImplementedTypesAsSet(@Null Class<?> clazz) {
-        if (clazz == null) return Collections.emptySet();
+        if (clazz == null) {
+            return Collections.emptySet();
+        }
+
         List<Class<?>> classes = new ArrayList<>();
 
         do {
@@ -284,7 +299,9 @@ public final class ClassUtils {
 
             // All interfaces don't have java.lang.Object as superclass.
             // They return null, so breaks the recursive cycle and returns.
-            if (superclass == null) break;
+            if (superclass == null) {
+                break;
+            }
 
             // Now inspects the superclass.
             clazz = superclass;
@@ -314,7 +331,10 @@ public final class ClassUtils {
      * Find all classes and interfaces a class extends or implements recursively</a>
      */
     public static Graph<Class<?>> getAllExtendedOrImplementedTypesAsGraph(@Null Class<?> clazz) {
-        if (clazz == null) return new DirectedGraph<>();
+        if (clazz == null) {
+            return new DirectedGraph<>();
+        }
+
         Graph<Class<?>> graph = new DirectedGraph<>();
 
         do {
@@ -332,7 +352,9 @@ public final class ClassUtils {
 
             // All interfaces don't have java.lang.Object as superclass.
             // They return null, so breaks the recursive cycle and returns.
-            if (superclass == null) break;
+            if (superclass == null) {
+                break;
+            }
 
             if (superclass != Object.class) {
                 graph.addVertex(superclass);
@@ -384,7 +406,9 @@ public final class ClassUtils {
      */
     public static List<Class<?>> resolveActualTypes(@Null Type type) {
         // When type is concrete type: java.lang.String
-        if (type instanceof Class<?>) return Collections.singletonList((Class<?>) type);
+        if (type instanceof Class<?>) {
+            return Collections.singletonList((Class<?>) type);
+        }
 
         // When type is wildcard type:
         // java.util.List<? super java.lang.String>
@@ -393,26 +417,37 @@ public final class ClassUtils {
             WildcardType wildcardType = (WildcardType) type;
             Type[] lowerBounds = wildcardType.getLowerBounds();
             Type t = ArrayUtils.exists(lowerBounds) ? lowerBounds[0] : wildcardType.getUpperBounds()[0];
-            if (t instanceof Class<?>) return Collections.singletonList((Class<?>) t);
+
+            if (t instanceof Class<?>) {
+                return Collections.singletonList((Class<?>) t);
+            }
 
             // GenericArrayType: T[]
-            if (t instanceof GenericArrayType) return Collections.singletonList(Object[].class);
+            if (t instanceof GenericArrayType) {
+                return Collections.singletonList(Object[].class);
+            }
 
             // TypeVariable: T
             return Collections.emptyList();
         }
 
         // GenericArrayType: T[]
-        if (type instanceof GenericArrayType) return Collections.singletonList(Object[].class);
+        if (type instanceof GenericArrayType) {
+            return Collections.singletonList(Object[].class);
+        }
 
         // null, TypeVariable: T
-        if (!(type instanceof ParameterizedType)) return Collections.emptyList();
+        if (!(type instanceof ParameterizedType)) {
+            return Collections.emptyList();
+        }
 
         List<Class<?>> types = new ArrayList<>();
         ParameterizedType paramType = (ParameterizedType) type;
         for (Type t : paramType.getActualTypeArguments()) {
             List<Class<?>> list = resolveActualTypes(t);
-            if (!list.isEmpty()) types.addAll(list);
+            if (!list.isEmpty()) {
+                types.addAll(list);
+            }
         }
 
         return types;

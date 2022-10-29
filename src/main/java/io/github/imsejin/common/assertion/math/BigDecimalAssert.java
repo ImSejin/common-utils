@@ -18,28 +18,36 @@ package io.github.imsejin.common.assertion.math;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.AbstractNumberAssert;
 import io.github.imsejin.common.util.NumberUtils;
 
 import java.math.BigDecimal;
+import java.util.AbstractMap.SimpleEntry;
 
+/**
+ * Assertion for {@link BigDecimal}
+ *
+ * @param <SELF> this class
+ */
 public class BigDecimalAssert<
         SELF extends BigDecimalAssert<SELF>>
-        extends NumberAssert<SELF, BigDecimal>
+        extends AbstractNumberAssert<SELF, BigDecimal>
         implements DecimalNumberAssertable<SELF, BigDecimal> {
 
     public BigDecimalAssert(BigDecimal actual) {
-        super(actual);
+        super(actual, BigDecimal.ZERO);
     }
 
     protected BigDecimalAssert(Descriptor<?> descriptor, BigDecimal actual) {
-        super(descriptor, actual);
+        super(descriptor, actual, BigDecimal.ZERO);
     }
 
     @Override
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
-            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
+            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 

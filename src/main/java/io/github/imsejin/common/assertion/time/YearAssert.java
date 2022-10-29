@@ -18,10 +18,11 @@ package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.Year;
+import java.util.AbstractMap.SimpleEntry;
 
 public class YearAssert<SELF extends YearAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, Year>
@@ -38,7 +39,9 @@ public class YearAssert<SELF extends YearAssert<SELF>>
     @Override
     public SELF isLeapYear() {
         if (!actual.isLeap()) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -48,7 +51,9 @@ public class YearAssert<SELF extends YearAssert<SELF>>
     @Override
     public SELF isNotLeapYear() {
         if (actual.isLeap()) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -57,26 +62,26 @@ public class YearAssert<SELF extends YearAssert<SELF>>
 
     // -------------------------------------------------------------------------------------------------
 
-    public NumberAssert<?, Integer> asValue() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asValue() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int value = actual.getValue();
-        return new NumberAssertImpl(this, value);
+        return new IntegerAssertImpl(this, value);
     }
 
-    public NumberAssert<?, Integer> asLength() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asLength() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int length = actual.length();
-        return new NumberAssertImpl(this, length);
+        return new IntegerAssertImpl(this, length);
     }
 
 }

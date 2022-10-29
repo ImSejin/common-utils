@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.util
 
-
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -26,8 +25,6 @@ import spock.lang.TempDir
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
-
-import static java.util.stream.Collectors.toList
 
 class JsonUtilsSpec extends Specification {
 
@@ -40,7 +37,7 @@ class JsonUtilsSpec extends Specification {
                 "id": "file",
                 "value": "File",
                 "popup": {
-                    "menuitem": [
+                    "menuItems": [
                         {"value": "New", "onclick": "CreateNewDoc()"},
                         {"value": "Open", "onclick": "OpenDoc()"},
                         {"value": "Close", "onclick": "CloseDoc()"}
@@ -63,8 +60,8 @@ class JsonUtilsSpec extends Specification {
         def menu = json["menu"] as JsonObject
         menu.keySet() == ["id", "value", "popup"].toSet()
 
-        def menuitem = menu["popup"]["menuitem"].toList() as List<JsonObject>
-        def onclicks = menuitem.stream().map({ it.get("onclick").getAsString() }).collect(toList())
+        def menuItems = menu["popup"]["menuItems"] as List<JsonObject>
+        def onclicks = menuItems.collect { it.get("onclick").asString }
         onclicks == ["CreateNewDoc()", "OpenDoc()", "CloseDoc()"]
 
         cleanup:
@@ -74,20 +71,20 @@ class JsonUtilsSpec extends Specification {
     def "Converts json object to java object"() {
         given:
         def jsonObject = JsonParser.parseString(JSON).asJsonObject
-        def jsonArray = jsonObject["menu"]["popup"]["menuitem"].asJsonArray as JsonArray
+        def jsonArray = jsonObject["menu"]["popup"]["menuItems"] as JsonArray
 
         when:
-        def menuitem = JsonUtils.toObject(jsonArray[0].toString(), MenuItem)
+        def menuItems = JsonUtils.toObject(jsonArray[0].toString(), MenuItem)
 
         then:
-        menuitem.value == "New"
-        menuitem.onclick == "CreateNewDoc()"
+        menuItems.value == "New"
+        menuItems.onclick == "CreateNewDoc()"
     }
 
     def "Converts json array to java list"() {
         given:
         def jsonObject = JsonParser.parseString(JSON).asJsonObject
-        def jsonArray = jsonObject["menu"]["popup"]["menuitem"].asJsonArray as JsonArray
+        def jsonArray = jsonObject["menu"]["popup"]["menuItems"] as JsonArray
 
         when:
         def list = JsonUtils.toList(jsonArray, MenuItem)

@@ -27,9 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @DisplayName("CharacterAssert")
 class CharacterAssertTest {
@@ -300,8 +302,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isDigit(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isDigit())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isDigit())
+                    .withMessageMatching(Pattern.quote("It is expected to be digit, but it isn't.") +
+                            "\n {4}actual: '.'"));
         }
     }
 
@@ -330,8 +334,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isLetter(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetter())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isLetter())
+                    .withMessageMatching(Pattern.quote("It is expected to be letter, but it isn't.") +
+                            "\n {4}actual: '[\\s\\S]'"));
         }
     }
 
@@ -360,8 +366,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isLetterOrDigit(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLetterOrDigit())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isLetterOrDigit())
+                    .withMessageMatching(Pattern.quote("It is expected to be letter or digit, but it isn't.") +
+                            "\n {4}actual: '.'"));
         }
     }
 
@@ -389,8 +397,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isUpperCase(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isUpperCase())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isUpperCase())
+                    .withMessageMatching(Pattern.quote("It is expected to be upper case, but it isn't.") +
+                            "\n {4}actual: '.'"));
         }
     }
 
@@ -418,8 +428,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isLowerCase(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isLowerCase())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isLowerCase())
+                    .withMessageMatching(Pattern.quote("It is expected to be lower case, but it isn't.") +
+                            "\n {4}actual: '.'"));
         }
     }
 
@@ -448,8 +460,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isAlphabetic(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isAlphabetic())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isAlphabetic())
+                    .withMessageMatching(Pattern.quote("It is expected to be alphabetic, but it isn't.") +
+                            "\n {4}actual: '.'"));
         }
     }
 
@@ -474,8 +488,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isSpaceChar(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isSpaceChar())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isSpaceChar())
+                    .withMessageMatching(Pattern.quote("It is expected to be space character, but it isn't.") +
+                            "\n {4}actual: '.'"));
         }
     }
 
@@ -503,8 +519,10 @@ class CharacterAssertTest {
                     .filter(it -> !Character.isWhitespace(it)).collect(toList());
 
             // expect
-            characters.forEach(actual -> assertThatCode(() -> Asserts.that(actual).isWhitespace())
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isWhitespace())
+                    .withMessageMatching(Pattern.quote("It is expected to be whitespace, but it isn't.") +
+                            "\n {4}actual: '.'"));
         }
     }
 

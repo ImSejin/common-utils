@@ -264,12 +264,12 @@ class CollectionUtilsSpec extends Specification {
         def maybeExceptLast = Math.floorMod(originSize, chunkSize) > 0 && Math.floorDiv(originSize, chunkSize) > 0
                 ? outer.subList(0, outerSize - 2)
                 : outer
-        def maxSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&max)
-        def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&min)
+        def maxSizeOfInnerList = maybeExceptLast.max { it.size() }
+        def minSizeOfInnerList = maybeExceptLast.min { it.size() }
         maxSizeOfInnerList == minSizeOfInnerList
 
         and: "Sum of inner list' size and origin list' size are the same."
-        def sizeOfInnerLists = outer.stream().mapToInt(List.&size).sum()
+        def sizeOfInnerLists = outer.sum { it.size() }
         sizeOfInnerLists == range
 
         where:
@@ -291,12 +291,12 @@ class CollectionUtilsSpec extends Specification {
         def maybeExceptLast = Math.floorMod(integers.size(), count) > 0
                 ? outer.subList(0, count - 2)
                 : outer
-        def maxSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&max)
-        def minSizeOfInnerList = maybeExceptLast.stream().mapToInt(List.&size).reduce(Integer.&min)
+        def maxSizeOfInnerList = maybeExceptLast.max { it.size() }
+        def minSizeOfInnerList = maybeExceptLast.min { it.size() }
         maxSizeOfInnerList == minSizeOfInnerList
 
         and: "Sum of inner list' size and origin list' size are the same."
-        def sizeOfInnerLists = outer.stream().mapToInt(List.&size).sum()
+        def sizeOfInnerLists = outer.sum { it.size() }
         sizeOfInnerLists == range
 
         where:
@@ -305,7 +305,7 @@ class CollectionUtilsSpec extends Specification {
 
     def "Finds a median value in long array"() {
         when:
-        double actual = CollectionUtils.median(longs as long[])
+        def actual = CollectionUtils.median(longs as long[]) as BigDecimal
 
         then:
         actual == expected
@@ -319,7 +319,7 @@ class CollectionUtilsSpec extends Specification {
 
     def "Finds a median value in int array"() {
         when:
-        double actual = CollectionUtils.median(ints as int[])
+        def actual = CollectionUtils.median(ints as int[]) as BigDecimal
 
         then:
         actual == expected

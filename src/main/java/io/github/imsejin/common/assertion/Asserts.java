@@ -16,20 +16,25 @@
 
 package io.github.imsejin.common.assertion;
 
-import io.github.imsejin.common.assertion.io.AbstractFileAssert;
+import io.github.imsejin.common.assertion.io.FileAssert;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
 import io.github.imsejin.common.assertion.lang.BooleanAssert;
+import io.github.imsejin.common.assertion.lang.ByteAssert;
 import io.github.imsejin.common.assertion.lang.CharSequenceAssert;
 import io.github.imsejin.common.assertion.lang.CharacterAssert;
 import io.github.imsejin.common.assertion.lang.ClassAssert;
 import io.github.imsejin.common.assertion.lang.DoubleAssert;
 import io.github.imsejin.common.assertion.lang.FloatAssert;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
+import io.github.imsejin.common.assertion.lang.LongAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.PackageAssert;
+import io.github.imsejin.common.assertion.lang.ShortAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
+import io.github.imsejin.common.assertion.math.BigIntegerAssert;
 import io.github.imsejin.common.assertion.net.UrlAssert;
+import io.github.imsejin.common.assertion.nio.file.PathAssert;
 import io.github.imsejin.common.assertion.time.DurationAssert;
 import io.github.imsejin.common.assertion.time.InstantAssert;
 import io.github.imsejin.common.assertion.time.LocalTimeAssert;
@@ -47,12 +52,22 @@ import io.github.imsejin.common.assertion.util.CollectionAssert;
 import io.github.imsejin.common.assertion.util.DateAssert;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.assertion.util.MapAssert;
+import io.github.imsejin.common.assertion.util.OptionalAssert;
+import io.github.imsejin.common.assertion.util.OptionalDoubleAssert;
+import io.github.imsejin.common.assertion.util.OptionalIntAssert;
+import io.github.imsejin.common.assertion.util.OptionalLongAssert;
 import io.github.imsejin.common.assertion.util.UuidAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicBooleanAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicIntegerAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicLongAssert;
+import io.github.imsejin.common.assertion.util.concurrent.atomic.AtomicReferenceAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -70,7 +85,15 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Asserts for fluent assertion not increasing branches on code coverage.
@@ -167,7 +190,7 @@ public abstract class Asserts {
         return that((Double[]) ArrayUtils.wrap(array));
     }
 
-    public static <T> ArrayAssert<?, T> that(T[] array) {
+    public static <E> ArrayAssert<?, E> that(E[] array) {
         return new ArrayAssert<>(array);
     }
 
@@ -187,8 +210,20 @@ public abstract class Asserts {
         return new CharacterAssert<>(character);
     }
 
-    public static <NUMBER extends Number & Comparable<NUMBER>> NumberAssert<?, NUMBER> that(NUMBER number) {
-        return new NumberAssert<>(number);
+    public static ByteAssert<?> that(Byte number) {
+        return new ByteAssert<>(number);
+    }
+
+    public static ShortAssert<?> that(Short number) {
+        return new ShortAssert<>(number);
+    }
+
+    public static IntegerAssert<?> that(Integer number) {
+        return new IntegerAssert<>(number);
+    }
+
+    public static LongAssert<?> that(Long number) {
+        return new LongAssert<>(number);
     }
 
     public static FloatAssert<?> that(Float number) {
@@ -209,11 +244,21 @@ public abstract class Asserts {
 
     // java.io -----------------------------------------------------------------------------------------
 
-    public static AbstractFileAssert<?, File> that(File file) {
-        return new AbstractFileAssert<>(file);
+    public static FileAssert<?, File> that(File file) {
+        return new FileAssert<>(file);
+    }
+
+    // java.nio.file -----------------------------------------------------------------------------------------
+
+    public static PathAssert<?, Path> that(Path path) {
+        return new PathAssert<>(path);
     }
 
     // java.math ---------------------------------------------------------------------------------------
+
+    public static BigIntegerAssert<?> that(BigInteger bigInteger) {
+        return new BigIntegerAssert<>(bigInteger);
+    }
 
     public static BigDecimalAssert<?> that(BigDecimal bigDecimal) {
         return new BigDecimalAssert<>(bigDecimal);
@@ -287,11 +332,11 @@ public abstract class Asserts {
         return new DateAssert<>(date);
     }
 
-    public static <T> CollectionAssert<?, Collection<T>, T> that(Collection<T> collection) {
+    public static <E> CollectionAssert<?, Collection<E>, E> that(Collection<E> collection) {
         return new CollectionAssert<>(collection);
     }
 
-    public static <T> ListAssert<?, List<T>, T> that(List<T> list) {
+    public static <E> ListAssert<?, List<E>, E> that(List<E> list) {
         return new ListAssert<>(list);
     }
 
@@ -299,8 +344,46 @@ public abstract class Asserts {
         return new MapAssert<>(map);
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static <T> OptionalAssert<?, T> that(Optional<T> optional) {
+        return new OptionalAssert<>(optional);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static OptionalIntAssert<?> that(OptionalInt optionalInt) {
+        return new OptionalIntAssert<>(optionalInt);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static OptionalLongAssert<?> that(OptionalLong optionalLong) {
+        return new OptionalLongAssert<>(optionalLong);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static OptionalDoubleAssert<?> that(OptionalDouble optionalDouble) {
+        return new OptionalDoubleAssert<>(optionalDouble);
+    }
+
     public static UuidAssert<?> that(UUID uuid) {
         return new UuidAssert<>(uuid);
+    }
+
+    // java.util.concurrent.atomic ---------------------------------------------------------------------
+
+    public static AtomicBooleanAssert<?> that(AtomicBoolean atomicBoolean) {
+        return new AtomicBooleanAssert<>(atomicBoolean);
+    }
+
+    public static AtomicIntegerAssert<?> that(AtomicInteger atomicInteger) {
+        return new AtomicIntegerAssert<>(atomicInteger);
+    }
+
+    public static AtomicLongAssert<?> that(AtomicLong atomicLong) {
+        return new AtomicLongAssert<>(atomicLong);
+    }
+
+    public static <V> AtomicReferenceAssert<?, AtomicReference<V>, V> that(AtomicReference<V> atomicReference) {
+        return new AtomicReferenceAssert<>(atomicReference);
     }
 
 }

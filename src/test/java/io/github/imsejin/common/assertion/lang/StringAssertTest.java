@@ -56,9 +56,10 @@ class StringAssertTest {
         })
         @DisplayName("throws exception, when actual doesn't have text")
         void test1(char actual) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(String.valueOf(actual)).hasText())
-                    .withMessageStartingWith("It is expected to have text, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(String.valueOf(actual))
+                    .hasText())
+                    .withMessageMatching(Pattern.quote("It is expected to have text, but it isn't.") +
+                            "\n {4}actual: '(.|\\s)'");
         }
     }
 
@@ -82,9 +83,10 @@ class StringAssertTest {
         @ValueSource(strings = {" ", "0 1", "value-1", "2000-01-01", "imsejin"})
         @DisplayName("throws exception, when actual is not numeric")
         void test1(String actual) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isNumeric())
-                    .withMessageStartingWith("It is expected to be numeric, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isNumeric())
+                    .withMessageMatching(Pattern.quote("It is expected to be numeric, but it isn't.") +
+                            "\n {4}actual: '.*'");
         }
     }
 
@@ -119,7 +121,8 @@ class StringAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetter())
-                    .withMessageStartingWith("It is expected to be letter, but it isn't."));
+                    .withMessageMatching(Pattern.quote("It is expected to be letter, but it isn't.") +
+                            "\n {4}actual: '(\\s|\\S)*'"));
         }
     }
 
@@ -154,7 +157,8 @@ class StringAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLetterOrDigit())
-                    .withMessageStartingWith("It is expected to be letter or digit, but it isn't."));
+                    .withMessageMatching(Pattern.quote("It is expected to be letter or digit, but it isn't.") +
+                            "\n {4}actual: '(\\s|\\S)*'"));
         }
     }
 
@@ -189,7 +193,8 @@ class StringAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isUpperCase())
-                    .withMessageStartingWith("It is expected to have only uppercase letter(s), but it isn't."));
+                    .withMessageMatching(Pattern.quote("It is expected to have only uppercase letter(s), but it isn't.") +
+                            "\n {4}actual: '(\\s|\\S)*'"));
         }
     }
 
@@ -224,7 +229,8 @@ class StringAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLowerCase())
-                    .withMessageStartingWith("It is expected to have only lowercase letter(s), but it isn't."));
+                    .withMessageMatching(Pattern.quote("It is expected to have only lowercase letter(s), but it isn't.") +
+                            "\n {4}actual: '(\\s|\\S)*'"));
         }
     }
 
@@ -259,7 +265,8 @@ class StringAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isAlphabetic())
-                    .withMessageStartingWith("It is expected to be alphabetic, but it isn't."));
+                    .withMessageMatching(Pattern.quote("It is expected to be alphabetic, but it isn't.") +
+                            "\n {4}actual: '(\\s|\\S)*'"));
         }
     }
 
@@ -291,9 +298,11 @@ class StringAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't start with the given string")
         void test1(String actual, String expected) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).startsWith(expected))
-                    .withMessageStartingWith("It is expected to start with the given string, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .startsWith(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to start with the given string, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}expected: '.*'");
         }
     }
 
@@ -325,9 +334,11 @@ class StringAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't end with the given string")
         void test1(String actual, String expected) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).endsWith(expected))
-                    .withMessageStartingWith("It is expected to end with the given string, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .endsWith(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to end with the given string, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}expected: '.*'");
         }
     }
 
@@ -358,12 +369,16 @@ class StringAssertTest {
         }, delimiter = ';')
         @DisplayName("throws exception, when actual doesn't match the given regular expression")
         void test1(String actual, @Language("RegExp") String expected) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).matches(expected))
-                    .withMessageStartingWith("It is expected to match the given regular expression, but it isn't.");
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).matches(Pattern.compile(expected)))
-                    .withMessageStartingWith("It is expected to match the given pattern, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .matches(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to match the given regular expression, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}expected: '.+'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .matches(Pattern.compile(expected)))
+                    .withMessageMatching(Pattern.quote("It is expected to match the given pattern, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}expected: '.+'");
         }
     }
 

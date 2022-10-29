@@ -16,23 +16,24 @@
 
 package io.github.imsejin.common.assertion.composition;
 
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
 import java.util.List;
 
 /**
  * Composition of assertion for iteration randomly accessible.
  *
  * @param <SELF>    assertion class
- * @param <ACTUAL>  type that can iterate and randomly accessible
- * @param <ELEMENT> element that {@link ACTUAL} has
+ * @param <ELEMENT> element
  * @see java.lang.reflect.Array
  * @see List
  */
-public interface RandomAccessIterationAssertable<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL, ELEMENT> {
+public interface RandomAccessIterationAssertable<
+        SELF extends RandomAccessIterationAssertable<SELF, ELEMENT>,
+        ELEMENT> {
 
-    String DEFAULT_DESCRIPTION_STARTS_WITH = "It is expected to start with the given element(s), but it isn't. (expected: '{0}', actual: '{1}')";
-    String DEFAULT_DESCRIPTION_ENDS_WITH = "It is expected to end with the given element(s), but it isn't. (expected: '{0}', actual: '{1}')";
+    String DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE = "It is expected to start with the given element(s), but it has fewer element(s) than that.";
+    String DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT = "It is expected to start with the given element(s), but it contains unexpected element(s).";
+    String DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE = "It is expected to end with the given element(s), but it has fewer element(s) than that.";
+    String DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT = "It is expected to end with the given element(s), but it contains unexpected element(s).";
 
     /**
      * Asserts that actual value has elements started with expected values.

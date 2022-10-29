@@ -18,6 +18,8 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
 
+import java.util.AbstractMap.SimpleEntry;
+
 /**
  * Assertion for {@link Boolean}
  *
@@ -48,7 +50,9 @@ public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAsser
      */
     public SELF isTrue() {
         if (!actual) {
-            setDefaultDescription("It is expected to be true, but it isn't. (actual: 'false')");
+            setDefaultDescription("It is expected to be true, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", false));
+
             throw getException();
         }
 
@@ -70,7 +74,9 @@ public class BooleanAssert<SELF extends BooleanAssert<SELF>> extends ObjectAsser
      */
     public SELF isFalse() {
         if (actual) {
-            setDefaultDescription("It is expected to be false, but it isn't. (actual: 'true')");
+            setDefaultDescription("It is expected to be false, but it isn't.");
+            setDescriptionVariables(new SimpleEntry<>("actual", true));
+
             throw getException();
         }
 

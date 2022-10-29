@@ -20,6 +20,8 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
+import java.util.AbstractMap.SimpleEntry;
+
 /**
  * Assertion for {@link Float}
  *
@@ -27,21 +29,23 @@ import io.github.imsejin.common.util.NumberUtils;
  */
 public class FloatAssert<
         SELF extends FloatAssert<SELF>>
-        extends NumberAssert<SELF, Float>
+        extends AbstractNumberAssert<SELF, Float>
         implements DecimalNumberAssertable<SELF, Float> {
 
     public FloatAssert(Float actual) {
-        super(actual);
+        super(actual, 0.0F);
     }
 
     protected FloatAssert(Descriptor<?> descriptor, Float actual) {
-        super(descriptor, actual);
+        super(descriptor, actual, 0.0F);
     }
 
     @Override
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
-            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART, actual);
+            setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 

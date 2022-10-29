@@ -19,12 +19,14 @@ package io.github.imsejin.common.assertion.util;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.lang.ArrayAssert;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -43,7 +45,8 @@ public class CollectionAssert<
         ACTUAL extends Collection<? extends ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ACTUAL>
-        implements IterationAssertable<SELF, ACTUAL, ELEMENT> {
+        implements EnumerationAssertable<SELF, ELEMENT>,
+        IterationAssertable<SELF, ACTUAL, ELEMENT> {
 
     public CollectionAssert(ACTUAL actual) {
         super(actual);
@@ -61,7 +64,11 @@ public class CollectionAssert<
     @Override
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()));
+
             throw getException();
         }
 
@@ -76,7 +83,11 @@ public class CollectionAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()));
+
             throw getException();
         }
 
@@ -90,9 +101,16 @@ public class CollectionAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(int expected) {
-        if (actual.size() != expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
+    public SELF hasSize(long expected) {
+        int size = actual.size();
+
+        if (size != expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -106,9 +124,16 @@ public class CollectionAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(int expected) {
-        if (actual.size() == expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.size());
+    public SELF doesNotHaveSize(long expected) {
+        int size = actual.size();
+
+        if (size == expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -124,9 +149,16 @@ public class CollectionAssert<
     @Override
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF hasSameSizeAs(Collection expected) {
-        if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.size(), actual.size());
+        Integer expectedSize = expected == null ? null : expected.size();
+
+        if (expected == null || actual.size() != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -142,9 +174,100 @@ public class CollectionAssert<
     @Override
     @SuppressWarnings("rawtypes") // For receiving parameter regardless of its generic type.
     public SELF doesNotHaveSameSizeAs(Collection expected) {
-        if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.size(), actual.size());
+        Integer expectedSize = expected == null ? null : expected.size();
+
+        if (expected == null || actual.size() == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeGreaterThan(long expected) {
+        if (actual.size() <= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeGreaterThanOrEqualTo(long expected) {
+        if (actual.size() < expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThan(long expected) {
+        if (actual.size() >= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThanOrEqualTo(long expected) {
+        if (actual.size() > expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.size()),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -165,7 +288,11 @@ public class CollectionAssert<
             }
         }
 
-        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
+        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+        setDescriptionVariables(
+                new SimpleEntry<>("actual", actual),
+                new SimpleEntry<>("expected", expected));
+
         throw getException();
     }
 
@@ -182,7 +309,11 @@ public class CollectionAssert<
                 continue;
             }
 
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN, expected, actual, element);
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -202,7 +333,9 @@ public class CollectionAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL);
+        setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
         throw getException();
     }
 
@@ -218,7 +351,9 @@ public class CollectionAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -246,7 +381,11 @@ public class CollectionAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY, expected, actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY);
+        setDescriptionVariables(
+                new SimpleEntry<>("actual", actual),
+                new SimpleEntry<>("expected", expected));
+
         throw getException();
     }
 
@@ -270,7 +409,12 @@ public class CollectionAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual, item);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("missing", item));
+
             throw getException();
         }
 
@@ -295,7 +439,12 @@ public class CollectionAssert<
                     continue;
                 }
 
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL, expected, actual);
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL);
+                setDescriptionVariables(
+                        new SimpleEntry<>("actual", actual),
+                        new SimpleEntry<>("expected", expected),
+                        new SimpleEntry<>("included", element));
+
                 throw getException();
             }
         }
@@ -326,7 +475,12 @@ public class CollectionAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING, expected, actual, item);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("missing", item));
+
             throw getException();
         }
 
@@ -339,7 +493,12 @@ public class CollectionAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED, expected, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 
@@ -354,7 +513,9 @@ public class CollectionAssert<
     @Override
     public SELF containsOnlyNulls() {
         if (actual.isEmpty()) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -363,7 +524,9 @@ public class CollectionAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -388,7 +551,11 @@ public class CollectionAssert<
 
         for (ELEMENT element : actual) {
             if (noDuplicates.contains(element)) {
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES, actual, element);
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES);
+                setDescriptionVariables(
+                        new SimpleEntry<>("actual", actual),
+                        new SimpleEntry<>("duplicated", element));
+
                 throw getException();
             }
 
@@ -412,7 +579,9 @@ public class CollectionAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH, actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH);
+        setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
         throw getException();
     }
 
@@ -425,7 +594,9 @@ public class CollectionAssert<
     @Override
     public SELF allMatch(Predicate<ELEMENT> expected) {
         if (actual.isEmpty()) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, "");
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -434,7 +605,11 @@ public class CollectionAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("unmatched", element));
+
             throw getException();
         }
 
@@ -454,7 +629,11 @@ public class CollectionAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("matched", element));
+
             throw getException();
         }
 
@@ -516,15 +695,15 @@ public class CollectionAssert<
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asSize() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asSize() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int size = actual.size();
-        return new NumberAssertImpl(this, size);
+        return new IntegerAssertImpl(this, size);
     }
 
 }

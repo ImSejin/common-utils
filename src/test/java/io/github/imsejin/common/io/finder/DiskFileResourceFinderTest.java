@@ -22,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -197,10 +196,7 @@ class DiskFileResourceFinderTest {
         void test4(@Memory FileSystem fileSystem) throws IOException {
             // given
             Path filePath = Files.createFile(fileSystem.getPath("/", "dummy.txt"));
-            int length = new Random().nextInt(1024);
-            byte[] bytes = length == 0
-                    ? new byte[0]
-                    : new RandomString().nextString(length).getBytes(StandardCharsets.UTF_8);
+            byte[] bytes = new RandomString().nextString(1, 1024).getBytes(StandardCharsets.UTF_8);
             Files.write(filePath, bytes);
 
             // when
@@ -238,7 +234,7 @@ class DiskFileResourceFinderTest {
             // then
             assertThatException().isThrownBy(() -> resourceFinder.getResources(path))
                     .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .withMessage("No such path exists: " + path);
+                    .withMessageStartingWith("No such path exists: " + path);
         }
     }
 

@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -25,6 +26,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -47,21 +50,23 @@ class CharSequenceAssertTest {
 
         @ParameterizedTest
         @ValueSource(strings = {
-                " ", "\n", "\t", "\r\n", "alpha",
+                "\u0000", " ", "\t", "\\", "alpha",
         })
         @DisplayName("throws exception, when actual is not empty")
         void test1(String source) {
-            String message = "It is expected to be empty, but it isn't.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual.size: '[0-9]+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).isEmpty())
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).isEmpty())
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).isEmpty())
-                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .isEmpty())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .isEmpty())
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .isEmpty())
+                    .withMessageMatching(message);
         }
     }
 
@@ -88,14 +93,14 @@ class CharSequenceAssertTest {
         void test1() {
             String message = "It is expected not to be empty, but it is.";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer()).isNotEmpty())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer())
+                    .isNotEmpty())
                     .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder()).isNotEmpty())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder())
+                    .isNotEmpty())
                     .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that("").isNotEmpty())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("")
+                    .isNotEmpty())
                     .withMessageStartingWith(message);
         }
     }
@@ -128,17 +133,20 @@ class CharSequenceAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't have the given length")
         void test1(String source, int expected) {
-            String message = "It is expected to have the given length, but it isn't.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '-?[0-9]+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).hasSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).hasSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).hasSize(expected))
-                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSize(expected))
+                    .withMessageMatching(message);
         }
     }
 
@@ -170,17 +178,20 @@ class CharSequenceAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual has the given length")
         void test1(String source, int expected) {
-            String message = "It is expected not to have the given length, but it is.";
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotHaveSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotHaveSize(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).doesNotHaveSize(expected))
-                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .doesNotHaveSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .doesNotHaveSize(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .doesNotHaveSize(expected))
+                    .withMessageMatching(message);
         }
     }
 
@@ -220,19 +231,23 @@ class CharSequenceAssertTest {
             String expected = StringUtils.repeat(".", source.length() + 1);
 
             // expect
-            String message = "They are expected to have the same length, but they aren't.";
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).hasSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).hasSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).hasSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).hasSameSizeAs(null))
-                    .withMessageStartingWith(message);
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
+                    "\n {4}actual: '.*'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '(.+|null)'" +
+                    "\n {4}expected\\.size: '([0-9]+|null)'";
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSameSizeAs(null))
+                    .withMessageMatching(message);
         }
     }
 
@@ -272,19 +287,211 @@ class CharSequenceAssertTest {
             String expected = StringUtils.repeat(".", source.length());
 
             // expect
-            String message = "They are expected not to have the same length, but they are.";
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).doesNotHaveSameSizeAs(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).doesNotHaveSameSizeAs(null))
-                    .withMessageStartingWith(message);
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
+                    "\n {4}actual: '.*'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '(.*|null)'" +
+                    "\n {4}expected\\.size: '([0-9]+|null)'";
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .doesNotHaveSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .doesNotHaveSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .doesNotHaveSameSizeAs(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .doesNotHaveSameSizeAs(null))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeGreaterThan'")
+    class HasSizeGreaterThan {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 6",
+                "JHZYAeWERX     | 8",
+                "URtXAkJzXypl   | 10",
+                "bCpLvWRuRxDVeh | 12",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual has size greater than the given size")
+        void test0(String source, int expected) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new StringBuffer(source)).hasSizeGreaterThan(expected);
+                Asserts.that(new StringBuilder(source)).hasSizeGreaterThan(expected);
+                Asserts.that(source).hasSizeGreaterThan(expected);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 8",
+                "JHZYAeWERX     | 10",
+                "URtXAkJzXypl   | 14",
+                "bCpLvWRuRxDVeh | 16",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual has size less than or same as the given size")
+        void test1(String source, int expected) {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSizeGreaterThan(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSizeGreaterThan(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSizeGreaterThan(expected))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeGreaterThanOrEqualTo'")
+    class HasSizeGreaterThanOrEqualTo {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 8",
+                "JHZYAeWERX     | 10",
+                "URtXAkJzXypl   | 10",
+                "bCpLvWRuRxDVeh | 12",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual has size greater than or same as the given size")
+        void test0(String source, int expected) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new StringBuffer(source)).hasSizeGreaterThanOrEqualTo(expected);
+                Asserts.that(new StringBuilder(source)).hasSizeGreaterThanOrEqualTo(expected);
+                Asserts.that(source).hasSizeGreaterThanOrEqualTo(expected);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 10",
+                "JHZYAeWERX     | 12",
+                "URtXAkJzXypl   | 14",
+                "bCpLvWRuRxDVeh | 16",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual has size less than the given size")
+        void test1(String source, int expected) {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSizeGreaterThanOrEqualTo(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSizeGreaterThanOrEqualTo(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSizeGreaterThanOrEqualTo(expected))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeLessThan'")
+    class HasSizeLessThan {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 10",
+                "JHZYAeWERX     | 12",
+                "URtXAkJzXypl   | 14",
+                "bCpLvWRuRxDVeh | 16",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual has size less than the given size")
+        void test0(String source, int expected) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new StringBuffer(source)).hasSizeLessThan(expected);
+                Asserts.that(new StringBuilder(source)).hasSizeLessThan(expected);
+                Asserts.that(source).hasSizeLessThan(expected);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 8",
+                "JHZYAeWERX     | 10",
+                "URtXAkJzXypl   | 10",
+                "bCpLvWRuRxDVeh | 12",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual has size greater than or same as the given size")
+        void test1(String source, int expected) {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSizeLessThan(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSizeLessThan(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSizeLessThan(expected))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'hasSizeLessThanOrEqualTo'")
+    class HasSizeLessThanOrEqualTo {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 8",
+                "JHZYAeWERX     | 10",
+                "URtXAkJzXypl   | 14",
+                "bCpLvWRuRxDVeh | 16",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual has size less than or same as the given size")
+        void test0(String source, int expected) {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new StringBuffer(source)).hasSizeLessThanOrEqualTo(expected);
+                Asserts.that(new StringBuilder(source)).hasSizeLessThanOrEqualTo(expected);
+                Asserts.that(source).hasSizeLessThanOrEqualTo(expected);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "xYSAyUlK       | 6",
+                "JHZYAeWERX     | 8",
+                "URtXAkJzXypl   | 10",
+                "bCpLvWRuRxDVeh | 12",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual has size greater than the given size")
+        void test1(String source, int expected) {
+            String message = Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO) +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}actual\\.size: '[0-9]+'" +
+                    "\n {4}expected: '-?[0-9]+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .hasSizeLessThanOrEqualTo(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .hasSizeLessThanOrEqualTo(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .hasSizeLessThanOrEqualTo(expected))
+                    .withMessageMatching(message);
         }
     }
 
@@ -302,7 +509,7 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | k",
         }, delimiter = '|')
         @DisplayName("passes, when actual contains the given character(s)")
-        void test0(String source, String expected) {
+        void test0(CharSequence source, CharSequence expected) {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new StringBuffer(source)).contains(expected);
                 Asserts.that(new StringBuilder(source)).contains(expected);
@@ -320,18 +527,20 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | CHUNK",
         }, delimiter = '|')
         @DisplayName("throws exception, when actual doesn't contain the given character(s)")
-        void test1(String source, String expected) {
-            String message = "It is expected to contain the given character(s), but it isn't.";
+        void test1(CharSequence source, CharSequence expected) {
+            String message = Pattern.quote("It is expected to contain the given character(s), but it isn't.") +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}expected: '.*'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).contains(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).contains(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).contains(expected))
-                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .contains(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .contains(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .contains(expected))
+                    .withMessageMatching(message);
         }
     }
 
@@ -349,7 +558,7 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | CHUNK",
         }, delimiter = '|')
         @DisplayName("passes, when actual doesn't contain the given character(s)")
-        void test0(String source, String expected) {
+        void test0(CharSequence source, CharSequence expected) {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new StringBuffer(source)).doesNotContain(expected);
                 Asserts.that(new StringBuilder(source)).doesNotContain(expected);
@@ -366,21 +575,23 @@ class CharSequenceAssertTest {
                 "All the Lorem Ipsum generators tend to repeat predefined chunks           | k",
         }, delimiter = '|')
         @DisplayName("throws exception, when actual contains the given character(s)")
-        void test1(String source, String expected) {
-            String message = "It is expected not to contain the given character(s), but it is.";
+        void test1(CharSequence source, CharSequence expected) {
+            String message = Pattern.quote("It is expected not to contain the given character(s), but it is.") +
+                    "\n {4}actual: '.+'" +
+                    "\n {4}expected: '.*'";
 
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuffer(source)).doesNotContain(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(new StringBuilder(source)).doesNotContain(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).doesNotContain(expected))
-                    .withMessageStartingWith(message);
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(source).doesNotContain(""))
-                    .withMessageStartingWith(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
+                    .doesNotContain(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
+                    .doesNotContain(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .doesNotContain(expected))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
+                    .doesNotContain(""))
+                    .withMessageMatching(message);
         }
     }
 

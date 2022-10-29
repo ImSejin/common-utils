@@ -18,6 +18,9 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+
+import java.util.AbstractMap.SimpleEntry;
 
 /**
  * Assertion for {@link CharSequence}
@@ -31,7 +34,8 @@ public class CharSequenceAssert<
         ACTUAL extends CharSequence,
         ELEMENT extends CharSequence>
         extends ObjectAssert<SELF, ACTUAL>
-        implements EnumerationAssertable<SELF, ACTUAL, ELEMENT> {
+        implements SizeAssertable<SELF, ACTUAL>,
+        EnumerationAssertable<SELF, ACTUAL> {
 
     public CharSequenceAssert(ACTUAL actual) {
         super(actual);
@@ -57,8 +61,14 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF isEmpty() {
-        if (actual.length() > 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+        int length = actual.length();
+
+        if (length > 0) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length));
+
             throw getException();
         }
 
@@ -81,8 +91,14 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF isNotEmpty() {
-        if (actual.length() <= 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+        int length = actual.length();
+
+        if (length <= 0) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", length));
+
             throw getException();
         }
 
@@ -107,9 +123,16 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(int expected) {
-        if (actual.length() != expected) {
-            setDefaultDescription("It is expected to have the given length, but it isn't. (expected: '{0}', actual: '{1}')", expected, actual.length());
+    public SELF hasSize(long expected) {
+        int size = actual.length();
+
+        if (size != expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -134,9 +157,16 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(int expected) {
-        if (actual.length() == expected) {
-            setDefaultDescription("It is expected not to have the given length, but it is. (expected: '{0}', actual: '{1}')", expected, actual.length());
+    public SELF doesNotHaveSize(long expected) {
+        int size = actual.length();
+
+        if (size == expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", size),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -163,9 +193,17 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF hasSameSizeAs(ACTUAL expected) {
-        if (expected == null || actual.length() != expected.length()) {
-            setDefaultDescription("They are expected to have the same length, but they aren't. (expected: '{0}', actual: '{1}')",
-                    expected == null ? "null" : expected.length(), actual.length());
+        int actualSize = actual.length();
+        Integer expectedSize = expected == null ? null : expected.length();
+
+        if (expected == null || actualSize != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -192,9 +230,101 @@ public class CharSequenceAssert<
      */
     @Override
     public SELF doesNotHaveSameSizeAs(ACTUAL expected) {
-        if (expected == null || actual.length() == expected.length()) {
-            setDefaultDescription("They are expected not to have the same length, but they are. (expected: '{0}', actual: '{1}')",
-                    expected == null ? "null" : expected.length(), actual.length());
+        int actualSize = actual.length();
+        Integer expectedSize = expected == null ? null : expected.length();
+
+        if (expected == null || actualSize == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actualSize),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeGreaterThan(long expected) {
+        if (actual.length() <= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeGreaterThanOrEqualTo(long expected) {
+        if (actual.length() < expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThan(long expected) {
+        if (actual.length() >= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length()),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThanOrEqualTo(long expected) {
+        if (actual.length() > expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length()),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -222,9 +352,13 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF contains(ELEMENT expected) {
+    public SELF contains(ACTUAL expected) {
         if (expected == null || !actual.toString().contains(expected)) {
-            setDefaultDescription("It is expected to contain the given character(s), but it isn't. (expected: '{0}', actual: '{1}')", expected, actual);
+            setDefaultDescription("It is expected to contain the given character(s), but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -252,10 +386,13 @@ public class CharSequenceAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotContain(ELEMENT expected) {
+    public SELF doesNotContain(ACTUAL expected) {
         if (expected == null || actual.toString().contains(expected)) {
-            setDefaultDescription("It is expected not to contain the given character(s), but it is. (expected: '{0}', actual: '{1}')",
-                    expected, actual);
+            setDefaultDescription("It is expected not to contain the given character(s), but it is.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -276,9 +413,9 @@ public class CharSequenceAssert<
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asLength() {
+    public IntegerAssert<?> asLength() {
         int length = actual.length();
-        return new NumberAssert<>(this, length);
+        return new IntegerAssert<>(this, length);
     }
 
 }

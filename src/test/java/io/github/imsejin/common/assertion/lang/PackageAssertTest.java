@@ -21,14 +21,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -71,7 +65,10 @@ class PackageAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(pack)
-                    .isSuperPackageOf(Package.getPackage(expected)));
+                    .isSuperPackageOf(Package.getPackage(expected)))
+                    .withMessageMatching(Pattern.quote("It is expected to be super-package of the given one, but it isn't.") +
+                            "\n {4}actual: 'package [a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*.*'" +
+                            "\n {4}expected: '(null|package [a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*.*)'");
         }
     }
 
@@ -111,35 +108,10 @@ class PackageAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(pack)
-                    .isSubPackageOf(Package.getPackage(expected)));
-        }
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    @Nested
-    @DisplayName("method 'asName'")
-    class AsName {
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("passes, when actual is equal to given package name")
-        void test0(Class<?> type) {
-            assertThatNoException().isThrownBy(() -> Asserts.that(type.getPackage())
-                    .asName().isEqualTo("java.util.concurrent"));
-        }
-
-        @ParameterizedTest
-        @ValueSource(classes = {
-                BlockingQueue.class, Callable.class, Executor.class,
-                ConcurrentMap.class, Future.class, TimeUnit.class,
-        })
-        @DisplayName("throws exception, when actual is not equal to given package name")
-        void test1(Class<?> type) {
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(type.getPackage())
-                    .asName().startsWith("java.lang"));
+                    .isSubPackageOf(Package.getPackage(expected)))
+                    .withMessageMatching(Pattern.quote("It is expected to be sub-package of the given one, but it isn't.") +
+                            "\n {4}actual: 'package [a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*.*'" +
+                            "\n {4}expected: '(null|package [a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*.*)'");
         }
     }
 

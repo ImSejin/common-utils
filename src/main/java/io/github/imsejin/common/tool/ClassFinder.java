@@ -22,9 +22,8 @@ import jakarta.validation.constraints.Null;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
@@ -32,8 +31,6 @@ import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
-
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Class finder
@@ -57,7 +54,7 @@ public final class ClassFinder {
      * @param superclass superclass
      * @return all subtypes
      */
-    public static Set<Class<?>> getAllSubtypes(Class<?> superclass) {
+    public static <T> Set<Class<? extends T>> getAllSubtypes(Class<T> superclass) {
         return getAllSubtypes(superclass, SearchPolicy.ALL, Thread.currentThread().getContextClassLoader());
     }
 
@@ -70,7 +67,7 @@ public final class ClassFinder {
      * @param searchPolicy policy of search
      * @return all subtypes
      */
-    public static Set<Class<?>> getAllSubtypes(Class<?> superclass, SearchPolicy searchPolicy) {
+    public static <T> Set<Class<? extends T>> getAllSubtypes(Class<T> superclass, SearchPolicy searchPolicy) {
         return getAllSubtypes(superclass, searchPolicy, Thread.currentThread().getContextClassLoader());
     }
 
@@ -84,10 +81,11 @@ public final class ClassFinder {
      * @param classLoader  class loader
      * @return all subtypes
      */
-    public static Set<Class<?>> getAllSubtypes(Class<?> superclass, SearchPolicy searchPolicy, ClassLoader classLoader) {
+    @SuppressWarnings("unchecked")
+    public static <T> Set<Class<? extends T>> getAllSubtypes(Class<T> superclass, SearchPolicy searchPolicy, ClassLoader classLoader) {
         Pattern pattern = Pattern.compile("^[a-zA-Z].+\\$\\d+.*$");
 
-        List<Class<?>> subclasses = new ArrayList<>();
+        Set<Class<? extends T>> subclasses = new HashSet<>();
         findClasses(name -> {
             try {
                 // Excludes anonymous classes that cannot be found.
@@ -100,13 +98,17 @@ public final class ClassFinder {
                 }
 
                 Class<?> clazz = Class.forName(name, false, classLoader);
-                return subclasses.add(clazz);
-            } catch (ClassNotFoundException | NoClassDefFoundError e) {
-                throw new RuntimeException(e.getMessage(), e);
+                if (!searchPolicy.search(superclass, clazz)) {
+                    return true;
+                }
+
+                return subclasses.add((Class<? extends T>) clazz);
+            } catch (ClassNotFoundException | NoClassDefFoundError ignored) {
+                return false;
             }
         });
 
-        return subclasses.stream().filter(clazz -> searchPolicy.search(superclass, clazz)).collect(toSet());
+        return subclasses;
     }
 
     /**
@@ -181,33 +183,40 @@ public final class ClassFinder {
 
     public enum SearchPolicy {
         /**
-         * Search all subclasses, but not implementations of interface.
-         */
-        CLASS {
-            @Override
-            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
-                if (subclass == null || superclass == subclass) return false;
-
-                for (Class<?> c = subclass.getSuperclass(); c != null; c = c.getSuperclass()) {
-                    if (c == superclass) return true;
-                }
-
-                return false;
-            }
-        },
-
-        /**
          * Search all subtypes(sub-interfaces, subclasses and implementations).
          */
         ALL {
             @Override
             public boolean search(Class<?> superclass, @Null Class<?> subclass) {
                 Asserts.that(superclass).isNotNull();
-                if (subclass == null || superclass == subclass) return false;
+                if (subclass == null || superclass == subclass) {
+                    return false;
+                }
 
                 return superclass.isAssignableFrom(subclass);
             }
+        },
+
+        /**
+         * Search all subclasses, but not interface.
+         */
+        CLASS {
+            @Override
+            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
+                return ALL.search(superclass, subclass) && !subclass.isInterface();
+            }
+        },
+
+        /**
+         * Search all implementations, but not class.
+         */
+        INTERFACE {
+            @Override
+            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
+                return ALL.search(superclass, subclass) && subclass.isInterface();
+            }
         };
+
 
         public abstract boolean search(Class<?> superclass, @Null Class<?> subclass);
     }

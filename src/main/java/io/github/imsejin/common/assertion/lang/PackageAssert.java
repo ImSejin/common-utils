@@ -18,6 +18,8 @@ package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
 
+import java.util.AbstractMap.SimpleEntry;
+
 /**
  * Assertion for {@link Package}
  *
@@ -59,12 +61,22 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
      */
     public SELF isSuperPackageOf(Package expected) {
         if (expected == null || actual.equals(expected)) {
+            setDefaultDescription("It is expected to be super-package of the given one, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
         String expectedName = expected.getName();
         String packageName = expectedName.substring(0, expectedName.lastIndexOf('.'));
         if (!actual.getName().equals(packageName)) {
+            setDefaultDescription("It is expected to be super-package of the given one, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -95,12 +107,22 @@ public class PackageAssert<SELF extends PackageAssert<SELF>> extends ObjectAsser
      */
     public SELF isSubPackageOf(Package expected) {
         if (expected == null || actual.equals(expected)) {
+            setDefaultDescription("It is expected to be sub-package of the given one, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
         String actualName = actual.getName();
         String packageName = actualName.substring(0, actualName.lastIndexOf('.'));
         if (!expected.getName().equals(packageName)) {
+            setDefaultDescription("It is expected to be sub-package of the given one, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 

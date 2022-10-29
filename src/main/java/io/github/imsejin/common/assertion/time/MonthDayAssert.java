@@ -17,7 +17,7 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 import java.time.Month;
@@ -41,15 +41,15 @@ public class MonthDayAssert<SELF extends MonthDayAssert<SELF>>
         return new MonthAssert<>(this, month);
     }
 
-    public NumberAssert<?, Integer> asDayOfMonth() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asDayOfMonth() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int dayOfMonth = actual.getDayOfMonth();
-        return new NumberAssertImpl(this, dayOfMonth);
+        return new IntegerAssertImpl(this, dayOfMonth);
     }
 
 }

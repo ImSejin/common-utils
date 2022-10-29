@@ -27,14 +27,12 @@ import spock.lang.Specification
 
 import java.time.LocalDateTime
 
-import static java.util.stream.Collectors.toList
-
 class ReflectionUtilsSpec extends Specification {
 
     def "GetInheritedFields"() {
         when:
         def fields = ReflectionUtils.getInheritedFields type
-        def fieldNames = fields.stream().map({ it.name }).collect(toList())
+        def fieldNames = fields.collect { it.name }
 
         then:
         fieldNames == expected

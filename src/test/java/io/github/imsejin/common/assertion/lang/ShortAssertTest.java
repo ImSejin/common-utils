@@ -417,7 +417,7 @@ class ShortAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not close to other")
         void test1() {
-            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\.[\\s\\S]+";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that((short) 36).isCloseTo(null, 15))

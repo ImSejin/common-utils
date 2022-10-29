@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.math;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -366,7 +368,7 @@ class BigDecimalAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not close to other")
         void test1() {
-            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\.[\\s\\S]+";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigDecimal.TEN).isCloseTo(null, 15))
@@ -451,7 +453,8 @@ class BigDecimalAssertTest {
         void test1(String actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(new BigDecimal(actual)).hasDecimalPart())
-                    .withMessageStartingWith("It is expected to have decimal part, but it isn't.");
+                    .withMessageMatching(Pattern.quote(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART) +
+                            "\n {4}actual: '-?[0-9]+(\\.[0-9]+(E[0-9]+)?)?'");
         }
     }
 

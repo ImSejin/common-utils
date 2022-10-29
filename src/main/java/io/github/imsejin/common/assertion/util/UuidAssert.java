@@ -1,9 +1,10 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.UUID;
 
 /**
@@ -36,10 +37,11 @@ public class UuidAssert<SELF extends UuidAssert<SELF>> extends ObjectAssert<SELF
      *
      * @return this class
      */
-    public UuidAssert<SELF> isNil() {
+    public SELF isNil() {
         if (actual.getMostSignificantBits() != 0 || actual.getLeastSignificantBits() != 0) {
-            setDefaultDescription("It is expected to be nil, but it isn't. (expected: '{0}', actual: '{1}')",
-                    new UUID(0, 0), actual);
+            setDefaultDescription("It is expected to be nil, but not nil.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -61,9 +63,11 @@ public class UuidAssert<SELF extends UuidAssert<SELF>> extends ObjectAssert<SELF
      *
      * @return this class
      */
-    public UuidAssert<SELF> isNotNil() {
+    public SELF isNotNil() {
         if (actual.getMostSignificantBits() == 0 && actual.getLeastSignificantBits() == 0) {
-            setDefaultDescription("It is expected not to be nil, but nil. (actual: '{0}')", actual);
+            setDefaultDescription("It is expected not to be nil, but nil.");
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -84,15 +88,15 @@ public class UuidAssert<SELF extends UuidAssert<SELF>> extends ObjectAssert<SELF
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asVersion() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asVersion() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int version = actual.version();
-        return new NumberAssertImpl(this, version);
+        return new IntegerAssertImpl(this, version);
     }
 
 }

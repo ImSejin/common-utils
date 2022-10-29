@@ -43,7 +43,7 @@ class VerificationSpec extends Specification {
 
         then:
         def e = thrown IllegalArgumentException
-        e.message == message
+        e.message.split("\n")[0] == message
 
         where:
         credentials | duration                      || message

@@ -23,8 +23,6 @@ import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-import static java.util.stream.Collectors.toList
-
 class StopwatchSpec extends Specification {
 
     def "Default timeUnit is nanoseconds"() {
@@ -54,7 +52,7 @@ class StopwatchSpec extends Specification {
             Stopwatch doesn't allow you to change timeUnit into null.
         """
         def e = thrown IllegalArgumentException
-        e.message == "Stopwatch.timeUnit cannot be null"
+        e.message.split("\n")[0] == "Stopwatch.timeUnit cannot be null"
 
         where:
         timeUnit << TimeUnit.values()
@@ -76,7 +74,7 @@ class StopwatchSpec extends Specification {
             Stopwatch doesn't allow you to set null to timeUnit.
         """
         def e = thrown IllegalArgumentException
-        e.message == "Stopwatch.timeUnit cannot be null"
+        e.message.split("\n")[0] == "Stopwatch.timeUnit cannot be null"
 
         where:
         timeUnit << TimeUnit.values()
@@ -99,7 +97,7 @@ class StopwatchSpec extends Specification {
             Stopwatch can't be started while running.
         """
         def e = thrown UnsupportedOperationException
-        e.message == "Stopwatch cannot start while running"
+        e.message.split("\n")[0] == "Stopwatch cannot start while running"
     }
 
     def "Stops"() {
@@ -120,7 +118,7 @@ class StopwatchSpec extends Specification {
             Stopwatch can't be stopped while not running.
         """
         def e = thrown UnsupportedOperationException
-        e.message == "Stopwatch cannot stop while not running"
+        e.message.split("\n")[0] == "Stopwatch cannot stop while not running"
     }
 
     def "Checks stopwatch is running"() {
@@ -188,7 +186,7 @@ class StopwatchSpec extends Specification {
             Stopwatch can't be cleared while running.
         """
         def e = thrown UnsupportedOperationException
-        e.message == "Stopwatch is running; stop it first to clear"
+        e.message.split("\n")[0] == "Stopwatch is running; stop it first to clear"
     }
 
     def "Forces all the tasks to be erased"() {
@@ -253,7 +251,7 @@ class StopwatchSpec extends Specification {
     def "Gets total time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
+        def taskTimes = taskTimeInfo.split(",").collect { new BigDecimal(it) }
         taskTimes.size().times {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))
@@ -283,7 +281,7 @@ class StopwatchSpec extends Specification {
     def "Gets average time"() {
         given:
         def stopwatch = new Stopwatch(timeUnit)
-        def taskTimes = taskTimeInfo.split(",").toList().stream().map(BigDecimal.&new).collect(toList())
+        def taskTimes = taskTimeInfo.split(",").collect { new BigDecimal(it) }
         taskTimes.size().times {
             def taskTime = taskTimes[it].longValueExact()
             stopwatch.@tasks.add(new Task("task-$it", it, taskTime))

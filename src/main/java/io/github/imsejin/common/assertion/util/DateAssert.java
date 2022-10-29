@@ -10,6 +10,7 @@ import io.github.imsejin.common.assertion.time.YearMonthAssert;
 import java.time.Instant;
 import java.time.Year;
 import java.time.YearMonth;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,7 +24,8 @@ public class DateAssert<
         SELF extends DateAssert<SELF, ACTUAL>,
         ACTUAL extends Date>
         extends ObjectAssert<SELF, ACTUAL>
-        implements PositionComparisonAssertable<SELF, ACTUAL> {
+        implements PositionComparisonAssertable<SELF, ACTUAL>,
+        YearAssertable<SELF, ACTUAL> {
 
     public DateAssert(ACTUAL actual) {
         super(actual);
@@ -36,7 +38,11 @@ public class DateAssert<
     @Override
     public SELF isEqualTo(ACTUAL expected) {
         if (!PositionComparisonAssertable.IS_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO, expected, actual);
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -46,7 +52,11 @@ public class DateAssert<
     @Override
     public SELF isNotEqualTo(ACTUAL expected) {
         if (!PositionComparisonAssertable.IS_NOT_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO, expected, actual);
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_NOT_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -56,7 +66,11 @@ public class DateAssert<
     @Override
     public SELF isBefore(ACTUAL expected) {
         if (!PositionComparisonAssertable.IS_BEFORE.test(actual, expected)) {
-            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_BEFORE, expected, actual);
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_BEFORE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -66,7 +80,11 @@ public class DateAssert<
     @Override
     public SELF isBeforeOrEqualTo(ACTUAL expected) {
         if (!PositionComparisonAssertable.IS_BEFORE_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_BEFORE_OR_EQUAL_TO, expected, actual);
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_BEFORE_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -76,7 +94,11 @@ public class DateAssert<
     @Override
     public SELF isAfter(ACTUAL expected) {
         if (!PositionComparisonAssertable.IS_AFTER_THAN.test(actual, expected)) {
-            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_AFTER_THAN, expected, actual);
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_AFTER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -86,33 +108,43 @@ public class DateAssert<
     @Override
     public SELF isAfterOrEqualTo(ACTUAL expected) {
         if (!PositionComparisonAssertable.IS_AFTER_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_AFTER_THAN_OR_EQUAL_TO, expected, actual);
+            setDefaultDescription(PositionComparisonAssertable.DEFAULT_DESCRIPTION_IS_AFTER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isLeapYear() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(actual);
         int year = calendar.get(Calendar.YEAR);
 
         if (!Year.isLeap(year)) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isNotLeapYear() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(actual);
         int year = calendar.get(Calendar.YEAR);
 
         if (Year.isLeap(year)) {
-            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR, actual);
+            setDefaultDescription(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 

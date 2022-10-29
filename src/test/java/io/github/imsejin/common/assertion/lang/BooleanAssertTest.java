@@ -22,7 +22,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.regex.Pattern;
+
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @DisplayName("BooleanAssert")
 class BooleanAssertTest {
@@ -42,8 +45,10 @@ class BooleanAssertTest {
         @ValueSource(booleans = false)
         @DisplayName("throws exception, when actual is false")
         void test1(boolean actual) {
-            assertThatCode(() -> Asserts.that(actual).isTrue())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isTrue())
+                    .withMessageMatching(Pattern.quote("It is expected to be true, but it isn't.") +
+                            "\n {4}actual: 'false'");
         }
     }
 
@@ -64,8 +69,10 @@ class BooleanAssertTest {
         @ValueSource(booleans = true)
         @DisplayName("throws exception, when actual is true")
         void test1(boolean actual) {
-            assertThatCode(() -> Asserts.that(actual).isFalse())
-                    .isExactlyInstanceOf(IllegalArgumentException.class);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isFalse())
+                    .withMessageMatching(Pattern.quote("It is expected to be false, but it isn't.") +
+                            "\n {4}actual: 'true'");
         }
     }
 

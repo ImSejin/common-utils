@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.YearAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,6 +26,7 @@ import org.junit.jupiter.params.converter.ConvertJavaTime;
 import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
 import java.time.YearMonth;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -47,9 +49,10 @@ class YearMonthAssertTest {
         @RandomJavaTimeSource(leapYear = Switch.OFF)
         @DisplayName("throws exception, when actual is not leap year")
         void test1(@ConvertJavaTime YearMonth actual) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isLeapYear())
-                    .withMessageStartingWith("It is expected to be leap year, but it isn't.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isLeapYear())
+                    .withMessageMatching(Pattern.quote(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR) +
+                            "\n {4}actual: '[0-9]{4}-[0-9]{2}'");
         }
     }
 
@@ -70,9 +73,10 @@ class YearMonthAssertTest {
         @RandomJavaTimeSource(leapYear = Switch.ON)
         @DisplayName("throws exception, when actual is leap year")
         void test1(@ConvertJavaTime YearMonth actual) {
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(actual).isNotLeapYear())
-                    .withMessageStartingWith("It is expected not to be leap year, but it is.");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                    .isNotLeapYear())
+                    .withMessageMatching(Pattern.quote(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR) +
+                            "\n {4}actual: '[0-9]{4}-[0-9]{2}'");
         }
     }
 

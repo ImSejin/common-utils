@@ -27,13 +27,13 @@ import static java.lang.annotation.ElementType.TYPE;
 
 /**
  * Annotation for exclusion from jacoco code coverage report.
- * <p>
- * Since Jacoco 0.8.2, you can exclude classes and methods by annotating them
+ *
+ * <p> Since Jacoco 0.8.2, you can exclude classes and methods by annotating them
  * with a custom annotation that meets the following conditions.
  *
  * <ul>
  *     <li>The name of the annotation should include 'Generated'.</li>
- *     <li>The retention policy of annotation should be runtime or class.</li>
+ *     <li>The retention policy of annotation should be class or runtime.</li>
  * </ul>
  *
  * @see <a href="https://www.baeldung.com/jacoco-report-exclude">Exclusions from Jacoco Report</a>

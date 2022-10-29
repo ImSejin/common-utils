@@ -183,7 +183,7 @@ public final class TestFileSystemCreator {
         for (int i = 0; i < directoryCount; i++) {
             String prefix = CollectionUtils.isNullOrEmpty(this.directoryPrefixes)
                     ? "" : this.directoryPrefixes.get(this.random.nextInt(this.directoryPrefixes.size()));
-            String baseName = randomString.nextString(this.random.nextInt(10) + 1);
+            String baseName = randomString.nextString(1, 11);
             String suffix = CollectionUtils.isNullOrEmpty(this.directorySuffixes)
                     ? "" : this.directorySuffixes.get(this.random.nextInt(this.directorySuffixes.size()));
 
@@ -202,12 +202,9 @@ public final class TestFileSystemCreator {
         // Creates files in directory.
         int fileCount = Math.max(this.random.nextInt(this.maximumFileCount + 1), this.minimumFileCount);
         for (int i = 0; i < fileCount; i++) {
-            int fileLength = Math.max(this.random.nextInt(this.maximumFileLength + 1), this.minimumFileLength);
-            RandomString randomContentString = new RandomString(this.random);
-
             String prefix = CollectionUtils.isNullOrEmpty(this.filePrefixes)
                     ? "" : this.filePrefixes.get(this.random.nextInt(this.filePrefixes.size()));
-            String baseName = randomString.nextString(this.random.nextInt(10) + 1);
+            String baseName = randomString.nextString(1, 11);
             String suffix = CollectionUtils.isNullOrEmpty(this.fileSuffixes)
                     ? "" : this.fileSuffixes.get(this.random.nextInt(this.fileSuffixes.size()));
             String fileName = String.format("%s%s-%d%s", prefix, baseName, System.nanoTime(), suffix);
@@ -215,7 +212,7 @@ public final class TestFileSystemCreator {
             Path filePath = Files.createFile(path.resolve(fileName));
 
             // Write content into file.
-            String content = randomContentString.nextString(fileLength);
+            String content = new RandomString(this.random).nextString(this.minimumFileLength, this.maximumFileLength + 1);
             try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
                 int lineWidth = Math.min(100, this.random.nextInt(20) + 80); // min: 80, max: 100
                 String[] lines = content.split("(?<=\\G.{" + lineWidth + "})");

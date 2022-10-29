@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -424,7 +426,7 @@ class FloatAssertTest {
         @Test
         @DisplayName("throws exception, when actual is not close to other")
         void test1() {
-            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\..+";
+            String regex = "^It is expected to close to other by less than [0-9.]+%, but difference was -?[0-9.]+%\\.[\\s\\S]+";
 
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(36.5F).isCloseTo(null, 15))
@@ -452,13 +454,13 @@ class FloatAssertTest {
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.NaN).isCloseTo(0.0F, 99.9))
-                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: 'NaN')");
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.NEGATIVE_INFINITY).isCloseTo(0.0F, 99.9))
-                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.0', actual: '-Infinity')");
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.POSITIVE_INFINITY).isCloseTo(0.1F, 99.9))
-                    .withMessage("It is expected to close to other, but it isn't. (expected: '0.1', actual: 'Infinity')");
+                    .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.MIN_VALUE).isCloseTo(Float.MAX_VALUE, 99.9))
                     .withMessageMatching(regex);
@@ -493,7 +495,8 @@ class FloatAssertTest {
         void test1(float actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).hasDecimalPart())
-                    .withMessageStartingWith("It is expected to have decimal part, but it isn't.");
+                    .withMessageMatching(Pattern.quote(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART) +
+                            "\n {4}actual: '-?[0-9]+(\\.[0-9]+(E[0-9]+)?)?'");
         }
     }
 

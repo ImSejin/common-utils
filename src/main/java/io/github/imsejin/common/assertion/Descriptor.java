@@ -19,9 +19,15 @@ package io.github.imsejin.common.assertion;
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
+import io.github.imsejin.common.util.CollectionUtils;
 import io.github.imsejin.common.util.StringUtils;
 
 import java.text.MessageFormat;
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -36,6 +42,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
      * Subclass of {@link Descriptor}.
      *
      * <p> This is the instance of oneself wrapped in generic type.
+     * Subclass can access this field directly for pattern of method chaining.
      */
     protected final SELF self;
 
@@ -44,6 +51,8 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     private Object[] arguments;
 
     private Function<String, ? extends RuntimeException> exception = IllegalArgumentException::new;
+
+    private List<Entry<String, String>> descriptionVariables;
 
     @SuppressWarnings("unchecked")
     protected Descriptor() {
@@ -54,7 +63,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
     protected Descriptor(Descriptor<?> descriptor) {
         this();
 
-        // Overwrites properties of this descriptor from the given descriptor.
+        // Overwrites properties modifiable externally of this descriptor from the given descriptor.
         this.description = descriptor.description;
         this.arguments = descriptor.arguments;
         this.exception = descriptor.exception;
@@ -106,11 +115,6 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     // -------------------------------------------------------------------------------------------------
 
-    protected final RuntimeException getException() {
-        String message = getMessage();
-        return this.exception.apply(message);
-    }
-
     protected final void setDefaultDescription(String description, Object... args) {
         // Ignores default description when there is no description set by user.
         if (!StringUtils.isNullOrEmpty(this.description)) {
@@ -120,9 +124,39 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         describedAs(description, args);
     }
 
+    @SafeVarargs
+    protected final void setDescriptionVariables(Entry<String, Object>... variables) {
+        List<Entry<String, String>> descriptionVariables = new ArrayList<>();
+
+        for (Entry<String, Object> variable : variables) {
+            String value = ArrayUtils.toString(variable.getValue());
+            Entry<String, String> entry = new SimpleImmutableEntry<>(variable.getKey(), value);
+
+            descriptionVariables.add(entry);
+        }
+
+        this.descriptionVariables = Collections.unmodifiableList(descriptionVariables);
+    }
+
+    protected final RuntimeException getException() {
+        String message = getFailureMessage();
+
+        // Appends assertion variables to the message of exception.
+        if (CollectionUtils.exists(this.descriptionVariables)) {
+            StringBuilder sb = new StringBuilder(message);
+            for (Entry<String, String> variable : this.descriptionVariables) {
+                sb.append("\n    ").append(variable.getKey()).append(": '").append(variable.getValue()).append("'");
+            }
+
+            message = sb.toString();
+        }
+
+        return this.exception.apply(message);
+    }
+
     // -------------------------------------------------------------------------------------------------
 
-    private String getMessage() {
+    private String getFailureMessage() {
         // Avoids NPE.
         if (StringUtils.isNullOrEmpty(this.description)) {
             return "";
@@ -132,7 +166,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
         String pattern = this.description.replace("'", "''");
         MessageFormat messageFormat = new MessageFormat(pattern);
 
-        // Stringifies array in the arguments.
+        // Stringifies each object of the arguments.
         String[] strings = new String[this.arguments.length];
         for (int i = 0; i < this.arguments.length; i++) {
             Object argument = this.arguments[i];

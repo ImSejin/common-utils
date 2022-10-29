@@ -36,7 +36,7 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
                 .describedAs("No such path exists: {0}", path)
-                .is(Files::exists);
+                .exists();
 
         if (!Files.isDirectory(path)) {
             Resource resource = DiskFileResource.from(path);

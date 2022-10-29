@@ -1,6 +1,7 @@
 # Table of Contents
 
-- [v0.12.0](#v0120):
+- [v0.13.0](#v0130): 2022-10-29
+- [v0.12.0](#v0120): 2022-10-09
 - [v0.11.0](#v0110): 2022-09-12
 - [v0.10.0](#v0100): 2022-08-21
 - [v0.9.0](#v090): 2022-05-26
@@ -28,6 +29,49 @@
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
 
+# v0.13.0
+
+### Modification
+
+- ♻️ Refactor: processing of assertion description in `Descriptor`
+- ♻️ Replace: assertion class `NumberAssert` with `AbstractNumberAssert`
+- 🔥 Remove: assertion compositions `ComparisonAssertable`
+- 🔥 Remove: assertion methods `canRead()`, `canNotRead()`, `canWrite()`, `canNotWrite()`, `canExecute()`
+  , `canNotExecute()`, `isLargerThan(File)`, `isSmallerThan(File)` in `AbstractFileAssert`
+- 🔥 Remove: message constants `DEFAULT_DESCRIPTION_STARTS_WITH`, `DEFAULT_DESCRIPTION_ENDS_WITH`
+  in `RandomAccessIterationAssertable`
+- 🚚 Rename: assertion composition `SizeComparisonAssertable` to `AmountComparisonAssertable`
+- 🚚 Rename: assertion class `AbstractFileAssert` to `FileAssert`
+- 🚚 Rename: assertion method `hasLengthOf(File)` to `hasSameSizeAs(File)` in `FileAssert`
+- 🚚 Rename: assertion method `hasLengthOf(long)` to `hasSize(long)` in `FileAssert`
+- 🚚 Rename: assertion method `isLargerThan(long)` to `hasSizeGreaterThan(long)` in `FileAssert`
+- 🚚 Rename: assertion method `isSmallerThan(long)` to `hasSizeLessThan(long)` in `FileAssert`
+- 🔨 Modify: return type of method `getAllSubtypes` in `ClassFinder`
+- 🔨 Modify: decoupling from each other that assertion compositions which are `IterationAssertable`
+  , ` RandomAccessIterationAssertable`
+
+### New features
+
+- ✨ Add: utility `CollectorUtils`
+- ✨ Add: assertion compositions `AmountAssertable`, `SizeAssertable`, `HolderAssertable`
+- ✨ Add: assertion classes `ByteAssert`, `ShortAssert`, `IntegerAssert`, `LongAssert`, `BigIntegerAssert`, `PathAssert`
+  , `OptionalAssert`, `OptionalIntAssert`, `OptionalLongAssert` , `OptionalDoubleAssert`, `AtomicBooleanAssert`
+  , `AtomicIntegerAssert`, `AtomicLongAssert`, `AtomicReferenceAssert`
+- ✨ Add: assertion failure messages of `FileAssert`
+- ✨ Add: method `nextString(int, int)` in `RandomString`
+- ✨ Add: conversion methods `asParentFile()`, `asPath()` in `FileAssert`
+- ✨ Add: enum constant `INTERFACE` in `ClassFinder.SearchPolicy`
+
+### Troubleshooting
+
+- 🐞 Fix: wrong return type of methods in `UuidAssert`
+- 🐞 Fix: failure of `java.lang.NoClassDefFoundError: org/eclipse/swt/dnd/ByteArrayTransfer` in `ClassFinder`
+
+### Dependencies
+
+- ♻️ Replace:
+- ⬆️ Upgrade: test dependency `spock-core` from `2.3-groovy-3.0` to `2.3-groovy-4.0`
+
 # v0.12.0
 
 ### Modification
@@ -35,7 +79,6 @@
 - 🔥 Remove: utility class `PathnameUtils`
 - 🔥 Remove: assertion methods `isTypeOf(Object)`, `isNotTypeOf(Object)` in `ClassAssert`
 - 🚚 Rename: assertion method `predicate(Predicate)` to `is(Predicate)` in `ObjectAssert`
-- 🚚 Rename: internal field from `DECIMAL_PLACE` to `ROUNDING_SCALE` in `Stopwatch`
 - 🔨 Modify: pattern of return value from `getSummary`, `getStatistics()` in `Stopwatch`
 
 ### New features
@@ -293,6 +336,13 @@
 - ✨ Add: methods `ifNullOrEmpty(Collection, Collection)`, `ifNullOrEmpty(Collection, Supplier)`, `exists(Map)`
   in `CollectionUtils`
 
+### Troubleshooting
+
+- 🐞 Fix: wrong type inference in `AbstractMapAssert`
+- 🐞 Fix: wrong assertion condition of `isNotSameSize(Map)` in `AbstractMapAssert`
+- 🐞 Fix: wrong default description when array is multi-dimensional
+- 🐞 Fix: wrong comparison in `NumberUtils#hasDecimalPart(BigDecimal)`
+
 ### Dependencies
 
 - ➖ Remove: useless build dependency `maven-dependency-plugin`
@@ -302,13 +352,6 @@
 - ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.2.0` to `3.3.1`
 - ⬆️ Upgrade: build dependency `maven-gpg-plugin` from `1.6` to `3.0.1`
 - ⬆️ Upgrade: build dependency `maven-gmavenplus-plugin` from `1.12.1` to `1.13.0`
-
-### Troubleshooting
-
-- 🐞 Fix: wrong type inference in `AbstractMapAssert`
-- 🐞 Fix: wrong assertion condition of `isNotSameSize(Map)` in `AbstractMapAssert`
-- 🐞 Fix: wrong default description when array is multi-dimensional
-- 🐞 Fix: wrong comparison in `NumberUtils#hasDecimalPart(BigDecimal)`
 
 # v0.6.0
 
@@ -384,15 +427,6 @@
 - ✨ Support: assertion for primitive array
 - ✨ Add: conversion methods in some assertion classes
 
-### Dependencies
-
-- ⬆️ Upgrade: dependency `gson` from `2.8.6` to `2.8.7`
-- ⬆️ Upgrade: test dependency `junit5` from `5.7.1` to `5.7.2`
-- ⬆️ Upgrade: test dependency `assertj-core` from `3.19.0` to `3.20.2`
-- ⬆️ Upgrade: test dependency `spock` from `2.0-M5` to `2.0`
-- ⬆️ Upgrade: build plugin dependency `gmavenplus` from `1.11.1` to `1.12.1`
-- ⬆️ Upgrade: build plugin dependency `jacoco` from `0.8.6` to `0.8.7`
-
 ### Troubleshooting
 
 - 🐞 Fix: wrong computation `MathUtils#hasDecimalPart(double)`
@@ -401,6 +435,15 @@
 - 🐞 Fix: wrong comparison with equality of character
 - 🐞 Fix: wrong type inference in `AbstractCollectionAssert`
 - 🐞 Fix: wrong type inference in `ArrayAssert`
+
+### Dependencies
+
+- ⬆️ Upgrade: dependency `gson` from `2.8.6` to `2.8.7`
+- ⬆️ Upgrade: test dependency `junit5` from `5.7.1` to `5.7.2`
+- ⬆️ Upgrade: test dependency `assertj-core` from `3.19.0` to `3.20.2`
+- ⬆️ Upgrade: test dependency `spock` from `2.0-M5` to `2.0`
+- ⬆️ Upgrade: build plugin dependency `gmavenplus` from `1.11.1` to `1.12.1`
+- ⬆️ Upgrade: build plugin dependency `jacoco` from `0.8.6` to `0.8.7`
 
 # v0.4.7
 
@@ -577,13 +620,13 @@
 - ✨ Add: `StringUtils#getLastString(String)`
 - ✨ Add: `StringUtils#chop(String)`
 
-### Dependencies
-
-- ➕ Add: dependency `maven-surefire-plugin` for maven test
-
 ### Troubleshooting
 
 - 🐞 Fix: `StringUtils#countOf`
+
+### Dependencies
+
+- ➕ Add: dependency `maven-surefire-plugin` for maven test
 
 # v0.3.0
 

@@ -17,17 +17,20 @@
 package io.github.imsejin.common.assertion.time;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.AmountAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.AbstractMap.SimpleEntry;
 
 public class DurationAssert<
         SELF extends DurationAssert<SELF>>
         extends ObjectAssert<SELF, Duration>
-        implements SizeComparisonAssertable<SELF, Duration> {
+        implements AmountAssertable<SELF, Duration>,
+        AmountComparisonAssertable<SELF, Duration> {
 
     public DurationAssert(Duration actual) {
         super(actual);
@@ -39,8 +42,12 @@ public class DurationAssert<
 
     @Override
     public SELF isGreaterThan(Duration expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN, expected, actual);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -49,8 +56,12 @@ public class DurationAssert<
 
     @Override
     public SELF isGreaterThanOrEqualTo(Duration expected) {
-        if (!SizeComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO, expected, actual);
+        if (!AmountComparisonAssertable.IS_GREATER_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -59,8 +70,12 @@ public class DurationAssert<
 
     @Override
     public SELF isLessThan(Duration expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN, expected, actual);
+        if (!AmountComparisonAssertable.IS_LESS_THAN.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -69,14 +84,19 @@ public class DurationAssert<
 
     @Override
     public SELF isLessThanOrEqualTo(Duration expected) {
-        if (!SizeComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
-            setDefaultDescription(SizeComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO, expected, actual);
+        if (!AmountComparisonAssertable.IS_LESS_THAN_OR_EQUAL_TO.test(actual, expected)) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
         return self;
     }
 
+    @Override
     public SELF isPositive() {
         if (actual.isZero() || actual.isNegative()) {
             setDefaultDescription("It is expected to be positive, but it isn't. (actual: '{0}')", actual);
@@ -86,6 +106,7 @@ public class DurationAssert<
         return self;
     }
 
+    @Override
     public SELF isZeroOrPositive() {
         if (actual.isNegative()) {
             setDefaultDescription("It is expected to be zero or positive, but it isn't. (actual: '{0}')", actual);
@@ -95,6 +116,7 @@ public class DurationAssert<
         return self;
     }
 
+    @Override
     public SELF isNegative() {
         if (!actual.isNegative()) {
             setDefaultDescription("It is expected to be negative, but it isn't. (actual: '{0}')", actual);
@@ -104,6 +126,7 @@ public class DurationAssert<
         return self;
     }
 
+    @Override
     public SELF isZeroOrNegative() {
         if (!actual.isZero() && !actual.isNegative()) {
             setDefaultDescription("It is expected to be zero or negative, but it isn't. (actual: '{0}')", actual);

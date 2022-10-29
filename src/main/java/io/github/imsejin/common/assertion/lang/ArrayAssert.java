@@ -20,10 +20,12 @@ import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
 import io.github.imsejin.common.assertion.util.ListAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.lang.reflect.Array;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -41,8 +43,9 @@ public class ArrayAssert<
         SELF extends ArrayAssert<SELF, ELEMENT>,
         ELEMENT>
         extends ObjectAssert<SELF, ELEMENT[]>
-        implements IterationAssertable<SELF, ELEMENT[], ELEMENT>,
-        RandomAccessIterationAssertable<SELF, ELEMENT[], ELEMENT> {
+        implements EnumerationAssertable<SELF, ELEMENT>,
+        IterationAssertable<SELF, ELEMENT[], ELEMENT>,
+        RandomAccessIterationAssertable<SELF, ELEMENT> {
 
     public ArrayAssert(ELEMENT[] actual) {
         super(actual);
@@ -60,7 +63,11 @@ public class ArrayAssert<
     @Override
     public SELF isEmpty() {
         if (actual.length > 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, (Object) actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length));
+
             throw getException();
         }
 
@@ -75,7 +82,11 @@ public class ArrayAssert<
     @Override
     public SELF isNotEmpty() {
         if (actual.length == 0) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, (Object) actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length));
+
             throw getException();
         }
 
@@ -89,9 +100,14 @@ public class ArrayAssert<
      * @return this class
      */
     @Override
-    public SELF hasSize(int expected) {
+    public SELF hasSize(long expected) {
         if (actual.length != expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.length);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -105,9 +121,14 @@ public class ArrayAssert<
      * @return this class
      */
     @Override
-    public SELF doesNotHaveSize(int expected) {
+    public SELF doesNotHaveSize(long expected) {
         if (actual.length == expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE, expected, actual.length);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -122,9 +143,16 @@ public class ArrayAssert<
      */
     @Override
     public SELF hasSameSizeAs(Object[] expected) {
-        if (expected == null || actual.length != expected.length) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.length, actual.length);
+        Integer expectedSize = expected == null ? null : expected.length;
+
+        if (expected == null || actual.length != expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
             throw getException();
         }
 
@@ -139,9 +167,100 @@ public class ArrayAssert<
      */
     @Override
     public SELF doesNotHaveSameSizeAs(Object[] expected) {
-        if (expected == null || actual.length == expected.length) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
-                    expected == null ? "null" : expected.length, actual.length);
+        Integer expectedSize = expected == null ? null : expected.length;
+
+        if (expected == null || actual.length == expectedSize) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expectedSize));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeGreaterThan(long expected) {
+        if (actual.length <= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeGreaterThanOrEqualTo(long expected) {
+        if (actual.length < expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThan(long expected) {
+        if (actual.length >= expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF hasSizeLessThanOrEqualTo(long expected) {
+        if (actual.length > expected) {
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -162,7 +281,11 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS, expected, actual);
+        setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_CONTAINS);
+        setDescriptionVariables(
+                new SimpleEntry<>("actual", actual),
+                new SimpleEntry<>("expected", expected));
+
         throw getException();
     }
 
@@ -179,7 +302,11 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN, expected, actual, element);
+            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
             throw getException();
         }
 
@@ -199,7 +326,9 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL, (Object) actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_NULL);
+        setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
         throw getException();
     }
 
@@ -215,7 +344,9 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL, (Object) actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -256,7 +387,11 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY, expected, actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ANY);
+        setDescriptionVariables(
+                new SimpleEntry<>("actual", actual),
+                new SimpleEntry<>("expected", expected));
+
         throw getException();
     }
 
@@ -280,7 +415,12 @@ public class ArrayAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL, expected, actual, item);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ALL);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("missing", item));
+
             throw getException();
         }
 
@@ -305,7 +445,12 @@ public class ArrayAssert<
                     continue;
                 }
 
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL, expected, actual);
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_ALL);
+                setDescriptionVariables(
+                        new SimpleEntry<>("actual", actual),
+                        new SimpleEntry<>("expected", expected),
+                        new SimpleEntry<>("included", element));
+
                 throw getException();
             }
         }
@@ -336,7 +481,12 @@ public class ArrayAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING, expected, actual, item);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("missing", item));
+
             throw getException();
         }
 
@@ -349,7 +499,12 @@ public class ArrayAssert<
                 }
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED, expected, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 
@@ -364,7 +519,9 @@ public class ArrayAssert<
     @Override
     public SELF containsOnlyNulls() {
         if (actual.length == 0) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, (Object) actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -373,7 +530,9 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS, (Object) actual);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -398,7 +557,11 @@ public class ArrayAssert<
 
         for (ELEMENT element : actual) {
             if (noDuplicates.contains(element)) {
-                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES, actual, element);
+                setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES);
+                setDescriptionVariables(
+                        new SimpleEntry<>("actual", actual),
+                        new SimpleEntry<>("duplicated", element));
+
                 throw getException();
             }
 
@@ -422,7 +585,9 @@ public class ArrayAssert<
             }
         }
 
-        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH, (Object) actual);
+        setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ANY_MATCH);
+        setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
         throw getException();
     }
 
@@ -435,7 +600,9 @@ public class ArrayAssert<
     @Override
     public SELF allMatch(Predicate<ELEMENT> expected) {
         if (actual.length == 0) {
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, "");
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
             throw getException();
         }
 
@@ -444,7 +611,11 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("unmatched", element));
+
             throw getException();
         }
 
@@ -464,7 +635,11 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH, actual, element);
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_NONE_MATCH);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("matched", element));
+
             throw getException();
         }
 
@@ -485,7 +660,13 @@ public class ArrayAssert<
         }
 
         if (actual.length < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expected.length));
+
             throw getException();
         }
 
@@ -496,7 +677,12 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 
@@ -517,7 +703,13 @@ public class ArrayAssert<
         }
 
         if (actual.length < expected.length) {
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("actual.size", actual.length),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("expected.size", expected.length));
+
             throw getException();
         }
 
@@ -528,7 +720,12 @@ public class ArrayAssert<
                 continue;
             }
 
-            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH, expected, actual);
+            setDefaultDescription(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("unexpected", element));
+
             throw getException();
         }
 
@@ -549,8 +746,8 @@ public class ArrayAssert<
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asLength() {
-        return new NumberAssert<>(this, actual.length);
+    public IntegerAssert<?> asLength() {
+        return new IntegerAssert<>(this, actual.length);
     }
 
     /**

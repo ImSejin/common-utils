@@ -21,6 +21,7 @@ import io.github.imsejin.common.constant.Locales;
 import io.github.imsejin.common.util.StringUtils;
 import org.jetbrains.annotations.VisibleForTesting;
 
+import java.lang.Character.UnicodeScript;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,15 +39,14 @@ import static java.util.stream.Collectors.toMap;
 /**
  * Generator of randomized {@link String} by the specific language.
  *
- * @see Locales
+ * @see Locale
+ * @see UnicodeScript
  */
 public class RandomString {
 
     private static final Map<String, List<String>> LANGUAGE_UNICODE_POINT_MAP;
 
     static {
-//        Map<UnicodeScript, List<Integer>> unicodeMap = IntStream.rangeClosed(Character.MIN_VALUE, Character.MAX_VALUE)
-//                .boxed().collect(groupingBy(UnicodeScript::of));
         Map<String, List<String>> languageUnicodeRangeMap = new HashMap<>();
 
         // Arabic: U+0600..U+06FF
@@ -165,6 +165,34 @@ public class RandomString {
         Asserts.that(length)
                 .describedAs("The length of random string must be positive, but it isn't: {0}", length)
                 .isPositive();
+
+        char[] chars = new char[length];
+        for (int i = 0; i < chars.length; i++) {
+            int index = this.random.nextInt(this.symbols.length);
+            chars[i] = this.symbols[index];
+        }
+
+        return new String(chars);
+    }
+
+    /**
+     * Returns a random string which has length satisfied with the given range.
+     *
+     * <p> You can get a randomized string with the specific language and
+     * its length depends on parameters.
+     *
+     * @param origin the least length of randomized string
+     * @param bound  upper bound of max length of randomized string
+     * @return random string
+     */
+    public String nextString(int origin, int bound) {
+        Asserts.that(origin)
+                .describedAs("Origin must be positive, but it isn't: {0}", origin)
+                .isPositive()
+                .describedAs("Bound must be greater than origin, but it isn't. (origin: {0}, bound: {1})", origin, bound)
+                .isLessThan(bound);
+
+        int length = Math.max(origin, this.random.nextInt(bound));
 
         char[] chars = new char[length];
         for (int i = 0; i < chars.length; i++) {

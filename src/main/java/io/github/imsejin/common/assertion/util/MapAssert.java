@@ -17,8 +17,8 @@
 package io.github.imsejin.common.assertion.util;
 
 import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
-import io.github.imsejin.common.assertion.lang.NumberAssert;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.Collection;
@@ -26,10 +26,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapAssert<
-        SELF extends MapAssert<SELF, ACTUAL, K, V>,
-        ACTUAL extends Map<K, V>,
-        K,
-        V>
+        SELF extends MapAssert<SELF, ACTUAL, KEY, VALUE>,
+        ACTUAL extends Map<KEY, VALUE>,
+        KEY,
+        VALUE>
         extends ObjectAssert<SELF, ACTUAL> {
 
     public MapAssert(ACTUAL actual) {
@@ -42,7 +42,7 @@ public class MapAssert<
 
     public SELF isEmpty() {
         if (!actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY, actual);
             throw getException();
         }
 
@@ -51,7 +51,7 @@ public class MapAssert<
 
     public SELF isNotEmpty() {
         if (actual.isEmpty()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY, actual);
             throw getException();
         }
 
@@ -60,7 +60,7 @@ public class MapAssert<
 
     public SELF hasSize(int expected) {
         if (actual.size() != expected) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE, expected, actual.size());
             throw getException();
         }
 
@@ -69,7 +69,7 @@ public class MapAssert<
 
     public SELF hasSameSizeAs(Map<?, ?> expected) {
         if (expected == null || actual.size() != expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -79,7 +79,7 @@ public class MapAssert<
 
     public SELF doesNotHaveSameSizeAs(Map<?, ?> expected) {
         if (expected == null || actual.size() == expected.size()) {
-            setDefaultDescription(EnumerationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
+            setDefaultDescription(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS,
                     expected == null ? "null" : expected.size(), actual.size());
             throw getException();
         }
@@ -87,7 +87,7 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsKey(K expected) {
+    public SELF containsKey(KEY expected) {
         if (!actual.containsKey(expected)) {
             setDefaultDescription("It is expected to contain the given key, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actual.keySet());
@@ -97,7 +97,7 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsValue(V expected) {
+    public SELF containsValue(VALUE expected) {
         if (!actual.containsValue(expected)) {
             setDefaultDescription("It is expected to contain the given value, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actual.values());
@@ -107,12 +107,12 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsAllKeys(Map<? extends K, ?> expected) {
+    public SELF containsAllKeys(Map<? extends KEY, ?> expected) {
         return containsAllKeys(expected.keySet());
     }
 
-    public SELF containsAllKeys(Collection<? extends K> expected) {
-        Set<K> actualKeys = actual.keySet();
+    public SELF containsAllKeys(Collection<? extends KEY> expected) {
+        Set<KEY> actualKeys = actual.keySet();
 
         if (!actualKeys.containsAll(expected)) {
             setDefaultDescription("It is expected to contain all the given keys, but it doesn't. (expected: '{0}', actual: '{1}')",
@@ -123,12 +123,12 @@ public class MapAssert<
         return self;
     }
 
-    public SELF containsAllValues(Map<?, ? extends V> expected) {
+    public SELF containsAllValues(Map<?, ? extends VALUE> expected) {
         return containsAllValues(expected.values());
     }
 
-    public SELF containsAllValues(Collection<? extends V> expected) {
-        Collection<V> actualValues = actual.values();
+    public SELF containsAllValues(Collection<? extends VALUE> expected) {
+        Collection<VALUE> actualValues = actual.values();
 
         if (!actualValues.containsAll(expected)) {
             setDefaultDescription("It is expected to contain all the given values, but it doesn't. (expected: '{0}', actual: '{1}')",
@@ -153,7 +153,7 @@ public class MapAssert<
      *
      * @return assertion for collection
      */
-    public CollectionAssert<?, Collection<K>, K> asKeySet() {
+    public CollectionAssert<?, Collection<KEY>, KEY> asKeySet() {
         return new CollectionAssert<>(this, actual.keySet());
     }
 
@@ -169,7 +169,7 @@ public class MapAssert<
      *
      * @return assertion for collection
      */
-    public CollectionAssert<?, Collection<V>, V> asValues() {
+    public CollectionAssert<?, Collection<VALUE>, VALUE> asValues() {
         return new CollectionAssert<>(this, actual.values());
     }
 
@@ -185,15 +185,15 @@ public class MapAssert<
      *
      * @return assertion for integer
      */
-    public NumberAssert<?, Integer> asSize() {
-        class NumberAssertImpl extends NumberAssert<NumberAssertImpl, Integer> {
-            NumberAssertImpl(Descriptor<?> descriptor, Integer actual) {
+    public IntegerAssert<?> asSize() {
+        class IntegerAssertImpl extends IntegerAssert<IntegerAssertImpl> {
+            IntegerAssertImpl(Descriptor<?> descriptor, Integer actual) {
                 super(descriptor, actual);
             }
         }
 
         int size = actual.size();
-        return new NumberAssertImpl(this, size);
+        return new IntegerAssertImpl(this, size);
     }
 
 }
