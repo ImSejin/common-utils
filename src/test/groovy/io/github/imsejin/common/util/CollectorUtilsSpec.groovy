@@ -144,14 +144,14 @@ class CollectorUtilsSpec extends Specification {
         [C, O, M, M, O, N, U, T, I, L, I, T, I, E, S]  | Enum::ordinal              | Integer::compare  || [1: [C], 2: [E], 3: [I, I, I], 4: [L], 5: [M, M], 6: [N], 7: [O, O], 8: [S], 9: [T, T], 10: [U]]
     }
 
-    @Timeout(value = 10, unit = TimeUnit.SECONDS)
+    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     def "Measures performance on parallel stream"() {
         def stopwatch = new Stopwatch(TimeUnit.MILLISECONDS)
-        stopwatch.start("Creates %,d random values", 10_000_000)
+        stopwatch.start("Creates %,d random values", 3_000_000)
 
         given:
         def randomString = new RandomString()
-        def values = (1..10_000_000).collect { randomString.nextString(2) }
+        def values = (1..3_000_000).collect { randomString.nextString(2) }
         stopwatch.stop()
 
         when:

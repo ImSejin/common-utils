@@ -700,9 +700,8 @@ class PathAssertTest {
         @Test
         @DisabledOnOs(OS.WINDOWS)
         @DisplayName("passes, when actual is hidden on non-windows")
-        void test1(@Memory FileSystem fileSystem) throws IOException {
+        void test1(@TempDir Path path) throws IOException {
             // given
-            Path path = fileSystem.getPath("/");
             Path actual = Files.createTempFile(path, ".temp", ".dat");
 
             // expect
@@ -758,9 +757,8 @@ class PathAssertTest {
         @Test
         @DisabledOnOs(OS.WINDOWS)
         @DisplayName("throws exception, when actual is not hidden on non-windows")
-        void test2(@Memory FileSystem fileSystem) throws IOException {
+        void test2(@TempDir Path path) throws IOException {
             // given
-            Path path = fileSystem.getPath("/");
             Path actual = Files.createTempFile(path, ".temp", ".dat");
 
             // expect

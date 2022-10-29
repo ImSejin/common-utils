@@ -268,7 +268,7 @@ class ConversionTest {
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(file)
                     .isNotNull().isEmpty()
-                    .asParentFile().isDirectory().isEmpty());
+                    .asParentFile().exists().isDirectory());
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(file)
                             .describedAs("Description of assertion: {0}", file)
@@ -349,7 +349,7 @@ class ConversionTest {
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(filePath)
                     .isNotNull().isEmpty()
-                    .asParent().isDirectory().isEmpty());
+                    .asParent().exists().isDirectory());
             assertThatExceptionOfType(RuntimeException.class)
                     .isThrownBy(() -> Asserts.that(filePath)
                             .describedAs("Description of assertion: {0}", filePath)
