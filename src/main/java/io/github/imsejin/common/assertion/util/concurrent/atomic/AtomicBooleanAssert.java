@@ -27,9 +27,7 @@ public class AtomicBooleanAssert<
 
     @Override
     public SELF hasValue(Boolean expected) {
-        boolean value = actual.get();
-
-        if (expected == null || value != expected) {
+        if (expected == null || actual.get() != expected) {
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
@@ -43,9 +41,7 @@ public class AtomicBooleanAssert<
 
     @Override
     public SELF doesNotHaveValue(Boolean expected) {
-        boolean value = actual.get();
-
-        if (expected != null && value == expected) {
+        if (expected != null && actual.get() == expected) {
             setDefaultDescription(HolderAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_VALUE);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),

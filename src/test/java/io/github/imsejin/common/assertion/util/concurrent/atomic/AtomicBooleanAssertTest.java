@@ -49,8 +49,11 @@ class AtomicBooleanAssertTest {
         void test1(boolean value) {
             String message = Pattern.quote(HolderAssertable.DEFAULT_DESCRIPTION_HAS_VALUE) +
                     "\n {4}actual: '(true|false)'" +
-                    "\n {4}expected: '(true|false)'";
+                    "\n {4}expected: '(null|true|false)'";
 
+            assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicBoolean(value))
+                    .hasValue(null)))
+                    .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicBoolean(value))
                     .hasValue(!value)))
                     .withMessageMatching(message);
@@ -66,6 +69,8 @@ class AtomicBooleanAssertTest {
         @ValueSource(booleans = {true, false})
         @DisplayName("passes, when actual doesn't have the given value")
         void test0(boolean value) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(new AtomicBoolean(value))
+                    .doesNotHaveValue(null));
             assertThatNoException().isThrownBy(() -> Asserts.that(new AtomicBoolean(value))
                     .doesNotHaveValue(!value));
         }
