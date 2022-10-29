@@ -52,6 +52,7 @@ public final class ClassFinder {
      * <b>Since Java 9, this can find only {@code jdk.internal.*} or classes in own packages.</b>
      *
      * @param superclass superclass
+     * @param <T>        type of superclass
      * @return all subtypes
      */
     public static <T> Set<Class<? extends T>> getAllSubtypes(Class<T> superclass) {
@@ -65,6 +66,7 @@ public final class ClassFinder {
      *
      * @param superclass   superclass
      * @param searchPolicy policy of search
+     * @param <T>          type of superclass
      * @return all subtypes
      */
     public static <T> Set<Class<? extends T>> getAllSubtypes(Class<T> superclass, SearchPolicy searchPolicy) {
@@ -79,6 +81,7 @@ public final class ClassFinder {
      * @param superclass   superclass
      * @param searchPolicy policy of search
      * @param classLoader  class loader
+     * @param <T>          type of superclass
      * @return all subtypes
      */
     @SuppressWarnings("unchecked")
