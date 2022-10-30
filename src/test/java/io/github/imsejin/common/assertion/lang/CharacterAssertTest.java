@@ -305,7 +305,7 @@ class CharacterAssertTest {
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isDigit())
                     .withMessageMatching(Pattern.quote("It is expected to be digit, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '[^0-9\u0660-\u0669\u06F0-\u06F9\u0966-\u096F\uFF10-\uFF19]'"));
         }
     }
 
@@ -369,7 +369,7 @@ class CharacterAssertTest {
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isLetterOrDigit())
                     .withMessageMatching(Pattern.quote("It is expected to be letter or digit, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '[\\s\\S]'"));
         }
     }
 
@@ -382,6 +382,10 @@ class CharacterAssertTest {
         @ValueSource(chars = {
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                '\u00C0', '\u00C1', '\u00C2', '\u00C3', '\u00C4', '\u00C5', '\u00C6', '\u00C7',
+                '\u00C8', '\u00C9', '\u00CA', '\u00CB', '\u00CC', '\u00CD', '\u00CE', '\u00CF',
+                '\u00D0', '\u00D1', '\u00D2', '\u00D3', '\u00D4', '\u00D5', '\u00D6', '\u00D8',
+                '\u00D9', '\u00DA', '\u00DB', '\u00DC', '\u00DD', '\u00DE',
         })
         @DisplayName("passes, when actual is uppercase")
         void test0(char actual) {
@@ -389,18 +393,21 @@ class CharacterAssertTest {
                     .doesNotThrowAnyException();
         }
 
-        @Test
+        @ParameterizedTest
+        @ValueSource(chars = {
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '\u00DF', '\u00E0', '\u00E1', '\u00E2', '\u00E3', '\u00E4', '\u00E5', '\u00E6',
+                '\u00E7', '\u00E8', '\u00E9', '\u00EA', '\u00EB', '\u00EC', '\u00ED', '\u00EE',
+                '\u00EF', '\u00F0', '\u00F1', '\u00F2', '\u00F3', '\u00F4', '\u00F5', '\u00F6',
+                '\u00F8', '\u00F9', '\u00FA', '\u00FB', '\u00FC', '\u00FD', '\u00FE', '\u00FF'
+        })
         @DisplayName("throws exception, when actual is not uppercase")
-        void test1() {
-            // given
-            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
-                    .filter(it -> !Character.isUpperCase(it)).collect(toList());
-
-            // expect
-            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+        void test1(char actual) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isUpperCase())
                     .withMessageMatching(Pattern.quote("It is expected to be upper case, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '.'");
         }
     }
 
@@ -413,6 +420,10 @@ class CharacterAssertTest {
         @ValueSource(chars = {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
                 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '\u00DF', '\u00E0', '\u00E1', '\u00E2', '\u00E3', '\u00E4', '\u00E5', '\u00E6',
+                '\u00E7', '\u00E8', '\u00E9', '\u00EA', '\u00EB', '\u00EC', '\u00ED', '\u00EE',
+                '\u00EF', '\u00F0', '\u00F1', '\u00F2', '\u00F3', '\u00F4', '\u00F5', '\u00F6',
+                '\u00F8', '\u00F9', '\u00FA', '\u00FB', '\u00FC', '\u00FD', '\u00FE', '\u00FF'
         })
         @DisplayName("passes, when actual is lowercase")
         void test0(char actual) {
@@ -420,18 +431,21 @@ class CharacterAssertTest {
                     .doesNotThrowAnyException();
         }
 
-        @Test
+        @ParameterizedTest
+        @ValueSource(chars = {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                '\u00C0', '\u00C1', '\u00C2', '\u00C3', '\u00C4', '\u00C5', '\u00C6', '\u00C7',
+                '\u00C8', '\u00C9', '\u00CA', '\u00CB', '\u00CC', '\u00CD', '\u00CE', '\u00CF',
+                '\u00D0', '\u00D1', '\u00D2', '\u00D3', '\u00D4', '\u00D5', '\u00D6', '\u00D8',
+                '\u00D9', '\u00DA', '\u00DB', '\u00DC', '\u00DD', '\u00DE',
+        })
         @DisplayName("throws exception, when actual is not lowercase")
-        void test1() {
-            // given
-            List<Character> characters = new Random().ints(50, 0, Character.MAX_VALUE + 1).mapToObj(n -> (char) n)
-                    .filter(it -> !Character.isLowerCase(it)).collect(toList());
-
-            // expect
-            characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+        void test1(char actual) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isLowerCase())
                     .withMessageMatching(Pattern.quote("It is expected to be lower case, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '.'");
         }
     }
 
@@ -463,7 +477,7 @@ class CharacterAssertTest {
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isAlphabetic())
                     .withMessageMatching(Pattern.quote("It is expected to be alphabetic, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '[\\s\\S]'"));
         }
     }
 
@@ -491,7 +505,7 @@ class CharacterAssertTest {
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isSpaceChar())
                     .withMessageMatching(Pattern.quote("It is expected to be space character, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '[\\s\\S]'"));
         }
     }
 
@@ -522,7 +536,7 @@ class CharacterAssertTest {
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isWhitespace())
                     .withMessageMatching(Pattern.quote("It is expected to be whitespace, but it isn't.") +
-                            "\n {4}actual: '.'"));
+                            "\n {4}actual: '\\S'"));
         }
     }
 
