@@ -407,7 +407,7 @@ class CharacterAssertTest {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isUpperCase())
                     .withMessageMatching(Pattern.quote("It is expected to be upper case, but it isn't.") +
-                            "\n {4}actual: '.'");
+                            "\n {4}actual: '[^A-Z\u00C0-\u00DE]'");
         }
     }
 
@@ -445,7 +445,7 @@ class CharacterAssertTest {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
                     .isLowerCase())
                     .withMessageMatching(Pattern.quote("It is expected to be lower case, but it isn't.") +
-                            "\n {4}actual: '.'");
+                            "\n {4}actual: '[^a-z\u00DF-\u00FF]'");
         }
     }
 
