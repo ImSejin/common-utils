@@ -2,17 +2,13 @@ package io.github.imsejin.common.util;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -50,19 +46,10 @@ public final class CollectorUtils {
      */
     public static <T, R> Collector<T, ?, SortedMap<Integer, List<T>>> ranking(
             Function<T, R> propertyExtractor, Comparator<R> propertyComparator) {
-        class RankMap extends TreeMap<Integer, List<T>> {
-            @Override
-            public String toString() {
-                return this.entrySet().stream()
-                        .flatMap(e -> e.getValue().stream().map(v -> e.getKey() + " - " + v + " (" + propertyExtractor.apply(v) + ")"))
-                        .collect(joining("\n"));
-            }
-        }
-
         return collectingAndThen(
                 groupingBy(propertyExtractor, () -> new TreeMap<>(propertyComparator), toList()),
                 map -> map.entrySet().stream().collect(
-                        RankMap::new,
+                        () -> new RankMap<>(propertyExtractor),
                         (ranks, entry) -> {
                             if (ranks.isEmpty()) {
                                 ranks.put(1, entry.getValue());
@@ -113,19 +100,10 @@ public final class CollectorUtils {
      */
     public static <T, R> Collector<T, ?, SortedMap<Integer, List<T>>> denseRanking(
             Function<T, R> propertyExtractor, Comparator<R> propertyComparator) {
-        class RankMap extends TreeMap<Integer, List<T>> {
-            @Override
-            public String toString() {
-                return this.entrySet().stream()
-                        .flatMap(e -> e.getValue().stream().map(v -> e.getKey() + " - " + v + " (" + propertyExtractor.apply(v) + ")"))
-                        .collect(joining("\n"));
-            }
-        }
-
         return collectingAndThen(
                 groupingBy(propertyExtractor, () -> new TreeMap<>(propertyComparator), toList()),
                 map -> map.entrySet().stream().collect(
-                        RankMap::new,
+                        () -> new RankMap<>(propertyExtractor),
                         (ranks, entry) -> {
                             if (ranks.isEmpty()) {
                                 ranks.put(1, entry.getValue());
@@ -151,6 +129,39 @@ public final class CollectorUtils {
                         }
                 )
         );
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    private static class RankMap<T> extends TreeMap<Integer, List<T>> {
+        private final Function<T, ?> propertyExtractor;
+
+        private RankMap(Function<T, ?> propertyExtractor) {
+            this.propertyExtractor = propertyExtractor;
+        }
+
+        @Override
+        @ExcludeFromGeneratedJacocoReport
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+
+            for (Map.Entry<Integer, List<T>> e : entrySet()) {
+                List<T> values = e.getValue();
+
+                for (T value : values) {
+                    sb.append(e.getKey());
+                    sb.append(" - ");
+                    sb.append(value);
+                    sb.append(" (");
+                    sb.append(this.propertyExtractor.apply(value));
+                    sb.append(')');
+                }
+
+                sb.append('\n');
+            }
+
+            return sb.toString();
+        }
     }
 
 }
