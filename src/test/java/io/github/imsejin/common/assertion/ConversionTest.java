@@ -162,6 +162,60 @@ class ConversionTest {
                             .asList().hasSize(array.length).doesNotContainAll(Arrays.asList(0, 3, 9, 27, 81, 243)))
                     .withMessageStartingWith("Description of assertion: " + ArrayUtils.toString(array));
         }
+
+        @Test
+        @DisplayName("asFirstElement(): Array -> Object")
+        void asFirstElement() {
+            // given
+            int[] array = {1, 2, 3, 4};
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(array)
+                    .isNotNull().doesNotContainNull().isNotEmpty()
+                    .asFirstElement().isInstanceOf(int.class).isEqualTo(array[0]));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(array)
+                            .describedAs("Description of assertion: {0}", ArrayUtils.toString(array))
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asFirstElement().isEqualTo(0))
+                    .withMessageStartingWith("Description of assertion: " + ArrayUtils.toString(array));
+        }
+
+        @Test
+        @DisplayName("asLastElement(): Array -> Object")
+        void asLastElement() {
+            // given
+            int[] array = {1, 2, 3, 4};
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(array)
+                    .isNotNull().doesNotContainNull().isNotEmpty()
+                    .asLastElement().isInstanceOf(int.class).isEqualTo(array[array.length - 1]));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(array)
+                            .describedAs("Description of assertion: {0}", ArrayUtils.toString(array))
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asLastElement().isEqualTo(array[0]))
+                    .withMessageStartingWith("Description of assertion: " + ArrayUtils.toString(array));
+        }
+
+        @Test
+        @DisplayName("asElement(int): Array -> Object")
+        void asElement() {
+            // given
+            int[] array = {1, 2, 3, 4};
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(array)
+                    .isNotNull().doesNotContainNull().isNotEmpty()
+                    .asElement(1).isInstanceOf(int.class).isEqualTo(array[1]));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(array)
+                            .describedAs("Description of assertion: {0}", ArrayUtils.toString(array))
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asElement(2).isEqualTo(array[1]))
+                    .withMessageStartingWith("Description of assertion: " + ArrayUtils.toString(array));
+        }
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -1191,6 +1245,65 @@ class ConversionTest {
                             .thrownBy(RuntimeException::new).isNotEmpty()
                             .asSize().isZeroOrNegative())
                     .withMessageStartingWith("Description of assertion: " + collection);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    class ListAssert {
+        @Test
+        @DisplayName("asFirstElement(): List -> Object")
+        void asFirstElement() {
+            // given
+            List<Integer> list = Arrays.asList(1, 2, 3, 4);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(list)
+                    .isNotNull().doesNotContainNull().isNotEmpty()
+                    .asFirstElement().isInstanceOf(int.class).isEqualTo(list.get(0)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(list)
+                            .describedAs("Description of assertion: {0}", list)
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asFirstElement().isEqualTo(0))
+                    .withMessageStartingWith("Description of assertion: " + list);
+        }
+
+        @Test
+        @DisplayName("asLastElement(): List -> Object")
+        void asLastElement() {
+            // given
+            List<Integer> list = Arrays.asList(1, 2, 3, 4);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(list)
+                    .isNotNull().doesNotContainNull().isNotEmpty()
+                    .asLastElement().isInstanceOf(int.class).isEqualTo(list.get(list.size() - 1)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(list)
+                            .describedAs("Description of assertion: {0}", list)
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asLastElement().isEqualTo(list.get(0)))
+                    .withMessageStartingWith("Description of assertion: " + list);
+        }
+
+        @Test
+        @DisplayName("asElement(int): List -> Object")
+        void asElement() {
+            // given
+            List<Integer> list = Arrays.asList(1, 2, 3, 4);
+
+            // expect
+            assertThatNoException().isThrownBy(() -> Asserts.that(list)
+                    .isNotNull().doesNotContainNull().isNotEmpty()
+                    .asElement(1).isInstanceOf(int.class).isEqualTo(list.get(1)));
+            assertThatExceptionOfType(RuntimeException.class)
+                    .isThrownBy(() -> Asserts.that(list)
+                            .describedAs("Description of assertion: {0}", list)
+                            .thrownBy(RuntimeException::new).isNotNull()
+                            .asElement(2).isEqualTo(list.get(1)))
+                    .withMessageStartingWith("Description of assertion: " + list);
         }
     }
 

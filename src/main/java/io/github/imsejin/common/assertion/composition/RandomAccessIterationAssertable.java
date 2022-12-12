@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.assertion.composition;
 
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
+
 import java.util.List;
 
 /**
@@ -76,5 +78,13 @@ public interface RandomAccessIterationAssertable<
     // This doesn't return the parameter and doesn't set any value as its element.
     @SuppressWarnings("unchecked")
     SELF endsWith(ELEMENT... expected);
+
+    // -------------------------------------------------------------------------------------------------
+
+    ObjectAssert<?, ELEMENT> asFirstElement();
+
+    ObjectAssert<?, ELEMENT> asLastElement();
+
+    ObjectAssert<?, ELEMENT> asElement(int index);
 
 }
