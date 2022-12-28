@@ -225,6 +225,7 @@ public interface IterationAssertable<
      *     Asserts.that(['a', 'b', 'c', 'b']).containsWithFrequency(2, 'b');
      *
      *     // Assertion will fail.
+     *     Asserts.that([1, 2, 3]).containsWithFrequency(-1, 5);
      *     Asserts.that([null, 2, null, 4]).containsWithFrequency(0, null);
      *     Asserts.that(['a', 'b', 'c', 'b']).containsWithFrequency(1, 'b');
      * }</pre>
