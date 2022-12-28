@@ -89,4 +89,16 @@ public class FloatAssert<
         return self;
     }
 
+    @Override
+    public SELF isNotNaN() {
+        if (Float.isNaN(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
 }

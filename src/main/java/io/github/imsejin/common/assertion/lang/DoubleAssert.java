@@ -89,4 +89,16 @@ public class DoubleAssert<
         return self;
     }
 
+    @Override
+    public SELF isNotNaN() {
+        if (Double.isNaN(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
 }

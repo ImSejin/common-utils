@@ -29,7 +29,8 @@ public interface ArithmeticDecimalNumberAssertable<
 
     String DEFAULT_DESCRIPTION_IS_FINITE = "It is expected to be finite, but it isn't.";
     String DEFAULT_DESCRIPTION_IS_INFINITE = "It is expected to be infinite, but it isn't.";
-    String DEFAULT_DESCRIPTION_IS_NAN = "It is expected to be Not-a-Number (NaN), but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_NAN = "It is expected to be NaN (Not-a-Number), but it isn't.";
+    String DEFAULT_DESCRIPTION_IS_NOT_NAN = "It is expected not to be NaN (Not-a-Number), but it is.";
 
     /**
      * Asserts that actual value is finite.
@@ -46,10 +47,17 @@ public interface ArithmeticDecimalNumberAssertable<
     SELF isInfinite();
 
     /**
-     * Asserts that actual value is Not-a-Number (NaN).
+     * Asserts that actual value is NaN (Not-a-Number).
      *
      * @return this class
      */
     SELF isNaN();
+
+    /**
+     * Asserts that actual value is not NaN (Not-a-Number).
+     *
+     * @return this class
+     */
+    SELF isNotNaN();
 
 }
