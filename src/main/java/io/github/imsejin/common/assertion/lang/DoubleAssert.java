@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.ArithmeticDecimalNumberAssertable;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
@@ -30,7 +31,7 @@ import java.util.AbstractMap.SimpleEntry;
 public class DoubleAssert<
         SELF extends DoubleAssert<SELF>>
         extends AbstractNumberAssert<SELF, Double>
-        implements DecimalNumberAssertable<SELF, Double> {
+        implements ArithmeticDecimalNumberAssertable<SELF, Double> {
 
     public DoubleAssert(Double actual) {
         super(actual, 0.0);
@@ -44,6 +45,42 @@ public class DoubleAssert<
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
             setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isFinite() {
+        if (!Double.isFinite(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_FINITE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isInfinite() {
+        if (!Double.isInfinite(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_INFINITE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isNaN() {
+        if (!Double.isNaN(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NAN);
             setDescriptionVariables(new SimpleEntry<>("actual", actual));
 
             throw getException();
