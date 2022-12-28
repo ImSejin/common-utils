@@ -193,6 +193,12 @@ public interface IterationAssertable<
      */
     SELF containsOnlyNulls();
 
+    default SELF containsOnlyOnce(ELEMENT expected) {
+        return containsOnlyCount(1, expected);
+    }
+
+    SELF containsOnlyCount(int count, ELEMENT expected);
+
     /**
      * Asserts that actual value doesn't contain duplicated elements.
      *
