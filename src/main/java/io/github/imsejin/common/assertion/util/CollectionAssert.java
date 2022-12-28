@@ -27,7 +27,9 @@ import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -526,6 +528,72 @@ public class CollectionAssert<
 
             setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS);
             setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
+    @Override
+    public SELF containsOnlyOnce(ELEMENT expected) {
+        List<ELEMENT> elements = new ArrayList<>();
+        for (ELEMENT element : actual) {
+            if (Objects.deepEquals(element, expected)) {
+                elements.add(element);
+            }
+        }
+
+        if (elements.size() != 1) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_ONCE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("matched", elements));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
+    @Override
+    public SELF containsWithFrequency(int frequency, ELEMENT expected) {
+        if (frequency < 0) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_INVALID);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("frequency", frequency));
+
+            throw getException();
+        }
+
+        List<ELEMENT> elements = new ArrayList<>();
+        for (ELEMENT element : actual) {
+            if (Objects.deepEquals(element, expected)) {
+                elements.add(element);
+            }
+        }
+
+        if (elements.size() != frequency) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_DIFFERENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("matched", elements),
+                    new SimpleEntry<>("actual-frequency", elements.size()),
+                    new SimpleEntry<>("expected-frequency", frequency));
 
             throw getException();
         }

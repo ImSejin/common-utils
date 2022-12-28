@@ -16,8 +16,10 @@
 
 package io.github.imsejin.common.assertion.util;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -130,6 +132,34 @@ public class ListAssert<
         }
 
         return null;
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Override
+    public ObjectAssert<?, ELEMENT> asFirstElement() {
+        return asElement(0);
+    }
+
+    @Override
+    public ObjectAssert<?, ELEMENT> asLastElement() {
+        return asElement(actual.size() - 1);
+    }
+
+    @Override
+    public ObjectAssert<?, ELEMENT> asElement(int index) {
+        class ObjectAssertImpl extends ObjectAssert<ObjectAssertImpl, ELEMENT> {
+            ObjectAssertImpl(Descriptor<?> descriptor, ELEMENT element) {
+                super(descriptor, element);
+            }
+        }
+
+        Asserts.that(index)
+                .isNotNull()
+                .isZeroOrPositive()
+                .isLessThan(actual.size());
+
+        return new ObjectAssertImpl(this, actual.get(index));
     }
 
 }

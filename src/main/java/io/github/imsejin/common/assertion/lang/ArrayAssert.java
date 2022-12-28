@@ -16,6 +16,7 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
@@ -26,6 +27,7 @@ import io.github.imsejin.common.util.ArrayUtils;
 
 import java.lang.reflect.Array;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -545,6 +547,72 @@ public class ArrayAssert<
      * @return this class
      */
     @Override
+    public SELF containsOnlyOnce(ELEMENT expected) {
+        List<ELEMENT> elements = new ArrayList<>();
+        for (ELEMENT element : actual) {
+            if (Objects.deepEquals(element, expected)) {
+                elements.add(element);
+            }
+        }
+
+        if (elements.size() != 1) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_ONCE);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("matched", elements));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
+    @Override
+    public SELF containsWithFrequency(int frequency, ELEMENT expected) {
+        if (frequency < 0) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_INVALID);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("frequency", frequency));
+
+            throw getException();
+        }
+
+        List<ELEMENT> elements = new ArrayList<>();
+        for (ELEMENT element : actual) {
+            if (Objects.deepEquals(element, expected)) {
+                elements.add(element);
+            }
+        }
+
+        if (elements.size() != frequency) {
+            setDefaultDescription(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_DIFFERENT);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected),
+                    new SimpleEntry<>("matched", elements),
+                    new SimpleEntry<>("actual-frequency", elements.size()),
+                    new SimpleEntry<>("expected-frequency", frequency));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return this class
+     */
+    @Override
     public SELF doesNotHaveDuplicates() {
         if (actual.length == 0 || actual.length == 1) {
             return self;
@@ -771,6 +839,26 @@ public class ArrayAssert<
 
         List<ELEMENT> list = Arrays.asList(actual);
         return new ListAssertImpl(this, list);
+    }
+
+    @Override
+    public ObjectAssert<?, ELEMENT> asFirstElement() {
+        return asElement(0);
+    }
+
+    @Override
+    public ObjectAssert<?, ELEMENT> asLastElement() {
+        return asElement(actual.length - 1);
+    }
+
+    @Override
+    public ObjectAssert<?, ELEMENT> asElement(int index) {
+        Asserts.that(index)
+                .isNotNull()
+                .isZeroOrPositive()
+                .isLessThan(actual.length);
+
+        return new ObjectAssert<>(this, actual[index]);
     }
 
 }

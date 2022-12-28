@@ -23,6 +23,7 @@ import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class MapAssert<
@@ -140,6 +141,22 @@ public class MapAssert<
     }
 
     // -------------------------------------------------------------------------------------------------
+
+    /**
+     * Converts actual value into its entries.
+     *
+     * <pre>{@code
+     *     Asserts.that(["alpha": 1, "beta": 2])
+     *             .hasSize(2)
+     *             .asEntrySet()
+     *             .anyMatch(it -> it.getKey().equals("alpha"));
+     * }</pre>
+     *
+     * @return assertion for collection
+     */
+    public CollectionAssert<?, Collection<Entry<KEY, VALUE>>, Entry<KEY, VALUE>> asEntrySet() {
+        return new CollectionAssert<>(this, actual.entrySet());
+    }
 
     /**
      * Converts actual value into its keys.

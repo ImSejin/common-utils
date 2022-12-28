@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [v0.14.0](#v0140):
 - [v0.13.0](#v0130): 2022-10-29
 - [v0.12.0](#v0120): 2022-10-09
 - [v0.11.0](#v0110): 2022-09-12
@@ -28,6 +29,21 @@
 - [v0.1.2](#v012): 2020-09-27
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
+
+# v0.14.0
+
+### New features
+
+- ✨ Add: assertion composition `ArithmeticDecimalNumberAssertable`
+- ✨ Add: assertion methods `isFinite()`, `isInfinite()`, `isNan()`, `isNotNan()` in `FloatAssert`, `DoubleAssert`
+- ✨ Add: assertion methods `containsOnlyOnce(ELEMENT)`, `containsWithFrequency(int, ELEMENT)` in `IterationAssertable`
+- ✨ Add: conversion method `asEntrySet()` in `MapAssert`
+- ✨ Add: conversion methods `asFirstElement()`, `asLastElement()`, `asElement(int)` in `RandomAccessIterationAssertable`
+
+### Dependencies
+
+- ⬆️ Upgrade: build dependency `maven-jar-plugin` from `3.2.2` to `3.3.0`
+- ⬆️ Upgrade: build dependency `gmavenplus-plugin` from `1.13.1` to `2.1.0`
 
 # v0.13.0
 
@@ -69,7 +85,6 @@
 
 ### Dependencies
 
-- ♻️ Replace:
 - ⬆️ Upgrade: test dependency `spock-core` from `2.3-groovy-3.0` to `2.3-groovy-4.0`
 
 # v0.12.0

@@ -1182,6 +1182,108 @@ class ArrayAssertTest {
     // -------------------------------------------------------------------------------------------------
 
     @Nested
+    @DisplayName("method 'containsOnlyOnce'")
+    class ContainsOnlyOnce {
+        @Test
+        @DisplayName("passes, when actual contains the given element only once")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new Object[1])
+                        .containsOnlyOnce(null);
+                Asserts.that(new Character[]{'z', 'y', 'x', 'w', 'v'})
+                        .containsOnlyOnce('x');
+                Asserts.that(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9})
+                        .containsOnlyOnce(9);
+                Asserts.that(getClass().getPackage().getName().split("\\."))
+                        .containsOnlyOnce("imsejin");
+                Asserts.that(new String[][]{{}, {"alpha"}, {}, {"beta"}, null})
+                        .containsOnlyOnce(new String[]{"alpha"});
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual doesn't contain the given element only once")
+        void test1() {
+            String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_ONLY_ONCE) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '.+'" +
+                    "\n {4}matched: '.+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
+                    .containsOnlyOnce(null))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{-1, 0, 1, 3, 2, 1})
+                    .containsOnlyOnce(1))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Number[]{0.1, -1, BigDecimal.ZERO, 2.5})
+                    .containsOnlyOnce(BigDecimal.ONE))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                    .containsOnlyOnce("alpha.beta.gamma.delta"))
+                    .withMessageMatching(message);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{}, new String[]{"alpha"}, null, new String[]{"beta"}})
+                    .containsOnlyOnce(new String[]{"gamma"}))
+                    .withMessageMatching(message);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'containsWithFrequency'")
+    class ContainsWithFrequency {
+        @Test
+        @DisplayName("passes, when actual contains the given element with frequency")
+        void test0() {
+            assertThatNoException().isThrownBy(() -> {
+                Asserts.that(new Object[0])
+                        .containsWithFrequency(0, 'a');
+                Asserts.that(new Character[]{'z', 'y', 'x', 'w', 'v'})
+                        .containsWithFrequency(1, 'x');
+                Asserts.that(new Integer[]{1, 2, 3, 1, 2, 3, 1, 2, 3})
+                        .containsWithFrequency(3, 2);
+                Asserts.that(getClass().getPackage().getName().split("\\."))
+                        .containsWithFrequency(1, "imsejin");
+                Asserts.that(new String[][]{{}, new String[]{"alpha"}, new String[]{}, new String[]{"beta"}, null})
+                        .containsWithFrequency(1, new String[]{"alpha"});
+            });
+        }
+
+        @Test
+        @DisplayName("throws exception, when actual doesn't contain the given element with frequency")
+        void test1() {
+            String invalidMessage = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_INVALID) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '.+'" +
+                    "\n {4}frequency: '-\\d+'";
+            String differentMessage = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_DIFFERENT) +
+                    "\n {4}actual: '\\[.*]'" +
+                    "\n {4}expected: '.+'" +
+                    "\n {4}matched: '\\[.*]'" +
+                    "\n {4}actual-frequency: '\\d+'" +
+                    "\n {4}expected-frequency: '\\d+'";
+
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
+                    .containsWithFrequency(-1, null))
+                    .withMessageMatching(invalidMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{-1, 0, 1, 3, 2, 1})
+                    .containsWithFrequency(-10, 3))
+                    .withMessageMatching(invalidMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Number[]{0.1, -1, BigDecimal.ZERO, 0.1})
+                    .containsWithFrequency(1, 0.1))
+                    .withMessageMatching(differentMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                    .containsWithFrequency(2, "imsejin"))
+                    .withMessageMatching(differentMessage);
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{}, new String[]{"alpha"}, null, new String[]{"beta"}})
+                    .containsWithFrequency(0, new String[0]))
+                    .withMessageMatching(differentMessage);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
     @DisplayName("method 'doesNotHaveDuplicates'")
     class DoesNotHaveDuplicates {
         @Test

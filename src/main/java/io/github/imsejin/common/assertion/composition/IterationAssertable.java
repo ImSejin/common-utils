@@ -41,6 +41,9 @@ public interface IterationAssertable<
     String DEFAULT_DESCRIPTION_CONTAINS_ONLY_MISSING = "It is expected to contain only the given element(s), but it doesn't contain some element(s).";
     String DEFAULT_DESCRIPTION_CONTAINS_ONLY_UNEXPECTED = "It is expected to contain only the given element(s), but it contains unexpected element(s).";
     String DEFAULT_DESCRIPTION_CONTAINS_ONLY_NULLS = "It is expected to contain only null elements, but it isn't.";
+    String DEFAULT_DESCRIPTION_CONTAINS_ONLY_ONCE = "It is expected to contain the given element only once, but it isn't.";
+    String DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_INVALID = "It is expected to contain the given element with frequency, but the frequency is negative.";
+    String DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_DIFFERENT = "It is expected to contain the given element with frequency, but actual frequency is different from the frequency.";
     String DEFAULT_DESCRIPTION_DOES_NOT_HAVE_DUPLICATES = "It is expected not to have duplicated elements, but it is.";
     String DEFAULT_DESCRIPTION_ANY_MATCH = "It is expected to match the given condition with its any elements, but it isn't.";
     String DEFAULT_DESCRIPTION_ALL_MATCH = "It is expected to match the given condition with its all elements, but it isn't.";
@@ -192,6 +195,44 @@ public interface IterationAssertable<
      * @return this class
      */
     SELF containsOnlyNulls();
+
+    /**
+     * Asserts that actual value contains the element only once.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that([1]).containsOnlyOnce(1);
+     *     Asserts.that(['a', 'b', 'c', null]).containsOnlyOnce(null);
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([]).containsOnlyOnce('a');
+     *     Asserts.that([null, 2, null, 4]).containsOnlyOnce(null);
+     *     Asserts.that(['a', 'b', 'c', 'b']).containsOnlyOnce('b');
+     * }</pre>
+     *
+     * @return this class
+     */
+    SELF containsOnlyOnce(ELEMENT expected);
+
+    /**
+     * Asserts that actual value contains the element with frequency.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that([]).containsWithFrequency(0, 'a');
+     *     Asserts.that([1]).containsWithFrequency(1, 1);
+     *     Asserts.that(['a', 'b', 'c', null]).containsWithFrequency(1, null);
+     *     Asserts.that(['a', 'b', 'c', 'b']).containsWithFrequency(2, 'b');
+     *
+     *     // Assertion will fail.
+     *     Asserts.that([1, 2, 3]).containsWithFrequency(-1, 5);
+     *     Asserts.that([null, 2, null, 4]).containsWithFrequency(0, null);
+     *     Asserts.that(['a', 'b', 'c', 'b']).containsWithFrequency(1, 'b');
+     * }</pre>
+     *
+     * @return this class
+     */
+    SELF containsWithFrequency(int frequency, ELEMENT expected);
 
     /**
      * Asserts that actual value doesn't contain duplicated elements.

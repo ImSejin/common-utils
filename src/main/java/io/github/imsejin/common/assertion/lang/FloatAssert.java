@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.ArithmeticDecimalNumberAssertable;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import io.github.imsejin.common.util.NumberUtils;
 
@@ -30,7 +31,7 @@ import java.util.AbstractMap.SimpleEntry;
 public class FloatAssert<
         SELF extends FloatAssert<SELF>>
         extends AbstractNumberAssert<SELF, Float>
-        implements DecimalNumberAssertable<SELF, Float> {
+        implements ArithmeticDecimalNumberAssertable<SELF, Float> {
 
     public FloatAssert(Float actual) {
         super(actual, 0.0F);
@@ -44,6 +45,54 @@ public class FloatAssert<
     public SELF hasDecimalPart() {
         if (!NumberUtils.hasDecimalPart(actual)) {
             setDefaultDescription(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isFinite() {
+        if (!Float.isFinite(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_FINITE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isInfinite() {
+        if (!Float.isInfinite(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_INFINITE);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isNaN() {
+        if (!Float.isNaN(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NAN);
+            setDescriptionVariables(new SimpleEntry<>("actual", actual));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    @Override
+    public SELF isNotNaN() {
+        if (Float.isNaN(actual)) {
+            setDefaultDescription(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN);
             setDescriptionVariables(new SimpleEntry<>("actual", actual));
 
             throw getException();
