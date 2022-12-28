@@ -17,6 +17,7 @@
 package io.github.imsejin.common.assertion.lang;
 
 import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.ArithmeticDecimalNumberAssertable;
 import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -500,6 +501,124 @@ class DoubleAssertTest {
                     .isThrownBy(() -> Asserts.that(actual).hasDecimalPart())
                     .withMessageMatching(Pattern.quote(DecimalNumberAssertable.DEFAULT_DESCRIPTION_HAS_DECIMAL_PART) +
                             "\n {4}actual: '-?[0-9]+(\\.[0-9]+(E[0-9]+)?)?'");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isFinite'")
+    class IsFinite {
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                -123.456, -0.123456, -Float.MIN_VALUE, -Double.MIN_VALUE, 0.0,
+                Double.MIN_VALUE, Float.MIN_VALUE, 0.123456, 123.456,
+        })
+        @DisplayName("passes, when actual is finite")
+        void test0(double actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isFinite());
+        }
+
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                Float.NaN, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY,
+                Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
+        })
+        @DisplayName("throws exception, when actual is not finite")
+        void test1(double actual) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isFinite())
+                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_FINITE) +
+                            "\n {4}actual: '(NaN|-?Infinity)'");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isInfinite'")
+    class IsInfinite {
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY,
+                Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
+        })
+        @DisplayName("passes, when actual is infinite")
+        void test0(double actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isInfinite());
+        }
+
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                -123.456, -0.123456, -Float.MIN_VALUE, -Double.MIN_VALUE, 0.0,
+                Float.NaN, Double.NaN, Double.MIN_VALUE, Float.MIN_VALUE, 0.123456, 123.456,
+        })
+        @DisplayName("throws exception, when actual is not infinite")
+        void test1(double actual) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isInfinite())
+                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_INFINITE) +
+                            "\n {4}actual: '(.+)'");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isNaN'")
+    class IsNaN {
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                Float.NaN, Double.NaN,
+        })
+        @DisplayName("passes, when actual is NaN")
+        void test0(double actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNaN());
+        }
+
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                Double.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY,
+                -123.456, -0.123456, -Float.MIN_VALUE, -Double.MIN_VALUE, 0.0,
+                Double.MIN_VALUE, Float.MIN_VALUE, 0.123456, 123.456,
+                Float.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+        })
+        @DisplayName("throws exception, when actual is not NaN")
+        void test1(double actual) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isNaN())
+                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NAN) +
+                            "\n {4}actual: '(.+)'");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isNotNaN'")
+    class IsNotNaN {
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                Double.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY,
+                -123.456, -0.123456, -Float.MIN_VALUE, -Double.MIN_VALUE, 0.0,
+                Double.MIN_VALUE, Float.MIN_VALUE, 0.123456, 123.456,
+                Float.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+        })
+        @DisplayName("passes, when actual is not NaN")
+        void test0(double actual) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotNaN());
+        }
+
+        @ParameterizedTest
+        @ValueSource(doubles = {
+                Float.NaN, Double.NaN,
+        })
+        @DisplayName("throws exception, when actual is NaN")
+        void test1(double actual) {
+            assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isNotNaN())
+                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN) +
+                            "\n {4}actual: 'NaN'");
         }
     }
 
