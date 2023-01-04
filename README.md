@@ -9,13 +9,13 @@
     </a>
     -->
     <a href="https://github.com/ImSejin/common-utils/actions/workflows/maven-build.yml">
-        <img alt="GitHub Workflow" src="https://img.shields.io/github/actions/workflow/status/ImSejin/common-utils/maven-build.yml?branch=release&style=flat">
+        <img alt="GitHub Workflow" src="https://img.shields.io/github/actions/workflow/status/ImSejin/common-utils/maven-build.yml?branch=release&logo=github&style=flat">
     </a>
     <a href="https://codecov.io/gh/ImSejin/common-utils">
-        <img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/ImSejin/common-utils/release?label=code%20coverage&style=flat&token=F9DCS57CAN"/>
+        <img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/ImSejin/common-utils/release?logo=codecov&label=code%20coverage&style=flat&token=F9DCS57CAN"/>
     </a>
     <a href="https://search.maven.org/artifact/io.github.imsejin/common-utils">
-        <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.imsejin/common-utils?style=flat">
+        <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.imsejin/common-utils?logo=apachemaven&style=flat">
     </a>
     <br/>
     <a href="https://sonarcloud.io/summary/new_code?id=ImSejin_common-utils">
