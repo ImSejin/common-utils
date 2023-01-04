@@ -18,10 +18,10 @@
         <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.imsejin/common-utils?logo=apachemaven&style=flat">
     </a>
     <br/>
-    <a href="https://sonarcloud.io/summary/new_code?id=ImSejin_common-utils">
+    <a href="https://sonarcloud.io/summary/overall?id=ImSejin_common-utils">
         <img alt="Sonarcloud Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=ImSejin_common-utils&metric=alert_status"/>
     </a>
-    <a href="https://sonarcloud.io/summary/new_code?id=ImSejin_common-utils">
+    <a href="https://sonarcloud.io/summary/overall?id=ImSejin_common-utils">
         <img alt="Sonarcloud Maintainability Rating" src="https://sonarcloud.io/api/project_badges/measure?project=ImSejin_common-utils&metric=sqale_rating"/>
     </a>
     <a href="https://www.codacy.com/gh/ImSejin/common-utils/dashboard">
