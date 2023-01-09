@@ -16,10 +16,10 @@
 
 package io.github.imsejin.common.constant;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
 import java.text.DateFormat;
 import java.util.Locale;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 /**
  * Locale constants
@@ -38,7 +38,7 @@ public final class Locales {
     }
 
     public static Locale[] getLanguages() {
-        return new Locale[]{
+        return new Locale[] {
                 ALBANIAN, ARABIC, BELARUSIAN, BULGARIAN, CATALAN, CHINESE, CROATIAN, CZECH, DANISH, DUTCH, ENGLISH,
                 ESTONIAN, FINNISH, FRENCH, GERMAN, GREEK, HEBREW, HINDI, HUNGARIAN, ICELANDIC, INDONESIAN, IRISH,
                 ITALIAN, JAPANESE, KOREAN, LATVIAN, LITHUANIAN, MACEDONIAN, MALAY, MALTESE, NORWEGIAN, NORWEGIAN_BOKMAL,
@@ -48,7 +48,7 @@ public final class Locales {
     }
 
     public static Locale[] getCountries() {
-        return new Locale[]{
+        return new Locale[] {
                 ALBANIA, ALGERIA, ARGENTINA, AUSTRALIA, AUSTRIA, BAHRAIN, BELARUS, BELGIUM_DUTCH, BELGIUM_FRANCE,
                 BOLIVIA, BOSNIA_AND_HERZEGOVINA, BRAZIL, BULGARIA, CANADA, CANADA_FRENCH, CHILE, CHINA, COLOMBIA,
                 COSTA_RICA, CROATIA, CYPRUS, CZECH_REPUBLIC, DENMARK, DOMINICAN_REPUBLIC, ECUADOR, EGYPT, EL_SALVADOR,

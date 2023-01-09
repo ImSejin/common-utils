@@ -50,8 +50,12 @@ public abstract class AbstractResource implements Resource {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         AbstractResource that = (AbstractResource) o;
         return this.size == that.size && this.directory == that.directory

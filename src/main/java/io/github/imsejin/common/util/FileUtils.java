@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -31,8 +29,10 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
-import static java.util.Comparator.reverseOrder;
-import static java.util.stream.Collectors.toList;
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
 
 /**
  * File utilities

@@ -16,10 +16,10 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import java.util.AbstractMap.SimpleEntry;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
-
-import java.util.AbstractMap.SimpleEntry;
 
 /**
  * Assertion for {@link Character}

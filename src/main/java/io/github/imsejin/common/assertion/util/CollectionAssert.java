@@ -16,6 +16,15 @@
 
 package io.github.imsejin.common.assertion.util;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Predicate;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.IterationAssertable;
@@ -25,15 +34,6 @@ import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.function.Predicate;
 
 /**
  * Assertion for {@link Collection}
@@ -613,7 +613,9 @@ public class CollectionAssert<
         }
 
         Set<ELEMENT> noDuplicates = new TreeSet<>((o1, o2) -> {
-            if (Objects.deepEquals(o1, o2)) return 0;
+            if (Objects.deepEquals(o1, o2)) {
+                return 0;
+            }
             return ArrayUtils.hashCode(o1) < ArrayUtils.hashCode(o2) ? -1 : 1;
         });
 

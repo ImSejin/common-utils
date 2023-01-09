@@ -1,13 +1,13 @@
 package io.github.imsejin.common.assertion.util.concurrent.atomic;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.concurrent.atomic.AtomicLong;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import io.github.imsejin.common.assertion.lang.AbstractNumberAssert;
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static java.util.Comparator.comparingLong;
+import static java.util.Comparator.*;
 
 /**
  * Assertion for {@link AtomicLong}

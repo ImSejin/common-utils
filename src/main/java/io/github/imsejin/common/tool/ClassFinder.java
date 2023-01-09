@@ -16,10 +16,6 @@
 
 package io.github.imsejin.common.tool;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import io.github.imsejin.common.assertion.Asserts;
-import jakarta.validation.constraints.Null;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -31,6 +27,11 @@ import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
+
+import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.assertion.Asserts;
 
 /**
  * Class finder
@@ -85,7 +86,8 @@ public final class ClassFinder {
      * @return all subtypes
      */
     @SuppressWarnings("unchecked")
-    public static <T> Set<Class<? extends T>> getAllSubtypes(Class<T> superclass, SearchPolicy searchPolicy, ClassLoader classLoader) {
+    public static <T> Set<Class<? extends T>> getAllSubtypes(Class<T> superclass, SearchPolicy searchPolicy,
+            ClassLoader classLoader) {
         Pattern pattern = Pattern.compile("^[a-zA-Z].+\\$\\d+.*$");
 
         Set<Class<? extends T>> subclasses = new HashSet<>();
@@ -131,7 +133,9 @@ public final class ClassFinder {
         String[] paths = classpath.split(File.pathSeparator); // System.getProperty("path.separator")
         for (String path : paths) {
             file = new File(path);
-            if (!file.exists()) continue;
+            if (!file.exists()) {
+                continue;
+            }
 
             findClasses0(file, file, false, visitor);
         }
@@ -219,7 +223,6 @@ public final class ClassFinder {
                 return ALL.search(superclass, subclass) && subclass.isInterface();
             }
         };
-
 
         public abstract boolean search(Class<?> superclass, @Null Class<?> subclass);
     }

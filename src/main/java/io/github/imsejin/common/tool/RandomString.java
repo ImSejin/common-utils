@@ -16,11 +16,6 @@
 
 package io.github.imsejin.common.tool;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.constant.Locales;
-import io.github.imsejin.common.util.StringUtils;
-import org.jetbrains.annotations.VisibleForTesting;
-
 import java.lang.Character.UnicodeScript;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -33,8 +28,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toMap;
+import org.jetbrains.annotations.VisibleForTesting;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.constant.Locales;
+import io.github.imsejin.common.util.StringUtils;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * Generator of randomized {@link String} by the specific language.
@@ -189,7 +189,8 @@ public class RandomString {
         Asserts.that(origin)
                 .describedAs("Origin must be positive, but it isn't: {0}", origin)
                 .isPositive()
-                .describedAs("Bound must be greater than origin, but it isn't. (origin: {0}, bound: {1})", origin, bound)
+                .describedAs("Bound must be greater than origin, but it isn't. (origin: {0}, bound: {1})", origin,
+                        bound)
                 .isLessThan(bound);
 
         int length = Math.max(origin, this.random.nextInt(bound));

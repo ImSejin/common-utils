@@ -16,14 +16,14 @@
 
 package io.github.imsejin.common.assertion.net;
 
+import java.net.URL;
+import java.util.AbstractMap.SimpleEntry;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.lang.StringAssert;
 import io.github.imsejin.common.util.StringUtils;
-
-import java.net.URL;
-import java.util.AbstractMap.SimpleEntry;
 
 public class UrlAssert<
         SELF extends UrlAssert<SELF>>

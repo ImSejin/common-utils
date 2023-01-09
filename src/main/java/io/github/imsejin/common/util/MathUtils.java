@@ -16,9 +16,9 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
 import java.math.BigInteger;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 public final class MathUtils {
 
@@ -56,22 +56,32 @@ public final class MathUtils {
      * @return greatest common divisor
      */
     public static int gcd(int a, int b) {
-        if (b == 0) return a;
+        if (b == 0) {
+            return a;
+        }
         return gcd(b, Math.floorMod(a, b));
     }
 
     public static boolean isPrime(long number) {
         // Checks if it is greater than 1.
-        if (number < 2) return false;
+        if (number < 2) {
+            return false;
+        }
 
-        if (number == 2) return true;
+        if (number == 2) {
+            return true;
+        }
 
         // Checks if n is a multiple of 2.
-        if (number % 2 == 0) return false;
+        if (number % 2 == 0) {
+            return false;
+        }
 
         // if not, then just checks the odds.
         for (long i = 3; i * i <= number; i += 2) {
-            if (number % i == 0) return false;
+            if (number % i == 0) {
+                return false;
+            }
         }
 
         return true;

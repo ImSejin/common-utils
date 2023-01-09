@@ -16,12 +16,12 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 public final class NumberUtils {
 
@@ -240,7 +240,10 @@ public final class NumberUtils {
      * @return the number of places
      */
     public static int getNumOfPlaces(long number) {
-        if (number == Long.MIN_VALUE) number++;
+        if (number == Long.MIN_VALUE) {
+            number++;
+        }
+
         return number == 0 ? 1 : (int) (Math.log10(Math.abs(number)) + 1);
     }
 

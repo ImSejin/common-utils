@@ -16,15 +16,15 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.AbstractMap.SimpleEntry;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.AmountAssertable;
 import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.assertion.math.BigDecimalAssert;
-
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.AbstractMap.SimpleEntry;
 
 public class DurationAssert<
         SELF extends DurationAssert<SELF>>

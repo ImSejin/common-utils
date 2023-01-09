@@ -11,7 +11,7 @@ public class GzipResource extends AbstractResource {
     private final Instant lastModifiedTime;
 
     public GzipResource(String name, InputStream inputStream,
-                        long size, long compressedSize, long lastModifiedMilliTime) {
+            long size, long compressedSize, long lastModifiedMilliTime) {
         super(name, name, inputStream, size, false);
         this.compressedSize = compressedSize;
         this.lastModifiedTime = Instant.ofEpochMilli(lastModifiedMilliTime);
@@ -19,7 +19,9 @@ public class GzipResource extends AbstractResource {
 
     @Override
     public boolean equals(Object o) {
-        if (!super.equals(o)) return false;
+        if (!super.equals(o)) {
+            return false;
+        }
 
         GzipResource that = (GzipResource) o;
         return Objects.equals(this.compressedSize, that.compressedSize)

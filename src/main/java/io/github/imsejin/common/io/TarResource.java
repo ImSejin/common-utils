@@ -21,7 +21,7 @@ import java.io.InputStream;
 public class TarResource extends ArchiveResource {
 
     public TarResource(String path, String name, InputStream inputStream,
-                       long size, boolean directory, long lastModifiedMilliTime) {
+            long size, boolean directory, long lastModifiedMilliTime) {
         super(path, name, inputStream, size, directory, lastModifiedMilliTime);
     }
 

@@ -16,11 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import io.github.imsejin.common.model.graph.DirectedGraph;
-import io.github.imsejin.common.model.graph.Graph;
-import jakarta.validation.constraints.Null;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -32,6 +27,12 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.model.graph.DirectedGraph;
+import io.github.imsejin.common.model.graph.Graph;
 
 /**
  * Class utilities
@@ -93,7 +94,9 @@ public final class ClassUtils {
      * @return whether this class is abstract
      */
     public static boolean isAbstractClass(@Null Class<?> clazz) {
-        if (clazz == null) return false;
+        if (clazz == null) {
+            return false;
+        }
 
         // Keyword 'abstract' is cannot be compatible with 'final' except native objects.
         final int modifiers = clazz.getModifiers();
@@ -160,9 +163,15 @@ public final class ClassUtils {
     @Null
     public static Object initialValueOf(@Null Class<?> type) {
         // Value of primitive type cannot be null.
-        if (isNumericPrimitive(type)) return 0;
-        if (type == char.class) return '\u0000';
-        if (type == boolean.class) return false;
+        if (isNumericPrimitive(type)) {
+            return 0;
+        }
+        if (type == char.class) {
+            return '\u0000';
+        }
+        if (type == boolean.class) {
+            return false;
+        }
 
         // The others are nullable.
         return null;
@@ -186,15 +195,33 @@ public final class ClassUtils {
         }
 
         Class<?> clazz = type;
-        if (clazz == void.class) clazz = Void.class;
-        if (clazz == boolean.class) clazz = Boolean.class;
-        if (clazz == byte.class) clazz = Byte.class;
-        if (clazz == short.class) clazz = Short.class;
-        if (clazz == char.class) clazz = Character.class;
-        if (clazz == int.class) clazz = Integer.class;
-        if (clazz == long.class) clazz = Long.class;
-        if (clazz == float.class) clazz = Float.class;
-        if (clazz == double.class) clazz = Double.class;
+        if (clazz == void.class) {
+            clazz = Void.class;
+        }
+        if (clazz == boolean.class) {
+            clazz = Boolean.class;
+        }
+        if (clazz == byte.class) {
+            clazz = Byte.class;
+        }
+        if (clazz == short.class) {
+            clazz = Short.class;
+        }
+        if (clazz == char.class) {
+            clazz = Character.class;
+        }
+        if (clazz == int.class) {
+            clazz = Integer.class;
+        }
+        if (clazz == long.class) {
+            clazz = Long.class;
+        }
+        if (clazz == float.class) {
+            clazz = Float.class;
+        }
+        if (clazz == double.class) {
+            clazz = Double.class;
+        }
 
         if (clazz.isArray()) {
             Class<?> actualType = ArrayUtils.resolveActualComponentType(clazz);
@@ -229,15 +256,33 @@ public final class ClassUtils {
         }
 
         Class<?> clazz = type;
-        if (clazz == Void.class) clazz = void.class;
-        if (clazz == Boolean.class) clazz = boolean.class;
-        if (clazz == Byte.class) clazz = byte.class;
-        if (clazz == Short.class) clazz = short.class;
-        if (clazz == Character.class) clazz = char.class;
-        if (clazz == Integer.class) clazz = int.class;
-        if (clazz == Long.class) clazz = long.class;
-        if (clazz == Float.class) clazz = float.class;
-        if (clazz == Double.class) clazz = double.class;
+        if (clazz == Void.class) {
+            clazz = void.class;
+        }
+        if (clazz == Boolean.class) {
+            clazz = boolean.class;
+        }
+        if (clazz == Byte.class) {
+            clazz = byte.class;
+        }
+        if (clazz == Short.class) {
+            clazz = short.class;
+        }
+        if (clazz == Character.class) {
+            clazz = char.class;
+        }
+        if (clazz == Integer.class) {
+            clazz = int.class;
+        }
+        if (clazz == Long.class) {
+            clazz = long.class;
+        }
+        if (clazz == Float.class) {
+            clazz = float.class;
+        }
+        if (clazz == Double.class) {
+            clazz = double.class;
+        }
 
         if (clazz.isArray()) {
             Class<?> actualType = ArrayUtils.resolveActualComponentType(clazz);

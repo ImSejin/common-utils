@@ -16,11 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import org.ini4j.Config;
-import org.ini4j.Ini;
-import org.ini4j.Profile.Section;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +24,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.util.stream.Collectors.toMap;
+import org.ini4j.Config;
+import org.ini4j.Ini;
+import org.ini4j.Profile.Section;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * Ini utilities
@@ -87,7 +88,9 @@ public final class IniUtils {
 
     public static void writeEntries(File file, Map<String, Set<Map.Entry<String, Object>>> data) {
         try {
-            if (!file.exists()) file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
 
             Ini ini = new Ini(file);
             configure(ini);

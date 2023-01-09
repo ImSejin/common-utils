@@ -16,8 +16,6 @@
 
 package io.github.imsejin.common.tool;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,7 +26,9 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toSet;
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * Type classifier

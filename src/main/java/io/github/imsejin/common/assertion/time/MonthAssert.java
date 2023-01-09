@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import java.time.Month;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
-
-import java.time.Month;
 
 public class MonthAssert<SELF extends MonthAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, Month> {

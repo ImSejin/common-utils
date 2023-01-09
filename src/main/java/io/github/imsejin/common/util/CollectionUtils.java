@@ -16,9 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import io.github.imsejin.common.assertion.Asserts;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.assertion.Asserts;
 
 /**
  * Collection utilities
@@ -194,7 +194,9 @@ public final class CollectionUtils {
         }
 
         int remainder = Math.floorMod(originSize, chunkSize);
-        if (remainder > 0) superList.add(list.subList(chunkSize * quotient, chunkSize * quotient + remainder));
+        if (remainder > 0) {
+            superList.add(list.subList(chunkSize * quotient, chunkSize * quotient + remainder));
+        }
 
         return superList;
     }
@@ -233,7 +235,9 @@ public final class CollectionUtils {
             outer.add(list.subList(i * quotient, (i + 1) * quotient));
         }
 
-        if (remainder > 0) outer.add(list.subList(quotient * loopCount, originSize));
+        if (remainder > 0) {
+            outer.add(list.subList(quotient * loopCount, originSize));
+        }
 
         return outer;
     }

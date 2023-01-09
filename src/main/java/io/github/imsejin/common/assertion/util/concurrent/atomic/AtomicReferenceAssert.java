@@ -1,12 +1,12 @@
 package io.github.imsejin.common.assertion.util.concurrent.atomic;
 
-import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.HolderAssertable;
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
+
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 /**
  * Assertion for {@link AtomicReference}

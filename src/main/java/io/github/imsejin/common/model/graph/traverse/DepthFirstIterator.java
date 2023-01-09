@@ -16,9 +16,6 @@
 
 package io.github.imsejin.common.model.graph.traverse;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.model.graph.Graph;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -27,11 +24,14 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.function.Consumer;
 
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.model.graph.Graph;
+
 public class DepthFirstIterator<E> implements Iterator<E> {
 
     private final Set<E> visited = new HashSet<>();
 
-//    private final Stack<E> stack = new Stack<>();
+    //    private final Stack<E> stack = new Stack<>();
 
     private final Graph<E> graph;
 
@@ -50,7 +50,7 @@ public class DepthFirstIterator<E> implements Iterator<E> {
                 .is(graph::containsVertex);
 
         this.graph = graph;
-//        this.stack.push(root);
+        //        this.stack.push(root);
         this.stack.push(graph.getAdjacentVertices(root).iterator());
         this.next = root;
     }
@@ -60,26 +60,28 @@ public class DepthFirstIterator<E> implements Iterator<E> {
         return !this.stack.isEmpty();
     }
 
-//    @Override
-//    public E next() {
-//        if (!hasNext()) throw new NoSuchElementException("DepthFirstIterator has no more elements");
-//
-//        E vertex = this.stack.pop();
-//        if (this.visited.contains(vertex)) return next();
-//
-//        this.visited.add(vertex);
-//        for (E v : this.graph.getAdjacentVertexes(vertex)) {
-//            // Pushes the adjacent vertexes that have never been visited.
-//            // If not, will occur NoSuchElementException because of recursive logic.
-//            if (!this.visited.contains(v)) this.stack.push(v);
-//        }
-//
-//        return vertex;
-//    }
+    //    @Override
+    //    public E next() {
+    //        if (!hasNext()) throw new NoSuchElementException("DepthFirstIterator has no more elements");
+    //
+    //        E vertex = this.stack.pop();
+    //        if (this.visited.contains(vertex)) return next();
+    //
+    //        this.visited.add(vertex);
+    //        for (E v : this.graph.getAdjacentVertexes(vertex)) {
+    //            // Pushes the adjacent vertexes that have never been visited.
+    //            // If not, will occur NoSuchElementException because of recursive logic.
+    //            if (!this.visited.contains(v)) this.stack.push(v);
+    //        }
+    //
+    //        return vertex;
+    //    }
 
     @Override
     public E next() {
-        if (!hasNext()) throw new NoSuchElementException("DepthFirstIterator has no more elements");
+        if (!hasNext()) {
+            throw new NoSuchElementException("DepthFirstIterator has no more elements");
+        }
 
         try {
             this.visited.add(this.next);
@@ -125,7 +127,9 @@ public class DepthFirstIterator<E> implements Iterator<E> {
         stack.push(root);
         while (!stack.isEmpty()) {
             E vertex = stack.pop();
-            if (visited.contains(vertex)) continue;
+            if (visited.contains(vertex)) {
+                continue;
+            }
 
             consumer.accept(vertex);
 

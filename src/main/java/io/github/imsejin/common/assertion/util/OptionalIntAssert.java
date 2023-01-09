@@ -1,11 +1,11 @@
 package io.github.imsejin.common.assertion.util;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.OptionalInt;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.HolderAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.OptionalInt;
 
 /**
  * Assertion for {@link OptionalInt}

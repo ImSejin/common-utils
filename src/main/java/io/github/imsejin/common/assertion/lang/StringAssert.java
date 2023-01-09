@@ -16,11 +16,12 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Descriptor;
-import org.intellij.lang.annotations.Language;
-
 import java.util.AbstractMap.SimpleEntry;
 import java.util.regex.Pattern;
+
+import org.intellij.lang.annotations.Language;
+
+import io.github.imsejin.common.assertion.Descriptor;
 
 /**
  * Assertion for {@link String}

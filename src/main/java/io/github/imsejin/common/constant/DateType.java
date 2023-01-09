@@ -16,16 +16,15 @@
 
 package io.github.imsejin.common.constant;
 
-import io.github.imsejin.common.assertion.Asserts;
-
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toMap;
+import io.github.imsejin.common.assertion.Asserts;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * Datetime patterns for {@link DateTimeFormatter#ofPattern(String)}.

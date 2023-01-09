@@ -16,15 +16,15 @@
 
 package io.github.imsejin.common.assertion.util;
 
-import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.assertion.lang.IntegerAssert;
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.assertion.lang.IntegerAssert;
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 public class MapAssert<
         SELF extends MapAssert<SELF, ACTUAL, KEY, VALUE>,
@@ -90,7 +90,8 @@ public class MapAssert<
 
     public SELF containsKey(KEY expected) {
         if (!actual.containsKey(expected)) {
-            setDefaultDescription("It is expected to contain the given key, but it doesn't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(
+                    "It is expected to contain the given key, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actual.keySet());
             throw getException();
         }
@@ -100,7 +101,8 @@ public class MapAssert<
 
     public SELF containsValue(VALUE expected) {
         if (!actual.containsValue(expected)) {
-            setDefaultDescription("It is expected to contain the given value, but it doesn't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(
+                    "It is expected to contain the given value, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actual.values());
             throw getException();
         }
@@ -116,7 +118,8 @@ public class MapAssert<
         Set<KEY> actualKeys = actual.keySet();
 
         if (!actualKeys.containsAll(expected)) {
-            setDefaultDescription("It is expected to contain all the given keys, but it doesn't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(
+                    "It is expected to contain all the given keys, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actualKeys);
             throw getException();
         }
@@ -132,7 +135,8 @@ public class MapAssert<
         Collection<VALUE> actualValues = actual.values();
 
         if (!actualValues.containsAll(expected)) {
-            setDefaultDescription("It is expected to contain all the given values, but it doesn't. (expected: '{0}', actual: '{1}')",
+            setDefaultDescription(
+                    "It is expected to contain all the given values, but it doesn't. (expected: '{0}', actual: '{1}')",
                     expected, actualValues);
             throw getException();
         }

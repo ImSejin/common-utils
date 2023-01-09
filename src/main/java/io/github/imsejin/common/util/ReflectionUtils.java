@@ -16,10 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import io.github.imsejin.common.assertion.Asserts;
-import jakarta.validation.constraints.Null;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
@@ -29,6 +25,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+
+import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.assertion.Asserts;
 
 /**
  * Reflection utilities
@@ -92,11 +93,15 @@ public final class ReflectionUtils {
     @Null
     public static Object getFieldValue(@Null Object instance, Field field) {
         Asserts.that(field).isNotNull();
-        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
+        if (!Modifier.isStatic(field.getModifiers())) {
+            Asserts.that(instance).isNotNull();
+        }
 
         // Enables to have access to the field even private field.
         boolean accessible = field.isAccessible();
-        if (!accessible) field.setAccessible(true);
+        if (!accessible) {
+            field.setAccessible(true);
+        }
 
         try {
             // Returns value of the field.
@@ -107,7 +112,9 @@ public final class ReflectionUtils {
             throw new RuntimeException(message, e);
         } finally {
             // Turns back the accessibility of the field as it was.
-            if (!accessible) field.setAccessible(false);
+            if (!accessible) {
+                field.setAccessible(false);
+            }
         }
     }
 
@@ -131,14 +138,20 @@ public final class ReflectionUtils {
      */
     public static void setFieldValue(@Null Object instance, Field field, Object value) {
         Asserts.that(field).isNotNull();
-        if (!Modifier.isStatic(field.getModifiers())) Asserts.that(instance).isNotNull();
-        if (field.getType().isPrimitive()) Asserts.that(value)
-                .describedAs("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
-                .isNotNull();
+        if (!Modifier.isStatic(field.getModifiers())) {
+            Asserts.that(instance).isNotNull();
+        }
+        if (field.getType().isPrimitive()) {
+            Asserts.that(value)
+                    .describedAs("Value is not allowed to set null to primitive field: {0} <= null", field.getType())
+                    .isNotNull();
+        }
 
         // Enables to have access to the field even private field.
         boolean accessible = field.isAccessible();
-        if (!accessible) field.setAccessible(true);
+        if (!accessible) {
+            field.setAccessible(true);
+        }
 
         try {
             // Sets value to the field.
@@ -149,7 +162,9 @@ public final class ReflectionUtils {
             throw new RuntimeException(message, e);
         } finally {
             // Turns back the accessibility of the field as it was.
-            if (!accessible) field.setAccessible(false);
+            if (!accessible) {
+                field.setAccessible(false);
+            }
         }
     }
 
@@ -163,7 +178,9 @@ public final class ReflectionUtils {
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> type, @Null Class<?>... paramTypes) {
         Asserts.that(type).isNotNull();
-        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
+        if (paramTypes != null) {
+            Asserts.that(paramTypes).doesNotContainNull();
+        }
 
         try {
             // Gets constructor with the specific parameter types.
@@ -212,10 +229,14 @@ public final class ReflectionUtils {
      */
     public static <T> T instantiate(Constructor<T> constructor, @Null Object... initArgs) {
         Asserts.that(constructor).isNotNull();
-        if (initArgs != null) Asserts.that(initArgs).hasSameSizeAs(constructor.getParameterTypes());
+        if (initArgs != null) {
+            Asserts.that(initArgs).hasSameSizeAs(constructor.getParameterTypes());
+        }
 
         boolean accessible = constructor.isAccessible();
-        if (!accessible) constructor.setAccessible(true);
+        if (!accessible) {
+            constructor.setAccessible(true);
+        }
 
         try {
             // Creates an instance of the type.
@@ -224,7 +245,9 @@ public final class ReflectionUtils {
             throw new RuntimeException("Failed to instantiate by constructor: " + constructor, e);
         } finally {
             // Turns back the accessibility of the constructor as it was.
-            if (!accessible) constructor.setAccessible(false);
+            if (!accessible) {
+                constructor.setAccessible(false);
+            }
         }
     }
 
@@ -239,7 +262,9 @@ public final class ReflectionUtils {
     public static Method getDeclaredMethod(Class<?> type, String name, @Null Class<?>... paramTypes) {
         Asserts.that(type).isNotNull();
         Asserts.that(name).isNotNull().hasText();
-        if (paramTypes != null) Asserts.that(paramTypes).doesNotContainNull();
+        if (paramTypes != null) {
+            Asserts.that(paramTypes).doesNotContainNull();
+        }
 
         try {
             return type.getDeclaredMethod(name, paramTypes);
@@ -268,11 +293,17 @@ public final class ReflectionUtils {
      */
     public static Object invoke(Method method, @Null Object instance, Object... args) {
         Asserts.that(method).isNotNull();
-        if (!Modifier.isStatic(method.getModifiers())) Asserts.that(instance).isNotNull();
-        if (args != null) Asserts.that(args).hasSameSizeAs(method.getParameterTypes());
+        if (!Modifier.isStatic(method.getModifiers())) {
+            Asserts.that(instance).isNotNull();
+        }
+        if (args != null) {
+            Asserts.that(args).hasSameSizeAs(method.getParameterTypes());
+        }
 
         boolean accessible = method.isAccessible();
-        if (!accessible) method.setAccessible(true);
+        if (!accessible) {
+            method.setAccessible(true);
+        }
 
         try {
             return method.invoke(instance, args);
@@ -280,7 +311,9 @@ public final class ReflectionUtils {
             throw new RuntimeException(e.getMessage(), e);
         } finally {
             // Turns back the accessibility of the method as it was.
-            if (!accessible) method.setAccessible(false);
+            if (!accessible) {
+                method.setAccessible(false);
+            }
         }
     }
 

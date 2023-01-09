@@ -16,13 +16,6 @@
 
 package io.github.imsejin.common.io.finder;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.io.GzipResource;
-import io.github.imsejin.common.io.Resource;
-import io.github.imsejin.common.util.FilenameUtils;
-import io.github.imsejin.common.util.StringUtils;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,6 +23,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.io.GzipResource;
+import io.github.imsejin.common.io.Resource;
+import io.github.imsejin.common.util.FilenameUtils;
+import io.github.imsejin.common.util.StringUtils;
 
 public class GzipResourceFinder implements ResourceFinder {
 

@@ -16,13 +16,6 @@
 
 package io.github.imsejin.common.tool;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.util.ArrayUtils;
-import io.github.imsejin.common.util.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Range;
-import org.jetbrains.annotations.VisibleForTesting;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -30,6 +23,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
+import org.jetbrains.annotations.VisibleForTesting;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.util.ArrayUtils;
+import io.github.imsejin.common.util.StringUtils;
 
 /**
  * Stopwatch that supports various time units
@@ -359,7 +360,7 @@ public final class Stopwatch {
 
         @VisibleForTesting
         Task(@NotNull String name, @Range(from = 0, to = Integer.MAX_VALUE - 1) int order,
-             @Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime) {
+                @Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime) {
             this.name = Objects.requireNonNull(name, "Task.name cannot be null");
             this.order = order;
             this.elapsedNanoTime = elapsedNanoTime;
@@ -416,7 +417,10 @@ public final class Stopwatch {
 
         @Override
         public String toString() {
-            return "Task(name=" + this.name + ", order=" + this.order + ", elapsedNanoTime=" + this.elapsedNanoTime + ")";
+            return "Task(name=" + this.name
+                    + ", order=" + this.order
+                    + ", elapsedNanoTime=" + this.elapsedNanoTime
+                    + ")";
         }
     }
 
