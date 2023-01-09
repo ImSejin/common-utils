@@ -1,10 +1,8 @@
-<code_scheme name="Naver-coding-convention-v1.2">
+<code_scheme name="github-imsejin-style-v1.0">
   <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
   <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="1" />
   <option name="IMPORT_LAYOUT_TABLE">
     <value>
-      <emptyLine />
-      <package name="" withSubpackages="true" static="true" />
       <emptyLine />
       <package name="java" withSubpackages="true" static="false" />
       <emptyLine />
@@ -19,6 +17,8 @@
       <package name="" withSubpackages="true" static="false" />
       <emptyLine />
       <package name="io.github.imsejin.common" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="" withSubpackages="true" static="true" />
       <emptyLine />
     </value>
   </option>
