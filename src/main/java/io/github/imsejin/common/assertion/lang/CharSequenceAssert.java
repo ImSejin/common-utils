@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.assertion.lang;
 
+import java.util.AbstractMap.SimpleEntry;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
-
-import java.util.AbstractMap.SimpleEntry;
 
 /**
  * Assertion for {@link CharSequence}

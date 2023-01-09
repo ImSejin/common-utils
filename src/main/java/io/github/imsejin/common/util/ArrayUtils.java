@@ -16,9 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import jakarta.validation.constraints.Null;
-
 import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -27,6 +24,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 /**
  * Array utilities
@@ -171,18 +172,36 @@ public final class ArrayUtils {
         Class<?> clazz = array.getClass();
         if (clazz.isArray()) {
             // One dimensional object array or multi-dimensional array.
-            if (array instanceof Object[]) return Arrays.deepToString((Object[]) array);
+            if (array instanceof Object[]) {
+                return Arrays.deepToString((Object[]) array);
+            }
 
             // One dimensional primitive array.
             Class<?> componentType = clazz.getComponentType();
-            if (componentType == boolean.class) return Arrays.toString((boolean[]) array);
-            if (componentType == byte.class) return Arrays.toString((byte[]) array);
-            if (componentType == short.class) return Arrays.toString((short[]) array);
-            if (componentType == char.class) return Arrays.toString((char[]) array);
-            if (componentType == int.class) return Arrays.toString((int[]) array);
-            if (componentType == long.class) return Arrays.toString((long[]) array);
-            if (componentType == float.class) return Arrays.toString((float[]) array);
-            if (componentType == double.class) return Arrays.toString((double[]) array);
+            if (componentType == boolean.class) {
+                return Arrays.toString((boolean[]) array);
+            }
+            if (componentType == byte.class) {
+                return Arrays.toString((byte[]) array);
+            }
+            if (componentType == short.class) {
+                return Arrays.toString((short[]) array);
+            }
+            if (componentType == char.class) {
+                return Arrays.toString((char[]) array);
+            }
+            if (componentType == int.class) {
+                return Arrays.toString((int[]) array);
+            }
+            if (componentType == long.class) {
+                return Arrays.toString((long[]) array);
+            }
+            if (componentType == float.class) {
+                return Arrays.toString((float[]) array);
+            }
+            if (componentType == double.class) {
+                return Arrays.toString((double[]) array);
+            }
 
         } else if (array instanceof Path) {
             // Must check it is implementation of Path before Iterable, or StackOverflowError is thrown.
@@ -234,23 +253,43 @@ public final class ArrayUtils {
      * @return hash code of array
      */
     public static int hashCode(@Null Object array) {
-        if (array == null) return 0;
+        if (array == null) {
+            return 0;
+        }
 
         Class<?> clazz = array.getClass();
         if (clazz.isArray()) {
             // One dimensional object array or multi-dimensional array.
-            if (array instanceof Object[]) return Arrays.deepHashCode((Object[]) array);
+            if (array instanceof Object[]) {
+                return Arrays.deepHashCode((Object[]) array);
+            }
 
             // One dimensional primitive array.
             Class<?> componentType = clazz.getComponentType();
-            if (componentType == boolean.class) return Arrays.hashCode((boolean[]) array);
-            if (componentType == byte.class) return Arrays.hashCode((byte[]) array);
-            if (componentType == short.class) return Arrays.hashCode((short[]) array);
-            if (componentType == char.class) return Arrays.hashCode((char[]) array);
-            if (componentType == int.class) return Arrays.hashCode((int[]) array);
-            if (componentType == long.class) return Arrays.hashCode((long[]) array);
-            if (componentType == float.class) return Arrays.hashCode((float[]) array);
-            if (componentType == double.class) return Arrays.hashCode((double[]) array);
+            if (componentType == boolean.class) {
+                return Arrays.hashCode((boolean[]) array);
+            }
+            if (componentType == byte.class) {
+                return Arrays.hashCode((byte[]) array);
+            }
+            if (componentType == short.class) {
+                return Arrays.hashCode((short[]) array);
+            }
+            if (componentType == char.class) {
+                return Arrays.hashCode((char[]) array);
+            }
+            if (componentType == int.class) {
+                return Arrays.hashCode((int[]) array);
+            }
+            if (componentType == long.class) {
+                return Arrays.hashCode((long[]) array);
+            }
+            if (componentType == float.class) {
+                return Arrays.hashCode((float[]) array);
+            }
+            if (componentType == double.class) {
+                return Arrays.hashCode((double[]) array);
+            }
         }
 
         return array.hashCode();
@@ -269,11 +308,15 @@ public final class ArrayUtils {
      * @return prepended array
      */
     public static Object[] prepend(Object[] src, @Null Object... elements) {
-        if (isNullOrEmpty(elements)) return src;
+        if (isNullOrEmpty(elements)) {
+            return src;
+        }
 
         Object[] array = new Object[elements.length + src.length];
         System.arraycopy(elements, 0, array, 0, elements.length);
-        if (exists(src)) System.arraycopy(src, 0, array, elements.length, src.length);
+        if (exists(src)) {
+            System.arraycopy(src, 0, array, elements.length, src.length);
+        }
 
         return array;
     }
@@ -291,10 +334,14 @@ public final class ArrayUtils {
      * @return appended array
      */
     public static Object[] append(Object[] src, @Null Object... elements) {
-        if (isNullOrEmpty(elements)) return src;
+        if (isNullOrEmpty(elements)) {
+            return src;
+        }
 
         Object[] array = new Object[src.length + elements.length];
-        if (exists(src)) System.arraycopy(src, 0, array, 0, src.length);
+        if (exists(src)) {
+            System.arraycopy(src, 0, array, 0, src.length);
+        }
         System.arraycopy(elements, 0, array, src.length, elements.length);
 
         return array;

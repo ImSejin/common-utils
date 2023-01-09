@@ -16,9 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import io.github.imsejin.common.constant.DateType;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -32,6 +29,9 @@ import java.time.chrono.ChronoLocalDateTime;
 import java.time.zone.ZoneRules;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+import io.github.imsejin.common.constant.DateType;
 
 /**
  * Datetime utilities
@@ -92,7 +92,9 @@ public final class DateTimeUtils {
      */
     public static boolean validate(String date, DayOfWeek dayOfWeek) {
         // Checks if date is valid.
-        if (!validate(date)) return false;
+        if (!validate(date)) {
+            return false;
+        }
 
         date = date.replace("-", "");
         LocalDate localDate = LocalDate.parse(date, DateType.DATE.getFormatter());
@@ -120,7 +122,7 @@ public final class DateTimeUtils {
      * @return random date time
      */
     public static LocalDateTime random(ChronoLocalDateTime<? extends ChronoLocalDate> start,
-                                       ChronoLocalDateTime<? extends ChronoLocalDate> end) {
+            ChronoLocalDateTime<? extends ChronoLocalDate> end) {
         return randoms.nextDateTime(start, end);
     }
 
@@ -133,8 +135,8 @@ public final class DateTimeUtils {
      * @return random date time
      */
     public static LocalDateTime random(ChronoLocalDateTime<? extends ChronoLocalDate> start,
-                                       ChronoLocalDateTime<? extends ChronoLocalDate> end,
-                                       ZoneOffset offset) {
+            ChronoLocalDateTime<? extends ChronoLocalDate> end,
+            ZoneOffset offset) {
         return randoms.nextDateTime(start, end, offset);
     }
 
@@ -146,13 +148,13 @@ public final class DateTimeUtils {
         }
 
         public LocalDateTime nextDateTime(ChronoLocalDateTime<? extends ChronoLocalDate> start,
-                                          ChronoLocalDateTime<? extends ChronoLocalDate> end) {
+                ChronoLocalDateTime<? extends ChronoLocalDate> end) {
             return nextDateTime(start, end, getSystemDefaultZoneOffset());
         }
 
         public LocalDateTime nextDateTime(ChronoLocalDateTime<? extends ChronoLocalDate> start,
-                                          ChronoLocalDateTime<? extends ChronoLocalDate> end,
-                                          ZoneOffset offset) {
+                ChronoLocalDateTime<? extends ChronoLocalDate> end,
+                ZoneOffset offset) {
             long randomSeconds = this.random.nextLong(start.toEpochSecond(offset), end.toEpochSecond(offset));
             return LocalDateTime.ofInstant(Instant.ofEpochSecond(randomSeconds), offset);
         }

@@ -16,20 +16,21 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.util.ClassUtils;
-import jakarta.validation.constraints.Null;
-
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.util.ClassUtils;
+
 /**
  * Assertion for {@link Object}
  *
- * <p> All the assertion classes must be extend this class. There are some plans.
+ * <p> All the assertion classes must extend this class. There are some plans.
  *
  * <blockquote>
  * <pre>{@code

@@ -16,12 +16,12 @@
 
 package io.github.imsejin.common.security.model;
 
-import io.github.imsejin.common.assertion.Asserts;
-
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import io.github.imsejin.common.assertion.Asserts;
 
 /**
  * Time-limited security object for verification
@@ -64,7 +64,9 @@ public class Verification {
         // We determine that the cost of comparing credentials is cheaper
         // than the cost of comparing whether the verification time has expired,
         // so compare credentials first.
-        if (!Objects.deepEquals(this.credentials, credentials)) return false;
+        if (!Objects.deepEquals(this.credentials, credentials)) {
+            return false;
+        }
 
         return !isExpired();
     }

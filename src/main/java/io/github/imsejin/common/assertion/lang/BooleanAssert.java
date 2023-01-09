@@ -16,9 +16,9 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Descriptor;
-
 import java.util.AbstractMap.SimpleEntry;
+
+import io.github.imsejin.common.assertion.Descriptor;
 
 /**
  * Assertion for {@link Boolean}

@@ -16,14 +16,14 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.YearAssertable;
-import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
-
 import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.AbstractMap.SimpleEntry;
+
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.YearAssertable;
+import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 
 public class YearMonthAssert<SELF extends YearMonthAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, YearMonth>

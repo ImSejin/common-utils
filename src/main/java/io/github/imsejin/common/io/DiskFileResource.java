@@ -1,19 +1,19 @@
 package io.github.imsejin.common.io;
 
-import io.github.imsejin.common.util.FilenameUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import io.github.imsejin.common.util.FilenameUtils;
+
 public class DiskFileResource extends AbstractResource {
 
     private final Path realPath;
 
     private DiskFileResource(String path, String name, InputStream inputStream,
-                             long size, boolean directory, Path realPath) {
+            long size, boolean directory, Path realPath) {
         super(path, name, inputStream, size, directory);
         this.realPath = realPath;
     }
@@ -33,7 +33,9 @@ public class DiskFileResource extends AbstractResource {
 
     @Override
     public boolean equals(Object o) {
-        if (!super.equals(o)) return false;
+        if (!super.equals(o)) {
+            return false;
+        }
 
         DiskFileResource that = (DiskFileResource) o;
         return Objects.equals(this.realPath, that.realPath);

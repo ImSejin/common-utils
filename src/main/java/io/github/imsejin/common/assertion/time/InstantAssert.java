@@ -16,13 +16,13 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import java.time.Instant;
+import java.util.Date;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.LongAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
 import io.github.imsejin.common.assertion.util.DateAssert;
-
-import java.time.Instant;
-import java.util.Date;
 
 public class InstantAssert<SELF extends InstantAssert<SELF>> extends AbstractTemporalAccessorAssert<SELF, Instant> {
 

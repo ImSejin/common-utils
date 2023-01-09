@@ -16,15 +16,17 @@
 
 package io.github.imsejin.common.security.crypto.aes;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.security.crypto.Crypto;
-import org.intellij.lang.annotations.Pattern;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
 import java.security.Key;
 import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.intellij.lang.annotations.Pattern;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.security.crypto.Crypto;
 
 /**
  * Implementation of {@link Crypto} using algorithm AES.
@@ -44,11 +46,15 @@ abstract class AES implements Crypto {
     private final Charset charset;
 
     protected AES(@Pattern(".+") String key, int length, Charset charset) {
+        String implName = getClass().getSimpleName();
+
         Asserts.that(key)
-                .describedAs("{0}.key must have {1} characters, but it isn't: '{2}'", getClass().getSimpleName(), length, key)
-                .isNotNull().hasText().hasSize(length);
+                .describedAs("{0}.key must have {1} characters, but it isn't: '{2}'", implName, length, key)
+                .isNotNull()
+                .hasText()
+                .hasSize(length);
         Asserts.that(charset)
-                .describedAs("{0}.charset is not allowed to be null, but it is", getClass().getSimpleName(), charset)
+                .describedAs("{0}.charset is not allowed to be null, but it is", implName, charset)
                 .isNotNull();
 
         byte[] bytes = key.getBytes(charset);

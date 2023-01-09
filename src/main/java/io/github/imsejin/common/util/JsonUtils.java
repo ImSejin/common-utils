@@ -16,12 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +25,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.joining;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * JSON utilities
@@ -53,7 +54,7 @@ public final class JsonUtils {
      * Reads the JSON format string returned by the URL and converts it to {@link JsonObject}.
      *
      * <pre><code>
-     *     URL url = new URL("http://cdn.lezhin.com/episodes/snail/1.json");
+     *     URL url = new URL("https://...");
      *     JsonObject json = JsonUtils.readJsonFromUrl(url);
      * </code></pre>
      *

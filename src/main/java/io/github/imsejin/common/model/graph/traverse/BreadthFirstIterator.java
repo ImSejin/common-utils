@@ -16,9 +16,6 @@
 
 package io.github.imsejin.common.model.graph.traverse;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.model.graph.Graph;
-
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,6 +24,9 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.model.graph.Graph;
 
 public class BreadthFirstIterator<E> implements Iterator<E> {
 
@@ -58,13 +58,17 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
-        if (!hasNext()) throw new NoSuchElementException("BreadthFirstIterator has no more elements");
+        if (!hasNext()) {
+            throw new NoSuchElementException("BreadthFirstIterator has no more elements");
+        }
 
         E vertex = this.queue.poll();
 
         this.visited.add(vertex);
         for (E v : this.graph.getAdjacentVertices(vertex)) {
-            if (this.visited.contains(v)) continue;
+            if (this.visited.contains(v)) {
+                continue;
+            }
             this.queue.offer(v);
             this.visited.add(v);
         }
@@ -88,14 +92,18 @@ public class BreadthFirstIterator<E> implements Iterator<E> {
         queue.add(root);
         while (!queue.isEmpty()) {
             E vertex = queue.poll();
-            if (visited.contains(vertex)) continue;
+            if (visited.contains(vertex)) {
+                continue;
+            }
 
             consumer.accept(vertex);
 
             visited.add(vertex);
             // queue.addAll(graph.getAdjacentVertices(vertex));
             for (E v : graph.getAdjacentVertices(vertex)) {
-                if (!visited.contains(v)) queue.offer(v);
+                if (!visited.contains(v)) {
+                    queue.offer(v);
+                }
             }
         }
     }

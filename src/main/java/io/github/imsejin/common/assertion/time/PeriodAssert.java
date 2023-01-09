@@ -16,15 +16,15 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import java.time.Period;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.AmountAssertable;
 import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
-import java.time.Period;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
 
 public class PeriodAssert<
         SELF extends PeriodAssert<SELF>>

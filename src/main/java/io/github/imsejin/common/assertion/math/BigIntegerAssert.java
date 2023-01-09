@@ -16,10 +16,10 @@
 
 package io.github.imsejin.common.assertion.math;
 
+import java.math.BigInteger;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.AbstractNumberAssert;
-
-import java.math.BigInteger;
 
 /**
  * Assertion for {@link BigInteger}

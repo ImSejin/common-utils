@@ -1,9 +1,5 @@
 package io.github.imsejin.common.io.finder;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.io.DiskFileResource;
-import io.github.imsejin.common.io.Resource;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,8 +8,11 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.io.DiskFileResource;
+import io.github.imsejin.common.io.Resource;
+
+import static java.util.stream.Collectors.*;
 
 public class DiskFileResourceFinder implements ResourceFinder {
 

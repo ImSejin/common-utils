@@ -16,15 +16,15 @@
 
 package io.github.imsejin.common.assertion.util;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
+import java.util.Objects;
+
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
 import io.github.imsejin.common.util.ArrayUtils;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Assertion for {@link List}

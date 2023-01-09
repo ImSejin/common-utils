@@ -16,15 +16,15 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.AmountAssertable;
-import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
-
 import java.math.BigDecimal;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.Objects;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.AmountAssertable;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 
 /**
  * Abstract assertion for {@link Number}
@@ -91,7 +91,8 @@ public abstract class AbstractNumberAssert<
      * @param zero       base point for comparison
      * @param comparator comparison function
      */
-    protected AbstractNumberAssert(Descriptor<?> descriptor, ACTUAL actual, ACTUAL zero, Comparator<? super ACTUAL> comparator) {
+    protected AbstractNumberAssert(Descriptor<?> descriptor, ACTUAL actual, ACTUAL zero,
+            Comparator<? super ACTUAL> comparator) {
         super(descriptor, actual);
         this.zero = zero;
         this.comparator = comparator;
@@ -404,8 +405,10 @@ public abstract class AbstractNumberAssert<
      */
     public SELF isCloseTo(ACTUAL expected, double percentage) {
         Asserts.that(percentage)
-                .describedAs("Error percentage must be zero or positive and less than 100, but it isn't: {0}", percentage)
-                .isZeroOrPositive().isLessThan(100.0);
+                .describedAs("Error percentage must be zero or positive and less than 100, but it isn't: {0}",
+                        percentage)
+                .isZeroOrPositive()
+                .isLessThan(100.0);
 
         // When acceptable error rate is 0%, they must be equal.
         if (percentage == 0.0) {
@@ -431,7 +434,10 @@ public abstract class AbstractNumberAssert<
         double $actual = actual.doubleValue();
         double $expected = expected.doubleValue();
 
-        if (Double.isNaN($actual) || Double.isInfinite($actual) || Double.isNaN($expected) || Double.isInfinite($expected)) {
+        if (Double.isNaN($actual)
+                || Double.isInfinite($actual)
+                || Double.isNaN($expected)
+                || Double.isInfinite($expected)) {
             setDefaultDescription("It is expected to close to other, but it isn't.");
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),

@@ -16,13 +16,13 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 /**
  * Stream utilities

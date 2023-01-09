@@ -9,14 +9,16 @@ public abstract class ArchiveResource extends AbstractResource {
     private final Instant lastModifiedTime;
 
     public ArchiveResource(String path, String name, InputStream inputStream,
-                           long size, boolean directory, long lastModifiedMilliTime) {
+            long size, boolean directory, long lastModifiedMilliTime) {
         super(path, name, inputStream, size, directory);
         this.lastModifiedTime = Instant.ofEpochMilli(lastModifiedMilliTime);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!super.equals(o)) return false;
+        if (!super.equals(o)) {
+            return false;
+        }
 
         ArchiveResource that = (ArchiveResource) o;
         return Objects.equals(this.lastModifiedTime, that.lastModifiedTime);
@@ -34,7 +36,8 @@ public abstract class ArchiveResource extends AbstractResource {
     @Override
     public String toString() {
         return getClass().getName() + "(path=" + getPath() + ", name=" + getName() + ", inputStream=" + getInputStream()
-                + ", size=" + getSize() + ", directory=" + isDirectory() + ", lastModifiedTime=" + this.lastModifiedTime + ")";
+                + ", size=" + getSize() + ", directory=" + isDirectory() + ", lastModifiedTime=" + this.lastModifiedTime
+                + ")";
     }
 
 }

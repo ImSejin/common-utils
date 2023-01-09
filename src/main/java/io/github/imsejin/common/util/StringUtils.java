@@ -16,10 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import jakarta.validation.constraints.Null;
-import org.intellij.lang.annotations.Language;
-
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,6 +26,12 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.intellij.lang.annotations.Language;
+
+import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 /**
  * String utilities
@@ -119,10 +121,14 @@ public final class StringUtils {
      * @return whether the string is null or blank
      */
     public static boolean isNullOrBlank(String str) {
-        if (isNullOrEmpty(str)) return true;
+        if (isNullOrEmpty(str)) {
+            return true;
+        }
 
         for (char c : str.toCharArray()) {
-            if (!Character.isWhitespace(c)) return false;
+            if (!Character.isWhitespace(c)) {
+                return false;
+            }
         }
 
         return true;
@@ -187,10 +193,14 @@ public final class StringUtils {
      * @return whether any strings are equal to criterion string
      */
     public static boolean anyEquals(@Null String criterion, @Null Collection<String> strings) {
-        if (CollectionUtils.isNullOrEmpty(strings)) return false;
+        if (CollectionUtils.isNullOrEmpty(strings)) {
+            return false;
+        }
 
         for (String string : strings) {
-            if (Objects.deepEquals(criterion, string)) return true;
+            if (Objects.deepEquals(criterion, string)) {
+                return true;
+            }
         }
 
         return false;
@@ -215,10 +225,14 @@ public final class StringUtils {
      * @return whether criterial string contains other strings
      */
     public static boolean anyContains(@Null String criterion, @Null Iterable<String> strings) {
-        if (criterion == null || strings == null || strings.spliterator().estimateSize() == 0) return false;
+        if (criterion == null || strings == null || strings.spliterator().estimateSize() == 0) {
+            return false;
+        }
 
         for (String string : strings) {
-            if (string != null && criterion.contains(string)) return true;
+            if (string != null && criterion.contains(string)) {
+                return true;
+            }
         }
 
         return false;
@@ -241,10 +255,14 @@ public final class StringUtils {
      * @return whether the string is numeric
      */
     public static boolean isNumeric(String str) {
-        if (isNullOrEmpty(str)) return false;
+        if (isNullOrEmpty(str)) {
+            return false;
+        }
 
         for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c)) return false;
+            if (!Character.isDigit(c)) {
+                return false;
+            }
         }
 
         return true;
@@ -288,7 +306,9 @@ public final class StringUtils {
     public static String padStart(int len, String origin, String appendix) {
         int originLen = origin.length();
 
-        if (originLen >= len) return origin;
+        if (originLen >= len) {
+            return origin;
+        }
         return repeat(appendix, len - originLen) + origin;
     }
 
@@ -330,7 +350,9 @@ public final class StringUtils {
     public static String padEnd(int len, String origin, String appendix) {
         int originLen = origin.length();
 
-        if (originLen >= len) return origin;
+        if (originLen >= len) {
+            return origin;
+        }
         return origin + repeat(appendix, len - originLen);
     }
 
@@ -346,7 +368,9 @@ public final class StringUtils {
      */
     public static int countOf(String origin, String keyword) {
         // If don't, will go into infinite loop.
-        if (keyword.isEmpty()) return origin.length();
+        if (keyword.isEmpty()) {
+            return origin.length();
+        }
 
         int keywordLen = keyword.length();
         int count = 0;
@@ -645,14 +669,18 @@ public final class StringUtils {
      */
     public static int ordinalIndexOf(String str, char ch, int ordinal) {
         // When ordinal is zero, regard as not finding.
-        if (ordinal == 0) return -1;
+        if (ordinal == 0) {
+            return -1;
+        }
 
         int index;
 
         if (ordinal > 0) {
             // When ordinal is positive, find the character from the beginning.
             index = str.indexOf(ch);
-            if (index == -1) return -1;
+            if (index == -1) {
+                return -1;
+            }
 
             for (int i = 1; i < ordinal && index != -1; i++) {
                 index = str.indexOf(ch, index + 1);
@@ -661,7 +689,9 @@ public final class StringUtils {
         } else {
             // When ordinal is negative, find the character from the end.
             index = str.lastIndexOf(ch);
-            if (index == -1) return -1;
+            if (index == -1) {
+                return -1;
+            }
 
             for (int i = -1; i > ordinal && index != -1; i--) {
                 index = str.lastIndexOf(ch, index - 1);
@@ -692,7 +722,9 @@ public final class StringUtils {
      * @return index of the current closing bracket
      */
     public static int indexOfCurrentClosingBracket(@Null String str, int pos, char opener, char closer) {
-        if (isNullOrEmpty(str)) return -1;
+        if (isNullOrEmpty(str)) {
+            return -1;
+        }
 
         // Finds the opening bracket in the current context.
         char ch = str.charAt(pos);
@@ -703,7 +735,9 @@ public final class StringUtils {
             for (int i = pos; i >= 0; i--) {
                 char c = str.charAt(i);
 
-                if (c == closer) depth++;
+                if (c == closer) {
+                    depth++;
+                }
                 if (c == opener) {
                     depth--;
                     if (depth == 0) {
@@ -715,7 +749,9 @@ public final class StringUtils {
             }
 
             // When not found opening bracket in whole characters.
-            if (ch != opener) return -1;
+            if (ch != opener) {
+                return -1;
+            }
         }
 
         // Since the opener is found, this variable will increase by 1 immediately.
@@ -724,10 +760,14 @@ public final class StringUtils {
         for (int i = pos; i < str.length(); i++) {
             char c = str.charAt(i);
 
-            if (c == opener) depth++;
+            if (c == opener) {
+                depth++;
+            }
             if (c == closer) {
                 depth--;
-                if (depth == 0) return i;
+                if (depth == 0) {
+                    return i;
+                }
             }
         }
 

@@ -16,15 +16,6 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
-import io.github.imsejin.common.assertion.composition.IterationAssertable;
-import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
-import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.assertion.util.ListAssert;
-import io.github.imsejin.common.util.ArrayUtils;
-
 import java.lang.reflect.Array;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -34,6 +25,15 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.IterationAssertable;
+import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.assertion.util.ListAssert;
+import io.github.imsejin.common.util.ArrayUtils;
 
 /**
  * Assertion for {@link Array}
@@ -619,7 +619,10 @@ public class ArrayAssert<
         }
 
         Set<ELEMENT> noDuplicates = new TreeSet<>((o1, o2) -> {
-            if (Objects.deepEquals(o1, o2)) return 0;
+            if (Objects.deepEquals(o1, o2)) {
+                return 0;
+            }
+
             return ArrayUtils.hashCode(o1) < ArrayUtils.hashCode(o2) ? -1 : 1;
         });
 

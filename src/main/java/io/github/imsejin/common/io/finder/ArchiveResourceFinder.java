@@ -16,19 +16,21 @@
 
 package io.github.imsejin.common.io.finder;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.io.ArchiveResource;
-import io.github.imsejin.common.io.Resource;
-import jakarta.validation.constraints.Null;
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveInputStream;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+
+import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.io.ArchiveResource;
+import io.github.imsejin.common.io.Resource;
 
 public abstract class ArchiveResourceFinder<
         R extends ArchiveResource,
@@ -56,7 +58,9 @@ public abstract class ArchiveResourceFinder<
             // java.nio.charset.CharsetDecoder.decode
             while ((entry = getNextArchiveEntry(in)) != null) {
                 R resource = getArchiveResource(entry, in);
-                if (resource == null) continue;
+                if (resource == null) {
+                    continue;
+                }
 
                 resources.add(resource);
             }

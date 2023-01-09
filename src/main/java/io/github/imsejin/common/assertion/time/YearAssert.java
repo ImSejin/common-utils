@@ -16,13 +16,13 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import java.time.Year;
+import java.util.AbstractMap.SimpleEntry;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.composition.YearAssertable;
 import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
-
-import java.time.Year;
-import java.util.AbstractMap.SimpleEntry;
 
 public class YearAssert<SELF extends YearAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, Year>

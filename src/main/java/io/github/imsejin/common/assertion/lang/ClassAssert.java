@@ -16,12 +16,12 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Descriptor;
-import io.github.imsejin.common.util.ClassUtils;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.AbstractMap.SimpleEntry;
+
+import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.util.ClassUtils;
 
 /**
  * Assertion for {@link Class}

@@ -16,8 +16,9 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import jakarta.validation.constraints.Null;
+
+import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 /**
  * Filename utilities
@@ -50,7 +51,9 @@ public final class FilenameUtils {
      * @return index of extension separator
      */
     public static int indexOfExtension(@Null String filename) {
-        if (filename == null) return -1;
+        if (filename == null) {
+            return -1;
+        }
 
         int index = filename.lastIndexOf(EXTENSION_SEPARATOR);
         return index == 0 ? -1 : index;
@@ -70,12 +73,16 @@ public final class FilenameUtils {
      * @return name
      */
     public static String getName(String path) {
-        if (StringUtils.isNullOrEmpty(path)) return "";
+        if (StringUtils.isNullOrEmpty(path)) {
+            return "";
+        }
 
         path = path.trim();
 
         int index = path.lastIndexOf('\\');
-        if (index == -1) index = path.lastIndexOf('/');
+        if (index == -1) {
+            index = path.lastIndexOf('/');
+        }
 
         if (index == -1) {
             return path;
@@ -104,7 +111,9 @@ public final class FilenameUtils {
      * @return filename without extension
      */
     public static String getBaseName(@Null String filename) {
-        if (filename == null) return "";
+        if (filename == null) {
+            return "";
+        }
 
         int index = indexOfExtension(filename);
         return index == -1 ? filename : filename.substring(0, index);
@@ -123,7 +132,9 @@ public final class FilenameUtils {
      * @return extension name
      */
     public static String getExtension(@Null String filename) {
-        if (filename == null) return "";
+        if (filename == null) {
+            return "";
+        }
 
         int index = indexOfExtension(filename);
         return index == -1 ? "" : filename.substring(index + 1);

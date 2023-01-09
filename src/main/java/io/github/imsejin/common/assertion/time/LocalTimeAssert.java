@@ -16,12 +16,12 @@
 
 package io.github.imsejin.common.assertion.time;
 
+import java.time.LocalTime;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.LongAssert;
 import io.github.imsejin.common.assertion.time.temporal.AbstractTemporalAccessorAssert;
-
-import java.time.LocalTime;
 
 public class LocalTimeAssert<SELF extends LocalTimeAssert<SELF>>
         extends AbstractTemporalAccessorAssert<SELF, LocalTime> {

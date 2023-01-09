@@ -1,11 +1,11 @@
 package io.github.imsejin.common.assertion.util;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.UUID;
+
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.assertion.lang.IntegerAssert;
 import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.UUID;
 
 /**
  * Assertion for {@link UUID}
