@@ -16,12 +16,12 @@
 
 package org.junit.jupiter.params.converter;
 
-import org.junit.jupiter.params.provider.RandomJavaTimeSource;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
 /**
  * @see RandomJavaTimeSource

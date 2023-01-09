@@ -16,12 +16,6 @@
 
 package io.github.imsejin.common.assertion.util;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.util.CollectionUtils;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,9 +26,15 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.util.CollectionUtils;
+
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("AbstractMapAssert")
 class MapAssertTest {
@@ -203,13 +203,16 @@ class MapAssertTest {
                     .isThrownBy(() -> Asserts.that(Collections.emptyMap()).hasSameSizeAs(null))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.emptyMap()).hasSameSizeAs(Collections.singletonMap(null, null)))
+                    .isThrownBy(() -> Asserts.that(Collections.emptyMap())
+                            .hasSameSizeAs(Collections.singletonMap(null, null)))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).hasSameSizeAs(Collections.emptyMap()))
+                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null))
+                            .hasSameSizeAs(Collections.emptyMap()))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(hashMap).hasSameSizeAs(CollectionUtils.toMap(Arrays.asList(1, 2, 3, 4))))
+                    .isThrownBy(
+                            () -> Asserts.that(hashMap).hasSameSizeAs(CollectionUtils.toMap(Arrays.asList(1, 2, 3, 4))))
                     .withMessageStartingWith(description);
         }
     }
@@ -258,10 +261,12 @@ class MapAssertTest {
                     .isThrownBy(() -> Asserts.that(Collections.emptyMap()).doesNotHaveSameSizeAs(new Properties()))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null)).doesNotHaveSameSizeAs(Collections.singletonMap("foo", "bar")))
+                    .isThrownBy(() -> Asserts.that(Collections.singletonMap(null, null))
+                            .doesNotHaveSameSizeAs(Collections.singletonMap("foo", "bar")))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(hashMap).doesNotHaveSameSizeAs(CollectionUtils.toMap(Arrays.asList(0, 1, 2))))
+                    .isThrownBy(() -> Asserts.that(hashMap)
+                            .doesNotHaveSameSizeAs(CollectionUtils.toMap(Arrays.asList(0, 1, 2))))
                     .withMessageStartingWith(description);
         }
     }
@@ -424,7 +429,8 @@ class MapAssertTest {
 
             // expect
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonMap("foo", "bar")).containsAllKeys(Collections.singletonList("f")))
+                    .isThrownBy(() -> Asserts.that(Collections.singletonMap("foo", "bar"))
+                            .containsAllKeys(Collections.singletonList("f")))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(hashMap).containsAllKeys(props))
@@ -458,7 +464,8 @@ class MapAssertTest {
                 props.setProperty("newspaper", "properties");
 
                 // expect
-                Asserts.that(Collections.singletonMap("foo", "bar")).containsAllValues(Collections.singletonList("bar"));
+                Asserts.that(Collections.singletonMap("foo", "bar"))
+                        .containsAllValues(Collections.singletonList("bar"));
                 Asserts.that(hashMap).containsAllValues(hashMap);
                 Asserts.that(treeMap).containsAllValues(Arrays.asList("new", "tree-map"));
                 Asserts.that(props).containsAllValues(props.values());
@@ -482,13 +489,16 @@ class MapAssertTest {
 
             // expect
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(Collections.singletonMap("foo", "bar")).containsAllValues(Collections.singletonList("b")))
+                    .isThrownBy(() -> Asserts.that(Collections.singletonMap("foo", "bar"))
+                            .containsAllValues(Collections.singletonList("b")))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(hashMap).containsAllValues(Arrays.asList(new Object(), new Object())))
+                    .isThrownBy(
+                            () -> Asserts.that(hashMap).containsAllValues(Arrays.asList(new Object(), new Object())))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(treeMap).containsAllValues(props.values().stream().map(Object::toString).collect(toList())))
+                    .isThrownBy(() -> Asserts.that(treeMap)
+                            .containsAllValues(props.values().stream().map(Object::toString).collect(toList())))
                     .withMessageStartingWith(description);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(props).containsAllValues(props.keySet()))

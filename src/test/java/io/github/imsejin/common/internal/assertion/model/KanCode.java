@@ -1,15 +1,16 @@
 package io.github.imsejin.common.internal.assertion.model;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.util.StringUtils;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import jakarta.validation.constraints.Null;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.BiConsumer;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.util.StringUtils;
 
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -66,25 +67,37 @@ public final class KanCode {
         // 00000000
         if (large.equals(EMPTINESS)) {
             // 00010000
-            if (!medium.equals(EMPTINESS)) throwException.accept("Medium", "large");
+            if (!medium.equals(EMPTINESS)) {
+                throwException.accept("Medium", "large");
+            }
             // 00000100
-            if (!small.equals(EMPTINESS)) throwException.accept("Small", "large");
+            if (!small.equals(EMPTINESS)) {
+                throwException.accept("Small", "large");
+            }
             // 00000001
-            if (!extraSmall.equals(EMPTINESS)) throwException.accept("Extra small", "large");
+            if (!extraSmall.equals(EMPTINESS)) {
+                throwException.accept("Extra small", "large");
+            }
         }
 
         // 01000000
         if (medium.equals(EMPTINESS)) {
             // 00000100
-            if (!small.equals(EMPTINESS)) throwException.accept("Small", "medium");
+            if (!small.equals(EMPTINESS)) {
+                throwException.accept("Small", "medium");
+            }
             // 00000001
-            if (!extraSmall.equals(EMPTINESS)) throwException.accept("Extra small", "medium");
+            if (!extraSmall.equals(EMPTINESS)) {
+                throwException.accept("Extra small", "medium");
+            }
         }
 
         // 01020000
         if (small.equals(EMPTINESS)) {
             // 00000001
-            if (!extraSmall.equals(EMPTINESS)) throwException.accept("Extra small", "small");
+            if (!extraSmall.equals(EMPTINESS)) {
+                throwException.accept("Extra small", "small");
+            }
         }
     }
 
@@ -106,7 +119,9 @@ public final class KanCode {
      * @param child child kan code
      */
     public boolean isParentOf(KanCode child) {
-        if (this == child || this.equals(child)) return false;
+        if (this == child || this.equals(child)) {
+            return false;
+        }
         return child.code.startsWith(this.code.substring(0, this.depth * 2));
     }
 
@@ -122,7 +137,9 @@ public final class KanCode {
      * @param parent parent kan code
      */
     public boolean isChildOf(KanCode parent) {
-        if (this == parent || this.equals(parent)) return false;
+        if (this == parent || this.equals(parent)) {
+            return false;
+        }
         return this.code.startsWith(parent.code.substring(0, parent.depth * 2));
     }
 
@@ -139,7 +156,9 @@ public final class KanCode {
      */
     @Null
     public KanCode getParent() {
-        if (this.depth == 0) return null;
+        if (this.depth == 0) {
+            return null;
+        }
 
         String meaningfulCode = this.code.substring(0, this.depth * 2).replaceAll(".{2}$", EMPTINESS);
         return new KanCode(StringUtils.padEnd(8, meaningfulCode, "0"));

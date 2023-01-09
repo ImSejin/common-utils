@@ -16,8 +16,9 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.YearAssertable;
+import java.time.YearMonth;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,11 +26,10 @@ import org.junit.jupiter.params.common.Switch;
 import org.junit.jupiter.params.converter.ConvertJavaTime;
 import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
-import java.time.YearMonth;
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.YearAssertable;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("YearMonthAssert")
 class YearMonthAssertTest {
@@ -50,7 +50,7 @@ class YearMonthAssertTest {
         @DisplayName("throws exception, when actual is not leap year")
         void test1(@ConvertJavaTime YearMonth actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isLeapYear())
+                            .isLeapYear())
                     .withMessageMatching(Pattern.quote(YearAssertable.DEFAULT_DESCRIPTION_IS_LEAP_YEAR) +
                             "\n {4}actual: '[0-9]{4}-[0-9]{2}'");
         }
@@ -74,7 +74,7 @@ class YearMonthAssertTest {
         @DisplayName("throws exception, when actual is leap year")
         void test1(@ConvertJavaTime YearMonth actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNotLeapYear())
+                            .isNotLeapYear())
                     .withMessageMatching(Pattern.quote(YearAssertable.DEFAULT_DESCRIPTION_IS_NOT_LEAP_YEAR) +
                             "\n {4}actual: '[0-9]{4}-[0-9]{2}'");
         }

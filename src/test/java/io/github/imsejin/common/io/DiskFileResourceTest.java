@@ -16,12 +16,6 @@
 
 package io.github.imsejin.common.io;
 
-import io.github.imsejin.common.tool.RandomString;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.FileSystemSource;
-import org.junit.jupiter.api.extension.Memory;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -31,7 +25,14 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.FileSystemSource;
+import org.junit.jupiter.api.extension.Memory;
+
+import io.github.imsejin.common.tool.RandomString;
+
+import static org.assertj.core.api.Assertions.*;
 
 @FileSystemSource
 @DisplayName("DiskFileResource")
@@ -58,8 +59,8 @@ class DiskFileResourceTest {
                 .returns((long) bytes.length, Resource::getSize)
                 .returns(filePath, DiskFileResource::getRealPath)
                 .returns(String.format("%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s)",
-                        resource.getClass().getName(), resource.getPath(), resource.getName(),
-                        null, resource.getSize(), resource.isDirectory()),
+                                resource.getClass().getName(), resource.getPath(), resource.getName(),
+                                null, resource.getSize(), resource.isDirectory()),
                         DiskFileResource::toString);
         assertThat(resource.getInputStream())
                 .isNotNull()

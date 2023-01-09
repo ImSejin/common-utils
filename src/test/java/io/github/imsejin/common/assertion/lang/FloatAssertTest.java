@@ -16,9 +16,13 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.ArithmeticDecimalNumberAssertable;
-import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,17 +31,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.ArithmeticDecimalNumberAssertable;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("FloatAssert")
 class FloatAssertTest {
@@ -143,8 +142,9 @@ class FloatAssertTest {
             map.put(0F, -Float.MAX_VALUE);
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .doesNotThrowAnyException());
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .doesNotThrowAnyException());
         }
 
         @Test
@@ -159,8 +159,9 @@ class FloatAssertTest {
             map.put(-Float.MAX_VALUE, 0F);
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -372,7 +373,7 @@ class FloatAssertTest {
         void test0() {
             new Random().doubles(-100, 50)
                     .limit(10_000).mapToObj(n -> (float) n).forEach(n -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n + 0.1F)));
+                            .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n - 0.1F, n + 0.1F)));
         }
 
         @Test
@@ -467,10 +468,12 @@ class FloatAssertTest {
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(1.0F, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0F).isCloseTo(-1.0F, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 
@@ -524,8 +527,9 @@ class FloatAssertTest {
         void test1(float actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isFinite())
-                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_FINITE) +
-                            "\n {4}actual: '(NaN|-?Infinity)'");
+                    .withMessageMatching(
+                            Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_FINITE) +
+                                    "\n {4}actual: '(NaN|-?Infinity)'");
         }
     }
 
@@ -552,8 +556,9 @@ class FloatAssertTest {
         void test1(float actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isInfinite())
-                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_INFINITE) +
-                            "\n {4}actual: '(.+)'");
+                    .withMessageMatching(
+                            Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_INFINITE) +
+                                    "\n {4}actual: '(.+)'");
         }
     }
 
@@ -606,8 +611,9 @@ class FloatAssertTest {
         void test1() {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Float.NaN).isNotNaN())
-                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN) +
-                            "\n {4}actual: 'NaN'");
+                    .withMessageMatching(
+                            Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN) +
+                                    "\n {4}actual: 'NaN'");
         }
     }
 

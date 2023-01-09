@@ -1,6 +1,9 @@
 package io.github.imsejin.common.assertion.net;
 
-import io.github.imsejin.common.assertion.Asserts;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,12 +11,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("UrlAssert")
 class UrlAssertTest {
@@ -41,7 +41,7 @@ class UrlAssertTest {
         @DisplayName("throws exception, when actual doesn't have host")
         void test1(URL actual, String expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasHost(expected))
+                            .hasHost(expected))
                     .withMessageMatching(Pattern.quote("It is expected to have that host, but it doesn't.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.host: '.*'" +
@@ -71,7 +71,7 @@ class UrlAssertTest {
         @DisplayName("throws exception, when actual has host")
         void test1(URL url) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(url)
-                    .doesNotHaveHost())
+                            .doesNotHaveHost())
                     .withMessageMatching(Pattern.quote("It is expected not to have host, but it does.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.host: '.+'");
@@ -101,7 +101,7 @@ class UrlAssertTest {
         @DisplayName("throws exception, when actual doesn't have port")
         void test1(URL actual, int expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasPort(expected))
+                            .hasPort(expected))
                     .withMessageMatching(Pattern.quote("It is expected to have that port, but it doesn't.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.port: '[0-9]+'" +
@@ -131,7 +131,7 @@ class UrlAssertTest {
         @DisplayName("throws exception, when actual has port")
         void test1(URL actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .doesNotHavePort())
+                            .doesNotHavePort())
                     .withMessageMatching(Pattern.quote("It is expected not to have port, but it does.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.port: '[0-9]+'");
@@ -162,7 +162,7 @@ class UrlAssertTest {
         @DisplayName("throws exception, when actual doesn't have path")
         void test1(URL actual, String expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasPath(expected))
+                            .hasPath(expected))
                     .withMessageMatching(Pattern.quote("It is expected to have that path, but it doesn't.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.path: '.*'" +
@@ -193,7 +193,7 @@ class UrlAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(url)
-                    .doesNotHavePath())
+                            .doesNotHavePath())
                     .withMessageMatching(Pattern.quote("It is expected not to have path, but it does.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.path: '.+'");

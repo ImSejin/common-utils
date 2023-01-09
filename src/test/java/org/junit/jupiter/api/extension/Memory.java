@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * @see FileSystemParameterResolver
  */
-@Target({ElementType.PARAMETER})
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Memory {
 }

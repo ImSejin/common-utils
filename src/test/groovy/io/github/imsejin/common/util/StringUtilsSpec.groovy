@@ -21,7 +21,7 @@ import spock.lang.Unroll
 
 import java.util.function.Supplier
 
-import static java.util.stream.Collectors.toList
+import static java.util.stream.Collectors.*
 
 class StringUtilsSpec extends Specification {
 

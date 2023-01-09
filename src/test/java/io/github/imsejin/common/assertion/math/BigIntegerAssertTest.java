@@ -16,7 +16,12 @@
 
 package io.github.imsejin.common.assertion.math;
 
-import io.github.imsejin.common.assertion.Asserts;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,15 +29,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import io.github.imsejin.common.assertion.Asserts;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("BigIntegerAssert")
 class BigIntegerAssertTest {
@@ -275,7 +275,9 @@ class BigIntegerAssertTest {
         @Test
         @DisplayName("passes, when actual is between x and y inclusively")
         void test0() {
-            IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1).limit(10_000).mapToObj(BigInteger::valueOf)
+            IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
+                    .limit(10_000)
+                    .mapToObj(BigInteger::valueOf)
                     .forEach(n -> assertThatNoException().isThrownBy(() -> {
                         BigInteger startInclusive = n.subtract(BigInteger.ONE);
                         BigInteger endInclusive = n.add(BigInteger.ONE);
@@ -334,7 +336,8 @@ class BigIntegerAssertTest {
             bigInts.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.subtract(BigInteger.ONE), n)));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.add(BigInteger.ONE), n.subtract(BigInteger.ONE))));
+                    .isThrownBy(() -> Asserts.that(n)
+                            .isStrictlyBetween(n.add(BigInteger.ONE), n.subtract(BigInteger.ONE))));
         }
     }
 
@@ -348,7 +351,8 @@ class BigIntegerAssertTest {
         void test0() {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MAX_VALUE), 0);
-                Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75.1);
+                Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE))
+                        .isCloseTo(BigInteger.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75.1);
                 Asserts.that(BigInteger.valueOf(123_456_789)).isCloseTo(BigInteger.valueOf(98_765), 99.93);
                 Asserts.that(BigInteger.valueOf(1024)).isCloseTo(BigInteger.valueOf(32), 96.875);
                 Asserts.that(BigInteger.valueOf(100)).isCloseTo(BigInteger.valueOf(93), 7.01);
@@ -357,7 +361,8 @@ class BigIntegerAssertTest {
                 Asserts.that(BigInteger.valueOf(-33)).isCloseTo(BigInteger.valueOf(-3), 90.91);
                 Asserts.that(BigInteger.valueOf(-500)).isCloseTo(BigInteger.valueOf(-499), 0.2);
                 Asserts.that(BigInteger.valueOf(-87_654_321)).isCloseTo(BigInteger.valueOf(-12_345), 99.986);
-                Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MIN_VALUE * 0.25)), 75);
+                Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE))
+                        .isCloseTo(BigInteger.valueOf((long) (Integer.MIN_VALUE * 0.25)), 75);
                 Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MIN_VALUE), 0);
             });
         }
@@ -371,10 +376,12 @@ class BigIntegerAssertTest {
                     .isThrownBy(() -> Asserts.that(BigInteger.TEN).isCloseTo(null, 15))
                     .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75))
+                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE))
+                            .isCloseTo(BigInteger.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MIN_VALUE), 99.9))
+                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MAX_VALUE))
+                            .isCloseTo(BigInteger.valueOf(Integer.MIN_VALUE), 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigInteger.valueOf(64)).isCloseTo(BigInteger.valueOf(32), 49.9))
@@ -389,17 +396,21 @@ class BigIntegerAssertTest {
                     .isThrownBy(() -> Asserts.that(BigInteger.valueOf(-20)).isCloseTo(BigInteger.valueOf(-15), 10))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf(Integer.MAX_VALUE), 99.9))
+                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE))
+                            .isCloseTo(BigInteger.valueOf(Integer.MAX_VALUE), 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE)).isCloseTo(BigInteger.valueOf((long) (Integer.MIN_VALUE * 0.9)), 9))
+                    .isThrownBy(() -> Asserts.that(BigInteger.valueOf(Integer.MIN_VALUE))
+                            .isCloseTo(BigInteger.valueOf((long) (Integer.MIN_VALUE * 0.9)), 9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigInteger.ZERO).isCloseTo(BigInteger.ONE, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigInteger.ZERO).isCloseTo(BigInteger.ONE.negate(), 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 
@@ -411,7 +422,8 @@ class BigIntegerAssertTest {
                 Arguments.of(BigInteger.ONE, BigInteger.valueOf(1)),
                 Arguments.of(BigInteger.TEN, BigDecimal.valueOf(10.6).toBigInteger()),
                 Arguments.of(new BigInteger("ffffff", 16), BigInteger.valueOf(16777215)),
-                Arguments.of(new BigInteger("18446744073709551614"), BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(2)))
+                Arguments.of(new BigInteger("18446744073709551614"),
+                        BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(2)))
         );
     }
 
@@ -421,7 +433,8 @@ class BigIntegerAssertTest {
                 Arguments.of(BigInteger.ONE, BigInteger.ZERO),
                 Arguments.of(BigInteger.TEN, BigDecimal.valueOf(11).toBigInteger()),
                 Arguments.of(new BigInteger("ffffff", 16), BigInteger.valueOf(-16777215)),
-                Arguments.of(new BigInteger(Long.MAX_VALUE + "" + Long.MAX_VALUE), BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(2)))
+                Arguments.of(new BigInteger(Long.MAX_VALUE + "" + Long.MAX_VALUE),
+                        BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(2)))
         );
     }
 

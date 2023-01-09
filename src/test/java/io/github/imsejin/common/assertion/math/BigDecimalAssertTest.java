@@ -16,8 +16,13 @@
 
 package io.github.imsejin.common.assertion.math;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,16 +31,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("BigDecimalAssert")
 class BigDecimalAssertTest {
@@ -278,7 +278,9 @@ class BigDecimalAssertTest {
         @Test
         @DisplayName("passes, when actual is between x and y inclusively")
         void test0() {
-            IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1).limit(10_000).mapToObj(BigDecimal::valueOf)
+            IntStream.rangeClosed(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1)
+                    .limit(10_000)
+                    .mapToObj(BigDecimal::valueOf)
                     .forEach(n -> assertThatNoException().isThrownBy(() -> {
                         BigDecimal startInclusive = n.subtract(BigDecimal.ONE);
                         BigDecimal endInclusive = n.add(BigDecimal.ONE);
@@ -337,7 +339,8 @@ class BigDecimalAssertTest {
             bigInts.forEach(n -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.subtract(BigDecimal.ONE), n)));
             bigInts.forEach(n -> assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween(n.add(BigDecimal.ONE), n.subtract(BigDecimal.ONE))));
+                    .isThrownBy(() -> Asserts.that(n)
+                            .isStrictlyBetween(n.add(BigDecimal.ONE), n.subtract(BigDecimal.ONE))));
         }
     }
 
@@ -351,7 +354,8 @@ class BigDecimalAssertTest {
         void test0() {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MAX_VALUE), 0);
-                Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75.1);
+                Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE))
+                        .isCloseTo(BigDecimal.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75.1);
                 Asserts.that(BigDecimal.valueOf(123_456_789)).isCloseTo(BigDecimal.valueOf(98_765), 99.93);
                 Asserts.that(BigDecimal.valueOf(1024)).isCloseTo(BigDecimal.valueOf(32), 96.875);
                 Asserts.that(BigDecimal.valueOf(100)).isCloseTo(BigDecimal.valueOf(93), 7.01);
@@ -360,7 +364,8 @@ class BigDecimalAssertTest {
                 Asserts.that(BigDecimal.valueOf(-33)).isCloseTo(BigDecimal.valueOf(-3), 90.91);
                 Asserts.that(BigDecimal.valueOf(-500)).isCloseTo(BigDecimal.valueOf(-499), 0.2);
                 Asserts.that(BigDecimal.valueOf(-87_654_321)).isCloseTo(BigDecimal.valueOf(-12_345), 99.986);
-                Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MIN_VALUE * 0.25)), 75);
+                Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE))
+                        .isCloseTo(BigDecimal.valueOf((long) (Integer.MIN_VALUE * 0.25)), 75);
                 Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MIN_VALUE), 0);
             });
         }
@@ -374,10 +379,12 @@ class BigDecimalAssertTest {
                     .isThrownBy(() -> Asserts.that(BigDecimal.TEN).isCloseTo(null, 15))
                     .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE))
+                            .isCloseTo(BigDecimal.valueOf((long) (Integer.MAX_VALUE * 0.25)), 75))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MIN_VALUE), 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MAX_VALUE))
+                            .isCloseTo(BigDecimal.valueOf(Integer.MIN_VALUE), 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(64)).isCloseTo(BigDecimal.valueOf(32), 49.9))
@@ -392,17 +399,21 @@ class BigDecimalAssertTest {
                     .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(-20)).isCloseTo(BigDecimal.valueOf(-15), 10))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf(Integer.MAX_VALUE), 99.9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE))
+                            .isCloseTo(BigDecimal.valueOf(Integer.MAX_VALUE), 99.9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE)).isCloseTo(BigDecimal.valueOf((long) (Integer.MIN_VALUE * 0.9)), 9))
+                    .isThrownBy(() -> Asserts.that(BigDecimal.valueOf(Integer.MIN_VALUE))
+                            .isCloseTo(BigDecimal.valueOf((long) (Integer.MIN_VALUE * 0.9)), 9))
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigDecimal.ZERO).isCloseTo(BigDecimal.ONE, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(BigDecimal.ZERO).isCloseTo(BigDecimal.ONE.negate(), 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 
@@ -465,8 +476,10 @@ class BigDecimalAssertTest {
                 Arguments.of(BigDecimal.ZERO, new BigDecimal("0")),
                 Arguments.of(BigDecimal.ONE, BigDecimal.valueOf(1.00)),
                 Arguments.of(BigDecimal.TEN, BigDecimal.valueOf(10.0)),
-                Arguments.of(new BigDecimal(new BigInteger("ffffff", 16)), new BigDecimal(BigInteger.valueOf(16777215))),
-                Arguments.of(new BigDecimal("18446744073709551614"), BigDecimal.valueOf(Long.MAX_VALUE).multiply(BigDecimal.valueOf(2)))
+                Arguments.of(new BigDecimal(new BigInteger("ffffff", 16)),
+                        new BigDecimal(BigInteger.valueOf(16777215))),
+                Arguments.of(new BigDecimal("18446744073709551614"),
+                        BigDecimal.valueOf(Long.MAX_VALUE).multiply(BigDecimal.valueOf(2)))
         );
     }
 
@@ -475,8 +488,10 @@ class BigDecimalAssertTest {
                 Arguments.of(BigDecimal.ZERO, new BigDecimal("10")),
                 Arguments.of(BigDecimal.ONE, BigDecimal.ZERO),
                 Arguments.of(BigDecimal.TEN, BigDecimal.valueOf(11)),
-                Arguments.of(new BigDecimal(new BigInteger("ffffff", 16)), new BigDecimal(BigInteger.valueOf(-16777215))),
-                Arguments.of(new BigDecimal(Long.MAX_VALUE + "" + Long.MAX_VALUE), BigDecimal.valueOf(Long.MAX_VALUE).multiply(BigDecimal.valueOf(2)))
+                Arguments.of(new BigDecimal(new BigInteger("ffffff", 16)),
+                        new BigDecimal(BigInteger.valueOf(-16777215))),
+                Arguments.of(new BigDecimal(Long.MAX_VALUE + "" + Long.MAX_VALUE),
+                        BigDecimal.valueOf(Long.MAX_VALUE).multiply(BigDecimal.valueOf(2)))
         );
     }
 

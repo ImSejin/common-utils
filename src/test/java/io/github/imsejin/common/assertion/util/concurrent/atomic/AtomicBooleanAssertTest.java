@@ -16,18 +16,18 @@
 
 package io.github.imsejin.common.assertion.util.concurrent.atomic;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.HolderAssertable;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("AtomicBooleanAssert")
 class AtomicBooleanAssertTest {
@@ -52,10 +52,10 @@ class AtomicBooleanAssertTest {
                     "\n {4}expected: '(null|true|false)'";
 
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicBoolean(value))
-                    .hasValue(null)))
+                            .hasValue(null)))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicBoolean(value))
-                    .hasValue(!value)))
+                            .hasValue(!value)))
                     .withMessageMatching(message);
         }
     }
@@ -84,7 +84,7 @@ class AtomicBooleanAssertTest {
                     "\n {4}expected: '(true|false)'";
 
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicBoolean(value))
-                    .doesNotHaveValue(value)))
+                            .doesNotHaveValue(value)))
                     .withMessageMatching(message);
         }
     }

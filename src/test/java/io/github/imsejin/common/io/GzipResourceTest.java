@@ -16,17 +16,18 @@
 
 package io.github.imsejin.common.io;
 
-import io.github.imsejin.common.tool.RandomString;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import io.github.imsejin.common.tool.RandomString;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("GzipResource")
 class GzipResourceTest {
@@ -54,10 +55,11 @@ class GzipResourceTest {
                 .returns(false, Resource::isDirectory)
                 .returns((long) bytes.length / 2, GzipResource::getCompressedSize)
                 .returns(Instant.ofEpochMilli(modifiedTime), GzipResource::getLastModifiedTime)
-                .returns(String.format("%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, compressedSize=%d, lastModifiedTime=%s)",
-                        resource.getClass().getName(), resource.getPath(), resource.getName(),
-                        resource.getInputStream(), resource.getSize(), resource.isDirectory(),
-                        resource.getCompressedSize(), resource.getLastModifiedTime()),
+                .returns(String.format(
+                                "%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, compressedSize=%d, lastModifiedTime=%s)",
+                                resource.getClass().getName(), resource.getPath(), resource.getName(),
+                                resource.getInputStream(), resource.getSize(), resource.isDirectory(),
+                                resource.getCompressedSize(), resource.getLastModifiedTime()),
                         GzipResource::toString);
         assertThat(resource.getInputStream())
                 .isNotNull()

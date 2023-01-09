@@ -16,20 +16,21 @@
 
 package io.github.imsejin.common.io.finder;
 
-import io.github.imsejin.common.internal.TestUtils;
-import io.github.imsejin.common.io.Resource;
-import io.github.imsejin.common.io.TarResource;
-import io.github.imsejin.common.util.FilenameUtils;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import io.github.imsejin.common.internal.TestUtils;
+import io.github.imsejin.common.io.Resource;
+import io.github.imsejin.common.io.TarResource;
+import io.github.imsejin.common.util.FilenameUtils;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("TarGzipResourceFinder")
 class TarGzipResourceFinderTest {
@@ -56,25 +57,23 @@ class TarGzipResourceFinderTest {
                 .isNotEmpty()
                 .doesNotContainNull()
                 .doesNotHaveDuplicates()
-                .allMatch(resource -> resource instanceof TarResource)
-                .allMatch(resource -> resource.isDirectory()
-                        ? resource.getPath().endsWith(resource.getName() + '/')
-                        : resource.getPath().endsWith(resource.getName()));
+                .allMatch(it -> it instanceof TarResource)
+                .allMatch(it -> it.getPath().endsWith(it.getName() + (it.isDirectory() ? "/" : "")));
         assertThat(resources)
                 .filteredOn(Resource::isDirectory)
-                .allMatch(resource -> resource.getInputStream() == null)
-                .allMatch(resource -> resource.getSize() == 0);
+                .allMatch(it -> it.getInputStream() == null)
+                .allMatch(it -> it.getSize() == 0);
         assertThat(resources)
-                .filteredOn(resource -> !resource.isDirectory())
-                .allMatch(resource -> resource.getInputStream() != null)
-                .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
-                .allMatch(resource -> resource.getSize() >= 0);
+                .filteredOn(it -> !it.isDirectory())
+                .allMatch(it -> it.getInputStream() != null)
+                .allMatch(it -> TestUtils.readAllBytes(it.getInputStream()).length == it.getSize())
+                .allMatch(it -> it.getSize() >= 0);
         assertThat(resources)
-                .filteredOn(resource -> resource.getPath().endsWith('.' + extension))
+                .filteredOn(it -> it.getPath().endsWith('.' + extension))
                 .hasSize(resourceCount)
-                .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).equals(extension))
-                .allMatch(resource -> resource.getInputStream() != null)
-                .allMatch(resource -> resource.getSize() >= 0);
+                .allMatch(it -> FilenameUtils.getExtension(it.getName()).equals(extension))
+                .allMatch(it -> it.getInputStream() != null)
+                .allMatch(it -> it.getSize() >= 0);
     }
 
 }

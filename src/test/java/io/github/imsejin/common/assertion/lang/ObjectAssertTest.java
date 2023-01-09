@@ -16,11 +16,6 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -34,8 +29,13 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import io.github.imsejin.common.assertion.Asserts;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("ObjectAssert")
 class ObjectAssertTest {
@@ -212,7 +212,8 @@ class ObjectAssertTest {
             params.put(3.14, 3.141592);
 
             // expect
-            params.forEach((actual, expected) -> assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotEqualTo(expected)));
+            params.forEach((actual, expected) -> assertThatNoException().isThrownBy(
+                    () -> Asserts.that(actual).isNotEqualTo(expected)));
         }
 
         @Test
@@ -266,22 +267,22 @@ class ObjectAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("alpha")
-                    .isInstanceOf(Character.class))
+                            .isInstanceOf(Character.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that('\t')
-                    .isInstanceOf(String.class))
+                            .isInstanceOf(String.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(3.14)
-                    .isInstanceOf(float.class))
+                            .isInstanceOf(float.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(BigInteger.valueOf(1000))
-                    .isInstanceOf(BigDecimal.class))
+                            .isInstanceOf(BigDecimal.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
-                    .isInstanceOf(long[].class))
+                            .isInstanceOf(long[].class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[0])
-                    .isInstanceOf(Long[].class))
+                            .isInstanceOf(Long[].class))
                     .withMessageMatching(message);
         }
     }
@@ -316,28 +317,28 @@ class ObjectAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object())
-                    .isNotInstanceOf(Object.class))
+                            .isNotInstanceOf(Object.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("alpha")
-                    .isNotInstanceOf(String.class))
+                            .isNotInstanceOf(String.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that('b')
-                    .isNotInstanceOf(char.class))
+                            .isNotInstanceOf(char.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that('c')
-                    .isNotInstanceOf(Character.class))
+                            .isNotInstanceOf(Character.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(3.14)
-                    .isNotInstanceOf(double.class))
+                            .isNotInstanceOf(double.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(3.141592)
-                    .isNotInstanceOf(Double.class))
+                            .isNotInstanceOf(Double.class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
-                    .isNotInstanceOf(long[].class))
+                            .isNotInstanceOf(long[].class))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Long[0])
-                    .isNotInstanceOf(Long[].class))
+                            .isNotInstanceOf(Long[].class))
                     .withMessageMatching(message);
         }
     }
@@ -417,8 +418,9 @@ class ObjectAssertTest {
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNot(expected::equals))
-                    .withMessageMatching(Pattern.quote("It is expected not to satisfy the given condition, but it isn't.") +
-                            "\n {4}actual: '.*'"));
+                    .withMessageMatching(
+                            Pattern.quote("It is expected not to satisfy the given condition, but it isn't.") +
+                                    "\n {4}actual: '.*'"));
         }
     }
 
@@ -453,10 +455,11 @@ class ObjectAssertTest {
             // expect
             params.forEach((actual, expected) -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).returns(actual, it -> it.replace('-', '_')))
-                    .withMessageMatching(Pattern.quote("It is expected to return the given value via function, but it isn't.") +
-                            "\n {4}actual: '.+'" +
-                            "\n {4}returned: '.+'" +
-                            "\n {4}expected: '.+'"));
+                    .withMessageMatching(
+                            Pattern.quote("It is expected to return the given value via function, but it isn't.") +
+                                    "\n {4}actual: '.+'" +
+                                    "\n {4}returned: '.+'" +
+                                    "\n {4}expected: '.+'"));
         }
     }
 

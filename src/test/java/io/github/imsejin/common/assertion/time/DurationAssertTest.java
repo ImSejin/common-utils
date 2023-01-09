@@ -16,17 +16,17 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
+import java.time.Duration;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.time.Duration;
+import io.github.imsejin.common.assertion.Asserts;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("DurationAssert")
 class DurationAssertTest {
@@ -169,7 +169,8 @@ class DurationAssertTest {
         }, delimiter = '|')
         @DisplayName("throws exception, when actual is less than other")
         void test1(Duration actual, Duration expected) {
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
+            assertThatIllegalArgumentException().isThrownBy(
+                    () -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
         }
     }
 

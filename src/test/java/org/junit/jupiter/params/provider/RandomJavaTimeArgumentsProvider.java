@@ -16,12 +16,6 @@
 
 package org.junit.jupiter.params.provider;
 
-import io.github.imsejin.common.util.CollectionUtils;
-import io.github.imsejin.common.util.DateTimeUtils;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.converter.ConvertJavaTime;
-import org.junit.jupiter.params.converter.VariousJavaTimeArgumentConverter;
-
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -32,8 +26,14 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.converter.ConvertJavaTime;
+import org.junit.jupiter.params.converter.VariousJavaTimeArgumentConverter;
+
+import io.github.imsejin.common.util.CollectionUtils;
+import io.github.imsejin.common.util.DateTimeUtils;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * @see ConvertJavaTime
@@ -66,13 +66,13 @@ public class RandomJavaTimeArgumentsProvider implements ArgumentsProvider {
                 predicate = it -> true;
         }
 
-        long argumentCount = Arrays.stream(testMethod.getParameterTypes())
+        long argCount = Arrays.stream(testMethod.getParameterTypes())
                 .filter(VariousJavaTimeArgumentConverter.SOURCE_TYPE::isAssignableFrom).count();
 
         // Provides each test case with instances of ZonedDateTime as a pair of arguments.
         return IntStream.generate(() -> 0).mapToObj(n -> DateTimeUtils.random(start, end).atZone(timezone))
-                .filter(predicate).limit(annotation.count() * argumentCount)
-                .collect(collectingAndThen(toList(), them -> CollectionUtils.partitionBySize(them, (int) argumentCount)))
+                .filter(predicate).limit(annotation.count() * argCount)
+                .collect(collectingAndThen(toList(), them -> CollectionUtils.partitionBySize(them, (int) argCount)))
                 .stream().map(them -> Arguments.of(them.toArray()));
     }
 

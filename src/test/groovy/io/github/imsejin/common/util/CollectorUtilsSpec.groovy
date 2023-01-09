@@ -9,22 +9,8 @@ import java.util.Map.Entry
 import java.util.concurrent.TimeUnit
 import java.util.function.Function
 
-import static io.github.imsejin.common.util.CollectorUtils.denseRanking
-import static io.github.imsejin.common.util.CollectorUtils.ranking
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.B
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.C
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.E
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.G
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.H
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.I
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.J
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.L
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.M
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.N
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.O
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.S
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.T
-import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.U
+import static io.github.imsejin.common.util.CollectorUtils.*
+import static io.github.imsejin.common.util.CollectorUtilsSpec.Alphabet.*
 
 class CollectorUtilsSpec extends Specification {
 

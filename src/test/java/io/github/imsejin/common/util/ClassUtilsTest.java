@@ -16,11 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.constant.DateType;
-import io.github.imsejin.common.tool.TypeClassifier;
-import org.junit.jupiter.api.Test;
-
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
@@ -36,8 +31,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.constant.DateType;
+import io.github.imsejin.common.tool.TypeClassifier;
+
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 class ClassUtilsTest {
 
@@ -48,7 +49,7 @@ class ClassUtilsTest {
     private static final List<Class<?>> ENUMS = Arrays.asList(
             TimeUnit.class, DateType.class, DayOfWeek.class, Month.class);
     private static final List<Class<?>> ENUM_CONSTANTS = Stream.concat(
-            EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream())
+                    EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream())
             .map(Object::getClass).collect(toList());
     private static final List<Class<?>> ABSTRACT_CLASSES = Arrays.asList(
             OutputStream.class, EnumSet.class, Asserts.class, Number.class);
@@ -65,10 +66,10 @@ class ClassUtilsTest {
         List<Class<?>> enumAndConstantClasses = Stream.of(ENUMS, ENUM_CONSTANTS)
                 .flatMap(Collection::stream).collect(toList());
         List<Class<?>> classes = Stream.of(
-                Collections.singleton((Class<?>) null),
-                TypeClassifier.Types.PRIMITIVE.getClasses(),
-                TypeClassifier.Types.WRAPPER.getClasses(),
-                INTERFACES, ANNOTATIONS, ANONYMOUS_CLASSES, ARRAYS)
+                        Collections.singleton((Class<?>) null),
+                        TypeClassifier.Types.PRIMITIVE.getClasses(),
+                        TypeClassifier.Types.WRAPPER.getClasses(),
+                        INTERFACES, ANNOTATIONS, ANONYMOUS_CLASSES, ARRAYS)
                 .flatMap(Collection::stream).collect(toList());
 
         enumAndConstantClasses.forEach(clazz -> assertThat(ClassUtils.isEnumOrEnumConstant(clazz))
@@ -80,10 +81,10 @@ class ClassUtilsTest {
     @Test
     void isAbstractClass() {
         List<Class<?>> nonAbstractClasses = Stream.of(
-                Collections.singleton((Class<?>) null),
-                TypeClassifier.Types.PRIMITIVE.getClasses(),
-                TypeClassifier.Types.WRAPPER.getClasses(),
-                INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)
+                        Collections.singleton((Class<?>) null),
+                        TypeClassifier.Types.PRIMITIVE.getClasses(),
+                        TypeClassifier.Types.WRAPPER.getClasses(),
+                        INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)
                 .flatMap(Collection::stream).collect(toList());
 
         ABSTRACT_CLASSES.forEach(clazz -> assertThat(ClassUtils.isAbstractClass(clazz))

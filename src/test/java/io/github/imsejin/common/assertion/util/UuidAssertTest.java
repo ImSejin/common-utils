@@ -1,16 +1,16 @@
 package io.github.imsejin.common.assertion.util;
 
-import io.github.imsejin.common.assertion.Asserts;
+import java.util.UUID;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.UUID;
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("UuidAssert")
 class UuidAssertTest {
@@ -40,7 +40,7 @@ class UuidAssertTest {
         @DisplayName("throws exception, when actual is not nil")
         void test1(UUID actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNil())
+                            .isNil())
                     .withMessageMatching(Pattern.quote("It is expected to be nil, but not nil.") +
                             "\n {4}actual: '[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}'");
         }
@@ -73,7 +73,7 @@ class UuidAssertTest {
         @DisplayName("throws exception, when actual is nil")
         void test1(UUID actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNotNil())
+                            .isNotNil())
                     .withMessageMatching(Pattern.quote("It is expected not to be nil, but nil.") +
                             "\n {4}actual: '[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}'");
         }

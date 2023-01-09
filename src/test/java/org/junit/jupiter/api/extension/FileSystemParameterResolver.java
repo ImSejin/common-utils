@@ -16,12 +16,12 @@
 
 package org.junit.jupiter.api.extension;
 
-import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
-
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.util.Objects;
+
+import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 
 /**
  * @see Memory
@@ -33,7 +33,9 @@ public class FileSystemParameterResolver implements AfterTestExecutionCallback, 
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
-        if (this.fileSystem == null) return;
+        if (this.fileSystem == null) {
+            return;
+        }
 
         try {
             this.fileSystem.close();

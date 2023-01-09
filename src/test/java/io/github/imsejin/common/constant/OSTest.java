@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("OS")
 class OSTest {
@@ -67,8 +67,11 @@ class OSTest {
         @EnabledOnOs(org.junit.jupiter.api.condition.OS.LINUX)
         void linux() {
             for (OS os : OS.values()) {
-                if (os == OS.LINUX) assertThat(OS.LINUX.isCurrentOS()).isTrue();
-                else assertThat(os.isCurrentOS()).isFalse();
+                if (os == OS.LINUX) {
+                    assertThat(OS.LINUX.isCurrentOS()).isTrue();
+                } else {
+                    assertThat(os.isCurrentOS()).isFalse();
+                }
             }
         }
 
@@ -76,8 +79,11 @@ class OSTest {
         @EnabledOnOs(org.junit.jupiter.api.condition.OS.MAC)
         void mac() {
             for (OS os : OS.values()) {
-                if (os == OS.MAC) assertThat(OS.MAC.isCurrentOS()).isTrue();
-                else assertThat(os.isCurrentOS()).isFalse();
+                if (os == OS.MAC) {
+                    assertThat(OS.MAC.isCurrentOS()).isTrue();
+                } else {
+                    assertThat(os.isCurrentOS()).isFalse();
+                }
             }
         }
 
@@ -85,8 +91,11 @@ class OSTest {
         @EnabledOnOs(org.junit.jupiter.api.condition.OS.AIX)
         void aix() {
             for (OS os : OS.values()) {
-                if (os == OS.AIX) assertThat(OS.AIX.isCurrentOS()).isTrue();
-                else assertThat(os.isCurrentOS()).isFalse();
+                if (os == OS.AIX) {
+                    assertThat(OS.AIX.isCurrentOS()).isTrue();
+                } else {
+                    assertThat(os.isCurrentOS()).isFalse();
+                }
             }
         }
 
@@ -94,8 +103,11 @@ class OSTest {
         @EnabledOnOs(org.junit.jupiter.api.condition.OS.SOLARIS)
         void solaris() {
             for (OS os : OS.values()) {
-                if (os == OS.SOLARIS) assertThat(OS.SOLARIS.isCurrentOS()).isTrue();
-                else assertThat(os.isCurrentOS()).isFalse();
+                if (os == OS.SOLARIS) {
+                    assertThat(OS.SOLARIS.isCurrentOS()).isTrue();
+                } else {
+                    assertThat(os.isCurrentOS()).isFalse();
+                }
             }
         }
 
@@ -103,8 +115,11 @@ class OSTest {
         @EnabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
         void windows() {
             for (OS os : OS.values()) {
-                if (os == OS.WINDOWS) assertThat(OS.WINDOWS.isCurrentOS()).isTrue();
-                else assertThat(os.isCurrentOS()).isFalse();
+                if (os == OS.WINDOWS) {
+                    assertThat(OS.WINDOWS.isCurrentOS()).isTrue();
+                } else {
+                    assertThat(os.isCurrentOS()).isFalse();
+                }
             }
         }
     }
