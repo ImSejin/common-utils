@@ -1,9 +1,9 @@
 package io.github.imsejin.common.internal.assertion.model;
 
+import java.time.Instant;
+
 import lombok.Getter;
 import lombok.ToString;
-
-import java.time.Instant;
 
 @Getter
 @ToString(callSuper = true)

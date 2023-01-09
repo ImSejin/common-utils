@@ -16,7 +16,11 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
+import java.util.List;
+import java.util.UUID;
+import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+
 import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,14 +31,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.regex.Pattern;
-import java.util.stream.IntStream;
+import io.github.imsejin.common.assertion.Asserts;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("StringAssert")
 class StringAssertTest {
@@ -57,7 +57,7 @@ class StringAssertTest {
         @DisplayName("throws exception, when actual doesn't have text")
         void test1(char actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(String.valueOf(actual))
-                    .hasText())
+                            .hasText())
                     .withMessageMatching(Pattern.quote("It is expected to have text, but it isn't.") +
                             "\n {4}actual: '(.|\\s)'");
         }
@@ -84,7 +84,7 @@ class StringAssertTest {
         @DisplayName("throws exception, when actual is not numeric")
         void test1(String actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNumeric())
+                            .isNumeric())
                     .withMessageMatching(Pattern.quote("It is expected to be numeric, but it isn't.") +
                             "\n {4}actual: '.*'");
         }
@@ -193,8 +193,9 @@ class StringAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isUpperCase())
-                    .withMessageMatching(Pattern.quote("It is expected to have only uppercase letter(s), but it isn't.") +
-                            "\n {4}actual: '(\\s|\\S)*'"));
+                    .withMessageMatching(
+                            Pattern.quote("It is expected to have only uppercase letter(s), but it isn't.") +
+                                    "\n {4}actual: '(\\s|\\S)*'"));
         }
     }
 
@@ -229,8 +230,9 @@ class StringAssertTest {
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isLowerCase())
-                    .withMessageMatching(Pattern.quote("It is expected to have only lowercase letter(s), but it isn't.") +
-                            "\n {4}actual: '(\\s|\\S)*'"));
+                    .withMessageMatching(
+                            Pattern.quote("It is expected to have only lowercase letter(s), but it isn't.") +
+                                    "\n {4}actual: '(\\s|\\S)*'"));
         }
     }
 
@@ -299,7 +301,7 @@ class StringAssertTest {
         @DisplayName("throws exception, when actual doesn't start with the given string")
         void test1(String actual, String expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .startsWith(expected))
+                            .startsWith(expected))
                     .withMessageMatching(Pattern.quote("It is expected to start with the given string, but it isn't.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}expected: '.*'");
@@ -335,7 +337,7 @@ class StringAssertTest {
         @DisplayName("throws exception, when actual doesn't end with the given string")
         void test1(String actual, String expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .endsWith(expected))
+                            .endsWith(expected))
                     .withMessageMatching(Pattern.quote("It is expected to end with the given string, but it isn't.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}expected: '.*'");
@@ -370,12 +372,13 @@ class StringAssertTest {
         @DisplayName("throws exception, when actual doesn't match the given regular expression")
         void test1(String actual, @Language("RegExp") String expected) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .matches(expected))
-                    .withMessageMatching(Pattern.quote("It is expected to match the given regular expression, but it isn't.") +
-                            "\n {4}actual: '.+'" +
-                            "\n {4}expected: '.+'");
+                            .matches(expected))
+                    .withMessageMatching(
+                            Pattern.quote("It is expected to match the given regular expression, but it isn't.") +
+                                    "\n {4}actual: '.+'" +
+                                    "\n {4}expected: '.+'");
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .matches(Pattern.compile(expected)))
+                            .matches(Pattern.compile(expected)))
                     .withMessageMatching(Pattern.quote("It is expected to match the given pattern, but it isn't.") +
                             "\n {4}actual: '.+'" +
                             "\n {4}expected: '.+'");

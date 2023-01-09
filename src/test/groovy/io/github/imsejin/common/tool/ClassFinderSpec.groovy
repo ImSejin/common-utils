@@ -7,9 +7,7 @@ import spock.lang.Specification
 
 import java.nio.file.Paths
 
-import static io.github.imsejin.common.tool.ClassFinder.SearchPolicy.ALL
-import static io.github.imsejin.common.tool.ClassFinder.SearchPolicy.CLASS
-import static io.github.imsejin.common.tool.ClassFinder.SearchPolicy.INTERFACE
+import static io.github.imsejin.common.tool.ClassFinder.SearchPolicy.*
 
 class ClassFinderSpec extends Specification {
 

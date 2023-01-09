@@ -16,9 +16,14 @@
 
 package io.github.imsejin.common.assertion.nio.file;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.tool.RandomString;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,16 +34,11 @@ import org.junit.jupiter.api.extension.FileSystemSource;
 import org.junit.jupiter.api.extension.Memory;
 import org.junit.jupiter.api.io.TempDir;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.tool.RandomString;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @FileSystemSource
 @DisplayName("PathAssert")
@@ -69,7 +69,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isEmpty())
+                            .isEmpty())
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_EMPTY) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'");
@@ -103,7 +103,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_IS_NOT_EMPTY) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '0'");
@@ -140,7 +140,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasSize(content.length() + 1))
+                            .hasSize(content.length() + 1))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -178,7 +178,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .doesNotHaveSize(content.length()))
+                            .doesNotHaveSize(content.length()))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SIZE) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -216,7 +216,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasSameSizeAs(null))
+                            .hasSameSizeAs(null))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -237,7 +237,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasSameSizeAs(expected))
+                            .hasSameSizeAs(expected))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SAME_SIZE_AS) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -276,7 +276,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .doesNotHaveSameSizeAs(null))
+                            .doesNotHaveSameSizeAs(null))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -297,7 +297,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .doesNotHaveSameSizeAs(expected))
+                            .doesNotHaveSameSizeAs(expected))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_DOES_NOT_HAVE_SAME_SIZE_AS) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -336,7 +336,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasSizeGreaterThan(content.length()))
+                            .hasSizeGreaterThan(content.length()))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -375,11 +375,12 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasSizeGreaterThanOrEqualTo(content.length() + 1))
-                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO) +
-                            "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
-                            "\n {4}actual\\.size: '[0-9]+'" +
-                            "\n {4}expected: '[0-9]+'");
+                            .hasSizeGreaterThanOrEqualTo(content.length() + 1))
+                    .withMessageMatching(
+                            Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_GREATER_THAN_OR_EQUAL_TO) +
+                                    "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
+                                    "\n {4}actual\\.size: '[0-9]+'" +
+                                    "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -413,7 +414,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasSizeLessThan(content.length()))
+                            .hasSizeLessThan(content.length()))
                     .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN) +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.size: '[0-9]+'" +
@@ -452,11 +453,12 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasSizeLessThanOrEqualTo(content.length() - 1))
-                    .withMessageMatching(Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO) +
-                            "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
-                            "\n {4}actual\\.size: '[0-9]+'" +
-                            "\n {4}expected: '[0-9]+'");
+                            .hasSizeLessThanOrEqualTo(content.length() - 1))
+                    .withMessageMatching(
+                            Pattern.quote(SizeAssertable.DEFAULT_DESCRIPTION_HAS_SIZE_LESS_THAN_OR_EQUAL_TO) +
+                                    "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
+                                    "\n {4}actual\\.size: '[0-9]+'" +
+                                    "\n {4}expected: '[0-9]+'");
         }
     }
 
@@ -485,7 +487,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .exists())
+                            .exists())
                     .withMessageMatching(Pattern.quote("It is expected to exist, but it isn't.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -517,7 +519,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isRegularFile())
+                            .isRegularFile())
                     .withMessageMatching(Pattern.quote("It is expected to be regular file, but it isn't.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -549,7 +551,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNotRegularFile())
+                            .isNotRegularFile())
                     .withMessageMatching(Pattern.quote("It is expected not to be regular file, but it is.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -581,7 +583,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isDirectory())
+                            .isDirectory())
                     .withMessageMatching(Pattern.quote("It is expected to be directory, but it isn't.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -613,7 +615,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNotDirectory())
+                            .isNotDirectory())
                     .withMessageMatching(Pattern.quote("It is expected not to be directory, but it is.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -643,7 +645,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isAbsolute())
+                            .isAbsolute())
                     .withMessageMatching(Pattern.quote("It is expected to be absolute, but it isn't.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -673,7 +675,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isRelative())
+                            .isRelative())
                     .withMessageMatching(Pattern.quote("It is expected to be relative, but it isn't.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -718,7 +720,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isHidden())
+                            .isHidden())
                     .withMessageMatching(Pattern.quote("It is expected to be hidden, but it isn't.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -763,7 +765,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isNotHidden())
+                            .isNotHidden())
                     .withMessageMatching(Pattern.quote("It is expected not to be hidden, but it is.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'");
         }
@@ -793,7 +795,7 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasFileName("temp-file"))
+                            .hasFileName("temp-file"))
                     .withMessageMatching(Pattern.quote("It is expected to have the given file name, but it isn't.") +
                             "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
                             "\n {4}actual\\.fileName: '[^/\\\\]+'" +
@@ -825,11 +827,12 @@ class PathAssertTest {
 
             // expect
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .hasExtension("log"))
-                    .withMessageMatching(Pattern.quote("It is expected to have the given file extension, but it isn't.") +
-                            "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
-                            "\n {4}actual\\.extension: '[^/\\\\]+'" +
-                            "\n {4}expected: '.+'");
+                            .hasExtension("log"))
+                    .withMessageMatching(
+                            Pattern.quote("It is expected to have the given file extension, but it isn't.") +
+                                    "\n {4}actual: '\\S*(([/\\\\])\\S+?)+'" +
+                                    "\n {4}actual\\.extension: '[^/\\\\]+'" +
+                                    "\n {4}expected: '.+'");
         }
     }
 

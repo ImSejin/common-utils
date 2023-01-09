@@ -16,18 +16,18 @@
 
 package io.github.imsejin.common.assertion.util.concurrent.atomic;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.HolderAssertable;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("AtomicReferenceAssert")
 class AtomicReferenceAssertTest {
@@ -57,8 +57,8 @@ class AtomicReferenceAssertTest {
                     "\n {4}actual: '.+'" +
                     "\n {4}expected: '.+'";
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(actual)
-                    .hasValue(actual.getAndSet("beta"))
-                    .hasValue(actual.get())))
+                            .hasValue(actual.getAndSet("beta"))
+                            .hasValue(actual.get())))
                     .withMessageMatching(message);
         }
     }
@@ -90,7 +90,7 @@ class AtomicReferenceAssertTest {
                     "\n {4}actual: '.+'" +
                     "\n {4}expected: '.+'";
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(actual)
-                    .doesNotHaveValue(actual.updateAndGet(val -> val.toUpperCase(Locale.US)))))
+                            .doesNotHaveValue(actual.updateAndGet(val -> val.toUpperCase(Locale.US)))))
                     .withMessageMatching(message);
         }
     }

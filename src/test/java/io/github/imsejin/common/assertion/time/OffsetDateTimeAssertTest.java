@@ -16,23 +16,23 @@
 
 package io.github.imsejin.common.assertion.time;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.OffsetAssertable;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.OffsetAssertable;
+
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("OffsetDateTimeAssert")
 class OffsetDateTimeAssertTest {
@@ -354,8 +354,9 @@ class OffsetDateTimeAssertTest {
             List<ZoneOffset> params = IntStream.rangeClosed(1, 18).mapToObj(ZoneOffset::ofHours).collect(toList());
 
             // expect
-            params.forEach(offset -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(OffsetDateTime.now(offset))
-                    .isSameOffset(ZoneOffset.ofTotalSeconds(-offset.getTotalSeconds())))
+            params.forEach(offset -> assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(OffsetDateTime.now(offset))
+                                    .isSameOffset(ZoneOffset.ofTotalSeconds(-offset.getTotalSeconds())))
                     .withMessageMatching(Pattern.quote(OffsetAssertable.DEFAULT_DESCRIPTION_IS_SAME_OFFSET) +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.offset: '(Z|[+-][0-9]{2}:[0-9]{2})'" +
@@ -387,8 +388,9 @@ class OffsetDateTimeAssertTest {
             List<ZoneOffset> params = IntStream.rangeClosed(-18, 18).mapToObj(ZoneOffset::ofHours).collect(toList());
 
             // expect
-            params.forEach(offset -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(OffsetDateTime.now(offset))
-                    .isNotSameOffset(offset))
+            params.forEach(offset -> assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(OffsetDateTime.now(offset))
+                                    .isNotSameOffset(offset))
                     .withMessageMatching(Pattern.quote(OffsetAssertable.DEFAULT_DESCRIPTION_IS_NOT_SAME_OFFSET) +
                             "\n {4}actual: '.+'" +
                             "\n {4}actual\\.offset: '(Z|[+-][0-9]{2}:[0-9]{2})'" +

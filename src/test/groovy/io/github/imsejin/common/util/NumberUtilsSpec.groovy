@@ -82,7 +82,9 @@ class NumberUtilsSpec extends Specification {
         def numOfPlaces = NumberUtils.getNumOfPlaces number
 
         then:
-        if (number == Integer.MIN_VALUE || number == Long.MIN_VALUE) number++
+        if (number == Integer.MIN_VALUE || number == Long.MIN_VALUE) {
+            number++
+        }
         numOfPlaces == String.valueOf(Math.abs(number)).length()
 
         where:

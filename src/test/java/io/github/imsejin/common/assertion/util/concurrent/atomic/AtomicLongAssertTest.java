@@ -16,19 +16,19 @@
 
 package io.github.imsejin.common.assertion.util.concurrent.atomic;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
-import io.github.imsejin.common.assertion.composition.HolderAssertable;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
+import io.github.imsejin.common.assertion.composition.HolderAssertable;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("AtomicLongAssert")
 class AtomicLongAssertTest {
@@ -65,7 +65,7 @@ class AtomicLongAssertTest {
                     "\n {4}actual: '-?[0-9]+'" +
                     "\n {4}expected: '-?[0-9]+'";
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(actual)
-                    .isEqualTo(new AtomicLong(value))))
+                            .isEqualTo(new AtomicLong(value))))
                     .withMessageMatching(message);
         }
     }
@@ -105,7 +105,7 @@ class AtomicLongAssertTest {
                     "\n {4}expected: '-?[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicLong(value))
-                    .isNotEqualTo(new AtomicLong(value))))
+                            .isNotEqualTo(new AtomicLong(value))))
                     .withMessageMatching(message);
         }
     }
@@ -140,10 +140,10 @@ class AtomicLongAssertTest {
                     "\n {4}expected: '(null|-?[0-9]+)'";
 
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicLong(value))
-                    .hasValue(null)))
+                            .hasValue(null)))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicLong(value))
-                    .hasValue(value + 1)))
+                            .hasValue(value + 1)))
                     .withMessageMatching(message);
         }
     }
@@ -180,7 +180,7 @@ class AtomicLongAssertTest {
                     "\n {4}expected: '-?[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(new AtomicLong(value))
-                    .doesNotHaveValue(value)))
+                            .doesNotHaveValue(value)))
                     .withMessageMatching(message);
         }
     }

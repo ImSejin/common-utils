@@ -16,18 +16,6 @@
 
 package io.github.imsejin.common.util;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.lang.ClassAssert;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -42,7 +30,21 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.lang.ClassAssert;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("ReflectionUtils")
 class ReflectionUtilsTest {
@@ -156,14 +158,14 @@ class ReflectionUtilsTest {
         Class<?>[] paramTypes = null;
         Object[] initArgs = null;
         if (!Modifier.isStatic(clazz.getModifiers())) {
-            paramTypes = new Class[]{clazz.getEnclosingClass()};
+            paramTypes = new Class[] {clazz.getEnclosingClass()};
 
             if (clazz == B.BA.class) {
-                initArgs = new Object[]{new B()};
+                initArgs = new Object[] {new B()};
             } else {
                 Object encloser = getClass() == clazz.getEnclosingClass()
                         ? this : ReflectionUtils.instantiate(clazz.getEnclosingClass());
-                initArgs = new Object[]{encloser};
+                initArgs = new Object[] {encloser};
             }
         }
 
@@ -215,7 +217,8 @@ class ReflectionUtilsTest {
                 .isEqualTo(characters.size());
 
         // given: 2
-        Method singletonListMethod = ReflectionUtils.getDeclaredMethod(Collections.class, "singletonList", Object.class);
+        Method singletonListMethod = ReflectionUtils.getDeclaredMethod(
+                Collections.class, "singletonList", Object.class);
         Object[] args = {"a element in singleton list"};
         // when: 2
         Object singletonList = ReflectionUtils.invoke(singletonListMethod, null, args);

@@ -16,19 +16,20 @@
 
 package io.github.imsejin.common.io.finder;
 
-import io.github.imsejin.common.internal.TestUtils;
-import io.github.imsejin.common.io.GzipResource;
-import io.github.imsejin.common.io.Resource;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import io.github.imsejin.common.internal.TestUtils;
+import io.github.imsejin.common.io.GzipResource;
+import io.github.imsejin.common.io.Resource;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("GzipResourceFinder")
 class GzipResourceFinderTest {
@@ -59,9 +60,9 @@ class GzipResourceFinderTest {
                 .doesNotHaveDuplicates()
                 .hasSize(1)
                 .noneMatch(Resource::isDirectory)
-                .allMatch(resource -> resource instanceof GzipResource)
-                .allMatch(resource -> resource.getPath().equals(resource.getName()))
-                .allMatch(resource -> resource.getInputStream() != null);
+                .allMatch(it -> it instanceof GzipResource)
+                .allMatch(it -> it.getPath().equals(it.getName()))
+                .allMatch(it -> it.getInputStream() != null);
 
         GzipResource gzipResource = (GzipResource) resources.get(0);
         assertThat(gzipResource)

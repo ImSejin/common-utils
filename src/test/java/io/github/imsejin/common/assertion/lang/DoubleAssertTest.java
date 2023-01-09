@@ -16,9 +16,13 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.ArithmeticDecimalNumberAssertable;
-import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,17 +31,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.ArithmeticDecimalNumberAssertable;
+import io.github.imsejin.common.assertion.composition.DecimalNumberAssertable;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("DoubleAssert")
 class DoubleAssertTest {
@@ -143,8 +142,9 @@ class DoubleAssertTest {
             map.put(0D, -Double.MAX_VALUE);
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .doesNotThrowAnyException());
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .doesNotThrowAnyException());
         }
 
         @Test
@@ -159,8 +159,9 @@ class DoubleAssertTest {
             map.put(-Double.MAX_VALUE, 0D);
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -246,7 +247,8 @@ class DoubleAssertTest {
     @DisplayName("method 'isPositive'")
     class IsPositive {
         @ParameterizedTest
-        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
+        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE,
+                Double.MAX_VALUE})
         @DisplayName("passes, when actual is positive")
         void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
@@ -254,7 +256,8 @@ class DoubleAssertTest {
         }
 
         @ParameterizedTest
-        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
+        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE,
+                -Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is zero or negative")
         void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isPositive())
@@ -268,7 +271,8 @@ class DoubleAssertTest {
     @DisplayName("method 'isZeroOrPositive'")
     class IsZeroOrPositive {
         @ParameterizedTest
-        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
+        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE,
+                Double.MAX_VALUE})
         @DisplayName("passes, when actual is zero or positive")
         void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
@@ -276,7 +280,8 @@ class DoubleAssertTest {
         }
 
         @ParameterizedTest
-        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
+        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE,
+                -Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is negative")
         void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrPositive())
@@ -290,7 +295,8 @@ class DoubleAssertTest {
     @DisplayName("method 'isNegative'")
     class IsNegative {
         @ParameterizedTest
-        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
+        @ValueSource(doubles = {-1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE,
+                -Double.MAX_VALUE})
         @DisplayName("passes, when actual is negative")
         void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
@@ -298,7 +304,8 @@ class DoubleAssertTest {
         }
 
         @ParameterizedTest
-        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
+        @ValueSource(doubles = {0, 1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE,
+                Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is zero or positive")
         void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isNegative())
@@ -312,7 +319,8 @@ class DoubleAssertTest {
     @DisplayName("method 'isZeroOrNegative'")
     class IsZeroOrNegative {
         @ParameterizedTest
-        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE})
+        @ValueSource(doubles = {0, -1, Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, -Float.MAX_VALUE,
+                -Double.MAX_VALUE})
         @DisplayName("passes, when actual is zero or negative")
         void test0(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
@@ -320,7 +328,8 @@ class DoubleAssertTest {
         }
 
         @ParameterizedTest
-        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE})
+        @ValueSource(doubles = {1, Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE,
+                Double.MAX_VALUE})
         @DisplayName("throws exception, when actual is positive")
         void test1(double actual) {
             assertThatCode(() -> Asserts.that(actual).isZeroOrNegative())
@@ -344,7 +353,6 @@ class DoubleAssertTest {
                         Asserts.that(n).isBetween(n - 0.1, n + 0.1);
                     }));
         }
-
 
         @Test
         @DisplayName("throws exception, when actual is not between x and y inclusively")
@@ -373,7 +381,9 @@ class DoubleAssertTest {
         void test0() {
             new Random().doubles(-100, 50)
                     .limit(10_000).forEach(n -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(n).describedAs("{0} < {1} < {2}", n - 1, n, n + 1).isStrictlyBetween(n - 1, n + 1)));
+                            .isThrownBy(() -> Asserts.that(n)
+                                    .describedAs("{0} < {1} < {2}", n - 1, n, n + 1)
+                                    .isStrictlyBetween(n - 1, n + 1)));
         }
 
         @Test
@@ -465,13 +475,16 @@ class DoubleAssertTest {
                     .withMessageStartingWith("It is expected to close to other, but it isn't.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(Double.MIN_VALUE).isCloseTo(Double.MAX_VALUE, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0).isCloseTo(1.0, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(0.0).isCloseTo(-1.0, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 
@@ -528,8 +541,9 @@ class DoubleAssertTest {
         void test1(double actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isFinite())
-                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_FINITE) +
-                            "\n {4}actual: '(NaN|-?Infinity)'");
+                    .withMessageMatching(
+                            Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_FINITE) +
+                                    "\n {4}actual: '(NaN|-?Infinity)'");
         }
     }
 
@@ -557,8 +571,9 @@ class DoubleAssertTest {
         void test1(double actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isInfinite())
-                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_INFINITE) +
-                            "\n {4}actual: '(.+)'");
+                    .withMessageMatching(
+                            Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_INFINITE) +
+                                    "\n {4}actual: '(.+)'");
         }
     }
 
@@ -617,8 +632,9 @@ class DoubleAssertTest {
         void test1(double actual) {
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that(actual).isNotNaN())
-                    .withMessageMatching(Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN) +
-                            "\n {4}actual: 'NaN'");
+                    .withMessageMatching(
+                            Pattern.quote(ArithmeticDecimalNumberAssertable.DEFAULT_DESCRIPTION_IS_NOT_NAN) +
+                                    "\n {4}actual: 'NaN'");
         }
     }
 

@@ -16,7 +16,12 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,16 +30,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import io.github.imsejin.common.assertion.Asserts;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("ByteAssert")
 class ByteAssertTest {
@@ -140,8 +139,9 @@ class ByteAssertTest {
             map.put((byte) -1, Byte.MIN_VALUE);
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .doesNotThrowAnyException());
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .doesNotThrowAnyException());
         }
 
         @Test
@@ -156,8 +156,9 @@ class ByteAssertTest {
             map.put(Byte.MIN_VALUE, (byte) -1);
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class));
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .isExactlyInstanceOf(IllegalArgumentException.class));
         }
     }
 
@@ -370,7 +371,7 @@ class ByteAssertTest {
         void test0() {
             IntStream.rangeClosed(Byte.MIN_VALUE + 1, Byte.MAX_VALUE - 1)
                     .limit(10_000).mapToObj(n -> (byte) n).forEach(n -> assertThatNoException()
-                    .isThrownBy(() -> Asserts.that(n).isStrictlyBetween((byte) (n - 1), (byte) (n + 1))));
+                            .isThrownBy(() -> Asserts.that(n).isStrictlyBetween((byte) (n - 1), (byte) (n + 1))));
         }
 
         @Test
@@ -446,10 +447,12 @@ class ByteAssertTest {
                     .withMessageMatching(regex);
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that((byte) 0).isCloseTo((byte) 1, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> Asserts.that((byte) 0).isCloseTo((byte) -1, 99.9))
-                    .withMessageStartingWith("It is expected to close to other by less than 99.9%, but difference was Infinity%.");
+                    .withMessageStartingWith(
+                            "It is expected to close to other by less than 99.9%, but difference was Infinity%.");
         }
     }
 

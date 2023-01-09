@@ -1,20 +1,5 @@
 package io.github.imsejin.common.io.finder;
 
-import io.github.imsejin.common.internal.TestFileSystemCreator;
-import io.github.imsejin.common.internal.TestFileSystemCreator.PathType;
-import io.github.imsejin.common.internal.TestUtils;
-import io.github.imsejin.common.io.DiskFileResource;
-import io.github.imsejin.common.io.Resource;
-import io.github.imsejin.common.tool.RandomString;
-import io.github.imsejin.common.util.FilenameUtils;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.FileSystemSource;
-import org.junit.jupiter.api.extension.Memory;
-import org.junit.jupiter.api.io.TempDir;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
@@ -24,8 +9,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.FileSystemSource;
+import org.junit.jupiter.api.extension.Memory;
+import org.junit.jupiter.api.io.TempDir;
+
+import io.github.imsejin.common.internal.TestFileSystemCreator;
+import io.github.imsejin.common.internal.TestFileSystemCreator.PathType;
+import io.github.imsejin.common.internal.TestUtils;
+import io.github.imsejin.common.io.DiskFileResource;
+import io.github.imsejin.common.io.Resource;
+import io.github.imsejin.common.tool.RandomString;
+import io.github.imsejin.common.util.FilenameUtils;
+
+import static org.assertj.core.api.Assertions.*;
 
 @FileSystemSource
 @DisplayName("DiskFileResourceFinder")
@@ -60,22 +60,22 @@ class DiskFileResourceFinderTest {
                     .as("Contains only one root directory")
                     .containsOnlyOnce(DiskFileResource.from(path))
                     .doesNotHaveDuplicates()
-                    .allMatch(resource -> resource instanceof DiskFileResource);
+                    .allMatch(it -> it instanceof DiskFileResource);
             assertThat(resources)
                     .filteredOn(Resource::isDirectory)
                     .doesNotContainNull()
                     .hasSameSizeAs(pathTypeMap.get(PathType.DIRECTORY))
-                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> resource.getInputStream() == null)
-                    .allMatch(resource -> resource.getSize() == -1);
+                    .allMatch(it -> it.getPath().endsWith(it.getName()))
+                    .allMatch(it -> it.getInputStream() == null)
+                    .allMatch(it -> it.getSize() == -1);
             assertThat(resources)
-                    .filteredOn(resource -> !resource.isDirectory())
+                    .filteredOn(it -> !it.isDirectory())
                     .doesNotContainNull()
                     .hasSameSizeAs(pathTypeMap.get(PathType.FILE))
-                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
-                    .allMatch(resource -> resource.getSize() >= 0)
-                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
+                    .allMatch(it -> it.getPath().endsWith(it.getName()))
+                    .allMatch(it -> TestUtils.readAllBytes(it.getInputStream()).length == it.getSize())
+                    .allMatch(it -> it.getSize() >= 0)
+                    .allMatch(it -> FilenameUtils.getExtension(it.getName()).matches("log|txt|tmp|dat"));
         }
 
         @RepeatedTest(10)
@@ -104,23 +104,23 @@ class DiskFileResourceFinderTest {
                     .as("Contains only one root directory")
                     .containsOnlyOnce(DiskFileResource.from(path))
                     .doesNotHaveDuplicates()
-                    .allMatch(resource -> resource instanceof DiskFileResource);
+                    .allMatch(it -> it instanceof DiskFileResource);
             assertThat(resources)
                     .filteredOn(Resource::isDirectory)
                     .doesNotContainNull()
                     .hasSameSizeAs(pathTypeMap.get(PathType.DIRECTORY))
-                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> resource.getInputStream() == null)
-                    .allMatch(resource -> resource.getSize() == -1);
+                    .allMatch(it -> it.getPath().endsWith(it.getName()))
+                    .allMatch(it -> it.getInputStream() == null)
+                    .allMatch(it -> it.getSize() == -1);
             assertThat(resources)
-                    .filteredOn(resource -> !resource.isDirectory())
+                    .filteredOn(it -> !it.isDirectory())
                     .doesNotContainNull()
                     .hasSize(pathTypeMap.get(PathType.FILE).size() + pathTypeMap.get(PathType.FILE_IN_DIRECTORY).size())
-                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
-                    .allMatch(resource -> resource.getInputStream() != null)
-                    .allMatch(resource -> resource.getSize() >= 0)
-                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt|tmp|dat"));
+                    .allMatch(it -> it.getPath().endsWith(it.getName()))
+                    .allMatch(it -> TestUtils.readAllBytes(it.getInputStream()).length == it.getSize())
+                    .allMatch(it -> it.getInputStream() != null)
+                    .allMatch(it -> it.getSize() >= 0)
+                    .allMatch(it -> FilenameUtils.getExtension(it.getName()).matches("log|txt|tmp|dat"));
         }
 
         @RepeatedTest(10)
@@ -147,14 +147,14 @@ class DiskFileResourceFinderTest {
                     .isNotNull()
                     .doesNotContainNull()
                     .doesNotHaveDuplicates()
-                    .allMatch(resource -> resource instanceof DiskFileResource)
+                    .allMatch(it -> it instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
                     .hasSameSizeAs(pathTypeMap.get(PathType.FILE).stream().map(Path::toString)
                             .filter(it -> it.endsWith(".log") || it.endsWith(".txt")).toArray())
-                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
-                    .allMatch(resource -> resource.getSize() >= 0)
-                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).matches("log|txt"));
+                    .allMatch(it -> it.getPath().endsWith(it.getName()))
+                    .allMatch(it -> TestUtils.readAllBytes(it.getInputStream()).length == it.getSize())
+                    .allMatch(it -> it.getSize() >= 0)
+                    .allMatch(it -> FilenameUtils.getExtension(it.getName()).matches("log|txt"));
         }
 
         @RepeatedTest(10)
@@ -181,14 +181,15 @@ class DiskFileResourceFinderTest {
                     .isNotNull()
                     .doesNotContainNull()
                     .doesNotHaveDuplicates()
-                    .allMatch(resource -> resource instanceof DiskFileResource)
+                    .allMatch(it -> it instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
-                    .hasSameSizeAs(Stream.concat(pathTypeMap.get(PathType.FILE).stream(), pathTypeMap.get(PathType.FILE_IN_DIRECTORY).stream())
+                    .hasSameSizeAs(Stream.concat(pathTypeMap.get(PathType.FILE).stream(),
+                                    pathTypeMap.get(PathType.FILE_IN_DIRECTORY).stream())
                             .map(Path::toString).filter(it -> it.endsWith(".dat")).toArray())
-                    .allMatch(resource -> resource.getPath().endsWith(resource.getName()))
-                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
-                    .allMatch(resource -> resource.getSize() >= 0)
-                    .allMatch(resource -> FilenameUtils.getExtension(resource.getName()).equals("dat"));
+                    .allMatch(it -> it.getPath().endsWith(it.getName()))
+                    .allMatch(it -> TestUtils.readAllBytes(it.getInputStream()).length == it.getSize())
+                    .allMatch(it -> it.getSize() >= 0)
+                    .allMatch(it -> FilenameUtils.getExtension(it.getName()).equals("dat"));
         }
 
         @Test
@@ -208,12 +209,12 @@ class DiskFileResourceFinderTest {
                     .isNotNull()
                     .doesNotContainNull()
                     .hasSize(1)
-                    .allMatch(resource -> resource instanceof DiskFileResource)
+                    .allMatch(it -> it instanceof DiskFileResource)
                     .noneMatch(Resource::isDirectory)
-                    .allMatch(resource -> resource.getPath().equals("/dummy.txt"))
-                    .allMatch(resource -> resource.getName().equals("dummy.txt"))
-                    .allMatch(resource -> TestUtils.readAllBytes(resource.getInputStream()).length == resource.getSize())
-                    .allMatch(resource -> resource.getSize() == bytes.length);
+                    .allMatch(it -> it.getPath().equals("/dummy.txt"))
+                    .allMatch(it -> it.getName().equals("dummy.txt"))
+                    .allMatch(it -> TestUtils.readAllBytes(it.getInputStream()).length == it.getSize())
+                    .allMatch(it -> it.getSize() == bytes.length);
         }
     }
 

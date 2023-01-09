@@ -16,11 +16,6 @@
 
 package io.github.imsejin.common.internal;
 
-import io.github.imsejin.common.tool.RandomString;
-import io.github.imsejin.common.util.CollectionUtils;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,6 +27,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import io.github.imsejin.common.tool.RandomString;
+import io.github.imsejin.common.util.CollectionUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestFileSystemCreator {
@@ -131,7 +132,9 @@ public final class TestFileSystemCreator {
             TestFileSystemCreator creator = new TestFileSystemCreator();
 
             creator.random = this.randomInstance;
-            if (creator.random == null) creator.random = new Random();
+            if (creator.random == null) {
+                creator.random = new Random();
+            }
 
             creator.minimumFileLength = Math.max(0, this.minimumFileLength);
             creator.maximumFileLength = Math.max(0, this.maximumFileLength);
@@ -212,7 +215,8 @@ public final class TestFileSystemCreator {
             Path filePath = Files.createFile(path.resolve(fileName));
 
             // Write content into file.
-            String content = new RandomString(this.random).nextString(this.minimumFileLength, this.maximumFileLength + 1);
+            String content = new RandomString(this.random).nextString(this.minimumFileLength,
+                    this.maximumFileLength + 1);
             try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
                 int lineWidth = Math.min(100, this.random.nextInt(20) + 80); // min: 80, max: 100
                 String[] lines = content.split("(?<=\\G.{" + lineWidth + "})");

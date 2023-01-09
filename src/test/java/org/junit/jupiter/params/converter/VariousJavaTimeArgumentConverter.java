@@ -16,10 +16,6 @@
 
 package org.junit.jupiter.params.converter;
 
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.params.provider.RandomJavaTimeSource;
-import org.junit.platform.commons.util.ReflectionUtils;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +36,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.params.provider.RandomJavaTimeSource;
+import org.junit.platform.commons.util.ReflectionUtils;
 
 /**
  * @see ConvertJavaTime
@@ -77,7 +77,9 @@ public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
      */
     @Override
     public Object convert(Object source, ParameterContext context) throws ArgumentConversionException {
-        if (source == null) return null;
+        if (source == null) {
+            return null;
+        }
 
         if (!SOURCE_TYPE.isInstance(source)) {
             String message = String.format(
@@ -94,7 +96,8 @@ public class VariousJavaTimeArgumentConverter implements ArgumentConverter {
         }
 
         String message = String.format("%s cannot convert to type [%s]. Only target types [%s] are supported.",
-                getClass().getSimpleName(), paramType.getName(), Arrays.toString(CONVERTERS.keySet().stream().map(Class::getName).toArray()));
+                getClass().getSimpleName(), paramType.getName(),
+                Arrays.toString(CONVERTERS.keySet().stream().map(Class::getName).toArray()));
         throw new ArgumentConversionException(message);
     }
 

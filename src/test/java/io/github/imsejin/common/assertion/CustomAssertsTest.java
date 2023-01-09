@@ -16,6 +16,10 @@
 
 package io.github.imsejin.common.assertion;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
 import io.github.imsejin.common.internal.assertion.FullyExtensibleAssert;
 import io.github.imsejin.common.internal.assertion.FullyRestrictedAssert;
 import io.github.imsejin.common.internal.assertion.PartiallyExtensibleAssert;
@@ -24,12 +28,8 @@ import io.github.imsejin.common.internal.assertion.model.Bar;
 import io.github.imsejin.common.internal.assertion.model.Foo;
 import io.github.imsejin.common.internal.assertion.model.KanCode;
 import io.github.imsejin.common.util.StringUtils;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 class CustomAssertsTest {
 
@@ -68,13 +68,17 @@ class CustomAssertsTest {
 
                 @Override
                 public SELF hasNullValue() {
-                    if (!StringUtils.isNullOrEmpty(actual.getValue())) throw getException();
+                    if (!StringUtils.isNullOrEmpty(actual.getValue())) {
+                        throw getException();
+                    }
                     return self;
                 }
 
                 public SELF hasSingleValue() {
                     String value = actual.getValue();
-                    if (value == null || value.length() != 1) throw getException();
+                    if (value == null || value.length() != 1) {
+                        throw getException();
+                    }
                     return self;
                 }
             }
@@ -128,13 +132,17 @@ class CustomAssertsTest {
 
                 @Override
                 public SELF hasNullValue() {
-                    if (!StringUtils.isNullOrEmpty(actual.getValue())) throw getException();
+                    if (!StringUtils.isNullOrEmpty(actual.getValue())) {
+                        throw getException();
+                    }
                     return self;
                 }
 
                 public SELF hasMultipleValue() {
                     String value = actual.getValue();
-                    if (value == null || value.length() <= 1) throw getException();
+                    if (value == null || value.length() <= 1) {
+                        throw getException();
+                    }
                     return self;
                 }
             }
@@ -273,7 +281,9 @@ class CustomAssertsTest {
 
                 @Override
                 public FullyRestrictedAssertImpl isParentOf(KanCode expected) {
-                    if (!actual.isParentOf(expected)) throw getException();
+                    if (!actual.isParentOf(expected)) {
+                        throw getException();
+                    }
                     return this;
                 }
 

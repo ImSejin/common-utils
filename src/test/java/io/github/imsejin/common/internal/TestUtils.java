@@ -16,10 +16,10 @@
 
 package io.github.imsejin.common.internal;
 
-import org.apache.commons.compress.utils.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.compress.utils.IOUtils;
 
 public final class TestUtils {
 

@@ -16,22 +16,22 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import io.github.imsejin.common.assertion.Asserts;
+
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("CharacterAssert")
 class CharacterAssertTest {
@@ -170,8 +170,9 @@ class CharacterAssertTest {
             map.put('\u0001', Character.MIN_VALUE);
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .doesNotThrowAnyException());
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .doesNotThrowAnyException());
         }
 
         @Test
@@ -186,9 +187,11 @@ class CharacterAssertTest {
             map.put(Character.MIN_VALUE, '\u0001');
 
             // expect
-            map.forEach((actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
-                    .hasMessageStartingWith("It is expected to be greater than or equal to the other, but it isn't."));
+            map.forEach(
+                    (actual, expected) -> assertThatCode(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected))
+                            .isExactlyInstanceOf(IllegalArgumentException.class)
+                            .hasMessageStartingWith(
+                                    "It is expected to be greater than or equal to the other, but it isn't."));
         }
     }
 
@@ -303,7 +306,7 @@ class CharacterAssertTest {
 
             // expect
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isDigit())
+                            .isDigit())
                     .withMessageMatching(Pattern.quote("It is expected to be digit, but it isn't.") +
                             "\n {4}actual: '[^0-9\u0660-\u0669\u06F0-\u06F9\u0966-\u096F\uFF10-\uFF19]'"));
         }
@@ -335,7 +338,7 @@ class CharacterAssertTest {
 
             // expect
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isLetter())
+                            .isLetter())
                     .withMessageMatching(Pattern.quote("It is expected to be letter, but it isn't.") +
                             "\n {4}actual: '[\\s\\S]'"));
         }
@@ -367,7 +370,7 @@ class CharacterAssertTest {
 
             // expect
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isLetterOrDigit())
+                            .isLetterOrDigit())
                     .withMessageMatching(Pattern.quote("It is expected to be letter or digit, but it isn't.") +
                             "\n {4}actual: '[\\s\\S]'"));
         }
@@ -405,7 +408,7 @@ class CharacterAssertTest {
         @DisplayName("throws exception, when actual is not uppercase")
         void test1(char actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isUpperCase())
+                            .isUpperCase())
                     .withMessageMatching(Pattern.quote("It is expected to be upper case, but it isn't.") +
                             "\n {4}actual: '[^A-Z\u00C0-\u00DE]'");
         }
@@ -443,7 +446,7 @@ class CharacterAssertTest {
         @DisplayName("throws exception, when actual is not lowercase")
         void test1(char actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isLowerCase())
+                            .isLowerCase())
                     .withMessageMatching(Pattern.quote("It is expected to be lower case, but it isn't.") +
                             "\n {4}actual: '[^a-z\u00DF-\u00FF]'");
         }
@@ -475,7 +478,7 @@ class CharacterAssertTest {
 
             // expect
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isAlphabetic())
+                            .isAlphabetic())
                     .withMessageMatching(Pattern.quote("It is expected to be alphabetic, but it isn't.") +
                             "\n {4}actual: '[\\s\\S]'"));
         }
@@ -503,7 +506,7 @@ class CharacterAssertTest {
 
             // expect
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isSpaceChar())
+                            .isSpaceChar())
                     .withMessageMatching(Pattern.quote("It is expected to be space character, but it isn't.") +
                             "\n {4}actual: '[\\s\\S]'"));
         }
@@ -534,7 +537,7 @@ class CharacterAssertTest {
 
             // expect
             characters.forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isWhitespace())
+                            .isWhitespace())
                     .withMessageMatching(Pattern.quote("It is expected to be whitespace, but it isn't.") +
                             "\n {4}actual: '\\S'"));
         }

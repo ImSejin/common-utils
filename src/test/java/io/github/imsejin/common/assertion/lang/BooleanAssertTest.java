@@ -16,16 +16,16 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("BooleanAssert")
 class BooleanAssertTest {
@@ -46,7 +46,7 @@ class BooleanAssertTest {
         @DisplayName("throws exception, when actual is false")
         void test1(boolean actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isTrue())
+                            .isTrue())
                     .withMessageMatching(Pattern.quote("It is expected to be true, but it isn't.") +
                             "\n {4}actual: 'false'");
         }
@@ -70,7 +70,7 @@ class BooleanAssertTest {
         @DisplayName("throws exception, when actual is true")
         void test1(boolean actual) {
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                    .isFalse())
+                            .isFalse())
                     .withMessageMatching(Pattern.quote("It is expected to be false, but it isn't.") +
                             "\n {4}actual: 'true'");
         }

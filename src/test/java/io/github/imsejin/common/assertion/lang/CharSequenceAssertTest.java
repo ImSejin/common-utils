@@ -16,9 +16,8 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.util.StringUtils;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,10 +26,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.regex.Pattern;
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.util.StringUtils;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("CharSequenceAssert")
 class CharSequenceAssertTest {
@@ -59,13 +59,13 @@ class CharSequenceAssertTest {
                     "\n {4}actual.size: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .isEmpty())
+                            .isEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .isEmpty())
+                            .isEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .isEmpty())
+                            .isEmpty())
                     .withMessageMatching(message);
         }
     }
@@ -94,13 +94,13 @@ class CharSequenceAssertTest {
             String message = "It is expected not to be empty, but it is.";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer())
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageStartingWith(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder())
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageStartingWith(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("")
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageStartingWith(message);
         }
     }
@@ -139,13 +139,13 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '-?[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .hasSize(expected))
+                            .hasSize(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .hasSize(expected))
+                            .hasSize(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .hasSize(expected))
+                            .hasSize(expected))
                     .withMessageMatching(message);
         }
     }
@@ -184,13 +184,13 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .doesNotHaveSize(expected))
+                            .doesNotHaveSize(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .doesNotHaveSize(expected))
+                            .doesNotHaveSize(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .doesNotHaveSize(expected))
+                            .doesNotHaveSize(expected))
                     .withMessageMatching(message);
         }
     }
@@ -237,16 +237,16 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '(.+|null)'" +
                     "\n {4}expected\\.size: '([0-9]+|null)'";
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .hasSameSizeAs(expected))
+                            .hasSameSizeAs(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .hasSameSizeAs(expected))
+                            .hasSameSizeAs(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .hasSameSizeAs(expected))
+                            .hasSameSizeAs(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .hasSameSizeAs(null))
+                            .hasSameSizeAs(null))
                     .withMessageMatching(message);
         }
     }
@@ -293,16 +293,16 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '(.*|null)'" +
                     "\n {4}expected\\.size: '([0-9]+|null)'";
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .doesNotHaveSameSizeAs(expected))
+                            .doesNotHaveSameSizeAs(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .doesNotHaveSameSizeAs(expected))
+                            .doesNotHaveSameSizeAs(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .doesNotHaveSameSizeAs(expected))
+                            .doesNotHaveSameSizeAs(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .doesNotHaveSameSizeAs(null))
+                            .doesNotHaveSameSizeAs(null))
                     .withMessageMatching(message);
         }
     }
@@ -343,13 +343,13 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .hasSizeGreaterThan(expected))
+                            .hasSizeGreaterThan(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .hasSizeGreaterThan(expected))
+                            .hasSizeGreaterThan(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .hasSizeGreaterThan(expected))
+                            .hasSizeGreaterThan(expected))
                     .withMessageMatching(message);
         }
     }
@@ -390,13 +390,13 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .hasSizeGreaterThanOrEqualTo(expected))
+                            .hasSizeGreaterThanOrEqualTo(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .hasSizeGreaterThanOrEqualTo(expected))
+                            .hasSizeGreaterThanOrEqualTo(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .hasSizeGreaterThanOrEqualTo(expected))
+                            .hasSizeGreaterThanOrEqualTo(expected))
                     .withMessageMatching(message);
         }
     }
@@ -437,13 +437,13 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .hasSizeLessThan(expected))
+                            .hasSizeLessThan(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .hasSizeLessThan(expected))
+                            .hasSizeLessThan(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .hasSizeLessThan(expected))
+                            .hasSizeLessThan(expected))
                     .withMessageMatching(message);
         }
     }
@@ -484,13 +484,13 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '-?[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .hasSizeLessThanOrEqualTo(expected))
+                            .hasSizeLessThanOrEqualTo(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .hasSizeLessThanOrEqualTo(expected))
+                            .hasSizeLessThanOrEqualTo(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .hasSizeLessThanOrEqualTo(expected))
+                            .hasSizeLessThanOrEqualTo(expected))
                     .withMessageMatching(message);
         }
     }
@@ -533,13 +533,13 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .contains(expected))
+                            .contains(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .contains(expected))
+                            .contains(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .contains(expected))
+                            .contains(expected))
                     .withMessageMatching(message);
         }
     }
@@ -581,16 +581,16 @@ class CharSequenceAssertTest {
                     "\n {4}expected: '.*'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuffer(source))
-                    .doesNotContain(expected))
+                            .doesNotContain(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new StringBuilder(source))
-                    .doesNotContain(expected))
+                            .doesNotContain(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .doesNotContain(expected))
+                            .doesNotContain(expected))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(source)
-                    .doesNotContain(""))
+                            .doesNotContain(""))
                     .withMessageMatching(message);
         }
     }

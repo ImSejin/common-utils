@@ -13,7 +13,9 @@ public class FullyExtensibleAssert<
     }
 
     public SELF hasNullValue() {
-        if (actual.getValue() != null) throw getException();
+        if (actual.getValue() != null) {
+            throw getException();
+        }
         return self;
     }
 

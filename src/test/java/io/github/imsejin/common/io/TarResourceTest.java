@@ -16,18 +16,19 @@
 
 package io.github.imsejin.common.io;
 
-import io.github.imsejin.common.tool.RandomString;
-import io.github.imsejin.common.util.FilenameUtils;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import io.github.imsejin.common.tool.RandomString;
+import io.github.imsejin.common.util.FilenameUtils;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("TarResource")
 class TarResourceTest {
@@ -55,10 +56,11 @@ class TarResourceTest {
                 .returns((long) bytes.length, Resource::getSize)
                 .returns(false, Resource::isDirectory)
                 .returns(Instant.ofEpochMilli(modifiedTime), TarResource::getLastModifiedTime)
-                .returns(String.format("%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, lastModifiedTime=%s)",
-                        resource.getClass().getName(), resource.getPath(), resource.getName(),
-                        resource.getInputStream(), resource.getSize(), resource.isDirectory(),
-                        resource.getLastModifiedTime()),
+                .returns(String.format(
+                                "%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, lastModifiedTime=%s)",
+                                resource.getClass().getName(), resource.getPath(), resource.getName(),
+                                resource.getInputStream(), resource.getSize(), resource.isDirectory(),
+                                resource.getLastModifiedTime()),
                         TarResource::toString);
         assertThat(resource.getInputStream())
                 .isNotNull()

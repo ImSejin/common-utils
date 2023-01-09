@@ -23,12 +23,16 @@ public class FullyRestrictedAssert extends ObjectAssert<FullyRestrictedAssert, K
     }
 
     public FullyRestrictedAssert isParentOf(KanCode expected) {
-        if (!actual.isParentOf(expected)) throw getException();
+        if (!actual.isParentOf(expected)) {
+            throw getException();
+        }
         return self;
     }
 
     public FullyRestrictedAssert isChildOf(KanCode expected) {
-        if (!actual.isChildOf(expected)) throw getException();
+        if (!actual.isChildOf(expected)) {
+            throw getException();
+        }
         return self;
     }
 

@@ -129,23 +129,23 @@ class ArrayUtilsSpec extends Specification {
         ArrayUtils.toString(value) == expected
 
         where:
-        value                                                     | expected
-        null                                                      | "null"
-        [false, true] as boolean[]                                | "[false, true]"
-        [Byte.MIN_VALUE, 0, Byte.MAX_VALUE] as byte[]             | "[-128, 0, 127]"
-        [Short.MIN_VALUE, 0, Short.MAX_VALUE] as short[]          | "[-32768, 0, 32767]"
-        [Character.MIN_VALUE, 955, Character.MAX_VALUE] as char[] | "[\u0000, λ, \uffff]"
-        [Integer.MIN_VALUE, 0, Integer.MAX_VALUE] as int[]        | "[-2147483648, 0, 2147483647]"
-        [Long.MIN_VALUE, 0, Long.MAX_VALUE] as long[]             | "[-9223372036854775808, 0, 9223372036854775807]"
-        [-1.141F, 0, 1.141F] as float[]                           | "[-1.141, 0.0, 1.141]"
-        [-3.141592D, 0, 3.141592D] as double[]                    | "[-3.141592, 0.0, 3.141592]"
-        [] as Object[]                                            | "[]"
-        ['a', 'b'] as char[]                                      | "[a, b]"
-        [[2], null, []] as int[][]                                | "[[2], null, []]"
-        [new String[]{"a", "b"}, new int[]{2, 4, 56}, -0.5]       | "[[a, b], [2, 4, 56], -0.5]"
-        [' ', [0], [0, 1]]                                        | "[ , [0], [0, 1]]"
-        [:]                                                       | "{}"
-        [alpha: new Object[0], beta: new String[]{"a", "b", "c"}] | "{alpha=[], beta=[a, b, c]}"
+        value                                                      | expected
+        null                                                       | "null"
+        [false, true] as boolean[]                                 | "[false, true]"
+        [Byte.MIN_VALUE, 0, Byte.MAX_VALUE] as byte[]              | "[-128, 0, 127]"
+        [Short.MIN_VALUE, 0, Short.MAX_VALUE] as short[]           | "[-32768, 0, 32767]"
+        [Character.MIN_VALUE, 955, Character.MAX_VALUE] as char[]  | "[\u0000, λ, \uffff]"
+        [Integer.MIN_VALUE, 0, Integer.MAX_VALUE] as int[]         | "[-2147483648, 0, 2147483647]"
+        [Long.MIN_VALUE, 0, Long.MAX_VALUE] as long[]              | "[-9223372036854775808, 0, 9223372036854775807]"
+        [-1.141F, 0, 1.141F] as float[]                            | "[-1.141, 0.0, 1.141]"
+        [-3.141592D, 0, 3.141592D] as double[]                     | "[-3.141592, 0.0, 3.141592]"
+        [] as Object[]                                             | "[]"
+        ['a', 'b'] as char[]                                       | "[a, b]"
+        [[2], null, []] as int[][]                                 | "[[2], null, []]"
+        [new String[] {"a", "b"}, new int[] {2, 4, 56}, -0.5]      | "[[a, b], [2, 4, 56], -0.5]"
+        [' ', [0], [0, 1]]                                         | "[ , [0], [0, 1]]"
+        [:]                                                        | "{}"
+        [alpha: new Object[0], beta: new String[] {"a", "b", "c"}] | "{alpha=[], beta=[a, b, c]}"
     }
 
     def "Gets hash code of array"() {

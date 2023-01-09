@@ -16,17 +16,6 @@
 
 package io.github.imsejin.common.assertion.lang;
 
-import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
-import io.github.imsejin.common.assertion.composition.IterationAssertable;
-import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
-import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.tool.Stopwatch;
-import io.github.imsejin.common.util.ArrayUtils;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -37,8 +26,19 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import io.github.imsejin.common.assertion.Asserts;
+import io.github.imsejin.common.assertion.composition.EnumerationAssertable;
+import io.github.imsejin.common.assertion.composition.IterationAssertable;
+import io.github.imsejin.common.assertion.composition.RandomAccessIterationAssertable;
+import io.github.imsejin.common.assertion.composition.SizeAssertable;
+import io.github.imsejin.common.tool.Stopwatch;
+import io.github.imsejin.common.util.ArrayUtils;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("ArrayAssert")
 class ArrayAssertTest {
@@ -50,26 +50,26 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual is equal to other")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new boolean[]{true, false})
-                        .isEqualTo(new Boolean[]{true, false});
-                Asserts.that(new byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE})
-                        .isEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE});
+                Asserts.that(new boolean[] {true, false})
+                        .isEqualTo(new Boolean[] {true, false});
+                Asserts.that(new byte[] {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE})
+                        .isEqualTo(new Byte[] {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE});
                 Asserts.that(new char[0])
                         .isEqualTo(new Character[0]);
-                Asserts.that(new double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE})
-                        .isEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE});
-                Asserts.that(new float[]{})
-                        .isEqualTo(new Float[]{});
+                Asserts.that(new double[] {Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE})
+                        .isEqualTo(new Double[] {Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE});
+                Asserts.that(new float[] {})
+                        .isEqualTo(new Float[] {});
                 Asserts.that(new int[0])
-                        .isEqualTo(new Integer[]{});
-                Asserts.that(new long[]{})
+                        .isEqualTo(new Integer[] {});
+                Asserts.that(new long[] {})
                         .isEqualTo(new Long[0]);
-                Asserts.that(new short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE})
-                        .isEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE});
+                Asserts.that(new short[] {Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE})
+                        .isEqualTo(new Short[] {Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE});
                 Asserts.that(getClass().getPackage().getName().split("\\."))
-                        .isEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "lang"});
-                Asserts.that(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}})
-                        .isEqualTo(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}});
+                        .isEqualTo(new String[] {"io", "github", "imsejin", "common", "assertion", "lang"});
+                Asserts.that(new Class<?>[][] {null, {Object.class}, {Class[].class}, {}, {Package.class}})
+                        .isEqualTo(new Class<?>[][] {null, {Object.class}, {Class[].class}, {}, {Package.class}});
             });
         }
 
@@ -81,34 +81,34 @@ class ArrayAssertTest {
                     "\n {4}expected: '\\[.*]'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .isEqualTo(new Boolean[]{true, false}))
+                            .isEqualTo(new Boolean[] {true, false}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[0])
-                    .isEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
+                            .isEqualTo(new Byte[] {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
-                    .isEqualTo(new Character[]{Character.MIN_VALUE, Character.MAX_VALUE / 2, Character.MAX_VALUE}))
+                            .isEqualTo(new Character[] {Character.MIN_VALUE, Character.MAX_VALUE / 2, Character.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[0])
-                    .isEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
+                            .isEqualTo(new Double[] {Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[0])
-                    .isEqualTo(new Float[]{Float.MIN_VALUE, -1.1F, 0.0F, 1.1F, Float.MAX_VALUE}))
+                            .isEqualTo(new Float[] {Float.MIN_VALUE, -1.1F, 0.0F, 1.1F, Float.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
-                    .isEqualTo(new Integer[]{Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE}))
+                            .isEqualTo(new Integer[] {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
-                    .isEqualTo(new Long[]{Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE}))
+                            .isEqualTo(new Long[] {Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[0])
-                    .isEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
+                            .isEqualTo(new Short[] {Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[0])
-                    .isEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "array"}))
+                            .isEqualTo(new String[] {"io", "github", "imsejin", "common", "assertion", "array"}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Class<?>[1][1])
-                    .isEqualTo(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}}))
+                            .isEqualTo(new Class<?>[][] {null, {Object.class}, {Class[].class}, {}, {Package.class}}))
                     .withMessageMatching(message);
         }
     }
@@ -123,25 +123,26 @@ class ArrayAssertTest {
         void test0() {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new boolean[0])
-                        .isNotEqualTo(new Boolean[]{true, false});
+                        .isNotEqualTo(new Boolean[] {true, false});
                 Asserts.that(new byte[0])
-                        .isNotEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE});
+                        .isNotEqualTo(new Byte[] {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE});
                 Asserts.that(new char[0])
-                        .isNotEqualTo(new Character[]{Character.MIN_VALUE, Character.MAX_VALUE / 2, Character.MAX_VALUE});
+                        .isNotEqualTo(
+                                new Character[] {Character.MIN_VALUE, Character.MAX_VALUE / 2, Character.MAX_VALUE});
                 Asserts.that(new double[0])
-                        .isNotEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE});
+                        .isNotEqualTo(new Double[] {Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE});
                 Asserts.that(new float[0])
-                        .isNotEqualTo(new Float[]{Float.MIN_VALUE, -1.1F, 0.0F, 1.1F, Float.MAX_VALUE});
+                        .isNotEqualTo(new Float[] {Float.MIN_VALUE, -1.1F, 0.0F, 1.1F, Float.MAX_VALUE});
                 Asserts.that(new int[0])
-                        .isNotEqualTo(new Integer[]{Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE});
+                        .isNotEqualTo(new Integer[] {Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE});
                 Asserts.that(new long[0])
-                        .isNotEqualTo(new Long[]{Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE});
+                        .isNotEqualTo(new Long[] {Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE});
                 Asserts.that(new short[0])
-                        .isNotEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE});
+                        .isNotEqualTo(new Short[] {Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE});
                 Asserts.that(new String[0])
-                        .isNotEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "array"});
+                        .isNotEqualTo(new String[] {"io", "github", "imsejin", "common", "assertion", "array"});
                 Asserts.that(new Class<?>[1][1])
-                        .isNotEqualTo(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}});
+                        .isNotEqualTo(new Class<?>[][] {null, {Object.class}, {Class[].class}, {}, {Package.class}});
             });
         }
 
@@ -152,35 +153,41 @@ class ArrayAssertTest {
                     "\n {4}actual: '\\[.*]'" +
                     "\n {4}expected: '\\[.*]'";
 
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[]{true, false})
-                    .isNotEqualTo(new Boolean[]{true, false}))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[] {true, false})
+                            .isNotEqualTo(new Boolean[] {true, false}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE})
-                    .isNotEqualTo(new Byte[]{Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new byte[] {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE})
+                                    .isNotEqualTo(new Byte[] {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
-                    .isNotEqualTo(new Character[0]))
+                            .isNotEqualTo(new Character[0]))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE})
-                    .isNotEqualTo(new Double[]{Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new double[] {Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE})
+                                    .isNotEqualTo(new Double[] {Double.MIN_VALUE, -1.1, 0.0, 1.1, Double.MAX_VALUE}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[]{})
-                    .isNotEqualTo(new Float[]{}))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[] {})
+                            .isNotEqualTo(new Float[] {}))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
-                    .isNotEqualTo(new Integer[]{}))
+                            .isNotEqualTo(new Integer[] {}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[]{})
-                    .isNotEqualTo(new Long[0]))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[] {})
+                            .isNotEqualTo(new Long[0]))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE})
-                    .isNotEqualTo(new Short[]{Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new short[] {Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE})
+                                    .isNotEqualTo(new Short[] {Short.MIN_VALUE, -1, 0, 1, Short.MAX_VALUE}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that("io.github.imsejin.common.assertion.array".split("\\."))
-                    .isNotEqualTo(new String[]{"io", "github", "imsejin", "common", "assertion", "array"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that("io.github.imsejin.common.assertion.array".split("\\."))
+                                    .isNotEqualTo(new String[] {"io", "github", "imsejin", "common", "assertion", "array"}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}})
-                    .isNotEqualTo(new Class<?>[][]{null, {Object.class}, {Class[].class}, {}, {Package.class}}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new Class<?>[][] {null, {Object.class}, {Class[].class}, {}, {Package.class}})
+                                    .isNotEqualTo(
+                                            new Class<?>[][] {null, {Object.class}, {Class[].class}, {}, {Package.class}}))
                     .withMessageMatching(message);
         }
     }
@@ -210,7 +217,7 @@ class ArrayAssertTest {
         @DisplayName("throws exception, when actual has element")
         void test1() {
             // given
-            List<char[]> list = Arrays.asList(new char[]{1, 2}, new char[]{'0', '1', '2'}, new char[]{' ', 'F'});
+            List<char[]> list = Arrays.asList(new char[] {1, 2}, new char[] {'0', '1', '2'}, new char[] {' ', 'F'});
 
             // expect
             list.forEach(actual -> assertThatIllegalArgumentException()
@@ -230,7 +237,7 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual has element")
         void test0() {
             // given
-            List<byte[]> list = Arrays.asList(new byte[]{1, 2}, new byte[]{'0', '1', '2'}, new byte[]{' ', 'F'});
+            List<byte[]> list = Arrays.asList(new byte[] {1, 2}, new byte[] {'0', '1', '2'}, new byte[] {' ', 'F'});
 
             // expect
             list.forEach(actual -> assertThatNoException()
@@ -245,31 +252,31 @@ class ArrayAssertTest {
                     "\n {4}actual\\.size: '0'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[0])
-                    .isNotEmpty())
+                            .isNotEmpty())
                     .withMessageMatching(message);
         }
     }
@@ -304,31 +311,31 @@ class ArrayAssertTest {
                     "\n {4}expected: '-?[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasSize(128))
+                            .hasSize(128))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .hasSize(64))
+                            .hasSize(64))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .hasSize(32))
+                            .hasSize(32))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .hasSize(16))
+                            .hasSize(16))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .hasSize(-1))
+                            .hasSize(-1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .hasSize(4))
+                            .hasSize(4))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .hasSize(2))
+                            .hasSize(2))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .hasSize(1))
+                            .hasSize(1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .hasSize(0))
+                            .hasSize(0))
                     .withMessageMatching(message);
         }
     }
@@ -363,31 +370,31 @@ class ArrayAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .doesNotHaveSize(0))
+                            .doesNotHaveSize(0))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .doesNotHaveSize(1))
+                            .doesNotHaveSize(1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .doesNotHaveSize(2))
+                            .doesNotHaveSize(2))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .doesNotHaveSize(4))
+                            .doesNotHaveSize(4))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .doesNotHaveSize(8))
+                            .doesNotHaveSize(8))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .doesNotHaveSize(16))
+                            .doesNotHaveSize(16))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .doesNotHaveSize(32))
+                            .doesNotHaveSize(32))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .doesNotHaveSize(64))
+                            .doesNotHaveSize(64))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .doesNotHaveSize(128))
+                            .doesNotHaveSize(128))
                     .withMessageMatching(message);
         }
     }
@@ -423,34 +430,34 @@ class ArrayAssertTest {
                     "\n {4}expected\\.size: '([0-9]+|null)'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasSameSizeAs(new Object[1]))
+                            .hasSameSizeAs(new Object[1]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .hasSameSizeAs(new StringBuilder[2]))
+                            .hasSameSizeAs(new StringBuilder[2]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .hasSameSizeAs(new Character[3]))
+                            .hasSameSizeAs(new Character[3]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .hasSameSizeAs(new Double[3]))
+                            .hasSameSizeAs(new Double[3]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .hasSameSizeAs(new Field[10]))
+                            .hasSameSizeAs(new Field[10]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .hasSameSizeAs(new Constructor[32]))
+                            .hasSameSizeAs(new Constructor[32]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .hasSameSizeAs(new Class<?>[5]))
+                            .hasSameSizeAs(new Class<?>[5]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .hasSameSizeAs(new Array[128]))
+                            .hasSameSizeAs(new Array[128]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .hasSameSizeAs(new String[256]))
+                            .hasSameSizeAs(new String[256]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .hasSameSizeAs(null))
+                            .hasSameSizeAs(null))
                     .withMessageMatching(message);
         }
     }
@@ -486,34 +493,34 @@ class ArrayAssertTest {
                     "\n {4}expected\\.size: '([0-9]+|null)'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .doesNotHaveSameSizeAs(new Object[0]))
+                            .doesNotHaveSameSizeAs(new Object[0]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .doesNotHaveSameSizeAs(new StringBuilder[1]))
+                            .doesNotHaveSameSizeAs(new StringBuilder[1]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .doesNotHaveSameSizeAs(new Character[2]))
+                            .doesNotHaveSameSizeAs(new Character[2]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .doesNotHaveSameSizeAs(new Double[4]))
+                            .doesNotHaveSameSizeAs(new Double[4]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .doesNotHaveSameSizeAs(new Field[8]))
+                            .doesNotHaveSameSizeAs(new Field[8]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .doesNotHaveSameSizeAs(new Constructor[16]))
+                            .doesNotHaveSameSizeAs(new Constructor[16]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .doesNotHaveSameSizeAs(new Class<?>[32]))
+                            .doesNotHaveSameSizeAs(new Class<?>[32]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .doesNotHaveSameSizeAs(new Stopwatch[64]))
+                            .doesNotHaveSameSizeAs(new Stopwatch[64]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .doesNotHaveSameSizeAs(new String[128]))
+                            .doesNotHaveSameSizeAs(new String[128]))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .doesNotHaveSameSizeAs(null))
+                            .doesNotHaveSameSizeAs(null))
                     .withMessageMatching(message);
         }
     }
@@ -548,34 +555,34 @@ class ArrayAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasSizeGreaterThan(0))
+                            .hasSizeGreaterThan(0))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .hasSizeGreaterThan(1))
+                            .hasSizeGreaterThan(1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .hasSizeGreaterThan(2))
+                            .hasSizeGreaterThan(2))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .hasSizeGreaterThan(4))
+                            .hasSizeGreaterThan(4))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .hasSizeGreaterThan(8))
+                            .hasSizeGreaterThan(8))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .hasSizeGreaterThan(16))
+                            .hasSizeGreaterThan(16))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .hasSizeGreaterThan(32))
+                            .hasSizeGreaterThan(32))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .hasSizeGreaterThan(128))
+                            .hasSizeGreaterThan(128))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .hasSizeGreaterThan(256))
+                            .hasSizeGreaterThan(256))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .hasSizeGreaterThan(512))
+                            .hasSizeGreaterThan(512))
                     .withMessageMatching(message);
         }
     }
@@ -610,34 +617,34 @@ class ArrayAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasSizeGreaterThanOrEqualTo(1))
+                            .hasSizeGreaterThanOrEqualTo(1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .hasSizeGreaterThanOrEqualTo(2))
+                            .hasSizeGreaterThanOrEqualTo(2))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .hasSizeGreaterThanOrEqualTo(4))
+                            .hasSizeGreaterThanOrEqualTo(4))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .hasSizeGreaterThanOrEqualTo(8))
+                            .hasSizeGreaterThanOrEqualTo(8))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .hasSizeGreaterThanOrEqualTo(16))
+                            .hasSizeGreaterThanOrEqualTo(16))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .hasSizeGreaterThanOrEqualTo(32))
+                            .hasSizeGreaterThanOrEqualTo(32))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .hasSizeGreaterThanOrEqualTo(64))
+                            .hasSizeGreaterThanOrEqualTo(64))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .hasSizeGreaterThanOrEqualTo(128))
+                            .hasSizeGreaterThanOrEqualTo(128))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .hasSizeGreaterThanOrEqualTo(256))
+                            .hasSizeGreaterThanOrEqualTo(256))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .hasSizeGreaterThanOrEqualTo(512))
+                            .hasSizeGreaterThanOrEqualTo(512))
                     .withMessageMatching(message);
         }
     }
@@ -672,34 +679,34 @@ class ArrayAssertTest {
                     "\n {4}expected: '[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasSizeLessThan(0))
+                            .hasSizeLessThan(0))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .hasSizeLessThan(1))
+                            .hasSizeLessThan(1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .hasSizeLessThan(2))
+                            .hasSizeLessThan(2))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .hasSizeLessThan(4))
+                            .hasSizeLessThan(4))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .hasSizeLessThan(8))
+                            .hasSizeLessThan(8))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .hasSizeLessThan(16))
+                            .hasSizeLessThan(16))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .hasSizeLessThan(32))
+                            .hasSizeLessThan(32))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .hasSizeLessThan(63))
+                            .hasSizeLessThan(63))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .hasSizeLessThan(127))
+                            .hasSizeLessThan(127))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .hasSizeLessThan(255))
+                            .hasSizeLessThan(255))
                     .withMessageMatching(message);
         }
     }
@@ -734,34 +741,34 @@ class ArrayAssertTest {
                     "\n {4}expected: '-?[0-9]+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new boolean[0])
-                    .hasSizeLessThanOrEqualTo(-1))
+                            .hasSizeLessThanOrEqualTo(-1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new byte[1])
-                    .hasSizeLessThanOrEqualTo(0))
+                            .hasSizeLessThanOrEqualTo(0))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[2])
-                    .hasSizeLessThanOrEqualTo(1))
+                            .hasSizeLessThanOrEqualTo(1))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new double[4])
-                    .hasSizeLessThanOrEqualTo(2))
+                            .hasSizeLessThanOrEqualTo(2))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new float[8])
-                    .hasSizeLessThanOrEqualTo(4))
+                            .hasSizeLessThanOrEqualTo(4))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[16])
-                    .hasSizeLessThanOrEqualTo(8))
+                            .hasSizeLessThanOrEqualTo(8))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new long[32])
-                    .hasSizeLessThanOrEqualTo(16))
+                            .hasSizeLessThanOrEqualTo(16))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new short[64])
-                    .hasSizeLessThanOrEqualTo(32))
+                            .hasSizeLessThanOrEqualTo(32))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[128])
-                    .hasSizeLessThanOrEqualTo(64))
+                            .hasSizeLessThanOrEqualTo(64))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[256])
-                    .hasSizeLessThanOrEqualTo(128))
+                            .hasSizeLessThanOrEqualTo(128))
                     .withMessageMatching(message);
         }
     }
@@ -775,11 +782,11 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual contains the given element")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).contains('d');
-                Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).contains(1024);
+                Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'}).contains('d');
+                Asserts.that(new int[] {-1024, -1, 0, 1, 1024}).contains(1024);
                 Asserts.that(getClass().getPackage().getName().split("\\.")).contains("imsejin");
-                Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                        .contains(new String[]{"n"});
+                Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                        .contains(new String[] {"n"});
             });
         }
 
@@ -790,17 +797,19 @@ class ArrayAssertTest {
                     "\n {4}actual: '\\[.+]'" +
                     "\n {4}expected: '.*'";
 
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
-                    .contains('f'))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'})
+                            .contains('f'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
-                    .contains(1023))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
+                            .contains(1023))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .contains(""))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .contains(""))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                    .contains(new String[]{"i"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                                    .contains(new String[] {"i"}))
                     .withMessageMatching(message);
         }
     }
@@ -815,11 +824,11 @@ class ArrayAssertTest {
         void test0() {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[0]).doesNotContain(null);
-                Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'}).doesNotContain('f');
-                Asserts.that(new int[]{-1024, -1, 0, 1, 1024}).doesNotContain(1023);
+                Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'}).doesNotContain('f');
+                Asserts.that(new int[] {-1024, -1, 0, 1, 1024}).doesNotContain(1023);
                 Asserts.that(getClass().getPackage().getName().split("\\.")).doesNotContain("");
-                Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                        .doesNotContain(new String[]{"i"});
+                Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                        .doesNotContain(new String[] {"i"});
             });
         }
 
@@ -830,17 +839,19 @@ class ArrayAssertTest {
                     "\n {4}actual: '\\[.+]'" +
                     "\n {4}expected: '.*'";
 
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
-                    .doesNotContain('d'))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'})
+                            .doesNotContain('d'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
-                    .doesNotContain(1024))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
+                            .doesNotContain(1024))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .doesNotContain("imsejin"))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .doesNotContain("imsejin"))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                    .doesNotContain(new String[]{"n"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                                    .doesNotContain(new String[] {"n"}))
                     .withMessageMatching(message);
         }
     }
@@ -855,15 +866,15 @@ class ArrayAssertTest {
         void test0() {
             // given
             List<Object[]> list = Arrays.asList(
-                    new Boolean[]{true, null, false},
-                    new Byte[]{23, null, -54},
-                    new Character[]{'0', ' ', null, 'i'},
-                    new Double[]{null, 3.14, 0.0},
-                    new Float[]{1.141F, 0.0F, null},
-                    new Integer[]{0, null, -10},
-                    new Long[]{-128L, 64L, null},
-                    new Short[]{null, 2048, -4096},
-                    new String[]{"", null, "alpha"}
+                    new Boolean[] {true, null, false},
+                    new Byte[] {23, null, -54},
+                    new Character[] {'0', ' ', null, 'i'},
+                    new Double[] {null, 3.14, 0.0},
+                    new Float[] {1.141F, 0.0F, null},
+                    new Integer[] {0, null, -10},
+                    new Long[] {-128L, 64L, null},
+                    new Short[] {null, 2048, -4096},
+                    new String[] {"", null, "alpha"}
             );
 
             // expect
@@ -878,16 +889,19 @@ class ArrayAssertTest {
                     "\n {4}actual: '\\[.*]'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
-                    .containsNull())
+                            .containsNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[]{"Alpha", "null", "", "BETA", "gamma"})
-                    .containsNull())
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[] {"Alpha", "null", "", "BETA", "gamma"})
+                                    .containsNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Character[]{'A', Character.MIN_VALUE, 'b', '0'})
-                    .containsNull())
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new Character[] {'A', Character.MIN_VALUE, 'b', '0'})
+                                    .containsNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{0, Integer.MIN_VALUE, Integer.MAX_VALUE})
-                    .containsNull())
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new Integer[] {0, Integer.MIN_VALUE, Integer.MAX_VALUE})
+                                    .containsNull())
                     .withMessageMatching(message);
         }
     }
@@ -903,9 +917,9 @@ class ArrayAssertTest {
             // given
             List<Object[]> list = Arrays.asList(
                     new Object[0],
-                    new String[]{"Alpha", "null", "", "BETA", "gamma"},
-                    new Character[]{'A', Character.MIN_VALUE, 'b', '0'},
-                    new Integer[]{0, Integer.MIN_VALUE, Integer.MAX_VALUE}
+                    new String[] {"Alpha", "null", "", "BETA", "gamma"},
+                    new Character[] {'A', Character.MIN_VALUE, 'b', '0'},
+                    new Integer[] {0, Integer.MIN_VALUE, Integer.MAX_VALUE}
             );
 
             // expect
@@ -919,32 +933,32 @@ class ArrayAssertTest {
             String message = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_DOES_NOT_CONTAIN_NULL) +
                     "\n {4}actual: '\\[.*]'";
 
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Boolean[]{true, null, false})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Boolean[] {true, null, false})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Byte[]{23, null, -54})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Byte[] {23, null, -54})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Character[]{'0', ' ', null, 'i'})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Character[] {'0', ' ', null, 'i'})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Double[]{null, 3.14, 0.0})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Double[] {null, 3.14, 0.0})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Float[]{1.141F, 0.0F, null})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Float[] {1.141F, 0.0F, null})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{0, null, -10})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[] {0, null, -10})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Long[]{-128L, 64L, null})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Long[] {-128L, 64L, null})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Short[]{null, 2048, -4096})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Short[] {null, 2048, -4096})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[]{"", null, "alpha"})
-                    .doesNotContainNull())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[] {"", null, "alpha"})
+                            .doesNotContainNull())
                     .withMessageMatching(message);
         }
     }
@@ -960,12 +974,13 @@ class ArrayAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[0])
                         .containsAny();
-                Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
+                Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
                         .containsAny(null, 1023, -1);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .containsAny("java", "util", "concurrent", "atomic", "lang", "reflect", "common");
-                Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                        .containsAny(new String[]{"c"}, new String[]{"n"}, new String[]{"ut"}, new String[]{"ti", "s"});
+                Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                        .containsAny(new String[] {"c"}, new String[] {"n"}, new String[] {"ut"},
+                                new String[] {"ti", "s"});
             });
         }
 
@@ -977,22 +992,25 @@ class ArrayAssertTest {
                     "\n {4}expected: '\\[.*]'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
-                    .containsAny('a'))
+                            .containsAny('a'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{1, 2, 3})
-                    .containsAny())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[] {1, 2, 3})
+                            .containsAny())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
-                    .containsAny(null, '\u0000'))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'})
+                            .containsAny(null, '\u0000'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
-                    .containsAny(10))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
+                            .containsAny(10))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .containsAny("java", "util", "concurrent", "atomic", "package", "reflect"))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .containsAny("java", "util", "concurrent", "atomic", "package", "reflect"))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                    .containsAny(new String[]{"c"}, new String[]{"n", "ut"}, new String[]{"tie"}, new String[]{"s"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                                    .containsAny(new String[] {"c"}, new String[] {"n", "ut"}, new String[] {"tie"},
+                                            new String[] {"s"}))
                     .withMessageMatching(message);
         }
     }
@@ -1008,14 +1026,14 @@ class ArrayAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[0])
                         .containsAll(new Object[0]);
-                Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
-                        .containsAll(new Character[]{'e', 'd', 'c', 'b', 'a'});
-                Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
+                Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'})
+                        .containsAll(new Character[] {'e', 'd', 'c', 'b', 'a'});
+                Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
                         .containsAll(new Integer[0]);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
-                        .containsAll(new String[]{"imsejin", "github", "common", "assertion", "lang"});
-                Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                        .containsAll(new String[][]{{"n"}, {"ut", "i", "li"}, {"tie", "s"}});
+                        .containsAll(new String[] {"imsejin", "github", "common", "assertion", "lang"});
+                Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                        .containsAll(new String[][] {{"n"}, {"ut", "i", "li"}, {"tie", "s"}});
             });
         }
 
@@ -1028,19 +1046,21 @@ class ArrayAssertTest {
                     "\n {4}missing: '.+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[0])
-                    .containsAll(new Character[]{'a', 'b', 'c', 'd', 'e'}))
+                            .containsAll(new Character[] {'a', 'b', 'c', 'd', 'e'}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
-                    .containsAll(new Character[]{'e', 'd', 'c', 'f', 'a'}))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'})
+                            .containsAll(new Character[] {'e', 'd', 'c', 'f', 'a'}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
-                    .containsAll(new Integer[]{-1024, -1, 0, 1, 1023}))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
+                            .containsAll(new Integer[] {-1024, -1, 0, 1, 1023}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .containsAll(new String[]{"IMSEJIN", "GITHUB", "COMMON", "ARRAY", "ASSERTION", "IO"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .containsAll(new String[] {"IMSEJIN", "GITHUB", "COMMON", "ARRAY", "ASSERTION", "IO"}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                    .containsAll(new String[][]{{"n"}, {"ut", "li"}, {"tie", "s"}}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                                    .containsAll(new String[][] {{"n"}, {"ut", "li"}, {"tie", "s"}}))
                     .withMessageMatching(message);
         }
     }
@@ -1055,15 +1075,15 @@ class ArrayAssertTest {
         void test0() {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new char[0])
-                        .doesNotContainAll(new Character[]{'a', 'b', 'c', 'd', 'e'});
-                Asserts.that(new char[]{'z', 'y', 'x', 'w', 'v'})
+                        .doesNotContainAll(new Character[] {'a', 'b', 'c', 'd', 'e'});
+                Asserts.that(new char[] {'z', 'y', 'x', 'w', 'v'})
                         .doesNotContainAll(new Character[0]);
-                Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
-                        .doesNotContainAll(new Integer[]{-512, -64, 8, 32, 128});
+                Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
+                        .doesNotContainAll(new Integer[] {-512, -64, 8, 32, 128});
                 Asserts.that(getClass().getPackage().getName().split("\\."))
-                        .doesNotContainAll(new String[]{"IMSEJIN", "GITHUB", "COMMON", "ARRAY", "ASSERTION", "IO"});
-                Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                        .doesNotContainAll(new String[][]{{}, {"ut", "li"}, {"c", "tie", "s"}});
+                        .doesNotContainAll(new String[] {"IMSEJIN", "GITHUB", "COMMON", "ARRAY", "ASSERTION", "IO"});
+                Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                        .doesNotContainAll(new String[][] {{}, {"ut", "li"}, {"c", "tie", "s"}});
             });
         }
 
@@ -1075,17 +1095,19 @@ class ArrayAssertTest {
                     "\n {4}expected: '\\[.*]'" +
                     "\n {4}included: '.+'";
 
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'c', 'd', 'e'})
-                    .doesNotContainAll(new Character[]{'z', 'y', 'x', 'w', 'a'}))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'c', 'd', 'e'})
+                            .doesNotContainAll(new Character[] {'z', 'y', 'x', 'w', 'a'}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[]{-1024, -1, 0, 1, 1024})
-                    .doesNotContainAll(new Integer[]{1}))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[] {-1024, -1, 0, 1, 1024})
+                            .doesNotContainAll(new Integer[] {1}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .doesNotContainAll(new String[]{"imsejin", "github", "common", "assertion", "lang"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .doesNotContainAll(new String[] {"imsejin", "github", "common", "assertion", "lang"}))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
-                    .doesNotContainAll(new String[][]{{"n"}, {"ut", "i", "li"}, {"tie", "s"}}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{"c", "om", "mo"}, {"n"}, {"ut", "i", "li"}, {"tie", "s"}})
+                                    .doesNotContainAll(new String[][] {{"n"}, {"ut", "i", "li"}, {"tie", "s"}}))
                     .withMessageMatching(message);
         }
     }
@@ -1101,14 +1123,14 @@ class ArrayAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[0])
                         .containsOnly();
-                Asserts.that(new char[]{'z', 'y', 'x', 'w', 'v'})
+                Asserts.that(new char[] {'z', 'y', 'x', 'w', 'v'})
                         .containsOnly('v', 'w', 'x', 'y', 'z');
-                Asserts.that(new int[]{1, 2, 3, 1, 2, 3, 1, 2, 3})
+                Asserts.that(new int[] {1, 2, 3, 1, 2, 3, 1, 2, 3})
                         .containsOnly(1, 2, 3);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .containsOnly("io", "github", "imsejin", "common", "assertion", "lang");
-                Asserts.that(new String[][]{{}, {"alpha"}, {}, {"beta"}, null})
-                        .containsOnly(new String[][]{{}, {"alpha"}, null, {"beta"}});
+                Asserts.that(new String[][] {{}, {"alpha"}, {}, {"beta"}, null})
+                        .containsOnly(new String[][] {{}, {"alpha"}, null, {"beta"}});
             });
         }
 
@@ -1125,19 +1147,21 @@ class ArrayAssertTest {
                     "\n {4}unexpected: '.+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Number[0])
-                    .containsOnly(-1, BigDecimal.ZERO, 2.5))
+                            .containsOnly(-1, BigDecimal.ZERO, 2.5))
                     .withMessageMatching(missingMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[]{-1, 0, 1})
-                    .containsOnly(-1024, -1, 0, 1, 1024))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[] {-1, 0, 1})
+                            .containsOnly(-1024, -1, 0, 1, 1024))
                     .withMessageMatching(missingMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Number[]{-1, BigDecimal.ZERO, 2.5})
-                    .containsOnly())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Number[] {-1, BigDecimal.ZERO, 2.5})
+                            .containsOnly())
                     .withMessageMatching(unexpectedMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .containsOnly("imsejin", "github", "common", "assertion", "lang"))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .containsOnly("imsejin", "github", "common", "assertion", "lang"))
                     .withMessageMatching(unexpectedMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{}, {"alpha"}, null, {"beta"}})
-                    .containsOnly(new String[][]{{}, {"alpha"}, {"beta"}}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{}, {"alpha"}, null, {"beta"}})
+                                    .containsOnly(new String[][] {{}, {"alpha"}, {"beta"}}))
                     .withMessageMatching(unexpectedMessage);
         }
     }
@@ -1151,10 +1175,10 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual contains only null element(s)")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new Object[]{null}).containsOnlyNulls();
-                Asserts.that(new String[]{null, null}).containsOnlyNulls();
-                Asserts.that(new int[][]{null, null, null}).containsOnlyNulls();
-                Asserts.that(new char[][][]{null, null, null, null}).containsOnlyNulls();
+                Asserts.that(new Object[] {null}).containsOnlyNulls();
+                Asserts.that(new String[] {null, null}).containsOnlyNulls();
+                Asserts.that(new int[][] {null, null, null}).containsOnlyNulls();
+                Asserts.that(new char[][][] {null, null, null, null}).containsOnlyNulls();
             });
         }
 
@@ -1165,16 +1189,18 @@ class ArrayAssertTest {
                     "\n {4}actual: '\\[.*]'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
-                    .containsOnlyNulls())
+                            .containsOnlyNulls())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[]{-1, 0, 1})
-                    .containsOnlyNulls())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[] {-1, 0, 1})
+                            .containsOnlyNulls())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .containsOnlyNulls())
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .containsOnlyNulls())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{}, {"alpha"}, null, {"beta"}})
-                    .containsOnlyNulls())
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{}, {"alpha"}, null, {"beta"}})
+                                    .containsOnlyNulls())
                     .withMessageMatching(message);
         }
     }
@@ -1190,14 +1216,14 @@ class ArrayAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[1])
                         .containsOnlyOnce(null);
-                Asserts.that(new Character[]{'z', 'y', 'x', 'w', 'v'})
+                Asserts.that(new Character[] {'z', 'y', 'x', 'w', 'v'})
                         .containsOnlyOnce('x');
-                Asserts.that(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9})
+                Asserts.that(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9})
                         .containsOnlyOnce(9);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .containsOnlyOnce("imsejin");
-                Asserts.that(new String[][]{{}, {"alpha"}, {}, {"beta"}, null})
-                        .containsOnlyOnce(new String[]{"alpha"});
+                Asserts.that(new String[][] {{}, {"alpha"}, {}, {"beta"}, null})
+                        .containsOnlyOnce(new String[] {"alpha"});
             });
         }
 
@@ -1210,19 +1236,22 @@ class ArrayAssertTest {
                     "\n {4}matched: '.+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
-                    .containsOnlyOnce(null))
+                            .containsOnlyOnce(null))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{-1, 0, 1, 3, 2, 1})
-                    .containsOnlyOnce(1))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[] {-1, 0, 1, 3, 2, 1})
+                            .containsOnlyOnce(1))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Number[]{0.1, -1, BigDecimal.ZERO, 2.5})
-                    .containsOnlyOnce(BigDecimal.ONE))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new Number[] {0.1, -1, BigDecimal.ZERO, 2.5})
+                                    .containsOnlyOnce(BigDecimal.ONE))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .containsOnlyOnce("alpha.beta.gamma.delta"))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .containsOnlyOnce("alpha.beta.gamma.delta"))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{}, new String[]{"alpha"}, null, new String[]{"beta"}})
-                    .containsOnlyOnce(new String[]{"gamma"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{}, new String[] {"alpha"}, null, new String[] {"beta"}})
+                                    .containsOnlyOnce(new String[] {"gamma"}))
                     .withMessageMatching(message);
         }
     }
@@ -1238,45 +1267,50 @@ class ArrayAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[0])
                         .containsWithFrequency(0, 'a');
-                Asserts.that(new Character[]{'z', 'y', 'x', 'w', 'v'})
+                Asserts.that(new Character[] {'z', 'y', 'x', 'w', 'v'})
                         .containsWithFrequency(1, 'x');
-                Asserts.that(new Integer[]{1, 2, 3, 1, 2, 3, 1, 2, 3})
+                Asserts.that(new Integer[] {1, 2, 3, 1, 2, 3, 1, 2, 3})
                         .containsWithFrequency(3, 2);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .containsWithFrequency(1, "imsejin");
-                Asserts.that(new String[][]{{}, new String[]{"alpha"}, new String[]{}, new String[]{"beta"}, null})
-                        .containsWithFrequency(1, new String[]{"alpha"});
+                Asserts.that(new String[][] {{}, new String[] {"alpha"}, new String[] {}, new String[] {"beta"}, null})
+                        .containsWithFrequency(1, new String[] {"alpha"});
             });
         }
 
         @Test
         @DisplayName("throws exception, when actual doesn't contain the given element with frequency")
         void test1() {
-            String invalidMessage = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_INVALID) +
-                    "\n {4}actual: '\\[.*]'" +
-                    "\n {4}expected: '.+'" +
-                    "\n {4}frequency: '-\\d+'";
-            String differentMessage = Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_DIFFERENT) +
-                    "\n {4}actual: '\\[.*]'" +
-                    "\n {4}expected: '.+'" +
-                    "\n {4}matched: '\\[.*]'" +
-                    "\n {4}actual-frequency: '\\d+'" +
-                    "\n {4}expected-frequency: '\\d+'";
+            String invalidMessage =
+                    Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_INVALID) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}expected: '.+'" +
+                            "\n {4}frequency: '-\\d+'";
+            String differentMessage =
+                    Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_CONTAINS_WITH_FREQUENCY_DIFFERENT) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}expected: '.+'" +
+                            "\n {4}matched: '\\[.*]'" +
+                            "\n {4}actual-frequency: '\\d+'" +
+                            "\n {4}expected-frequency: '\\d+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
-                    .containsWithFrequency(-1, null))
+                            .containsWithFrequency(-1, null))
                     .withMessageMatching(invalidMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[]{-1, 0, 1, 3, 2, 1})
-                    .containsWithFrequency(-10, 3))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Integer[] {-1, 0, 1, 3, 2, 1})
+                            .containsWithFrequency(-10, 3))
                     .withMessageMatching(invalidMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Number[]{0.1, -1, BigDecimal.ZERO, 0.1})
-                    .containsWithFrequency(1, 0.1))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new Number[] {0.1, -1, BigDecimal.ZERO, 0.1})
+                                    .containsWithFrequency(1, 0.1))
                     .withMessageMatching(differentMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .containsWithFrequency(2, "imsejin"))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .containsWithFrequency(2, "imsejin"))
                     .withMessageMatching(differentMessage);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{}, new String[]{"alpha"}, null, new String[]{"beta"}})
-                    .containsWithFrequency(0, new String[0]))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{}, new String[] {"alpha"}, null, new String[] {"beta"}})
+                                    .containsWithFrequency(0, new String[0]))
                     .withMessageMatching(differentMessage);
         }
     }
@@ -1292,9 +1326,9 @@ class ArrayAssertTest {
             assertThatNoException().isThrownBy(() -> {
                 Asserts.that(new Object[0]).doesNotHaveDuplicates();
                 Asserts.that(new Object[1]).doesNotHaveDuplicates();
-                Asserts.that(new char[]{'a', 'b', 'c', 'd'}).doesNotHaveDuplicates();
-                Asserts.that(new String[]{null, "", " ", "null", "undefined"}).doesNotHaveDuplicates();
-                Asserts.that(new int[][]{{}, null, {1, 2}, {1, 1}, {2, 1}, {2}}).doesNotHaveDuplicates();
+                Asserts.that(new char[] {'a', 'b', 'c', 'd'}).doesNotHaveDuplicates();
+                Asserts.that(new String[] {null, "", " ", "null", "undefined"}).doesNotHaveDuplicates();
+                Asserts.that(new int[][] {{}, null, {1, 2}, {1, 1}, {2, 1}, {2}}).doesNotHaveDuplicates();
             });
         }
 
@@ -1306,16 +1340,18 @@ class ArrayAssertTest {
                     "\n {4}duplicated: '.+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[2])
-                    .doesNotHaveDuplicates())
+                            .doesNotHaveDuplicates())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', '0', 'c', '0'})
-                    .doesNotHaveDuplicates())
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', '0', 'c', '0'})
+                            .doesNotHaveDuplicates())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split(""))
-                    .doesNotHaveDuplicates())
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split(""))
+                                    .doesNotHaveDuplicates())
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new int[][]{{}, null, {1, 2}, {1, 1}, {1, 2}, {2}})
-                    .doesNotHaveDuplicates())
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new int[][] {{}, null, {1, 2}, {1, 1}, {1, 2}, {2}})
+                                    .doesNotHaveDuplicates())
                     .withMessageMatching(message);
         }
     }
@@ -1329,15 +1365,15 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual matches the given condition with its any elements")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new Object[]{new Object()})
+                Asserts.that(new Object[] {new Object()})
                         .anyMatch(Objects::nonNull);
                 Asserts.that(IntStream.rangeClosed(0, 100).toArray())
                         .anyMatch(it -> it == 100);
-                Asserts.that(new char[]{'a', '1', 'b', 'c'})
+                Asserts.that(new char[] {'a', '1', 'b', 'c'})
                         .anyMatch(Character::isDigit);
-                Asserts.that(new String[]{"ImSejin", "Github", "common", "asSErtIon", "lAnG"})
+                Asserts.that(new String[] {"ImSejin", "Github", "common", "asSErtIon", "lAnG"})
                         .anyMatch(it -> it.chars().allMatch(Character::isLowerCase));
-                Asserts.that(new String[][]{{null}, {"alpha"}, {}, {"beta"}, {"gamma"}})
+                Asserts.that(new String[][] {{null}, {"alpha"}, {}, {"beta"}, {"gamma"}})
                         .anyMatch(ArrayUtils::isNullOrEmpty);
             });
         }
@@ -1349,19 +1385,21 @@ class ArrayAssertTest {
                     "\n {4}actual: '\\[.*]'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
-                    .anyMatch(Objects::nonNull))
+                            .anyMatch(Objects::nonNull))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
-                    .anyMatch(it -> it == 100))
+                            .anyMatch(it -> it == 100))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', '1', 'b', 'c'})
-                    .anyMatch(Character::isUpperCase))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', '1', 'b', 'c'})
+                            .anyMatch(Character::isUpperCase))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[]{"ImSejin", "Github", "coMMoN", "asSErtIon", "lAnG"})
-                    .anyMatch(it -> it.chars().allMatch(Character::isLowerCase)))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[] {"ImSejin", "Github", "coMMoN", "asSErtIon", "lAnG"})
+                                    .anyMatch(it -> it.chars().allMatch(Character::isLowerCase)))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{{null}, {"alpha"}, {"beta"}, {"gamma"}})
-                    .anyMatch(ArrayUtils::isNullOrEmpty))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {{null}, {"alpha"}, {"beta"}, {"gamma"}})
+                                    .anyMatch(ArrayUtils::isNullOrEmpty))
                     .withMessageMatching(message);
         }
     }
@@ -1375,15 +1413,15 @@ class ArrayAssertTest {
         @DisplayName("passes, when actual matches the given condition with its all elements")
         void test0() {
             assertThatNoException().isThrownBy(() -> {
-                Asserts.that(new Object[]{new Object()})
+                Asserts.that(new Object[] {new Object()})
                         .allMatch(Objects::nonNull);
                 Asserts.that(IntStream.range(0, 100).toArray())
                         .allMatch(it -> it < 100);
-                Asserts.that(new char[]{'a', 'b', 'c', 'd'})
+                Asserts.that(new char[] {'a', 'b', 'c', 'd'})
                         .allMatch(Character::isLowerCase);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .allMatch(it -> it.chars().allMatch(Character::isLowerCase));
-                Asserts.that(new String[][]{{null}, {"alpha"}, {"beta"}, {"gamma"}})
+                Asserts.that(new String[][] {{null}, {"alpha"}, {"beta"}, {"gamma"}})
                         .allMatch(ArrayUtils::exists);
             });
         }
@@ -1396,20 +1434,22 @@ class ArrayAssertTest {
                     "\n {4}unmatched: '.+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[0])
-                    .allMatch(Objects::nonNull))
+                            .allMatch(Objects::nonNull))
                     .withMessageMatching(Pattern.quote(IterationAssertable.DEFAULT_DESCRIPTION_ALL_MATCH) +
                             "\n {4}actual: '\\[.*]'");
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.rangeClosed(0, 100).toArray())
-                    .allMatch(it -> it < 100))
+                            .allMatch(it -> it < 100))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
-                    .allMatch(Character::isLowerCase))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'C', 'd'})
+                            .allMatch(Character::isLowerCase))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .allMatch(it -> it.chars().allMatch(Character::isUpperCase)))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .allMatch(it -> it.chars().allMatch(Character::isUpperCase)))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
-                    .allMatch(ArrayUtils::isNullOrEmpty))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {null, {"alpha"}, {}, {"beta"}})
+                                    .allMatch(ArrayUtils::isNullOrEmpty))
                     .withMessageMatching(message);
         }
     }
@@ -1427,11 +1467,11 @@ class ArrayAssertTest {
                         .noneMatch(Objects::nonNull);
                 Asserts.that(IntStream.range(0, 100).toArray())
                         .noneMatch(it -> it == 100);
-                Asserts.that(new char[]{'a', 'b', 'c', 'd'})
+                Asserts.that(new char[] {'a', 'b', 'c', 'd'})
                         .noneMatch(Character::isUpperCase);
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .noneMatch(it -> it.chars().anyMatch(Character::isUpperCase));
-                Asserts.that(new String[][]{{null}, {"alpha"}, {"beta"}, {"gamma"}})
+                Asserts.that(new String[][] {{null}, {"alpha"}, {"beta"}, {"gamma"}})
                         .noneMatch(ArrayUtils::isNullOrEmpty);
             });
         }
@@ -1443,20 +1483,22 @@ class ArrayAssertTest {
                     "\n {4}actual: '\\[.*]'" +
                     "\n {4}matched: '.+'";
 
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
-                    .noneMatch(Objects::isNull))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[] {null, new Object(), null})
+                            .noneMatch(Objects::isNull))
                     .withMessageMatching(message);
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.rangeClosed(0, 100).toArray())
-                    .noneMatch(it -> it == 100))
+                            .noneMatch(it -> it == 100))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
-                    .noneMatch(Character::isLowerCase))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'C', 'd'})
+                            .noneMatch(Character::isLowerCase))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .noneMatch(it -> it.chars().allMatch(Character::isLowerCase)))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .noneMatch(it -> it.chars().allMatch(Character::isLowerCase)))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
-                    .noneMatch(ArrayUtils::isNullOrEmpty))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {null, {"alpha"}, {}, {"beta"}})
+                                    .noneMatch(ArrayUtils::isNullOrEmpty))
                     .withMessageMatching(message);
         }
     }
@@ -1476,41 +1518,45 @@ class ArrayAssertTest {
                         .startsWith();
                 Asserts.that(IntStream.range(0, 10).toArray())
                         .startsWith(0);
-                Asserts.that(new char[]{'a', 'b', 'c', 'd'})
+                Asserts.that(new char[] {'a', 'b', 'c', 'd'})
                         .startsWith('a', 'b', 'c', 'd');
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .startsWith("io.github.imsejin.common".split("\\."));
-                Asserts.that(new String[][]{{null}, {"alpha"}, {"beta"}, {"gamma"}})
-                        .startsWith(new String[]{null}, new String[]{"alpha"});
+                Asserts.that(new String[][] {{null}, {"alpha"}, {"beta"}, {"gamma"}})
+                        .startsWith(new String[] {null}, new String[] {"alpha"});
             });
         }
 
         @Test
         @DisplayName("throws exception, when actual doesn't start with the given element(s)")
         void test1() {
-            String message = Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT) +
-                    "\n {4}actual: '\\[.*]'" +
-                    "\n {4}expected: '\\[.*]'" +
-                    "\n {4}unexpected: '.+'";
+            String message =
+                    Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_UNEXPECTED_ELEMENT) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}expected: '\\[.*]'" +
+                            "\n {4}unexpected: '.+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
-                    .startsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
-                    .withMessageMatching(Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE) +
-                            "\n {4}actual: '\\[.*]'" +
-                            "\n {4}actual\\.size: '[0-9]+'" +
-                            "\n {4}expected: '\\[.*]'" +
-                            "\n {4}expected\\.size: '[0-9]+'");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
-                    .startsWith(null, new Object()))
+                            .startsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageMatching(
+                            Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_STARTS_WITH_OVER_SIZE) +
+                                    "\n {4}actual: '\\[.*]'" +
+                                    "\n {4}actual\\.size: '[0-9]+'" +
+                                    "\n {4}expected: '\\[.*]'" +
+                                    "\n {4}expected\\.size: '[0-9]+'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[] {null, new Object(), null})
+                            .startsWith(null, new Object()))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
-                    .startsWith('a', 'b', 'c', 'd'))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'C', 'd'})
+                            .startsWith('a', 'b', 'c', 'd'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .startsWith("io", "github", "common", "imsejin"))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .startsWith("io", "github", "common", "imsejin"))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
-                    .startsWith(new String[]{null}, new String[]{}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {null, {"alpha"}, {}, {"beta"}})
+                                    .startsWith(new String[] {null}, new String[] {}))
                     .withMessageMatching(message);
         }
     }
@@ -1530,41 +1576,45 @@ class ArrayAssertTest {
                         .endsWith();
                 Asserts.that(IntStream.range(0, 10).toArray())
                         .endsWith(9);
-                Asserts.that(new char[]{'a', 'b', 'c', 'd'})
+                Asserts.that(new char[] {'a', 'b', 'c', 'd'})
                         .endsWith('a', 'b', 'c', 'd');
                 Asserts.that(getClass().getPackage().getName().split("\\."))
                         .endsWith("assertion", "lang");
-                Asserts.that(new String[][]{{null}, {"alpha"}, {"beta"}, {"gamma"}})
-                        .endsWith(new String[]{"beta"}, new String[]{"gamma"});
+                Asserts.that(new String[][] {{null}, {"alpha"}, {"beta"}, {"gamma"}})
+                        .endsWith(new String[] {"beta"}, new String[] {"gamma"});
             });
         }
 
         @Test
         @DisplayName("throws exception, when actual doesn't end with the given element(s)")
         void test1() {
-            String message = Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT) +
-                    "\n {4}actual: '\\[.*]'" +
-                    "\n {4}expected: '\\[.*]'" +
-                    "\n {4}unexpected: '.+'";
+            String message =
+                    Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_UNEXPECTED_ELEMENT) +
+                            "\n {4}actual: '\\[.*]'" +
+                            "\n {4}expected: '\\[.*]'" +
+                            "\n {4}unexpected: '.+'";
 
             assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(IntStream.range(0, 100).toArray())
-                    .endsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
-                    .withMessageMatching(Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE) +
-                            "\n {4}actual: '\\[.*]'" +
-                            "\n {4}actual\\.size: '[0-9]+'" +
-                            "\n {4}expected: '\\[.*]'" +
-                            "\n {4}expected\\.size: '[0-9]+'");
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[]{null, new Object(), null})
-                    .endsWith(new Object(), null))
+                            .endsWith(IntStream.rangeClosed(0, 100).boxed().toArray(Integer[]::new)))
+                    .withMessageMatching(
+                            Pattern.quote(RandomAccessIterationAssertable.DEFAULT_DESCRIPTION_ENDS_WITH_OVER_SIZE) +
+                                    "\n {4}actual: '\\[.*]'" +
+                                    "\n {4}actual\\.size: '[0-9]+'" +
+                                    "\n {4}expected: '\\[.*]'" +
+                                    "\n {4}expected\\.size: '[0-9]+'");
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new Object[] {null, new Object(), null})
+                            .endsWith(new Object(), null))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[]{'a', 'b', 'C', 'd'})
-                    .endsWith('a', 'b', 'c', 'd'))
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new char[] {'a', 'b', 'C', 'd'})
+                            .endsWith('a', 'b', 'c', 'd'))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(getClass().getPackage().getName().split("\\."))
-                    .endsWith("lang", "assertion"))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(getClass().getPackage().getName().split("\\."))
+                                    .endsWith("lang", "assertion"))
                     .withMessageMatching(message);
-            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(new String[][]{null, {"alpha"}, {}, {"beta"}})
-                    .endsWith(new String[]{"alpha"}, new String[]{"beta"}))
+            assertThatIllegalArgumentException().isThrownBy(
+                            () -> Asserts.that(new String[][] {null, {"alpha"}, {}, {"beta"}})
+                                    .endsWith(new String[] {"alpha"}, new String[] {"beta"}))
                     .withMessageMatching(message);
         }
     }

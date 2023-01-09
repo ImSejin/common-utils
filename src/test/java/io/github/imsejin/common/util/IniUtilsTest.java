@@ -1,9 +1,5 @@
 package io.github.imsejin.common.util;
 
-import org.ini4j.Ini;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -11,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.ini4j.Ini;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import static org.assertj.core.api.Assertions.*;
 
 class IniUtilsTest {
 
