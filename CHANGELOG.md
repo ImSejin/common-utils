@@ -35,7 +35,7 @@
 ### New features
 
 - ✨ Add: assertion composition `ArithmeticDecimalNumberAssertable`
-- ✨ Add: assertion methods `isFinite()`, `isInfinite()`, `isNan()`, `isNotNan()` in `FloatAssert`, `DoubleAssert`
+- ✨ Add: assertion methods `isFinite()`, `isInfinite()`, `isNaN()`, `isNotNaN()` in `FloatAssert`, `DoubleAssert`
 - ✨ Add: assertion methods `containsOnlyOnce(ELEMENT)`, `containsWithFrequency(int, ELEMENT)` in `IterationAssertable`
 - ✨ Add: conversion method `asEntrySet()` in `MapAssert`
 - ✨ Add: conversion methods `asFirstElement()`, `asLastElement()`, `asElement(int)` in `RandomAccessIterationAssertable`
