@@ -74,14 +74,16 @@ public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArc
             return new ZipResource(path, name, null, size, true, modifiedMilliTime);
         }
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buffer = new byte[16384];
-        int offset;
-        while ((offset = in.read(buffer)) != -1) {
-            out.write(buffer, 0, offset);
-        }
+        byte[] bytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[16384];
+            int offset;
+            while ((offset = in.read(buffer)) != -1) {
+                out.write(buffer, 0, offset);
+            }
 
-        byte[] bytes = out.toByteArray();
+            bytes = out.toByteArray();
+        }
 
         return new ZipResource(path, name, new ByteArrayInputStream(bytes), size, false, modifiedMilliTime);
     }

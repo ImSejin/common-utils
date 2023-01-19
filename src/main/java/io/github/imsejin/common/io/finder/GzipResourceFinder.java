@@ -46,8 +46,8 @@ public class GzipResourceFinder implements ResourceFinder {
                 .describedAs("Cannot read file: {0}", path)
                 .is(Files::isReadable);
 
-        try (GzipCompressorInputStream in = new GzipCompressorInputStream(Files.newInputStream(path))) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try (GzipCompressorInputStream in = new GzipCompressorInputStream(Files.newInputStream(path));
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[16384];
             int offset;
             while ((offset = in.read(buffer)) != -1) {
