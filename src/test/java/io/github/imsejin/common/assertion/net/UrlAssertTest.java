@@ -33,8 +33,8 @@ class UrlAssertTest {
 
         @ParameterizedTest
         @CsvSource(value = {
-                "https://                | ",
                 "file:///var/lib/        | ",
+                "https://foo.bar         | foo",
                 "http://localhost:8080   | 127.0.0.1",
                 "https://www.github.com/ | github.com",
         }, delimiter = '|')
