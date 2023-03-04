@@ -58,7 +58,7 @@
         <ini4j.version>0.5.4</ini4j.version>
         <apache-common-compress.version>1.22</apache-common-compress.version>
         <jsr380.version>3.0.2</jsr380.version>
-        <jetbrains-annotations.version>23.0.0</jetbrains-annotations.version>
+        <jetbrains-annotations.version>23.1.0</jetbrains-annotations.version>
 
         <!-- Test dependency versions -->
         <junit5.version>5.9.2</junit5.version>
