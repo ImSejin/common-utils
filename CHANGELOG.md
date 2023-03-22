@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [v0.14.1](#v0141):
 - [v0.14.0](#v0140): 2022-12-28
 - [v0.13.0](#v0130): 2022-10-29
 - [v0.12.0](#v0120): 2022-10-09
@@ -29,6 +30,26 @@
 - [v0.1.2](#v012): 2020-09-27
 - [v0.1.1](#v011): 2020-09-18
 - [v0.1.0](#v010): 2020-09-17
+
+# v0.14.1
+
+### Modification
+
+- 🔧 Add: intellij formatter
+
+### Dependencies
+
+- ⬆️ Upgrade: dependency `gson` from `2.9.1` to `2.10.1`
+- ⬆️ Upgrade: dependency `common-compress` from `1.21` to `1.22`
+- ⬆️ Upgrade: intransitive dependency `annotations` from `23.0.0` to `24.0.1`
+- ⬆️ Upgrade: test dependency `junit5` from `5.9.1` to `5.9.2`
+- ⬆️ Upgrade: test dependency `assertj-core` from `3.23.1` to `3.24.2`
+- ⬆️ Upgrade: test dependency `lombok` from `1.18.24` to `1.18.26`
+- ⬆️ Upgrade: test dependency `memoryfilesystem` from `2.3.0` to `2.5.0`
+- ⬆️ Upgrade: build dependency `maven` from `3.8.6` to `3.9.1`
+- ⬆️ Upgrade: build dependency `maven-wrapper` from `3.1.1` to `3.2.0`
+- ⬆️ Upgrade: build dependency `maven-compiler-plugin` from `3.10.1` to `3.11.0`
+- ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.4.1` to `3.5.0`
 
 # v0.14.0
 
