@@ -40,7 +40,7 @@
 ### Dependencies
 
 - ⬆️ Upgrade: dependency `gson` from `2.9.1` to `2.10.1`
-- ⬆️ Upgrade: dependency `common-compress` from `1.21` to `1.22`
+- ⬆️ Upgrade: dependency `common-compress` from `1.21` to `1.23.0`
 - ⬆️ Upgrade: intransitive dependency `annotations` from `23.0.0` to `24.0.1`
 - ⬆️ Upgrade: test dependency `junit5` from `5.9.1` to `5.9.2`
 - ⬆️ Upgrade: test dependency `assertj-core` from `3.23.1` to `3.24.2`
