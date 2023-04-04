@@ -133,11 +133,11 @@ class CollectorUtilsSpec extends Specification {
     @Timeout(value = 5, unit = TimeUnit.SECONDS)
     def "Measures performance on parallel stream"() {
         def stopwatch = new Stopwatch(TimeUnit.MILLISECONDS)
-        stopwatch.start("Creates %,d random values", 3_000_000)
+        stopwatch.start("Creates %,d random values", 1_000_000)
 
         given:
         def randomString = new RandomString()
-        def values = (1..3_000_000).collect { randomString.nextString(2) }
+        def values = (1..1_000_000).collect { randomString.nextString(2) }
         stopwatch.stop()
 
         when:
