@@ -16,6 +16,9 @@
 
 package io.github.imsejin.common.constant;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -26,27 +29,27 @@ public enum OS {
     /**
      * Linux-based.
      */
-    LINUX,
+    LINUX("linux"),
 
     /**
      * Apple Macintosh(macOS).
      */
-    MAC,
+    MAC("mac"),
 
     /**
      * IBM AIX.
      */
-    AIX,
+    AIX("aix"),
 
     /**
      * Oracle Solaris.
      */
-    SOLARIS,
+    SOLARIS("sunos", "solaris"),
 
     /**
      * Microsoft Windows.
      */
-    WINDOWS,
+    WINDOWS("win"),
 
     /**
      * An Operating system other than {@link #LINUX}, {@link #MAC},
@@ -56,25 +59,28 @@ public enum OS {
 
     private static final OS CURRENT_OS;
 
+    private final List<String> keywords;
+
     static {
         String osName = System.getProperty("os.name").toLowerCase(Locale.US);
 
-        OS os;
-        if (osName.contains("linux")) {
-            os = LINUX;
-        } else if (osName.contains("mac")) {
-            os = MAC;
-        } else if (osName.contains("aix")) {
-            os = AIX;
-        } else if (osName.contains("sunos") || osName.contains("solaris")) {
-            os = SOLARIS;
-        } else if (osName.contains("win")) {
-            os = WINDOWS;
-        } else {
-            os = OTHER;
+        OS currentOs = null;
+
+        outer:
+        for (OS os : values()) {
+            for (String keyword : os.keywords) {
+                if (osName.contains(keyword)) {
+                    currentOs = os;
+                    break outer;
+                }
+            }
         }
 
-        CURRENT_OS = os;
+        CURRENT_OS = currentOs == null ? OTHER : currentOs;
+    }
+
+    OS(String... keywords) {
+        this.keywords = Collections.unmodifiableList(Arrays.asList(keywords));
     }
 
     public static OS getCurrentOS() {
