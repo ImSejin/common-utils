@@ -55,11 +55,14 @@ public final class MathUtils {
      * @param b another integer
      * @return greatest common divisor
      */
-    public static int gcd(int a, int b) {
-        if (b == 0) {
-            return a;
+    public static long gcd(long a, long b) {
+        while (b != 0) {
+            long remainder = Math.floorMod(a, b);
+            a = b;
+            b = remainder;
         }
-        return gcd(b, Math.floorMod(a, b));
+
+        return a;
     }
 
     public static boolean isPrime(long number) {

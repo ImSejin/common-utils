@@ -68,12 +68,12 @@ class MathUtilsSpec extends Specification {
         MathUtils.gcd(a, b) == expected
 
         where:
-        a   | b   || expected
-        10  | 0   || 10
-        5   | 1   || 1
-        6   | 2   || 2
-        54  | 198 || 18
-        272 | 164 || 4
+        a    | b   || expected
+        10   | 0   || 10
+        5    | 1   || 1
+        54   | 198 || 18
+        6    | -2  || -2
+        -272 | 164 || 4
     }
 
     @Unroll("MathUtils.isPrime(#number) == #expected")
