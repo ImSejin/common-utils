@@ -36,6 +36,7 @@
 ### Modification
 
 - 🔧 Add: intellij formatter
+- 🔇 Remove: printing stack trace on `ArchiveResourceFinder`
 - ⚡️ Improve: performance on `MathUtils.gcd(long, long)`
 
 ### Dependencies
