@@ -25,8 +25,7 @@ import java.util.List;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
-
-import jakarta.validation.constraints.Null;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.ArchiveResource;
@@ -53,10 +52,14 @@ public abstract class ArchiveResourceFinder<
         try (I in = getArchiveInputStream(Files.newInputStream(path))) {
             List<Resource> resources = new ArrayList<>();
 
-            E entry;
             // java.nio.charset.MalformedInputException: Input length = 1
             // java.nio.charset.CharsetDecoder.decode
-            while ((entry = getNextArchiveEntry(in)) != null) {
+            while (true) {
+                E entry = getNextArchiveEntry(in);
+                if (entry == null) {
+                    break;
+                }
+
                 R resource = getArchiveResource(entry, in);
                 if (resource == null) {
                     continue;
@@ -68,14 +71,13 @@ public abstract class ArchiveResourceFinder<
             return resources;
 
         } catch (IOException e) {
-            e.printStackTrace();
             throw new IllegalStateException("Failed to read tar file: " + path, e);
         }
     }
 
     protected abstract E getNextArchiveEntry(I in) throws IOException;
 
-    @Null
+    @Nullable
     protected abstract R getArchiveResource(E entry, I in) throws IOException;
 
     protected abstract I getArchiveInputStream(InputStream in) throws IOException;
