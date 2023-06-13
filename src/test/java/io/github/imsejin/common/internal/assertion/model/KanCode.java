@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import jakarta.validation.constraints.Null;
+import org.jetbrains.annotations.Nullable;
+
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -154,7 +155,7 @@ public final class KanCode {
      *     new KanCode("01020304").getParent(); // new KanCode("01020300")
      * </code></pre>
      */
-    @Null
+    @Nullable
     public KanCode getParent() {
         if (this.depth == 0) {
             return null;

@@ -28,8 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.intellij.lang.annotations.Language;
-
-import jakarta.validation.constraints.Null;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
@@ -192,7 +191,7 @@ public final class StringUtils {
      * @param strings   strings to be compared
      * @return whether any strings are equal to criterion string
      */
-    public static boolean anyEquals(@Null String criterion, @Null Collection<String> strings) {
+    public static boolean anyEquals(@Nullable String criterion, @Nullable Collection<String> strings) {
         if (CollectionUtils.isNullOrEmpty(strings)) {
             return false;
         }
@@ -224,7 +223,7 @@ public final class StringUtils {
      * @param strings   strings to be compared
      * @return whether criterial string contains other strings
      */
-    public static boolean anyContains(@Null String criterion, @Null Iterable<String> strings) {
+    public static boolean anyContains(@Nullable String criterion, @Nullable Iterable<String> strings) {
         if (criterion == null || strings == null || strings.spliterator().estimateSize() == 0) {
             return false;
         }
@@ -545,7 +544,7 @@ public final class StringUtils {
      * @param group group number you want to get value of
      * @return captured string
      */
-    @Null
+    @Nullable
     public static String find(String src, @Language("RegExp") String regex, int group) {
         return find(src, Pattern.compile(regex), group);
     }
@@ -563,7 +562,7 @@ public final class StringUtils {
      * @param group   group number you want to get value of
      * @return captured string
      */
-    @Null
+    @Nullable
     public static String find(String src, Pattern pattern, int group) {
         Matcher matcher = pattern.matcher(src);
 
@@ -721,7 +720,7 @@ public final class StringUtils {
      * @param closer character of closing bracket
      * @return index of the current closing bracket
      */
-    public static int indexOfCurrentClosingBracket(@Null String str, int pos, char opener, char closer) {
+    public static int indexOfCurrentClosingBracket(@Nullable String str, int pos, char opener, char closer) {
         if (isNullOrEmpty(str)) {
             return -1;
         }

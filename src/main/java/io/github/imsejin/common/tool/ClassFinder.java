@@ -28,7 +28,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
-import jakarta.validation.constraints.Null;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 import io.github.imsejin.common.assertion.Asserts;
@@ -194,7 +194,7 @@ public final class ClassFinder {
          */
         ALL {
             @Override
-            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
+            public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
                 Asserts.that(superclass).isNotNull();
                 if (subclass == null || superclass == subclass) {
                     return false;
@@ -209,7 +209,7 @@ public final class ClassFinder {
          */
         CLASS {
             @Override
-            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
+            public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
                 return ALL.search(superclass, subclass) && !subclass.isInterface();
             }
         },
@@ -219,12 +219,12 @@ public final class ClassFinder {
          */
         INTERFACE {
             @Override
-            public boolean search(Class<?> superclass, @Null Class<?> subclass) {
+            public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
                 return ALL.search(superclass, subclass) && subclass.isInterface();
             }
         };
 
-        public abstract boolean search(Class<?> superclass, @Null Class<?> subclass);
+        public abstract boolean search(Class<?> superclass, @Nullable Class<?> subclass);
     }
 
 }

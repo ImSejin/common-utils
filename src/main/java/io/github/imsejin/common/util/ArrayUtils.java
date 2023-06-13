@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import jakarta.validation.constraints.Null;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
@@ -78,8 +78,8 @@ public final class ArrayUtils {
      * @param array primitive array or {@code null} if {@code array} is {@code null}
      * @return boxed array
      */
-    @Null
-    public static Object wrap(@Null Object array) {
+    @Nullable
+    public static Object wrap(@Nullable Object array) {
         if (array == null) {
             return null;
         }
@@ -116,8 +116,8 @@ public final class ArrayUtils {
      * @param array boxed array or {@code null} if {@code array} is {@code null}
      * @return primitive array
      */
-    @Null
-    public static Object unwrap(@Null Object array) {
+    @Nullable
+    public static Object unwrap(@Nullable Object array) {
         if (array == null) {
             return null;
         }
@@ -164,7 +164,7 @@ public final class ArrayUtils {
      * @param array maybe array
      * @return stringified object
      */
-    public static String toString(@Null Object array) {
+    public static String toString(@Nullable Object array) {
         if (array == null) {
             return "null";
         }
@@ -252,7 +252,7 @@ public final class ArrayUtils {
      * @param array array
      * @return hash code of array
      */
-    public static int hashCode(@Null Object array) {
+    public static int hashCode(@Nullable Object array) {
         if (array == null) {
             return 0;
         }
@@ -307,7 +307,7 @@ public final class ArrayUtils {
      * @param elements elements to be prepended
      * @return prepended array
      */
-    public static Object[] prepend(Object[] src, @Null Object... elements) {
+    public static Object[] prepend(Object[] src, @Nullable Object... elements) {
         if (isNullOrEmpty(elements)) {
             return src;
         }
@@ -333,7 +333,7 @@ public final class ArrayUtils {
      * @param elements elements to be appended
      * @return appended array
      */
-    public static Object[] append(Object[] src, @Null Object... elements) {
+    public static Object[] append(Object[] src, @Nullable Object... elements) {
         if (isNullOrEmpty(elements)) {
             return src;
         }

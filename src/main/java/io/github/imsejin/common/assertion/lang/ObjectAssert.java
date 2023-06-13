@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import jakarta.validation.constraints.Null;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
@@ -94,7 +94,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * <p> We shouldn't check if it is null in any assertion classes. The user is responsible for checking that.
      * If you want to avoid {@link NullPointerException}, you check if it is null explicitly using {@link #isNotNull()}.
      */
-    @Null
+    @Nullable
     protected final ACTUAL actual;
 
     /**
@@ -105,7 +105,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      *
      * @param actual actual value or something to be validated
      */
-    public ObjectAssert(ACTUAL actual) {
+    public ObjectAssert(@Nullable ACTUAL actual) {
         this.actual = actual;
     }
 
@@ -120,7 +120,7 @@ public class ObjectAssert<SELF extends ObjectAssert<SELF, ACTUAL>, ACTUAL> exten
      * @param descriptor assertion class to merge into this
      * @param actual     actual value or something to be validated
      */
-    protected ObjectAssert(Descriptor<?> descriptor, ACTUAL actual) {
+    protected ObjectAssert(Descriptor<?> descriptor, @Nullable ACTUAL actual) {
         super(descriptor);
         this.actual = actual;
     }
