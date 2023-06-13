@@ -36,20 +36,27 @@
 ### Modification
 
 - 🔧 Add: intellij formatter
+- ⚡️ Improve: performance on `MathUtils.gcd(long, long)`
 
 ### Dependencies
 
+- 🔥 Remove: intransitive dependency `jakarta.validation-api`
 - ⬆️ Upgrade: dependency `gson` from `2.9.1` to `2.10.1`
 - ⬆️ Upgrade: dependency `common-compress` from `1.21` to `1.23.0`
 - ⬆️ Upgrade: intransitive dependency `annotations` from `23.0.0` to `24.0.1`
-- ⬆️ Upgrade: test dependency `junit5` from `5.9.1` to `5.9.2`
+- ⬆️ Upgrade: test dependency `junit5` from `5.9.1` to `5.9.3`
 - ⬆️ Upgrade: test dependency `assertj-core` from `3.23.1` to `3.24.2`
-- ⬆️ Upgrade: test dependency `lombok` from `1.18.24` to `1.18.26`
-- ⬆️ Upgrade: test dependency `memoryfilesystem` from `2.3.0` to `2.5.0`
+- ⬆️ Upgrade: test dependency `lombok` from `1.18.24` to `1.18.28`
+- ⬆️ Upgrade: test dependency `memoryfilesystem` from `2.3.0` to `2.6.1`
 - ⬆️ Upgrade: build dependency `maven` from `3.8.6` to `3.9.1`
 - ⬆️ Upgrade: build dependency `maven-wrapper` from `3.1.1` to `3.2.0`
 - ⬆️ Upgrade: build dependency `maven-compiler-plugin` from `3.10.1` to `3.11.0`
+- ⬆️ Upgrade: build dependency `maven-source-plugin` from `3.2.1` to `3.3.0`
 - ⬆️ Upgrade: build dependency `maven-javadoc-plugin` from `3.4.1` to `3.5.0`
+- ⬆️ Upgrade: build dependency `maven-gpg-plugin` from `3.0.1` to `3.1.0`
+- ⬆️ Upgrade: build dependency `maven-surefire-plugin` from `2.22.2` to `3.1.2`
+- ⬆️ Upgrade: build dependency `jacoco-maven-plugin` from `0.8.8` to `0.8.10`
+- ⬆️ Upgrade: build dependency `gmavenplus-plugin` from `2.1.0` to `3.0.0`
 
 # v0.14.0
 
