@@ -57,7 +57,6 @@
         <gson.version>2.10.1</gson.version>
         <ini4j.version>0.5.4</ini4j.version>
         <apache-common-compress.version>1.23.0</apache-common-compress.version>
-        <jsr380.version>3.0.2</jsr380.version>
         <jetbrains-annotations.version>24.0.1</jetbrains-annotations.version>
 
         <!-- Test dependency versions -->
@@ -90,13 +89,7 @@
             <version>${apache-common-compress.version}</version>
         </dependency>
 
-        <!-- JSR-380 -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>${jsr380.version}</version>
-            <optional>true</optional>
-        </dependency>
+        <!-- Annotations -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
