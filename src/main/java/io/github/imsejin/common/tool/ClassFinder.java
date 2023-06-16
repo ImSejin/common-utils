@@ -210,7 +210,7 @@ public final class ClassFinder {
         CLASS {
             @Override
             public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
-                return ALL.search(superclass, subclass) && !subclass.isInterface();
+                return ALL.search(superclass, subclass) && !Objects.requireNonNull(subclass).isInterface();
             }
         },
 
@@ -220,7 +220,7 @@ public final class ClassFinder {
         INTERFACE {
             @Override
             public boolean search(Class<?> superclass, @Nullable Class<?> subclass) {
-                return ALL.search(superclass, subclass) && subclass.isInterface();
+                return ALL.search(superclass, subclass) && Objects.requireNonNull(subclass).isInterface();
             }
         };
 
