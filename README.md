@@ -14,7 +14,7 @@
     <a href="https://codecov.io/gh/ImSejin/common-utils">
         <img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/ImSejin/common-utils/release?logo=codecov&label=code%20coverage&style=flat&token=F9DCS57CAN"/>
     </a>
-    <a href="https://search.maven.org/artifact/io.github.imsejin/common-utils">
+    <a href="https://central.sonatype.com/artifact/io.github.imsejin/common-utils">
         <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.imsejin/common-utils?logo=apachemaven&style=flat">
     </a>
     <br/>
