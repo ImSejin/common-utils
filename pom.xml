@@ -57,7 +57,7 @@
         <gson.version>2.10.1</gson.version>
         <ini4j.version>0.5.4</ini4j.version>
         <apache-common-compress.version>1.23.0</apache-common-compress.version>
-        <jetbrains-annotations.version>24.0.1</jetbrains-annotations.version>
+        <jetbrains-annotations.version>24.1.0</jetbrains-annotations.version>
 
         <!-- Test dependency versions -->
         <junit5.version>5.10.0</junit5.version>
