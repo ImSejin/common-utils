@@ -64,7 +64,7 @@
         <assertj.version>3.24.2</assertj.version>
         <spock.version>2.3-groovy-4.0</spock.version>
         <lombok.version>1.18.30</lombok.version>
-        <memory-file-system.version>2.6.1</memory-file-system.version>
+        <memory-file-system.version>2.7.0</memory-file-system.version>
     </properties>
 
     <dependencies>
