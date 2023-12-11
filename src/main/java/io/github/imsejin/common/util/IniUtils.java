@@ -19,6 +19,8 @@ package io.github.imsejin.common.util;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,11 +60,21 @@ public final class IniUtils {
 
     public static String readValue(File file, String sectionName, String name) {
         Section section = read(file).get(sectionName);
+
+        if (section == null) {
+            return null;
+        }
+
         return section.get(name);
     }
 
     public static List<String> readValues(File file, String sectionName) {
         Section section = read(file).get(sectionName);
+
+        if (section == null) {
+            return null;
+        }
+
         return new ArrayList<>(section.values());
     }
 
@@ -96,11 +108,8 @@ public final class IniUtils {
             Ini ini = new Ini(file);
             configure(ini);
 
-            data.forEach((sectionName, entries) -> {
-                for (Map.Entry<String, ?> entry : entries) {
-                    ini.put(sectionName, entry.getKey(), entry.getValue());
-                }
-            });
+            data.forEach((sectionName, entries) ->
+                    entries.forEach(entry -> ini.put(sectionName, entry.getKey(), entry.getValue())));
 
             ini.store();
         } catch (IOException e) {
