@@ -88,8 +88,9 @@ public final class IniUtils {
 
     public static void writeEntries(File file, Map<String, Set<Map.Entry<String, Object>>> data) {
         try {
-            if (!file.exists()) {
-                file.createNewFile();
+            Path path = file.toPath();
+            if (Files.notExists(path)) {
+                Files.createFile(path);
             }
 
             Ini ini = new Ini(file);
