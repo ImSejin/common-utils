@@ -63,7 +63,7 @@
         <junit5.version>5.10.1</junit5.version>
         <assertj.version>3.24.2</assertj.version>
         <spock.version>2.3-groovy-4.0</spock.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
         <memory-file-system.version>2.7.0</memory-file-system.version>
     </properties>
 
