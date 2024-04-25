@@ -58,12 +58,12 @@
         <ini4j.version>0.5.4</ini4j.version>
         <apache-common-compress.version>1.25.0</apache-common-compress.version>
         <jetbrains-annotations.version>24.1.0</jetbrains-annotations.version>
+        <lombok.version>1.18.32</lombok.version>
 
         <!-- Test dependency versions -->
         <junit5.version>5.10.2</junit5.version>
         <assertj.version>3.25.3</assertj.version>
         <spock.version>2.3-groovy-4.0</spock.version>
-        <lombok.version>1.18.32</lombok.version>
         <memory-file-system.version>2.7.0</memory-file-system.version>
     </properties>
 
@@ -89,11 +89,20 @@
             <version>${apache-common-compress.version}</version>
         </dependency>
 
-        <!-- Annotations -->
+        <!-- Jetbrains Annotations -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>${jetbrains-annotations.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
 
@@ -133,14 +142,6 @@
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>${spock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>test</scope>
         </dependency>
 
