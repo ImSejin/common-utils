@@ -311,8 +311,8 @@ class StopwatchSpec extends Specification {
         given:
         def stopwatch = new Stopwatch(timeUnit as TimeUnit)
         def abbreviation = Stopwatch.getTimeUnitAbbreviation(timeUnit as TimeUnit)
-        def pattern = Pattern.compile("^TOTAL = (\\d+(\\.\\d{1,$Stopwatch.ROUNDING_SCALE})?|\\d+\\.\\d+E[+-]\\d+) $abbreviation, " +
-                "AVERAGE = (\\d+(\\.\\d{1,$Stopwatch.ROUNDING_SCALE})?|\\d+\\.\\d+E[+-]\\d+) $abbreviation\$")
+        def pattern = Pattern.compile("^TOTAL = (\\d+(\\.\\d{1,${Stopwatch.ROUNDING_SCALE}})?|\\d+\\.\\d+E[+-]\\d+) ${abbreviation}, " +
+                "AVERAGE = (\\d+(\\.\\d{1,${Stopwatch.ROUNDING_SCALE}})?|\\d+\\.\\d+E[+-]\\d+) ${abbreviation}\$")
 
         when:
         stopwatch.start()
@@ -344,9 +344,9 @@ class StopwatchSpec extends Specification {
         def summary = stopwatch.summary.replaceAll("([.+])", '\\\\$1')
         def pattern = Pattern.compile("^${summary}\n"
                 + "-{50}\n"
-                + "$abbreviation {2,}% {2,}TASK_NAME\n"
+                + "${abbreviation} {2,}% {2,}TASK_NAME\n"
                 + "-{50}\n"
-                + "((\\d+(\\.\\d{1,$Stopwatch.ROUNDING_SCALE})?|\\d+\\.\\d+E[+-]\\d+) {2,}\\d{1,3}\\.\\d{2} {2,}task-\\d+: [A-Za-z]{8}\n){$taskCount}\$",
+                + "((\\d+(\\.\\d{1,${Stopwatch.ROUNDING_SCALE}})?|\\d+\\.\\d+E[+-]\\d+) {2,}\\d{1,3}\\.\\d{2} {2,}task-\\d+: [A-Za-z]{8}\n){${taskCount}}\$",
                 Pattern.DOTALL)
         stopwatch.statistics.matches(pattern)
 
@@ -471,7 +471,7 @@ class StopwatchSpec extends Specification {
         def string = task.toString()
 
         then:
-        string == "Task(name=${task.name}, order=${task.order}, elapsedNanoTime=${task.elapsedNanoTime})"
+        string == "Stopwatch.Task(name=${task.name}, order=${task.order}, elapsedNanoTime=${task.elapsedNanoTime})"
 
         where:
         i << (0..10)

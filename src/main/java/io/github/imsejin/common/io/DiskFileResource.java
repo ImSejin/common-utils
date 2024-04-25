@@ -4,16 +4,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Objects;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import io.github.imsejin.common.util.FilenameUtils;
 
+@Getter
+@ToString(callSuper = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class DiskFileResource extends AbstractResource {
 
+    @EqualsAndHashCode.Include
     private final Path realPath;
 
     private DiskFileResource(String path, String name, InputStream inputStream,
-            long size, boolean directory, Path realPath) {
+                             long size, boolean directory, Path realPath) {
         super(path, name, inputStream, size, directory);
         this.realPath = realPath;
     }
@@ -31,21 +38,6 @@ public class DiskFileResource extends AbstractResource {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!super.equals(o)) {
-            return false;
-        }
-
-        DiskFileResource that = (DiskFileResource) o;
-        return Objects.equals(this.realPath, that.realPath);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.realPath);
-    }
-
     // Lazy loading
     @Override
     public InputStream getInputStream() {
@@ -58,10 +50,6 @@ public class DiskFileResource extends AbstractResource {
         } catch (IOException e) {
             throw new IllegalStateException("Failed to get InputStream from path: " + this.realPath, e);
         }
-    }
-
-    public Path getRealPath() {
-        return this.realPath;
     }
 
 }

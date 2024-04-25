@@ -21,18 +21,30 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import lombok.Getter;
+
 import io.github.imsejin.common.assertion.Asserts;
 
 /**
  * Time-limited security object for verification
  */
+@Getter
 public class Verification {
 
+    /**
+     * Credentials for verification.
+     */
     private final Object credentials;
 
+    /**
+     * Time limit for verification.
+     */
     private final Duration duration;
 
-    private final LocalDateTime createdDateTime = LocalDateTime.now();
+    /**
+     * Created date and time of verification.
+     */
+    private final LocalDateTime createdDateTime;
 
     /**
      * Creates an instance.
@@ -52,6 +64,7 @@ public class Verification {
 
         this.credentials = credentials;
         this.duration = duration;
+        this.createdDateTime = LocalDateTime.now();
     }
 
     /**
@@ -88,33 +101,6 @@ public class Verification {
         BigDecimal thisDuration = new BigDecimal(this.duration.getSeconds() + "." + this.duration.getNano());
 
         return thatDuration.compareTo(thisDuration) > 0;
-    }
-
-    /**
-     * Returns credentials for verification.
-     *
-     * @return credentials
-     */
-    public Object getCredentials() {
-        return this.credentials;
-    }
-
-    /**
-     * Returns time limit for verification.
-     *
-     * @return time limit
-     */
-    public Duration getDuration() {
-        return this.duration;
-    }
-
-    /**
-     * Returns created date and time of verification.
-     *
-     * @return created date and time
-     */
-    public LocalDateTime getCreatedDateTime() {
-        return this.createdDateTime;
     }
 
 }
