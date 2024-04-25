@@ -28,6 +28,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 import org.jetbrains.annotations.VisibleForTesting;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.StringUtils;
@@ -65,6 +68,7 @@ public final class Stopwatch {
     /**
      * Time unit for task time to be printed or returned.
      */
+    @Getter
     private TimeUnit timeUnit;
 
     /**
@@ -87,15 +91,6 @@ public final class Stopwatch {
                 .isNotNull();
 
         this.timeUnit = timeUnit;
-    }
-
-    /**
-     * Returns time unit of stopwatch.
-     *
-     * @return time unit
-     */
-    public TimeUnit getTimeUnit() {
-        return this.timeUnit;
     }
 
     /**
@@ -353,44 +348,33 @@ public final class Stopwatch {
     /**
      * Task of stopwatch
      */
+    @Getter
+    @ToString
     public static final class Task {
+        /**
+         * Task name
+         */
         private final String name;
+
+        /**
+         * The order of task in {@link Stopwatch#tasks}.
+         */
         private final int order;
+
+        /**
+         * Task time with nanoseconds.
+         */
         private final long elapsedNanoTime;
 
         @VisibleForTesting
-        Task(@NotNull String name, @Range(from = 0, to = Integer.MAX_VALUE - 1) int order,
-                @Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime) {
+        Task(
+                @NotNull String name,
+                @Range(from = 0, to = Integer.MAX_VALUE - 1) int order,
+                @Range(from = 0, to = Long.MAX_VALUE) long elapsedNanoTime
+        ) {
             this.name = Objects.requireNonNull(name, "Task.name cannot be null");
             this.order = order;
             this.elapsedNanoTime = elapsedNanoTime;
-        }
-
-        /**
-         * Returns task name.
-         *
-         * @return task name
-         */
-        public String getName() {
-            return this.name;
-        }
-
-        /**
-         * Returns the order of task in {@link Stopwatch#tasks}.
-         *
-         * @return task order
-         */
-        public int getOrder() {
-            return this.order;
-        }
-
-        /**
-         * Returns task time with nanoseconds.
-         *
-         * @return task time
-         */
-        public long getElapsedNanoTime() {
-            return this.elapsedNanoTime;
         }
 
         @VisibleForTesting
@@ -413,14 +397,6 @@ public final class Stopwatch {
             BigDecimal ratio = elapsedNanoTime.divide(taskTime, ROUNDING_SCALE, RoundingMode.HALF_UP);
 
             return ratio.multiply(BigDecimal.valueOf(100L)).stripTrailingZeros();
-        }
-
-        @Override
-        public String toString() {
-            return "Task(name=" + this.name
-                    + ", order=" + this.order
-                    + ", elapsedNanoTime=" + this.elapsedNanoTime
-                    + ")";
         }
     }
 
