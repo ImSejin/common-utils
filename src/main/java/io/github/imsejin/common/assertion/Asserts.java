@@ -120,17 +120,20 @@ public abstract class Asserts {
      *
      * <pre>{@code
      *     public class MyAsserts extends Asserts {
-     *         public static FooAssert<?, Foo>(Foo foo) {
+     *         public static FooAssert<?, Foo> that(Foo foo) {
      *             return new FooAssert(foo);
      *         }
      *     }
      *
      *     ----------------------------------------
      *
+     *     // Uses assertion types supported basically.
      *     MyAsserts.that("foo")
      *             .isNotNull()
      *             .hasLengthOf(3)
      *             .isEqualTo("foo");
+     *
+     *     // Uses assertion custom type of Foo.
      *     MyAsserts.that(new Foo())
      *             .isNotNull()
      *             .isBar();
