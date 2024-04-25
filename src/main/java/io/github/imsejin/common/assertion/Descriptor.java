@@ -50,16 +50,19 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
 
     private Object[] arguments;
 
-    private Function<String, ? extends RuntimeException> exception = IllegalArgumentException::new;
+    private Function<String, ? extends RuntimeException> exception;
 
     private List<Entry<String, String>> descriptionVariables;
 
     @SuppressWarnings("unchecked")
     protected Descriptor() {
         this.self = (SELF) this;
+        this.description = "";
+        this.arguments = new Object[0];
+        this.exception = IllegalArgumentException::new;
+        this.descriptionVariables = Collections.emptyList();
     }
 
-    @SuppressWarnings("CopyConstructorMissesField")
     protected Descriptor(Descriptor<?> descriptor) {
         this();
 
