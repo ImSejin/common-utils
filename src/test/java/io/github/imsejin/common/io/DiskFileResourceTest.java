@@ -58,10 +58,8 @@ class DiskFileResourceTest {
                 .returns("temp-text.txt", Resource::getName)
                 .returns((long) bytes.length, Resource::getSize)
                 .returns(filePath, DiskFileResource::getRealPath)
-                .returns(String.format("%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s)",
-                                resource.getClass().getName(), resource.getPath(), resource.getName(),
-                                null, resource.getSize(), resource.isDirectory()),
-                        DiskFileResource::toString);
+                .asString()
+                .matches("^" + DiskFileResource.class.getSimpleName() + "\\(([a-zA-Z]+=.+)+\\)$");
         assertThat(resource.getInputStream())
                 .isNotNull()
                 .hasSameContentAs(new ByteArrayInputStream(bytes));

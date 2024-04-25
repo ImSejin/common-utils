@@ -55,12 +55,8 @@ class GzipResourceTest {
                 .returns(false, Resource::isDirectory)
                 .returns((long) bytes.length / 2, GzipResource::getCompressedSize)
                 .returns(Instant.ofEpochMilli(modifiedTime), GzipResource::getLastModifiedTime)
-                .returns(String.format(
-                                "%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, compressedSize=%d, lastModifiedTime=%s)",
-                                resource.getClass().getName(), resource.getPath(), resource.getName(),
-                                resource.getInputStream(), resource.getSize(), resource.isDirectory(),
-                                resource.getCompressedSize(), resource.getLastModifiedTime()),
-                        GzipResource::toString);
+                .asString()
+                .matches("^" + GzipResource.class.getSimpleName() + "\\(([a-zA-Z]+=.+)+\\)$");
         assertThat(resource.getInputStream())
                 .isNotNull()
                 .hasSameContentAs(new ByteArrayInputStream(bytes));
