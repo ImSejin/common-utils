@@ -18,6 +18,9 @@ package io.github.imsejin.common.io;
 
 import java.io.InputStream;
 
+import lombok.ToString;
+
+@ToString(callSuper = true)
 public class ZipResource extends ArchiveResource {
 
     public ZipResource(String path, String name, InputStream inputStream,

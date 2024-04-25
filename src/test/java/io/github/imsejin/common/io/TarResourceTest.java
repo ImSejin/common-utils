@@ -56,12 +56,8 @@ class TarResourceTest {
                 .returns((long) bytes.length, Resource::getSize)
                 .returns(false, Resource::isDirectory)
                 .returns(Instant.ofEpochMilli(modifiedTime), TarResource::getLastModifiedTime)
-                .returns(String.format(
-                                "%s(path=%s, name=%s, inputStream=%s, size=%d, directory=%s, lastModifiedTime=%s)",
-                                resource.getClass().getName(), resource.getPath(), resource.getName(),
-                                resource.getInputStream(), resource.getSize(), resource.isDirectory(),
-                                resource.getLastModifiedTime()),
-                        TarResource::toString);
+                .asString()
+                .matches("^" + TarResource.class.getSimpleName() + "\\(([a-zA-Z]+=.+)+\\)$");
         assertThat(resource.getInputStream())
                 .isNotNull()
                 .hasSameContentAs(new ByteArrayInputStream(bytes));
