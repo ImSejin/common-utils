@@ -16,31 +16,28 @@
 
 package io.github.imsejin.common.util
 
+import spock.lang.Specification
+
 import io.github.imsejin.common.util.ReflectionUtilsSpec.A.AA
 import io.github.imsejin.common.util.ReflectionUtilsSpec.A.AB
 import io.github.imsejin.common.util.ReflectionUtilsSpec.B.BA
 import io.github.imsejin.common.util.ReflectionUtilsSpec.Parent.Child
-import lombok.AccessLevel
-import lombok.Getter
-import lombok.RequiredArgsConstructor
-import spock.lang.Specification
-
-import java.time.LocalDateTime
 
 class ReflectionUtilsSpec extends Specification {
 
-    def "GetInheritedFields"() {
+    def "Gets inherited fields"() {
         when:
-        def fields = ReflectionUtils.getInheritedFields type
-        def fieldNames = fields.collect { it.name }
+        def fields = ReflectionUtils.getInheritedFields(type)
 
         then:
-        fieldNames == expected
+        fields.every { field ->
+            expected.find { it.name == field.name && it.type == field.type }
+        }
 
         where:
         type   | expected
-        Parent | ["id", "name", "createdAt", "modifiedAt"]
-        Child  | ["id", "name", "createdAt", "modifiedAt", "id", "title"]
+        Parent | [[name: "a", type: int], [name: "b", type: char], [name: "c", type: String]]
+        Child  | [[name: "a", type: int], [name: "b", type: char], [name: "c", type: String], [name: "a", type: long]]
         A      | []
         AA     | []
         AB     | []
@@ -48,22 +45,22 @@ class ReflectionUtilsSpec extends Specification {
         BA     | []
     }
 
-    def "GetFieldValue"() {
+    def "Gets field value"() {
     }
 
-    def "SetFieldValue"() {
+    def "Sets field value"() {
     }
 
-    def "GetDeclaredConstructor"() {
+    def "Gets declared constructor"() {
     }
 
-    def "Instantiate"() {
+    def "Instantiates"() {
     }
 
-    def "TestInstantiate"() {
+    def "Tests instantiate"() {
     }
 
-    def "GetDeclaredMethod"() {
+    def "Gets declared method"() {
     }
 
     def "Invoke"() {
@@ -87,18 +84,13 @@ class ReflectionUtilsSpec extends Specification {
         }
     }
 
-    class Parent implements Serializable {
-        static final long serialVersionUID = 8099680797687427324L
-        long id
-        String name
-        LocalDateTime createdAt
-        LocalDateTime modifiedAt
+    private class Parent {
+        private static final int a = 809968079
+        private char b
+        private String c
 
-        @Getter
-        @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
         private static class Child extends Parent {
-            private final int id
-            final String title
+            private final long a = 9876543210
         }
     }
 

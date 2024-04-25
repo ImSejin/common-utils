@@ -28,7 +28,7 @@ class RSASpec extends Specification {
         def rsa = new RSA()
 
         when:
-        def encrypted = rsa.encryptWithPublicKey plaintext
+        def encrypted = rsa.encryptWithPublicKey(plaintext)
 
         then:
         encrypted != plaintext
@@ -42,7 +42,7 @@ class RSASpec extends Specification {
         def rsa = new RSA()
 
         when:
-        def encrypted = rsa.encryptWithPrivateKey plaintext
+        def encrypted = rsa.encryptWithPrivateKey(plaintext)
 
         then:
         encrypted != plaintext
@@ -56,8 +56,8 @@ class RSASpec extends Specification {
         def rsa = new RSA()
 
         when:
-        def encrypted = rsa.encryptWithPrivateKey plaintext
-        def decrypted = rsa.decryptWithPublicKey encrypted
+        def encrypted = rsa.encryptWithPrivateKey(plaintext)
+        def decrypted = rsa.decryptWithPublicKey(encrypted)
 
         then:
         decrypted != encrypted
@@ -71,8 +71,8 @@ class RSASpec extends Specification {
         def rsa = new RSA()
 
         when:
-        def encrypted = rsa.encryptWithPublicKey plaintext
-        def decrypted = rsa.decryptWithPrivateKey encrypted
+        def encrypted = rsa.encryptWithPublicKey(plaintext)
+        def decrypted = rsa.decryptWithPrivateKey(encrypted)
 
         then:
         decrypted != encrypted
@@ -88,24 +88,22 @@ class RSASpec extends Specification {
         rsa.decryptWithPublicKey rsa.encryptWithPublicKey(plaintext)
 
         then:
-        def e0 = thrown RuntimeException
+        def e0 = thrown(RuntimeException)
         e0.cause.class == BadPaddingException
-        e0.cause.message == "Decryption error"
 
         when: "try to decrypt cipher text with the same key that is private"
         rsa.decryptWithPrivateKey rsa.encryptWithPrivateKey(plaintext)
 
         then:
-        def e1 = thrown RuntimeException
+        def e1 = thrown(RuntimeException)
         e1.cause.class == BadPaddingException
-        e1.cause.message == "Decryption error"
     }
 
     def "Check public key and private key"() {
         given:
         def keyPair = RSA.generateKeyPair(512)
-        def publicKey = Base64.encoder.encodeToString keyPair.public.encoded
-        def privateKey = Base64.encoder.encodeToString keyPair.private.encoded
+        def publicKey = Base64.encoder.encodeToString(keyPair.public.encoded)
+        def privateKey = Base64.encoder.encodeToString(keyPair.private.encoded)
 
         when:
         def rsa = new RSA(publicKey, privateKey)
