@@ -43,7 +43,6 @@ jobs:
     - name: Send code coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        # Not required for public repository.
-        # token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: false
         verbose: true
