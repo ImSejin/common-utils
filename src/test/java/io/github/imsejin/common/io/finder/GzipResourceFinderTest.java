@@ -36,6 +36,9 @@ class GzipResourceFinderTest {
 
     @ParameterizedTest
     @CsvSource(value = {
+            "macos-14.4.1.gz       | catalina.out-20210123",
+            "macos-14.4.1.tar.gz   | putty-0.77.tar",
+            "macos-14.4.1.tgz      | macos-14.4.1",
             "ubuntu-18.04.1.gz     | catalina.out-20210123",
             "ubuntu-18.04.1.tar.gz | ubuntu-18.04.1.tar",
             "ubuntu-18.04.1.tgz    | ubuntu-18.04.1",

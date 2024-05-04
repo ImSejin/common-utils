@@ -37,6 +37,7 @@ class ZipResourceFinderTest {
 
     @ParameterizedTest
     @CsvSource(value = {
+            "macos-14.4.1.zip   | java | 64",
             "ubuntu-18.04.3.zip | java | 64",
             "windows10-pro.zip  | json | 548",
     }, delimiterString = "|")
