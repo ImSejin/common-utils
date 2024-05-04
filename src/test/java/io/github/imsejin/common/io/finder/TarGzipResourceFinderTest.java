@@ -37,6 +37,8 @@ class TarGzipResourceFinderTest {
 
     @ParameterizedTest
     @CsvSource(value = {
+            "macos-14.4.1.tar.gz   | tar  | 0",
+            "macos-14.4.1.tgz      | c    | 373",
             "ubuntu-18.04.1.tar.gz | tar  | 1",
             "ubuntu-18.04.1.tgz    | c    | 373",
             "windows10-pro.tar.gz  | xfdl | 221",
