@@ -24,7 +24,7 @@
     <a href="https://sonarcloud.io/summary/overall?id=ImSejin_common-utils">
         <img alt="Sonarcloud Maintainability Rating" src="https://sonarcloud.io/api/project_badges/measure?project=ImSejin_common-utils&metric=sqale_rating"/>
     </a>
-    <a href="https://www.codacy.com/gh/ImSejin/common-utils/dashboard">
+    <a href="https://app.codacy.com/gh/ImSejin/common-utils/dashboard">
         <img alt="Codacy grade" src="https://img.shields.io/codacy/grade/cda840b8532940ae8c3604696da8eabe?style=flat&logo=codacy">
     </a>
     <img alt="jdk8" src="https://img.shields.io/badge/jdk-8-orange?style=flat">
