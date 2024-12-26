@@ -16,6 +16,8 @@
 
 package io.github.imsejin.common.util
 
+import spock.lang.Specification
+
 import io.github.imsejin.common.assertion.Descriptor
 import io.github.imsejin.common.assertion.composition.AmountAssertable
 import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable
@@ -33,7 +35,6 @@ import io.github.imsejin.common.assertion.math.BigDecimalAssert
 import io.github.imsejin.common.security.crypto.Crypto
 import io.github.imsejin.common.security.crypto.aes.AES
 import io.github.imsejin.common.security.crypto.aes.AES256
-import spock.lang.Specification
 
 class ClassUtilsSpec extends Specification {
 

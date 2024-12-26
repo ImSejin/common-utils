@@ -16,15 +16,16 @@
 
 package io.github.imsejin.common.util
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import spock.lang.Specification
 import spock.lang.TempDir
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
+
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 
 class JsonUtilsSpec extends Specification {
 
