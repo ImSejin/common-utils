@@ -84,7 +84,7 @@ class ReflectionUtilsSpec extends Specification {
         }
     }
 
-    private class Parent {
+    private static class Parent {
         private static final int a = 809968079
         private char b
         private String c
