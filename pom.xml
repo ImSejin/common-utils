@@ -64,6 +64,7 @@
         <junit5.version>5.11.4</junit5.version>
         <assertj.version>3.27.0</assertj.version>
         <spock.version>2.4-M4-groovy-4.0</spock.version>
+        <mockito.version>5.14.2</mockito.version>
         <memory-file-system.version>2.8.1</memory-file-system.version>
     </properties>
 
@@ -142,6 +143,13 @@
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>${spock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
