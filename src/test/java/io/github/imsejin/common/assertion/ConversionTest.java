@@ -57,7 +57,7 @@ import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import io.github.imsejin.common.constant.OS;
+import io.github.imsejin.common.constant.Platform;
 import io.github.imsejin.common.tool.RandomString;
 import io.github.imsejin.common.util.ArrayUtils;
 import io.github.imsejin.common.util.CollectionUtils;
@@ -354,7 +354,7 @@ class ConversionTest {
                             .thrownBy(RuntimeException::new)
                             .isAbstractClass()
                             .asPackage()
-                            .isSubPackageOf(OS.class.getPackage()))
+                            .isSubPackageOf(Platform.class.getPackage()))
                     .withMessageStartingWith("Description of assertion");
         }
     }

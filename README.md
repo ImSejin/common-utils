@@ -83,10 +83,10 @@ Asserts.that(dates)
 ### Constants
 
 ```java
-// OS[LINUX, MAC, AIX, SOLARIS, WINDOWS, OTHER]
-OS os = OS.getCurrentOS();
+// Platform[AIX, SOLARIS, LINUX, MACOS_ARM64, MACOS_X64, WINDOWS, UNKNOWN]
+Platform platform = Platform.getCurrentOS();
 
-assert os.isCurrentOS();
+assert platform.isCurrent();
 
 // -----------------------------------------------------------------------------
 
