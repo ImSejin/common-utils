@@ -84,7 +84,7 @@ Asserts.that(dates)
 
 ```java
 // Platform[AIX, SOLARIS, LINUX, MACOS_ARM64, MACOS_X64, WINDOWS, UNKNOWN]
-Platform platform = Platform.getCurrentOS();
+Platform platform = Platform.getCurrentPlatform();
 
 assert platform.isCurrent();
 
