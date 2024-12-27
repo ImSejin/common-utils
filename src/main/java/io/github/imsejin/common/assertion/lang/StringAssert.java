@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 import org.intellij.lang.annotations.Language;
 
 import io.github.imsejin.common.assertion.Descriptor;
+import io.github.imsejin.common.assertion.composition.AmountComparisonAssertable;
 
 /**
  * Assertion for {@link String}
@@ -30,7 +31,8 @@ import io.github.imsejin.common.assertion.Descriptor;
  */
 public class StringAssert<
         SELF extends StringAssert<SELF>>
-        extends CharSequenceAssert<SELF, String, CharSequence> {
+        extends CharSequenceAssert<SELF, String, CharSequence>
+        implements AmountComparisonAssertable<SELF, String> {
 
     public StringAssert(String actual) {
         super(actual);
@@ -215,6 +217,126 @@ public class StringAssert<
     public SELF matches(Pattern expected) {
         if (!expected.matcher(actual).matches()) {
             setDefaultDescription("It is expected to match the given pattern, but it isn't.");
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Asserts that actual value is greater than expected value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that("b").isGreaterThan("a");
+     *     Asserts.that("ZZZ").isGreaterThan("A");
+     *
+     *     // Assertion will fail.
+     *     Asserts.that("a").isGreaterThan("a");
+     *     Asserts.that("a").isGreaterThan("b");
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF isGreaterThan(String expected) {
+        if (actual.compareTo(expected) <= 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Asserts that actual value is greater than or equal to expected value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that("a").isGreaterThanOrEqualTo("a");
+     *     Asserts.that("ZZZ").isGreaterThanOrEqualTo("A");
+     *
+     *     // Assertion will fail.
+     *     Asserts.that("a").isGreaterThanOrEqualTo("b");
+     *     Asserts.that("A").isGreaterThanOrEqualTo("ZZZ");
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF isGreaterThanOrEqualTo(String expected) {
+        if (actual.compareTo(expected) < 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_GREATER_THAN_OR_EQUAL_TO);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Asserts that actual value is less than expected value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that("a").isLessThan("b");
+     *     Asserts.that("A").isLessThan("ZZZ");
+     *
+     *     // Assertion will fail.
+     *     Asserts.that("a").isLessThan("a");
+     *     Asserts.that("ZZZ").isLessThan("A");
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF isLessThan(String expected) {
+        if (actual.compareTo(expected) >= 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN);
+            setDescriptionVariables(
+                    new SimpleEntry<>("actual", actual),
+                    new SimpleEntry<>("expected", expected));
+
+            throw getException();
+        }
+
+        return self;
+    }
+
+    /**
+     * Asserts that actual value is less than or equal to expected value.
+     *
+     * <pre>{@code
+     *     // Assertion will pass.
+     *     Asserts.that("a").isLessThanOrEqualTo("a");
+     *     Asserts.that("A").isLessThanOrEqualTo("ZZZ");
+     *
+     *     // Assertion will fail.
+     *     Asserts.that("b").isLessThanOrEqualTo("a");
+     *     Asserts.that("ZZZ").isLessThanOrEqualTo("A");
+     * }</pre>
+     *
+     * @param expected expected value
+     * @return this class
+     */
+    @Override
+    public SELF isLessThanOrEqualTo(String expected) {
+        if (actual.compareTo(expected) > 0) {
+            setDefaultDescription(AmountComparisonAssertable.DEFAULT_DESCRIPTION_IS_LESS_THAN_OR_EQUAL_TO);
             setDescriptionVariables(
                     new SimpleEntry<>("actual", actual),
                     new SimpleEntry<>("expected", expected));
