@@ -368,9 +368,14 @@ public abstract class Asserts {
         return new MapAssert<>(map);
     }
 
+    /**
+     * @see <a href="https://community.sonarsource.com/t/java-ensure-this-optional-could-never-be-null-and-remove-this-null-check/117854">
+     *     "Optional" variables should not be "@Nullable"
+     *     </a>
+     */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static <SELF extends OptionalAssert<SELF, T>, T> OptionalAssert<SELF, T> that(
-            @Nullable Optional<T> optional) {
+            @SuppressWarnings("java:S2789") @Nullable Optional<T> optional) {
         return new OptionalAssert<>(optional);
     }
 
