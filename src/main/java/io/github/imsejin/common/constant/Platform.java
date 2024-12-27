@@ -78,7 +78,15 @@ public enum Platform {
             }
 
             String arch = getCurrentArchitecture();
-            return arch.contains("x86_x64");
+            if (arch.contains("aarch64") || arch.contains("arm")) {
+                return false;
+            }
+
+            if (!arch.contains("x86_x64")) {
+                return false;
+            }
+
+            return !isTranslatedByRosetta();
         }
     },
 
