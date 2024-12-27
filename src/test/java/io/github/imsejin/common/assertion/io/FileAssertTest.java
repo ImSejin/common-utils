@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -35,7 +36,6 @@ import org.junit.jupiter.api.io.TempDir;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.composition.SizeAssertable;
-import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.tool.RandomString;
 
 import static org.assertj.core.api.Assertions.*;
@@ -50,7 +50,8 @@ class FileAssertTest {
         @DisplayName("passes, when actual is empty")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String fileName = LocalDateTime.now().format(formatter);
             File file = Files.createTempFile(path, "temp", fileName).toFile();
 
             // expect
@@ -62,7 +63,8 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is not empty")
         void test1(@TempDir Path path) throws IOException {
             // given
-            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String fileName = LocalDateTime.now().format(formatter);
             File file = Files.createTempFile(path, "temp", fileName).toFile();
             Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
@@ -84,7 +86,8 @@ class FileAssertTest {
         @DisplayName("passes, when actual is not empty")
         void test0(@TempDir Path path) throws IOException {
             // given
-            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String fileName = LocalDateTime.now().format(formatter);
             File file = Files.createTempFile(path, "temp", fileName).toFile();
             Files.write(file.toPath(), new RandomString().nextString(16, 33).getBytes());
 
@@ -97,7 +100,8 @@ class FileAssertTest {
         @DisplayName("throws exception, when actual is empty")
         void test1(@TempDir Path path) throws IOException {
             // given
-            String fileName = LocalDateTime.now().format(DateType.DATE_TIME.getFormatter());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String fileName = LocalDateTime.now().format(formatter);
             File file = Files.createTempFile(path, "temp", fileName).toFile();
 
             // expect

@@ -3,6 +3,7 @@ package io.github.imsejin.common.assertion.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.RandomJavaTimeSource;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.constant.DateType;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -222,8 +222,9 @@ class DateAssertTest {
         @DisplayName("passes, when actual is leap year")
         void test0(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
-            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String source = dateTime.format(formatter);
+            Date actual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(source);
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLeapYear());
@@ -234,8 +235,9 @@ class DateAssertTest {
         @DisplayName("throws exception, when actual is not leap year")
         void test1(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
-            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String source = dateTime.format(formatter);
+            Date actual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(source);
 
             // expect
             assertThatIllegalArgumentException()
@@ -254,8 +256,9 @@ class DateAssertTest {
         @DisplayName("passes, when actual is not leap year")
         void test0(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
-            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String source = dateTime.format(formatter);
+            Date actual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(source);
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(actual).isNotLeapYear());
@@ -266,8 +269,9 @@ class DateAssertTest {
         @DisplayName("throws exception, when actual is leap year")
         void test1(@ConvertJavaTime LocalDateTime dateTime) throws ParseException {
             // given
-            String source = dateTime.format(DateType.F_DATE_TIME.getFormatter());
-            Date actual = new SimpleDateFormat(DateType.F_DATE_TIME.getPattern()).parse(source);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String source = dateTime.format(formatter);
+            Date actual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(source);
 
             // expect
             assertThatIllegalArgumentException()
