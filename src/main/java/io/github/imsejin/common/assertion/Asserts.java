@@ -159,177 +159,186 @@ public abstract class Asserts {
 
     // java.lang ---------------------------------------------------------------------------------------
 
-    public static <T> ObjectAssert<?, T> that(@Nullable T object) {
+    public static <SELF extends ObjectAssert<SELF, T>, T> ObjectAssert<SELF, T> that(@Nullable T object) {
         return new ObjectAssert<>(object);
     }
 
-    public static ArrayAssert<?, Boolean> that(boolean @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Boolean>> ArrayAssert<SELF, Boolean> that(
+            boolean @Nullable [] array
+    ) {
         return that((Boolean[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?, Byte> that(byte @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Byte>> ArrayAssert<SELF, Byte> that(byte @Nullable [] array) {
         return that((Byte[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?, Short> that(short @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Short>> ArrayAssert<SELF, Short> that(short @Nullable [] array) {
         return that((Short[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?, Character> that(char @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Character>> ArrayAssert<SELF, Character> that(
+            char @Nullable [] array
+    ) {
         return that((Character[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?, Integer> that(int @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Integer>> ArrayAssert<SELF, Integer> that(int @Nullable [] array) {
         return that((Integer[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?, Long> that(long @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Long>> ArrayAssert<SELF, Long> that(long @Nullable [] array) {
         return that((Long[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?, Float> that(float @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Float>> ArrayAssert<SELF, Float> that(float @Nullable [] array) {
         return that((Float[]) ArrayUtils.wrap(array));
     }
 
-    public static ArrayAssert<?, Double> that(double @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, Double>> ArrayAssert<SELF, Double> that(double @Nullable [] array) {
         return that((Double[]) ArrayUtils.wrap(array));
     }
 
-    public static <E> ArrayAssert<?, E> that(@Nullable E @Nullable [] array) {
+    public static <SELF extends ArrayAssert<SELF, E>, E> ArrayAssert<SELF, E> that(@Nullable E @Nullable [] array) {
         return new ArrayAssert<>(array);
     }
 
-    public static <T> ClassAssert<?, T> that(@Nullable Class<T> clazz) {
+    public static <SELF extends ClassAssert<SELF, T>, T> ClassAssert<SELF, T> that(@Nullable Class<T> clazz) {
         return new ClassAssert<>(clazz);
     }
 
-    public static PackageAssert<?> that(@Nullable Package pack) {
+    public static <SELF extends PackageAssert<SELF>> PackageAssert<SELF> that(@Nullable Package pack) {
         return new PackageAssert<>(pack);
     }
 
-    public static BooleanAssert<?> that(@Nullable Boolean bool) {
+    public static <SELF extends BooleanAssert<SELF>> BooleanAssert<SELF> that(@Nullable Boolean bool) {
         return new BooleanAssert<>(bool);
     }
 
-    public static CharacterAssert<?> that(@Nullable Character character) {
+    public static <SELF extends CharacterAssert<SELF>> CharacterAssert<SELF> that(@Nullable Character character) {
         return new CharacterAssert<>(character);
     }
 
-    public static ByteAssert<?> that(@Nullable Byte number) {
+    public static <SELF extends ByteAssert<SELF>> ByteAssert<SELF> that(@Nullable Byte number) {
         return new ByteAssert<>(number);
     }
 
-    public static ShortAssert<?> that(@Nullable Short number) {
+    public static <SELF extends ShortAssert<SELF>> ShortAssert<SELF> that(@Nullable Short number) {
         return new ShortAssert<>(number);
     }
 
-    public static IntegerAssert<?> that(@Nullable Integer number) {
+    public static <SELF extends IntegerAssert<SELF>> IntegerAssert<SELF> that(@Nullable Integer number) {
         return new IntegerAssert<>(number);
     }
 
-    public static LongAssert<?> that(@Nullable Long number) {
+    public static <SELF extends LongAssert<SELF>> LongAssert<SELF> that(@Nullable Long number) {
         return new LongAssert<>(number);
     }
 
-    public static FloatAssert<?> that(@Nullable Float number) {
+    public static <SELF extends FloatAssert<SELF>> FloatAssert<SELF> that(@Nullable Float number) {
         return new FloatAssert<>(number);
     }
 
-    public static DoubleAssert<?> that(@Nullable Double number) {
+    public static <SELF extends DoubleAssert<SELF>> DoubleAssert<SELF> that(@Nullable Double number) {
         return new DoubleAssert<>(number);
     }
 
-    public static CharSequenceAssert<?, CharSequence, CharSequence> that(@Nullable CharSequence charSequence) {
+    public static <SELF extends CharSequenceAssert<SELF, CharSequence, CharSequence>> CharSequenceAssert<SELF, CharSequence, CharSequence> that(
+            @Nullable CharSequence charSequence
+    ) {
         return new CharSequenceAssert<>(charSequence);
     }
 
-    public static StringAssert<?> that(@Nullable String string) {
+    public static <SELF extends StringAssert<SELF>> StringAssert<SELF> that(@Nullable String string) {
         return new StringAssert<>(string);
     }
 
     // java.io -----------------------------------------------------------------------------------------
 
-    public static FileAssert<?, File> that(@Nullable File file) {
+    public static <SELF extends FileAssert<SELF, File>> FileAssert<SELF, File> that(@Nullable File file) {
         return new FileAssert<>(file);
     }
 
     // java.nio.file -----------------------------------------------------------------------------------------
 
-    public static PathAssert<?, Path> that(@Nullable Path path) {
+    public static <SELF extends PathAssert<SELF, Path>> PathAssert<SELF, Path> that(@Nullable Path path) {
         return new PathAssert<>(path);
     }
 
     // java.math ---------------------------------------------------------------------------------------
 
-    public static BigIntegerAssert<?> that(@Nullable BigInteger bigInteger) {
+    public static <SELF extends BigIntegerAssert<SELF>> BigIntegerAssert<SELF> that(@Nullable BigInteger bigInteger) {
         return new BigIntegerAssert<>(bigInteger);
     }
 
-    public static BigDecimalAssert<?> that(@Nullable BigDecimal bigDecimal) {
+    public static <SELF extends BigDecimalAssert<SELF>> BigDecimalAssert<SELF> that(@Nullable BigDecimal bigDecimal) {
         return new BigDecimalAssert<>(bigDecimal);
     }
 
     // java.net ----------------------------------------------------------------------------------------
 
-    public static UrlAssert<?> that(@Nullable URL url) {
+    public static <SELF extends UrlAssert<SELF>> UrlAssert<SELF> that(@Nullable URL url) {
         return new UrlAssert<>(url);
     }
 
     // java.time ---------------------------------------------------------------------------------------
 
-    public static YearAssert<?> that(@Nullable Year year) {
+    public static <SELF extends YearAssert<SELF>> YearAssert<SELF> that(@Nullable Year year) {
         return new YearAssert<>(year);
     }
 
-    public static MonthAssert<?> that(@Nullable Month month) {
+    public static <SELF extends MonthAssert<SELF>> MonthAssert<SELF> that(@Nullable Month month) {
         return new MonthAssert<>(month);
     }
 
-    public static YearMonthAssert<?> that(@Nullable YearMonth yearMonth) {
+    public static <SELF extends YearMonthAssert<SELF>> YearMonthAssert<SELF> that(@Nullable YearMonth yearMonth) {
         return new YearMonthAssert<>(yearMonth);
     }
 
-    public static MonthDayAssert<?> that(@Nullable MonthDay monthDay) {
+    public static <SELF extends MonthDayAssert<SELF>> MonthDayAssert<SELF> that(@Nullable MonthDay monthDay) {
         return new MonthDayAssert<>(monthDay);
     }
 
-    public static LocalTimeAssert<?> that(@Nullable LocalTime localTime) {
+    public static <SELF extends LocalTimeAssert<SELF>> LocalTimeAssert<SELF> that(@Nullable LocalTime localTime) {
         return new LocalTimeAssert<>(localTime);
     }
 
-    public static OffsetTimeAssert<?> that(@Nullable OffsetTime offsetTime) {
+    public static <SELF extends OffsetTimeAssert<SELF>> OffsetTimeAssert<SELF> that(@Nullable OffsetTime offsetTime) {
         return new OffsetTimeAssert<>(offsetTime);
     }
 
-    public static InstantAssert<?> that(@Nullable Instant instant) {
+    public static <SELF extends InstantAssert<SELF>> InstantAssert<SELF> that(@Nullable Instant instant) {
         return new InstantAssert<>(instant);
     }
 
-    public static OffsetDateTimeAssert<?> that(@Nullable OffsetDateTime offsetDateTime) {
+    public static <SELF extends OffsetDateTimeAssert<SELF>> OffsetDateTimeAssert<SELF> that(
+            @Nullable OffsetDateTime offsetDateTime) {
         return new OffsetDateTimeAssert<>(offsetDateTime);
     }
 
-    public static DurationAssert<?> that(@Nullable Duration duration) {
+    public static <SELF extends DurationAssert<SELF>> DurationAssert<SELF> that(@Nullable Duration duration) {
         return new DurationAssert<>(duration);
     }
 
-    public static PeriodAssert<?> that(@Nullable Period period) {
+    public static <SELF extends PeriodAssert<SELF>> PeriodAssert<SELF> that(@Nullable Period period) {
         return new PeriodAssert<>(period);
     }
 
     // java.time.chrono --------------------------------------------------------------------------------
 
-    public static ChronoLocalDateAssert<?> that(@Nullable ChronoLocalDate localDate) {
+    public static <SELF extends ChronoLocalDateAssert<SELF>> ChronoLocalDateAssert<SELF> that(
+            @Nullable ChronoLocalDate localDate
+    ) {
         return new ChronoLocalDateAssert<>(localDate);
     }
 
-    public static <DATE extends ChronoLocalDate> ChronoLocalDateTimeAssert<?, DATE> that(
+    public static <SELF extends ChronoLocalDateTimeAssert<SELF, DATE>, DATE extends ChronoLocalDate> ChronoLocalDateTimeAssert<SELF, DATE> that(
             @Nullable ChronoLocalDateTime<DATE> localDateTime
     ) {
         return new ChronoLocalDateTimeAssert<>(localDateTime);
     }
 
-    public static <DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<?, DATE> that(
+    public static <SELF extends ChronoZonedDateTimeAssert<SELF, DATE>, DATE extends ChronoLocalDate> ChronoZonedDateTimeAssert<SELF, DATE> that(
             @Nullable ChronoZonedDateTime<DATE> zonedDateTime
     ) {
         return new ChronoZonedDateTimeAssert<>(zonedDateTime);
@@ -337,61 +346,78 @@ public abstract class Asserts {
 
     // java.util ---------------------------------------------------------------------------------------
 
-    public static DateAssert<?, Date> that(@Nullable Date date) {
+    public static <SELF extends DateAssert<SELF, Date>> DateAssert<SELF, Date> that(@Nullable Date date) {
         return new DateAssert<>(date);
     }
 
-    public static <E> CollectionAssert<?, Collection<E>, E> that(@Nullable Collection<E> collection) {
+    public static <SELF extends CollectionAssert<SELF, Collection<E>, E>, E> CollectionAssert<SELF, Collection<E>, E> that(
+            @Nullable Collection<E> collection
+    ) {
         return new CollectionAssert<>(collection);
     }
 
-    public static <E> ListAssert<?, List<E>, E> that(@Nullable List<E> list) {
+    public static <SELF extends ListAssert<SELF, List<E>, E>, E> ListAssert<SELF, List<E>, E> that(
+            @Nullable List<E> list
+    ) {
         return new ListAssert<>(list);
     }
 
-    public static <K, V> MapAssert<?, Map<K, V>, K, V> that(@Nullable Map<K, V> map) {
+    public static <SELF extends MapAssert<SELF, Map<K, V>, K, V>, K, V> MapAssert<SELF, Map<K, V>, K, V> that(
+            @Nullable Map<K, V> map
+    ) {
         return new MapAssert<>(map);
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static <T> OptionalAssert<?, T> that(@Nullable Optional<T> optional) {
+    public static <SELF extends OptionalAssert<SELF, T>, T> OptionalAssert<SELF, T> that(
+            @Nullable Optional<T> optional) {
         return new OptionalAssert<>(optional);
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static OptionalIntAssert<?> that(@Nullable OptionalInt optionalInt) {
+    public static <SELF extends OptionalIntAssert<SELF>> OptionalIntAssert<SELF> that(
+            @Nullable OptionalInt optionalInt
+    ) {
         return new OptionalIntAssert<>(optionalInt);
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static OptionalLongAssert<?> that(@Nullable OptionalLong optionalLong) {
+    public static <SELF extends OptionalLongAssert<SELF>> OptionalLongAssert<SELF> that(
+            @Nullable OptionalLong optionalLong
+    ) {
         return new OptionalLongAssert<>(optionalLong);
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static OptionalDoubleAssert<?> that(@Nullable OptionalDouble optionalDouble) {
+    public static <SELF extends OptionalDoubleAssert<SELF>> OptionalDoubleAssert<SELF> that(
+            @Nullable OptionalDouble optionalDouble
+    ) {
         return new OptionalDoubleAssert<>(optionalDouble);
     }
 
-    public static UuidAssert<?> that(@Nullable UUID uuid) {
+    public static <SELF extends UuidAssert<SELF>> UuidAssert<SELF> that(@Nullable UUID uuid) {
         return new UuidAssert<>(uuid);
     }
 
     // java.util.concurrent.atomic ---------------------------------------------------------------------
 
-    public static AtomicBooleanAssert<?> that(@Nullable AtomicBoolean atomicBoolean) {
+    public static <SELF extends AtomicBooleanAssert<SELF>> AtomicBooleanAssert<SELF> that(
+            @Nullable AtomicBoolean atomicBoolean
+    ) {
         return new AtomicBooleanAssert<>(atomicBoolean);
     }
 
-    public static AtomicIntegerAssert<?> that(@Nullable AtomicInteger atomicInteger) {
+    public static <SELF extends AtomicIntegerAssert<SELF>> AtomicIntegerAssert<SELF> that(
+            @Nullable AtomicInteger atomicInteger
+    ) {
         return new AtomicIntegerAssert<>(atomicInteger);
     }
 
-    public static AtomicLongAssert<?> that(@Nullable AtomicLong atomicLong) {
+    public static <SELF extends AtomicLongAssert<SELF>> AtomicLongAssert<SELF> that(@Nullable AtomicLong atomicLong) {
         return new AtomicLongAssert<>(atomicLong);
     }
 
-    public static <V> AtomicReferenceAssert<?, AtomicReference<V>, V> that(
+    public static <SELF extends AtomicReferenceAssert<SELF, AtomicReference<V>, V>, V> AtomicReferenceAssert<SELF, AtomicReference<V>, V> that(
             @Nullable AtomicReference<V> atomicReference
     ) {
         return new AtomicReferenceAssert<>(atomicReference);
