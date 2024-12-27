@@ -16,18 +16,13 @@
 
 package io.github.imsejin.common.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.zone.ZoneRules;
-import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
@@ -45,62 +40,6 @@ public final class DateTimeUtils {
     @ExcludeFromGeneratedJacocoReport
     private DateTimeUtils() {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
-    }
-
-    /**
-     * Check if the date is actual.
-     *
-     * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
-     *
-     * <pre><code>
-     *     validate("2019-02-28"); // true
-     *     validate("20190229");   // false
-     *     validate("20200229");   // true
-     *     validate("2020-02-29"); // true
-     * </code></pre>
-     *
-     * @param date date
-     * @return whether the date is valid
-     */
-    public static boolean validate(String date) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DateType.DATE.getPattern(), Locale.getDefault());
-            dateFormat.setLenient(false);
-            dateFormat.parse(date.replace("-", ""));
-            return true;
-        } catch (ParseException ignored) {
-            return false;
-        }
-    }
-
-    /**
-     * Check if the date and day of the week are actual.
-     *
-     * <p> Support date formats for "yyyy-MMdd", "yyyy-MM-dd"
-     *
-     * <pre><code>
-     *     validate("20190228", DayOfWeek.THURSDAY);   // true
-     *     validate("2019-02-29", DayOfWeek.FRIDAY);   // false
-     *     validate("20200228", DayOfWeek.SATURDAY);   // false
-     *     validate("20200229", DayOfWeek.SATURDAY);   // true
-     *     validate("2020-02-29", DayOfWeek.SATURDAY); // true
-     * </code></pre>
-     *
-     * @param date      date
-     * @param dayOfWeek day of week
-     * @return whether the date is valid
-     */
-    public static boolean validate(String date, DayOfWeek dayOfWeek) {
-        // Checks if date is valid.
-        if (!validate(date)) {
-            return false;
-        }
-
-        date = date.replace("-", "");
-        LocalDate localDate = LocalDate.parse(date, DateType.DATE.getFormatter());
-
-        // Checks if day of week is valid.
-        return localDate.getDayOfWeek() == dayOfWeek;
     }
 
     /**
