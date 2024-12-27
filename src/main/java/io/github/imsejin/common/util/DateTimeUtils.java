@@ -26,12 +26,9 @@ import java.time.zone.ZoneRules;
 import java.util.concurrent.ThreadLocalRandom;
 
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
-import io.github.imsejin.common.constant.DateType;
 
 /**
  * Datetime utilities
- *
- * @see DateType
  */
 public final class DateTimeUtils {
 

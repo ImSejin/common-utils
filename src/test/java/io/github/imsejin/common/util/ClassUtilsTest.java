@@ -34,7 +34,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.constant.DateType;
 import io.github.imsejin.common.tool.TypeClassifier;
 
 import static java.util.stream.Collectors.*;
@@ -47,7 +46,7 @@ class ClassUtilsTest {
     private static final List<Class<?>> ANNOTATIONS = Arrays.asList(
             Override.class, SuppressWarnings.class, SafeVarargs.class, FunctionalInterface.class);
     private static final List<Class<?>> ENUMS = Arrays.asList(
-            TimeUnit.class, DateType.class, DayOfWeek.class, Month.class);
+            TimeUnit.class, DayOfWeek.class, Month.class);
     private static final List<Class<?>> ENUM_CONSTANTS = Stream.concat(
                     EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream())
             .map(Object::getClass).collect(toList());
