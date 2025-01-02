@@ -294,7 +294,7 @@ class ClassUtilsSpec extends Specification {
         TreeMap          | [clazz, NavigableMap, Cloneable, Serializable, SortedMap, Map, AbstractMap]
         AES256           | [clazz, AES, Crypto]
         ArrayAssert      | [clazz, EnumerationAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, AmountComparisonAssertable, CharSequenceAssert, SizeAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, AbstractNumberAssert, AmountAssertable, AmountComparisonAssertable, ObjectAssert, Descriptor]
     }
 
@@ -317,7 +317,7 @@ class ClassUtilsSpec extends Specification {
         TreeMap          | [clazz, NavigableMap, AbstractMap, Serializable, Cloneable, SortedMap, Map]
         AES256           | [clazz, AES, Crypto]
         ArrayAssert      | [clazz, EnumerationAssertable, IterationAssertable, RandomAccessIterationAssertable, SizeAssertable, ObjectAssert, Descriptor]
-        StringAssert     | [clazz, CharSequenceAssert, SizeAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
+        StringAssert     | [clazz, AmountComparisonAssertable, CharSequenceAssert, SizeAssertable, EnumerationAssertable, ObjectAssert, Descriptor]
         BigDecimalAssert | [clazz, DecimalNumberAssertable, AbstractNumberAssert, AmountAssertable, AmountComparisonAssertable, ObjectAssert, Descriptor]
     }
 
