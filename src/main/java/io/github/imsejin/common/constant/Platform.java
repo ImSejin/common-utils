@@ -132,7 +132,7 @@ public enum Platform {
 
     private static boolean isTranslatedByRosetta() {
         try {
-            Process process = Runtime.getRuntime().exec(new String[] {"sysctl", "sysctl.proc_translated"});
+            Process process = Runtime.getRuntime().exec(new String[] {"/usr/sbin/sysctl", "sysctl.proc_translated"});
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 // case translated: "sysctl.proc_translated: 1"
                 // case not translated: "sysctl.proc_translated: 0"
