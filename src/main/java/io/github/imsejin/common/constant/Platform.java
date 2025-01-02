@@ -65,7 +65,7 @@ public enum Platform {
                 return true;
             }
 
-            return isTranslatedByRosetta();
+            return supportRosetta();
         }
     },
 
@@ -86,7 +86,7 @@ public enum Platform {
                 return false;
             }
 
-            return !isTranslatedByRosetta();
+            return !supportRosetta();
         }
     },
 
@@ -130,7 +130,7 @@ public enum Platform {
         return StringUtils.ifNullOrBlank(System.getProperty("os.arch"), "").toLowerCase(Locale.US);
     }
 
-    private static boolean isTranslatedByRosetta() {
+    private static boolean supportRosetta() {
         try {
             Process process = Runtime.getRuntime().exec(new String[] {"/usr/sbin/sysctl", "sysctl.proc_translated"});
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
@@ -138,7 +138,6 @@ public enum Platform {
                 // case not translated: "sysctl.proc_translated: 0"
                 // case not arm64: "unknown old 'sysctl.proc_translated'"
                 String line = reader.readLine();
-                // if (line != null && (line.endsWith("0") || line.endsWith("1"))) {
                 if (line != null && line.trim().matches("sysctl\\.proc_translated: [01]")) {
                     return true;
                 }
