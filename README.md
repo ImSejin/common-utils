@@ -93,9 +93,7 @@ Locale[] countries = Locales.getCountries();
 // Platform[AIX, SOLARIS, LINUX, MACOS_ARM64, MACOS_X64, WINDOWS, UNKNOWN]
 Platform platform = Platform.getCurrentPlatform();
 
-assert platform.
-
-isCurrent();
+assert platform.isCurrent();
 ```
 
 ### Tools
