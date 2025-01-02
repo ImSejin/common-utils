@@ -26,7 +26,7 @@ class PlatformSpec extends Specification {
         SpyStatic(Platform)
         Platform.currentOperatingSystem >> { os.toLowerCase(Locale.US) }
         Platform.currentArchitecture >> { arch.toLowerCase(Locale.US) }
-        Platform.translatedByRosetta >> { false }
+        Platform.supportRosetta() >> { false }
 
         when:
         def current = Platform.currentPlatform
