@@ -45,7 +45,6 @@ import org.junit.jupiter.api.Test;
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.assertion.Descriptor;
 import io.github.imsejin.common.tool.Stopwatch;
-import io.github.imsejin.common.tool.TypeClassifier;
 
 import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.*;
@@ -53,24 +52,46 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("ClassAssert")
 class ClassAssertTest {
 
-    private static final List<Class<?>> INTERFACES = Arrays.asList(
-            CharSequence.class, Function.class, Member.class, Annotation.class);
-    private static final List<Class<?>> ANNOTATIONS = Arrays.asList(
-            Override.class, SuppressWarnings.class, SafeVarargs.class, FunctionalInterface.class);
-    private static final List<Class<?>> ENUMS = Arrays.asList(
-            TimeUnit.class, DayOfWeek.class, Month.class);
+    private static final List<Class<?>> PRIMITIVES = List.of(
+            byte.class, short.class, int.class, long.class,
+            float.class, double.class, char.class, boolean.class, void.class
+    );
+
+    private static final List<Class<?>> WRAPPERS = List.of(
+            Byte.class, Short.class, Integer.class, Long.class,
+            Float.class, Double.class, Character.class, Boolean.class, Void.class
+    );
+
+    private static final List<Class<?>> INTERFACES = List.of(
+            CharSequence.class, Function.class, Member.class, Annotation.class
+    );
+
+    private static final List<Class<?>> ANNOTATIONS = List.of(
+            Override.class, SuppressWarnings.class, SafeVarargs.class, FunctionalInterface.class
+    );
+
+    private static final List<Class<?>> ENUMS = List.of(
+            TimeUnit.class, DayOfWeek.class, Month.class
+    );
+
     private static final List<Class<?>> ENUM_CONSTANTS = Stream.concat(
-                    EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream())
+                    EnumSet.allOf(TimeUnit.class).stream(), EnumSet.allOf(Month.class).stream()
+            )
             .map(Object::getClass).collect(toList());
-    private static final List<Class<?>> ABSTRACT_CLASSES = Arrays.asList(
-            OutputStream.class, EnumSet.class, Asserts.class, Number.class);
-    private static final List<Class<?>> ANONYMOUS_CLASSES = Arrays.asList(
+
+    private static final List<Class<?>> ABSTRACT_CLASSES = List.of(
+            OutputStream.class, EnumSet.class, Asserts.class, Number.class
+    );
+
+    private static final List<Class<?>> ANONYMOUS_CLASSES = List.of(
             new Asserts() {
             }.getClass(),
             new Random() {
             }.getClass());
-    private static final List<Class<?>> ARRAYS = Arrays.asList(
-            int[].class, float[][].class, Member[].class, Override[][].class, Month[].class, Number[][][].class);
+
+    private static final List<Class<?>> ARRAYS = List.of(
+            int[].class, float[][].class, Member[].class, Override[][].class, Month[].class, Number[][][].class
+    );
 
     private static final String CLASS_STRING_REGEX = "(null|" + // null
             "\\b(boolean|byte|char|double|float|int|long|short|void)\\b|" + // primary types
@@ -203,18 +224,17 @@ class ClassAssertTest {
         @Test
         @DisplayName("passes, when actual is primitive")
         void test0() {
-            assertThatNoException().isThrownBy(() -> TypeClassifier.Types.PRIMITIVE.getClasses()
+            assertThatNoException().isThrownBy(() -> PRIMITIVES
                     .forEach(actual -> Asserts.that(actual).isPrimitive()));
         }
 
         @Test
         @DisplayName("throws exception, when actual is not primitive")
         void test1() {
-            TypeClassifier.Types.WRAPPER.getClasses()
-                    .forEach(actual -> assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
-                                    .isPrimitive())
-                            .withMessageMatching(Pattern.quote("It is expected to be primitive, but it isn't.") +
-                                    "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
+            WRAPPERS.forEach(actual -> assertThatIllegalArgumentException()
+                    .isThrownBy(() -> Asserts.that(actual).isPrimitive())
+                    .withMessageMatching(Pattern.quote("It is expected to be primitive, but it isn't.") +
+                            "\n {4}actual: '" + CLASS_STRING_REGEX + "'"));
         }
     }
 
@@ -240,8 +260,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), ENUMS,
-                            ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                            PRIMITIVES, ENUMS, ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS
+                    )
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -269,8 +289,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES, ENUMS,
-                            ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                            PRIMITIVES, INTERFACES, ENUMS, ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS
+                    )
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -329,8 +349,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS)
+                            PRIMITIVES, INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ANONYMOUS_CLASSES, ARRAYS
+                    )
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -358,8 +378,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ENUMS, ABSTRACT_CLASSES, ARRAYS)
+                            PRIMITIVES, INTERFACES, ANNOTATIONS, ENUMS, ABSTRACT_CLASSES, ARRAYS
+                    )
                     .flatMap(Collection::stream).collect(toList());
 
             System.out.printf("Enum constant that has no body is anonymous class? %s%n",
@@ -397,8 +417,8 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                            PRIMITIVES, INTERFACES, ANNOTATIONS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS
+                    )
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -426,8 +446,9 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(), INTERFACES,
-                            ANNOTATIONS, ENUMS, ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES)
+                            PRIMITIVES, INTERFACES, ANNOTATIONS, ENUMS,
+                            ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES
+                    )
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
@@ -459,10 +480,9 @@ class ClassAssertTest {
         void test1() {
             // given
             List<Class<?>> classes = Stream.of(
-                            TypeClassifier.Types.PRIMITIVE.getClasses(),
-                            TypeClassifier.Types.WRAPPER.getClasses(),
-                            INTERFACES, ANNOTATIONS, ENUMS, ENUM_CONSTANTS,
-                            ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS)
+                            PRIMITIVES, WRAPPERS, INTERFACES, ANNOTATIONS, ENUMS,
+                            ENUM_CONSTANTS, ABSTRACT_CLASSES, ANONYMOUS_CLASSES, ARRAYS
+                    )
                     .flatMap(Collection::stream).collect(toList());
 
             // expect
