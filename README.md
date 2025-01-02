@@ -83,18 +83,19 @@ Asserts.that(dates)
 ### Constants
 
 ```java
-// Platform[AIX, SOLARIS, LINUX, MACOS_ARM64, MACOS_X64, WINDOWS, UNKNOWN]
-Platform platform = Platform.getCurrentPlatform();
-
-assert platform.isCurrent();
+// Locale[ALBANIAN, ARABIC, BELARUSIAN, BULGARIAN, ...]
+Locale[] languages = Locales.getLanguages();
+// Locale[ALBANIA, ALGERIA, ARGENTINA, AUSTRALIA, ...]
+Locale[] countries = Locales.getCountries();
 
 // -----------------------------------------------------------------------------
 
-// DateType[DATE, TIME, DATE_TIME, ALL, F_DATE, F_TIME, ...]
-LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2000, 1, 1), LocalTime.of(12, 34, 56))
-String formatted = dateTime.format(DateType.DATE_TIME.getFormatter());
+// Platform[AIX, SOLARIS, LINUX, MACOS_ARM64, MACOS_X64, WINDOWS, UNKNOWN]
+Platform platform = Platform.getCurrentPlatform();
 
-assert formatted.equals("2000-01-01 12:34:56");
+assert platform.
+
+isCurrent();
 ```
 
 ### Tools
