@@ -198,11 +198,10 @@ public class DirectedGraph<E> implements Graph<E> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof DirectedGraph)) {
+        if (!(o instanceof DirectedGraph<?> that)) {
             return false;
         }
 
-        DirectedGraph<?> that = (DirectedGraph<?>) o;
         return this.adjacentVertexMap.equals(that.adjacentVertexMap);
     }
 
@@ -229,11 +228,10 @@ public class DirectedGraph<E> implements Graph<E> {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof Edge)) {
+            if (!(o instanceof Edge<?> that)) {
                 return false;
             }
 
-            Edge<?> that = (Edge<?>) o;
             return this.vertex1.equals(that.vertex1) && this.vertex2.equals(that.vertex2);
         }
 

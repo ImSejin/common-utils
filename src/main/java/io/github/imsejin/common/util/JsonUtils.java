@@ -82,8 +82,8 @@ public final class JsonUtils {
      */
     private static String readAllLines(Reader reader) {
         BufferedReader bufferedReader;
-        if (reader instanceof BufferedReader) {
-            bufferedReader = (BufferedReader) reader;
+        if (reader instanceof BufferedReader br) {
+            bufferedReader = br;
         } else {
             bufferedReader = new BufferedReader(reader);
         }

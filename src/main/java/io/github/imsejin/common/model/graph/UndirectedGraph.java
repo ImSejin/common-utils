@@ -200,11 +200,10 @@ public class UndirectedGraph<E> implements Graph<E> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UndirectedGraph)) {
+        if (!(o instanceof UndirectedGraph<?> that)) {
             return false;
         }
 
-        UndirectedGraph<?> that = (UndirectedGraph<?>) o;
         return this.adjacentVertexMap.equals(that.adjacentVertexMap);
     }
 
@@ -224,11 +223,9 @@ public class UndirectedGraph<E> implements Graph<E> {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof Edge)) {
+            if (!(o instanceof Edge<?> that)) {
                 return false;
             }
-
-            Edge<?> that = (Edge<?>) o;
 
             // Considers as the same even if the vertex order of edge is reversed.
             return (this.vertex1.equals(that.vertex1) && this.vertex2.equals(that.vertex2)) ||
