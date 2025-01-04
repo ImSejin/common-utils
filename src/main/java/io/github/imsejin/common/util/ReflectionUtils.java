@@ -98,7 +98,7 @@ public final class ReflectionUtils {
         }
 
         // Enables to have access to the field even private field.
-        boolean accessible = field.isAccessible();
+        boolean accessible = field.canAccess(instance);
         if (!accessible) {
             field.setAccessible(true);
         }
@@ -148,7 +148,7 @@ public final class ReflectionUtils {
         }
 
         // Enables to have access to the field even private field.
-        boolean accessible = field.isAccessible();
+        boolean accessible = field.canAccess(instance);
         if (!accessible) {
             field.setAccessible(true);
         }
@@ -300,7 +300,7 @@ public final class ReflectionUtils {
             Asserts.that(args).hasSameSizeAs(method.getParameterTypes());
         }
 
-        boolean accessible = method.isAccessible();
+        boolean accessible = method.canAccess(instance);
         if (!accessible) {
             method.setAccessible(true);
         }
@@ -339,14 +339,10 @@ public final class ReflectionUtils {
      * @see #instantiate(Constructor, Object...)
      */
     public static Object execute(Executable executable, @Nullable Object instance, Object... args) {
-        if (executable instanceof Method) {
-            Method method = (Method) executable;
+        if (executable instanceof Method method) {
             return invoke(method, instance, args);
-
-        } else if (executable instanceof Constructor) {
-            Constructor<?> constructor = (Constructor<?>) executable;
+        } else if (executable instanceof Constructor<?> constructor) {
             return instantiate(constructor, args);
-
         } else {
             throw new UnsupportedOperationException("Unsupported implementation of Executable: " + executable);
         }
