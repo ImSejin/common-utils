@@ -45,7 +45,7 @@ public final class StringUtils {
     /**
      * Number formatter.
      */
-    private static final NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+    private static final NumberFormat formatter = NumberFormat.getInstance(Locale.ROOT);
 
     @ExcludeFromGeneratedJacocoReport
     private StringUtils() {

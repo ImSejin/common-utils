@@ -76,7 +76,7 @@ class AtomicReferenceAssertTest {
 
             // expect
             assertThatNoException().isThrownBy(() -> Asserts.that(actual)
-                    .doesNotHaveValue(actual.getAndUpdate(val -> val.toUpperCase(Locale.US))));
+                    .doesNotHaveValue(actual.getAndUpdate(val -> val.toUpperCase(Locale.ROOT))));
         }
 
         @Test
@@ -90,7 +90,7 @@ class AtomicReferenceAssertTest {
                     "\n {4}actual: '.+'" +
                     "\n {4}expected: '.+'";
             assertThatIllegalArgumentException().isThrownBy((() -> Asserts.that(actual)
-                            .doesNotHaveValue(actual.updateAndGet(val -> val.toUpperCase(Locale.US)))))
+                            .doesNotHaveValue(actual.updateAndGet(val -> val.toUpperCase(Locale.ROOT)))))
                     .withMessageMatching(message);
         }
     }
