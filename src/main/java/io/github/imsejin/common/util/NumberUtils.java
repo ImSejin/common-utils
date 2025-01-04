@@ -25,7 +25,7 @@ import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 public final class NumberUtils {
 
-    private static final NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+    private static final NumberFormat formatter = NumberFormat.getInstance(Locale.ROOT);
 
     static {
         // Makes formatter do without comma.

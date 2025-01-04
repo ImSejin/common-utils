@@ -24,8 +24,8 @@ class PlatformSpec extends Specification {
     def "Returns the current platform by OS name and architecture"() {
         given:
         SpyStatic(Platform)
-        Platform.currentOperatingSystem >> { os.toLowerCase(Locale.US) }
-        Platform.currentArchitecture >> { arch.toLowerCase(Locale.US) }
+        Platform.currentOperatingSystem >> { os.toLowerCase(Locale.ROOT) }
+        Platform.currentArchitecture >> { arch.toLowerCase(Locale.ROOT) }
         Platform.supportRosetta() >> { false }
 
         when:

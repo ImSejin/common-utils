@@ -123,11 +123,13 @@ public enum Platform {
     // -------------------------------------------------------------------------------------------------
 
     private static String getCurrentOperatingSystem() {
-        return StringUtils.ifNullOrBlank(System.getProperty("os.name"), "").toLowerCase(Locale.US);
+        String os = System.getProperty("os.name");
+        return StringUtils.isNullOrBlank(os) ? "" : os.toLowerCase(Locale.ROOT);
     }
 
     private static String getCurrentArchitecture() {
-        return StringUtils.ifNullOrBlank(System.getProperty("os.arch"), "").toLowerCase(Locale.US);
+        String arch = System.getProperty("os.arch");
+        return StringUtils.isNullOrBlank(arch) ? "" : arch.toLowerCase(Locale.ROOT);
     }
 
     private static boolean supportRosetta() {
