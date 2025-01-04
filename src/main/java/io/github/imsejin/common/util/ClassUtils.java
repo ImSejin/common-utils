@@ -451,20 +451,19 @@ public final class ClassUtils {
      */
     public static List<Class<?>> resolveActualTypes(@Nullable Type type) {
         // When type is concrete type: java.lang.String
-        if (type instanceof Class<?>) {
-            return Collections.singletonList((Class<?>) type);
+        if (type instanceof Class<?> clazz) {
+            return Collections.singletonList(clazz);
         }
 
         // When type is wildcard type:
         // java.util.List<? super java.lang.String>
         // java.util.List<? extends java.lang.String>
-        if (type instanceof WildcardType) {
-            WildcardType wildcardType = (WildcardType) type;
+        if (type instanceof WildcardType wildcardType) {
             Type[] lowerBounds = wildcardType.getLowerBounds();
             Type t = ArrayUtils.exists(lowerBounds) ? lowerBounds[0] : wildcardType.getUpperBounds()[0];
 
-            if (t instanceof Class<?>) {
-                return Collections.singletonList((Class<?>) t);
+            if (t instanceof Class<?> clazz) {
+                return Collections.singletonList(clazz);
             }
 
             // GenericArrayType: T[]
@@ -482,12 +481,11 @@ public final class ClassUtils {
         }
 
         // null, TypeVariable: T
-        if (!(type instanceof ParameterizedType)) {
+        if (!(type instanceof ParameterizedType paramType)) {
             return Collections.emptyList();
         }
 
         List<Class<?>> types = new ArrayList<>();
-        ParameterizedType paramType = (ParameterizedType) type;
         for (Type t : paramType.getActualTypeArguments()) {
             List<Class<?>> list = resolveActualTypes(t);
             if (!list.isEmpty()) {

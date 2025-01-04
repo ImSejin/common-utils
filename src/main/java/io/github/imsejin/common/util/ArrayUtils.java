@@ -172,8 +172,8 @@ public final class ArrayUtils {
         Class<?> clazz = array.getClass();
         if (clazz.isArray()) {
             // One dimensional object array or multi-dimensional array.
-            if (array instanceof Object[]) {
-                return Arrays.deepToString((Object[]) array);
+            if (array instanceof Object[] objects) {
+                return Arrays.deepToString(objects);
             }
 
             // One dimensional primitive array.
@@ -203,14 +203,14 @@ public final class ArrayUtils {
                 return Arrays.toString((double[]) array);
             }
 
-        } else if (array instanceof Path) {
+        } else if (array instanceof Path path) {
             // Must check it is implementation of Path before Iterable, or StackOverflowError is thrown.
             // Implementation of Iterable like Path returns true as the result of Iterable.hasNext()
             // even though it reaches to the end of elements.
-            return array.toString();
+            return path.toString();
 
-        } else if (array instanceof Iterable) {
-            Iterator<?> iterator = ((Iterable<?>) array).iterator();
+        } else if (array instanceof Iterable<?> iterable) {
+            Iterator<?> iterator = iterable.iterator();
 
             StringBuilder sb = new StringBuilder("[");
             if (iterator.hasNext()) {
@@ -224,8 +224,8 @@ public final class ArrayUtils {
 
             return sb.toString();
 
-        } else if (array instanceof Map) {
-            Iterator<? extends Entry<?, ?>> iterator = ((Map<?, ?>) array).entrySet().iterator();
+        } else if (array instanceof Map<?,?> map) {
+            Iterator<? extends Entry<?, ?>> iterator = map.entrySet().iterator();
 
             StringBuilder sb = new StringBuilder("{");
             if (iterator.hasNext()) {
@@ -260,8 +260,8 @@ public final class ArrayUtils {
         Class<?> clazz = array.getClass();
         if (clazz.isArray()) {
             // One dimensional object array or multi-dimensional array.
-            if (array instanceof Object[]) {
-                return Arrays.deepHashCode((Object[]) array);
+            if (array instanceof Object[] objects) {
+                return Arrays.deepHashCode(objects);
             }
 
             // One dimensional primitive array.
