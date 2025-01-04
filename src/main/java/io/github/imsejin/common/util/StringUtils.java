@@ -64,7 +64,7 @@ public final class StringUtils {
      * @param str string
      * @return whether the string is null or empty
      */
-    public static boolean isNullOrEmpty(String str) {
+    public static boolean isNullOrEmpty(@Nullable String str) {
         return str == null || str.isEmpty();
     }
 
@@ -83,7 +83,7 @@ public final class StringUtils {
      * @param defaultValue default string
      * @return original string or default string
      */
-    public static String ifNullOrEmpty(String str, String defaultValue) {
+    public static String ifNullOrEmpty(@Nullable String str, String defaultValue) {
         return isNullOrEmpty(str) ? defaultValue : str;
     }
 
@@ -102,7 +102,7 @@ public final class StringUtils {
      * @param supplier supplier that returns default string
      * @return original string or default string
      */
-    public static String ifNullOrEmpty(String str, Supplier<String> supplier) {
+    public static String ifNullOrEmpty(@Nullable String str, Supplier<String> supplier) {
         return isNullOrEmpty(str) ? supplier.get() : str;
     }
 
@@ -119,7 +119,7 @@ public final class StringUtils {
      * @param str string
      * @return whether the string is null or blank
      */
-    public static boolean isNullOrBlank(String str) {
+    public static boolean isNullOrBlank(@Nullable String str) {
         if (isNullOrEmpty(str)) {
             return true;
         }
@@ -143,7 +143,7 @@ public final class StringUtils {
      * @param defaultValue default string
      * @return original string or default string
      */
-    public static String ifNullOrBlank(String str, String defaultValue) {
+    public static String ifNullOrBlank(@Nullable String str, String defaultValue) {
         return isNullOrBlank(str) ? defaultValue : str;
     }
 
@@ -163,7 +163,7 @@ public final class StringUtils {
      * @param supplier supplier that returns default string
      * @return original string or default string
      */
-    public static String ifNullOrBlank(String str, Supplier<String> supplier) {
+    public static String ifNullOrBlank(@Nullable String str, Supplier<String> supplier) {
         return isNullOrBlank(str) ? supplier.get() : str;
     }
 
