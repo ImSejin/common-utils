@@ -124,13 +124,7 @@ public final class StringUtils {
             return true;
         }
 
-        for (char c : str.toCharArray()) {
-            if (!Character.isWhitespace(c)) {
-                return false;
-            }
-        }
-
-        return true;
+        return str.isBlank();
     }
 
     /**
