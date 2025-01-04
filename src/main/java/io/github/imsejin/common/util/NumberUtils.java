@@ -21,6 +21,8 @@ import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.imsejin.common.annotation.ExcludeFromGeneratedJacocoReport;
 
 public final class NumberUtils {
@@ -43,7 +45,7 @@ public final class NumberUtils {
      * @param number number
      * @return positive number
      */
-    public static Double toPositive(Double number) {
+    public static Double toPositive(@Nullable Double number) {
         return number == null || number <= 0.0 ? Double.valueOf(1.0) : number;
     }
 
@@ -53,7 +55,7 @@ public final class NumberUtils {
      * @param number number
      * @return positive number
      */
-    public static Float toPositive(Float number) {
+    public static Float toPositive(@Nullable Float number) {
         return number == null || number <= 0.0F ? Float.valueOf(1.0F) : number;
     }
 
@@ -63,7 +65,7 @@ public final class NumberUtils {
      * @param number number
      * @return positive number
      */
-    public static Long toPositive(Long number) {
+    public static Long toPositive(@Nullable Long number) {
         return number == null || number <= 0L ? Long.valueOf(1L) : number;
     }
 
@@ -73,7 +75,7 @@ public final class NumberUtils {
      * @param number number
      * @return positive number
      */
-    public static Integer toPositive(Integer number) {
+    public static Integer toPositive(@Nullable Integer number) {
         return number == null || number <= 0 ? Integer.valueOf(1) : number;
     }
 
@@ -83,7 +85,7 @@ public final class NumberUtils {
      * @param number number
      * @return positive number
      */
-    public static Short toPositive(Short number) {
+    public static Short toPositive(@Nullable Short number) {
         return number == null || number <= 0 ? Short.valueOf((short) 1) : number;
     }
 
@@ -93,7 +95,7 @@ public final class NumberUtils {
      * @param number number
      * @return positive number
      */
-    public static Byte toPositive(Byte number) {
+    public static Byte toPositive(@Nullable Byte number) {
         return number == null || number <= 0 ? Byte.valueOf((byte) 1) : number;
     }
 
@@ -103,7 +105,7 @@ public final class NumberUtils {
      * @param number number
      * @return negative number
      */
-    public static Double toNegative(Double number) {
+    public static Double toNegative(@Nullable Double number) {
         return number == null || number >= 0.0 ? Double.valueOf(-1.0) : number;
     }
 
@@ -113,7 +115,7 @@ public final class NumberUtils {
      * @param number number
      * @return negative number
      */
-    public static Float toNegative(Float number) {
+    public static Float toNegative(@Nullable Float number) {
         return number == null || number >= 0.0F ? Float.valueOf(-1.0F) : number;
     }
 
@@ -123,7 +125,7 @@ public final class NumberUtils {
      * @param number number
      * @return negative number
      */
-    public static Long toNegative(Long number) {
+    public static Long toNegative(@Nullable Long number) {
         return number == null || number >= 0L ? Long.valueOf(-1L) : number;
     }
 
@@ -133,7 +135,7 @@ public final class NumberUtils {
      * @param number number
      * @return negative number
      */
-    public static Integer toNegative(Integer number) {
+    public static Integer toNegative(@Nullable Integer number) {
         return number == null || number >= 0 ? Integer.valueOf(-1) : number;
     }
 
@@ -143,7 +145,7 @@ public final class NumberUtils {
      * @param number number
      * @return negative number
      */
-    public static Short toNegative(Short number) {
+    public static Short toNegative(@Nullable Short number) {
         return number == null || number >= 0 ? Short.valueOf((short) -1) : number;
     }
 
@@ -153,7 +155,7 @@ public final class NumberUtils {
      * @param number number
      * @return negative number
      */
-    public static Byte toNegative(Byte number) {
+    public static Byte toNegative(@Nullable Byte number) {
         return number == null || number >= 0 ? Byte.valueOf((byte) -1) : number;
     }
 
@@ -164,7 +166,7 @@ public final class NumberUtils {
      * @param defaultNumber default number
      * @return number
      */
-    public static Double ifNull(Double number, double defaultNumber) {
+    public static Double ifNull(@Nullable Double number, double defaultNumber) {
         return number == null ? defaultNumber : number;
     }
 
@@ -175,7 +177,7 @@ public final class NumberUtils {
      * @param defaultNumber default number
      * @return number
      */
-    public static Float ifNull(Float number, float defaultNumber) {
+    public static Float ifNull(@Nullable Float number, float defaultNumber) {
         return number == null ? defaultNumber : number;
     }
 
@@ -186,7 +188,7 @@ public final class NumberUtils {
      * @param defaultNumber default number
      * @return number
      */
-    public static Long ifNull(Long number, long defaultNumber) {
+    public static Long ifNull(@Nullable Long number, long defaultNumber) {
         return number == null ? defaultNumber : number;
     }
 
@@ -197,7 +199,7 @@ public final class NumberUtils {
      * @param defaultNumber default number
      * @return number
      */
-    public static Integer ifNull(Integer number, int defaultNumber) {
+    public static Integer ifNull(@Nullable Integer number, int defaultNumber) {
         return number == null ? defaultNumber : number;
     }
 
@@ -208,7 +210,7 @@ public final class NumberUtils {
      * @param defaultNumber default number
      * @return number
      */
-    public static Short ifNull(Short number, short defaultNumber) {
+    public static Short ifNull(@Nullable Short number, short defaultNumber) {
         return number == null ? defaultNumber : number;
     }
 
@@ -219,7 +221,7 @@ public final class NumberUtils {
      * @param defaultNumber default number
      * @return number
      */
-    public static Byte ifNull(Byte number, byte defaultNumber) {
+    public static Byte ifNull(@Nullable Byte number, byte defaultNumber) {
         return number == null ? defaultNumber : number;
     }
 

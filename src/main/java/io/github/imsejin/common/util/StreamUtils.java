@@ -36,8 +36,8 @@ public final class StreamUtils {
         throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
     }
 
-    public static <T> Stream<T> toStream(Iterator<T> iter) {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, Spliterator.ORDERED), false);
+    public static <T> Stream<T> toStream(Iterator<T> iterator) {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false);
     }
 
 }

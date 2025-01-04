@@ -37,7 +37,7 @@ import io.github.imsejin.common.assertion.Asserts;
  * Class finder
  *
  * @see <a href="https://stackoverflow.com/questions/3222638/get-all-of-the-classes-in-the-classpath#answer-19554704">
- * Get all of the Classes in the Classpath
+ * Get all the Classes in the Classpath
  * </a>
  */
 public final class ClassFinder {
