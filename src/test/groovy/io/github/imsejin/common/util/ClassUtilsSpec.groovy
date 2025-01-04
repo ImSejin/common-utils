@@ -40,7 +40,7 @@ class ClassUtilsSpec extends Specification {
 
     def "Checks if type is wrapper class"() {
         when:
-        def actual = ClassUtils.isWrapper type
+        def actual = ClassUtils.isWrapper(type)
 
         then:
         actual == expected
@@ -74,7 +74,7 @@ class ClassUtilsSpec extends Specification {
 
     def "Checks if type is numeric"() {
         when:
-        def actual = ClassUtils.isNumeric type
+        def actual = ClassUtils.isNumeric(type)
 
         then:
         actual == expected
@@ -108,7 +108,7 @@ class ClassUtilsSpec extends Specification {
 
     def "Checks if type is numeric primitive"() {
         when:
-        def actual = ClassUtils.isNumericPrimitive type
+        def actual = ClassUtils.isNumericPrimitive(type)
 
         then:
         actual == expected
@@ -142,7 +142,7 @@ class ClassUtilsSpec extends Specification {
 
     def "Checks if type is numeric wrapper class"() {
         when:
-        def actual = ClassUtils.isNumericWrapper type
+        def actual = ClassUtils.isNumericWrapper(type)
 
         then:
         actual == expected
@@ -176,7 +176,7 @@ class ClassUtilsSpec extends Specification {
 
     def "Get initial value of the given type"() {
         when:
-        def actual = ClassUtils.initialValueOf type
+        def actual = ClassUtils.initialValueOf(type)
 
         then:
         actual == expected
@@ -210,7 +210,7 @@ class ClassUtilsSpec extends Specification {
 
     def "Makes primitive type boxed"() {
         when:
-        def actual = ClassUtils.wrap type
+        def actual = ClassUtils.wrap(type)
 
         then:
         actual == expected
@@ -244,7 +244,7 @@ class ClassUtilsSpec extends Specification {
 
     def "Makes wrapper class unboxed"() {
         when:
-        def actual = ClassUtils.unwrap type
+        def actual = ClassUtils.unwrap(type)
 
         then:
         actual == expected
@@ -279,7 +279,7 @@ class ClassUtilsSpec extends Specification {
     @SuppressWarnings("GroovyAccessibility")
     def "Gets all the types extended or implemented by the given class as a set"() {
         when:
-        def set = ClassUtils.getAllExtendedOrImplementedTypesAsSet clazz
+        def set = ClassUtils.getAllExtendedOrImplementedTypesAsSet(clazz)
 
         then:
         expected == set as List
@@ -298,7 +298,7 @@ class ClassUtilsSpec extends Specification {
     @SuppressWarnings("GroovyAccessibility")
     def "Gets all the types extended or implemented by the given class as a graph"() {
         when:
-        def graph = ClassUtils.getAllExtendedOrImplementedTypesAsGraph clazz
+        def graph = ClassUtils.getAllExtendedOrImplementedTypesAsGraph(clazz)
 
         then:
         graph.vertexSize == expected.size()
@@ -321,7 +321,7 @@ class ClassUtilsSpec extends Specification {
         def genericType = field?.genericType
 
         when:
-        def actual = ClassUtils.resolveActualTypes genericType
+        def actual = ClassUtils.resolveActualTypes(genericType)
 
         then:
         actual == expected
