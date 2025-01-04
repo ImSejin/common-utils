@@ -16,8 +16,11 @@
 
 package io.github.imsejin.common.tool
 
-import io.github.imsejin.common.constant.Locales
 import spock.lang.Specification
+
+import java.security.SecureRandom
+
+import io.github.imsejin.common.constant.Locales
 
 class RandomStringSpec extends Specification {
 
@@ -62,7 +65,7 @@ class RandomStringSpec extends Specification {
 
     def "Generates a random string of locale with random length"() {
         given:
-        def random = new Random()
+        def random = new SecureRandom()
         def randomString = new RandomString(random, locale)
 
         when:
@@ -88,7 +91,7 @@ class RandomStringSpec extends Specification {
     def "Failed to generate a random string"() {
         given:
         def randomString = new RandomString()
-        def length = new Random().nextInt(10) * -1
+        def length = new SecureRandom().nextInt(10) * -1
 
         when:
         randomString.nextString(length)

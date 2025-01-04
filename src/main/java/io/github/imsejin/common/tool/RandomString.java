@@ -19,7 +19,6 @@ package io.github.imsejin.common.tool;
 import java.lang.Character.UnicodeScript;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -50,28 +49,28 @@ public class RandomString {
         Map<String, List<String>> languageUnicodeRangeMap = new HashMap<>();
 
         // Arabic: U+0600..U+06FF
-        languageUnicodeRangeMap.put(Locales.ARABIC.getLanguage(), Collections.singletonList("1536-1791"));
+        languageUnicodeRangeMap.put(Locales.ARABIC.getLanguage(), List.of("1536-1791"));
 
         // Chinese: U+4E00..U+9FCC (CJK Unified Ideographs)
-        languageUnicodeRangeMap.put(Locales.CHINESE.getLanguage(), Collections.singletonList("19968-40908"));
+        languageUnicodeRangeMap.put(Locales.CHINESE.getLanguage(), List.of("19968-40908"));
 
         // English: U+0041..U+005A, U+0061..U+007A
-        languageUnicodeRangeMap.put(Locales.ENGLISH.getLanguage(), Arrays.asList("65-90", "97-122"));
+        languageUnicodeRangeMap.put(Locales.ENGLISH.getLanguage(), List.of("65-90", "97-122"));
 
         // Hebrew: U+0590..U+05FF
-        languageUnicodeRangeMap.put(Locales.HEBREW.getLanguage(), Collections.singletonList("1424-1535"));
+        languageUnicodeRangeMap.put(Locales.HEBREW.getLanguage(), List.of("1424-1535"));
 
         // Hindi: U+0900..U+0D7F
-        languageUnicodeRangeMap.put(Locales.HINDI.getLanguage(), Collections.singletonList("2304-3455"));
+        languageUnicodeRangeMap.put(Locales.HINDI.getLanguage(), List.of("2304-3455"));
 
         // Japanese: U+3041..U+3096, U+30A1..U+30FA
-        languageUnicodeRangeMap.put(Locales.JAPANESE.getLanguage(), Arrays.asList("12353-12438", "12449-12538"));
+        languageUnicodeRangeMap.put(Locales.JAPANESE.getLanguage(), List.of("12353-12438", "12449-12538"));
 
         // Korean: U+AC00..U+D7A3
-        languageUnicodeRangeMap.put(Locales.KOREAN.getLanguage(), Collections.singletonList("44032-55203"));
+        languageUnicodeRangeMap.put(Locales.KOREAN.getLanguage(), List.of("44032-55203"));
 
         LANGUAGE_UNICODE_POINT_MAP = languageUnicodeRangeMap.entrySet().stream()
-                .map(e -> new SimpleEntry<>(e.getKey(), Collections.unmodifiableList(e.getValue())))
+                .map(e -> new SimpleEntry<>(e.getKey(), e.getValue()))
                 .collect(collectingAndThen(toMap(Entry::getKey, Entry::getValue), Collections::unmodifiableMap));
     }
 
