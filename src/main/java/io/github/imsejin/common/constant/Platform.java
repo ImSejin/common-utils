@@ -26,7 +26,7 @@ import io.github.imsejin.common.util.StringUtils;
 /**
  * Combination of operating system and CPU architecture.
  *
- * @since 0.10.0
+ * @since 0.20.0
  */
 public enum Platform {
 
