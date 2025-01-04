@@ -64,7 +64,7 @@
         <junit5.version>5.11.4</junit5.version>
         <assertj.version>3.27.0</assertj.version>
         <spock.version>2.4-M4-groovy-4.0</spock.version>
-        <mockito.version>5.14.2</mockito.version>
+        <mockito.version>5.15.2</mockito.version>
         <memory-file-system.version>2.8.1</memory-file-system.version>
     </properties>
 
