@@ -16,52 +16,17 @@
 
 package io.github.imsejin.common.model.graph;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Set;
 
-public class DirectedGraph<E> implements Graph<E> {
-
-    private final Map<E, Set<E>> adjacentVertexMap;
-
-    private final Set<Edge<E>> edges;
+public class DirectedGraph<E> extends AbstractGraph<E> {
 
     public DirectedGraph() {
-        this.adjacentVertexMap = new HashMap<>();
-        this.edges = new HashSet<>();
+        super();
     }
 
     public DirectedGraph(Graph<E> graph) {
-        this();
-        addAll(graph);
-    }
-
-    @Override
-    public boolean addVertex(E e) {
-        if (e == null || this.adjacentVertexMap.containsKey(e)) {
-            return false;
-        }
-
-        this.adjacentVertexMap.put(e, new HashSet<>());
-        return true;
-    }
-
-    @Override
-    public boolean removeVertex(E e) {
-        if (e == null || !this.adjacentVertexMap.containsKey(e)) {
-            return false;
-        }
-
-        this.adjacentVertexMap.remove(e);
-        for (Set<E> them : this.adjacentVertexMap.values()) {
-            them.remove(e);
-        }
-        this.edges.removeIf(edge -> edge.vertex1.equals(e) || edge.vertex2.equals(e));
-
-        return true;
+        super(graph);
     }
 
     @Override
@@ -70,20 +35,20 @@ public class DirectedGraph<E> implements Graph<E> {
             return false;
         }
 
-        Set<E> v1 = this.adjacentVertexMap.get(e1);
-        Set<E> v2 = this.adjacentVertexMap.get(e2);
+        Set<E> v1 = super.adjacentVertexMap.get(e1);
+        Set<E> v2 = super.adjacentVertexMap.get(e2);
 
         if (v1 == null || v2 == null) {
             return false;
         }
 
         Edge<E> edge = new Edge<>(e1, e2);
-        if (this.edges.contains(edge)) {
+        if (super.edges.contains(edge)) {
             return false;
         }
 
         v1.add(e2);
-        this.edges.add(edge);
+        super.edges.add(edge);
 
         return true;
     }
@@ -94,77 +59,22 @@ public class DirectedGraph<E> implements Graph<E> {
             return false;
         }
 
-        Set<E> v1 = this.adjacentVertexMap.get(e1);
-        Set<E> v2 = this.adjacentVertexMap.get(e2);
+        Set<E> v1 = super.adjacentVertexMap.get(e1);
+        Set<E> v2 = super.adjacentVertexMap.get(e2);
 
         if (v1 == null || v2 == null) {
             return false;
         }
 
         v1.remove(e2);
-        this.edges.remove(new Edge<>(e1, e2));
+        super.edges.remove(new Edge<>(e1, e2));
 
         return true;
-    }
-
-    @Override
-    public boolean addAll(Graph<E> graph) {
-        Set<E> vertices = graph.getAllVertices();
-
-        // Graph don't need to add the empty one.
-        if (vertices.isEmpty()) {
-            return false;
-        }
-
-        for (E e : vertices) {
-            Set<E> oldbie = this.adjacentVertexMap.get(e);
-            Set<E> newbie = graph.getAdjacentVertices(e);
-
-            if (oldbie == null) {
-                // Adds new vertex and its edges.
-                this.adjacentVertexMap.put(e, newbie);
-            } else {
-                // Adds new edges to the existing vertex.
-                oldbie.addAll(newbie);
-            }
-
-            // Adds new edges.
-            for (E it : newbie) {
-                this.edges.add(new Edge<>(e, it));
-            }
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean containsVertex(E e) {
-        return this.adjacentVertexMap.containsKey(e);
-    }
-
-    @Override
-    public int getVertexSize() {
-        return this.adjacentVertexMap.size();
-    }
-
-    @Override
-    public int getPathLength() {
-        return this.edges.size();
-    }
-
-    @Override
-    public Set<E> getAllVertices() {
-        return this.adjacentVertexMap.keySet();
-    }
-
-    @Override
-    public Set<E> getAdjacentVertices(E e) {
-        return this.adjacentVertexMap.get(e);
     }
 
     @Override
     public String toString() {
-        Set<Entry<E, Set<E>>> entries = this.adjacentVertexMap.entrySet();
+        Set<Entry<E, Set<E>>> entries = super.adjacentVertexMap.entrySet();
 
         StringBuilder sb = new StringBuilder("DirectedGraph {");
         if (entries.isEmpty()) {
@@ -186,59 +96,6 @@ public class DirectedGraph<E> implements Graph<E> {
         }
 
         return sb.append('}').toString();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(adjacentVertexMap);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof DirectedGraph<?> that)) {
-            return false;
-        }
-
-        return this.adjacentVertexMap.equals(that.adjacentVertexMap);
-    }
-
-    // -------------------------------------------------------------------------------------------------
-
-    /**
-     * Edge for directed graph.
-     * <p>
-     * {@link #equals(Object)}
-     *
-     * @param <E> element
-     */
-    private static class Edge<E> {
-        private final E vertex1;
-        private final E vertex2;
-
-        public Edge(E vertex1, E vertex2) {
-            this.vertex1 = vertex1;
-            this.vertex2 = vertex2;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (!(o instanceof Edge<?> that)) {
-                return false;
-            }
-
-            return this.vertex1.equals(that.vertex1) && this.vertex2.equals(that.vertex2);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.vertex1.hashCode(), this.vertex2.hashCode());
-        }
     }
 
 }
