@@ -15,7 +15,7 @@ public abstract class ArchiveResource extends AbstractResource {
     @EqualsAndHashCode.Include
     private final Instant lastModifiedTime;
 
-    public ArchiveResource(
+    protected ArchiveResource(
             String path, String name, InputStream inputStream,
             long size, boolean directory, long lastModifiedMilliTime
     ) {

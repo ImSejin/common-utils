@@ -34,7 +34,7 @@ import io.github.imsejin.common.io.Resource;
 public abstract class ArchiveResourceFinder<
         R extends ArchiveResource,
         E extends ArchiveEntry,
-        I extends ArchiveInputStream>
+        I extends ArchiveInputStream<E>>
         implements ResourceFinder {
 
     @Override
