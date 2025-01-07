@@ -55,7 +55,7 @@ public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArc
 
     @Override
     protected ZipArchiveEntry getNextArchiveEntry(ZipArchiveInputStream in) throws IOException {
-        return in.getNextZipEntry();
+        return in.getNextEntry();
     }
 
     @Override
