@@ -189,7 +189,7 @@ public abstract class Descriptor<SELF extends Descriptor<SELF>> {
      * <p> Deprecated not to be confused with {@link ObjectAssert#isEqualTo(Object)}.
      */
     @Override
-    @Deprecated
+    @Deprecated(since = "0.8.0")
     @ExcludeFromGeneratedJacocoReport
     public boolean equals(Object obj) {
         return super.equals(obj);
