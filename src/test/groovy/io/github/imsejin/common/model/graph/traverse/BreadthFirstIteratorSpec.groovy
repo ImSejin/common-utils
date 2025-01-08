@@ -16,11 +16,12 @@
 
 package io.github.imsejin.common.model.graph.traverse
 
-import io.github.imsejin.common.model.graph.Graph
-import io.github.imsejin.common.model.graph.UndirectedGraph
 import spock.lang.Specification
 
 import java.util.stream.StreamSupport
+
+import io.github.imsejin.common.model.graph.Graph
+import io.github.imsejin.common.model.graph.UndirectedGraph
 
 import static java.util.stream.Collectors.*
 

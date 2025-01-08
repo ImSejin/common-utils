@@ -224,7 +224,7 @@ public final class ArrayUtils {
 
             return sb.toString();
 
-        } else if (array instanceof Map<?,?> map) {
+        } else if (array instanceof Map<?, ?> map) {
             Iterator<? extends Entry<?, ?>> iterator = map.entrySet().iterator();
 
             StringBuilder sb = new StringBuilder("{");
