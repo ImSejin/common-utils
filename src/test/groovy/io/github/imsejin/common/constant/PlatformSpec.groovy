@@ -72,4 +72,80 @@ class PlatformSpec extends Specification {
         !Platform.UNKNOWN.current
     }
 
+    def "Gets name of operating system"() {
+        given:
+        System.setProperty("os.name", os)
+
+        expect:
+        Platform.currentOperatingSystem == expected
+
+        cleanup:
+        System.clearProperty("os.name")
+
+        where:
+        os           | expected
+        ""           | ""
+        " "          | ""
+        "Aix"        | "aix"
+        "SunOS"      | "sunos"
+        "Solaris OS" | "solaris os"
+        "Unix"       | "unix"
+        "Linux"      | "linux"
+        "Mac OS X"   | "mac os x"
+        "Darwin OS"  | "darwin os"
+        "Windows 10" | "windows 10"
+    }
+
+    def "Gets architecture"() {
+        given:
+        System.setProperty("os.arch", arch)
+
+        expect:
+        Platform.currentArchitecture == expected
+
+        cleanup:
+        System.clearProperty("os.arch")
+
+        where:
+        arch      | expected
+        ""        | ""
+        " "       | ""
+        "x86_x64" | "x86_x64"
+        "x86"     | "x86"
+        "X86"     | "x86"
+        "amd64"   | "amd64"
+        "Amd64"   | "amd64"
+        "AMD64"   | "amd64"
+        "aarch64" | "aarch64"
+        "AArch64" | "aarch64"
+        "arm64"   | "arm64"
+        "ARM64"   | "arm64"
+    }
+
+    def "Whether rosetta is supported through command result"() {
+        given:
+        SpyStatic(Runtime)
+        Runtime.runtime >> {
+            def process = Mock(Process)
+            process.inputStream >> { new ByteArrayInputStream(result.bytes) }
+            def runtime = Mock(Runtime)
+            runtime.exec(new String[] {"/usr/sbin/sysctl", "sysctl.proc_translated"}) >> { process }
+
+            runtime
+        }
+
+        when:
+        def supported = Platform.supportRosetta()
+
+        then:
+        supported == expected
+
+        where:
+        result                                 | expected
+        ""                                     | false
+        "unknown old 'sysctl.proc_translated'" | false
+        "sysctl.proc_translated: 0"            | true
+        "sysctl.proc_translated: 1"            | true
+    }
+
 }
