@@ -16,12 +16,13 @@
 
 package io.github.imsejin.common.tool
 
-import io.github.imsejin.common.tool.Stopwatch.Task
 import spock.lang.Specification
 
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
+
+import io.github.imsejin.common.tool.Stopwatch.Task
 
 class StopwatchSpec extends Specification {
 

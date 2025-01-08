@@ -16,9 +16,9 @@
 
 package io.github.imsejin.common.assertion.composition;
 
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
 import java.util.List;
+
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 /**
  * Composition of assertion for iteration randomly accessible.

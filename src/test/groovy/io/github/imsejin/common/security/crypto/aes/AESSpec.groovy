@@ -16,9 +16,10 @@
 
 package io.github.imsejin.common.security.crypto.aes
 
+import spock.lang.Specification
+
 import io.github.imsejin.common.util.ReflectionUtils
 import io.github.imsejin.common.util.StringUtils
-import spock.lang.Specification
 
 class AESSpec extends Specification {
 

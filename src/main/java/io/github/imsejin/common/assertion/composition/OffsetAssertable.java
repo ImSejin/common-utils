@@ -16,12 +16,12 @@
 
 package io.github.imsejin.common.assertion.composition;
 
-import io.github.imsejin.common.assertion.lang.ObjectAssert;
-
 import java.io.Serializable;
 import java.time.ZoneOffset;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjuster;
+
+import io.github.imsejin.common.assertion.lang.ObjectAssert;
 
 /**
  * Composition of assertion for offset.
