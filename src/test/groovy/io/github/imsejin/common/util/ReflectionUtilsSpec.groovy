@@ -18,6 +18,12 @@ package io.github.imsejin.common.util
 
 import spock.lang.Specification
 
+import java.nio.file.AccessMode
+
+import io.github.imsejin.common.internal.assertion.model.Bar
+import io.github.imsejin.common.internal.assertion.model.Foo
+import io.github.imsejin.common.internal.assertion.model.KanCode
+import io.github.imsejin.common.internal.assertion.model.Qux
 import io.github.imsejin.common.util.ReflectionUtilsSpec.A.AA
 import io.github.imsejin.common.util.ReflectionUtilsSpec.A.AB
 import io.github.imsejin.common.util.ReflectionUtilsSpec.B.BA
@@ -46,24 +52,138 @@ class ReflectionUtilsSpec extends Specification {
     }
 
     def "Gets field value"() {
+        given:
+        Qux.mode = AccessMode.READ
+        def qux = new Qux(id: 100, name: "alpha")
+
+        when:
+        def id = ReflectionUtils.getFieldValue(qux, qux.class.getDeclaredField("id"))
+
+        then:
+        qux.id == id
+
+        when:
+        def mode = ReflectionUtils.getFieldValue(null, qux.class.getDeclaredField("mode"))
+
+        then:
+        Qux.mode == mode
     }
 
     def "Sets field value"() {
+        given:
+        Qux.mode = AccessMode.READ
+        def qux = new Qux(id: 100, name: "alpha")
+
+        when:
+        ReflectionUtils.setFieldValue(qux, qux.class.getDeclaredField("id"), 200)
+
+        then:
+        qux.id == 200
+
+        when:
+        ReflectionUtils.setFieldValue(null, qux.class.getDeclaredField("mode"), AccessMode.WRITE)
+
+        then:
+        Qux.mode == AccessMode.WRITE
     }
 
     def "Gets declared constructor"() {
+        when:
+        def constructor = ReflectionUtils.getDeclaredConstructor(type, params as Class<?>[])
+
+        then:
+        constructor.declaringClass == type
+
+        where:
+        type    | params
+        KanCode | [String]
+        Foo     | []
+        Foo     | [String]
+        Bar     | []
+        Bar     | [String]
+        Qux     | []
+        Parent  | []
+        Child   | []
+        A       | []
+        AA      | []
+        AB      | [A]
+        B       | [this.class]
+        BA      | [B]
     }
 
-    def "Instantiates"() {
-    }
+    def "Creates an instance"() {
+        when:
+        def instance = {
+            if (args.empty) {
+                return ReflectionUtils.instantiate(type)
+            } else {
+                def constructor = ReflectionUtils.getDeclaredConstructor(type, params as Class<?>[])
+                return ReflectionUtils.instantiate(constructor, args as Object[])
+            }
+        }.call()
 
-    def "Tests instantiate"() {
+        then:
+        instance != null
+        instance.class == type
+
+        where:
+        type    | params   | args
+        KanCode | [String] | ["01020304"]
+        Foo     | []       | []
+        Foo     | [String] | ["alpha"]
+        Bar     | []       | []
+        Bar     | [String] | ["beta"]
+        Qux     | []       | []
     }
 
     def "Gets declared method"() {
+        when:
+        def method = ReflectionUtils.getDeclaredMethod(type, name, params as Class<?>[])
+
+        then:
+        method.declaringClass == type
+
+        where:
+        type    | name             | params
+        KanCode | "getDepth"       | []
+        Foo     | "getValue"       | []
+        Bar     | "getCreatedTime" | []
+        Qux     | "getMode"        | []
+        Qux     | "setMode"        | [AccessMode]
+        Qux     | "getId"          | []
+        Qux     | "setId"          | [Integer]
+        Qux     | "getName"        | []
+        Qux     | "setName"        | [String]
     }
 
-    def "Invoke"() {
+    def "Calls the executable"() {
+        given:
+        def executable = name
+                ? ReflectionUtils.getDeclaredMethod(type, name, params as Class<?>[])
+                : ReflectionUtils.getDeclaredConstructor(type, params as Class<?>[])
+
+        when:
+        ReflectionUtils.execute(executable, instance, args as Object[])
+
+        then:
+        noExceptionThrown()
+
+        where:
+        type    | name             | params       | instance                | args
+        // Constructors
+        KanCode | null             | [String]     | null                    | ["01020304"]
+        Foo     | null             | []           | null                    | []
+        Foo     | null             | [String]     | null                    | ["foo"]
+        Bar     | null             | []           | null                    | []
+        Bar     | null             | [String]     | null                    | ["bar"]
+        Qux     | null             | []           | null                    | []
+        // Methods
+        KanCode | "getDepth"       | []           | new KanCode("01020304") | []
+        Foo     | "getValue"       | []           | new Foo()               | []
+        Bar     | "getCreatedTime" | []           | new Bar()               | []
+        Qux     | "setMode"        | [AccessMode] | null                    | [AccessMode.EXECUTE]
+        Qux     | "setId"          | [Integer]    | new Qux()               | [300]
+        Qux     | "setName"        | [String]     | new Qux()               | ["beta"]
     }
 
     // -------------------------------------------------------------------------------------------------
