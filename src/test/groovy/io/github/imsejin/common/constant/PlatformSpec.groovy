@@ -148,4 +148,18 @@ class PlatformSpec extends Specification {
         "sysctl.proc_translated: 1"            | true
     }
 
+    def "Platform does not support rosetta when failed to execute command"() {
+        given:
+        SpyStatic(Runtime)
+        Runtime.runtime >> {
+            def runtime = Mock(Runtime)
+            runtime.exec(_ as String[]) >> { throw new IOException("Boom!") }
+
+            runtime
+        }
+
+        expect:
+        !Platform.supportRosetta()
+    }
+
 }

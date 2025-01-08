@@ -385,4 +385,138 @@ class StringAssertTest {
         }
     }
 
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isGreaterThan'")
+    class IsGreaterThan {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "beta | alpha",
+                "a    | A",
+                "512  | 1024",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is greater than other")
+        void test0(String actual, String expected) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThan(expected));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "beta  | beta",
+                "alpha | beta",
+                "A     | a",
+                "1024  | 512",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is less than or equal to other")
+        void test1(String actual, String expected) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                            .isGreaterThan(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to be greater than the other, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}expected: '.*'");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isGreaterThanOrEqualTo'")
+    class IsGreaterThanOrEqualTo {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "beta | beta",
+                "beta | alpha",
+                "a    | A",
+                "512  | 1024",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is greater than or equal to other")
+        void test0(String actual, String expected) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isGreaterThanOrEqualTo(expected));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "alpha | beta",
+                "A     | a",
+                "1024  | 512",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is less than other")
+        void test1(String actual, String expected) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                            .isGreaterThanOrEqualTo(expected))
+                    .withMessageMatching(
+                            Pattern.quote("It is expected to be greater than or equal to the other, but it isn't.") +
+                                    "\n {4}actual: '.+'" +
+                                    "\n {4}expected: '.*'");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isLessThan'")
+    class IsLessThan {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "alpha | beta",
+                "A     | a",
+                "1024  | 512",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is less than other")
+        void test0(String actual, String expected) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThan(expected));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "beta | beta",
+                "beta | alpha",
+                "a    | A",
+                "512  | 1024",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is greater than or equal to other")
+        void test1(String actual, String expected) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                            .isLessThan(expected))
+                    .withMessageMatching(Pattern.quote("It is expected to be less than the other, but it isn't.") +
+                            "\n {4}actual: '.+'" +
+                            "\n {4}expected: '.*'");
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    @Nested
+    @DisplayName("method 'isLessThanOrEqualTo'")
+    class IsLessThanOrEqualTo {
+        @ParameterizedTest
+        @CsvSource(value = {
+                "beta  | beta",
+                "alpha | beta",
+                "A     | a",
+                "1024  | 512",
+        }, delimiter = '|')
+        @DisplayName("passes, when actual is less than or equal to other")
+        void test0(String actual, String expected) {
+            assertThatNoException().isThrownBy(() -> Asserts.that(actual).isLessThanOrEqualTo(expected));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "beta | alpha",
+                "a    | A",
+                "512  | 1024",
+        }, delimiter = '|')
+        @DisplayName("throws exception, when actual is greater than other")
+        void test1(String actual, String expected) {
+            assertThatIllegalArgumentException().isThrownBy(() -> Asserts.that(actual)
+                            .isLessThanOrEqualTo(expected))
+                    .withMessageMatching(
+                            Pattern.quote("It is expected to be less than or equal to the other, but it isn't.") +
+                                    "\n {4}actual: '.+'" +
+                                    "\n {4}expected: '.*'");
+        }
+    }
+
 }
