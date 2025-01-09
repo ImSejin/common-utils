@@ -9,25 +9,22 @@
     </a>
     -->
     <a href="https://github.com/ImSejin/common-utils/actions/workflows/maven-build.yml">
-        <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/imsejin/common-utils/maven-build.yml?branch=release&style=flat&logo=github">
+        <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/imsejin/common-utils/maven-build.yml?branch=release&style=flat-square&logo=github&label=Build">
     </a>
     <a href="https://codecov.io/gh/ImSejin/common-utils">
-        <img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/ImSejin/common-utils/release?logo=codecov&label=code%20coverage&style=flat&token=F9DCS57CAN"/>
+        <img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/ImSejin/common-utils/release?logo=codecov&style=flat-square&token=F9DCS57CAN&label=CodeCoverage"/>
     </a>
     <a href="https://central.sonatype.com/artifact/io.github.imsejin/common-utils">
-        <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.imsejin/common-utils?logo=apachemaven&style=flat">
+        <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.imsejin/common-utils?logo=apachemaven&style=flat-square&label=MavenCentral">
     </a>
     <br/>
     <a href="https://sonarcloud.io/summary/overall?id=ImSejin_common-utils">
-        <img alt="Sonarcloud Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=ImSejin_common-utils&metric=alert_status"/>
+        <img alt="Sonarcloud Quality Gate Status" src="https://img.shields.io/sonar/quality_gate/ImSejin_common-utils?server=https%3A%2F%2Fsonarcloud.io&style=flat-square&logo=sonarcloud&label=QualityGate"/>
     </a>
     <a href="https://sonarcloud.io/summary/overall?id=ImSejin_common-utils">
-        <img alt="Sonarcloud Maintainability Rating" src="https://sonarcloud.io/api/project_badges/measure?project=ImSejin_common-utils&metric=sqale_rating"/>
+        <img alt="Sonarcloud Maintainability Rating" src="https://img.shields.io/sonar/sqale_rating/ImSejin_common-utils?server=https%3A%2F%2Fsonarcloud.io&style=flat-square&logo=sonarcloud&label=Maintainability"/>
     </a>
-    <a href="https://app.codacy.com/gh/ImSejin/common-utils/dashboard">
-        <img alt="Codacy grade" src="https://img.shields.io/codacy/grade/cda840b8532940ae8c3604696da8eabe?style=flat&logo=codacy">
-    </a>
-    <img alt="jdk8" src="https://img.shields.io/badge/jdk-8-orange?style=flat">
+    <img alt="java17" src="https://img.shields.io/badge/Java-17-orange?style=flat-square">
 </p>
 
 # Getting started
