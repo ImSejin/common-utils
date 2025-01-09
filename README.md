@@ -3,11 +3,6 @@
 <p align="center">Common utilities for java programming</p>
 
 <p align="center">
-    <!--
-    <a href="https://travis-ci.com/github/ImSejin/common-utils">
-        <img alt="Travis CI" src="https://img.shields.io/travis/com/ImSejin/common-utils/release?style=flat-square">
-    </a>
-    -->
     <a href="https://github.com/ImSejin/common-utils/actions/workflows/maven-build.yml">
         <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/imsejin/common-utils/maven-build.yml?branch=release&style=flat-square&logo=github&label=Build">
     </a>
