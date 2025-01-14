@@ -34,6 +34,7 @@ class ZipResourceSpec extends Specification {
 
         and:
         def entry = new ZipArchiveEntry(file, entryName)
+        entry.size = size
 
         when:
         def resource = new ZipResource(entry, new byte[0])
@@ -55,9 +56,9 @@ class ZipResourceSpec extends Specification {
 
         where:
         fileName             | entryName                | size
-        "macos-14.4.1.zip"   | "README.txt"             | 836466
-        "ubuntu-18.04.3.zip" | "images/box.png"         | 840624
-        "windows10-pro.zip"  | "icons/css/property.svg" | 488989
+        "macos-14.4.1.zip"   | "README.txt"             | 4279
+        "ubuntu-18.04.3.zip" | "images/box.png"         | 6791
+        "windows10-pro.zip"  | "icons/css/property.svg" | 696
     }
 
     def "When it is a directory"() {
@@ -67,6 +68,7 @@ class ZipResourceSpec extends Specification {
 
         and:
         def entry = new ZipArchiveEntry(file, entryName)
+        entry.size = 0
 
         when:
         def resource = new ZipResource(entry, new byte[0])
@@ -76,6 +78,7 @@ class ZipResourceSpec extends Specification {
         resource.name == FilenameUtils.getName(entryName)
         resource.lastModifiedTime > Instant.EPOCH
         resource.directory
+        resource.size == 0
 
         and: "Check equals and hashCode"
         def other = new ZipResource(entry, new byte[0])
@@ -86,10 +89,10 @@ class ZipResourceSpec extends Specification {
         resource.toString() =~ /^ZipResource\(([a-zA-Z]+=.+)+\)$/
 
         where:
-        fileName             | entryName             | size
-        "macos-14.4.1.zip"   | "/"                   | 64
-        "ubuntu-18.04.3.zip" | "images/"             | 64
-        "windows10-pro.zip"  | "java2d/demos/Fonts/" | 548
+        fileName             | entryName
+        "macos-14.4.1.zip"   | "/"
+        "ubuntu-18.04.3.zip" | "images/"
+        "windows10-pro.zip"  | "java2d/demos/Fonts/"
     }
 
 }
