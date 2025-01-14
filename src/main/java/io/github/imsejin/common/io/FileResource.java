@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,6 +37,8 @@ public class FileResource implements Resource {
 
     private final String name;
 
+    private final Instant lastModifiedTime;
+
     private final long size;
 
     private final boolean directory;
@@ -46,6 +49,7 @@ public class FileResource implements Resource {
         try {
             this.path = realPath.toString();
             this.name = FilenameUtils.getName(this.path);
+            this.lastModifiedTime = Files.getLastModifiedTime(realPath).toInstant();
             this.directory = Files.isDirectory(realPath);
             this.size = Files.size(realPath);
             this.realPath = realPath;

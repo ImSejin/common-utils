@@ -31,7 +31,8 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import io.github.imsejin.common.io.TarResource;
 import io.github.imsejin.common.util.FilenameUtils;
 
-public class TarResourceFinder extends ArchiveResourceFinder<TarResource, TarArchiveEntry, TarArchiveInputStream> {
+public class TarResourceFinder extends
+        AbstractArchiveResourceFinder<TarResource, TarArchiveEntry, TarArchiveInputStream> {
 
     protected final boolean recursive;
 
@@ -54,8 +55,8 @@ public class TarResourceFinder extends ArchiveResourceFinder<TarResource, TarArc
     }
 
     @Override
-    protected TarArchiveEntry getNextArchiveEntry(TarArchiveInputStream in) throws IOException {
-        return in.getNextTarEntry();
+    protected TarArchiveInputStream getArchiveInputStream(InputStream in) throws IOException {
+        return new TarArchiveInputStream(in, this.charset.name());
     }
 
     @Override
@@ -86,11 +87,6 @@ public class TarResourceFinder extends ArchiveResourceFinder<TarResource, TarArc
         }
 
         return new TarResource(path, name, new ByteArrayInputStream(bytes), size, false, modifiedMilliTime);
-    }
-
-    @Override
-    protected TarArchiveInputStream getArchiveInputStream(InputStream in) throws IOException {
-        return new TarArchiveInputStream(in, this.charset.name());
     }
 
 }

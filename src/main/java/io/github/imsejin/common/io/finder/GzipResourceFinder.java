@@ -16,11 +16,11 @@
 
 package io.github.imsejin.common.io.finder;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,14 +28,13 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.GzipResource;
-import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.util.FilenameUtils;
 import io.github.imsejin.common.util.StringUtils;
 
-public class GzipResourceFinder implements ResourceFinder {
+public class GzipResourceFinder implements ResourceFinder<GzipResource> {
 
     @Override
-    public List<Resource> getResources(Path path) {
+    public List<GzipResource> getResources(Path path) {
         Asserts.that(path)
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
@@ -54,22 +53,37 @@ public class GzipResourceFinder implements ResourceFinder {
                 out.write(buffer, 0, offset);
             }
 
-            String fileName = in.getMetaData().getFilename();
-            if (StringUtils.isNullOrEmpty(fileName)) {
-                String name = FilenameUtils.getName(path.toString());
-                fileName = FilenameUtils.getBaseName(name);
-            }
-
-            long modifiedMilliTime = in.getMetaData().getModificationTime();
             byte[] bytes = out.toByteArray();
-            GzipResource resource = new GzipResource(fileName, new ByteArrayInputStream(bytes),
-                    bytes.length, in.getCompressedCount(), modifiedMilliTime);
+            GzipResource resource = getResource(path, in, bytes);
 
             return Collections.singletonList(resource);
-
         } catch (IOException e) {
             throw new IllegalStateException("Failed to read gzip compressor: " + path, e);
         }
+    }
+
+    // -------------------------------------------------------------------------------------------------
+
+    private GzipResource getResource(
+            Path path,
+            GzipCompressorInputStream in,
+            byte[] bytes
+    ) {
+        String fileName = in.getMetaData().getFileName();
+        if (StringUtils.isNullOrEmpty(fileName)) {
+            String name = FilenameUtils.getName(path.toString());
+            fileName = FilenameUtils.getBaseName(name);
+        }
+
+        long modifiedMilliTime = in.getMetaData().getModificationTime();
+
+        return new GzipResource(
+                fileName,
+                Instant.ofEpochMilli(modifiedMilliTime),
+                bytes.length,
+                in.getCompressedCount(),
+                bytes
+        );
     }
 
 }

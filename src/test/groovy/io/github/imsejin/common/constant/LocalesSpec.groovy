@@ -27,7 +27,7 @@ class LocalesSpec extends Specification {
         expect:
         languages != null
         languages.size() == 46
-        languages.size() == languages.grep { it.language.length() > 0 && it.country.isEmpty() }.size()
+        languages.size() == languages.count { it.language.length() > 0 && it.country.empty }
         languages.size() == languages.unique { it.language }.size()
     }
 
@@ -38,7 +38,7 @@ class LocalesSpec extends Specification {
         expect:
         countries != null
         countries.size() == 107
-        countries.size() == countries.grep { !it.language.isEmpty() && !it.country.isEmpty() }.size()
+        countries.size() == countries.count { !it.language.empty && !it.country.empty }
         countries.size() == countries.unique { it.toLanguageTag() }.size()
     }
 

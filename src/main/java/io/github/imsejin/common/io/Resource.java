@@ -17,17 +17,50 @@
 package io.github.imsejin.common.io;
 
 import java.io.InputStream;
+import java.time.Instant;
 
 public interface Resource {
 
+    /**
+     * Gets path of resource.
+     *
+     * @return path
+     */
     String getPath();
 
+    /**
+     * Gets name of resource.
+     *
+     * @return name
+     */
     String getName();
 
+    /**
+     * Gets last modified time of resource.
+     *
+     * @return last modified time
+     */
+    Instant getLastModifiedTime();
+
+    /**
+     * Gets input stream from resource.
+     *
+     * @return input stream
+     */
     InputStream getInputStream();
 
+    /**
+     * Gets size of resource.
+     *
+     * @return size
+     */
     long getSize();
 
+    /**
+     * Returns whether it is directory or not.
+     *
+     * @return whether it is directory or not
+     */
     boolean isDirectory();
 
 }

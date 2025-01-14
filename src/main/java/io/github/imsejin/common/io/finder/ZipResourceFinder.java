@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.io.finder;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,9 +28,9 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 
 import io.github.imsejin.common.io.ZipResource;
-import io.github.imsejin.common.util.FilenameUtils;
 
-public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArchiveEntry, ZipArchiveInputStream> {
+public class ZipResourceFinder extends
+        AbstractArchiveResourceFinder<ZipResource, ZipArchiveEntry, ZipArchiveInputStream> {
 
     protected final boolean recursive;
 
@@ -54,8 +53,8 @@ public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArc
     }
 
     @Override
-    protected ZipArchiveEntry getNextArchiveEntry(ZipArchiveInputStream in) throws IOException {
-        return in.getNextEntry();
+    protected ZipArchiveInputStream getArchiveInputStream(InputStream in) {
+        return new ZipArchiveInputStream(in, this.charset.name());
     }
 
     @Override
@@ -64,14 +63,8 @@ public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArc
             return null;
         }
 
-        String path = entry.getName();
-        String name = FilenameUtils.getName(path);
-        boolean directory = entry.isDirectory();
-        long size = entry.getSize();
-        long modifiedMilliTime = entry.getLastModifiedDate().getTime();
-
-        if (directory) {
-            return new ZipResource(path, name, null, size, true, modifiedMilliTime);
+        if (entry.isDirectory()) {
+            return new ZipResource(entry, new byte[0]);
         }
 
         byte[] bytes;
@@ -85,12 +78,7 @@ public class ZipResourceFinder extends ArchiveResourceFinder<ZipResource, ZipArc
             bytes = out.toByteArray();
         }
 
-        return new ZipResource(path, name, new ByteArrayInputStream(bytes), size, false, modifiedMilliTime);
-    }
-
-    @Override
-    protected ZipArchiveInputStream getArchiveInputStream(InputStream in) {
-        return new ZipArchiveInputStream(in, this.charset.name());
+        return new ZipResource(entry, bytes);
     }
 
 }

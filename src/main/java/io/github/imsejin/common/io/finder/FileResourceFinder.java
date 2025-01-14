@@ -26,11 +26,8 @@ import java.util.stream.Stream;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.FileResource;
-import io.github.imsejin.common.io.Resource;
 
-import static java.util.stream.Collectors.*;
-
-public class FileResourceFinder implements ResourceFinder {
+public class FileResourceFinder implements ResourceFinder<FileResource> {
 
     private final boolean recursive;
 
@@ -46,7 +43,7 @@ public class FileResourceFinder implements ResourceFinder {
     }
 
     @Override
-    public List<Resource> getResources(Path path) {
+    public List<FileResource> getResources(Path path) {
         Asserts.that(path)
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
@@ -54,7 +51,7 @@ public class FileResourceFinder implements ResourceFinder {
                 .exists();
 
         if (!Files.isDirectory(path)) {
-            Resource resource = new FileResource(path);
+            FileResource resource = new FileResource(path);
             return Collections.singletonList(resource);
         }
 
@@ -67,8 +64,7 @@ public class FileResourceFinder implements ResourceFinder {
                 stream = Stream.concat(Stream.of(path), stream);
             }
 
-            return stream.filter(this.filter).map(FileResource::new)
-                    .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+            return stream.filter(this.filter).map(FileResource::new).toList();
         } catch (IOException e) {
             throw new IllegalStateException("Failed to visit location: " + path, e);
         }

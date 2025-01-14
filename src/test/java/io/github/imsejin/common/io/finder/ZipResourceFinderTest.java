@@ -47,8 +47,8 @@ class ZipResourceFinderTest {
         Path path = Paths.get(classLoader.getResource("archiver/zip/" + fileName).toURI());
 
         // when
-        ResourceFinder resourceFinder = new ZipResourceFinder(false);
-        List<Resource> resources = resourceFinder.getResources(path);
+        ZipResourceFinder resourceFinder = new ZipResourceFinder(false);
+        List<ZipResource> resources = resourceFinder.getResources(path);
 
         // then
         assertThat(resources)

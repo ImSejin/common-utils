@@ -21,6 +21,7 @@ import spock.lang.Specification
 import java.nio.charset.StandardCharsets
 import java.nio.file.FileSystem
 import java.nio.file.Files
+import java.time.Instant
 
 import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.extension.FileSystemSource
@@ -47,18 +48,11 @@ class FileResourceSpec extends Specification {
         when:
         def resource = new FileResource(filePath)
 
-        then: "Check equals and hashCode"
-        def other = new FileResource(filePath)
-        resource == other
-        [resource, other].toSet().size() == 1
-
-        and: "Check toString"
-        resource.toString() =~ /^FileResource\(([a-zA-Z]+=.+)+\)$/
-
-        and:
+        then:
         resource.path == filePath.toString()
         resource.name == filePath.fileName.toString()
         resource.path.endsWith(resource.name)
+        resource.lastModifiedTime > Instant.EPOCH
         resource.size == bytes.length
         resource.realPath == filePath
 
@@ -66,6 +60,14 @@ class FileResourceSpec extends Specification {
         3.times {
             assert IOUtils.readFully(resource.inputStream, resource.size as int) == bytes
         }
+
+        and: "Check equals and hashCode"
+        def other = new FileResource(filePath)
+        resource == other
+        [resource, other].toSet().size() == 1
+
+        and: "Check toString"
+        resource.toString() =~ /^FileResource\(([a-zA-Z]+=.+)+\)$/
     }
 
     def "When it is a directory"(@Memory FileSystem fileSystem) {

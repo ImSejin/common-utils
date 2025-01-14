@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
@@ -28,17 +29,16 @@ import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.io.ArchiveResource;
 import io.github.imsejin.common.io.Resource;
 
-public abstract class ArchiveResourceFinder<
-        R extends ArchiveResource,
+public abstract class AbstractArchiveResourceFinder<
+        R extends Resource,
         E extends ArchiveEntry,
         I extends ArchiveInputStream<E>>
-        implements ResourceFinder {
+        implements ResourceFinder<R> {
 
     @Override
-    public List<Resource> getResources(Path path) {
+    public final List<R> getResources(Path path) {
         Asserts.that(path)
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
@@ -50,7 +50,7 @@ public abstract class ArchiveResourceFinder<
                 .is(Files::isReadable);
 
         try (I in = getArchiveInputStream(Files.newInputStream(path))) {
-            List<Resource> resources = new ArrayList<>();
+            List<R> resources = new ArrayList<>();
 
             // java.nio.charset.MalformedInputException: Input length = 1
             // java.nio.charset.CharsetDecoder.decode
@@ -68,18 +68,21 @@ public abstract class ArchiveResourceFinder<
                 resources.add(resource);
             }
 
-            return resources;
-
+            return Collections.unmodifiableList(resources);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to read tar file: " + path, e);
         }
     }
 
-    protected abstract E getNextArchiveEntry(I in) throws IOException;
+    // -------------------------------------------------------------------------------------------------
+
+    protected abstract I getArchiveInputStream(InputStream in) throws IOException;
+
+    protected E getNextArchiveEntry(I in) throws IOException {
+        return in.getNextEntry();
+    }
 
     @Nullable
     protected abstract R getArchiveResource(E entry, I in) throws IOException;
-
-    protected abstract I getArchiveInputStream(InputStream in) throws IOException;
 
 }

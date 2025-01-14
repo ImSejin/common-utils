@@ -37,15 +37,25 @@ class GzipResourceTest {
         // given
         String fileName = "temp-file.log";
         byte[] bytes = new RandomString().nextString(1, (int) Math.pow(2, 20)).getBytes(StandardCharsets.UTF_8);
-        long modifiedTime = System.currentTimeMillis();
+        Instant modifiedTime = Instant.now();
 
         // when
-        GzipResource resource = new GzipResource(fileName, new ByteArrayInputStream(bytes),
-                bytes.length, bytes.length / 2, modifiedTime);
+        GzipResource resource = new GzipResource(
+                fileName,
+                modifiedTime,
+                bytes.length,
+                bytes.length / 2,
+                bytes
+        );
 
         // then
-        GzipResource expected = new GzipResource(fileName, new ByteArrayInputStream(bytes),
-                bytes.length, bytes.length / 2, modifiedTime);
+        GzipResource expected = new GzipResource(
+                fileName,
+                modifiedTime,
+                bytes.length,
+                bytes.length / 2,
+                bytes
+        );
         assertThat(resource)
                 .isNotNull()
                 .isEqualTo(expected)
@@ -54,9 +64,9 @@ class GzipResourceTest {
                 .returns((long) bytes.length, Resource::getSize)
                 .returns(false, Resource::isDirectory)
                 .returns((long) bytes.length / 2, GzipResource::getCompressedSize)
-                .returns(Instant.ofEpochMilli(modifiedTime), GzipResource::getLastModifiedTime)
+                .returns(modifiedTime, GzipResource::getLastModifiedTime)
                 .asString()
-                .matches("^" + GzipResource.class.getSimpleName() + "\\(([a-zA-Z]+=.+)+\\)$");
+                .matches("^GzipResource\\(([a-zA-Z]+=.+)+\\)$");
         assertThat(resource.getInputStream())
                 .isNotNull()
                 .hasSameContentAs(new ByteArrayInputStream(bytes));
