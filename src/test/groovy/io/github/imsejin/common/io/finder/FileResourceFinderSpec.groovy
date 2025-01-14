@@ -26,26 +26,26 @@ import org.junit.jupiter.api.extension.FileSystemSource
 import org.junit.jupiter.api.extension.Memory
 
 import io.github.imsejin.common.internal.TestFileSystemCreator
-import io.github.imsejin.common.io.DiskFileResource
+import io.github.imsejin.common.io.FileResource
 import io.github.imsejin.common.util.FilenameUtils
 
 @FileSystemSource
-class DiskFileResourceFinderSpec extends Specification {
+class FileResourceFinderSpec extends Specification {
 
     def "Gets resources non-recursively on local file system"(FileSystem fileSystem) {
         given:
         def path = fileSystem.getPath(".")
 
         when:
-        def finder = new DiskFileResourceFinder(false)
+        def finder = new FileResourceFinder(false)
         def resources = finder.getResources(path)
 
-        then: "Consist of DiskFileResource"
+        then: "Consist of FileResource"
         !resources.empty
-        resources.every { it instanceof DiskFileResource }
+        resources.every { it instanceof FileResource }
 
         and: "Include only one root directory"
-        resources.count { it == new DiskFileResource(path) } == 1
+        resources.count { it == new FileResource(path) } == 1
     }
 
     def "Gets resources non-recursively"(@Memory FileSystem fileSystem) {
@@ -63,7 +63,7 @@ class DiskFileResourceFinderSpec extends Specification {
                 .create(path)
 
         when:
-        def finder = new DiskFileResourceFinder(false)
+        def finder = new FileResourceFinder(false)
         def resources = finder.getResources(path)
 
         then: "Found resources are in one depth (including root)"
@@ -102,7 +102,7 @@ class DiskFileResourceFinderSpec extends Specification {
                 .create(path)
 
         when:
-        def finder = new DiskFileResourceFinder(true)
+        def finder = new FileResourceFinder(true)
         def resources = finder.getResources(path)
 
         then: "Found resources are in all depths (including root)"
@@ -143,7 +143,7 @@ class DiskFileResourceFinderSpec extends Specification {
                 .create(path)
 
         when:
-        def finder = new DiskFileResourceFinder(true, filter)
+        def finder = new FileResourceFinder(true, filter)
         def resources = finder.getResources(path)
 
         then:

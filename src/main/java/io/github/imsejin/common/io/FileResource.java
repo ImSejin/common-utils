@@ -30,7 +30,7 @@ import io.github.imsejin.common.util.FilenameUtils;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class DiskFileResource implements Resource {
+public class FileResource implements Resource {
 
     private final String path;
 
@@ -42,7 +42,7 @@ public class DiskFileResource implements Resource {
 
     private final Path realPath;
 
-    public DiskFileResource(Path realPath) {
+    public FileResource(Path realPath) {
         try {
             this.path = realPath.toString();
             this.name = FilenameUtils.getName(this.path);
@@ -50,7 +50,7 @@ public class DiskFileResource implements Resource {
             this.size = Files.size(realPath);
             this.realPath = realPath;
         } catch (IOException e) {
-            throw new IllegalStateException("Failed to instantiate DiskFileResource from path: " + realPath, e);
+            throw new IllegalStateException("Failed to instantiate FileResource from path: " + realPath, e);
         }
     }
 

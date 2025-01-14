@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Sejin Im
+ * Copyright 2022 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,22 +25,22 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.io.DiskFileResource;
+import io.github.imsejin.common.io.FileResource;
 import io.github.imsejin.common.io.Resource;
 
 import static java.util.stream.Collectors.*;
 
-public class DiskFileResourceFinder implements ResourceFinder {
+public class FileResourceFinder implements ResourceFinder {
 
     private final boolean recursive;
 
     private final Predicate<Path> filter;
 
-    public DiskFileResourceFinder(boolean recursive) {
+    public FileResourceFinder(boolean recursive) {
         this(recursive, entry -> true);
     }
 
-    public DiskFileResourceFinder(boolean recursive, Predicate<Path> filter) {
+    public FileResourceFinder(boolean recursive, Predicate<Path> filter) {
         this.recursive = recursive;
         this.filter = filter;
     }
@@ -54,7 +54,7 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 .exists();
 
         if (!Files.isDirectory(path)) {
-            Resource resource = new DiskFileResource(path);
+            Resource resource = new FileResource(path);
             return Collections.singletonList(resource);
         }
 
@@ -67,7 +67,7 @@ public class DiskFileResourceFinder implements ResourceFinder {
                 stream = Stream.concat(Stream.of(path), stream);
             }
 
-            return stream.filter(this.filter).map(DiskFileResource::new)
+            return stream.filter(this.filter).map(FileResource::new)
                     .collect(collectingAndThen(toList(), Collections::unmodifiableList));
         } catch (IOException e) {
             throw new IllegalStateException("Failed to visit location: " + path, e);

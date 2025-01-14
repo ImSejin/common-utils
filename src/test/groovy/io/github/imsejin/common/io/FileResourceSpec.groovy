@@ -29,7 +29,7 @@ import org.junit.jupiter.api.extension.Memory
 import io.github.imsejin.common.tool.RandomString
 
 @FileSystemSource
-class DiskFileResourceSpec extends Specification {
+class FileResourceSpec extends Specification {
 
     def "When it is a file"(@Memory FileSystem fileSystem) {
         given:
@@ -45,15 +45,15 @@ class DiskFileResourceSpec extends Specification {
         Files.write(filePath, bytes)
 
         when:
-        def resource = new DiskFileResource(filePath)
+        def resource = new FileResource(filePath)
 
         then: "Check equals and hashCode"
-        def other = new DiskFileResource(filePath)
+        def other = new FileResource(filePath)
         resource == other
         [resource, other].toSet().size() == 1
 
         and: "Check toString"
-        resource.toString() =~ /^DiskFileResource\(([a-zA-Z]+=.+)+\)$/
+        resource.toString() =~ /^FileResource\(([a-zA-Z]+=.+)+\)$/
 
         and:
         resource.path == filePath.toString()
@@ -73,7 +73,7 @@ class DiskFileResourceSpec extends Specification {
         def filePath = fileSystem.getPath("/")
 
         when:
-        def resource = new DiskFileResource(filePath)
+        def resource = new FileResource(filePath)
 
         then:
         resource.inputStream == null
