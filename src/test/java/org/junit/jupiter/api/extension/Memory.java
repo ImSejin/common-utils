@@ -21,10 +21,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.junit.jupiter.api.condition.OS;
+
 /**
  * @see FileSystemParameterResolver
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Memory {
+
+    OS os() default OS.OTHER;
+
 }
