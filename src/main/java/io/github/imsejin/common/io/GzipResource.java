@@ -55,6 +55,11 @@ public class GzipResource implements Resource {
         return new ByteArrayInputStream(this.bytes);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p> Directory cannot be compressed by gzip.
+     */
     @Override
     public boolean isDirectory() {
         return false;
