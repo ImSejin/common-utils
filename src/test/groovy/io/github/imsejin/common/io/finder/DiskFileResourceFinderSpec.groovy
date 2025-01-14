@@ -1,0 +1,169 @@
+/*
+ * Copyright 2025 Sejin Im
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.github.imsejin.common.io.finder
+
+import spock.lang.Specification
+
+import java.nio.file.FileSystem
+import java.nio.file.Files
+import java.nio.file.Path
+
+import org.junit.jupiter.api.extension.FileSystemSource
+import org.junit.jupiter.api.extension.Memory
+
+import io.github.imsejin.common.internal.TestFileSystemCreator
+import io.github.imsejin.common.io.DiskFileResource
+import io.github.imsejin.common.util.FilenameUtils
+
+@FileSystemSource
+class DiskFileResourceFinderSpec extends Specification {
+
+    def "Gets resources non-recursively on local file system"(FileSystem fileSystem) {
+        given:
+        def path = fileSystem.getPath(".")
+
+        when:
+        def finder = new DiskFileResourceFinder(false)
+        def resources = finder.getResources(path)
+
+        then: "Consist of DiskFileResource"
+        !resources.empty
+        resources.every { it instanceof DiskFileResource }
+
+        and: "Include only one root directory"
+        resources.count { it == new DiskFileResource(path) } == 1
+    }
+
+    def "Gets resources non-recursively"(@Memory FileSystem fileSystem) {
+        given:
+        def path = fileSystem.getPath("/")
+        TestFileSystemCreator.builder()
+                .minimumFileCount(fileCount)
+                .maximumFileCount(fileCount)
+                .minimumDirectoryCount(directoryCount)
+                .maximumDirectoryCount(directoryCount)
+                .minimumFileLength(32)
+                .maximumFileLength(128)
+                .fileSuffixes(".log", ".txt", ".tmp", ".dat")
+                .build()
+                .create(path)
+
+        when:
+        def finder = new DiskFileResourceFinder(false)
+        def resources = finder.getResources(path)
+
+        then: "Found resources are in one depth (including root)"
+        resources.size() == fileCount + directoryCount + 1
+
+        and: "Make sure that it can tell if resource is a directory"
+        def directories = resources.findAll { it.directory }
+        directories.size() == directoryCount + 1
+
+        and: "Make sure that it can tell if resource is a file"
+        def files = resources.findAll { !it.directory }
+        files.size() == fileCount
+        files.every { FilenameUtils.getExtension(it.name) =~ /log|txt|tmp|dat/ }
+
+        where:
+        fileCount | directoryCount
+        0         | 0
+        16        | 0
+        0         | 16
+        64        | 8
+        8         | 64
+    }
+
+    def "Gets resources recursively"(@Memory FileSystem fileSystem) {
+        given:
+        def path = fileSystem.getPath("/")
+        TestFileSystemCreator.builder()
+                .minimumFileCount(fileCount)
+                .maximumFileCount(fileCount)
+                .minimumDirectoryCount(directoryCount)
+                .maximumDirectoryCount(directoryCount)
+                .minimumFileLength(32)
+                .maximumFileLength(128)
+                .fileSuffixes(".log", ".txt", ".tmp", ".dat")
+                .build()
+                .create(path)
+
+        when:
+        def finder = new DiskFileResourceFinder(true)
+        def resources = finder.getResources(path)
+
+        then: "Found resources are in all depths (including root)"
+        resources.size() == fileCount + directoryCount + 1 + (fileCount * directoryCount)
+
+        and: "Make sure that it can tell if resource is a directory"
+        def directories = resources.findAll { it.directory }
+        directories.size() == directoryCount + 1
+
+        and: "Make sure that it can tell if resource is a file"
+        def files = resources.findAll { !it.directory }
+        files.size() == fileCount + (fileCount * directoryCount)
+        files.every { FilenameUtils.getExtension(it.name) =~ /log|txt|tmp|dat/ }
+
+        where:
+        fileCount | directoryCount
+        0         | 0
+        16        | 0
+        0         | 16
+        64        | 8
+        8         | 64
+    }
+
+    def "Gets resources recursively with custom filter"(@Memory FileSystem fileSystem) {
+        given:
+        def fileCount = 16
+        def directoryCount = 16
+        def path = fileSystem.getPath("/")
+        TestFileSystemCreator.builder()
+                .minimumFileCount(fileCount)
+                .maximumFileCount(fileCount)
+                .minimumDirectoryCount(directoryCount)
+                .maximumDirectoryCount(directoryCount)
+                .minimumFileLength(32)
+                .maximumFileLength(128)
+                .fileSuffixes(".log", ".txt", ".tmp", ".dat")
+                .build()
+                .create(path)
+
+        when:
+        def finder = new DiskFileResourceFinder(true, filter)
+        def resources = finder.getResources(path)
+
+        then:
+        resources.size() == expectedFileCount + expectedDirectoryCount
+
+        and: "Make sure that it can tell if resource is a directory"
+        def directories = resources.findAll { it.directory }
+        directories.size() == expectedDirectoryCount
+
+        and: "Make sure that it can tell if resource is a file"
+        def files = resources.findAll { !it.directory }
+        files.size() == expectedFileCount
+
+        where:
+        filter                                                             || expectedFileCount | expectedDirectoryCount
+        ({ false })                                                        || 0                 | 0
+        ({ true })                                                         || 272               | 17
+        ({ Path it -> Files.isDirectory(it) })                             || 0                 | 17
+        ({ Path it -> !Files.isDirectory(it) })                            || 272               | 0
+        ({ Path it -> !it.toString().matches(~/.+\.(log|txt|tmp|dat)$/) }) || 0                 | 17
+    }
+
+}

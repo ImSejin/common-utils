@@ -28,33 +28,32 @@ import lombok.ToString;
 import io.github.imsejin.common.util.FilenameUtils;
 
 @Getter
-@ToString(callSuper = true)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class DiskFileResource extends AbstractResource {
+@ToString
+@EqualsAndHashCode
+public class DiskFileResource implements Resource {
 
-    @EqualsAndHashCode.Include
+    private final String path;
+
+    private final String name;
+
+    private final long size;
+
+    private final boolean directory;
+
     private final Path realPath;
 
-    private DiskFileResource(String path, String name, InputStream inputStream,
-                             long size, boolean directory, Path realPath) {
-        super(path, name, inputStream, size, directory);
-        this.realPath = realPath;
-    }
-
-    public static DiskFileResource from(Path realPath) {
+    public DiskFileResource(Path realPath) {
         try {
-            String path = realPath.toString();
-            String name = FilenameUtils.getName(path);
-            boolean directory = Files.isDirectory(realPath);
-            long size = Files.size(realPath);
-
-            return new DiskFileResource(path, name, null, size, directory, realPath);
+            this.path = realPath.toString();
+            this.name = FilenameUtils.getName(this.path);
+            this.directory = Files.isDirectory(realPath);
+            this.size = Files.size(realPath);
+            this.realPath = realPath;
         } catch (IOException e) {
             throw new IllegalStateException("Failed to instantiate DiskFileResource from path: " + realPath, e);
         }
     }
 
-    // Lazy loading
     @Override
     public InputStream getInputStream() {
         if (isDirectory()) {
@@ -62,6 +61,7 @@ public class DiskFileResource extends AbstractResource {
         }
 
         try {
+            // Lazy loading.
             return Files.newInputStream(this.realPath);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to get InputStream from path: " + this.realPath, e);
