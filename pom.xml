@@ -57,7 +57,7 @@
         <gson.version>2.12.1</gson.version>
         <ini4j.version>0.5.4</ini4j.version>
         <apache-common-compress.version>1.27.1</apache-common-compress.version>
-        <jetbrains-annotations.version>26.0.1</jetbrains-annotations.version>
+        <jetbrains-annotations.version>26.0.2</jetbrains-annotations.version>
         <lombok.version>1.18.36</lombok.version>
 
         <!-- Test dependency versions -->
