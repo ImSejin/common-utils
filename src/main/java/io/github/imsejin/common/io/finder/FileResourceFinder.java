@@ -26,8 +26,9 @@ import java.util.stream.Stream;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.FileResource;
+import io.github.imsejin.common.io.Resource;
 
-public class FileResourceFinder implements ResourceFinder<FileResource> {
+public class FileResourceFinder implements ResourceFinder {
 
     private final boolean recursive;
 
@@ -43,7 +44,7 @@ public class FileResourceFinder implements ResourceFinder<FileResource> {
     }
 
     @Override
-    public List<FileResource> getResources(Path path) {
+    public List<Resource> getResources(Path path) {
         Asserts.that(path)
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
@@ -64,7 +65,10 @@ public class FileResourceFinder implements ResourceFinder<FileResource> {
                 stream = Stream.concat(Stream.of(path), stream);
             }
 
-            return stream.filter(this.filter).map(FileResource::new).toList();
+            return stream.filter(this.filter)
+                    .map(FileResource::new)
+                    .map(Resource.class::cast)
+                    .toList();
         } catch (IOException e) {
             throw new IllegalStateException("Failed to visit location: " + path, e);
         }

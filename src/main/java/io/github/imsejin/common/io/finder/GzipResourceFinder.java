@@ -28,13 +28,14 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 
 import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.GzipResource;
+import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.util.FilenameUtils;
 import io.github.imsejin.common.util.StringUtils;
 
-public class GzipResourceFinder implements ResourceFinder<GzipResource> {
+public class GzipResourceFinder implements ResourceFinder {
 
     @Override
-    public List<GzipResource> getResources(Path path) {
+    public List<Resource> getResources(Path path) {
         Asserts.that(path)
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()

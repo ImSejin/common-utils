@@ -28,11 +28,12 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
+import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.io.TarResource;
 import io.github.imsejin.common.util.FilenameUtils;
 
 public class TarResourceFinder extends
-        AbstractArchiveResourceFinder<TarResource, TarArchiveEntry, TarArchiveInputStream> {
+        AbstractArchiveResourceFinder<TarArchiveEntry, TarArchiveInputStream> {
 
     protected final boolean recursive;
 
@@ -60,7 +61,7 @@ public class TarResourceFinder extends
     }
 
     @Override
-    protected TarResource getArchiveResource(TarArchiveEntry entry, TarArchiveInputStream in) throws IOException {
+    protected Resource getArchiveResource(TarArchiveEntry entry, TarArchiveInputStream in) throws IOException {
         if (!this.filter.test(entry)) {
             return null;
         }

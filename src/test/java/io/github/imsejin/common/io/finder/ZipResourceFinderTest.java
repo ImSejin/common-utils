@@ -48,7 +48,7 @@ class ZipResourceFinderTest {
 
         // when
         ZipResourceFinder resourceFinder = new ZipResourceFinder(false);
-        List<ZipResource> resources = resourceFinder.getResources(path);
+        List<Resource> resources = resourceFinder.getResources(path);
 
         // then
         assertThat(resources)

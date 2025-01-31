@@ -27,10 +27,11 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 
+import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.io.ZipResource;
 
 public class ZipResourceFinder extends
-        AbstractArchiveResourceFinder<ZipResource, ZipArchiveEntry, ZipArchiveInputStream> {
+        AbstractArchiveResourceFinder<ZipArchiveEntry, ZipArchiveInputStream> {
 
     protected final boolean recursive;
 
@@ -58,7 +59,7 @@ public class ZipResourceFinder extends
     }
 
     @Override
-    protected ZipResource getArchiveResource(ZipArchiveEntry entry, ZipArchiveInputStream in) throws IOException {
+    protected Resource getArchiveResource(ZipArchiveEntry entry, ZipArchiveInputStream in) throws IOException {
         if (!this.filter.test(entry)) {
             return null;
         }

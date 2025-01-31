@@ -21,8 +21,8 @@ import java.util.List;
 
 import io.github.imsejin.common.io.Resource;
 
-public interface ResourceFinder<R extends Resource> {
+public interface ResourceFinder {
 
-    List<R> getResources(Path path);
+    List<Resource> getResources(Path path);
 
 }

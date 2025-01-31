@@ -32,13 +32,12 @@ import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.Resource;
 
 public abstract class AbstractArchiveResourceFinder<
-        R extends Resource,
         E extends ArchiveEntry,
         I extends ArchiveInputStream<E>>
-        implements ResourceFinder<R> {
+        implements ResourceFinder {
 
     @Override
-    public final List<R> getResources(Path path) {
+    public final List<Resource> getResources(Path path) {
         Asserts.that(path)
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
@@ -50,7 +49,7 @@ public abstract class AbstractArchiveResourceFinder<
                 .is(Files::isReadable);
 
         try (I in = getArchiveInputStream(Files.newInputStream(path))) {
-            List<R> resources = new ArrayList<>();
+            List<Resource> resources = new ArrayList<>();
 
             // java.nio.charset.MalformedInputException: Input length = 1
             // java.nio.charset.CharsetDecoder.decode
@@ -60,7 +59,7 @@ public abstract class AbstractArchiveResourceFinder<
                     break;
                 }
 
-                R resource = getArchiveResource(entry, in);
+                Resource resource = getArchiveResource(entry, in);
                 if (resource == null) {
                     continue;
                 }
@@ -83,6 +82,6 @@ public abstract class AbstractArchiveResourceFinder<
     }
 
     @Nullable
-    protected abstract R getArchiveResource(E entry, I in) throws IOException;
+    protected abstract Resource getArchiveResource(E entry, I in) throws IOException;
 
 }
