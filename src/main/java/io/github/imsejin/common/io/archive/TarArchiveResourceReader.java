@@ -16,7 +16,6 @@
 
 package io.github.imsejin.common.io.archive;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +34,6 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
 import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.io.TarResource;
-import io.github.imsejin.common.util.FilenameUtils;
 
 public class TarArchiveResourceReader implements ArchiveResourceReader {
 
@@ -93,19 +91,13 @@ public class TarArchiveResourceReader implements ArchiveResourceReader {
             return null;
         }
 
-        String path = entry.getName();
-        String name = FilenameUtils.getName(path);
-        boolean directory = entry.isDirectory();
-        long size = entry.getSize();
-        long modifiedMilliTime = entry.getLastModifiedDate().getTime();
-
-        if (directory) {
-            return new TarResource(path, name, null, size, true, modifiedMilliTime);
+        if (entry.isDirectory()) {
+            return new TarResource(entry, new byte[0]);
         }
 
         byte[] bytes;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[16384];
+            byte[] buffer = new byte[4096];
             int offset;
             while ((offset = in.read(buffer)) != -1) {
                 out.write(buffer, 0, offset);
@@ -114,7 +106,7 @@ public class TarArchiveResourceReader implements ArchiveResourceReader {
             bytes = out.toByteArray();
         }
 
-        return new TarResource(path, name, new ByteArrayInputStream(bytes), size, false, modifiedMilliTime);
+        return new TarResource(entry, bytes);
     }
 
     private static class BypassArchiveResourceReader implements ArchiveResourceReader {

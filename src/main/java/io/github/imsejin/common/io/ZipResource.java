@@ -52,9 +52,13 @@ public class ZipResource implements Resource {
     public ZipResource(ZipArchiveEntry entry, byte[] bytes) {
         this.path = entry.getName();
         this.name = FilenameUtils.getName(this.path);
-        this.directory = entry.isDirectory();
-        this.size = entry.getSize();
         this.lastModifiedTime = entry.getLastModifiedDate().toInstant();
+
+        @SuppressWarnings("java:S5042")
+        long entrySize = entry.getSize();
+
+        this.size = entrySize;
+        this.directory = entry.isDirectory();
         this.bytes = bytes;
     }
 

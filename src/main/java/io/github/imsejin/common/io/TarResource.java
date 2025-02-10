@@ -16,16 +16,59 @@
 
 package io.github.imsejin.common.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.time.Instant;
 
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
-@ToString(callSuper = true)
-public class TarResource extends ArchiveResource {
+import io.github.imsejin.common.util.FilenameUtils;
 
-    public TarResource(String path, String name, InputStream inputStream,
-            long size, boolean directory, long lastModifiedMilliTime) {
-        super(path, name, inputStream, size, directory, lastModifiedMilliTime);
+@Getter
+@ToString
+@EqualsAndHashCode
+public class TarResource implements Resource {
+
+    private final String path;
+
+    private final String name;
+
+    private final Instant lastModifiedTime;
+
+    private final long size;
+
+    private final boolean directory;
+
+    @Getter(AccessLevel.NONE)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private final byte[] bytes;
+
+    public TarResource(TarArchiveEntry entry, byte[] bytes) {
+        this.path = entry.getName();
+        this.name = FilenameUtils.getName(entry.getName());
+        this.lastModifiedTime = entry.getLastModifiedDate().toInstant();
+
+        @SuppressWarnings("java:S5042")
+        long entrySize = entry.getSize();
+
+        this.size = entrySize;
+        this.directory = entry.isDirectory();
+        this.bytes = bytes;
+    }
+
+    @Override
+    public InputStream getInputStream() {
+        if (this.directory) {
+            return null;
+        }
+
+        return new ByteArrayInputStream(this.bytes);
     }
 
 }
