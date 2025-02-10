@@ -49,7 +49,9 @@ public class FileResourceFinder implements ResourceFinder {
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
                 .describedAs("No such path exists: {0}", path)
-                .exists();
+                .exists()
+                .describedAs("Cannot read: {0}", path)
+                .is(Files::isReadable);
 
         if (!Files.isDirectory(path)) {
             FileResource resource = new FileResource(path);

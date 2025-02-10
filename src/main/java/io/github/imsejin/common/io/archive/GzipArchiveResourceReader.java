@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Sejin Im
+ * Copyright 2025 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,66 +14,53 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.io.finder;
+package io.github.imsejin.common.io.archive;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 
-import io.github.imsejin.common.assertion.Asserts;
 import io.github.imsejin.common.io.GzipResource;
 import io.github.imsejin.common.io.Resource;
-import io.github.imsejin.common.util.FilenameUtils;
 import io.github.imsejin.common.util.StringUtils;
 
-public class GzipResourceFinder implements ResourceFinder {
+public class GzipArchiveResourceReader implements ArchiveResourceReader {
 
     @Override
-    public List<Resource> getResources(Path path) {
-        Asserts.that(path)
-                .describedAs("Invalid path to find resources: {0}", path)
-                .isNotNull()
-                .describedAs("No such path exists: {0}", path)
-                .exists()
-                .describedAs("It is not a regular file: {0}", path)
-                .isRegularFile()
-                .describedAs("Cannot read file: {0}", path)
-                .is(Files::isReadable);
-
-        try (GzipCompressorInputStream in = new GzipCompressorInputStream(Files.newInputStream(path));
-             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[16384];
+    public List<Resource> read(InputStream in, Map<String, String> props) throws IOException {
+        try (GzipCompressorInputStream gis = new GzipCompressorInputStream(in);
+             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[4096];
             int offset;
-            while ((offset = in.read(buffer)) != -1) {
-                out.write(buffer, 0, offset);
+            while ((offset = gis.read(buffer)) != -1) {
+                bos.write(buffer, 0, offset);
             }
 
-            byte[] bytes = out.toByteArray();
-            GzipResource resource = getResource(path, in, bytes);
+            byte[] bytes = bos.toByteArray();
+            GzipResource resource = toResource(gis, bytes, props);
 
             return Collections.singletonList(resource);
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to read gzip compressor: " + path, e);
         }
     }
 
     // -------------------------------------------------------------------------------------------------
 
-    private GzipResource getResource(
-            Path path,
+    private GzipResource toResource(
             GzipCompressorInputStream in,
-            byte[] bytes
+            byte[] bytes,
+            Map<String, String> props
     ) {
         String fileName = in.getMetaData().getFileName();
+
+        // There is no file name in metadata using some windows archive application.
         if (StringUtils.isNullOrEmpty(fileName)) {
-            String name = FilenameUtils.getName(path.toString());
-            fileName = FilenameUtils.getBaseName(name);
+            fileName = props.get("FNAME");
         }
 
         long modifiedMilliTime = in.getMetaData().getModificationTime();

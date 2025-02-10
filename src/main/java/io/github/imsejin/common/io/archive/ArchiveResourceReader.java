@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Sejin Im
+ * Copyright 2025 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,22 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.io.finder;
+package io.github.imsejin.common.io.archive;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import io.github.imsejin.common.io.Resource;
 
-public interface ResourceFinder {
+public interface ArchiveResourceReader {
 
-    List<Resource> getResources(Path path);
+    List<Resource> read(InputStream in, Map<String, String> props) throws IOException;
 
-    // List<Resource> getResources(InputStream in);
-    //
-    // default List<Resource> getResources(Path path) {
-    //     try {
-    //         return getResources(Files.newInputStream(path));
-    //     } catch (IOException e) {
-    //         throw new IllegalStateException("Failed to read path: " + path, e);
-    //     }
-    // }
+    default List<Resource> read(InputStream in) throws IOException {
+        return read(in, Collections.emptyMap());
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Sejin Im
+ * Copyright 2025 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,52 +14,63 @@
  * limitations under the License.
  */
 
-package io.github.imsejin.common.io.finder;
+package io.github.imsejin.common.io.archive;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 
 import io.github.imsejin.common.io.Resource;
 import io.github.imsejin.common.io.ZipResource;
 
-public class ZipResourceFinder extends
-        AbstractArchiveResourceFinder<ZipArchiveEntry, ZipArchiveInputStream> {
+public class ZipArchiveResourceReader implements ArchiveResourceReader {
 
-    protected final boolean recursive;
+    private final Predicate<ZipArchiveEntry> filter;
 
-    protected final Predicate<ArchiveEntry> filter;
+    private final Charset charset;
 
-    protected final Charset charset;
-
-    public ZipResourceFinder(boolean recursive) {
-        this(recursive, entry -> true, StandardCharsets.UTF_8);
+    public ZipArchiveResourceReader() {
+        this(entry -> true, StandardCharsets.UTF_8);
     }
 
-    public ZipResourceFinder(boolean recursive, Predicate<ArchiveEntry> filter) {
-        this(recursive, filter, StandardCharsets.UTF_8);
+    public ZipArchiveResourceReader(Predicate<ZipArchiveEntry> filter) {
+        this(filter, StandardCharsets.UTF_8);
     }
 
-    public ZipResourceFinder(boolean recursive, Predicate<ArchiveEntry> filter, Charset charset) {
-        this.recursive = recursive;
+    public ZipArchiveResourceReader(Predicate<ZipArchiveEntry> filter, Charset charset) {
         this.filter = filter;
         this.charset = charset;
     }
 
     @Override
-    protected ZipArchiveInputStream getArchiveInputStream(InputStream in) {
-        return new ZipArchiveInputStream(in, this.charset.name());
+    public List<Resource> read(InputStream in, Map<String, String> props) throws IOException {
+        try (ZipArchiveInputStream zis = new ZipArchiveInputStream(in, this.charset.name())) {
+            List<Resource> resources = new ArrayList<>();
+
+            zis.forEach(entry -> {
+                Resource resource = toResource(entry, zis);
+                if (resource != null) {
+                    resources.add(resource);
+                }
+            });
+
+            return Collections.unmodifiableList(resources);
+        }
     }
 
-    @Override
-    protected Resource getArchiveResource(ZipArchiveEntry entry, ZipArchiveInputStream in) throws IOException {
+    // -------------------------------------------------------------------------------------------------
+
+    private Resource toResource(ZipArchiveEntry entry, ZipArchiveInputStream in) throws IOException {
         if (!this.filter.test(entry)) {
             return null;
         }
@@ -70,7 +81,7 @@ public class ZipResourceFinder extends
 
         byte[] bytes;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[16384];
+            byte[] buffer = new byte[4096];
             int offset;
             while ((offset = in.read(buffer)) != -1) {
                 out.write(buffer, 0, offset);

@@ -27,6 +27,7 @@ import org.junit.jupiter.api.extension.Memory
 
 import io.github.imsejin.common.internal.TestFileSystemCreator
 import io.github.imsejin.common.io.FileResource
+import io.github.imsejin.common.tool.RandomString
 import io.github.imsejin.common.util.FilenameUtils
 
 @FileSystemSource
@@ -48,6 +49,34 @@ class FileResourceFinderSpec extends Specification {
         resources.count { it == new FileResource(path) } == 1
     }
 
+    def "Gets resource non-recursively"(@Memory FileSystem fileSystem) {
+        given:
+        def path = fileSystem.getPath("/", "$baseName.$extension")
+        Files.createFile(path)
+        Files.writeString(path, new RandomString().nextString(length))
+
+        when:
+        def finder = new FileResourceFinder(false)
+        def resources = finder.getResources(path)
+
+        then: "Found a resource that is file"
+        resources.size() == 1
+
+        and: "Make sure that it can tell if resource is a directory"
+        def file = resources[0]
+        !file.directory
+
+        and: "Make sure that it can tell if resource is a file"
+        file.size == length
+        file.name == "$baseName.$extension"
+
+        where:
+        baseName | extension | length
+        "foo"    | "log"     | 32
+        "bar"    | "txt"     | 64
+        "qux"    | "tmp"     | 128
+    }
+
     def "Gets resources non-recursively"(@Memory FileSystem fileSystem) {
         given:
         def path = fileSystem.getPath("/")
@@ -66,7 +95,7 @@ class FileResourceFinderSpec extends Specification {
         def finder = new FileResourceFinder(false)
         def resources = finder.getResources(path)
 
-        then: "Found resources are in one depth (including root)"
+        then: "Found resources that are in one depth (including root)"
         resources.size() == fileCount + directoryCount + 1
 
         and: "Make sure that it can tell if resource is a directory"

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Sejin Im
+ * Copyright 2025 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,11 @@
 
 package io.github.imsejin.common.io.finder;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-
 import io.github.imsejin.common.io.Resource;
+import io.github.imsejin.common.io.archive.ArchiveResourceReader;
 
-public interface ResourceFinder {
+public interface ArchiveResourceReaderResolver {
 
-    List<Resource> getResources(Path path);
-
-    // List<Resource> getResources(InputStream in);
-    //
-    // default List<Resource> getResources(Path path) {
-    //     try {
-    //         return getResources(Files.newInputStream(path));
-    //     } catch (IOException e) {
-    //         throw new IllegalStateException("Failed to read path: " + path, e);
-    //     }
-    // }
+    ArchiveResourceReader resolve(Resource resource);
 
 }

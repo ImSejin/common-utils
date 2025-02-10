@@ -47,7 +47,7 @@ public class FileResource implements Resource {
 
     public FileResource(Path realPath) {
         try {
-            this.path = realPath.toString();
+            this.path = realPath.toString().replace('\\', '/');
             this.name = FilenameUtils.getName(this.path);
             this.lastModifiedTime = Files.getLastModifiedTime(realPath).toInstant();
             this.directory = Files.isDirectory(realPath);
