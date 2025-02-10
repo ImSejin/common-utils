@@ -66,6 +66,7 @@
         <spock.version>2.4-M4-groovy-4.0</spock.version>
         <spock-junit5.version>1.2.0</spock-junit5.version>
         <mockito.version>5.15.2</mockito.version>
+        <apache-tika-core.version>3.0.0</apache-tika-core.version>
         <memory-file-system.version>2.8.1</memory-file-system.version>
     </properties>
 
@@ -173,6 +174,14 @@
             <groupId>com.github.marschall</groupId>
             <artifactId>memoryfilesystem</artifactId>
             <version>${memory-file-system.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Apache Tika -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>${apache-tika-core.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
