@@ -63,11 +63,9 @@ public class TarArchiveResourceReader implements ArchiveResourceReader {
 
     @Override
     public List<Resource> read(InputStream in, Map<String, String> props) throws IOException {
-        if (this.reader != null) {
-            Resource compressed = this.reader.read(in, props).stream().findFirst().orElse(null);
-            if (compressed != null) {
-                in = compressed.getInputStream();
-            }
+        Resource compressed = this.reader.read(in, props).stream().findFirst().orElse(null);
+        if (compressed != null) {
+            in = compressed.getInputStream();
         }
 
         try (TarArchiveInputStream tis = new TarArchiveInputStream(in, this.charset.name())) {
