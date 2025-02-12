@@ -51,10 +51,6 @@ public class TarArchiveResourceReader implements ArchiveResourceReader {
         this(reader, entry -> true, StandardCharsets.UTF_8);
     }
 
-    public TarArchiveResourceReader(Predicate<TarArchiveEntry> filter) {
-        this(new BypassArchiveResourceReader(), filter, StandardCharsets.UTF_8);
-    }
-
     public TarArchiveResourceReader(ArchiveResourceReader reader, Predicate<TarArchiveEntry> filter, Charset charset) {
         this.reader = Objects.requireNonNull(reader, "TarArchiveResourceReader.reader cannot be null");
         this.filter = Objects.requireNonNull(filter, "TarArchiveResourceReader.filter cannot be null");

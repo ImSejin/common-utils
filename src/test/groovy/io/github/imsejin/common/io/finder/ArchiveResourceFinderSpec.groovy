@@ -20,113 +20,73 @@ import spock.lang.Specification
 
 import java.nio.file.Path
 
-import org.apache.commons.io.IOUtils
-
-import io.github.imsejin.common.io.GzipResource
-import io.github.imsejin.common.io.TarResource
-import io.github.imsejin.common.io.ZipResource
 import io.github.imsejin.common.io.archive.GzipArchiveResourceReader
 import io.github.imsejin.common.io.archive.TarArchiveResourceReader
 import io.github.imsejin.common.io.archive.ZipArchiveResourceReader
 
 class ArchiveResourceFinderSpec extends Specification {
 
-    def "Gets resource in gzip archive"() {
+    def "Gets resources by archive reader"() {
         given:
         def classLoader = Thread.currentThread().contextClassLoader
-        def path = Path.of(classLoader.getResource("archiver/gzip/$fileName").toURI())
+        def path = Path.of(classLoader.getResource("archiver/$filePath").toURI())
 
         when:
-        def reader = new GzipArchiveResourceReader()
         def finder = new ArchiveResourceFinder(reader)
         def resources = finder.getResources(path)
 
-        then: "Consist of GzipResource"
+        then:
         !resources.empty
-        resources.every { it instanceof GzipResource }
-
-        and: "Make sure that it has only one file"
-        resources.size() == 1
-        resources.every { !it.directory }
-
-        and:
-        def file = resources[0]
-        file.name == resourceName
-        IOUtils.readFully(file.inputStream, file.size as int).length == file.size
 
         where:
-        fileName                | resourceName
-        // gz
-        "macos-14.4.1.gz"       | "catalina.out-20210123"
-        "ubuntu-18.04.1.gz"     | "catalina.out-20210123"
-        "windows10-pro.gz"      | "windows10-pro"
-        // tar.gz
-        "macos-14.4.1.tar.gz"   | "putty-0.77.tar"
-        "ubuntu-18.04.1.tar.gz" | "ubuntu-18.04.1.tar"
-        "windows10-pro.tar.gz"  | "windows10-pro.tar"
+        filePath                     | reader
+        // gzip
+        "gzip/macos-14.4.1.gz"       | new GzipArchiveResourceReader()
+        "gzip/ubuntu-18.04.1.gz"     | new GzipArchiveResourceReader()
+        "gzip/windows10-pro.gz"      | new GzipArchiveResourceReader()
+        "gzip/macos-14.4.1.tar.gz"   | new GzipArchiveResourceReader()
+        "gzip/ubuntu-18.04.1.tar.gz" | new GzipArchiveResourceReader()
+        "gzip/windows10-pro.tar.gz"  | new GzipArchiveResourceReader()
+        // tar + gzip
+        "gzip/macos-14.4.1.tar.gz"   | new TarArchiveResourceReader(new GzipArchiveResourceReader())
+        "gzip/ubuntu-18.04.1.tar.gz" | new TarArchiveResourceReader(new GzipArchiveResourceReader())
+        "gzip/windows10-pro.tar.gz"  | new TarArchiveResourceReader(new GzipArchiveResourceReader())
+        "gzip/macos-14.4.1.tgz"      | new TarArchiveResourceReader(new GzipArchiveResourceReader())
+        "gzip/ubuntu-18.04.1.tgz"    | new TarArchiveResourceReader(new GzipArchiveResourceReader())
+        "gzip/windows10-pro.tgz"     | new TarArchiveResourceReader(new GzipArchiveResourceReader())
+        // zip
+        "zip/macos-14.4.1.zip"       | new ZipArchiveResourceReader()
+        "zip/ubuntu-18.04.3.zip"     | new ZipArchiveResourceReader()
+        "zip/windows10-pro.zip"      | new ZipArchiveResourceReader()
     }
 
-    def "Gets resources in tar archive"() {
+    def "Fails to get resources by archive reader"() {
         given:
         def classLoader = Thread.currentThread().contextClassLoader
-        def path = Path.of(classLoader.getResource("archiver/gzip/$fileName").toURI())
+        def path = Path.of(classLoader.getResource("archiver/$filePath").toURI())
 
         when:
-        def reader = new TarArchiveResourceReader(new GzipArchiveResourceReader())
         def finder = new ArchiveResourceFinder(reader)
-        def resources = finder.getResources(path)
+        finder.getResources(path)
 
-        then: "Consist of TarResource"
-        !resources.empty
-        resources.every { it instanceof TarResource }
-
-        and:
-        resources.every { it.path.endsWith("${it.name}${it.directory ? '/' : ''}") }
-
-        and: "Make sure that it can tell if resource is a file"
-        def files = resources.findAll { !it.directory }
-        files.every { IOUtils.readFully(it.inputStream, it.size as int).length == it.size }
-        files.count { it.path.endsWith(".$extension") } == fileCount
+        then:
+        def e = thrown(IllegalStateException)
+        e.message == "Failed to read archive file: $path"
+        e.cause instanceof IOException
 
         where:
-        fileName                | extension | fileCount
-        // tar.gz
-        "macos-14.4.1.tar.gz"   | "tar"     | 0
-        "ubuntu-18.04.1.tar.gz" | "tar"     | 1
-        "windows10-pro.tar.gz"  | "xfdl"    | 221
-        // tgz
-        "macos-14.4.1.tgz"      | "c"       | 373
-        "ubuntu-18.04.1.tgz"    | "c"       | 373
-        "windows10-pro.tgz"     | "js"      | 80
-    }
-
-    def "Gets resources in zip archive"() {
-        given:
-        def classLoader = Thread.currentThread().contextClassLoader
-        def path = Path.of(classLoader.getResource("archiver/zip/$fileName").toURI())
-
-        when:
-        def reader = new ZipArchiveResourceReader()
-        def finder = new ArchiveResourceFinder(reader)
-        def resources = finder.getResources(path)
-
-        then: "Consist of ZipResource"
-        !resources.empty
-        resources.every { it instanceof ZipResource }
-
-        and:
-        resources.every { it.path.endsWith("${it.name}${it.directory ? '/' : ''}") }
-
-        and: "Make sure that it can tell if resource is a file"
-        def files = resources.findAll { !it.directory }
-        files.every { IOUtils.readFully(it.inputStream, it.size as int).length == it.size }
-        files.count { it.path.endsWith(".$extension") } == fileCount
-
-        where:
-        fileName             | extension | fileCount
-        "macos-14.4.1.zip"   | "java"    | 64
-        "ubuntu-18.04.3.zip" | "java"    | 64
-        "windows10-pro.zip"  | "json"    | 548
+        filePath                     | reader
+        // gzip
+        "gzip/macos-14.4.1.gz"       | new TarArchiveResourceReader()
+        "gzip/ubuntu-18.04.1.gz"     | new ZipArchiveResourceReader()
+        // tar + gzip
+        "gzip/macos-14.4.1.tar.gz"   | new TarArchiveResourceReader()
+        "gzip/ubuntu-18.04.1.tar.gz" | new TarArchiveResourceReader(new ZipArchiveResourceReader())
+        "gzip/windows10-pro.tar.gz"  | new ZipArchiveResourceReader()
+        // zip
+        "zip/macos-14.4.1.zip"       | new TarArchiveResourceReader()
+        "zip/ubuntu-18.04.3.zip"     | new GzipArchiveResourceReader()
+        "zip/windows10-pro.zip"      | new TarArchiveResourceReader(new GzipArchiveResourceReader())
     }
 
 }

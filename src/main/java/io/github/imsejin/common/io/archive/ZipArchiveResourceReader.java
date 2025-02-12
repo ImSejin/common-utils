@@ -43,10 +43,6 @@ public class ZipArchiveResourceReader implements ArchiveResourceReader {
         this(entry -> true, StandardCharsets.UTF_8);
     }
 
-    public ZipArchiveResourceReader(Predicate<ZipArchiveEntry> filter) {
-        this(filter, StandardCharsets.UTF_8);
-    }
-
     public ZipArchiveResourceReader(Predicate<ZipArchiveEntry> filter, Charset charset) {
         this.filter = filter;
         this.charset = charset;
