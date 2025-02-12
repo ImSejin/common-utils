@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
@@ -103,7 +104,13 @@ public class RecursiveResourceFinder implements ResourceFinder {
         @Override
         public ArchiveResourceReader resolve(Resource resource) {
             String resourceName = resource.getName();
-            String extensions = resourceName.substring(resourceName.indexOf('.') + 1);
+            int i = resourceName.indexOf('.');
+
+            if (i < 0) {
+                return null;
+            }
+
+            String extensions = resourceName.substring(i + 1).toLowerCase(Locale.ROOT);
             return resolveByExtension(extensions);
         }
 

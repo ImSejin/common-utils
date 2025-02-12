@@ -88,7 +88,7 @@ class RecursiveResourceFinderSpec extends Specification {
             def subtype = mediaType.subtype
             if (subtype.endsWith("gzip")) {
                 def reader = new GzipArchiveResourceReader()
-                if (resource.name.matches(~/\.t(ar\.)?gz$/)) {
+                if (resource.name.toLowerCase(Locale.ROOT).matches(~/\.t(ar\.)?gz$/)) {
                     reader = new TarArchiveResourceReader(reader)
                 }
 
