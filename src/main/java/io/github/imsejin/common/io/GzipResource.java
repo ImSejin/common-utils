@@ -16,29 +16,53 @@
 
 package io.github.imsejin.common.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.Instant;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@ToString(callSuper = true)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class GzipResource extends AbstractResource {
+@ToString
+@EqualsAndHashCode
+@RequiredArgsConstructor
+public class GzipResource implements Resource {
 
-    private final long compressedSize;
+    private final String name;
 
     private final Instant lastModifiedTime;
 
-    public GzipResource(
-            String name, InputStream inputStream,
-            long size, long compressedSize, long lastModifiedMilliTime
-    ) {
-        super(name, name, inputStream, size, false);
-        this.compressedSize = compressedSize;
-        this.lastModifiedTime = Instant.ofEpochMilli(lastModifiedMilliTime);
+    private final long size;
+
+    private final long compressedSize;
+
+    @Getter(AccessLevel.NONE)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private final byte[] bytes;
+
+    @Override
+    public String getPath() {
+        return this.name;
+    }
+
+    @Override
+    public InputStream getInputStream() {
+        return new ByteArrayInputStream(this.bytes);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p> Directory cannot be compressed by gzip.
+     */
+    @Override
+    public boolean isDirectory() {
+        return false;
     }
 
 }

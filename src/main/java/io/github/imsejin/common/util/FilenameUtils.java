@@ -125,7 +125,7 @@ public final class FilenameUtils {
      *
      * <pre><code>
      *     File file = new File("D:\\Program Files\\Java", "README.md");
-     *     getExtension(file.getName()); // "html"
+     *     getExtension(file.getName()); // "md"
      * </code></pre>
      *
      * @param filename filename

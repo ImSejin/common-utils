@@ -102,6 +102,7 @@ class ReflectionUtilsSpec extends Specification {
         Bar     | []
         Bar     | [String]
         Qux     | []
+        Qux     | [Integer, String]
         Parent  | []
         Child   | []
         A       | []
@@ -127,13 +128,14 @@ class ReflectionUtilsSpec extends Specification {
         instance.class == type
 
         where:
-        type    | params   | args
-        KanCode | [String] | ["01020304"]
-        Foo     | []       | []
-        Foo     | [String] | ["alpha"]
-        Bar     | []       | []
-        Bar     | [String] | ["beta"]
-        Qux     | []       | []
+        type    | params            | args
+        KanCode | [String]          | ["01020304"]
+        Foo     | []                | []
+        Foo     | [String]          | ["alpha"]
+        Bar     | []                | []
+        Bar     | [String]          | ["beta"]
+        Qux     | []                | []
+        Qux     | [Integer, String] | [100, "gamma"]
     }
 
     def "Gets declared method"() {
@@ -169,21 +171,22 @@ class ReflectionUtilsSpec extends Specification {
         noExceptionThrown()
 
         where:
-        type    | name             | params       | instance                | args
+        type    | name             | params            | instance                | args
         // Constructors
-        KanCode | null             | [String]     | null                    | ["01020304"]
-        Foo     | null             | []           | null                    | []
-        Foo     | null             | [String]     | null                    | ["foo"]
-        Bar     | null             | []           | null                    | []
-        Bar     | null             | [String]     | null                    | ["bar"]
-        Qux     | null             | []           | null                    | []
+        KanCode | null             | [String]          | null                    | ["01020304"]
+        Foo     | null             | []                | null                    | []
+        Foo     | null             | [String]          | null                    | ["foo"]
+        Bar     | null             | []                | null                    | []
+        Bar     | null             | [String]          | null                    | ["bar"]
+        Qux     | null             | []                | null                    | []
+        Qux     | null             | [Integer, String] | null                    | [200, "qux"]
         // Methods
-        KanCode | "getDepth"       | []           | new KanCode("01020304") | []
-        Foo     | "getValue"       | []           | new Foo()               | []
-        Bar     | "getCreatedTime" | []           | new Bar()               | []
-        Qux     | "setMode"        | [AccessMode] | null                    | [AccessMode.EXECUTE]
-        Qux     | "setId"          | [Integer]    | new Qux()               | [300]
-        Qux     | "setName"        | [String]     | new Qux()               | ["beta"]
+        KanCode | "getDepth"       | []                | new KanCode("01020304") | []
+        Foo     | "getValue"       | []                | new Foo()               | []
+        Bar     | "getCreatedTime" | []                | new Bar()               | []
+        Qux     | "setMode"        | [AccessMode]      | null                    | [AccessMode.EXECUTE]
+        Qux     | "setId"          | [Integer]         | new Qux()               | [300]
+        Qux     | "setName"        | [String]          | new Qux()               | ["beta"]
     }
 
     // -------------------------------------------------------------------------------------------------

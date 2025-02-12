@@ -233,9 +233,9 @@ public final class ReflectionUtils {
             Asserts.that(initArgs).hasSameSizeAs(constructor.getParameterTypes());
         }
 
-        boolean accessible = constructor.isAccessible();
+        boolean accessible = constructor.canAccess(null);
         if (!accessible) {
-            constructor.setAccessible(true);
+            constructor.trySetAccessible();
         }
 
         try {
@@ -302,7 +302,7 @@ public final class ReflectionUtils {
 
         boolean accessible = method.canAccess(instance);
         if (!accessible) {
-            method.setAccessible(true);
+            method.trySetAccessible();
         }
 
         try {

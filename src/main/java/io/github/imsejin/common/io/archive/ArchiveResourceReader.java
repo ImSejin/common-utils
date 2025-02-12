@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Sejin Im
+ * Copyright 2025 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package org.junit.jupiter.api.extension;
+package io.github.imsejin.common.io.archive;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
-import org.junit.jupiter.api.condition.OS;
+import io.github.imsejin.common.io.Resource;
 
-/**
- * @see FileSystemParameterResolver
- */
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Memory {
+public interface ArchiveResourceReader {
 
-    OS os() default OS.OTHER;
+    List<Resource> read(InputStream in, Map<String, String> props) throws IOException;
+
+    default List<Resource> read(InputStream in) throws IOException {
+        return read(in, Collections.emptyMap());
+    }
 
 }

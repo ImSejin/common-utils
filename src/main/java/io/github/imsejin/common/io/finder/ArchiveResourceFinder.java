@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Sejin Im
+ * Copyright 2025 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,25 +20,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveInputStream;
-import org.jetbrains.annotations.Nullable;
+import lombok.RequiredArgsConstructor;
 
 import io.github.imsejin.common.assertion.Asserts;
-import io.github.imsejin.common.io.ArchiveResource;
 import io.github.imsejin.common.io.Resource;
+import io.github.imsejin.common.io.archive.ArchiveResourceReader;
+import io.github.imsejin.common.util.FilenameUtils;
 
-public abstract class ArchiveResourceFinder<
-        R extends ArchiveResource,
-        E extends ArchiveEntry,
-        I extends ArchiveInputStream<E>>
-        implements ResourceFinder {
+@RequiredArgsConstructor
+public class ArchiveResourceFinder implements ResourceFinder {
+
+    private final ArchiveResourceReader reader;
 
     @Override
-    public List<Resource> getResources(Path path) {
+    public final List<Resource> getResources(Path path) {
         Asserts.that(path)
                 .describedAs("Invalid path to find resources: {0}", path)
                 .isNotNull()
@@ -49,37 +47,15 @@ public abstract class ArchiveResourceFinder<
                 .describedAs("Cannot read file: {0}", path)
                 .is(Files::isReadable);
 
-        try (I in = getArchiveInputStream(Files.newInputStream(path))) {
-            List<Resource> resources = new ArrayList<>();
+        try (InputStream in = Files.newInputStream(path)) {
+            // There is no file name in metadata using some windows archive application.
+            String fileName = FilenameUtils.getBaseName(path.getFileName().toString());
+            Map<String, String> props = Map.of("FNAME", fileName);
 
-            // java.nio.charset.MalformedInputException: Input length = 1
-            // java.nio.charset.CharsetDecoder.decode
-            while (true) {
-                E entry = getNextArchiveEntry(in);
-                if (entry == null) {
-                    break;
-                }
-
-                R resource = getArchiveResource(entry, in);
-                if (resource == null) {
-                    continue;
-                }
-
-                resources.add(resource);
-            }
-
-            return resources;
-
+            return this.reader.read(in, props);
         } catch (IOException e) {
-            throw new IllegalStateException("Failed to read tar file: " + path, e);
+            throw new IllegalStateException("Failed to read archive file: " + path, e);
         }
     }
-
-    protected abstract E getNextArchiveEntry(I in) throws IOException;
-
-    @Nullable
-    protected abstract R getArchiveResource(E entry, I in) throws IOException;
-
-    protected abstract I getArchiveInputStream(InputStream in) throws IOException;
 
 }

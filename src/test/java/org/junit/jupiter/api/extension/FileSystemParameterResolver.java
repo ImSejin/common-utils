@@ -52,19 +52,26 @@ public class FileSystemParameterResolver implements AfterTestExecutionCallback, 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
             throws ParameterResolutionException {
-        boolean memory = parameterContext.getParameter().isAnnotationPresent(Memory.class);
+        Memory memory = parameterContext.getParameter().getAnnotation(Memory.class);
 
-        if (memory) {
-            try {
-                this.fileSystem = MemoryFileSystemBuilder.newEmpty().build();
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to create memory file system", e);
-            }
-        } else {
+        if (memory == null) {
             this.fileSystem = FileSystems.getDefault();
+            return this.fileSystem;
         }
 
-        return Objects.requireNonNull(this.fileSystem);
+        MemoryFileSystemBuilder builder = switch (memory.os()) {
+            case LINUX -> MemoryFileSystemBuilder.newLinux();
+            case MAC -> MemoryFileSystemBuilder.newMacOs();
+            case WINDOWS -> MemoryFileSystemBuilder.newWindows();
+            default -> MemoryFileSystemBuilder.newEmpty();
+        };
+
+        try {
+            this.fileSystem = builder.build();
+            return this.fileSystem;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create memory file system", e);
+        }
     }
 
 }

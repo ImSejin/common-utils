@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Sejin Im
+ * Copyright 2025 Sejin Im
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package org.junit.jupiter.api.extension;
+package io.github.imsejin.common.io.finder;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import io.github.imsejin.common.io.Resource;
+import io.github.imsejin.common.io.archive.ArchiveResourceReader;
 
-import org.junit.jupiter.api.condition.OS;
+public interface ArchiveResourceReaderResolver {
 
-/**
- * @see FileSystemParameterResolver
- */
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Memory {
-
-    OS os() default OS.OTHER;
+    ArchiveResourceReader resolve(Resource resource);
 
 }

@@ -15,6 +15,10 @@ jobs:
   build:
     name: Builds with java ${{ matrix.java }} on ${{ matrix.os }}
 
+    permissions:
+      id-token: write
+      contents: read
+
     strategy:
       fail-fast: true
       max-parallel: 3 # Maximum: Sum of matrices.
@@ -46,3 +50,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: false
         verbose: true
+
+    - name: Fix build process
+      uses: fly-ci/wingman-action@v1
+      if: failure()

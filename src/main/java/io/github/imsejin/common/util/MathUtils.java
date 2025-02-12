@@ -28,8 +28,8 @@ public final class MathUtils {
     }
 
     public static BigInteger fibonacci(long number) {
-        BigInteger a = BigInteger.valueOf(0);
-        BigInteger b = BigInteger.valueOf(1);
+        BigInteger a = BigInteger.ZERO;
+        BigInteger b = BigInteger.ONE;
 
         for (long i = 0; i < number; i++) {
             BigInteger temp = a.add(b);
@@ -41,7 +41,7 @@ public final class MathUtils {
     }
 
     public static BigInteger factorial(long number) {
-        BigInteger result = BigInteger.valueOf(1);
+        BigInteger result = BigInteger.ONE;
         for (long factor = 2; factor <= number; factor++) {
             result = result.multiply(BigInteger.valueOf(factor));
         }
