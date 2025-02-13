@@ -77,11 +77,11 @@ class TarArchiveResourceReaderSpec extends Specification {
 
         where:
         fileName << [
-                // tar.gz,
+                // tar.gz
                 "macos-14.4.1.tar.gz",
                 "ubuntu-18.04.1.tar.gz",
                 "windows10-pro.tar.gz",
-                // tgz,
+                // tgz
                 "macos-14.4.1.tgz",
                 "ubuntu-18.04.1.tgz",
                 "windows10-pro.tgz",

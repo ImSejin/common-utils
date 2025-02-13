@@ -30,10 +30,10 @@ class ZipResourceSpec extends Specification {
     def "When it is a file"() {
         given:
         def classLoader = Thread.currentThread().contextClassLoader
-        def file = Path.of(classLoader.getResource("archiver/zip/$fileName").toURI()).toFile()
+        def path = Path.of(classLoader.getResource("archiver/zip/$fileName").toURI())
 
         and: "Set ZipArchiveEntry.size manually instead of ZipArchiveInputStream"
-        def entry = new ZipArchiveEntry(file, entryName)
+        def entry = new ZipArchiveEntry(path, entryName)
         entry.size = size
 
         when:
@@ -64,10 +64,10 @@ class ZipResourceSpec extends Specification {
     def "When it is a directory"() {
         given:
         def classLoader = Thread.currentThread().contextClassLoader
-        def file = Path.of(classLoader.getResource("archiver/zip/$fileName").toURI()).toFile()
+        def path = Path.of(classLoader.getResource("archiver/zip/$fileName").toURI())
 
         and: "Set ZipArchiveEntry.size manually instead of ZipArchiveInputStream"
-        def entry = new ZipArchiveEntry(file, entryName)
+        def entry = new ZipArchiveEntry(path, entryName)
         entry.size = 0
 
         when:
