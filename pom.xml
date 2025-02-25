@@ -149,7 +149,9 @@
         </dependency>
 
         <!--
-            Supporter to allow using junit5 extension in spockframework.
+            Spock Junit 5
+
+            Junit 5 extensions support for Spock Framework 2.
         -->
         <dependency>
             <groupId>ru.vyarus</groupId>
@@ -158,6 +160,11 @@
             <scope>test</scope>
         </dependency>
 
+        <!--
+            Mockito Core
+
+            Mocking static method as like 'spock.mock.MockingApi.SpyStatic'.
+        -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
