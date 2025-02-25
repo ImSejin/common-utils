@@ -163,7 +163,8 @@
         <!--
             Mockito Core
 
-            Mocking static method as like 'spock.mock.MockingApi.SpyStatic'.
+            To mock static methods using 'SpyStatic()' on spock framework.
+            The static mocks require a mock maker supporting static methods, e.g. mockito.
         -->
         <dependency>
             <groupId>org.mockito</groupId>
