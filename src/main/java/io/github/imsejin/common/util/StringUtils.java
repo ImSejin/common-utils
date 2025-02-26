@@ -49,7 +49,7 @@ public final class StringUtils {
 
     @ExcludeFromGeneratedJacocoReport
     private StringUtils() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     /**

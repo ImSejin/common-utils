@@ -47,7 +47,7 @@ public final class JsonUtils {
 
     @ExcludeFromGeneratedJacocoReport
     private JsonUtils() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     /**

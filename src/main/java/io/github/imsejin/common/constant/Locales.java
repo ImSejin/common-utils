@@ -34,7 +34,7 @@ public final class Locales {
 
     @ExcludeFromGeneratedJacocoReport
     private Locales() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     public static Locale[] getLanguages() {

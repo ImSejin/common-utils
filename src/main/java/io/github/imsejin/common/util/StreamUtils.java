@@ -33,7 +33,7 @@ public final class StreamUtils {
 
     @ExcludeFromGeneratedJacocoReport
     private StreamUtils() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     public static <T> Stream<T> toStream(Iterator<T> iterator) {

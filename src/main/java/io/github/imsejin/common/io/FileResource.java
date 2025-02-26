@@ -65,7 +65,6 @@ public class FileResource implements Resource {
         }
 
         try {
-            // Lazy loading.
             return Files.newInputStream(this.realPath);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to get InputStream from path: " + this.realPath, e);

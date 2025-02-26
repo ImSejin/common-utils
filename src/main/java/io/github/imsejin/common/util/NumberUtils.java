@@ -36,7 +36,7 @@ public final class NumberUtils {
 
     @ExcludeFromGeneratedJacocoReport
     private NumberUtils() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     /**

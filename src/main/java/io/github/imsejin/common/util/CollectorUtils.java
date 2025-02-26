@@ -23,7 +23,7 @@ public final class CollectorUtils {
 
     @ExcludeFromGeneratedJacocoReport
     private CollectorUtils() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     /**

@@ -38,7 +38,7 @@ public final class ReflectionUtils {
 
     @ExcludeFromGeneratedJacocoReport
     private ReflectionUtils() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     /**

@@ -43,7 +43,7 @@ public final class IniUtils {
 
     @ExcludeFromGeneratedJacocoReport
     private IniUtils() {
-        throw new UnsupportedOperationException(getClass().getName() + " is not allowed to instantiate");
+        throw new UnsupportedOperationException(getClass().getSimpleName() + " is not allowed to instantiate");
     }
 
     private static void configure(Ini ini) {
