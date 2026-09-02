@@ -58,7 +58,7 @@
         <ini4j.version>0.5.4</ini4j.version>
         <apache-common-compress.version>1.27.1</apache-common-compress.version>
         <jetbrains-annotations.version>26.0.2</jetbrains-annotations.version>
-        <lombok.version>1.18.40</lombok.version>
+        <lombok.version>1.18.48</lombok.version>
 
         <!-- Test dependency versions -->
         <junit5.version>5.12.0</junit5.version>
